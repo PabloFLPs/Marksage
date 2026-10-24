@@ -6,7 +6,8 @@ Up to three sets per feature. `npm run eval:assist` scores each separately; `-- 
 |---|---|---|---|
 | `fences.json` / `pastes.json` / `lines.json` | authored | 42 / 15 / 23 | Written alongside the heuristics. Regression tests: they should stay at 100 %, which says nothing about real-world quality. |
 | `lines.dev.json` | real, dev | 36 | Same method as `lines.real.json`, but from *other* sources (23 repos/wikis: javascript-algorithms, 30-Days-Of-JavaScript and system-design-primer translations, clean-code-javascript, ossu, fd, bat, and the fzf, sway, Proton, jq, rclone, ranger, yabai, scrcpy wikis…). Tune F3 against this one. |
-| `fences.real.json` | real, held out | 64 | Fenced code blocks from real docs (25 public repos), labelled with the author's own info string. |
+| `fences.dev.json` | real, dev | 280 | Fenced code blocks from 28 repos that are neither train nor test (built by `training/build-sets.ts`). Tune / calibrate F1 against this. |
+| `fences.real.json` | real, held out | 314 | Fenced code blocks from 66 test repos, ≤ 15 per language, labelled with the author's own info string. The first 64 are the original hand-sampled set; the rest were added by `training/build-sets.ts` (see `training/README.md`). |
 | `pastes.real.json` | real, held out | 31 | Excerpts of real files and real command output, as someone would paste them. |
 | `lines.real.json` | real, held out | 30 | Lines the F3 pre-filter flags in real docs and wikis, labelled by hand. |
 
@@ -16,6 +17,9 @@ the real set once to measure. Every real fixture has a `source` so it can be tra
 the hard or arguable cases.
 
 ## How the real sets were built (2026-10-23)
+
+F1 dev/test now come from the `training/` pipeline (split by repo, leak-checked against the training
+data); the notes below describe the original hand-built sets.
 
 - **Fences:** all labelled fences from READMEs/docs of laravel/docs, rails guides, fastapi (en + pt),
   reactjs/pt-br.react.dev, axios (multi-language docs), zod, gin, cobra, axum, clap, ripgrep, nlohmann/json,

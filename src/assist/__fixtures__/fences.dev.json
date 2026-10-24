@@ -1,0 +1,1682 @@
+[
+  {
+    "label": "ts",
+    "code": "import { FrontendState } from \"@streamlit/component-v2-lib\";",
+    "tag": "typescript",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/api-reference/_index.md#L2146"
+  },
+  {
+    "label": "ts",
+    "code": "return `<MDXTag name=\"${node.tagName}\" components={components}${\n  parentNode.tagName ? ` parentName=\"${parentNode.tagName}\"` : ''\n}${props ? ` props={${props}}` : ''}>${children}</MDXTag>`",
+    "tag": "tsx",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/docs/blog/custom-pragma.mdx#L115"
+  },
+  {
+    "label": "ts",
+    "code": "// …\n{\n  loader: '@mdx-js/loader',\n  /** @type {import('@mdx-js/loader').Options} */\n  options: {\n    jsxImportSource: 'preact',\n    // Optional: either remove the following line or install `@mdx-js/preact`.\n    providerImportSource: '@mdx-js/preact'\n  }\n}\n// …",
+    "tag": "tsx",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/docs/migrating/v2.mdx#L195"
+  },
+  {
+    "label": "ts",
+    "code": "registerAppViewExtension(\n  component: ExtensionComponent,  // the component to be rendered\n  title: string,                  // the title of the page once the component is rendered\n  icon: string,                   // the favicon classname for the icon tab\n  shouldDisplay?: (app: Application): boolean // returns true if the view should be available\n)",
+    "tag": "typescript",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/developer-guide/extensions/ui-extensions.md#L230"
+  },
+  {
+    "label": "ts",
+    "code": "import {compile} from '@mdx-js/mdx'\n\nconst code = 'export {number} from \"./data.js\"\\n\\n# hi'\nconst baseUrl = 'https://a.full/url' // Typically `import.meta.url`\n\nconsole.log(String(await compile(code, {baseUrl})))",
+    "tag": "tsx",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/packages/mdx/readme.md#L525"
+  },
+  {
+    "label": "ts",
+    "code": "{\n  base: \"./\",\n  build: {\n    outDir: \"build\",\n    lib: {\n      entry: \"./src/index.ts\",\n      formats: [\"es\"],\n      fileName: \"index-[hash]\",\n    },\n    ...\n  },\n}",
+    "tag": "typescript",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/concepts/custom-components/components-v2/package-based.md#L221"
+  },
+  {
+    "label": "ts",
+    "code": "if (isAiSpeakingRef.current) {\n  return; // AI 说话时停发音频\n}",
+    "tag": "typescript",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai/system-design/ai-voice.md#L367"
+  },
+  {
+    "label": "ts",
+    "code": "import { FrontendRendererArgs } from \"@streamlit/component-v2-lib\";",
+    "tag": "typescript",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/api-reference/custom-components/_index.md#L86"
+  },
+  {
+    "label": "ts",
+    "code": "import { DataSource } from \"typeorm\"\n\nexport const AppDataSource = new DataSource({\n    type: \"cockroachdb\",\n    url: process.env.DATABASE_URL,\n    ssl: {\n      ca: process.env.CA_CERT\n    },\n    ...\n});",
+    "tag": "ts",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/connect-to-the-database.md#L294"
+  },
+  {
+    "label": "ts",
+    "code": "reservedForSummary = min(maxOutputTokens, 20_000)\neffectiveWindow = modelWindow - reservedForSummary\n\nautoCompactThreshold = effectiveWindow - 13_000\nwarningThreshold = autoCompactThreshold - 20_000\nerrorThreshold = autoCompactThreshold - 20_000\nblockingLimit = effectiveWindow - 3_000\n\nif currentUsageEstimate >= warningThreshold:\n  给出上下文预警\n\nif currentUsageEstimate >= autoCompactThreshold:\n  触发 AutoCompact\n\nif currentUsageEstimate >= blockingLimit:\n  阻止新请求，要求手动 compact 或重置",
+    "tag": "typescript",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai-coding/principles/claude-code-context-management.md#L172"
+  },
+  {
+    "label": "ts",
+    "code": "setInterval(() => {\n  // 方法请求\n  messageCount().then((res) => {\n    if (res.code === 200) {\n      this.messageCount = res.data;\n    }\n  });\n}, 1000);",
+    "tag": "typescript",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/system-design/web-real-time-message-push.md#L56"
+  },
+  {
+    "label": "ts",
+    "code": "children(pageSize === -1 ? data : data.slice(pageSize * currentPage, pageSize * (currentPage + 1)))",
+    "tag": "tsx",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/proposals/ui-applications-virtual-scrolling.md#L120"
+  },
+  {
+    "label": "ts",
+    "code": "import {defineConfig} from 'sanity'\nimport {structureTool} from 'sanity/structure'\nimport {visionTool} from '@sanity/vision'\nimport {schemaTypes} from './schemaTypes'\nimport {media} from 'sanity-plugin-media'\nimport {codeInput} from '@sanity/code-input'\n\nexport default defineConfig({\n  name: 'default',\n  title: 'my-sanity-project',\n\n  projectId: 'mysanityprojectid',\n  dataset: 'production',\n\n  plugins: [structureTool(), visionTool(), media(),codeInput()],\n\n  schema: {\n    types: schemaTypes,\n  },\n})",
+    "tag": "ts",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/functions/transform/PortableText.md#L101"
+  },
+  {
+    "label": "ts",
+    "code": "import { AddComponentDropdown } from \"../../shared\";\n\n<AddComponentDropdown\n  componentType=\"workbench\"\n  gallery={selectedGallery}\n  onComponentAdded={handleComponentAdded}\n/>;",
+    "tag": "tsx",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/python/packages/autogen-studio/frontend/src/components/shared/README.md#L7"
+  },
+  {
+    "label": "ts",
+    "code": "class MyClass {\n  public static myValue: string;\n  constructor(init: string) {\n    this.myValue = init;\n  }\n}\nimport fs = require(\"fs\");\nmodule MyModule {\n  export interface MyInterface extends Other {\n    myProperty: any;\n  }\n}\ndeclare magicNumber number;\nmyArray.forEach(() => { }); // fat arrow syntax",
+    "tag": "typescript",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L833"
+  },
+  {
+    "label": "js",
+    "code": "function updateComponent(el, component, action) {\n    fetch('/livewire/update', {\n        body: JSON.stringify({\n            \"snapshot\": snapshot,\n            \"calls\": [\n                [\"method\": action, \"params\": []],\n            ]\n        })\n    }).then(i => i.json()).then(response => {\n        let { html, snapshot } = response\n\n        component.snapshot = snapshot\n\n        el.outerHTML = html\n    })\n}",
+    "tag": "js",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/how-livewire-works.md#L164"
+  },
+  {
+    "label": "js",
+    "code": "if (progressPercent >= 1) {\n  triggerAction();\n} else {\n  animationFrame = requestAnimationFrame(updateProgress);\n}",
+    "tag": "javascript",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/concepts/custom-components/components-v2/examples/danger-button.md#L659"
+  },
+  {
+    "label": "js",
+    "code": "// @filename: types.d.ts\nimport type {} from 'mdx'\n// @filename: example.jsx\n/// <reference lib=\"dom\" />\n/* @jsxImportSource react */\nimport Example from './example.mdx'\n// @errors: 2322 -- something with React 19 and nested components.\n// ---cut---\nconsole.log(\n  <Example\n    components={{\n      // Map `h1` (`# heading`) to use `h2`s.\n      h1: 'h2',\n      // Rewrite `em`s (`*like so*`) to `i` with a goldenrod foreground color.\n      em(props) {\n        return <i style={{color: 'goldenrod'}} {...props} />\n      },\n      // Pass a layout (using the special `'wrapper'` key).\n      wrapper({components, ...rest}) {\n        return <main {...rest} />\n      },\n      // Pass a component.\n      Planet() {\n        return 'Neptune'\n      },\n      // This nested component can be used as `<theme.text>hi</theme.text>`\n      theme: {\n        text(props) {\n          return <span style={{color: 'grey'}} {...props} />\n        }\n      }\n    }}\n  />\n)",
+    "tag": "jsx",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/docs/docs/using-mdx.mdx#L280"
+  },
+  {
+    "label": "js",
+    "code": "<script>\n    var ws = new WebSocket('ws://localhost:7777/websocket/10086');\n    // 获取连接状态\n    console.log('ws连接状态：' + ws.readyState);\n    //监听是否连接成功\n    ws.onopen = function () {\n        console.log('ws连接状态：' + ws.readyState);\n        //连接成功则发送一个数据\n        ws.send('test1');\n    }\n    // 接听服务器发回的信息并处理展示\n    ws.onmessage = function (data) {\n        console.log('接收到来自服务器的消息：');\n        console.log(data);\n        //完成通信后关闭WebSocket连接\n        ws.close();\n    }\n    // 监听连接关闭事件\n    ws.onclose = function () {\n        // 监听整个过程中websocket的状态\n        console.log('ws连接状态：' + ws.readyState);\n    }\n    // 监听并处理error事件\n    ws.onerror = function (error) {\n        console.log(error);\n    }\n    function sendMessage() {\n        var content = $(\"#message\").val();\n        $.ajax({\n            url: '/socket/publish',\n            type: 'POST',\n            data: { \"userId\": \"10086\", \"message\": content },\n            success: function (data) {\n                console.log(data)\n            }\n        })\n    }\n</script>",
+    "tag": "javascript",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/system-design/web-real-time-message-push.md#L422"
+  },
+  {
+    "label": "js",
+    "code": "export default function Post({ meta, children, posts }) {\n  const router = useRouter();\n  const postIndex = posts.findIndex((post) => post.link === router.pathname);\n  const previous = posts[postIndex + 1];\n  const next = posts[postIndex - 1];\n\n  // ...\n}",
+    "tag": "js",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/blog/building-the-tailwind-blog/index.mdx#L254"
+  },
+  {
+    "label": "js",
+    "code": "// Set value in frontend:\nStreamlit.setComponentValue(3.14);",
+    "tag": "javascript",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/concepts/custom-components/components-v1/v1-component-api.md#L177"
+  },
+  {
+    "label": "js",
+    "code": "let isLive = modifiers.includes('live')\nlet isLazy = modifiers.includes('lazy') || modifiers.includes('change')\nlet onBlur = modifiers.includes('blur')\n// ... these only control WHEN update() is called for network\n// x-model always gets modifiers minus 'lazy','defer','debounce','throttle'\n// meaning .blur/.change still get forwarded but DON'T affect ephemeral sync\n// because wire:model uses get/set object pattern, not event listeners",
+    "tag": "js",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/PRD-wire-model-modifiers.md#L50"
+  },
+  {
+    "label": "js",
+    "code": "<>\n  <pre>\n    <div\n      className=\"language-js\"\n      style={{\n        background: '#F0F0F0',\n        color: '#444',\n        display: 'block',\n        overflowX: 'auto',\n        padding: '0.5em'\n      }}\n    >\n      <code style={{whiteSpace: 'pre'}}>\n        <span>console.</span>\n        <span style={{color: '#397300'}}>log</span>\n        <span>(</span>\n        <span style={{color: '#880000'}}>1</span>\n        <span>)</span>\n      </code>\n    </div>\n  </pre>\n</>",
+    "tag": "jsx",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/docs/guides/syntax-highlighting.mdx#L95"
+  },
+  {
+    "label": "js",
+    "code": "module.exports = {\n  theme: {\n    extend: {\n      animation: {\n        wiggle: \"wiggle 1s ease-in-out infinite\",\n      },\n      keyframes: {\n        wiggle: {\n          \"0%, 100%\": { transform: \"rotate(-3deg)\" },\n          \"50%\": { transform: \"rotate(3deg)\" },\n        },\n      },\n    },\n  },\n};",
+    "tag": "js",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/blog/tailwindcss-1-6/index.mdx#L42"
+  },
+  {
+    "label": "js",
+    "code": "import autoprefixer from 'autoprefixer';\nimport purgeCSSPlugin from '@fullhuman/postcss-purgecss';\n\nconst purgecss = purgeCSSPlugin({\n  content: ['./hugo_stats.json'],\n  defaultExtractor: content => {\n    const els = JSON.parse(content).htmlElements;\n    return [\n      ...(els.tags || []),\n      ...(els.classes || []),\n      ...(els.ids || []),\n    ];\n  },\n  // https://purgecss.com/safelisting.html\n  safelist: []\n});\n\nexport default {\n  plugins: [\n    process.env.HUGO_ENVIRONMENT !== 'development' ? purgecss : null,\n    autoprefixer,\n  ]\n};",
+    "tag": "js",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/functions/templates/Defer.md#L127"
+  },
+  {
+    "label": "js",
+    "code": "button.onclick = () => {\n  currentSelection = value;\n  updateDisplay();\n  toggleMenu();\n  setStateValue(\"selection\", currentSelection);\n};",
+    "tag": "javascript",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/concepts/custom-components/components-v2/examples/radial-menu.md#L594"
+  },
+  {
+    "label": "js",
+    "code": "module.exports = {\n  // ...\n  variants: {\n    extend: {\n      backgroundColor: [\"focus-visible\"],\n    },\n  },\n};",
+    "tag": "js",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/blog/tailwindcss-v2/index.mdx#L355"
+  },
+  {
+    "label": "js",
+    "code": "// @filename: mdx-components.jsx\n/* @jsxImportSource react */\n// ---cut---\n/**\n * @import {MDXComponents} from 'mdx/types.js'\n */\n\n/** @returns {MDXComponents} */\nexport function useMDXComponents() {\n  return {\n    Planet() {\n      return 'Pluto'\n    },\n    h1(properties) {\n      return <h2 {...properties} />\n    }\n  }\n}",
+    "tag": "jsx",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/docs/guides/injecting-components.mdx#L102"
+  },
+  {
+    "label": "js",
+    "code": "Livewire.hook('element.init', ({ component, el }) => {\n    //\n})",
+    "tag": "js",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/javascript.md#L547"
+  },
+  {
+    "label": "js",
+    "code": "import commonjs from \"@rollup/plugin-commonjs\";\nimport { nodeResolve } from \"@rollup/plugin-node-resolve\";\n\nconst config = {\n  input: \"src/index.js\",\n  output: {\n    esModule: true,\n    file: \"dist/index.js\",\n    format: \"es\",\n    sourcemap: true,\n  },\n  plugins: [commonjs(), nodeResolve({ preferBuiltins: true })],\n};\n\nexport default config;",
+    "tag": "javascript",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/tutorials/create-actions/create-a-javascript-action.md#L189"
+  },
+  {
+    "label": "python",
+    "code": "# conn is a psycopg2 connection\n\nwith conn.cursor() as cur:\n    cur.execute('INSERT INTO accounts (id, balance) VALUES (1, 1000), (2, 250)')\n\nconn.commit()",
+    "tag": "python",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/insert-data.md#L89"
+  },
+  {
+    "label": "python",
+    "code": "import streamlit as st",
+    "tag": "python",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/tutorials/multipage-apps/dynamic-navigation.md#L159"
+  },
+  {
+    "label": "python",
+    "code": "import streamlit as st\n\n@st.fragment\ndef fragment_function():\n    if st.button(\"Hi!\"):\n        st.write(\"Hi back!\")\n\nfragment_function()",
+    "tag": "python",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/concepts/architecture/fragments.md#L29"
+  },
+  {
+    "label": "python",
+    "code": "# Set padding of 1 around all edges\nwidget.styles.padding = 1\n# Set padding of 2 on the top and bottom edges, and 4 on the left and right\nwidget.styles.padding = (2, 4)\n# Set padding of 1 on top, 2 on the right, 3 on the bottom, and 4 on the left\nwidget.styles.padding = (1, 2, 3, 4)",
+    "tag": "python",
+    "source": "https://github.com/Textualize/textual/blob/5e5b7ef58b8c5572c13a3ff9027d756623661495/docs/styles/padding.md#L103"
+  },
+  {
+    "label": "python",
+    "code": "date = st.date_input(\"Your birthday\")",
+    "tag": "python",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/api-reference/_index.md#L749"
+  },
+  {
+    "label": "python",
+    "code": "from psycopg2.pool import SimpleConnectionPool\n\npool = None\n\n\ndef query(p):\n  conn = p.getconn()\n  with conn.cursor() as cur:\n      cur.execute(\"INSERT INTO table (col1, col2) VALUES (val1, val2)\")\n      conn.commit()\n\ndef lambda_handler(context):\n    global pool\n\n    if not pool:\n        pool = SimpleConnectionPool(0, 1, dsn=os.environ['DATABASE_URL'])\n\n    query(pool)\n\n    return",
+    "tag": "python",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/serverless-function-best-practices.md#L73"
+  },
+  {
+    "label": "python",
+    "code": "from autogen_ext.models.openai import OpenAIChatCompletionClient\n\nmodel_client = OpenAIChatCompletionClient(model=\"gpt-4o\", api_key=\"sk-xxx\")",
+    "tag": "python",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/python/docs/src/user-guide/agentchat-user-guide/migration-guide.md#L118"
+  },
+  {
+    "label": "python",
+    "code": "self.styles.background = \"blue\"\nself.styles.color = \"white\"",
+    "tag": "python",
+    "source": "https://github.com/Textualize/textual/blob/5e5b7ef58b8c5572c13a3ff9027d756623661495/docs/tutorial.md#L215"
+  },
+  {
+    "label": "python",
+    "code": "from rich.progress import Progress, BarColumn\nfrom rich.spinner import Spinner\n\nfrom textual.app import RenderableType\nfrom textual.widgets import Button, Static\n\n\nclass IntervalUpdater(Static):\n    _renderable_object: RenderableType  # (1)!\n\n    def update_rendering(self) -> None:  # (2)!\n        self.update(self._renderable_object)\n\n    def on_mount(self) -> None:  # (3)!\n        self.interval_update = self.set_interval(1 / 60, self.update_rendering)\n\n\nclass IndeterminateProgressBar(IntervalUpdater):\n    \"\"\"Basic indeterminate progress bar widget based on rich.progress.Progress.\"\"\"\n    def __init__(self) -> None:\n        super().__init__(\"\")\n        self._renderable_object = Progress(BarColumn())  # (4)!\n        self._renderable_object.add_task(\"\", total=None)\n\n\nclass SpinnerWidget(IntervalUpdater):\n    \"\"\"Basic spinner widget based on rich.spinner.Spinner.\"\"\"\n    def __init__(self, style: str) -> None:\n        super().__init__(\"\")\n        self._renderable_object = Spinner(style)  # (5)!",
+    "tag": "py",
+    "source": "https://github.com/Textualize/textual/blob/5e5b7ef58b8c5572c13a3ff9027d756623661495/docs/blog/posts/spinners-and-pbs-in-textual.md#L266"
+  },
+  {
+    "label": "python",
+    "code": "import logging\nfrom dataclasses import dataclass\nfrom autogen_core import EVENT_LOGGER_NAME\n\n@dataclass\nclass MyEvent:\n    timestamp: str\n    message: str\n\nlogger = logging.getLogger(EVENT_LOGGER_NAME + \".my_module\")\nlogger.info(MyEvent(\"timestamp\", \"message\"))",
+    "tag": "python",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/python/docs/src/user-guide/core-user-guide/framework/logging.md#L94"
+  },
+  {
+    "label": "python",
+    "code": "# LangChain 多向量检索示例\nfrom langchain_classic.retrievers.multi_vector import MultiVectorRetriever\nfrom langchain_core.stores import InMemoryByteStore\n\n# 摘要向量存储\nvectorstore = Chroma(collection_name=\"summaries\", embedding_function=OpenAIEmbeddings())\n\n# 原始文档存储\ndocstore = InMemoryByteStore()\n\nretriever = MultiVectorRetriever(\n    vectorstore=vectorstore,\n    byte_store=docstore,\n    id_key=\"doc_id\",\n    search_kwargs={\"k\": 5}\n)\n# 注意：InMemoryByteStore 仅用于演示，生产环境应替换为持久化存储（如 Redis、MongoDB、S3 等）",
+    "tag": "python",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai/rag/rag-document-processing.md#L371"
+  },
+  {
+    "label": "python",
+    "code": "#!/usr/bin/env python3\n\nimport psycopg2\nimport psycopg2.sql\nimport os\n\nconn = psycopg2.connect(os.environ.get('DATABASE_URL'))\nfilter = 4\nlastrow = None\n\nwhile True:\n  with conn:\n    with conn.cursor() as cur:\n        if lastrow:\n            filter = lastrow[0]\n        query = psycopg2.sql.SQL(\"DELETE FROM new_order WHERE no_w_id <= %s ORDER BY no_w_id DESC LIMIT 5000 RETURNING no_w_id\")\n        cur.execute(query, (filter,))\n        print(cur.statusmessage)\n        if cur.rowcount == 0:\n            break\n        lastrow = cur.fetchone()\n\nconn.close()",
+    "tag": "python",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/bulk-delete-data.md#L75"
+  },
+  {
+    "label": "python",
+    "code": "import logging\n\nfrom autogen_agentchat import EVENT_LOGGER_NAME, TRACE_LOGGER_NAME\n\nlogging.basicConfig(level=logging.WARNING)\n\n# For trace logging.\ntrace_logger = logging.getLogger(TRACE_LOGGER_NAME)\ntrace_logger.addHandler(logging.StreamHandler())\ntrace_logger.setLevel(logging.DEBUG)\n\n# For structured message logging, such as low-level messages between agents.\nevent_logger = logging.getLogger(EVENT_LOGGER_NAME)\nevent_logger.addHandler(logging.StreamHandler())\nevent_logger.setLevel(logging.DEBUG)",
+    "tag": "python",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/python/docs/src/user-guide/agentchat-user-guide/logging.md#L7"
+  },
+  {
+    "label": "python",
+    "code": "channel.queue_declare(\n    queue='my-queue',\n    durable=True,\n    arguments={'x-queue-type': 'quorum'}\n)",
+    "tag": "python",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/high-performance/message-queue/rabbitmq-questions.md#L317"
+  },
+  {
+    "label": "python",
+    "code": "def rollback_to_version(target_version_id):\n    # 查询目标版本的快照\n    snapshot = get_snapshot(version_id=target_version_id)\n    if not snapshot:\n        raise ValueError(f\"No snapshot found for version {target_version_id}\")\n\n    # 停止服务\n    service.set_status('maintenance')\n\n    # 恢复快照\n    vector_db.restore(snapshot)\n\n    # 重启服务\n    service.set_status('active')\n\n    # 发送告警\n    alert.trigger(f\"System rolled back to version {target_version_id}\")",
+    "tag": "python",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai/rag/rag-knowledge-update.md#L444"
+  },
+  {
+    "label": "bash",
+    "code": "$ git clone https://github.com/cockroachlabs/example-app-node-postgres",
+    "tag": "shell",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/build-a-nodejs-app-with-cockroachdb.md#L25"
+  },
+  {
+    "label": "bash",
+    "code": "dotnet add package AutoGen",
+    "tag": "bash",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/dotnet/website/tutorial/Image-chat-with-agent.md#L20"
+  },
+  {
+    "label": "bash",
+    "code": "{\n    \"acknowledged\" : true,\n    \"insertedIds\" : [\n        ObjectId(\"61a6058e6c43f32854e51f51\"),\n        ObjectId(\"61a6058e6c43f32854e51f52\")\n     ]\n }",
+    "tag": "console",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/tutorials/first-mongo-app.md#L100"
+  },
+  {
+    "label": "bash",
+    "code": "$ cockroach demo --help",
+    "tag": "shell",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/cockroach-demo.md#L24"
+  },
+  {
+    "label": "bash",
+    "code": "argocd appset create \"(filename.yaml)\"\nargocd appset delete \"(applicationset resource name)\"\nargocd appset apply  \"(filename.yaml)\"",
+    "tag": "shell",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/proposals/backend-support-appset.md#L125"
+  },
+  {
+    "label": "bash",
+    "code": "$ gcloud container clusters create $GKE_CLUSTER \\\n\t--project=$GKE_PROJECT \\\n\t--zone=$GKE_ZONE",
+    "tag": "shell",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/how-tos/deploy/deploy-to-third-party-platforms/google-kubernetes-engine.md#L34"
+  },
+  {
+    "label": "bash",
+    "code": "ENVIRONMENT=_name_of_your_env\nazd env new $ENVIRONMENT\nazd provision -e $ENVIRONMENT",
+    "tag": "bash",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/dotnet/samples/dev-team/docs/github-flow-getting-started.md#L107"
+  },
+  {
+    "label": "bash",
+    "code": "$ cockroach sql \\\n--url 'postgres://{username}:{password}@{host}:26257?sslmode=verify-full&sslrootcert={path/to/certs_dir}/cc-ca.crt' \\\n--execute \"SELECT * FROM bank.customers\" --format=csv > /Users/{username}/{path/to/file}/customers.csv",
+    "tag": "shell",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/export.md#L264"
+  },
+  {
+    "label": "bash",
+    "code": "echo '按下 <CTRL-D> 退出'\necho -n '输入你最喜欢的电影: '\nwhile read -r FILM  # -r 选项禁止反斜杠转义，提高安全性\ndo\n    echo \"是的！$FILM 是一个好电影\"\ndone",
+    "tag": "shell",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/cs-basics/operating-system/shell-intro.md#L620"
+  },
+  {
+    "label": "bash",
+    "code": "FROM python:3.10-slim\n\nWORKDIR /code\n\nRUN pip install -U gunicorn autogenstudio\n\nRUN useradd -m -u 1000 user\nUSER user\nENV HOME=/home/user \\\n    PATH=/home/user/.local/bin:$PATH \\\n    AUTOGENSTUDIO_APPDIR=/home/user/app\n\nWORKDIR $HOME/app\n\nCOPY --chown=user . $HOME/app\n\nCMD gunicorn -w $((2 * $(getconf _NPROCESSORS_ONLN) + 1)) --timeout 12600 -k uvicorn.workers.UvicornWorker autogenstudio.web.app:app --bind \"0.0.0.0:8081\"",
+    "tag": "bash",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/python/docs/src/user-guide/autogenstudio-user-guide/faq.md#L195"
+  },
+  {
+    "label": "bash",
+    "code": "streamlit config show",
+    "tag": "bash",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/api-reference/configuration/config-toml.md#L37"
+  },
+  {
+    "label": "bash",
+    "code": "python -m streamlit run app.py",
+    "tag": "bash",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/get-started/installation/command-line.md#L152"
+  },
+  {
+    "label": "bash",
+    "code": "docker exec -it 289cc00dc5ed bash",
+    "tag": "shell",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/tools/docker/docker-in-action.md#L457"
+  },
+  {
+    "label": "bash",
+    "code": "# supports all databases supported by SQLx\n$ cargo install sqlx-cli\n\n# only for postgres\n$ cargo install sqlx-cli --no-default-features --features native-tls,postgres\n\n# use vendored OpenSSL (build from source)\n$ cargo install sqlx-cli --features openssl-vendored\n\n# use Rustls rather than OpenSSL (be sure to add the features for the databases you intend to use!)\n$ cargo install sqlx-cli --no-default-features --features rustls\n\n# only for sqlite and use the system sqlite library\n$ cargo install sqlx-cli --no-default-features --features sqlite-unbundled\n\n# if you connect to MySQL/MariaDB without TLS and the server requires RSA auth\n$ cargo install sqlx-cli --features mysql-rsa",
+    "tag": "bash",
+    "source": "https://github.com/launchbadge/sqlx/blob/f574e07d0692487ae5a1025e134abdf08d747395/sqlx-cli/README.md#L10"
+  },
+  {
+    "label": "bash",
+    "code": "streamlit run your_script.py",
+    "tag": "bash",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/concepts/architecture/run-your-app.md#L16"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"Authentication\": {\n    \"DefaultScheme\":  \"LocalAuthIssuer\",\n    \"Schemes\": {\n      \"Bearer\": {\n        \"ValidAudiences\": [\n          \"https://localhost:7259\",\n          \"http://localhost:5259\"\n        ],\n        \"ValidIssuer\": \"dotnet-user-jwts\"\n      },\n      \"LocalAuthIssuer\": {\n        \"ValidAudiences\": [\n          \"https://localhost:7259\",\n          \"http://localhost:5259\"\n        ],\n        \"ValidIssuer\": \"local-auth\"\n      }\n    }\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/fundamentals/minimal-apis/security.md#L69"
+  },
+  {
+    "label": "json",
+    "code": "{\n   \"use_default\": false\n}",
+    "tag": "json",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/reference/security/oidc.md#L546"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"name\":\"walk dog\",\n  \"isComplete\":true\n}",
+    "tag": "json",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/tutorials/min-web-api/includes/min-web-api-6-7.md#L709"
+  },
+  {
+    "label": "json",
+    "code": "[\n  {\n    \"Id\": \"61a6058e6c43f32854e51f51\",\n    \"Name\": \"Design Patterns\",\n    \"Price\": 54.93,\n    \"Category\": \"Computers\",\n    \"Author\": \"Ralph Johnson\"\n  },\n  {\n    \"Id\": \"61a6058e6c43f32854e51f52\",\n    \"Name\": \"Clean Code\",\n    \"Price\": 43.15,\n    \"Category\": \"Computers\",\n    \"Author\": \"Robert C. Martin\"\n  }\n]",
+    "tag": "json",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/tutorials/first-mongo-app/includes/first-mongo-app-9.md#L450"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"plugins\": [\"prettier-plugin-tailwindcss\"]\n}",
+    "tag": "json",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/blog/automatic-class-sorting-with-prettier/index.mdx#L52"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"name\": \"Skaffold Debug\",\n    \"type\": \"go\",\n    \"request\": \"attach\",\n    \"mode\": \"remote\",\n    \"host\": \"localhost\",\n    \"port\": 56268,\n    \"substitutePath\": [\n        {\n            \"from\": \"${workspaceFolder}\",\n            \"to\": \"/go\",\n        },\n    ],\n}",
+    "tag": "json",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/docs-v2/content/en/docs/workflows/debug.md#L94"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"first_name\": \"Mona\",\n  \"super_duper_var\": \"totally_awesome\"\n}",
+    "tag": "json",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/reference/workflows-and-actions/contexts.md#L304"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"env\": {\n    \"ANTHROPIC_AUTH_TOKEN\": \"your_deepseek_api_key\",\n    \"ANTHROPIC_BASE_URL\": \"https://api.deepseek.com/anthropic\",\n    \"ANTHROPIC_MODEL\": \"deepseek-v4-pro[1m]\",\n    \"ANTHROPIC_DEFAULT_OPUS_MODEL\": \"deepseek-v4-pro[1m]\",\n    \"ANTHROPIC_DEFAULT_SONNET_MODEL\": \"deepseek-v4-pro[1m]\",\n    \"ANTHROPIC_DEFAULT_HAIKU_MODEL\": \"deepseek-v4-flash\",\n    \"CLAUDE_CODE_SUBAGENT_MODEL\": \"deepseek-v4-flash\",\n    \"CLAUDE_CODE_EFFORT_LEVEL\": \"max\",\n    \"API_TIMEOUT_MS\": \"3000000\",\n    \"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC\": \"1\"\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai-coding/cases/deepseek-v4-claude-code.md#L44"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"host\": {\n        \"address\": \"localhost\",\n        \"port\": 5799\n    },\n    \"datastore\": {\n        \"metric\": {\n            \"host\": \"127.0.0.1\",\n            \"port\": 3099\n        },\n        \"warehouse\": {\n            \"host\": \"198.0.0.1\",\n            \"port\": 2112\n        }\n    }\n}",
+    "tag": "json",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/github.com/spf13/viper/README.md#L584"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"sentiment\": {\n      \"type\": \"string\",\n      \"enum\": [\"positive\", \"negative\", \"neutral\"]\n    },\n    \"key_issues\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n    \"action_items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"team\": { \"type\": \"string\" },\n          \"task\": { \"type\": \"string\" }\n        }\n      }\n    }\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai/agent/prompt-engineering.md#L360"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"jq -r '.tool_input.file_path' | xargs npx prettier --write\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai-coding/principles/claude-code-hooks.md#L321"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"snapshot\": {...},\n    \"updates\": {\n        \"todos.0\": \"hey\",\n    },\n    \"calls\": [\n        [\n            \"path\": \"\",\n            \"method\": \"add\",\n            \"params\": [],\n        ]    \n    ]\n}",
+    "tag": "json",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/the-livewire-protocol.md#L18"
+  },
+  {
+    "label": "json",
+    "code": "{\n\t\"auths\": {\n\t\t\"registry.example.com\": {\n\t\t\t\"auth\": \"QXp1cmVEaWFtb25kOmh1bnRlcjI=\"\n\t\t}\n\t}\n}",
+    "tag": "json",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/github.com/google/go-containerregistry/pkg/authn/README.md#L139"
+  },
+  {
+    "label": "json",
+    "code": "\"dataActions\": [\n    \"Microsoft.KeyVault/vaults/keys/encrypt/action\",\n    \"Microsoft.KeyVault/vaults/keys/decrypt/action\"\n]",
+    "tag": "json",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/take-and-restore-encrypted-backups.md#L102"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"api_key\": \"REPLACE_WITH_YOUR_API\",\n  \"model\": \"REPLACE_WITH_YOUR_MODEL\"\n}",
+    "tag": "json",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/python/packages/agbench/README.md#L81"
+  },
+  {
+    "label": "html",
+    "code": "<html>\n<body>\n<div style=\"text-align: center\">\n    <h3>\n        Generic Local News\n    </h3>\n    <ul style=\"list-style-type: none\">\n        <li>\n            Mayoral elections coming up in 2 weeks\n        </li>\n        <li>\n            New parking meter rates downtown coming tomorrow\n        </li>\n        <li>\n            Park renovations to finish by the next year\n        </li>\n        <li>\n            Annual marathon sign ups available online\n        </li>\n    </ul>\n</div>\n</body>\n</html>",
+    "tag": "html",
+    "source": "https://github.com/iluwatar/java-design-patterns/blob/4cabb204f240240bea319605a5ffa46ded728001/localization/es/composite-view/README.md#L278"
+  },
+  {
+    "label": "html",
+    "code": "<button type=\"button\" class=\"bg-indigo-500 hover:bg-indigo-400 disabled:opacity-75 ...\" disabled>Processing...</button>",
+    "tag": "html",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/blog/tailwindcss-v3-1/index.mdx#L514"
+  },
+  {
+    "label": "html",
+    "code": "<!-- Get the latest one from: https://katex.org/docs/browser -->\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css\" integrity=\"sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+\" crossorigin=\"anonymous\">",
+    "tag": "html",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/docs/guides/math.mdx#L76"
+  },
+  {
+    "label": "html",
+    "code": "<p class=\"text-3xl leading-normal\">Come on don't do this to me.</p>",
+    "tag": "html",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/blog/tailwindcss-v2/index.mdx#L259"
+  },
+  {
+    "label": "html",
+    "code": "<button\n    type=\"button\"\n    x-on:click=\"$wire.deletePost('{{ $post->uuid }}')\"\n>",
+    "tag": "html",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/alpine.md#L213"
+  },
+  {
+    "label": "html",
+    "code": "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"https://example.org/index.xml\" title=\"ABC Widgets\">",
+    "tag": "html",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/templates/rss.md#L57"
+  },
+  {
+    "label": "html",
+    "code": "<div class=\"@container/main\">\n  <!-- ... -->\n  <div>\n    <div class=\"block @lg/main:flex\">\n      <!-- ... -->\n    </div>\n  </div>\n</div>",
+    "tag": "html",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/blog/tailwindcss-v3-2/index.mdx#L760"
+  },
+  {
+    "label": "html",
+    "code": "<td>\n  <a href=\"/Movies/Edit?id=1\">Edit</a> |\n  <a href=\"/Movies/Details?id=1\">Details</a> |\n  <a href=\"/Movies/Delete?id=1\">Delete</a>\n</td>",
+    "tag": "html",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/tutorials/razor-pages/da1/includes/da1_8.md#L36"
+  },
+  {
+    "label": "html",
+    "code": "<p><img src=\"images/rust-logo-blk.svg\" alt=\"The Rust Logo\" /></p>",
+    "tag": "html",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/guide/src/format/markdown.md#L119"
+  },
+  {
+    "label": "html",
+    "code": "<ul>\n  <li>The Hunchback of Notre Dame (en) 9780140443530</li>\n  <li>Les Misérables (fr) 9780451419439</li>\n</ul>",
+    "tag": "html",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/functions/transform/Unmarshal.md#L379"
+  },
+  {
+    "label": "html",
+    "code": "<ul>\n  <li><a href=\"/posts/post-1/\">Post 1</a></li>\n</ul>",
+    "tag": "html",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/functions/collections/Where.md#L396"
+  },
+  {
+    "label": "html",
+    "code": "<img src=\"./images/logo.jpg\">",
+    "tag": "html",
+    "source": "https://github.com/PHPOffice/PhpSpreadsheet/blob/ed591ed22e435895ee0f23a06334d89e9eadd558/docs/topics/reading-and-writing-to-file.md#L828"
+  },
+  {
+    "label": "html",
+    "code": "<span class=fa-svg id=\"print-button\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path d=\"M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z\"/></svg></span>",
+    "tag": "html",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/guide/src/format/theme/index-hbs.md#L108"
+  },
+  {
+    "label": "html",
+    "code": "<td>\n  <a href=\"/Movies/Edit/1\">Edit</a> |\n  <a href=\"/Movies/Details/1\">Details</a> |\n  <a href=\"/Movies/Delete/1\">Delete</a>\n</td>",
+    "tag": "html",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/tutorials/razor-pages/da1/includes/da1_3-5.md#L51"
+  },
+  {
+    "label": "html",
+    "code": "<script>\n    this.$dispatch('post-created');\n</script>",
+    "tag": "html",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/events.md#L153"
+  },
+  {
+    "label": "css",
+    "code": "@keyframes navigate-out {\n    to { opacity: 0; transform: translateY(-0.5rem); }\n}\n\n@keyframes navigate-in {\n    from { opacity: 0; transform: translateY(0.5rem); }\n}\n\nhtml:active-view-transition-type(navigate)::view-transition-old(livewire-navigate) {\n    animation: navigate-out 150ms ease-in both;\n}\n\nhtml:active-view-transition-type(navigate)::view-transition-new(livewire-navigate) {\n    animation: navigate-in 200ms ease-out both;\n}",
+    "tag": "css",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/navigate.md#L336"
+  },
+  {
+    "label": "css",
+    "code": "@custom-variant theme-midnight (&:where([data-theme=\"midnight\"] *));",
+    "tag": "css",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/docs/adding-custom-styles.mdx#L695"
+  },
+  {
+    "label": "css",
+    "code": "Static {\n  background: blue;\n  border: round green;\n}",
+    "tag": "css",
+    "source": "https://github.com/Textualize/textual/blob/5e5b7ef58b8c5572c13a3ff9027d756623661495/docs/guide/CSS.md#L219"
+  },
+  {
+    "label": "css",
+    "code": "/* Bottom layer is called 'below', layer above it is called 'above' */\nlayers: below above;",
+    "tag": "css",
+    "source": "https://github.com/Textualize/textual/blob/5e5b7ef58b8c5572c13a3ff9027d756623661495/docs/styles/layers.md#L44"
+  },
+  {
+    "label": "css",
+    "code": "/* Widget is invisible */\nvisibility: hidden;\n\n/* Widget is visible */\nvisibility: visible;",
+    "tag": "css",
+    "source": "https://github.com/Textualize/textual/blob/5e5b7ef58b8c5572c13a3ff9027d756623661495/docs/styles/visibility.md#L89"
+  },
+  {
+    "label": "css",
+    "code": "ol li::after {\n  content: \"6\";\n}\n\nul li::after {\n  content: \"7\";\n}",
+    "tag": "css",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/functions/css/Quoted.md#L50"
+  },
+  {
+    "label": "css",
+    "code": "/* cyrillic-ext */\n@font-face {\n  font-family: \"Nunito\";\n  font-style: italic;\n  font-weight: 200 1000;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/nunito/v31/XRXX3I6Li01BKofIMNaORs7nczIHNHI.woff2)\n    format(\"woff2\");\n  unicode-range:\n    U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}",
+    "tag": "css",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/tutorials/theming/external-fonts (old).md#L124"
+  },
+  {
+    "label": "css",
+    "code": ".a { color: red; }",
+    "tag": "css",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/functions/css/Build.md#L50"
+  },
+  {
+    "label": "css",
+    "code": "svg.foo {\n  font-family: \"Segoe UI\", \"Noto Sans\", Helvetica, Arial, sans-serif;\n}",
+    "tag": "css",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/functions/diagrams/Goat.md#L75"
+  },
+  {
+    "label": "css",
+    "code": ":root {\n  --tw-font-display: \"Satoshi\", \"sans-serif\";\n\n  --tw-breakpoint-3xl: 120rem;\n\n  --tw-color-avocado-100: oklch(0.99 0 0);\n  --tw-color-avocado-200: oklch(0.98 0.04 113.22);\n  --tw-color-avocado-300: oklch(0.94 0.11 115.03);\n\n  /* ... */\n}",
+    "tag": "css",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/docs/upgrade-guide.mdx#L621"
+  },
+  {
+    "label": "css",
+    "code": ".btn {\n  @apply focus:ring-opacity-50 bg-indigo-500 hover:bg-indigo-600 focus:ring-2 focus:ring-indigo-200;\n}",
+    "tag": "css",
+    "source": "https://github.com/tailwindlabs/tailwindcss.com/blob/7f92c2213315c195dae583d68752da4042da3ade/src/blog/tailwindcss-v2/index.mdx#L316"
+  },
+  {
+    "label": "css",
+    "code": ".counter {\n  padding: 2rem;\n  border: 1px solid var(--st-border-color);\n  border-radius: var(--st-base-radius);\n  font-family: var(--st-font);\n  text-align: center;\n}\n\n.buttons {\n  margin-top: 1rem;\n}\n\nbutton {\n  margin: 0 0.5rem;\n  padding: 0.5rem 1rem;\n  background: var(--st-primary-color);\n  color: white;\n  border: none;\n  border-radius: var(--st-button-radius);\n  cursor: pointer;\n}\n\nbutton:hover {\n  opacity: 0.8;\n}\n\n#reset {\n  background: var(--st-red-color);\n}",
+    "tag": "css",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/concepts/custom-components/components-v2/examples/interactive-counter.md#L141"
+  },
+  {
+    "label": "css",
+    "code": "html:active-view-transition-type(forward) {\n    &::view-transition-old(content) {\n        animation: 300ms ease-out both slide-out-left;\n    }\n    &::view-transition-new(content) {\n        animation: 300ms ease-in both slide-in-right;\n    }\n}\n\nhtml:active-view-transition-type(backward) {\n    &::view-transition-old(content) {\n        animation: 300ms ease-out both slide-out-right;\n    }\n    &::view-transition-new(content) {\n        animation: 300ms ease-in both slide-in-left;\n    }\n}\n\n@keyframes slide-out-left {\n    from { transform: translateX(0); opacity: 1; }\n    to { transform: translateX(-100%); opacity: 0; }\n}\n\n@keyframes slide-in-right {\n    from { transform: translateX(100%); opacity: 0; }\n    to { transform: translateX(0); opacity: 1; }\n}\n\n@keyframes slide-out-right {\n    from { transform: translateX(0); opacity: 1; }\n    to { transform: translateX(100%); opacity: 0; }\n}\n\n@keyframes slide-in-left {\n    from { transform: translateX(-100%); opacity: 0; }\n    to { transform: translateX(0); opacity: 1; }\n}",
+    "tag": "css",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/wire-transition.md#L95"
+  },
+  {
+    "label": "css",
+    "code": ".title {\n    color: blue;\n    font-size: 2rem;\n}\n\n.btn {\n    background: indigo;\n    color: white;\n    padding: 0.5rem 1rem;\n    border-radius: 0.25rem;\n}",
+    "tag": "css",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/styles.md#L62"
+  },
+  {
+    "label": "css",
+    "code": "/* Before */\n.application-details.my-app { ... }\n\n/* After */\n.application-details.user-app-my-app { ... }",
+    "tag": "css",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/operator-manual/upgrading/3.4-3.5.md#L15"
+  },
+  {
+    "label": "sql",
+    "code": "> INSERT INTO v VALUES ('urn:uuid:63616665-6630-3064-6465-616462656564');",
+    "tag": "sql",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/uuid.md#L82"
+  },
+  {
+    "label": "sql",
+    "code": "SELECT\n\tbirds.name, sum(observations.count) AS sightings\nFROM\n\tbirds.birds, birds.observations\nWHERE\n\tbirds.name = 'Common Loon'\n\tAND birds.id = observations.bird_id\nGROUP BY\n\tbirds.name;",
+    "tag": "sql",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/spatial-tutorial.md#L214"
+  },
+  {
+    "label": "sql",
+    "code": "> CREATE SEQUENCE sequence_test;",
+    "tag": "sql",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/show-sequences.md#L29"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE deduplication_table (\n    id int unsigned PRIMARY KEY AUTO_INCREMENT COMMENT \"主键\",\n    processed_code varchar(200) not null COMMENT \"已处理的订单流水号\",\n    -- 省略其他字段\n    UNIQUE unq_processed_code(processed_code)\n) COMMENT=\"去重表\";",
+    "tag": "sql",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/high-availability/idempotency.md#L120"
+  },
+  {
+    "label": "sql",
+    "code": "SELECT order_num, Sum(item_price * quantity) AS total_price\nFROM OrderItems\nGROUP BY order_num\nHAVING total_price >= 1000\nORDER BY order_num",
+    "tag": "sql",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/database/sql/sql-questions-01.md#L844"
+  },
+  {
+    "label": "sql",
+    "code": "where create_time >= '20190101' and create_time < '20190102'",
+    "tag": "sql",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/database/mysql/mysql-high-performance-optimization-specification-recommendations.md#L331"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE mytable (\n    id INTEGER PRIMARY KEY,\n    name TEXT NOT NULL,\n    pet TEXT NOT NULL\n);\n\nINSERT INTO mytable (id, name, pet)\nVALUES (1, 'Mary', 'dog'), (2, 'John', 'cat'), (3, 'Robert', 'bird');",
+    "tag": "sql",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/tutorials/databases/clickhouse-managed-postgres.md#L43"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE [dbo].[Movie] (\n    [ID]          INT             IDENTITY (1, 1) NOT NULL,\n    [Title]       NVARCHAR (MAX)  NULL,\n    [ReleaseDate] DATETIME2 (7)   NOT NULL,\n    [Genre]       NVARCHAR (MAX)  NULL,\n    [Price]       DECIMAL (18, 2) NOT NULL,\n    [Rating]      NVARCHAR (MAX)  NULL,\n    CONSTRAINT [PK_Movie] PRIMARY KEY CLUSTERED ([ID] ASC)\n);",
+    "tag": "sql",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/tutorials/razor-pages/validation/includes/validation3-5.md#L172"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE DATABASE pets;\n\nUSE pets;\n\nCREATE TABLE mytable (\n    name varchar(80),\n    pet varchar(80)\n);\n\nINSERT INTO mytable VALUES ('Mary', 'dog'), ('John', 'cat'), ('Robert', 'bird');",
+    "tag": "sql",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/tutorials/databases/mysql.md#L25"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE home (\n    id SERIAL PRIMARY KEY,\n    name VARCHAR(100),\n    pet VARCHAR(100)\n);\n\nINSERT INTO home (name, pet)\nVALUES\n    ('Mary', 'dog'),\n    ('John', 'cat'),\n    ('Robert', 'bird');",
+    "tag": "sql",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/tutorials/databases/neon.md#L44"
+  },
+  {
+    "label": "sql",
+    "code": "-- MySQL\nINSERT INTO Students (name) VALUES(?);\n-- Postgres and SQLite\nINSERT INTO Students (name) VALUES($1);",
+    "tag": "sql",
+    "source": "https://github.com/launchbadge/sqlx/blob/f574e07d0692487ae5a1025e134abdf08d747395/FAQ.md#L201"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE Orders (Id INT AUTO_INCREMENT, item VARCHAR(50) NOT NULL, orderedBy VARCHAR(50) city VARCHAR(50), state VARCHAR(50), pincode CHAR(6) NOT NULL, PRIMARY KEY(Id))",
+    "tag": "sql",
+    "source": "https://github.com/iluwatar/java-design-patterns/blob/4cabb204f240240bea319605a5ffa46ded728001/localization/es/embedded-value/README.md#L74"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE [dbo].[Movie] (\n    [ID]          INT             IDENTITY (1, 1) NOT NULL,\n    [Title]       NVARCHAR (60)   NOT NULL,\n    [ReleaseDate] DATETIME2 (7)   NOT NULL,\n    [Genre]       NVARCHAR (30)   NOT NULL,\n    [Price]       DECIMAL (18, 2) NOT NULL,\n    [Rating]      NVARCHAR (5)    NOT NULL,\n    CONSTRAINT [PK_Movie] PRIMARY KEY CLUSTERED ([ID] ASC)\n);",
+    "tag": "sql",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/tutorials/razor-pages/validation/includes/validation8.md#L217"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE \"topic\" (\n    \"id\" integer NOT NULL PRIMARY KEY,\n    \"forum_id\" integer NOT NULL,\n    \"subject\" varchar(255) NOT NULL\n);\nALTER TABLE \"topic\"\nADD CONSTRAINT forum_id FOREIGN KEY (\"forum_id\")\nREFERENCES \"forum\" (\"id\");\n\n-- Initials\ninsert into \"topic\" (\"forum_id\", \"subject\")\nvalues (2, 'D''artagnian');",
+    "tag": "sql",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L796"
+  },
+  {
+    "label": "go",
+    "code": "type Closer interface {\n\tClose()\n}",
+    "tag": "go",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/go.opentelemetry.io/otel/CONTRIBUTING.md#L584"
+  },
+  {
+    "label": "go",
+    "code": "path, err := securejoin.SecureJoin(root, unsafePath)\nfile, err := os.OpenFile(path, unix.O_PATH|unix.O_CLOEXEC)",
+    "tag": "go",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/github.com/cyphar/filepath-securejoin/README.md#L106"
+  },
+  {
+    "label": "go",
+    "code": "r.Queries(\"key\", \"value\")",
+    "tag": "go",
+    "source": "https://github.com/gorilla/mux/blob/db9d1d0073d27a0a2d9a8c1bc52aa0af4374d265/README.md#L122"
+  },
+  {
+    "label": "go",
+    "code": "package main\n\nimport (\n\t\"fmt\"\n\n\tjsonpatch \"github.com/evanphx/json-patch\"\n)\n\nfunc main() {\n\toriginal := []byte(`{\"name\": \"John\", \"age\": 24, \"height\": 3.21}`)\n\tsimilar := []byte(`\n\t\t{\n\t\t\t\"age\": 24,\n\t\t\t\"height\": 3.21,\n\t\t\t\"name\": \"John\"\n\t\t}\n\t`)\n\tdifferent := []byte(`{\"name\": \"Jane\", \"age\": 20, \"height\": 3.37}`)\n\n\tif jsonpatch.Equal(original, similar) {\n\t\tfmt.Println(`\"original\" is structurally equal to \"similar\"`)\n\t}\n\n\tif !jsonpatch.Equal(original, different) {\n\t\tfmt.Println(`\"original\" is _not_ structurally equal to \"different\"`)\n\t}\n}",
+    "tag": "go",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/gopkg.in/evanphx/json-patch.v4/README.md#L160"
+  },
+  {
+    "label": "go",
+    "code": "func (m model) View() tea.View {\n    // If there's an error, print it out and don't do anything else.\n    if m.err != nil {\n        return tea.NewView(fmt.Sprintf(\"\\nWe had some trouble: %v\\n\\n\", m.err))\n    }\n\n    // Tell the user we're doing something.\n    s := fmt.Sprintf(\"Checking %s ... \", url)\n\n    // When the server responds with a status, add it to the current line.\n    if m.status > 0 {\n        s += fmt.Sprintf(\"%d %s!\", m.status, http.StatusText(m.status))\n    }\n\n    // Send off whatever we came up with above for rendering.\n    return tea.NewView(\"\\n\" + s + \"\\n\\n\")\n}",
+    "tag": "go",
+    "source": "https://github.com/charmbracelet/bubbletea/blob/f9df43c4f2c021d8740a2628d59cd810a862eb98/tutorials/commands/README.md#L143"
+  },
+  {
+    "label": "go",
+    "code": "func main() {\n    p := tea.NewProgram(initialModel())\n    if _, err := p.Run(); err != nil {\n        fmt.Printf(\"Alas, there's been an error: %v\", err)\n        os.Exit(1)\n    }\n}",
+    "tag": "go",
+    "source": "https://github.com/charmbracelet/bubbletea/blob/f9df43c4f2c021d8740a2628d59cd810a862eb98/README.md#L247"
+  },
+  {
+    "label": "go",
+    "code": "func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {\n    switch msg := msg.(type) {\n\n    // Is it a key press?\n    case tea.KeyPressMsg:\n\n        // Cool, what was the actual key pressed?\n        switch msg.String() {\n\n        // These keys should exit the program.\n        case \"ctrl+c\", \"q\":\n            return m, tea.Quit\n\n        // The \"up\" and \"k\" keys move the cursor up\n        case \"up\", \"k\":\n            if m.cursor > 0 {\n                m.cursor--\n            }\n\n        // The \"down\" and \"j\" keys move the cursor down\n        case \"down\", \"j\":\n            if m.cursor < len(m.choices)-1 {\n                m.cursor++\n            }\n\n        // The enter key and the space bar toggle the selected state for the\n        // item that the cursor is pointing at.\n        case \"enter\", \"space\":\n            _, ok := m.selected[m.cursor]\n            if ok {\n                delete(m.selected, m.cursor)\n            } else {\n                m.selected[m.cursor] = struct{}{}\n            }\n        }\n    }\n\n    // Return the updated model to the Bubble Tea runtime for processing.\n    // Note that we're not returning a command.\n    return m, nil\n}",
+    "tag": "go",
+    "source": "https://github.com/charmbracelet/bubbletea/blob/f9df43c4f2c021d8740a2628d59cd810a862eb98/tutorials/basics/README.md#L103"
+  },
+  {
+    "label": "go",
+    "code": "// 'db' is an open database connection\n\n// Insert two rows into the \"accounts\" table.\nif _, err := db.Exec(\n    \"INSERT INTO accounts (id, balance) VALUES (1, 1000), (2, 250)\"); err != nil {\n    log.Fatal(err)\n}",
+    "tag": "go",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/insert-data.md#L46"
+  },
+  {
+    "label": "go",
+    "code": "package main\n\nimport (\n\t\"database/sql\"\n\t\"log\"\n\n\t_ \"github.com/lib/pq\"\n)\n\nfunc main() {\n\tdb, err := sql.Open(\"postgres\", \"<connection-string>\")\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tdefer db.Close()\n}",
+    "tag": "go",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/connect-to-the-database.md#L876"
+  },
+  {
+    "label": "go",
+    "code": "// Set connection pool configuration, with maximum connection pool size.\nconfig, err := pgxpool.ParseConfig(\"postgres://max:roach@127.0.0.1:26257/bank?sslmode=require&pool_max_conns=40&pool_max_conn_lifetime=300s&pool_max_conn_lifetime_jitter=30s\")\n\tif err != nil {\n\t\tlog.Fatal(\"error configuring the database: \", err)\n\t}\n\n// Create a connection pool to the \"bank\" database.\ndbpool, err := pgxpool.ConnectConfig(context.Background(), config)\nif err != nil {\n\tlog.Fatal(\"error connecting to the database: \", err)\n}\ndefer dbpool.Close()",
+    "tag": "go",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/connection-pooling.md#L222"
+  },
+  {
+    "label": "go",
+    "code": "type ApplicationLabelStats struct {\n\tKey    string   `json:\"key\" protobuf:\"bytes,1,opt,name=key\"`\n\tValues []string `json:\"values\" protobuf:\"bytes,2,opt,name=values\"`\n}\n\n// ApplicationListStats holds additional information about the list of applications\ntype ApplicationListStats struct {\n\tTotal                int64                             `json:\"total\" protobuf:\"bytes,1,opt,name=total\"`\n\tTotalBySyncStatus    map[SyncStatusCode]int64          `json:\"totalBySyncStatus,omitempty\" protobuf:\"bytes,2,opt,name=totalBySyncStatus\"`\n\tTotalByHealthStatus  map[health.HealthStatusCode]int64 `json:\"totalByHealthStatus,omitempty\" protobuf:\"bytes,3,opt,name=totalByHealthStatus\"`\n\tAutoSyncEnabledCount int64                             `json:\"autoSyncEnabledCount\" protobuf:\"bytes,4,opt,name=autoSyncEnabledCount\"`\n\tDestinations         []ApplicationDestination          `json:\"destinations\" protobuf:\"bytes,5,opt,name=destinations\"`\n\tNamespaces           []string                          `json:\"namespaces\" protobuf:\"bytes,6,opt,name=namespaces\"`\n\tLabels               []ApplicationLabelStats           `json:\"labels,omitempty\" protobuf:\"bytes,7,opt,name=labels\"`\n}",
+    "tag": "golang",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/proposals/server-side-pagination.md#L114"
+  },
+  {
+    "label": "go",
+    "code": "package cmp\n\n// Parameter represents a single parameter name and its value. One of Value, Map, or Array must be set.\ntype Parameter struct {\n\t// Name is the name identifying a parameter. (required)\n\tName  string                     `json:\"name,omitempty\"`\n\tString         string            `json:\"string,omitempty\"`\n\tMap            map[string]string `json:\"map,omitempty\"`\n\tArray          []string          `json:\"array,omitempty\"`\n}\n\n// Parameters is a list of parameters to be sent to a CMP for manifest generation.\ntype Parameters []Parameter",
+    "tag": "go",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/proposals/parameterized-config-management-plugins.md#L324"
+  },
+  {
+    "label": "go",
+    "code": "package main\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello World!\")\n}",
+    "tag": "go",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L209"
+  },
+  {
+    "label": "go",
+    "code": "package hydrator\n\nimport \"github.com/argoproj/argo-cd/v2/pkg/apis/application/v1alpha1\"\n\ntype DrySource struct {\n\trepoURL        string\n\ttargetRevision string\n}\n\ntype SyncSource struct {\n\ttargetBranch string\n}\n\nvar appGroups map[DrySource]map[SyncSource][]v1alpha1.Application",
+    "tag": "go",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/proposals/manifest-hydrator.md#L174"
+  },
+  {
+    "label": "go",
+    "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    for i := 0; i < 3; i++ {\n        fmt.Println(\"Value of i:\", i)\n    }\n}",
+    "tag": "go",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/content-management/syntax-highlighting.md#L51"
+  },
+  {
+    "label": "rust",
+    "code": "let data = {\n    let mut data = get_vec();\n    data.sort();\n    data\n};\n\n// Here `data` is immutable.",
+    "tag": "rust",
+    "source": "https://github.com/rust-unofficial/patterns/blob/36fdd17cdebfffd7af94479a4caa9375e40bde80/src/idioms/temporary-mutability.md#L18"
+  },
+  {
+    "label": "rust",
+    "code": "fn main() {\n    let number = 5;\n    print!(\"{}\", number);\n}",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/guide/src/format/theme/editor.md#L26"
+  },
+  {
+    "label": "rust",
+    "code": "impl<'a, R: Read + ?Sized> Read for &'a mut R { /* ... */ }\n\nimpl<'a, W: Write + ?Sized> Write for &'a mut W { /* ... */ }",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/api-guidelines/blob/97a0969cb07fe4cabb0eed8a56234053f47d83dc/src/interoperability.md#L307"
+  },
+  {
+    "label": "rust",
+    "code": "pub struct Error {\n    private: ErrorImpl,\n}\n\nenum ErrorImpl {\n    Io(io::Error),\n    // Should be okay even if other_crate isn't\n    // stable, because ErrorImpl is private.\n    Dep(other_crate::Error),\n}\n\n// Oh no! This puts other_crate into the public API\n// of the current crate.\nimpl From<other_crate::Error> for Error {\n    fn from(err: other_crate::Error) -> Self {\n        Error { private: ErrorImpl::Dep(err) }\n    }\n}",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/api-guidelines/blob/97a0969cb07fe4cabb0eed8a56234053f47d83dc/src/necessities.md#L22"
+  },
+  {
+    "label": "rust",
+    "code": "struct Connection {\n    name: String,\n    stream: TcpStream,\n}\n\nimpl Connection {\n    /// Sends a request over the connection.\n    ///\n    /// # Example\n    /// ```\n    /// # fn call_send(connection: Connection, request: Request) {\n    /// let response = connection.send_request(request);\n    /// assert!(response.is_ok());\n    /// # }\n    /// ```\n    fn send_request(&self, request: Request) -> Result<Status, SendErr> {\n        // ...\n    }\n}",
+    "tag": "rust",
+    "source": "https://github.com/rust-unofficial/patterns/blob/36fdd17cdebfffd7af94479a4caa9375e40bde80/src/idioms/rustdoc-init.md#L51"
+  },
+  {
+    "label": "rust",
+    "code": "let foo_texts: Vec<String> = vec![/* ... */];\n\nsqlx::query!(\n    // because `UNNEST()` is a generic function, Postgres needs the cast on the parameter here\n    // in order to know what type to expect there when preparing the query\n    \"INSERT INTO foo(text_column) SELECT * FROM UNNEST($1::text[])\",\n    &foo_texts[..]\n)\n    .execute(&db)\n    .await?;",
+    "tag": "rust",
+    "source": "https://github.com/launchbadge/sqlx/blob/f574e07d0692487ae5a1025e134abdf08d747395/FAQ.md#L328"
+  },
+  {
+    "label": "rust",
+    "code": "fn binary<T: Trait>(x: T, y: T) -> T",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/api-guidelines/blob/97a0969cb07fe4cabb0eed8a56234053f47d83dc/src/flexibility.md#L121"
+  },
+  {
+    "label": "rust",
+    "code": "fn main() { println!(\"hello\"); }",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/playground/src/chapter_1.md#L7"
+  },
+  {
+    "label": "rust",
+    "code": "struct Adder;\nimpl Adder {\n    pub fn add<F>(x: u8, y: u8, f: F) -> u8\n    where\n        F: Fn(u8, u8) -> u8,\n    {\n        f(x, y)\n    }\n}\n\nfn main() {\n    let arith_adder = |x, y| x + y;\n    let bool_adder = |x, y| {\n        if x == 1 || y == 1 {\n            1\n        } else {\n            0\n        }\n    };\n    let custom_adder = |x, y| 2 * x + y;\n\n    assert_eq!(9, Adder::add(4, 5, arith_adder));\n    assert_eq!(0, Adder::add(0, 0, bool_adder));\n    assert_eq!(5, Adder::add(1, 3, custom_adder));\n}",
+    "tag": "rust",
+    "source": "https://github.com/rust-unofficial/patterns/blob/36fdd17cdebfffd7af94479a4caa9375e40bde80/src/patterns/behavioural/strategy.md#L136"
+  },
+  {
+    "label": "rust",
+    "code": "{{#rustdoc_include partially-included-test.rs:5:7}}",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/testsuite/includes/all_includes/src/rustdoc.md#L5"
+  },
+  {
+    "label": "rust",
+    "code": "# // Note if reading these examples directly in `test.md`:\n# // lines prefixed with `#` are not meant to be shown;\n# // they are supporting code to help the examples to compile successfully.\n# #[cfg(feature = \"_rt-tokio\")]\n#[sqlx::test]\nasync fn test_async_fn() {\n    tokio::task::yield_now().await;\n}",
+    "tag": "rust",
+    "source": "https://github.com/launchbadge/sqlx/blob/f574e07d0692487ae5a1025e134abdf08d747395/src/macros/test.md#L8"
+  },
+  {
+    "label": "rust",
+    "code": "sqlx::query(\"DELETE FROM table\").execute(&mut conn).await?;\nsqlx::query(\"DELETE FROM table\").execute(&pool).await?;",
+    "tag": "rust",
+    "source": "https://github.com/launchbadge/sqlx/blob/f574e07d0692487ae5a1025e134abdf08d747395/README.md#L316"
+  },
+  {
+    "label": "java",
+    "code": "public class Car extends AbstractDocument implements HasModel, HasPrice, HasParts {\n\n  public Car(Map<String, Object> properties) {\n    super(properties);\n  }\n}",
+    "tag": "java",
+    "source": "https://github.com/iluwatar/java-design-patterns/blob/4cabb204f240240bea319605a5ffa46ded728001/localization/it/abstract-document/README.md#L119"
+  },
+  {
+    "label": "java",
+    "code": "// AsyncExecutionInterceptor\nprotected Executor getDefaultExecutor(@Nullable BeanFactory beanFactory) {\n // 1、尝试从 beanFactory 中获取线程池。\n\tExecutor defaultExecutor = super.getDefaultExecutor(beanFactory);\n // 2、如果 beanFactory 中没有，则创建 SimpleAsyncTaskExecutor 线程池。\n\treturn (defaultExecutor != null ? defaultExecutor : new SimpleAsyncTaskExecutor());\n}",
+    "tag": "java",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/system-design/framework/spring/async.md#L325"
+  },
+  {
+    "label": "java",
+    "code": "class Person {\n    String firstName;\n    String lastName;\n\n    Person() {}\n\n    Person(String firstName, String lastName) {\n        this.firstName = firstName;\n        this.lastName = lastName;\n    }\n}",
+    "tag": "java",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/java/new-features/java8-tutorial-translate.md#L177"
+  },
+  {
+    "label": "java",
+    "code": "List<Integer> integerList2 = List.of(11, 33, 66, 8, 9, 13);\nintegerList2.stream().dropWhile(x -> x < 50).forEach(System.out::println);// 66 8 9 13",
+    "tag": "java",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/java/new-features/java9.md#L140"
+  },
+  {
+    "label": "java",
+    "code": "@AllArgsConstructor\n@Getter\n@Setter\npublic class Message {\n    private final String content;\n    private final String senderId;\n}",
+    "tag": "java",
+    "source": "https://github.com/iluwatar/java-design-patterns/blob/4cabb204f240240bea319605a5ffa46ded728001/actor-model/README.md#L90"
+  },
+  {
+    "label": "java",
+    "code": "public static void main(String[] args) {\n    var simpleWizard = new SimpleWizard();\n    simpleWizard.smoke();\n\n    var advancedWizard = new AdvancedWizard(new SecondBreakfastTobacco());\n    advancedWizard.smoke();\n\n    var advancedSorceress = new AdvancedSorceress();\n    advancedSorceress.setTobacco(new SecondBreakfastTobacco());\n    advancedSorceress.smoke();\n\n    var injector = Guice.createInjector(new TobaccoModule());\n    var guiceWizard = injector.getInstance(GuiceWizard.class);\n    guiceWizard.smoke();\n}",
+    "tag": "java",
+    "source": "https://github.com/iluwatar/java-design-patterns/blob/4cabb204f240240bea319605a5ffa46ded728001/dependency-injection/README.md#L94"
+  },
+  {
+    "label": "java",
+    "code": "Observable.just(1, 2, 3, 4)\n        .toMultimap((x) -> {\n            // defines the key in the Map\n            return (x % 2 == 0) ? \"even\" : \"odd\";\n        }, (x) -> {\n            // defines the value that is mapped to the key\n            return x;\n        })\n        .subscribe(System.out::println);\n\n// prints {even=[2, 4], odd=[1, 3]}",
+    "tag": "java",
+    "source": "https://github.com/ReactiveX/RxJava/blob/9c632106cd94649ac6229c916688909ce131fbe4/docs/Mathematical-and-Aggregate-Operators.md#L354"
+  },
+  {
+    "label": "java",
+    "code": "class MyGroup<K, V> extends GroupedObservable<K, V> {\n    final K key;\n\n    final Subject<V> subject;\n\n    public MyGroup(K key) {\n        this.key = key;\n        this.subject = PublishSubject.create();\n    }\n\n    @Override\n    public T getKey() {\n        return key;\n    }\n\n    @Override\n    protected void subscribeActual(Observer<? super T> observer) {\n        subject.subscribe(observer);\n    }\n}",
+    "tag": "java",
+    "source": "https://github.com/ReactiveX/RxJava/blob/9c632106cd94649ac6229c916688909ce131fbe4/docs/What's-different-in-2.0.md#L246"
+  },
+  {
+    "label": "java",
+    "code": "class Single<T> {\n  void subscribe(Single.Subscriber<T> subscriber);\n}\n\ninterface SingleSubscriber<T> {\n  void onSuccess(T t);\n  void onError(Throwable t);\n  void onSubscribe(Disposable d);\n}",
+    "tag": "java",
+    "source": "https://github.com/ReactiveX/RxJava/blob/9c632106cd94649ac6229c916688909ce131fbe4/DESIGN.md#L205"
+  },
+  {
+    "label": "java",
+    "code": "// ds is an org.postgresql.ds.PGSimpleDataSource\n\ntry (Connection connection = ds.getConnection()) {\n    connection.setAutoCommit(false);\n    PreparedStatement pstmt = connection.prepareStatement(\"INSERT INTO accounts (id, balance) VALUES (?, ?)\");\n\n    pstmt.setInt(1, 1);\n    pstmt.setInt(2, 1000);\n    pstmt.addBatch();\n\n    pstmt.executeBatch();\n    connection.commit();\n} catch (SQLException e) {\n    System.out.printf(\"sql state = [%s]\\ncause = [%s]\\nmessage = [%s]\\n\",\n                      e.getSQLState(), e.getCause(), e.getMessage());\n}",
+    "tag": "java",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/insert-data.md#L63"
+  },
+  {
+    "label": "java",
+    "code": "writer.openBlock(\"func (c $P) $T(ctx $T) ($P, error) {\", \"}\",\n    serviceSymbol, operationSymbol, contextSymbol, outputSymbol,\n    () -> {\n        writer.write(\"return nil, nil\");\n    });",
+    "tag": "java",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/github.com/aws/smithy-go/AGENTS.md#L123"
+  },
+  {
+    "label": "java",
+    "code": "StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()\n    .configure( \"hibernate.cfg.xml\" ).applySetting(\"hibernate.connection.url\", System.getenv(\"DATABASE_URL\"))\n    .build();\n\nMetadata metadata = new MetadataSources( standardRegistry )\n    .getMetadataBuilder()\n    .build();\n\nSessionFactory sessionFactory = metadata.getSessionFactoryBuilder()\n    .build();",
+    "tag": "java",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/connect-to-the-database.md#L1094"
+  },
+  {
+    "label": "java",
+    "code": "class Main {\n public static void main(String[] args) {\n    System.out.println(\"Hello World!\");\n  }\n}",
+    "tag": "java",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L275"
+  },
+  {
+    "label": "java",
+    "code": "// ds is an org.postgresql.ds.PGSimpleDataSource\n\nString city = \"new york\";\nString userId = \"147ae147-ae14-4b00-8000-000000000004\";\nString code = \"promo_code\";\nString ts = \"now()\";\nint usageCount = 1;\n\ntry (Connection connection = ds.getConnection()) {\n    PreparedStatement p = connection.prepareStatement(\"INSERT INTO user_promo_codes VALUES (?, ?, ?, ?, ?) ON CONFLICT (city, user_id, code) DO UPDATE SET usage_count = user_promo_codes.usage_count+1\");\n    p.setString(1, city);\n    p.setString(2, userId);\n    p.setString(3, code);\n    p.setString(4, ts);\n    p.setInt(5, usageCount);\n    p.executeUpdate();\n\n} catch (SQLException e) {\n    System.out.printf(\"sql state = [%s]\\ncause = [%s]\\nmessage = [%s]\\n\", e.getSQLState(), e.getCause(),\n            e.getMessage());\n}",
+    "tag": "java",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/update-data.md#L366"
+  },
+  {
+    "label": "java",
+    "code": "class Foo {\n    void m() { ... }\n}\n\nclass Bar extends Foo {}\n\npublic static void main(String[] args) {\n    Bar b = new Bar();\n    b.m();\n}",
+    "tag": "java",
+    "source": "https://github.com/rust-unofficial/patterns/blob/36fdd17cdebfffd7af94479a4caa9375e40bde80/src/anti_patterns/deref.md#L13"
+  },
+  {
+    "label": "c",
+    "code": "fd_set rset;\nint maxfd = listenfd;\n\nwhile (1) {\n    FD_ZERO(&rset);                       // 每轮都得重新清空\n    FD_SET(listenfd, &rset);              // 再把关心的 fd 一个个塞回去\n    for (int i = 0; i < n; i++)\n        if (conns[i] >= 0) FD_SET(conns[i], &rset);\n\n    // 写集合、异常集合不关心，传 NULL；最后一个 NULL 表示一直阻塞\n    int ready = select(maxfd + 1, &rset, NULL, NULL, NULL);\n\n    if (FD_ISSET(listenfd, &rset)) {      // 监听 fd 就绪，有新连接\n        int connfd = accept(listenfd, NULL, NULL);\n        // 存进 conns[]，更新 maxfd\n    }\n    for (int i = 0; i < n; i++)           // O(N) 挨个问：你就绪了吗？\n        if (conns[i] >= 0 && FD_ISSET(conns[i], &rset)) {\n            // 处理这个连接上的读事件\n        }\n}",
+    "tag": "c",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/cs-basics/operating-system/io-multiplexing.md#L80"
+  },
+  {
+    "label": "c",
+    "code": "void MetaspaceGC::initialize() {\n  // Set the high-water mark to MaxMetapaceSize during VM initialization since\n  // we can't do a GC during initialization.\n  _capacity_until_GC = MaxMetaspaceSize;\n}",
+    "tag": "c",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/java/jvm/jvm-parameters-intro.md#L123"
+  },
+  {
+    "label": "c",
+    "code": "void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);",
+    "tag": "c",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/cs-basics/operating-system/zero-copy.md#L80"
+  },
+  {
+    "label": "c",
+    "code": "struct DBM;\ntypedef struct { void *dptr, size_t dsize } datum;\n\nint     dbm_clearerr(DBM *);\nvoid    dbm_close(DBM *);\nint     dbm_delete(DBM *, datum);\nint     dbm_error(DBM *);\ndatum   dbm_fetch(DBM *, datum);\ndatum   dbm_firstkey(DBM *);\ndatum   dbm_nextkey(DBM *);\nDBM    *dbm_open(const char *, int, mode_t);\nint     dbm_store(DBM *, datum, datum, int);",
+    "tag": "c",
+    "source": "https://github.com/rust-unofficial/patterns/blob/36fdd17cdebfffd7af94479a4caa9375e40bde80/src/patterns/ffi/export.md#L54"
+  },
+  {
+    "label": "c",
+    "code": "#include <stdio.h>\nvoid main(int argc,char ** argv){\n    printf(\"Hello World!\");\n}",
+    "tag": "c",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L83"
+  },
+  {
+    "label": "c",
+    "code": "// Condition\naccount.balance >= transaction.withdrawal\n    || (account.overdraftProtection\n    && account.overdraftLimit >= transaction.withdrawal  - account.balance)\n\n// Object construction\ncommon.GeoPoint{ latitude: 10.0, longitude: -5.5 }",
+    "tag": "c",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/cel.dev/expr/README.md#L56"
+  },
+  {
+    "label": "cpp",
+    "code": "public:\n    void foo(std::initializer_list<int> list) {\n        for (std::initializer_list<int>::iterator it = list.begin();\n            it != list.end(); ++it) vec.push_back(*it);\n    }\n\nmagicFoo.foo({6,7,8,9});",
+    "tag": "cpp",
+    "source": "https://github.com/changkun/modern-cpp-tutorial/blob/1548ead4ac46b93b753fbd7f8ae98a2688b675af/book/zh-cn/02-usability.md#L271"
+  },
+  {
+    "label": "cpp",
+    "code": "enum class new_enum : unsigned int {\n    value1,\n    value2,\n    value3 = 100,\n    value4 = 100\n};",
+    "tag": "cpp",
+    "source": "https://github.com/changkun/modern-cpp-tutorial/blob/1548ead4ac46b93b753fbd7f8ae98a2688b675af/book/en-us/02-usability.md#L1143"
+  },
+  {
+    "label": "cpp",
+    "code": "using ::testing::_;\nusing ::testing::Lt;\n...\nEXPECT_CALL(my_mock, SetPosition(_, _))\n    .With(Lt());",
+    "tag": "cpp",
+    "source": "https://github.com/google/googletest/blob/cd8e73f067129f8489e35c7b51c7a68552b289d2/docs/reference/mocking.md#L107"
+  },
+  {
+    "label": "cpp",
+    "code": "auto s = fmt::format(\"{:.1}\", std::chrono::duration<double>(1.234));\n// s == 1.2s",
+    "tag": "c++",
+    "source": "https://github.com/fmtlib/fmt/blob/0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f/doc/ChangeLog-old.md#L1244"
+  },
+  {
+    "label": "cpp",
+    "code": "template <typename socket_type>\nclass ServerBase {\npublic:\n    resource_type resource;\n    resource_type default_resource;\n\n    void start() {\n        // TODO\n    }\nprotected:\n    Request parse_request(std::istream& stream) const {\n        // TODO\n    }\n}",
+    "tag": "cpp",
+    "source": "https://github.com/changkun/modern-cpp-tutorial/blob/1548ead4ac46b93b753fbd7f8ae98a2688b675af/book/zh-cn/06-regex.md#L176"
+  },
+  {
+    "label": "cpp",
+    "code": "fmt::format(\"{}\",   \"tab\\there\");  // Result contains a literal tab character.\nfmt::format(\"{:?}\", \"tab\\there\");  // Result: \"\\\"tab\\\\there\\\"\"",
+    "tag": "c++",
+    "source": "https://github.com/fmtlib/fmt/blob/0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f/doc/syntax.md#L273"
+  },
+  {
+    "label": "cpp",
+    "code": "using ::testing::MakePolymorphicAction;\nusing ::testing::PolymorphicAction;\n\nPolymorphicAction<ReturnSecondArgumentAction> ReturnSecondArgument() {\n  return MakePolymorphicAction(ReturnSecondArgumentAction());\n}",
+    "tag": "cpp",
+    "source": "https://github.com/google/googletest/blob/cd8e73f067129f8489e35c7b51c7a68552b289d2/docs/gmock_cook_book.md#L4350"
+  },
+  {
+    "label": "cpp",
+    "code": "Approx operator \"\"_a(long double);",
+    "tag": "cpp",
+    "source": "https://github.com/catchorg/Catch2/blob/08092139210881f01a34e60c5f2fd6afa0ea4024/docs/contributing.md#L289"
+  },
+  {
+    "label": "cpp",
+    "code": "void testRunStarting( TestRunInfo const& testRunInfo );\nvoid testRunEnded( TestRunStats const& testRunStats );",
+    "tag": "cpp",
+    "source": "https://github.com/catchorg/Catch2/blob/08092139210881f01a34e60c5f2fd6afa0ea4024/docs/reporter-events.md#L36"
+  },
+  {
+    "label": "cpp",
+    "code": "template< typename T>\nstruct Foo {\n    size_t size() {\n        return 0;\n    }\n};\n\nTEMPLATE_PRODUCT_TEST_CASE(\"A Template product test case\", \"[template][product]\", (std::vector, Foo), (int, float)) {\n    TestType x;\n    REQUIRE(x.size() == 0);\n}",
+    "tag": "cpp",
+    "source": "https://github.com/catchorg/Catch2/blob/08092139210881f01a34e60c5f2fd6afa0ea4024/docs/test-cases-and-sections.md#L251"
+  },
+  {
+    "label": "cpp",
+    "code": "template <typename Elem>\nclass MockStack : public StackInterface<Elem> {\n public:\n  MOCK_METHOD(int, GetSize, (), (const, override));\n  MOCK_METHOD(void, Push, (const Elem& x), (override));\n};",
+    "tag": "cpp",
+    "source": "https://github.com/google/googletest/blob/cd8e73f067129f8489e35c7b51c7a68552b289d2/docs/gmock_cheat_sheet.md#L71"
+  },
+  {
+    "label": "cpp",
+    "code": "#include <source_location>\n#include <fmt/std.h>\n\nint main() {\n  fmt::print(\"{}\\n\", std::source_location::current());\n}",
+    "tag": "c++",
+    "source": "https://github.com/fmtlib/fmt/blob/0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f/ChangeLog.md#L1379"
+  },
+  {
+    "label": "cpp",
+    "code": "public class OfferPollExample {\n\n    public static void main(String[] args) {\n        // 创建一个大小为 3 的 ArrayBlockingQueue\n        ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<>(3);\n\n        // 向队列中添加元素\n        System.out.println(queue.offer(\"A\"));\n        System.out.println(queue.offer(\"B\"));\n        System.out.println(queue.offer(\"C\"));\n\n        // 尝试向队列中添加元素，但队列已满，返回 false\n        System.out.println(queue.offer(\"D\"));\n\n        // 从队列中取出元素\n        System.out.println(queue.poll());\n        System.out.println(queue.poll());\n        System.out.println(queue.poll());\n\n        // 尝试从队列中取出元素，但队列已空，返回 null\n        System.out.println(queue.poll());\n    }\n\n}",
+    "tag": "cpp",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/java/collection/arrayblockingqueue-source-code.md#L145"
+  },
+  {
+    "label": "cpp",
+    "code": "#include <iostream>\nusing namespace std;\nint main() {\n   cout << \"Hello, World!\" << endl; // This prints Hello, World!\n   return 0;\n}",
+    "tag": "cpp",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L111"
+  },
+  {
+    "label": "cpp",
+    "code": "#include <iostream>\n\nvoid incr(int& num)\n{\n    std::cout << \"incr before: \" << num << \"\\n\";\n    num++;\n    std::cout << \"incr after: \" << num << \"\\n\";\n}\n\nint main()\n{\n    int age = 10;\n    std::cout << \"invoke before: \" << age << \"\\n\";\n    incr(age);\n    std::cout << \"invoke after: \" << age << \"\\n\";\n}",
+    "tag": "c++",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/java/basis/why-there-only-value-passing-in-java.md#L171"
+  },
+  {
+    "label": "csharp",
+    "code": "[DisplayFormat(DataFormatString = \"{0:yyyy-MM-dd}\", ApplyFormatInEditMode = true)]\npublic DateTime ReleaseDate { get; set; }",
+    "tag": "csharp",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/tutorials/first-mvc-app/validation.md#L119"
+  },
+  {
+    "label": "csharp",
+    "code": "[Bind(\"Id,Title,ReleaseDate,Genre,Price,Rating\")]",
+    "tag": "csharp",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/tutorials/first-mvc-app/new-field/includes/new-field5.md#L39"
+  },
+  {
+    "label": "csharp",
+    "code": "app.MapGet(\"/\", (ClaimsPrincipal user) => user.Identity.Name);",
+    "tag": "csharp",
+    "source": "https://github.com/dotnet/AspNetCore.Docs/blob/ecf7aca5136aea60aa8db7330f66ac799d3edcf7/aspnetcore/fundamentals/minimal-apis/includes/parameter-binding7.md#L131"
+  },
+  {
+    "label": "csharp",
+    "code": "            State = await Read<AgentState>(this.AgentId).ConfigureAwait(false);",
+    "tag": "csharp",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/dotnet/samples/Hello/HelloAgentState/README.md#L136"
+  },
+  {
+    "label": "csharp",
+    "code": "[TypeSubscription(\"default\")]\npublic class Modifier(\n    // ...",
+    "tag": "csharp",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/docs/dotnet/core/tutorial.md#L65"
+  },
+  {
+    "label": "csharp",
+    "code": "var openAIClient = new OpenAIClient(apiKey);\nvar openAIClientAgent = new OpenAIChatAgent(\n            openAIClient: openAIClient,\n            model: \"gpt-4o-mini\",\n            // Other parameters...\n            );",
+    "tag": "csharp",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/dotnet/website/release_note/0.2.0.md#L32"
+  },
+  {
+    "label": "csharp",
+    "code": "static void TruncateTable(string connString)\n{\n    using var dataSource = NpgsqlDataSource.Create(connString);\n    using var connection = dataSource.OpenConnection();\n    using (var cmdTruncate = new NpgsqlCommand(\"TRUNCATE new_order\", connection))\n    {\n        Int32 results = cmdTruncate.ExecuteNonQuery();\n        Console.WriteLine(\"Dropped \" + results + \" rows in new_order\");\n    }\n}",
+    "tag": "csharp",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/bulk-delete-data.md#L545"
+  },
+  {
+    "label": "csharp",
+    "code": "using System;\nclass App\n{\n  static void Main()\n  {\n    Console.WriteLine(\"Hello World!\");\n  }\n}",
+    "tag": "csharp",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L122"
+  },
+  {
+    "label": "ruby",
+    "code": "runner :default, \"macos-latest\"",
+    "tag": "ruby",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/reference/github-actions-importer/custom-transformers.md#L118"
+  },
+  {
+    "label": "ruby",
+    "code": "#!/usr/bin/env ruby\n\nrequire 'pg'\n\nconn = PG.connect(ENV['DATABASE_URL'])",
+    "tag": "ruby",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/connect-to-the-database.md#L1208"
+  },
+  {
+    "label": "ruby",
+    "code": "# Import the driver.\nrequire 'pg'\n\n# Connect to the \"bank\" database.\nconn = PG.connect(\n    user: 'root',\n    dbname: 'movr',\n    host: 'localhost',\n    port: 26257\n)\n\n# Update a row in the \"vehicles\" table\n# and return the \"id\" value.\nconn.exec(\n    \"UPDATE vehicles SET status = 'available' WHERE city = 'new york' RETURNING id;\"\n) do |res|\n\n# Print out the returned value.\nputs \"IDs:\"\n    res.each do |row|\n        puts row\n    end\nend\n\n# Close communication with the database.\nconn.close()",
+    "tag": "ruby",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/update.md#L381"
+  },
+  {
+    "label": "ruby",
+    "code": "# Import the driver.\nrequire 'pg'\n\n# Connect to the \"movr\" database.\nconn = PG.connect(\n    user: 'root',\n    dbname: 'movr',\n    host: 'localhost',\n    port: 26257\n)\n\n# Insert two rows into the \"drivers\" table\n# and return the \"id\" values generated server-side.\nconn.exec(\n    \"INSERT INTO drivers (id, city) \"\\\n    \"VALUES (DEFAULT, 'seattle'), (DEFAULT, 'chicago') \"\\\n    \"RETURNING id\"\n) do |res|\n\n# Print out the returned values.\nputs \"IDs:\"\n    res.each do |row|\n        puts row\n    end\nend\n\n# Close communication with the database.\nconn.close()",
+    "tag": "ruby",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/insert.md#L386"
+  },
+  {
+    "label": "ruby",
+    "code": "# The Greeter class\nclass Greeter\n  def initialize(name)\n    @name = name.capitalize\n  end\n\n  def salute\n    puts \"Hello #{@name}!\"\n  end\nend\n\ng = Greeter.new(\"world\")\ng.salute",
+    "tag": "ruby",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L669"
+  },
+  {
+    "label": "php",
+    "code": "$page->assertNoConsoleLogs();",
+    "tag": "php",
+    "source": "https://github.com/pestphp/docs/blob/6e368f64fed849966541bfdc1736b8180309343c/browser-testing.md#L894"
+  },
+  {
+    "label": "php",
+    "code": "$result->requests()->upload()->data()->count();",
+    "tag": "php",
+    "source": "https://github.com/pestphp/docs/blob/6e368f64fed849966541bfdc1736b8180309343c/stress-testing.md#L302"
+  },
+  {
+    "label": "php",
+    "code": "rules(fn () => [\n    'name' => ['required', 'min:6'],\n    'email' => ['required', 'email', 'not_in:'.Auth::user()->email]\n]);",
+    "tag": "php",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/volt.md#L586"
+  },
+  {
+    "label": "php",
+    "code": "<?php // resources/views/components/⚡show-posts.blade.php\n\nuse Illuminate\\Support\\Facades\\Auth;\nuse Livewire\\Attributes\\Computed;\nuse Livewire\\Component;\n\nnew class extends Component {\n    public function createPost()\n    {\n        if ($this->posts->count() > 10) {\n            throw new \\Exception('Maximum post count exceeded');\n        }\n\n        Auth::user()->posts()->create(...);\n\n        unset($this->posts); // [tl! highlight]\n    }\n\n    #[Computed]\n    public function posts()\n    {\n        return Auth::user()->posts;\n    }\n\n    // ...\n};",
+    "tag": "php",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/computed-properties.md#L78"
+  },
+  {
+    "label": "php",
+    "code": "Route::livewire('/posts/{id}', 'pages::post.show');",
+    "tag": "php",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/docs/components.md#L247"
+  },
+  {
+    "label": "php",
+    "code": "$writer = new \\PhpOffice\\PhpSpreadsheet\\Writer\\Csv($spreadsheet);\n$writer->setVariableColumns(true);\n$writer->save(\"05featuredemo.csv\");",
+    "tag": "php",
+    "source": "https://github.com/PHPOffice/PhpSpreadsheet/blob/ed591ed22e435895ee0f23a06334d89e9eadd558/docs/topics/reading-and-writing-to-file.md#L730"
+  },
+  {
+    "label": "php",
+    "code": "class TicketService\n{\n    protected $ticket_mapper;\n    protected $component_mapper;\n\n    public function __construct(\n        TicketMapper $ticket_mapper,\n        ComponentMapper $component_mapper\n    ) {\n        $this->ticket_mapper = $ticket_mapper;\n        $this->component_mapper = $component_mapper;\n    }\n\n    public function getTickets()\n    {\n        return $this->ticket_mapper->getTickets();\n    }\n\n    public function getComponents()\n    {\n        return $this->component_mapper->getComponents();\n    }\n\n    public function getTicketById($ticket_id)\n    {\n        $ticket_id = (int) $ticket_id;\n        return $this->ticket_mapper->getTicketById($ticket_id);\n    }\n\n    public function createTicket($data)\n    {\n        $component_id = (int) $data['component'];\n        $component = $this->component_mapper->getComponentById($component_id);\n\n        $ticket_data = [];\n        $ticket_data['title'] = filter_var($data['title'], FILTER_SANITIZE_STRING);\n        $ticket_data['description'] = filter_var($data['description'], FILTER_SANITIZE_STRING);\n        $ticket_data['component'] = $component->getName();\n\n        $ticket = new TicketEntity($ticket_data);\n        $this->ticket_mapper->save($ticket);\n        return $ticket;\n    }\n}",
+    "tag": "php",
+    "source": "https://github.com/slimphp/Slim-Website/blob/193ec4f7d0d0eb3d12dff8b8665ccaf0c19d44a6/docs/v3/cookbook/action-domain-responder.md#L15"
+  },
+  {
+    "label": "php",
+    "code": "expect('example.com')->toBeDomain();",
+    "tag": "php",
+    "source": "https://github.com/pestphp/docs/blob/6e368f64fed849966541bfdc1736b8180309343c/expectations.md#L879"
+  },
+  {
+    "label": "php",
+    "code": "$columnFilter->setFilterType(\n    \\PhpOffice\\PhpSpreadsheet\\Worksheet\\AutoFilter\\Column::AUTOFILTER_FILTERTYPE_DYNAMICFILTER\n);",
+    "tag": "php",
+    "source": "https://github.com/PHPOffice/PhpSpreadsheet/blob/ed591ed22e435895ee0f23a06334d89e9eadd558/docs/topics/autofilters.md#L336"
+  },
+  {
+    "label": "php",
+    "code": "// Display values in column A as human-readable dates\n$worksheet->getStyle(\"A5:A{$row}\")->getNumberFormat()->setFormatCode('dd (ddd)');\n// Display values in column D as human-readable durations\n$worksheet->getStyle(\"D5:D{$totalRow}\")->getNumberFormat()->setFormatCode('[h]:mm');\n\n// Set some additional styling\n$worksheet->getStyle('D3')->getNumberFormat()->setFormatCode('yyyy-mm-dd');\n$worksheet->getStyle('A1')->getFont()->setBold(true);\n$worksheet->getStyle('A3:D4')->getFont()->setBold(true);\n$worksheet->getStyle(\"A5:A{$row}\")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);\n$worksheet->getColumnDimension('D')->setAutoSize(true);\n$worksheet->getStyle(\"E{$totalRow}\")->getFont()->setBold(true);",
+    "tag": "php",
+    "source": "https://github.com/PHPOffice/PhpSpreadsheet/blob/ed591ed22e435895ee0f23a06334d89e9eadd558/docs/topics/The Dating Game.md#L285"
+  },
+  {
+    "label": "php",
+    "code": "// bootstrap.php\n\n$container->set(UserService::class, static function (Container $c) {\n    return new UserService($c->get(EntityManager::class));\n});\n\n// src/UserService.php\n\nfinal class UserService\n{\n    private EntityManager $em;\n\n    public function __construct(EntityManager $em)\n    {\n        $this->em = $em;\n    }\n\n    public function signUp(string $email): User\n    {\n        $newUser = new User($email);\n\n        $this->em->persist($newUser);\n        $this->em->flush();\n\n        return $newUser;\n    }\n}",
+    "tag": "php",
+    "source": "https://github.com/slimphp/Slim-Website/blob/193ec4f7d0d0eb3d12dff8b8665ccaf0c19d44a6/docs/v4/cookbook/database-doctrine.md#L283"
+  },
+  {
+    "label": "php",
+    "code": "$app = new \\Slim\\App();\n\n$app->get('/hello/{name}', function ($request, $response, $args) {\n    // Use app HTTP cookie service\n    $this->get('cookies')->set('name', [\n        'value' => $args['name'],\n        'expires' => '7 days'\n    ]);\n    \n    return $response;\n});",
+    "tag": "php",
+    "source": "https://github.com/slimphp/Slim-Website/blob/193ec4f7d0d0eb3d12dff8b8665ccaf0c19d44a6/docs/v3/objects/router.md#L190"
+  },
+  {
+    "label": "php",
+    "code": "<?php\necho \"Hello World!\";\n?>",
+    "tag": "php",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L583"
+  },
+  {
+    "label": "php",
+    "code": "/* Imagine this is user input */\n$city = \"Munich\";\n\n/* $query = \"SELECT country FROM city WHERE name='Munich'\" */\n$query = sprintf(\"SELECT country FROM city WHERE name='%s'\", $city);\n$result = $mysqli->query($query);",
+    "tag": "php",
+    "source": "https://github.com/launchbadge/sqlx/blob/f574e07d0692487ae5a1025e134abdf08d747395/FAQ.md#L136"
+  },
+  {
+    "label": "yaml",
+    "code": "apiVersion: argoproj.io/v1alpha1\nkind: ConfigManagementPlugin\nmetadata:\n  name: helm\nspec:\n  parameters:\n    dynamic:\n      command: \n      - sh\n      - -c\n      - |\n        # Use yq to generate a list of parameters. Then use jq to convert that list of parameters to a parameters\n        # announcement list.\n        yq e -o=p values.yaml | jq -nR '\n          [{\n            name: \"helm-parameters\",\n            title: \"Helm Parameters\",\n            tooltip: \"Parameters to override when generating manifests with Helm\",\n            collectionType: \"map\",\n            map: (inputs | capture(\"(?<key>.*) = (?<value>.*)\") | from_entries)\n          }]'",
+    "tag": "yaml",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/proposals/parameterized-config-management-plugins.md#L366"
+  },
+  {
+    "label": "yaml",
+    "code": "apiVersion: argoproj.io/v1alpha1\nkind: Application\nmetadata:\n  annotations:\n    example.com/version: v0.1",
+    "tag": "yaml",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/operator-manual/notifications/triggers.md#L88"
+  },
+  {
+    "label": "yaml",
+    "code": "spec:\n  source:\n    repoURL: https://github.com/elastic/helm-charts/tree/main/elasticsearch\n    targetRevision: 6.8\n    helm:\n      valueFiles:\n        - values.yaml\n  sources:                                          # new field\n    - repoURL: https://github.com/helm/charts\n      targetRevision: master\n      path: incubator/elasticsearch\n      helm:\n        valueFiles:\n          - values.yaml",
+    "tag": "yaml",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/proposals/multiple-sources-for-applications.md#L77"
+  },
+  {
+    "label": "yaml",
+    "code": "branding:\n  icon: 'award'\n  color: 'green'",
+    "tag": "yaml",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/reference/workflows-and-actions/metadata-syntax.md#L495"
+  },
+  {
+    "label": "yaml",
+    "code": "on:\n  watch:\n    types: [started]",
+    "tag": "yaml",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/reference/workflows-and-actions/events-that-trigger-workflows.md#L1050"
+  },
+  {
+    "label": "yaml",
+    "code": "image: node:latest\n\ncache:\n  key: $CI_COMMIT_REF_SLUG\n  paths:\n    - .npm/\n\nbefore_script:\n  - npm ci --cache .npm --prefer-offline\n\ntest_async:\n  script:\n    - node ./specs/start.js ./specs/async.spec.js",
+    "tag": "yaml",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-gitlab-cicd.md#L279"
+  },
+  {
+    "label": "yaml",
+    "code": "# ... setup as above ...\n- uses: streamlit/streamlit-app-action@v0.0.3\n  with:\n    app-path: streamlit_app.py\n    # Add pytest-args to output junit xml\n    pytest-args: -v --junit-xml=test-results.xml\n- if: always()\n  uses: pmeier/pytest-results-action@v0.6.0\n  with:\n    path: test-results.xml\n    summary: true\n    display-options: fEX",
+    "tag": "yaml",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/concepts/app-testing/automate-tests.md#L141"
+  },
+  {
+    "label": "yaml",
+    "code": "sinks:\n  file-groups:\n    ops:\n      channels: [OPS, HEALTH, SQL_SCHEMA]",
+    "tag": "yaml",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/logging-use-cases.md#L35"
+  },
+  {
+    "label": "yaml",
+    "code": "apiVersion: skaffold/v2beta11\nkind: Config\nbuild:\n  artifacts:\n  - image: app\n    context: frontend\n    docker:\n      dockerfile: \"Dockerfile\"\ndeploy:\n  helm:\n    releases:\n    - name: project\n      chartPath: helm/project\n      valuesFiles:\n      - \"helm/project/dev-values.yaml\"",
+    "tag": "yaml",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/docs-v1/content/en/docs/design/config.md#L50"
+  },
+  {
+    "label": "yaml",
+    "code": "buildpack:\n  builder: \"gcr.io/buildpacks/builder:v1\"\n  dependencies:\n    paths:\n    - pkg/**\n    - src/*.go\n    ignore:\n    - vendor/**",
+    "tag": "yaml",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/docs-v1/content/en/docs/pipeline-stages/builders/buildpacks.md#L77"
+  },
+  {
+    "label": "yaml",
+    "code": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: crdb-client-secure\n  labels:\n    app.kubernetes.io/component: database\n    app.kubernetes.io/instance: crdb-tls-example\n    app.kubernetes.io/name: cockroachdb\nspec:\n  serviceAccountName: cockroach-operator-sa\n  containers:\n  - name: crdb-client-secure\n    image: registry.connect.redhat.com/cockroachdb/cockroach:v20.2.8\n    imagePullPolicy: IfNotPresent\n    volumeMounts:\n    - name: client-certs\n      mountPath: /cockroach/cockroach-certs/\n    command:\n    - sleep\n    - \"2147483648\" # 2^31\n  terminationGracePeriodSeconds: 0\n  volumes:\n  - name: client-certs\n    projected:\n        sources:\n          - secret:\n              name: crdb-tls-example-node\n              items:\n                - key: ca.crt\n                  path: ca.crt\n          - secret:\n              name: crdb-tls-example-root\n              items:\n                - key: tls.crt\n                  path: client.root.crt\n                - key: tls.key\n                  path: client.root.key\n        defaultMode: 256",
+    "tag": "yaml",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/deploy-cockroachdb-with-kubernetes-openshift.md#L132"
+  },
+  {
+    "label": "yaml",
+    "code": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: getting-started-custom\nspec:\n  containers:\n  - name: getting-started-custom\n    image: ko://github.com/googlecontainertools/skaffold/examples/custom",
+    "tag": "yaml",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/integration/examples/custom/README.md#L84"
+  },
+  {
+    "label": "yaml",
+    "code": "# Superpowers 的 TDD\nname: test-driven-development\ndescription: Use when implementing any feature or bugfix, before writing implementation code\n\n# sanyuan-skills 的 Code Review Expert\nname: code-review-expert\ndescription: Expert code review of current git changes with a senior engineer lens. Detects SOLID violations, security risks, and proposes actionable improvements.\n\n# Git 提交助手\ndescription: 通过分析 git diff 生成描述性提交消息。当用户要求帮助编写提交消息或审查暂存更改时使用。",
+    "tag": "yaml",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai/agent/skills.md#L169"
+  },
+  {
+    "label": "yaml",
+    "code": "spec:\n  additionalLabels:\n    app.kubernetes.io/version: {{page.release_info.version}}\n  additionalAnnotations:\n    operator: https://raw.github.com/cockroachdb/cockroach-operator/v2.18.3/install/operator.yaml",
+    "tag": "yaml",
+    "source": "https://github.com/cockroachdb/docs/blob/27e64c5d4481a3c888f8f1f61c540fcba37e0594/src/current/v24.2/schedule-cockroachdb-kubernetes.md#L392"
+  },
+  {
+    "label": "yaml",
+    "code": "provider: autogen_ext.models.openai.OpenAIChatCompletionClient\nconfig:\n  model: o3-mini-2025-01-31\n  api_key: replace with your API key or skip it if you have environment variable OPENAI_API_KEY set",
+    "tag": "yaml",
+    "source": "https://github.com/microsoft/autogen/blob/004749e6b7102c8fd317b9b1499ce5807223c278/python/samples/agentchat_chess_game/README.md#L41"
+  },
+  {
+    "label": "markdown",
+    "code": "[section_2](chapter_1/section_2.html)",
+    "tag": "markdown",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/CHANGELOG.md#L1743"
+  },
+  {
+    "label": "markdown",
+    "code": "> [!NOTE]\n> Useful information that users should know, even when skimming content.\n\n> [!TIP]\n> Helpful advice for doing things better or more easily.\n\n> [!IMPORTANT]\n> Key information users need to know to achieve their goal.\n\n> [!WARNING]\n> Urgent info that needs immediate user attention to avoid problems.\n\n> [!CAUTION]\n> Advises about risks or negative outcomes of certain actions.",
+    "tag": "markdown",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax.md#L430"
+  },
+  {
+    "label": "markdown",
+    "code": "<RefCard href=\"/develop/api-reference/<section>/st.<command>\">\n\n<Image pure alt=\"screenshot\" src=\"/images/api/<command>.jpg\" />\n\n<h4>Title</h4>\n\nOne-line description.\n\n```python\nst.<command>(...)\n```",
+    "tag": "markdown",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/.claude/skills/updating-docs-for-release/SKILL.md#L110"
+  },
+  {
+    "label": "markdown",
+    "code": "# ✗ 不推荐：选择太多\n\n你可以使用 pypdf、pdfplumber、PyMuPDF 或 pdf2image 处理 PDF。",
+    "tag": "markdown",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai/agent/skills.md#L657"
+  },
+  {
+    "label": "markdown",
+    "code": "[Hugo](https://gohugo.io)\n\n![kitten](kitten.jpg)",
+    "tag": "md",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/render-hooks/introduction.md#L26"
+  },
+  {
+    "label": "markdown",
+    "code": "| First Header  | Second Header |\n| ------------- | ------------- |\n| Content Cell  | Content Cell  |\n| Content Cell  | Content Cell  |",
+    "tag": "markdown",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables.md#L23"
+  },
+  {
+    "label": "markdown",
+    "code": "![example event parameter](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?event=push)",
+    "tag": "markdown",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/how-tos/monitor-workflows/add-a-status-badge.md#L74"
+  },
+  {
+    "label": "markdown",
+    "code": "# Summary\n\n[Introduction](README.md)\n\n- [My First Chapter](my-first-chapter.md)\n- [Nested example](nested/README.md)\n    - [Sub-chapter](nested/sub-chapter.md)",
+    "tag": "md",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/guide/src/guide/creating.md#L58"
+  },
+  {
+    "label": "markdown",
+    "code": "```rust,ignore\n# This example won't be tested.\npanic!(\"oops!\");\n```",
+    "tag": "markdown",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/guide/src/format/mdbook.md#L106"
+  },
+  {
+    "label": "markdown",
+    "code": "## API：POST /api/v1/users\n\n### 基本信息\n\n- **端点**：`/api/v1/users`\n- **方法**：POST\n\n### 请求参数\n\n| 字段     | 类型   | 必填 | 约束                                                         | 示例             |\n| -------- | ------ | ---- | ------------------------------------------------------------ | ---------------- |\n| email    | string | 是   | 邮箱格式                                                     | user@example.com |\n| password | string | 是   | 单因素密码至少 15 字符，最大支持至少 64 字符；不强制字符组合 | -                |\n\n### 响应格式\n\n- **201 Created**：用户创建成功\n\n  ```json\n  { \"id\": \"uuid\", \"email\": \"user@example.com\", \"created_at\": \"...\" }\n  ```\n\n- **409 Conflict**：邮箱已存在\n  ```json\n  { \"code\": \"EMAIL_ALREADY_EXISTS\", \"message\": \"Email already exists\" }\n  ```\n\n### 验收标准\n\n- [ ] 新密码使用经过目标服务器基准测试的 Argon2id 参数\n- [ ] 密码经过泄露密码 Blocklist 检查，注册和登录接口有速率限制\n- [ ] 邮箱唯一性由数据库唯一索引保证\n- [ ] 分支覆盖率达到项目约定基线（示例：80%），且关键安全分支有断言",
+    "tag": "markdown",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai-coding/practices/spec-coding.md#L525"
+  },
+  {
+    "label": "markdown",
+    "code": "---\nname: java-service-review\ndescription: Review Java service-layer changes for transaction boundaries, null handling, logging, and regression tests.\n---\n\nUse this skill when reviewing Java service-layer changes.\n\nInput materials:\n\n- Current diff or target files.\n- Related tests and error logs, if available.\n\nSteps:\n\n1. Read the changed service methods and related tests.\n2. Check transaction boundaries, null handling, logging, and regression coverage.\n3. Return findings with file and line references.\n\nDo not rewrite code unless the user explicitly asks.\n\nDone when:\n\n- Findings are ordered by severity.\n- Each finding explains the risk and a concrete fix direction.",
+    "tag": "markdown",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai-coding/practices/codex-best-practices.md#L308"
+  },
+  {
+    "label": "markdown",
+    "code": "$$C_p[\\ce{H2O(l)}] = \\pu{75.3 J // mol K}$$",
+    "tag": "md",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/functions/transform/ToMath.md#L40"
+  },
+  {
+    "label": "markdown",
+    "code": "`wire:{name}` is a directive that [brief description].\n\n[Compare to similar features or Alpine equivalents if applicable]\n\n## Basic usage\n\n[Practical example with PHP component and Blade template]\n\n## [Additional sections as needed]\n\n[More examples, edge cases, or advanced usage]\n\n## Reference\n\n```blade\nwire:{name}=\"expression\"",
+    "tag": "markdown",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/.claude/rules/adding-features.md#L281"
+  },
+  {
+    "label": "markdown",
+    "code": "Enemy performs the initial action.\nEnemy wants to attack you.\nEnemy has advanced towards you!",
+    "tag": "markdown",
+    "source": "https://github.com/iluwatar/java-design-patterns/blob/4cabb204f240240bea319605a5ffa46ded728001/localization/es/extension-objects/README.md#L123"
+  },
+  {
+    "label": "markdown",
+    "code": "# Livewire Activity — {timeframe label}\n_{start date} to {end date}_\n\n## TL;DR\n{2-3 sentences. What's the pulse? Any fires? Anything exciting? Give Caleb the vibe in 10 seconds.}\n\n## Needs Your Attention\n{Actionable items only. Each with a recommended next step: reply, merge, close, investigate, etc.}\n\n- **[Title](url)** by @author — {why it needs attention}. **Action:** {specific recommendation}\n\n{If nothing needs attention, say \"Nothing urgent right now.\"}\n\n## Hot Discussions\n{Discussions with the most activity or notable sentiment. Include key quotes if illuminating.}\n\n- **[Title](url)** ({category}) — {N} comments — {brief summary, sentiment note}\n\n{If no notable discussions, say \"Quiet on the discussion front.\"}\n\n## PR Activity\n\n### Opened\n- **[#N Title](url)** by @author — {one-line summary} {+additions/-deletions}\n\n### Merged\n- **[#N Title](url)** by @author — {one-line summary}\n\n### Closed (not merged)\n- **[#N Title](url)** by @author — {one-line summary, why closed if clear}\n\n{Omit empty subsections.}\n\n## Issue Activity\n\n### Opened\n- **[#N Title](url)** by @author — {one-line summary}\n\n### Closed\n- **[#N Title](url)** — {one-line summary}\n\n{Omit empty subsections.}\n\n## Repo Pulse\n| Metric | Value |\n|--------|-------|\n| Stars | {total} |\n| Views (14d) | {count} |\n| Clones (14d) | {count} |\n| Open issues | {count} |\n| PRs opened | {count in timeframe} |\n| PRs merged | {count in timeframe} |\n| PRs closed | {count in timeframe} |\n\n{If traffic data is unavailable (403), omit those rows and note \"Traffic data requires push access.\"}",
+    "tag": "markdown",
+    "source": "https://github.com/livewire/livewire/blob/822a4fa9b1e1123691133a2e2eb379a3dab11191/.claude/skills/summarize-activity/SKILL.md#L133"
+  },
+  {
+    "label": "diff",
+    "code": "-expect(is_file($path))->toBeTrue();\n+expect($path)->toBeFile();",
+    "tag": "diff",
+    "source": "https://github.com/pestphp/docs/blob/6e368f64fed849966541bfdc1736b8180309343c/rector.md#L446"
+  },
+  {
+    "label": "diff",
+    "code": "@@ -1,5 +1,5 @@\n import {jsx as _jsx, jsxs as _jsxs} from 'react/jsx-runtime'\n-import {useMDXComponents as _provideComponents} from 'xxx'\n+import {useMDXComponents as _provideComponents} from 'file:///Users/tilde/…/mdx-components.js'",
+    "tag": "diff",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/docs/guides/injecting-components.mdx#L126"
+  },
+  {
+    "label": "diff",
+    "code": "-    \"pestphp/pest\": \"^1.22\",\n+    \"pestphp/pest\": \"^2.0\",",
+    "tag": "diff",
+    "source": "https://github.com/pestphp/docs/blob/6e368f64fed849966541bfdc1736b8180309343c/upgrade-guide.md#L161"
+  },
+  {
+    "label": "diff",
+    "code": "kind: NetworkPolicy\napiVersion: networking.k8s.io/v1\nmetadata:\n  name: argocd-redis-network-policy\nspec:\n  policyTypes:\n  - Ingress\n+  - Egress\n+  egress:\n+  - ports:\n+    - port: 53\n+      protocol: UDP\n+    - port: 53\n+      protocol: TCP",
+    "tag": "diff",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/operator-manual/upgrading/2.10-2.11.md#L17"
+  },
+  {
+    "label": "diff",
+    "code": "+ use std::process;\n  ...\n\n  fn main() {\n      ...\n\n      for item in ctx.book.iter() {\n          if let BookItem::Chapter(ref ch) = *item {\n              ...\n\n              let num_words = count_words(ch);\n              println!(\"{}: {}\", ch.name, num_words);\n              writeln!(f, \"{}: {}\", ch.name, num_words).unwrap();\n\n+             if cfg.deny_odds && num_words % 2 == 1 {\n+               eprintln!(\"{} has an odd number of words!\", ch.name);\n+               process::exit(1);\n+             }\n          }\n      }\n  }\n\n  #[derive(Debug, Default, Serialize, Deserialize)]\n  #[serde(default, rename_all = \"kebab-case\")]\n  pub struct WordcountConfig {\n      pub ignores: Vec<String>,\n+     pub deny_odds: bool,\n  }",
+    "tag": "diff",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/guide/src/for_developers/backends.md#L267"
+  },
+  {
+    "label": "diff",
+    "code": "-import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from 'react/jsx-runtime'\n+import React from 'react'\n\nexport function Thing() {\n-  return _jsx(_Fragment, {children: 'World'})\n+  return React.createElement(React.Fragment, null, 'World!')\n}\n…",
+    "tag": "diff",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/packages/mdx/readme.md#L729"
+  },
+  {
+    "label": "diff",
+    "code": "-expect(count($array))->toBe(5);\n-expect(array_key_exists('id', $array))->toBeTrue();\n+expect($array)->toHaveCount(5)\n+    ->toHaveKey('id');",
+    "tag": "diff",
+    "source": "https://github.com/pestphp/docs/blob/6e368f64fed849966541bfdc1736b8180309343c/pest5-now-available.md#L178"
+  },
+  {
+    "label": "diff",
+    "code": "  Not implicit subject like\n- \"Includes all common Cargo.toml metadata\"\n  Instead:\n+ \"Cargo.toml includes all common metadata\"\n\n  Not implicit verb like\n- \"Thoroughly documented with examples\"\n  Instead:\n+ \"Crate level docs are thorough and include examples\"\n\n  Not metaphysical like\n- \"There are no out-parameters\"\n  Instead:\n+ \"Functions do not take out-parameters\"",
+    "tag": "diff",
+    "source": "https://github.com/rust-lang/api-guidelines/blob/97a0969cb07fe4cabb0eed8a56234053f47d83dc/CONTRIBUTING.md#L64"
+  },
+  {
+    "label": "diff",
+    "code": "Index: languages/ini.js\n===================================================================\n--- languages/ini.js    (revision 199)\n+++ languages/ini.js    (revision 200)\n@@ -1,8 +1,7 @@\n hljs.LANGUAGES.ini =\n {\n   case_insensitive: true,\n-  defaultMode:\n-  {\n+  defaultMode: {\n     contains: ['comment', 'title', 'setting'],\n     illegal: '[^\\\\s]'\n   },\n\n*** /path/to/original timestamp\n--- /path/to/new      timestamp\n***************\n*** 1,3 ****\n--- 1,9 ----\n+ This is an important\n+ notice! It should\n+ therefore be located at\n+ the beginning of this\n+ document!\n\n! compress the size of the\n! changes.\n\n  It is important to spell",
+    "tag": "diff",
+    "source": "https://github.com/rust-lang/mdBook/blob/43b8aeeb6b3d2e654b18dbdf23e5388043d8ceb5/tests/gui/books/highlighting/src/languages.md#L174"
+  },
+  {
+    "label": "diff",
+    "code": "apiVersion: argoproj.io/v1alpha1\nkind: ApplicationSet\nmetadata:\n  name: guestbook\nspec:\n  goTemplate: true\n  goTemplateOptions: [\"missingkey=error\"]\n  generators:\n  - matrix:\n      mergeKeys: ['test-key']\n      generators:\n      - list:\n          elements:\n          - test-key: 'test-value'\n            cluster: staging\n          - test-key: 'test-value'\n            cluster: production\n      - merge:\n          generators:\n          - list:\n              elements:\n              - another-key: 'another-value'\n          - cluster: {}\n-           selector:\n-             matchLabels:\n-               app: guestbook\n\n  template:\n    metadata:\n      name: '{{.cluster}}-guestbook'\n    spec:\n      project: my-project\n      source:\n        repoURL: https://github.com/infra-team/cluster-deployments.git\n        targetRevision: HEAD\n        path: guestbook/{{.cluster}}\n      destination:\n        server: '{{.url}}'\n        namespace: guestbook",
+    "tag": "diff",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/operator-manual/upgrading/2.14-3.0.md#L186"
+  },
+  {
+    "label": "diff",
+    "code": "kind: NetworkPolicy\napiVersion: networking.k8s.io/v1\nmetadata:\n  name: argocd-redis-ha-haproxy\nspec:\n  policyTypes:\n  - Ingress\n+  - Egress\n+  egress:\n+  - ports:\n+    - port: 6379\n+      protocol: TCP\n+    - port: 26379\n+      protocol: TCP\n+    to:\n+    - podSelector:\n+        matchLabels:\n+          app.kubernetes.io/name: argocd-redis-ha\n+  - ports:\n+    - port: 53\n+      protocol: UDP\n+    - port: 53\n+      protocol: TCP",
+    "tag": "diff",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/operator-manual/upgrading/2.8-2.9.md#L34"
+  },
+  {
+    "label": "diff",
+    "code": "-    r.changeSet.AddRebuild(artifact)\n+    addRebuild(artifactDAG, artifact, r.changeSet.AddRebuild, r.runCtx.Opts.IsTargetImage)",
+    "tag": "diff",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/docs-v1/design_proposals/artifact-dependencies.md#L349"
+  },
+  {
+    "label": "diff",
+    "code": "- import \"github.com/mitchellh/mapstructure\"\n+ import \"github.com/go-viper/mapstructure/v2\"",
+    "tag": "diff",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/github.com/spf13/viper/UPGRADE.md#L102"
+  },
+  {
+    "label": "diff",
+    "code": " import License from './license.md' // Assumes an integration is used to compile markdown -> JS.\n import Contributing from './docs/contributing.mdx'\n\n # Hello world\n\n-<License components={props.components} />\n+<License />\n\n ---\n\n-<Contributing components={props.components} />\n+<Contributing />",
+    "tag": "diff",
+    "source": "https://github.com/mdx-js/mdx/blob/52285a6758fa078ec57f3d4bd8803d9cbfb12065/docs/docs/using-mdx.mdx#L513"
+  },
+  {
+    "label": "diff",
+    "code": "export default function({ parentElement, data, setStateValue }) {\n    const checkbox = parentElement.querySelector(\"#checkbox\");\n\n    // Initialize from data\n    checkbox.checked = data?.checked ?? false;\n+   setStateValue(\"checked\", data?.checked ?? false);\n\n    // Send state on change\n    checkbox.addEventListener(\"change\", () => {\n        setStateValue(\"checked\", checkbox.checked);\n    });\n}",
+    "tag": "diff",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/develop/concepts/custom-components/components-v2/mount.md#L235"
+  },
+  {
+    "label": "dockerfile",
+    "code": "# app/Dockerfile\n\nFROM python:3.12-slim\n\nWORKDIR /app\n\nRUN apt-get update && apt-get install -y \\\n    build-essential \\\n    curl \\\n    git \\\n    && rm -rf /var/lib/apt/lists/*\n\nRUN git clone https://github.com/streamlit/streamlit-example.git .\n\nRUN pip3 install -r requirements.txt\n\nEXPOSE 8501\n\nHEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health\n\nENTRYPOINT [\"streamlit\", \"run\", \"streamlit_app.py\", \"--server.port=8501\", \"--server.address=0.0.0.0\"]",
+    "tag": "docker",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/deploy/tutorials/docker.md#L53"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM scratch\nADD foo baz\nFROM scratch\nCOPY --from=0 baz bar",
+    "tag": "dockerfile",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/docs-v2/design_proposals/sync-improvements.md#L244"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM hugo\n\nADD .filebaserc /etc/\nADD assets assets/\nCOPY static-html static/\nCOPY content/en content/",
+    "tag": "dockerfile",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/docs-v2/content/en/docs/filesync.md#L63"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM argoproj/argocd:v1.5.7\n\nUSER root\nRUN apt-get update && \\\n    apt-get install -y \\\n        curl && \\\n    apt-get clean && \\\n    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*\n\nUSER argocd\n\nARG GCS_PLUGIN_VERSION=\"0.3.5\"\nARG GCS_PLUGIN_REPO=\"https://github.com/hayorov/helm-gcs.git\"\n\nRUN helm plugin install ${GCS_PLUGIN_REPO} --version ${GCS_PLUGIN_VERSION}\n\nENV HELM_PLUGINS=\"/home/argocd/.local/share/helm/plugins/\"",
+    "tag": "dockerfile",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/user-guide/helm.md#L711"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM nginxinc/nginx-unprivileged:1.19.3-alpine\nWORKDIR /app/server\n\nCOPY ./web ./web\n\nEXPOSE 8080\n\nCMD [ \"/bin/bash\", \"-c\", \"nginx -g 'daemon off;'\" ]",
+    "tag": "dockerfile",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/docs-v2/content/en/docs/tutorials/ci_cd.md#L23"
+  },
+  {
+    "label": "dockerfile",
+    "code": "# Container image that runs your code\nFROM alpine:3.10\n\n# Copies your code file from your action repository to the filesystem path `/` of the container\nCOPY entrypoint.sh /entrypoint.sh\n\n# Code file to execute when the docker container starts up (`entrypoint.sh`)\nENTRYPOINT [\"/entrypoint.sh\"]",
+    "tag": "dockerfile",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/tutorials/use-containerized-services/create-a-docker-container-action.md#L47"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM mcr.microsoft.com/dotnet/runtime-deps:6.0 as build\n\n# Replace value with the latest runner release version\n# source: https://github.com/actions/runner/releases\n# ex: 2.303.0\nARG RUNNER_VERSION=\"\"\nARG RUNNER_ARCH=\"x64\"\n# Replace value with the latest runner-container-hooks release version\n# source: https://github.com/actions/runner-container-hooks/releases\n# ex: 0.3.1\nARG RUNNER_CONTAINER_HOOKS_VERSION=\"\"\n\nENV DEBIAN_FRONTEND=noninteractive\nENV RUNNER_MANUALLY_TRAP_SIG=1\nENV ACTIONS_RUNNER_PRINT_LOG_TO_STDOUT=1\n\nRUN apt update -y && apt install curl unzip -y\n\nRUN adduser --disabled-password --gecos \"\" --uid 1001 runner \\\n    && groupadd docker --gid 123 \\\n    && usermod -aG sudo runner \\\n    && usermod -aG docker runner \\\n    && echo \"%sudo ALL=(ALL:ALL) NOPASSWD:ALL\" > /etc/sudoers \\\n    && echo \"Defaults env_keep += \\\"DEBIAN_FRONTEND\\\"\" >> /etc/sudoers\n\nWORKDIR /home/runner\n\nRUN curl -f -L -o runner.tar.gz https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz \\\n    && tar xzf ./runner.tar.gz \\\n    && rm runner.tar.gz\n\nRUN curl -f -L -o runner-container-hooks.zip https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip \\\n    && unzip ./runner-container-hooks.zip -d ./k8s \\\n    && rm runner-container-hooks.zip\n\nUSER runner",
+    "tag": "dockerfile",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/concepts/runners/actions-runner-controller.md#L112"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM argoproj/argocd:v2.5.4 # Replace tag with the appropriate argo version\n\n# Switch to root for the ability to perform install\nUSER root\n\n# Install tools needed for your repo-server to retrieve & decrypt secrets, render manifests \n# (e.g. curl, awscli, gpg, sops)\nRUN apt-get update && \\\n    apt-get install -y \\\n        curl \\\n        awscli \\\n        gpg && \\\n    apt-get clean && \\\n    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \\\n    curl -o /usr/local/bin/sops -L https://github.com/mozilla/sops/releases/download/3.2.0/sops-3.2.0.linux && \\\n    chmod +x /usr/local/bin/sops\n\n# Switch back to non-root user\nUSER $ARGOCD_USER_ID",
+    "tag": "dockerfile",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/operator-manual/custom_tools.md#L53"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM argoproj/argocd:latest\n\n# Switch to root for the ability to perform install\nUSER root\n\n# Something custom here\nRUN apt-get update\n\n# Switch back to non-root user\n\n# deprecated: USER argocd\nUSER 999",
+    "tag": "dockerfile",
+    "source": "https://github.com/argoproj/argo-cd/blob/1fd5e6e1075980e7199c69e61ffc7aaa496f91c5/docs/operator-manual/upgrading/2.0-2.1.md#L32"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM python:3.12-slim\n\nRUN groupadd --gid 1000 appuser \\\n    && useradd --uid 1000 --gid 1000 -ms /bin/bash appuser\n\nRUN pip3 install --no-cache-dir --upgrade \\\n    pip \\\n    virtualenv\n\nRUN apt-get update && apt-get install -y \\\n    build-essential \\\n    software-properties-common \\\n    git\n\nUSER appuser\nWORKDIR /home/appuser\n\nRUN git clone https://github.com/streamlit/streamlit-example.git app\n\nENV VIRTUAL_ENV=/home/appuser/venv\nRUN virtualenv ${VIRTUAL_ENV}\nRUN . ${VIRTUAL_ENV}/bin/activate && pip install -r app/requirements.txt\n\nEXPOSE 8501\n\nCOPY run.sh /home/appuser\nENTRYPOINT [\"./run.sh\"]",
+    "tag": "docker",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/deploy/tutorials/kubernetes.md#L92"
+  },
+  {
+    "label": "dockerfile",
+    "code": "ENTRYPOINT [\"sh\", \"-c\", \"echo $GITHUB_SHA\"]",
+    "tag": "dockerfile",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/reference/workflows-and-actions/dockerfile-support.md#L55"
+  },
+  {
+    "label": "plaintext",
+    "code": "模型工具调用 query_order → 服务端校验参数 → 调用 GET /api/orders/{orderId}",
+    "tag": "text",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/ai/llm-basis/structured-output-function-calling.md#L368"
+  },
+  {
+    "label": "plaintext",
+    "code": "[main] INFO com.iluwatar.doublebuffer.Scene - Start drawing next frame\n[main] INFO com.iluwatar.doublebuffer.Scene - Current buffer: 0 Next buffer: 1\n[main] INFO com.iluwatar.doublebuffer.Scene - Swap current and next buffer\n[main] INFO com.iluwatar.doublebuffer.Scene - Finish swapping\n[main] INFO com.iluwatar.doublebuffer.Scene - Current buffer: 1 Next buffer: 0\n[main] INFO com.iluwatar.doublebuffer.Scene - Get current buffer: 1\n[main] INFO com.iluwatar.doublebuffer.App - Black Pixels:  (1, 1) (3, 2) (5, 6)\n[main] INFO com.iluwatar.doublebuffer.Scene - Start drawing next frame\n[main] INFO com.iluwatar.doublebuffer.Scene - Current buffer: 1 Next buffer: 0\n[main] INFO com.iluwatar.doublebuffer.Scene - Swap current and next buffer\n[main] INFO com.iluwatar.doublebuffer.Scene - Finish swapping\n[main] INFO com.iluwatar.doublebuffer.Scene - Current buffer: 0 Next buffer: 1\n[main] INFO com.iluwatar.doublebuffer.Scene - Get current buffer: 0\n[main] INFO com.iluwatar.doublebuffer.App - Black Pixels:  (6, 1) (3, 7)",
+    "tag": "text",
+    "source": "https://github.com/iluwatar/java-design-patterns/blob/4cabb204f240240bea319605a5ffa46ded728001/localization/ar/double-buffer/README.md#L212"
+  },
+  {
+    "label": "plaintext",
+    "code": "repository_one\nrepository_two\nrepository_three",
+    "tag": "text",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/tutorials/migrate-to-github-actions/automated-migrations/circleci-migration.md#L303"
+  },
+  {
+    "label": "plaintext",
+    "code": "Using map:\n[[APPLE, BANANA, CHERRY], [ORANGE, GRAPE, PEAR], [KIWI, MELON, PINEAPPLE]]\n\nUsing flatMap:\n[APPLE, BANANA, CHERRY, ORANGE, GRAPE, PEAR, KIWI, MELON, PINEAPPLE]",
+    "tag": "plain",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/java/new-features/java8-common-new-features.md#L669"
+  },
+  {
+    "label": "plaintext",
+    "code": "go get golang.org/x/crypto/pbkdf2\ngo get golang.org/x/crypto/scrypt",
+    "tag": "text",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/github.com/youmark/pkcs8/README.md#L18"
+  },
+  {
+    "label": "plaintext",
+    "code": ".\n└── content\n    └── about\n    |   └── index.md  // <- https://example.org/about/\n    ├── posts\n    |   ├── firstpost.md   // <- https://example.org/posts/firstpost/\n    |   ├── happy\n    |   |   └── ness.md  // <- https://example.org/posts/happy/ness/\n    |   └── secondpost.md  // <- https://example.org/posts/secondpost/\n    └── quote\n        ├── first.md       // <- https://example.org/quote/first/\n        └── second.md      // <- https://example.org/quote/second/",
+    "tag": "txt",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/content-management/organization/index.md#L46"
+  },
+  {
+    "label": "plaintext",
+    "code": "your-LOCAL-repository/\n├── .streamlit/\n│   └── secrets.toml # Make sure to gitignore this!\n└── streamlit_app.py",
+    "tag": "none",
+    "source": "https://github.com/streamlit/docs/blob/a9ee5082e405799950c63a2da63a62bc77f8cb7a/content/get-started/fundamentals/advanced-concepts.md#L110"
+  },
+  {
+    "label": "plaintext",
+    "code": "true\nnull",
+    "tag": "plain",
+    "source": "https://github.com/Snailclimb/JavaGuide/blob/50f02a5984c062fe7221629d0a6a40ec15c26fd7/docs/java/basis/unsafe.md#L674"
+  },
+  {
+    "label": "plaintext",
+    "code": "01 00 00 00 00 00 00 1f 52 6f 73 65 73 20 61 72  65 ...\n│  ─────┬── ─────┬─────  R  o  s  e  s     a  r   e ...\n│       │        │\n└stdout │        │\n        │        └─ 0x0000001f = log message is 31 bytes\n      unused",
+    "tag": "text",
+    "source": "https://github.com/GoogleContainerTools/skaffold/blob/035e3ddc3589c1c64cb69c563b178f34b1cccc5e/vendor/github.com/ahmetb/dlog/README.md#L17"
+  },
+  {
+    "label": "plaintext",
+    "code": "/articles/article-1#section-2\n------------------- ---------\n       path         fragment",
+    "tag": "text",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/methods/page/Fragments.md#L14"
+  },
+  {
+    "label": "plaintext",
+    "code": "15:45:00.100 [main] INFO com.iluwatar.writeaheadlog.App -- === 1. Initializing Storage Engine with WAL ===\n15:45:00.105 [main] INFO com.iluwatar.writeaheadlog.WriteAheadLog -- WAL Entry appended & flushed to disk: LogEntry(sequenceNumber=1, type=SET, key=user:101, value=Alice)\n15:45:00.106 [main] INFO com.iluwatar.writeaheadlog.DatabaseStore -- Applied SET operation to MemTable: user:101 = Alice\n15:45:00.107 [main] INFO com.iluwatar.writeaheadlog.App -- === 3. Simulating Unexpected System Crash ===\n15:45:00.108 [main] INFO com.iluwatar.writeaheadlog.DatabaseStore -- !!! SIMULATED SYSTEM CRASH: In-memory MemTable has been wiped !!!\n15:45:00.109 [main] INFO com.iluwatar.writeaheadlog.App -- === 4. System Restart & Recovery from WAL ===\n15:45:00.110 [main] INFO com.iluwatar.writeaheadlog.DatabaseStore -- Starting recovery process from WAL...\n15:45:00.112 [main] INFO com.iluwatar.writeaheadlog.DatabaseStore -- Recovery completed. Replayed 5 log entries into MemTable.\n15:45:00.113 [main] INFO com.iluwatar.writeaheadlog.App -- MemTable snapshot post recovery: {user:101=Alice, user:102=Bob Smith}",
+    "tag": "text",
+    "source": "https://github.com/iluwatar/java-design-patterns/blob/4cabb204f240240bea319605a5ffa46ded728001/write-ahead-log/README.md#L168"
+  },
+  {
+    "label": "plaintext",
+    "code": "hyperfine --warmup 2 --parameter-list version old,vas --prepare 'find ~/benches/Catch2-{version}/tests/SelfTest -type f -name \"*.cpp\" -exec touch {} +' 'ninja -j 1 -C ~/benches/Catch2-{version}/build-debug'",
+    "tag": "text",
+    "source": "https://github.com/catchorg/Catch2/blob/08092139210881f01a34e60c5f2fd6afa0ea4024/benchmarks/readme.md#L76"
+  },
+  {
+    "label": "plaintext",
+    "code": "path/to/foo_test.cc:11: Failure\nValue of: Bar(n)\nExpected: 1\n  Actual: 2\nGoogle Test trace:\npath/to/foo_test.cc:17: A\n\npath/to/foo_test.cc:12: Failure\nValue of: Bar(n + 1)\nExpected: 2\n  Actual: 3",
+    "tag": "none",
+    "source": "https://github.com/google/googletest/blob/cd8e73f067129f8489e35c7b51c7a68552b289d2/docs/advanced.md#L675"
+  },
+  {
+    "label": "plaintext",
+    "code": "https://example.org/section/article.html",
+    "tag": "text",
+    "source": "https://github.com/gohugoio/hugoDocs/blob/6199566f01140e4a5f54fb3bacb4f2325e96416f/content/en/configuration/ugly-urls.md#L11"
+  },
+  {
+    "label": "plaintext",
+    "code": "Event 'workflow_dispatch' is not allowed to trigger Actions workflows. Workflow file: '.github/workflows/0-welcome.yml'.",
+    "tag": "text",
+    "source": "https://github.com/github/docs/blob/02c25d16369fe27f9bdb28d1201f6b452f0d21dd/content/actions/concepts/about-actions-policies.md#L34"
+  }
+]

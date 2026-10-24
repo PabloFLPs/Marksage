@@ -22,6 +22,7 @@ src/
   lib/                    storage, history, appIcons (icons + accent), keyStyle, file, sampleDocument
   index.css               theme tokens, accent palettes ([data-accent]), markdown styles, motion keyframes
 scripts/eval-assist.ts    fixture evaluation for Smart Assist
+training/                 data pipeline for the F1 model (collect → split); clones/train data gitignored
 ```
 
 ## Conventions

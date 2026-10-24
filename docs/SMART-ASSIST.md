@@ -287,7 +287,7 @@ included), and the rules are never tuned against it — so it's the honest numbe
 
 | Feature | Real-world examples | Accuracy | Shown | Precision when shown |
 |---|---|---|---|---|
-| F1 code-block language | 64 | 59 % | 14 | 93 % |
+| F1 code-block language | 314 | 57 % | 75 | 97 % |
 | F2 smart paste | 31 | 81 % | 17 | 100 % |
 | F3 structure hints | 30 | 93 % | 14 | 86 % |
 

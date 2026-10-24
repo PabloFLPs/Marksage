@@ -140,7 +140,8 @@ regression tests) and **real** (excerpts from real docs, wikis and command outpu
 | Feature | Set | n | Accuracy | Shown past gate | Precision when shown | Latency |
 |---|---|---|---|---|---|---|
 | F1 fence language | authored | 42 | 100% | 29/42 | 100% | ~0.2 ms |
-| F1 fence language | **real** | 64 | **59%** | **14/64** | **93%** (1 error: Ruby array that is also valid JSON) | ~0.2 ms |
+| F1 fence language | dev | 280 | 62% | 98/280 | 90% | ~0.2 ms |
+| F1 fence language | **real** | 314 (was 64) | **57%** (was 59%) | **75/314** (24%) | **97%** (was 93%) | ~0.1 ms |
 | F2 smart paste | authored | 15 | 100% | 11/15 | 100% | ~0.3 ms |
 | F2 smart paste | **real** | 31 | **81%** | **17/31** | **100%** | ~0.5 ms |
 | F3 structure | authored | 23 | 100% | 9/23 | 100% | ~0.1 ms |
@@ -162,3 +163,20 @@ Reading the real-set numbers (2026-10-23):
   flag sets, CSS declarations, callout words (EN + PT-BR), sentence endings in CJK/Indic/Khmer,
   bold links, and keeps lone `*`/`-` lines (no list neighbours) below the gate. Remaining misses:
   a bold metadata line (`**Likelihood Of Impact: Very Low**`) and a settings-field label.
+
+## 11. Own model for F1 (in progress)
+
+Laya stays an option, but F1 is a fixed-answer question with ~250k free, author-labelled examples on
+GitHub, so a small purpose-trained classifier is the better fit for a fast, local-first app.
+
+- **Model:** fastText-style — hashed character n-grams + word tokens → small embedding → softmax over the
+  21 languages. Trained in TypeScript (same tokenizer at train and run time), shipped as a few hundred KB
+  of int8 weights, inference in plain TS (no ONNX/WebGPU), loaded only in "Local model" mode.
+- **Data (phase 1, done 2026-10-23):** `training/` — 265 public sources → 250k blocks; split by repo:
+  train 55k blocks (155 repos + source-file windows), dev 280 (28 repos), test 314 (66 repos, incl. the
+  original 64). Leak guard on exact text and first-three-lines. See `training/README.md`.
+- **Bar to ship (on fences.real.json, run once per candidate):** precision when shown ≥ heuristics (97%),
+  shown ≫ 24% (target ≥ 50%), calibrated confidence. A hybrid (model only where heuristics are silent)
+  is a valid outcome.
+- **Next:** phase 2 train + calibrate on dev; phase 3 `ModelEngine` behind the "Local model" option +
+  docs (EN/PT-BR).

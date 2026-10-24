@@ -1,0 +1,999 @@
+{
+ "note": "Public sources for the F1 language model. Split is by repo: \"split\" pins one (the 25 repos behind the original fences.real.json are test), the rest are assigned by a hash of the repo name (build-sets.ts). Docs sources contribute fenced code blocks; \"code\" sources contribute windows of real source files labelled by extension, to fill rare languages.",
+ "sources": [
+  {
+   "repo": "rails/rails",
+   "split": "test",
+   "paths": [
+    "/guides/source/*.md"
+   ]
+  },
+  {
+   "repo": "duckdb/duckdb-web",
+   "split": "test",
+   "paths": [
+    "/docs/stable/sql/statements/*"
+   ]
+  },
+  {
+   "repo": "docker/docs",
+   "split": "test",
+   "paths": [
+    "/content/manuals/build/building/*",
+    "/content/manuals/compose/how-tos/*"
+   ]
+  },
+  {
+   "repo": "reactjs/pt-br.react.dev",
+   "split": "test",
+   "paths": [
+    "/src/content/learn/*"
+   ]
+  },
+  {
+   "repo": "twbs/bootstrap",
+   "split": "test",
+   "paths": [
+    "/site/src/content/docs/components/*"
+   ]
+  },
+  {
+   "repo": "fastapi/fastapi",
+   "split": "test",
+   "paths": [
+    "/docs/en/docs/tutorial/*",
+    "/docs/pt/docs/tutorial/*"
+   ]
+  },
+  {
+   "repo": "gin-gonic/gin",
+   "split": "test"
+  },
+  {
+   "repo": "encode/httpx",
+   "split": "test"
+  },
+  {
+   "repo": "goldbergyoni/nodebestpractices",
+   "split": "test"
+  },
+  {
+   "repo": "hadolint/hadolint",
+   "split": "test"
+  },
+  {
+   "repo": "actions/checkout",
+   "split": "test"
+  },
+  {
+   "repo": "axios/axios",
+   "split": "test"
+  },
+  {
+   "repo": "colinhacks/zod",
+   "split": "test"
+  },
+  {
+   "repo": "jbranchaud/til",
+   "split": "test"
+  },
+  {
+   "repo": "pgvector/pgvector",
+   "split": "test"
+  },
+  {
+   "repo": "heartcombo/devise",
+   "split": "test"
+  },
+  {
+   "repo": "App-vNext/Polly",
+   "split": "test"
+  },
+  {
+   "repo": "google/gson",
+   "split": "test"
+  },
+  {
+   "repo": "DaveGamble/cJSON",
+   "split": "test"
+  },
+  {
+   "repo": "nlohmann/json",
+   "split": "test"
+  },
+  {
+   "repo": "clap-rs/clap",
+   "split": "test"
+  },
+  {
+   "repo": "tokio-rs/axum",
+   "split": "test"
+  },
+  {
+   "repo": "BurntSushi/ripgrep",
+   "split": "test"
+  },
+  {
+   "repo": "spf13/cobra",
+   "split": "test"
+  },
+  {
+   "repo": "laravel/docs",
+   "split": "test",
+   "paths": [
+    "/*.md"
+   ]
+  },
+  {
+   "repo": "facebook/react"
+  },
+  {
+   "repo": "vuejs/core"
+  },
+  {
+   "repo": "sveltejs/svelte"
+  },
+  {
+   "repo": "expressjs/express"
+  },
+  {
+   "repo": "fastify/fastify"
+  },
+  {
+   "repo": "nestjs/nest"
+  },
+  {
+   "repo": "prisma/prisma"
+  },
+  {
+   "repo": "trpc/trpc"
+  },
+  {
+   "repo": "TanStack/query"
+  },
+  {
+   "repo": "reduxjs/redux"
+  },
+  {
+   "repo": "pmndrs/zustand"
+  },
+  {
+   "repo": "vitejs/vite"
+  },
+  {
+   "repo": "webpack/webpack"
+  },
+  {
+   "repo": "babel/babel"
+  },
+  {
+   "repo": "eslint/eslint"
+  },
+  {
+   "repo": "prettier/prettier"
+  },
+  {
+   "repo": "jestjs/jest"
+  },
+  {
+   "repo": "vitest-dev/vitest"
+  },
+  {
+   "repo": "denoland/deno"
+  },
+  {
+   "repo": "lodash/lodash"
+  },
+  {
+   "repo": "date-fns/date-fns"
+  },
+  {
+   "repo": "socketio/socket.io"
+  },
+  {
+   "repo": "sequelize/sequelize"
+  },
+  {
+   "repo": "typeorm/typeorm"
+  },
+  {
+   "repo": "knex/knex"
+  },
+  {
+   "repo": "chartjs/Chart.js"
+  },
+  {
+   "repo": "d3/d3"
+  },
+  {
+   "repo": "puppeteer/puppeteer"
+  },
+  {
+   "repo": "microsoft/playwright"
+  },
+  {
+   "repo": "storybookjs/storybook"
+  },
+  {
+   "repo": "withastro/docs"
+  },
+  {
+   "repo": "nuxt/nuxt"
+  },
+  {
+   "repo": "solidjs/solid"
+  },
+  {
+   "repo": "preactjs/preact"
+  },
+  {
+   "repo": "honojs/hono"
+  },
+  {
+   "repo": "drizzle-team/drizzle-orm"
+  },
+  {
+   "repo": "sindresorhus/got"
+  },
+  {
+   "repo": "yargs/yargs"
+  },
+  {
+   "repo": "tj/commander.js"
+  },
+  {
+   "repo": "chalk/chalk"
+  },
+  {
+   "repo": "winstonjs/winston"
+  },
+  {
+   "repo": "pinojs/pino"
+  },
+  {
+   "repo": "immerjs/immer"
+  },
+  {
+   "repo": "mobxjs/mobx"
+  },
+  {
+   "repo": "react-hook-form/react-hook-form"
+  },
+  {
+   "repo": "jquense/yup"
+  },
+  {
+   "repo": "ajv-validator/ajv"
+  },
+  {
+   "repo": "graphql/graphql-js"
+  },
+  {
+   "repo": "mswjs/msw"
+  },
+  {
+   "repo": "nock/nock"
+  },
+  {
+   "repo": "tailwindlabs/tailwindcss.com"
+  },
+  {
+   "repo": "typescript-cheatsheets/react"
+  },
+  {
+   "repo": "goldbergyoni/javascript-testing-best-practices"
+  },
+  {
+   "repo": "airbnb/javascript"
+  },
+  {
+   "repo": "getify/You-Dont-Know-JS"
+  },
+  {
+   "repo": "cezaraugusto/You-Dont-Know-JS"
+  },
+  {
+   "repo": "mbeaudru/modern-js-cheatsheet"
+  },
+  {
+   "repo": "leonardomso/33-js-concepts"
+  },
+  {
+   "repo": "pydantic/pydantic"
+  },
+  {
+   "repo": "encode/starlette"
+  },
+  {
+   "repo": "encode/django-rest-framework"
+  },
+  {
+   "repo": "huggingface/transformers"
+  },
+  {
+   "repo": "huggingface/datasets"
+  },
+  {
+   "repo": "huggingface/diffusers"
+  },
+  {
+   "repo": "openai/openai-python"
+  },
+  {
+   "repo": "anthropics/anthropic-sdk-python"
+  },
+  {
+   "repo": "python-poetry/poetry"
+  },
+  {
+   "repo": "astral-sh/ruff"
+  },
+  {
+   "repo": "astral-sh/uv"
+  },
+  {
+   "repo": "tiangolo/typer"
+  },
+  {
+   "repo": "tiangolo/sqlmodel"
+  },
+  {
+   "repo": "Textualize/rich"
+  },
+  {
+   "repo": "Textualize/textual"
+  },
+  {
+   "repo": "streamlit/docs"
+  },
+  {
+   "repo": "gradio-app/gradio"
+  },
+  {
+   "repo": "mkdocs/mkdocs"
+  },
+  {
+   "repo": "squidfunk/mkdocs-material"
+  },
+  {
+   "repo": "ultralytics/ultralytics"
+  },
+  {
+   "repo": "keras-team/keras-io"
+  },
+  {
+   "repo": "PrefectHQ/prefect"
+  },
+  {
+   "repo": "locustio/locust"
+  },
+  {
+   "repo": "psf/black"
+  },
+  {
+   "repo": "microsoft/autogen"
+  },
+  {
+   "repo": "vinta/awesome-python"
+  },
+  {
+   "repo": "TheAlgorithms/Python"
+  },
+  {
+   "repo": "realpython/materials"
+  },
+  {
+   "repo": "Delgan/loguru"
+  },
+  {
+   "repo": "tqdm/tqdm"
+  },
+  {
+   "repo": "httpie/cli"
+  },
+  {
+   "repo": "spf13/viper"
+  },
+  {
+   "repo": "urfave/cli"
+  },
+  {
+   "repo": "labstack/echo"
+  },
+  {
+   "repo": "gofiber/fiber"
+  },
+  {
+   "repo": "go-chi/chi"
+  },
+  {
+   "repo": "gorilla/mux"
+  },
+  {
+   "repo": "uber-go/zap"
+  },
+  {
+   "repo": "stretchr/testify"
+  },
+  {
+   "repo": "go-gorm/gorm.io"
+  },
+  {
+   "repo": "grpc/grpc-go"
+  },
+  {
+   "repo": "prometheus/prometheus"
+  },
+  {
+   "repo": "charmbracelet/bubbletea"
+  },
+  {
+   "repo": "charmbracelet/lipgloss"
+  },
+  {
+   "repo": "cli/cli"
+  },
+  {
+   "repo": "go-task/task"
+  },
+  {
+   "repo": "traefik/traefik"
+  },
+  {
+   "repo": "caddyserver/website"
+  },
+  {
+   "repo": "gohugoio/hugoDocs"
+  },
+  {
+   "repo": "uber-go/guide"
+  },
+  {
+   "repo": "golang-standards/project-layout"
+  },
+  {
+   "repo": "avelino/awesome-go"
+  },
+  {
+   "repo": "quii/learn-go-with-tests"
+  },
+  {
+   "repo": "rust-lang/book"
+  },
+  {
+   "repo": "rust-lang/rust-by-example"
+  },
+  {
+   "repo": "rust-lang/cargo"
+  },
+  {
+   "repo": "rust-lang/rustlings"
+  },
+  {
+   "repo": "serde-rs/serde-rs.github.io"
+  },
+  {
+   "repo": "tokio-rs/tokio"
+  },
+  {
+   "repo": "tokio-rs/website"
+  },
+  {
+   "repo": "actix/actix-web"
+  },
+  {
+   "repo": "launchbadge/sqlx"
+  },
+  {
+   "repo": "diesel-rs/diesel"
+  },
+  {
+   "repo": "seanmonstar/reqwest"
+  },
+  {
+   "repo": "alacritty/alacritty"
+  },
+  {
+   "repo": "helix-editor/helix"
+  },
+  {
+   "repo": "bevyengine/bevy"
+  },
+  {
+   "repo": "tauri-apps/tauri-docs"
+  },
+  {
+   "repo": "rust-lang/mdBook"
+  },
+  {
+   "repo": "starship/starship"
+  },
+  {
+   "repo": "rust-unofficial/patterns"
+  },
+  {
+   "repo": "rust-lang/api-guidelines"
+  },
+  {
+   "repo": "nushell/nushell.github.io"
+  },
+  {
+   "repo": "square/okhttp"
+  },
+  {
+   "repo": "square/retrofit"
+  },
+  {
+   "repo": "ReactiveX/RxJava"
+  },
+  {
+   "repo": "iluwatar/java-design-patterns"
+  },
+  {
+   "repo": "Snailclimb/JavaGuide"
+  },
+  {
+   "repo": "mockito/mockito"
+  },
+  {
+   "repo": "google/guice"
+  },
+  {
+   "repo": "fmtlib/fmt"
+  },
+  {
+   "repo": "gabime/spdlog"
+  },
+  {
+   "repo": "catchorg/Catch2"
+  },
+  {
+   "repo": "google/googletest"
+  },
+  {
+   "repo": "protocolbuffers/protobuf"
+  },
+  {
+   "repo": "grpc/grpc"
+  },
+  {
+   "repo": "microsoft/vcpkg"
+  },
+  {
+   "repo": "ocornut/imgui"
+  },
+  {
+   "repo": "curl/curl"
+  },
+  {
+   "repo": "redis/redis"
+  },
+  {
+   "repo": "isocpp/CppCoreGuidelines"
+  },
+  {
+   "repo": "libsdl-org/sdlwiki"
+  },
+  {
+   "repo": "libgit2/libgit2"
+  },
+  {
+   "repo": "raysan5/raylib"
+  },
+  {
+   "repo": "nothings/stb"
+  },
+  {
+   "repo": "dotnet/EntityFramework.Docs"
+  },
+  {
+   "repo": "serilog/serilog"
+  },
+  {
+   "repo": "AutoMapper/AutoMapper"
+  },
+  {
+   "repo": "MassTransit/MassTransit"
+  },
+  {
+   "repo": "dotnet/orleans"
+  },
+  {
+   "repo": "jbogard/MediatR"
+  },
+  {
+   "repo": "sinatra/sinatra"
+  },
+  {
+   "repo": "jekyll/jekyll"
+  },
+  {
+   "repo": "thoughtbot/factory_bot"
+  },
+  {
+   "repo": "github/linguist"
+  },
+  {
+   "repo": "Shopify/liquid"
+  },
+  {
+   "repo": "rubocop/rubocop-rails"
+  },
+  {
+   "repo": "hanami/guides"
+  },
+  {
+   "repo": "composer/composer"
+  },
+  {
+   "repo": "phpstan/phpstan"
+  },
+  {
+   "repo": "filamentphp/filament"
+  },
+  {
+   "repo": "livewire/livewire"
+  },
+  {
+   "repo": "pestphp/docs"
+  },
+  {
+   "repo": "WordPress/gutenberg"
+  },
+  {
+   "repo": "slimphp/Slim-Website"
+  },
+  {
+   "repo": "timescale/docs"
+  },
+  {
+   "repo": "dbt-labs/docs.getdbt.com"
+  },
+  {
+   "repo": "neondatabase/website"
+  },
+  {
+   "repo": "pingcap/docs"
+  },
+  {
+   "repo": "prisma/docs"
+  },
+  {
+   "repo": "helm/helm-www"
+  },
+  {
+   "repo": "argoproj/argo-cd"
+  },
+  {
+   "repo": "docker-library/docs"
+  },
+  {
+   "repo": "compose-spec/compose-spec"
+  },
+  {
+   "repo": "GoogleContainerTools/skaffold"
+  },
+  {
+   "repo": "h5bp/html5-boilerplate"
+  },
+  {
+   "repo": "picocss/pico"
+  },
+  {
+   "repo": "sass/sass-site"
+  },
+  {
+   "repo": "animate-css/animate.css"
+  },
+  {
+   "repo": "mdx-js/mdx"
+  },
+  {
+   "repo": "markdown-it/markdown-it"
+  },
+  {
+   "repo": "remarkjs/remark"
+  },
+  {
+   "repo": "facebook/docusaurus"
+  },
+  {
+   "repo": "github/gitignore"
+  },
+  {
+   "repo": "vuejs-translations/docs-pt"
+  },
+  {
+   "repo": "kamranahmedse/developer-roadmap"
+  },
+  {
+   "repo": "kubernetes/website",
+   "paths": [
+    "/content/en/docs/tasks/*",
+    "/content/en/docs/concepts/workloads/*"
+   ]
+  },
+  {
+   "repo": "dotnet/docs",
+   "paths": [
+    "/docs/csharp/fundamentals/*",
+    "/docs/csharp/language-reference/statements/*",
+    "/docs/core/tutorials/*"
+   ]
+  },
+  {
+   "repo": "dotnet/AspNetCore.Docs",
+   "paths": [
+    "/aspnetcore/fundamentals/minimal-apis/*",
+    "/aspnetcore/tutorials/*"
+   ]
+  },
+  {
+   "repo": "mdn/content",
+   "paths": [
+    "/files/en-us/web/css/reference/properties/a*",
+    "/files/en-us/web/html/reference/elements/*",
+    "/files/en-us/web/javascript/reference/global_objects/array/*"
+   ]
+  },
+  {
+   "repo": "mdn/translated-content",
+   "paths": [
+    "/files/pt-br/web/javascript/reference/global_objects/*",
+    "/files/pt-br/web/css/*"
+   ]
+  },
+  {
+   "repo": "github/docs",
+   "paths": [
+    "/content/actions/*",
+    "/content/get-started/writing-on-github/*"
+   ]
+  },
+  {
+   "repo": "cockroachdb/docs",
+   "paths": [
+    "/src/current/v24.2/*.md"
+   ]
+  },
+  {
+   "repo": "ClickHouse/clickhouse-docs",
+   "paths": [
+    "/docs/sql-reference/statements/*",
+    "/docs/sql-reference/functions/*"
+   ]
+  },
+  {
+   "repo": "supabase/supabase",
+   "paths": [
+    "/apps/docs/content/guides/database/*"
+   ]
+  },
+  {
+   "repo": "vercel/next.js",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "angular/angular",
+   "paths": [
+    "/adev/src/content/guide/*"
+   ]
+  },
+  {
+   "repo": "nodejs/node",
+   "paths": [
+    "/doc/api/*"
+   ]
+  },
+  {
+   "repo": "nodejs/nodejs.org",
+   "paths": [
+    "/apps/site/pages/pt-br/*",
+    "/apps/site/pages/en/learn/*"
+   ]
+  },
+  {
+   "repo": "hashicorp/terraform",
+   "paths": [
+    "/website/docs/language/*"
+   ]
+  },
+  {
+   "repo": "ansible/ansible-documentation",
+   "paths": [
+    "/docs/docsite/rst/*.md"
+   ]
+  },
+  {
+   "repo": "raysan5/raylib",
+   "code": {
+    "c": [
+     "/examples/core/*.c",
+     "/examples/shapes/*.c"
+    ]
+   }
+  },
+  {
+   "repo": "libsdl-org/SDL",
+   "code": {
+    "c": [
+     "/test/test*.c"
+    ]
+   }
+  },
+  {
+   "repo": "redis/redis",
+   "code": {
+    "c": [
+     "/src/t_*.c"
+    ]
+   }
+  },
+  {
+   "repo": "void-linux/void-packages",
+   "code": {
+    "diff": [
+     "/srcpkgs/a*/patches/*.patch",
+     "/srcpkgs/b*/patches/*.patch"
+    ]
+   }
+  },
+  {
+   "repo": "docker-library/python",
+   "code": {
+    "dockerfile": [
+     "/3.1*/*/Dockerfile"
+    ]
+   }
+  },
+  {
+   "repo": "docker-library/node",
+   "code": {
+    "dockerfile": [
+     "/2*/*/Dockerfile"
+    ]
+   }
+  },
+  {
+   "repo": "docker-library/golang",
+   "code": {
+    "dockerfile": [
+     "/1.2*/*/Dockerfile"
+    ]
+   }
+  },
+  {
+   "repo": "jessfraz/dockerfiles",
+   "code": {
+    "dockerfile": [
+     "/*/Dockerfile"
+    ]
+   }
+  },
+  {
+   "repo": "TheAlgorithms/C",
+   "code": {
+    "c": [
+     "/sorting/*.c",
+     "/searching/*.c",
+     "/data_structures/stack/*.c"
+    ]
+   }
+  },
+  {
+   "repo": "TheAlgorithms/C-Sharp",
+   "code": {
+    "csharp": [
+     "/Algorithms/Sorters/Comparison/*.cs"
+    ]
+   }
+  },
+  {
+   "repo": "TheAlgorithms/Ruby",
+   "code": {
+    "ruby": [
+     "/sorting/*.rb",
+     "/data_structures/*/*.rb"
+    ]
+   }
+  },
+  {
+   "repo": "TheAlgorithms/PHP",
+   "code": {
+    "php": [
+     "/Sorting/*.php",
+     "/Strings/*.php"
+    ]
+   }
+  },
+  {
+   "repo": "TheAlgorithms/Java",
+   "code": {
+    "java": [
+     "/src/main/java/com/thealgorithms/sorts/*.java",
+     "/src/main/java/com/thealgorithms/datastructures/*/*.java",
+     "/src/main/java/com/thealgorithms/maths/*.java"
+    ]
+   }
+  },
+  {
+   "repo": "spatie/laravel-permission"
+  },
+  {
+   "repo": "spatie/laravel-medialibrary"
+  },
+  {
+   "repo": "PHPOffice/PhpSpreadsheet"
+  },
+  {
+   "repo": "thephpleague/flysystem"
+  },
+  {
+   "repo": "Seldaek/monolog"
+  },
+  {
+   "repo": "AnthonyCalandra/modern-cpp-features"
+  },
+  {
+   "repo": "changkun/modern-cpp-tutorial"
+  },
+  {
+   "repo": "cpp-best-practices/cppbestpractices"
+  },
+  {
+   "repo": "winterbe/java8-tutorial"
+  },
+  {
+   "repo": "doocs/advanced-java"
+  },
+  {
+   "repo": "nodejs/docker-node"
+  },
+  {
+   "repo": "GoogleContainerTools/distroless"
+  },
+  {
+   "repo": "docker/awesome-compose"
+  },
+  {
+   "repo": "yiisoft/yii2",
+   "paths": [
+    "/docs/guide/*"
+   ]
+  },
+  {
+   "repo": "oz123/awesome-c"
+  },
+  {
+   "repo": "TheAlgorithms/C-Plus-Plus",
+   "code": {
+    "cpp": [
+     "/sorting/*.cpp",
+     "/data_structures/*.cpp",
+     "/math/*.cpp",
+     "/strings/*.cpp"
+    ]
+   }
+  },
+  {
+   "repo": "google/leveldb",
+   "code": {
+    "cpp": [
+     "/db/*.cc",
+     "/util/*.cc",
+     "/table/*.cc"
+    ]
+   }
+  },
+  {
+   "repo": "google/googletest",
+   "code": {
+    "cpp": [
+     "/googletest/samples/*.cc"
+    ]
+   }
+  }
+ ]
+}

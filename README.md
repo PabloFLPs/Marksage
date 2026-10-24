@@ -41,6 +41,8 @@ npm run lint         # oxlint
 npm run eval:assist  # Smart Assist fixture evaluation (Node ≥ 22.6)
 ```
 
+The data pipeline for Smart Assist's own language model lives in [`training/`](training/README.md).
+
 ### Link previews
 
 Shared links show a preview card (`public/og-image.png`, 1200×630) on WhatsApp, Slack, Discord, X, etc.

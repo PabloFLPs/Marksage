@@ -290,7 +290,7 @@ incluído), e as regras nunca são ajustadas contra ele — então é o número 
 
 | Recurso | Exemplos reais | Acurácia | Exibidas | Precisão quando exibida |
 |---|---|---|---|---|
-| F1 linguagem do bloco | 64 | 59 % | 14 | 93 % |
+| F1 linguagem do bloco | 314 | 57 % | 75 | 97 % |
 | F2 colagem inteligente | 31 | 81 % | 17 | 100 % |
 | F3 dicas de estrutura | 30 | 93 % | 14 | 86 % |
 
