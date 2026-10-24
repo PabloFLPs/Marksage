@@ -6,6 +6,9 @@ import type { OutlineItem } from '../assist/outline'
 import type { OutlineModelStatus } from '../assist/useOutline'
 import { plainHeading } from '../assist/sections'
 import { useI18n } from '../hooks/useI18n'
+import { DocumentTab } from './DocumentTab'
+
+export type PanelTab = 'outline' | 'document'
 
 interface OutlinePanelProps {
   items: OutlineItem[]
@@ -18,9 +21,14 @@ interface OutlinePanelProps {
   /** "side": docked next to the document (desktop); "sheet": bottom sheet over it (mobile). */
   variant: 'side' | 'sheet'
   closing?: boolean
+  tab: PanelTab
+  onTabChange: (tab: PanelTab) => void
+  /** For the Document tab: the text the items were built from, and the file name. */
+  text: string
+  filename: string | null
 }
 
-export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onClose, variant, closing = false }: OutlinePanelProps) {
+export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onClose, variant, closing = false, tab, onTabChange, text, filename }: OutlinePanelProps) {
   const { t } = useI18n()
   const minLevel = items.reduce((m, i) => Math.min(m, i.level), 6)
   const typed = items.filter((i) => i.type).length
@@ -34,10 +42,29 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
 
   const body = (
     <>
-      <div className="flex h-11 shrink-0 items-center gap-2 border-b border-line px-3 dark:border-dark-line">
-        <h2 className="text-sm font-semibold text-ink dark:text-dark-ink">{t('outline.title')}</h2>
-        {items.length > 0 && (
-          <span className="text-xs text-ink-muted dark:text-dark-ink-muted">
+      <div className="flex h-11 shrink-0 items-center gap-1 border-b border-line px-2 dark:border-dark-line">
+        <div role="tablist" aria-label={t('outline.toggleTitle')} className="flex items-center gap-0.5">
+          {(['outline', 'document'] as const).map((id) => (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              id={`panel-tab-${id}`}
+              aria-selected={tab === id}
+              aria-controls={`panel-${id}`}
+              onClick={() => onTabChange(id)}
+              className={`rounded-md px-2 py-1 text-sm transition-colors ${
+                tab === id
+                  ? 'bg-surface-soft font-semibold text-ink dark:bg-dark-surface-soft dark:text-dark-ink'
+                  : 'text-ink-muted hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink'
+              }`}
+            >
+              {t(`panel.tab.${id}`)}
+            </button>
+          ))}
+        </div>
+        {tab === 'outline' && items.length > 0 && (
+          <span className="ml-1 truncate text-xs text-ink-muted dark:text-dark-ink-muted">
             {t('outline.count', { n: items.length, typed })}
           </span>
         )}
@@ -46,34 +73,41 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
           onClick={onClose}
           aria-label={t('outline.close')}
           title={t('outline.close')}
-          className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-md text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
+          className="ml-auto inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
         >
           <X className="h-4 w-4" />
         </button>
       </div>
 
-      {items.length === 0 ? (
-        <p className="px-4 py-6 text-sm text-ink-muted dark:text-dark-ink-muted">{t('outline.empty')}</p>
+      {tab === 'document' ? (
+        <div role="tabpanel" id="panel-document" aria-labelledby="panel-tab-document" className="flex min-h-0 flex-1 flex-col">
+          <DocumentTab text={text} items={items} filename={filename} onSelect={onSelect} />
+        </div>
       ) : (
-        <nav aria-label={t('outline.title')} className="scroll-area min-h-0 flex-1 overflow-y-auto p-1.5" onMouseLeave={() => onHover(null)}>
-          <ol className="flex flex-col gap-px">
-            {items.map((item) => (
-              <OutlineRow
-                key={item.line}
-                item={item}
-                indent={item.level - minLevel}
-                active={item.line === activeLine}
-                onSelect={() => onSelect(item.line)}
-                onHover={(on) => onHover(on ? item.line : null)}
-              />
-            ))}
-          </ol>
-        </nav>
+        <div role="tabpanel" id="panel-outline" aria-labelledby="panel-tab-outline" className="flex min-h-0 flex-1 flex-col">
+          {items.length === 0 ? (
+            <p className="px-4 py-6 text-sm text-ink-muted dark:text-dark-ink-muted">{t('outline.empty')}</p>
+          ) : (
+            <nav aria-label={t('outline.title')} className="scroll-area min-h-0 flex-1 overflow-y-auto p-1.5" onMouseLeave={() => onHover(null)}>
+              <ol className="flex flex-col gap-px">
+                {items.map((item) => (
+                  <OutlineRow
+                    key={item.line}
+                    item={item}
+                    indent={item.level - minLevel}
+                    active={item.line === activeLine}
+                    onSelect={() => onSelect(item.line)}
+                    onHover={(on) => onHover(on ? item.line : null)}
+                  />
+                ))}
+              </ol>
+            </nav>
+          )}
+          <p className="shrink-0 border-t border-line px-3 py-2 text-[11px] leading-snug text-ink-muted dark:border-dark-line dark:text-dark-ink-muted">
+            {t(`outline.status.${status}`)}
+          </p>
+        </div>
       )}
-
-      <p className="shrink-0 border-t border-line px-3 py-2 text-[11px] leading-snug text-ink-muted dark:border-dark-line dark:text-dark-ink-muted">
-        {t(`outline.status.${status}`)}
-      </p>
     </>
   )
 

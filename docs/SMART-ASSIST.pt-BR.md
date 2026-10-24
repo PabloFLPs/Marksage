@@ -239,6 +239,29 @@ parágrafo vence um item de lista.
 **Ação.** Só visual: um painel com cada seção, seu tipo e sua frase-chave. Clique para ir até ela, passe
 o mouse para marcar o título na pré-visualização. Nada no documento muda.
 
+### Aba Documento
+
+**Gatilho.** Enquanto a aba *Documento* do painel está aberta; recalculado conforme você digita.
+
+**O que mostra**, tudo calculado a partir do texto, no seu dispositivo:
+
+- **Parece** — README, registro de mudanças, guia ou tutorial, referência, artigo ou anotações. O nome do
+  arquivo decide quando diz (`README.md`, `CHANGELOG.md`, `guide.md`); senão, decidem os tipos de seção da
+  Estrutura (Instalação + Uso + Licença → README; quase tudo Referência/Configuração → referência), com as
+  seções que levaram até ali mostradas como motivo. Com pouca evidência (menos de três seções com tipo, ou
+  menos de um quarto delas), diz que não há um padrão claro em vez de chutar.
+- **Resumo** — palavras, tempo de leitura (230 palavras por minuto, sem contar código), seções, blocos de
+  código por linguagem, tabelas, links, imagens e o idioma do texto (inglês, português ou misto).
+- **Legibilidade** — a mesma escala LIX dos pontinhos de legibilidade, para o documento inteiro, mais a seção
+  mais difícil.
+- **Tom** — formal, neutro ou conversacional, a partir de sinais contados e mostrados: contrações (valem
+  metade — guias de estilo modernos as recomendam), pontos de exclamação, emoji, palavras informais e com
+  quem o texto fala ("você", "nós", "eu" ou ninguém). Sinais, não um veredito.
+- **Vale uma olhada** — saltos de nível de título (H2 → H4), títulos principais a mais, seções vazias,
+  títulos repetidos sob o mesmo pai, blocos de código sem linguagem, imagens sem texto alternativo, links
+  que dizem "aqui", seções muito longas e frases com mais de 40 palavras. Clique para ir até lá. Registros de
+  mudanças que dão a cada versão seu próprio título `#` não são marcados por isso.
+
 ---
 
 ## 4. Os modelos próprios do Marksage

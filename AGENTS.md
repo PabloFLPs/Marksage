@@ -52,6 +52,8 @@ Full technical documentation: `docs/SMART-ASSIST.md` — also rendered in-app at
   (shared with `training/build-sections.ts` — change the splitter or heading rules there and rebuild the section data);
   type = heading rule, else (Local model mode) `sections-v1.bin` reading the text, gate 0.8 (badge) / 0.6 ("probably").
   Visual only — it never edits. Heading lines are 0-based; the preview's `data-line` is 1-based.
+  Its Document tab (`components/DocumentTab.tsx`) renders `assist/docStats.ts` (facts, kind, readability, tone signals, flags);
+  the active tab is session state only (no storage key). Regression sets: `__fixtures__/headings.json`, `docstats.json`.
 - Fixtures: `*.json` = authored regression set, `*.dev.json` = real-world set to tune against, `*.real.json` = held-out real-world set (see `assist/__fixtures__/README.md`). Never tune heuristics against `*.real.json` — tune on dev, then run real once.
 - Adding a feature: pre-filter candidates → feature in `assist/features/` returning a `Suggestion` with an
   `expected` guard → fixtures in `assist/__fixtures__/` → extend `scripts/eval-assist.ts` → document it on the About page.

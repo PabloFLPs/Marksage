@@ -237,6 +237,28 @@ from a paragraph wins over a list item.
 **Action.** Visual only: a panel with every section, its type and key sentence. Click to jump there,
 hover to mark the heading in the preview. Nothing in the document changes.
 
+### Document tab
+
+**Trigger.** While the panel's *Document* tab is open; recomputed as you type.
+
+**What it shows**, all worked out from the text on your device:
+
+- **Looks like** — README, changelog, guide or tutorial, reference, article or notes. The file name decides
+  when it says so (`README.md`, `CHANGELOG.md`, `guide.md`); otherwise the Outline's section types do
+  (Installation + Usage + License → README; mostly Reference/Configuration → reference), with the sections
+  that led there shown as the reason. With too little evidence (fewer than three typed sections, or under a
+  quarter of them), it says there's no clear pattern rather than guess.
+- **At a glance** — words, reading time (230 words a minute, code not counted), sections, code blocks by
+  language, tables, links, images and the language of the text (English, Portuguese or mixed).
+- **Readability** — the same LIX scale as the readability dots, for the whole document, plus the hardest section.
+- **Tone** — formal, neutral or conversational, from signals that are counted and shown: contractions (they
+  count half — modern style guides recommend them), exclamation marks, emoji, informal words, and who the text
+  talks to ("you", "we", "I" or nobody). Signals, not a verdict.
+- **Worth a look** — heading level jumps (H2 → H4), extra top-level titles, empty sections, repeated
+  headings under the same parent, code blocks without a language, images without alt text, links that say
+  "here", very long sections and sentences over 40 words. Click one to jump there. Changelogs that give every
+  release its own `#` title aren't flagged for it.
+
 ---
 
 ## 4. Marksage's own models

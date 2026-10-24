@@ -1,0 +1,40 @@
+[
+  {
+    "name": "every flag (also README-shaped: title + intro, Setup, Usage)",
+    "doc": "# Project\n\nIntro text that is long enough to count as a paragraph for this document check.\n\n#### Deep detail\n\nJumped from H1 to H4.\n\n## Setup\n\n## Usage\n\nUse it. For more, [click here](https://example.com). ![](shot.png) <img src=\"x.png\">\n\n```\nuntagged\n```\n\n### Notes\n\nOne.\n\n### Notes\n\nTwo.\n\n# Second title\n\nThis is a very long sentence that keeps going and going with many words in it so that it clearly goes past the forty word limit that the Document tab uses to point out sentences that might be worth splitting into two or more shorter ones for readers.\n",
+    "filename": null,
+    "expectKind": "readme",
+    "expectFlags": [
+      "headingJump:4",
+      "multipleH1:26",
+      "emptySection:8",
+      "duplicateHeading:22",
+      "untaggedCode:14",
+      "imageNoAlt:12",
+      "imageNoAlt:12",
+      "vagueLink:12",
+      "longSentence:28"
+    ]
+  },
+  {
+    "name": "README by its sections",
+    "doc": "# Lumen\n\nLumen is a tiny static site generator that turns a folder of Markdown files into a fast website. It has no plugins and no config by default.\n\n## Before you begin\n\nYou need Node 20 or later and a folder with at least one Markdown file. Check your Node version with `node -v` before you start.\n\n## Getting started\n\n```bash\nnpm install -g lumen\nlumen build ./docs\n```\n\n## Theming\n\nYou can change the colors and fonts with a `lumen.toml` file at the root of your project. Every key is optional; missing keys keep their defaults.\n\n```toml\n[theme]\naccent = \"#3b82f6\"\nfont = \"Inter\"\n```\n\n## Bug fixes\n\n- Fixed a crash when a file name contained spaces (#212)\n- Fixed broken links to headings with emoji (#219)\n- Updated the Markdown parser to 4.2.1\n\n## When the build fails\n\nIf `lumen build` exits with \"no pages found\", make sure your files end in `.md` and are not ignored by `.gitignore`. Run with `--verbose` to see every file that was skipped.\n\n## See also\n\n- [Markdown guide](https://commonmark.org)\n- [Deploying to GitHub Pages](https://pages.github.com)\n\n## License\n\nMIT © 2026 Lumen contributors.\n",
+    "filename": "lumen.md",
+    "expectKind": "readme",
+    "expectFlags": []
+  },
+  {
+    "name": "changelog with one H1 per release",
+    "doc": "# Changelog\n\n# 2.1.0 (2026-09-01)\n\n- Added a `--json` flag.\n- Fixed a crash on empty files (#88).\n\n# 2.0.0 (2026-06-12)\n\n- **Breaking:** dropped Node 18.\n- Faster startup.\n\n# 1.9.3 (2026-02-20)\n\n- Fixed Windows paths.\n",
+    "filename": "notes.md",
+    "expectKind": "changelog",
+    "expectFlags": []
+  },
+  {
+    "name": "article",
+    "doc": "# Why local-first software matters\n\nMost of the tools we use every day keep our work on someone else's computer. That is convenient until the service changes its terms, raises its prices or simply disappears, and then years of notes, drafts and decisions go with it.\n\nLocal-first software turns this around. Your files live on your device first, and syncing or sharing is something you add, not something you depend on. The app keeps working on a plane, in a basement or during an outage, because nothing essential happens far away.\n\nThere are trade-offs. Collaboration is harder to build, backups become your responsibility and some features that rely on large servers are out of reach. Still, for writing and thinking tools, owning the files is worth more than most of what a server can offer.\n",
+    "filename": null,
+    "expectKind": "article",
+    "expectFlags": []
+  }
+]

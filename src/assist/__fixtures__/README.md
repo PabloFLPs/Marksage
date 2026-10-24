@@ -53,3 +53,9 @@ data); the notes below describe the original hand-built sets.
 (long headings where a type word is incidental, competing types, navigation like "See also"). It guards
 `headingType` in `sections.ts`. The section model itself is evaluated on held-out repositories by
 `training/train-sections.ts` (labels come from headings there, see `training/README.md`).
+
+## Document tab
+
+`docstats.json` (authored): small documents with the expected kind (README, changelog, article, or none) and the
+exact flags (`kind:line`) `computeDocStats` should report — one document triggers every flag type. Heading rule
+only (no model), so it's deterministic.

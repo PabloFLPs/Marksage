@@ -30,5 +30,5 @@ export function useOutline(text: string, enabled: boolean, useModel: boolean) {
   const active = useModel ? model : null
   const items = useMemo(() => (enabled ? buildOutline(deferred, active) : []), [enabled, deferred, active])
   const status: OutlineModelStatus = !useModel ? 'off' : model ? 'ready' : failed ? 'failed' : 'loading'
-  return { items, status }
+  return { items, status, text: deferred }
 }

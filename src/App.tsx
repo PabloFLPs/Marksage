@@ -28,7 +28,7 @@ import { useScrollSync } from './hooks/useScrollSync'
 import { useSmartAssist } from './assist/useSmartAssist'
 import { useOutline } from './assist/useOutline'
 import { useOutlineNav } from './hooks/useOutlineNav'
-import { OutlinePanel } from './components/OutlinePanel'
+import { OutlinePanel, type PanelTab } from './components/OutlinePanel'
 import type { AssistMode } from './assist/types'
 import type { ViewMode } from './lib/viewMode'
 
@@ -165,6 +165,7 @@ export default function App() {
   // Outline panel: docked on desktop (remembered), a bottom sheet on small screens (never auto-opens).
   const [outlineOpen, setOutlineOpen] = useState(() => isDesktop && loadOutlineOpen())
   const [outlineClosing, setOutlineClosing] = useState(false)
+  const [panelTab, setPanelTab] = useState<PanelTab>('outline') // this session only
   const outlineTimer = useRef<number | null>(null)
   const closeOutline = useCallback(() => {
     if (outlineTimer.current) return
@@ -496,6 +497,10 @@ export default function App() {
               onHover={outlineNav.hover}
               onClose={closeOutline}
               closing={outlineClosing}
+              tab={panelTab}
+              onTabChange={setPanelTab}
+              text={outline.text}
+              filename={document.filename}
             />
           )}
           <div className="flex min-h-0 min-w-0 flex-1 flex-col">
@@ -554,6 +559,10 @@ export default function App() {
           onHover={outlineNav.hover}
           onClose={closeOutline}
           closing={outlineClosing}
+          tab={panelTab}
+          onTabChange={setPanelTab}
+          text={outline.text}
+          filename={document?.filename ?? null}
         />
       )}
 

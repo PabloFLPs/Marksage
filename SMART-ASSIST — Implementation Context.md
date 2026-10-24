@@ -255,3 +255,17 @@ There are no cookies, analytics or third-party requests (system fonts only).
 - Shared training code moved to `training/fasttext.ts` (lang-v2 retrains byte-identically).
 - Model cache purge is now per model family, so the two files coexist; the notice, About and the privacy list
   name both files.
+
+## 15. Document tab (2026-10-24)
+
+- Second tab in the Outline panel (Pablo's "analytics modal": readability, professional vs informal, the
+  categorizer applied to the whole document). A tab, not a modal — it sits next to the text it describes.
+- **Kind** (README / changelog / guide / reference / article / notes) = file name first, then the Outline's section
+  types (needs ≥ 3 typed and ≥ 1/4 of sections), then shape (Step headings, list share, long prose). Reason shown.
+  Tuned on real files: ripgrep README/CHANGELOG/GUIDE, typer README, our own docs. Numbered headings ("## 1.")
+  are not steps; an underlined top title counts as a README intro.
+- **Tone** = counted signals, shown: contractions at half weight (ripgrep's docs read "conversational" otherwise),
+  exclamations, emoji (© ® ™ excluded), PT informal words; "conversational" needs ≥ 3 signals. Voice: you / we / I / impersonal.
+- **Flags**: heading jumps, extra H1s (not in changelogs), empty sections, repeated headings under one parent,
+  untagged code, images without alt, "click here" links, very long sections, sentences > 40 words. Click → jump.
+- Word count matches the footer (whitespace words). Nothing stored; the tab is session state.

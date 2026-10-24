@@ -16,6 +16,8 @@ import { HeuristicEngine } from '../src/assist/heuristicEngine.ts'
 import { passesGate } from '../src/assist/types.ts'
 import { LANGUAGES, PASTE_KINDS, Q } from '../src/assist/questions.ts'
 import { headingType } from '../src/assist/sections.ts'
+import { buildOutline } from '../src/assist/outline.ts'
+import { computeDocStats } from '../src/assist/docStats.ts'
 import { findStructureCandidates } from '../src/assist/prefilter.ts'
 import { loadModel } from '../src/assist/model/model.ts'
 import { combineFence, toChoice } from '../src/assist/model/hybrid.ts'
@@ -120,4 +122,20 @@ if (!realOnly && existsSync(fixture('headings.json'))) {
     return { label: String(h.expect), pred: String(pred), conf: 1, shown: pred !== null, source: h.heading }
   })
   report('Outline heading rule — authored', rows, 0)
+}
+
+// Document tab — kind + flags on small authored documents (heading rule only, no model)
+if (!realOnly && existsSync(fixture('docstats.json'))) {
+  console.log('\n## Document tab — authored')
+  let ok = 0
+  const cases = load('docstats.json') as { name: string; doc: string; filename: string | null; expectKind: string | null; expectFlags: string[] }[]
+  for (const c of cases) {
+    const s = computeDocStats(c.doc, buildOutline(c.doc), c.filename)
+    const kind = s.kind?.id ?? null
+    const flags = s.flags.map((f) => `${f.kind}:${f.line}`)
+    const pass = kind === c.expectKind && JSON.stringify(flags) === JSON.stringify(c.expectFlags)
+    ok += +pass
+    if (!pass || !brief) console.log(`  ${pass ? '✓' : '✗'} ${c.name}${pass ? '' : ` — kind ${kind} (expected ${c.expectKind}), flags ${flags.join(' ') || '—'} (expected ${c.expectFlags.join(' ') || '—'})`}`)
+  }
+  console.log(`${ok}/${cases.length} documents as expected`)
 }
