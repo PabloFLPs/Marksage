@@ -178,5 +178,18 @@ GitHub, so a small purpose-trained classifier is the better fit for a fast, loca
 - **Bar to ship (on fences.real.json, run once per candidate):** precision when shown ≥ heuristics (97%),
   shown ≫ 24% (target ≥ 50%), calibrated confidence. A hybrid (model only where heuristics are silent)
   is a valid outcome.
-- **Next:** phase 2 train + calibrate on dev; phase 3 `ModelEngine` behind the "Local model" option +
-  docs (EN/PT-BR).
+- **Phase 2 (done 2026-10-23):** `training/train.ts` + `src/assist/model/` (shared featurizer and
+  inference). v1 = 8-dim × 32,768 buckets, 385 KB int8, ~0.1 ms/decision, temperature 1.85 fitted on dev.
+  Size sweep (8–24 dims, 16k–131k buckets) stayed within dev noise → smallest good model. Strategy locked
+  on dev before the held-out run: **model alone, usual gate** (hybrids lost precision on dev).
+
+  | Held-out (314, run once) | Accuracy | Shown | Precision when shown | Right / wrong shown |
+  |---|---|---|---|---|
+  | Heuristics | 57.3% | 75 (24%) | 97.3% | 73 / 2 |
+  | Model v1 | 75.8% | 141 (45%) | 94.3% | 133 / 8 |
+
+  Mixed against the bar: ~1.8× the right suggestions and +18 points accuracy, but precision 3 points
+  lower (within noise at these sizes) and coverage just under the 50% target. 6 of the 8 wrong ones are
+  1–3 line snippets; 2 are label noise. Details and v2 ideas: `training/README.md`.
+- **Next:** decide how v1 ships (opt-in "Local model" mode) → phase 3 `ModelEngine` + docs (EN/PT-BR).
+  Any v2 claim needs a fresh held-out set (the pipeline can build one from new repos).

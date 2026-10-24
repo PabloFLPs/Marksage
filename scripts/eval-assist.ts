@@ -1,11 +1,13 @@
 /**
- * Smart Assist fixture eval — heuristic engine (Laya column once wired).
+ * Smart Assist fixture eval — heuristic engine, plus Marksage's own F1 model when
+ * public/models/lang-v1.bin exists (see training/README.md).
  *   node --experimental-strip-types scripts/eval-assist.ts            # all sets
  *   node --experimental-strip-types scripts/eval-assist.ts --real     # held-out real-world set only
+ *   … --brief                                                         # no per-error lines
  *
  * Fixture sets (see src/assist/__fixtures__/README.md):
  *   authored  — written alongside the heuristics (regression tests; optimistic by construction)
- *   dev       — real-world excerpts to tune against (F3 only so far)
+ *   dev       — real-world excerpts to tune against (F1, F3)
  *   real      — real-world excerpts, held out: never tune heuristics against them
  */
 import { existsSync, readFileSync } from 'node:fs'
@@ -13,11 +15,15 @@ import { HeuristicEngine } from '../src/assist/heuristicEngine.ts'
 import { passesGate } from '../src/assist/types.ts'
 import { LANGUAGES, PASTE_KINDS, Q } from '../src/assist/questions.ts'
 import { findStructureCandidates } from '../src/assist/prefilter.ts'
+import { loadModel } from '../src/assist/model/model.ts'
 
 const fixture = (f: string) => new URL(`../src/assist/__fixtures__/${f}`, import.meta.url)
 const load = (f: string) => JSON.parse(readFileSync(fixture(f), 'utf8'))
 const engine = new HeuristicEngine()
 const realOnly = process.argv.includes('--real')
+const brief = process.argv.includes('--brief')
+const MODEL_FILE = new URL('../public/models/lang-v1.bin', import.meta.url)
+const model = existsSync(MODEL_FILE) ? loadModel(new Uint8Array(readFileSync(MODEL_FILE)).buffer) : null
 type Set = 'authored' | 'dev' | 'real'
 const SETS: Set[] = realOnly ? ['real'] : ['authored', 'dev', 'real']
 const file = (base: string, set: Set) => (set === 'authored' ? `${base}.json` : `${base}.${set}.json`)
@@ -36,7 +42,7 @@ function report(name: string, rows: Row[], ms: number) {
     const b = rows.filter((r) => r.conf >= bins[i] && r.conf < bins[i + 1])
     if (b.length) console.log(`  conf ${bins[i].toFixed(1)}–${Math.min(1, bins[i + 1]).toFixed(1)}: ${b.length} → ${((b.filter((r) => r.pred === r.label).length / b.length) * 100).toFixed(0)}% correct`)
   }
-  for (const r of rows.filter((r) => r.pred !== r.label))
+  if (!brief) for (const r of rows.filter((r) => r.pred !== r.label))
     console.log(`  ✗ expected ${r.label}, got ${r.pred} (${(r.conf * 100).toFixed(0)}%)${r.shown ? ' [SHOWN]' : ''}${r.source ? `  ${r.source}` : ''}`)
 }
 
@@ -54,6 +60,17 @@ for (const set of SETS) {
       rows.push({ label: f.label, pred: d.choice, conf: d.probs[d.choice as keyof typeof d.probs], shown: d.choice !== 'plaintext' && passesGate(probs), source: f.source })
     }
     report(`F1 code-fence language — ${set}`, rows, performance.now() - t0)
+
+    if (model) {
+      const t1 = performance.now()
+      const mrows: Row[] = []
+      for (const f of load(file('fences', set))) {
+        const p = model.predict(f.code)
+        const pred = Object.keys(p).reduce((a, k) => (p[k] > p[a] ? k : a))
+        mrows.push({ label: f.label, pred, conf: p[pred], shown: pred !== 'plaintext' && passesGate(Object.values(p)), source: f.source })
+      }
+      report(`F1 code-fence language — ${set} · model (${(MODEL_FILE.pathname.split('/').pop())})`, mrows, performance.now() - t1)
+    }
   }
 
   // F2 — smart paste

@@ -17,12 +17,12 @@ src/
     motion.tsx            <Presence> (exit animations) and <CollapseX> (toolbar width collapse)
     AboutPage.tsx         feature docs + Appearance (app icon, key style) — keep in sync with features
     HistoryMenu/HistoryList, SuggestionBar, AssistToggle, AppIconPicker, SplitPanes, Markdown*
-  assist/                 Smart Assist — see "Smart Assist" below
+  assist/                 Smart Assist — see "Smart Assist" below (model/ = own F1 model: features + inference)
   hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery
   lib/                    storage, history, appIcons (icons + accent), keyStyle, file, sampleDocument
   index.css               theme tokens, accent palettes ([data-accent]), markdown styles, motion keyframes
 scripts/eval-assist.ts    fixture evaluation for Smart Assist
-training/                 data pipeline for the F1 model (collect → split); clones/train data gitignored
+training/                 F1 model pipeline (collect → split → train); clones/train data gitignored
 ```
 
 ## Conventions
