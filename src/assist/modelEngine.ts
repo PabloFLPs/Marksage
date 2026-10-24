@@ -1,17 +1,19 @@
 import type { Decision, DecisionEngine } from './types.ts'
 import { Q } from './questions.ts'
 import { loadModel, type LangModel } from './model/model.ts'
+import { combineFence, toChoice } from './model/hybrid.ts'
 
 /**
- * "Local model" mode: Marksage's own code-language model answers F1 (and the language tag of a
- * code paste); every other question goes to the heuristic engine. The model is ~385 KB and decides
+ * "Local model" mode: Marksage's own code-language model answers code-block languages (and the
+ * language tag of a code paste) — v2 also accepts a confident heuristic answer when the model's top
+ * pick agrees (see model/hybrid.ts); every other question goes to the heuristic engine. The model is ~385 KB and decides
  * in ~0.1 ms, so it runs on the main thread — a worker would cost more than the inference.
  *
  * The file is fetched lazily (only when this mode is picked), with progress, and kept in the Cache
  * API so later sessions don't download it again. One load is shared by every engine instance.
  * If anything fails, `ready()` rejects and the hook keeps the heuristics (status "fallback").
  */
-export const MODEL_URL = `${import.meta.env.BASE_URL}models/lang-v1.bin`
+export const MODEL_URL = `${import.meta.env.BASE_URL}models/lang-v2.bin`
 const CACHE_NAME = 'marksage-models-v1'
 const loads = new Map<string, Promise<LangModel>>()
 const listeners = new Map<string, Set<(loaded: number, total: number) => void>>()
@@ -50,17 +52,7 @@ export class ModelEngine implements DecisionEngine {
 
   async choice<T extends string>(state: string, q: string, options: Record<T, string>): Promise<Decision<T>> {
     if (q !== Q.fenceLanguage || !this.model) return this.fallback.choice(state, q, options)
-    const p = this.model.predict(state)
-    const keys = Object.keys(options) as T[]
-    // Restrict to the options asked for (normally the same 21 languages) and renormalise.
-    const sum = keys.reduce((s, k) => s + (p[k] ?? 0), 0) || 1
-    const probs = {} as Record<T, number>
-    let best = keys[0]
-    for (const k of keys) {
-      probs[k] = (p[k] ?? 0) / sum
-      if (probs[k] > probs[best]) best = k
-    }
-    return { choice: best, probs }
+    return combineFence(toChoice(this.model.predict(state), options), () => this.fallback.choice(state, q, options))
   }
 
   score(state: string, q: string, scale: string[]) {
@@ -130,6 +122,8 @@ async function fetchModel(url: string, onProgress: (loaded: number, total: numbe
 
   try {
     await cache?.put(url, new Response(buf.slice(0), { headers: { 'content-type': 'application/octet-stream' } }))
+    // A newer model replaces the old file instead of piling up next to it.
+    for (const req of (await cache?.keys()) ?? []) if (req.url !== new URL(url, location.href).href) await cache?.delete(req)
   } catch {
     // Quota or private mode — the model still works for this session.
   }

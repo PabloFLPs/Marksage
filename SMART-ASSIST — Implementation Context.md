@@ -219,3 +219,16 @@ There are no cookies, analytics or third-party requests (system fonts only).
 - Not legal advice — the hosting provider's own terms/logs still apply.
 
 - 2026-10-24: the unused `LayaEngine` / `laya.worker.ts` scaffold and `PROMPTS` were removed (still in git history); Laya remains a documented option for future questions without training data.
+
+## 13. Model v2 and smart-paste fixes (2026-10-24)
+
+- **Smart paste:** new dev set (`pastes.dev.json`, 27 pastes, other sources). Fixed copied lists, CLI tables
+  (rule rows, right-aligned columns), CSV with multi-line quoted cells / ragged headers, padded TSV, JSONC
+  (```` ```jsonc ````). Held-out: 81% → 94% accuracy, 17 → 23 shown, precision 100%.
+- **Model v2** (details: `training/README.md`): +45 training repos (dev/test frozen), temperature fitted on
+  out-of-repo predictions from 5 repo folds (short snippets separately, 95% precision target), agreement
+  hybrid with the heuristics. Measured once on a **fresh** held-out set (`fences.real2.json`, 284 blocks,
+  67 new repos): heuristics 58.5% / 70 shown / 92.9%, v1 71.5% / 151 / 88.1%, **v2 74.3% / 158 / 91.8%**
+  (145 right, 13 wrong). Shipped: beats v1 on everything; still ~1 point under the heuristics' precision
+  on unfamiliar repos, so the mode stays opt-in.
+- Vite ignores `training/data/**` (the dev server ran out of file watchers with the clones present).

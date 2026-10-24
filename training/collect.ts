@@ -1,6 +1,7 @@
 /**
  * Step 1 — collect labelled code blocks from the public sources in sources.json.
  *   node --experimental-strip-types training/collect.ts [--jobs 8]
+ *   … --sources sources-test2.json --out blocks-test2.jsonl --manifest manifest-test2.json   (a separate held-out set)
  *
  * Shallow, sparse clones (only Markdown, or only the listed source files) into training/data/repos/,
  * then every fenced block whose info string maps to a LANGUAGES key becomes one record in
@@ -19,10 +20,14 @@ const ROOT = new URL('.', import.meta.url).pathname
 const DATA = join(ROOT, 'data')
 const REPOS = join(DATA, 'repos')
 const JOBS = Number(process.argv[process.argv.indexOf('--jobs') + 1]) || 8
+const flag = (name: string, dflt: string) => (process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1] : dflt)
+const SOURCES = flag('--sources', 'sources.json')
+const OUT = flag('--out', 'blocks.jsonl')
+const MANIFEST = flag('--manifest', 'manifest.json')
 
 export interface Source {
   repo: string
-  split?: 'train' | 'dev' | 'test'
+  split?: 'train' | 'dev' | 'test' | 'test2'
   paths?: string[]
   code?: Partial<Record<Language, string[]>>
   wiki?: boolean
@@ -152,10 +157,10 @@ function fileBlocks(s: Source, dir: string): Block[] {
 }
 
 async function main() {
-  const { sources } = JSON.parse(readFileSync(join(ROOT, 'sources.json'), 'utf8')) as { sources: Source[] }
+  const { sources } = JSON.parse(readFileSync(join(ROOT, SOURCES), 'utf8')) as { sources: Source[] }
   mkdirSync(REPOS, { recursive: true })
   const manifest: Record<string, string> = {}
-  const outFile = createWriteStream(join(DATA, 'blocks.jsonl'))
+  const outFile = createWriteStream(join(DATA, OUT))
   let total = 0
   let next = 0
   const counts: Record<string, number> = {}
@@ -177,7 +182,7 @@ async function main() {
   await Promise.all(Array.from({ length: JOBS }, worker))
   outFile.end()
   const sorted = Object.fromEntries(Object.entries(manifest).sort(([a], [b]) => a.localeCompare(b)))
-  writeFileSync(join(ROOT, 'manifest.json'), JSON.stringify({ collected: new Date().toISOString().slice(0, 10), commits: sorted }, null, 1) + '\n')
+  writeFileSync(join(ROOT, MANIFEST), JSON.stringify({ collected: new Date().toISOString().slice(0, 10), commits: sorted }, null, 1) + '\n')
   console.log(`\n${total} blocks from ${Object.keys(manifest).length}/${sources.length} sources`)
   console.log(Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}:${v}`).join('  '))
 }

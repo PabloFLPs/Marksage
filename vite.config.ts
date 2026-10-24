@@ -16,5 +16,8 @@ export default defineConfig(({ mode }) => {
         transformIndexHtml: (html) => html.replaceAll('%SITE_URL%', siteUrl),
       },
     ],
+    // training/data holds ~270k cloned files for the model pipeline — never watch or scan them.
+    server: { watch: { ignored: ['**/training/data/**'] } },
+    optimizeDeps: { entries: ['index.html'] },
   }
 })

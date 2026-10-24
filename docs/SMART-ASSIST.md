@@ -226,34 +226,43 @@ answers, like the rest of Smart Assist.
   neighbouring tokens, how lines start and end, the indentation style, and three-letter pieces of
   longer words. Each clue has a learned 8-number vector; the model averages them and turns the
   average into one probability per language.
-- **Calibrated:** its confidence was tuned so that "90 %" really means about 90 % right — the same
-  confidence gate as the heuristics (0.8 / 0.2) decides whether you see anything.
+- **Careful on purpose:** its confidence is tuned on predictions for repositories it never saw in
+  training (short snippets separately — they're easier to over-trust), aiming at about 95 % right
+  when it speaks. The same confidence gate as the heuristics (0.8 / 0.2) decides whether you see anything.
+- **Two opinions:** when the model isn't sure but the heuristics are, the suggestion still appears —
+  only if the model's own first guess agrees.
 
 ### 4.2 How it was trained
 
-- **Data:** about 250,000 code blocks from 265 public repositories (docs, READMEs, guides —
+- **Data:** about 270,000 code blocks from 309 public repositories (docs, READMEs, guides —
   including Portuguese ones), labelled with the language the *original authors* tagged them with,
   plus snippets of real source files for rarer languages.
 - **Fair split:** whole repositories go to training, tuning (dev) or the final test — never the same
   project in two places — and any training block that looks like a test block is removed.
-- **Training:** about 55,000 blocks, a few seconds per pass, done in TypeScript with the same code
+- **Training:** about 64,000 blocks, a few seconds per pass, done in TypeScript with the same code
   the app uses to read snippets, so what the model saw in training is exactly what it sees here.
 - **Chosen on dev, measured once:** size, settings and how to combine it with the heuristics were
-  decided on the dev set; the held-out set was run once at the end.
+  decided on the dev set; each held-out set was run once at the end. The current model is the second
+  version — the first one is described in the results below.
 
 ### 4.3 Results
 
-On 314 real code blocks the model had never seen (15 per language):
+Version 2 was measured on a **fresh** set: 284 code blocks from 67 repositories that no version of the
+model, nor any tuning, had ever touched (up to 15 per language):
 
 | Engine | Accuracy | Suggestions shown | Right when shown | Right / wrong suggestions |
 |---|---|---|---|---|
-| Heuristics | 57 % | 75 (24 %) | 97 % | 73 / 2 |
-| **Marksage's model** | **76 %** | **141 (45 %)** | **94 %** | **133 / 8** |
+| Heuristics | 59 % | 70 (25 %) | 93 % | 65 / 5 |
+| Model v1 | 72 % | 151 (53 %) | 88 % | 133 / 18 |
+| **Model v2 (current)** | **74 %** | **158 (56 %)** | **92 %** | **145 / 13** |
 
-About twice as many useful suggestions, at a slightly higher miss rate — which is why it's an
-opt-in mode. Most of its misses are one- to three-line snippets, where languages look alike
-(`List<int> xs = new();` is C#, but reads a lot like Java); a better handle on very short snippets
-is the next step.
+On the first set (314 blocks, the one v1 was measured on) v2 reaches 77 % accuracy, 164 shown and
+96 % right when shown (v1: 76 %, 141, 94 %; heuristics: 57 %, 76, 97 %).
+
+So: more than twice the useful suggestions of the heuristics, and better than v1 on every count — but
+still about a point less precise than the heuristics on unfamiliar repositories, which is why it stays an
+opt-in mode. About half of its misses are really labelling quirks (`dotnet build -c Release` tagged as
+C#), the rest are one-liners that fit several languages (`void main() { … }` is valid Java *and* C++).
 
 ### 4.4 And Laya?
 
@@ -284,14 +293,14 @@ included), and the rules are never tuned against it — so it's the honest numbe
 
 | Feature | Real-world examples | Accuracy | Shown | Precision when shown |
 |---|---|---|---|---|
-| Code-block language | 314 | 57 % | 75 | 97 % |
+| Code-block language | 314 | 57 % | 76 | 97 % |
 | Smart paste | 31 | 94 % | 23 | 100 % |
 | Structure hints | 30 | 93 % | 14 | 86 % |
 
 Read it like this: when a suggestion appears it's almost always right; the cost of that caution
 is that many real code blocks get no language suggestion at all. Heuristic decisions take well under
-a millisecond. With *Local model*, code-block language on the same 314 blocks reaches **76 % accuracy, 141 shown, 94 %
-precision** (section 4.3).
+a millisecond. With *Local model*, code-block language on the same 314 blocks reaches **77 % accuracy, 164 shown, 96 %
+precision**, and 74 % / 158 / 92 % on a second, fresh set (section 4.3).
 
 ---
 

@@ -994,6 +994,303 @@
      "/googletest/samples/*.cc"
     ]
    }
+  },
+  {
+   "repo": "reactjs/react.dev",
+   "split": "train",
+   "paths": [
+    "/src/content/reference/react/*"
+   ]
+  },
+  {
+   "repo": "vuejs/docs",
+   "split": "train",
+   "paths": [
+    "/src/guide/*"
+   ]
+  },
+  {
+   "repo": "nestjs/docs.nestjs.com",
+   "split": "train",
+   "paths": [
+    "/content/*"
+   ]
+  },
+  {
+   "repo": "expressjs/expressjs.com",
+   "split": "train",
+   "paths": [
+    "/en/*"
+   ]
+  },
+  {
+   "repo": "lit/lit.dev",
+   "split": "train",
+   "paths": [
+    "/packages/lit-dev-content/site/docs/*"
+   ]
+  },
+  {
+   "repo": "solidjs/solid-docs",
+   "split": "train",
+   "paths": [
+    "/src/routes/*"
+   ]
+  },
+  {
+   "repo": "electron/electron",
+   "split": "train",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "microsoft/TypeScript-Website",
+   "split": "train",
+   "paths": [
+    "/packages/documentation/copy/en/handbook-v2/*"
+   ]
+  },
+  {
+   "repo": "grafana/k6-docs",
+   "split": "train",
+   "paths": [
+    "/docs/sources/k6/next/using-k6/*"
+   ]
+  },
+  {
+   "repo": "huggingface/hub-docs",
+   "split": "train",
+   "paths": [
+    "/docs/hub/*"
+   ]
+  },
+  {
+   "repo": "huggingface/peft",
+   "split": "train",
+   "paths": [
+    "/docs/source/*"
+   ]
+  },
+  {
+   "repo": "huggingface/accelerate",
+   "split": "train",
+   "paths": [
+    "/docs/source/*"
+   ]
+  },
+  {
+   "repo": "microsoft/semantic-kernel",
+   "split": "train",
+   "paths": [
+    "/python/*",
+    "/dotnet/README.md"
+   ]
+  },
+  {
+   "repo": "temporalio/documentation",
+   "split": "train",
+   "paths": [
+    "/docs/develop/*"
+   ]
+  },
+  {
+   "repo": "dapr/docs",
+   "split": "train",
+   "paths": [
+    "/daprdocs/content/en/developing-applications/*"
+   ]
+  },
+  {
+   "repo": "rust-lang/reference",
+   "split": "train",
+   "paths": [
+    "/src/*"
+   ]
+  },
+  {
+   "repo": "rust-lang/nomicon",
+   "split": "train",
+   "paths": [
+    "/src/*"
+   ]
+  },
+  {
+   "repo": "rust-lang/async-book",
+   "split": "train",
+   "paths": [
+    "/src/*"
+   ]
+  },
+  {
+   "repo": "leptos-rs/book",
+   "split": "train",
+   "paths": [
+    "/src/*"
+   ]
+  },
+  {
+   "repo": "CyC2018/CS-Notes",
+   "split": "train",
+   "paths": [
+    "/notes/*"
+   ]
+  },
+  {
+   "repo": "hollischuang/toBeTopJavaer",
+   "split": "train",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "MicrosoftDocs/cpp-docs",
+   "split": "train",
+   "paths": [
+    "/docs/cpp/*",
+    "/docs/c-language/*"
+   ]
+  },
+  {
+   "repo": "dotnet/docs-maui",
+   "split": "train",
+   "paths": [
+    "/docs/fundamentals/*"
+   ]
+  },
+  {
+   "repo": "Azure/azure-sdk-for-net",
+   "split": "train",
+   "paths": [
+    "/sdk/storage/*",
+    "/sdk/identity/*"
+   ]
+  },
+  {
+   "repo": "dry-rb/dry-rb.org",
+   "split": "train",
+   "paths": [
+    "/source/gems/*"
+   ]
+  },
+  {
+   "repo": "rubygems/guides",
+   "split": "train"
+  },
+  {
+   "repo": "thoughtbot/guides",
+   "split": "train"
+  },
+  {
+   "repo": "craftcms/docs",
+   "split": "train",
+   "paths": [
+    "/docs/5.x/*"
+   ]
+  },
+  {
+   "repo": "statamic/docs",
+   "split": "train",
+   "paths": [
+    "/content/collections/docs/*"
+   ]
+  },
+  {
+   "repo": "MaterializeInc/materialize",
+   "split": "train",
+   "paths": [
+    "/doc/user/content/sql/*"
+   ]
+  },
+  {
+   "repo": "questdb/documentation",
+   "split": "train",
+   "paths": [
+    "/documentation/reference/sql/*"
+   ]
+  },
+  {
+   "repo": "risingwavelabs/risingwave-docs",
+   "split": "train",
+   "paths": [
+    "/sql/*"
+   ]
+  },
+  {
+   "repo": "argoproj/argo-workflows",
+   "split": "train",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "fluxcd/website",
+   "split": "train",
+   "paths": [
+    "/content/en/flux/guides/*"
+   ]
+  },
+  {
+   "repo": "open-telemetry/opentelemetry.io",
+   "split": "train",
+   "paths": [
+    "/content/en/docs/collector/*"
+   ]
+  },
+  {
+   "repo": "saadeghi/daisyui",
+   "split": "train",
+   "paths": [
+    "/packages/docs/src/routes/(routes)/components/*"
+   ]
+  },
+  {
+   "repo": "executablebooks/MyST-Parser",
+   "split": "train",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "typescript-eslint/typescript-eslint",
+   "split": "train",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "nodejs/node-addon-api",
+   "split": "train",
+   "paths": [
+    "/doc/*"
+   ]
+  },
+  {
+   "repo": "apple/swift-book",
+   "split": "train"
+  },
+  {
+   "repo": "gitpod-io/website",
+   "split": "train"
+  },
+  {
+   "repo": "pallets/click",
+   "split": "train"
+  },
+  {
+   "repo": "jqlang/jq",
+   "split": "train",
+   "paths": [
+    "/docs/content/*"
+   ]
+  },
+  {
+   "repo": "BurntSushi/xsv",
+   "split": "train"
+  },
+  {
+   "repo": "koalaman/shellcheck",
+   "split": "train"
   }
  ]
 }

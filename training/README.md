@@ -8,7 +8,7 @@ heuristics on held-out data before it ships.
 ```bash
 node --experimental-strip-types training/collect.ts     # clone sources, extract labelled blocks (~10 min)
 node --experimental-strip-types training/build-sets.ts  # split by repo → train / dev / test
-node --experimental-strip-types training/train.ts --dim 8 --buckets 32768 --save public/models/lang-v1.bin
+node --experimental-strip-types training/train.ts --dim 8 --buckets 32768 --cv-temp --short-t --target-precision 0.95 --save public/models/lang-v2.bin
 npm run eval:assist                                     # heuristics + model on every set
 ```
 
@@ -19,7 +19,8 @@ npm run eval:assist                                     # heuristics + model on 
 | `splits.json` | ✓ | Which repos are dev and test (everything else is train). |
 | `labels.ts` | ✓ | Info string → language map, shared by every set (`sh`/`console` → `bash`, `tsx` → `ts`, …). |
 | `train.ts` | ✓ | Trainer: SGD, class re-weighting, temperature calibration on dev, int8 export. Deterministic (same data + seed → identical file). |
-| `data/` | ✗ (gitignored) | Clones, `blocks.jsonl` (all ~250k blocks) and `train.jsonl` (~55k). Rebuild with the two scripts. |
+| `sources-test2.json`, `manifest-test2.json`, `build-test2.ts` | ✓ | The second, fresh held-out set (`fences.real2.json`): 72 repos used nowhere else, built once and frozen. |
+| `data/` | ✗ (gitignored) | Clones, `blocks.jsonl` (~270k blocks), `blocks-test2.jsonl` and `train.jsonl` (~64k). Rebuild with the scripts. |
 
 ## How the sets are made
 
@@ -37,7 +38,7 @@ npm run eval:assist                                     # heuristics + model on 
 - **train** — capped at 6,000 blocks per language and 600 per repo per language, so no single project
   or language dominates.
 
-## The model (v1, 2026-10-23)
+## The model (v1, 2026-10-23) — superseded by v2 below
 
 `src/assist/model/` — shared by the trainer and the app, so both see identical features.
 
@@ -69,3 +70,42 @@ defensible (untyped code tagged `typescript`; a shell session tagged `text`).
 **v2 ideas** (tune on dev, then measure on a *fresh* held-out set — this one has now been seen once):
 a stricter gate or a short-snippet feature for ≤ 3-line blocks; more SQL/C#/Markdown one-liners in
 training; TS-vs-JS cues (type annotations, `interface`, generics).
+
+## The model (v2, 2026-10-24) — current
+
+`public/models/lang-v2.bin` (385 KB, same format and size as v1) replaced v1.
+
+**What changed** — all decided on dev; the fresh held-out set was run once at the end:
+- **More, more varied training data:** 45 more repos (309 sources, ~270k blocks → 63,751 training blocks).
+  Dev/test repos are frozen in `splits.json`, so earlier numbers stay comparable; pools are sorted before
+  sampling so rebuilds are byte-identical.
+- **Calibrated on unseen repos:** `--cv-temp` trains 5 extra models on repo folds of train and fits the
+  temperature on their out-of-repo predictions (~7,600 blocks from ~190 repos) instead of the 280 dev
+  blocks; `--short-t` fits short snippets (≤ 3 lines) separately (v2: 1.85 / 2.55); `--target-precision 0.95`
+  then raises each temperature until out-of-repo precision at the app's gate reaches 95%.
+- **Agreement hybrid** (`src/assist/model/hybrid.ts`): if the model isn't confident, a confident heuristic
+  answer is used only when the model's top pick agrees. +~20 suggestions on dev at equal precision.
+- **Tried and dropped:** training on 1–3 line slices of longer blocks (−2 to −5 points accuracy on dev);
+  bigger models (12–16 dims, 64k buckets: more coverage, ~3 points less precision).
+- Seed 1 (the default) was kept — not the best-looking seed.
+
+| Dev (280) | Accuracy | Shown | Precision |
+|---|---|---|---|
+| v1 | 78.9% | 148 (53%) | 92.6% |
+| **v2** | **81.8%** | **157 (56%)** | **94.9%** |
+
+| Fresh held-out (`fences.real2.json`, 284 blocks / 67 repos, run once) | Accuracy | Shown | Precision | Right / wrong |
+|---|---|---|---|---|
+| Heuristics | 58.5% | 70 (25%) | 92.9% | 65 / 5 |
+| v1 | 71.5% | 151 (53%) | 88.1% | 133 / 18 |
+| **v2** | **74.3%** | **158 (56%)** | **91.8%** | **145 / 13** |
+
+On the first held-out set (already seen once by v1's evaluation): v2 77.4% / 164 / 95.7% (v1 75.8% / 141 / 94.3%).
+
+**Against the bar:** better than v1 on every number on both sets, coverage ≥ 50% ✓, but precision is
+1.1 points below the heuristics on the fresh set (not significant at these sizes) — the "match the
+heuristics' precision" goal is not met yet. ~5 of the 13 wrong suggestions are label quirks
+(`dotnet build -c Release` tagged `csharp`, a `> cd … && cargo run` session tagged `text`); the rest are
+one-liners valid in several languages (`void main() { … }`, `print page.html`, `foo.doSomething();`) and a
+few genuine misses (`a {}` → js). v3 ideas: a "too short to tell" abstain rule for one-liners; per-language
+gates; more CSS/diff/Markdown in training.

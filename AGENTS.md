@@ -43,8 +43,8 @@ training/                 F1 model pipeline (collect → split → train); clone
 Full technical documentation: `docs/SMART-ASSIST.md` — also rendered in-app at `#smart-assist` (About → "How it works"), written for curious readers with basic dev knowledge — no repo-only instructions there (commands, file paths, contributing steps belong here). Keep EN + PT-BR in sync when changing heuristics or the model.
 - Contract: `DecisionEngine` (`choice` / `score` / `noul`) in `assist/types.ts`. The engine decides; our code edits.
 - `HeuristicEngine` (always available) routes by question id (`assist/questions.ts`) to `assist/heuristics/*`.
-- `ModelEngine` ("Local model" mode): Marksage's own F1 model (`assist/model/`, weights in `public/models/lang-v1.bin`)
-  answers `fence.language`; everything else falls back to `HeuristicEngine`. Lazy fetch + Cache API, main thread
+- `ModelEngine` ("Local model" mode): Marksage's own code-language model (`assist/model/`, weights in `public/models/lang-v2.bin`)
+  answers `fence.language` — plus confident heuristic answers the model agrees with (`assist/model/hybrid.ts`); everything else falls back to `HeuristicEngine`. Lazy fetch + Cache API, main thread
   (~0.1 ms/decision). Retrain with `training/` (see its README); a new model must beat the current one on dev,
   then on a held-out set. (The earlier `LayaEngine` worker scaffold was removed on 2026-10-24 — it's in git history.)
 - Flow: deterministic pre-filter (`prefilter.ts`) → engine → confidence gate (`passesGate`, 0.8 / 0.2 margin) → suggestion.

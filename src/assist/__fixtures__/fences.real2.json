@@ -1,0 +1,1706 @@
+[
+  {
+    "label": "ts",
+    "code": "let router = createBrowserRouter(routes, {\n  instrumentations: [logging]\n});\n\n\nlet logging = {\n  router({ instrument }) {\n    instrument({\n      navigate: (impl, info) => logExecution(`navigate ${info.to}`, impl),\n      fetch: (impl, info) => logExecution(`fetch ${info.to}`, impl)\n    });\n  },\n  route({ instrument, id }) {\n    instrument({\n      middleware: (impl, info) => logExecution(\n        `middleware ${info.request.url} (route ${id})`,\n        impl\n      ),\n      loader: (impl, info) => logExecution(\n        `loader ${info.request.url} (route ${id})`,\n        impl\n      ),\n      action: (impl, info) => logExecution(\n        `action ${info.request.url} (route ${id})`,\n        impl\n      ),\n    })\n  }\n};\n\nasync function logExecution(label: string, impl: () => Promise<void>) {\n  let start = performance.now();\n  console.log(`start ${label}`);\n  await impl();\n  let duration = Math.round(performance.now() - start);\n  console.log(`end ${label} (${duration}ms)`);\n}",
+    "tag": "tsx",
+    "source": "https://github.com/remix-run/react-router/blob/bb7c1f021363e96745dd3cfc5d2431e9b80ffe61/docs/api/data-routers/createHashRouter.md#L158"
+  },
+  {
+    "label": "ts",
+    "code": "export type AppDispatch = typeof store.dispatch",
+    "tag": "ts",
+    "source": "https://github.com/reduxjs/redux-toolkit/blob/0fd611cc79d44990ac9a040dec4d5cb446233440/docs/usage/usage-with-typescript.md#L76"
+  },
+  {
+    "label": "ts",
+    "code": "let discoveredRoutes = new Set();\n\nconst router = createBrowserRouter(routes, {\n  async patchRoutesOnNavigation({ patch, path }) {\n    if (discoveredRoutes.has(path)) {\n      // We've seen this before so nothing to patch in and we can let the router\n      // use the routes it already knows about\n      return;\n    }\n\n    discoveredRoutes.add(path);\n\n    // ... patch routes in accordingly\n  },\n});",
+    "tag": "tsx",
+    "source": "https://github.com/remix-run/react-router/blob/bb7c1f021363e96745dd3cfc5d2431e9b80ffe61/docs/api/data-routers/createBrowserRouter.md#L507"
+  },
+  {
+    "label": "ts",
+    "code": "// route(\"/city-search\", \"./search-cities.ts\")\nexport async function loader({ request }) {\n  const { searchParams } = new URL(request.url);\n  return searchCities(searchParams.get(\"q\"));\n}",
+    "tag": "tsx",
+    "source": "https://github.com/remix-run/react-router/blob/bb7c1f021363e96745dd3cfc5d2431e9b80ffe61/docs/explanation/race-conditions.md#L40"
+  },
+  {
+    "label": "ts",
+    "code": "import { diagnostics } from \"@paradedb/drizzle-paradedb\";\n\nawait db.execute(diagnostics.indexes());",
+    "tag": "ts",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/operate/index-maintenance/verify-index.mdx#L859"
+  },
+  {
+    "label": "ts",
+    "code": "import { search } from \"@paradedb/drizzle-paradedb\";\n\nawait db\n  .select({\n    agg: search.agg({ value_count: { field: \"id\" } }),\n  })\n  .from(mockItems)\n  .where(search.term(mockItems.category, \"electronics\"));",
+    "tag": "ts",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/aggregates/overview.mdx#L62"
+  },
+  {
+    "label": "ts",
+    "code": "import { desc, or } from \"drizzle-orm\";\nimport { search } from \"@paradedb/drizzle-paradedb\";\n\nawait db\n  .select({\n    id: mockItems.id,\n    score: search.score(mockItems.id),\n    description: mockItems.description,\n    category: mockItems.category,\n  })\n  .from(mockItems)\n  .where(\n    or(\n      search.matchAny(mockItems.description, search.boost(\"shoes\", 2)),\n      search.matchAny(mockItems.category, \"footwear\"),\n    ),\n  )\n  .orderBy(desc(search.score(mockItems.id)))\n  .limit(5);",
+    "tag": "ts",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/full-text/relevance-tuning.mdx#L25"
+  },
+  {
+    "label": "ts",
+    "code": "app.get(\"/\", (event) => {\n  const param = getRouterParam(event, \"key\");\n});",
+    "tag": "ts",
+    "source": "https://github.com/unjs/h3/blob/f0e17808ac2439b6434bb10609a961067f4d555b/docs/2.utils/1.request.md#L312"
+  },
+  {
+    "label": "ts",
+    "code": "// file: src/isPlainObject.ts noEmit\n\ndeclare function isPlainObject(value: unknown): value is object\nexport default isPlainObject\n\n// file: src/serializableStateInvariantMiddleware.ts\nimport isPlainObject from './isPlainObject'\n\nexport function isPlain(val: any) {\n  return (\n    typeof val === 'undefined' ||\n    val === null ||\n    typeof val === 'string' ||\n    typeof val === 'boolean' ||\n    typeof val === 'number' ||\n    Array.isArray(val) ||\n    isPlainObject(val)\n  )\n}",
+    "tag": "ts",
+    "source": "https://github.com/reduxjs/redux-toolkit/blob/0fd611cc79d44990ac9a040dec4d5cb446233440/docs/api/serializabilityMiddleware.mdx#L124"
+  },
+  {
+    "label": "ts",
+    "code": "type ConditionFunction<Action extends ReduxAction, State> = (\n  predicate: ListenerPredicate<Action, State> | (() => boolean),\n  timeout?: number,\n) => Promise<boolean>\n\ntype TakeFunction<Action extends ReduxAction, State> = (\n  predicate: ListenerPredicate<Action, State> | (() => boolean),\n  timeout?: number,\n) => Promise<[Action, State, State] | null>",
+    "tag": "ts",
+    "source": "https://github.com/reduxjs/redux-toolkit/blob/0fd611cc79d44990ac9a040dec4d5cb446233440/docs/api/createListenerMiddleware.mdx#L580"
+  },
+  {
+    "label": "ts",
+    "code": "app.use(requireAuth); // runs first, for every request\napp.use(routeRules({ \"/api/**\": { swr: 60 } }, { handlers: { cache } }));",
+    "tag": "ts",
+    "source": "https://github.com/unjs/h3/blob/f0e17808ac2439b6434bb10609a961067f4d555b/docs/1.guide/2.rules.md#L593"
+  },
+  {
+    "label": "ts",
+    "code": "import { getCookie } from \"h3\";\n\napp.use(async (event) => {\n  const name = getCookie(event, \"name\");\n\n  // do something...\n\n  return \"\";\n});",
+    "tag": "ts",
+    "source": "https://github.com/unjs/h3/blob/f0e17808ac2439b6434bb10609a961067f4d555b/docs/4.examples/handle-cookie.md#L44"
+  },
+  {
+    "label": "ts",
+    "code": "import type { PrimitiveAtom } from 'jotai'\n\n/**\n * here the atom(id) returns a PrimitiveAtom<number>\n * and PrimitiveAtom<number> is a WritableAtom<number, SetStateAction<number>>\n */\nconst myFamily = atomFamily((id: number) => atom(id))",
+    "tag": "ts",
+    "source": "https://github.com/pmndrs/jotai/blob/e5971ba44866d070564a0a30187f6976fee0e350/docs/utilities/family.mdx#L50"
+  },
+  {
+    "label": "ts",
+    "code": "resetForm({ values: nextValues /* errors, touched, etc ... */ });",
+    "tag": "tsx",
+    "source": "https://github.com/jaredpalmer/formik/blob/91475adbf33579561e580eceea0c031f4ec2e992/packages/formik/MIGRATING-v2.md#L34"
+  },
+  {
+    "label": "ts",
+    "code": "import type { Theme, SxProps } from '@mui/material/styles';\n\ndeclare global {\n  namespace React {\n    interface HTMLAttributes<T> {\n      sx?: SxProps<Theme>;\n    }\n    interface SVGProps<T> {\n      sx?: SxProps<Theme>;\n    }\n  }\n}",
+    "tag": "ts",
+    "source": "https://github.com/mui/material-ui/blob/f0a678be0b1117174de846b4d8d3e02af9727931/docs/data/material/migration/upgrade-to-v6/migrating-to-pigment-css.md#L657"
+  },
+  {
+    "label": "js",
+    "code": "// countAtom.ts\nconst countAtom = atom(0)\ncountAtom.debugLabel = 'countAtom'\nexport default countAtom",
+    "tag": "js",
+    "source": "https://github.com/pmndrs/jotai/blob/e5971ba44866d070564a0a30187f6976fee0e350/docs/tools/swc.mdx#L76"
+  },
+  {
+    "label": "js",
+    "code": "const textAtom = atom('hello')\nexport const textUpperCaseAtom = atom(\n  (get) => get(textAtom).toUpperCase(),\n  (_get, set, newText) => set(textAtom, newText),\n)",
+    "tag": "js",
+    "source": "https://github.com/pmndrs/jotai/blob/e5971ba44866d070564a0a30187f6976fee0e350/docs/guides/composing-atoms.mdx#L29"
+  },
+  {
+    "label": "js",
+    "code": "import { fetch } from 'undici' // uses your installed version, not the built-in",
+    "tag": "js",
+    "source": "https://github.com/nodejs/undici/blob/046bb4c6fe413a32ecb6d51eb3ecaa56c8c15b87/docs/docs/best-practices/undici-vs-builtin-fetch.md#L215"
+  },
+  {
+    "label": "js",
+    "code": "/// file: +layout.server.js\n// @filename: env.d.ts\ndeclare module '$app/env/private' {\n\texport const VERCEL_COMMIT_REF: string;\n}\n// @filename: +layout.server.js\n// ---cut---\nimport { VERCEL_COMMIT_REF } from '$app/env/private';\n\n/** @type {import('./$types').LayoutServerLoad} */\nexport function load() {\n\treturn {\n\t\tdeploymentGitBranch: VERCEL_COMMIT_REF\n\t};\n}",
+    "tag": "js",
+    "source": "https://github.com/sveltejs/kit/blob/d955d1b604a051c0b21f59c6f9709b36756090b5/documentation/docs/25-build-and-deploy/90-adapter-vercel.md#L155"
+  },
+  {
+    "label": "js",
+    "code": "const counterReducer = createReducer(0, (builder) => {\n  builder\n    .addCase('increment', (state, action) => state + action.payload)\n    .addCase('decrement', (state, action) => state - action.payload)\n})\n\nconsole.log(counterReducer.getInitialState()) // 0",
+    "tag": "js",
+    "source": "https://github.com/reduxjs/redux-toolkit/blob/0fd611cc79d44990ac9a040dec4d5cb446233440/docs/api/createReducer.mdx#L123"
+  },
+  {
+    "label": "js",
+    "code": "import ky from 'ky';\n\nconst response = await ky.post(url, {\n\tbody: formData,\n\thooks: {\n\t\tbeforeRequest: [\n\t\t\t({request}) => {\n\t\t\t\tconst newFormData = new FormData();\n\n\t\t\t\t// Modify FormData as needed\n\t\t\t\tfor (const [key, value] of formData) {\n\t\t\t\t\tnewFormData.set(key.toLowerCase(), value);\n\t\t\t\t}\n\n\t\t\t\t// Delete `Content-Type` to let Request regenerate it with correct boundary\n\t\t\t\trequest.headers.delete('content-type');\n\n\t\t\t\treturn new Request(request, {body: newFormData});\n\t\t\t}\n\t\t]\n\t}\n});",
+    "tag": "js",
+    "source": "https://github.com/sindresorhus/ky/blob/3541888878c4d303a8bc2ad61815f4e048f55a5d/readme.md#L1487"
+  },
+  {
+    "label": "js",
+    "code": "app\n  .get(\"/hello\", () => \"GET Hello world!\")\n  .post(\"/hello\", () => \"POST Hello world!\")\n  .all(\"/hello\", () => \"Any other method!\");",
+    "tag": "js",
+    "source": "https://github.com/unjs/h3/blob/f0e17808ac2439b6434bb10609a961067f4d555b/docs/1.guide/1.basics/2.routing.md#L32"
+  },
+  {
+    "label": "js",
+    "code": "/// file: src/routes/api/add/+server.js\n/** @type {import('./$types').RequestHandler} */\nexport async function POST({ request }) {\n\tconst { a, b } = await request.json();\n\treturn Response.json(a + b);\n}\n\n// This handler will respond to PUT, PATCH, DELETE, etc.\n/** @type {import('./$types').RequestHandler} */\nexport async function fallback({ request }) {\n\treturn new Response(`I caught your ${request.method} request!`);\n}",
+    "tag": "js",
+    "source": "https://github.com/sveltejs/kit/blob/d955d1b604a051c0b21f59c6f9709b36756090b5/documentation/docs/20-core-concepts/10-routing.md#L379"
+  },
+  {
+    "label": "js",
+    "code": "const defaultPerson = {\n  name: {\n    first: 'Jane',\n    last: 'Doe',\n  },\n  birth: {\n    year: 2000,\n    month: 'Jan',\n    day: 1,\n    time: {\n      hour: 1,\n      minute: 1,\n    },\n  },\n}\n\n// Original atom.\nconst personAtom = atom(defaultPerson)\n\n// Tracks person.name. Updated when person.name object changes, even\n// if neither name.first nor name.last actually change.\nconst nameAtom = selectAtom(personAtom, (person) => person.name)\n\n// Tracks person.birth. Updated when year, month, day, hour, or minute changes.\n// Use of deepEquals means that this atom doesn't update if birth field is\n// replaced with a new object containing the same data. E.g., if person is re-read\n// from a database.\nconst birthAtom = selectAtom(personAtom, (person) => person.birth, deepEquals)",
+    "tag": "js",
+    "source": "https://github.com/pmndrs/jotai/blob/e5971ba44866d070564a0a30187f6976fee0e350/docs/utilities/select.mdx#L31"
+  },
+  {
+    "label": "js",
+    "code": "    htmx.logNone();",
+    "tag": "js",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/api.md#L275"
+  },
+  {
+    "label": "js",
+    "code": "// undici module imports\nimport { fetch, FormData } from 'undici'\n\nconst body = new FormData()\nbody.set('name', 'some')\nawait fetch('https://example.com', {\n  method: 'POST',\n  body\n})",
+    "tag": "js",
+    "source": "https://github.com/nodejs/undici/blob/046bb4c6fe413a32ecb6d51eb3ecaa56c8c15b87/docs/docs/index.md#L213"
+  },
+  {
+    "label": "js",
+    "code": "/// file: src/routes/+page.server.js\n/** @type {import('./$types').PageServerLoad} */\nexport async function load() {\n\treturn {\n\t\tserverMessage: 'hello from server load function'\n\t};\n}",
+    "tag": "js",
+    "source": "https://github.com/sveltejs/kit/blob/d955d1b604a051c0b21f59c6f9709b36756090b5/documentation/docs/20-core-concepts/20-load.md#L215"
+  },
+  {
+    "label": "js",
+    "code": "// index.test.mjs\nimport { strict as assert } from 'node:assert'\nimport { MockAgent, setGlobalDispatcher, fetch } from 'undici'\nimport { app } from './app.mjs'\n\n// given an application server running on http://localhost:3000\nawait app.start()\n\n// enable call history at instantiation\nconst mockAgent = new MockAgent({ enableCallHistory: true })\n// or after instantiation\nmockAgent.enableCallHistory()\n\nsetGlobalDispatcher(mockAgent)\n\n// this call is made (not intercepted)\nawait fetch(`http://localhost:3000/endpoint?query='hello'`, {\n  method: 'POST',\n  headers: { 'content-type': 'application/json' },\n  body: JSON.stringify({ data: '' })\n})\n\n// access to the call history of the MockAgent (which register every call made intercepted or not)\nassert.ok(mockAgent.getCallHistory()?.calls().length === 1)\nassert.strictEqual(mockAgent.getCallHistory()?.firstCall()?.fullUrl, `http://localhost:3000/endpoint?query='hello'`)\nassert.strictEqual(mockAgent.getCallHistory()?.firstCall()?.body, JSON.stringify({ data: '' }))\nassert.deepStrictEqual(mockAgent.getCallHistory()?.firstCall()?.searchParams, { query: 'hello' })\nassert.strictEqual(mockAgent.getCallHistory()?.firstCall()?.port, '3000')\nassert.strictEqual(mockAgent.getCallHistory()?.firstCall()?.host, 'localhost:3000')\nassert.strictEqual(mockAgent.getCallHistory()?.firstCall()?.method, 'POST')\nassert.strictEqual(mockAgent.getCallHistory()?.firstCall()?.path, '/endpoint')\nassert.deepStrictEqual(mockAgent.getCallHistory()?.firstCall()?.headers, { 'content-type': 'application/json' })\n\n// clear all call history logs\nmockAgent.clearCallHistory()\n\nassert.ok(mockAgent.getCallHistory()?.calls().length === 0)",
+    "tag": "js",
+    "source": "https://github.com/nodejs/undici/blob/046bb4c6fe413a32ecb6d51eb3ecaa56c8c15b87/docs/docs/best-practices/mocking-request.md#L86"
+  },
+  {
+    "label": "js",
+    "code": "document.body.addEventListener('htmx:validateUrl', function (evt) {\n  // only allow requests to the current server as well as myserver.com\n  if (!evt.detail.sameHost && evt.detail.url.hostname !== \"myserver.com\") {\n    evt.preventDefault();\n  }\n});",
+    "tag": "javascript",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/events.md#L587"
+  },
+  {
+    "label": "js",
+    "code": "defineHandler(async (event) => \"Response\");",
+    "tag": "js",
+    "source": "https://github.com/unjs/h3/blob/f0e17808ac2439b6434bb10609a961067f4d555b/docs/1.guide/1.basics/4.handler.md#L27"
+  },
+  {
+    "label": "python",
+    "code": "from paradedb import Fuzzy, MatchAll, ParadeDB\n\nMockItem.objects.filter(\n    description=ParadeDB(MatchAll(Fuzzy('slee rann', 1, prefix=True)))\n).values('id', 'description')[:5]",
+    "tag": "python",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/full-text/fuzzy.mdx#L301"
+  },
+  {
+    "label": "python",
+    "code": "from django.db import connection\nfrom paradedb.indexes import ParadeDBIndex\nfrom paradedb.search import Tokenizer\n\nwith connection.schema_editor() as schema_editor:\n    schema_editor.add_index(\n        MockItem,\n        ParadeDBIndex(\n            fields={'id': {}, 'description': {'tokenizer': Tokenizer.edge_ngram(min_gram=1, max_gram=10)}},\n            name=\"search_idx\",\n            search_tokenizer=Tokenizer.unicode_words(),\n        ),\n    )",
+    "tag": "python",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/tokenizers/search-tokenizer.mdx#L39"
+  },
+  {
+    "label": "python",
+    "code": "from sqlalchemy import select\nfrom sqlalchemy.orm import Session\nfrom paradedb.sqlalchemy import search\n\nstmt = (\n    select(MockItem.description, MockItem.rating, MockItem.category)\n    .where(search.match_all(MockItem.description, \"running shoes\"), MockItem.rating > 2)\n    .order_by(MockItem.rating)\n    .limit(5)\n)\n\nwith Session(engine) as session:\n    session.execute(stmt).all()",
+    "tag": "python",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/start/run-queries.mdx#L143"
+  },
+  {
+    "label": "python",
+    "code": "import shutil\nfrom pathlib import Path\nfrom tempfile import TemporaryDirectory\n\nimport pytest\n\n\n@pytest.fixture(scope='session')\ndef plugin_dir():\n    with TemporaryDirectory() as d:\n        directory = Path(d, 'plugin')\n        shutil.copytree(\n            Path.cwd(), directory, ignore=shutil.ignore_patterns('.git')\n        )\n\n        yield directory.resolve()\n\n\n@pytest.fixture\ndef new_project(tmp_path, plugin_dir):\n    project_dir = tmp_path / 'my-app'\n    project_dir.mkdir()\n\n    project_file = project_dir / 'pyproject.toml'\n    project_file.write_text(\n        f\"\"\"\\\n[build-system]\nrequires = [\"hatchling\", \"hatch-plugin-name @ {plugin_dir.as_uri()}\"]\nbuild-backend = \"hatchling.build\"\n\n[project]\nname = \"my-app\"\nversion = \"0.1.0\"\n\"\"\",\n        encoding='utf-8',\n    )\n    ...",
+    "tag": "python",
+    "source": "https://github.com/pypa/hatch/blob/e7495de2cac0710df2698b650427c7593f012037/docs/how-to/plugins/testing-builds.md#L38"
+  },
+  {
+    "label": "python",
+    "code": "import json\nimport os\n\nfrom hatchling.metadata.plugin.interface import MetadataHookInterface\n\n\nclass JSONMetaDataHook(MetadataHookInterface):\n    def update(self, metadata):\n        src_file = os.path.join(self.root, \"gnumeric\", \".constants.json\")\n        with open(src_file) as src:\n            constants = json.load(src)\n            metadata[\"version\"] = constants[\"__version__\"]\n            metadata[\"license\"] = constants[\"__license__\"]\n            metadata[\"authors\"] = [\n                {\"name\": constants[\"__author__\"], \"email\": constants[\"__author_email__\"]},\n            ]",
+    "tag": "python",
+    "source": "https://github.com/pypa/hatch/blob/e7495de2cac0710df2698b650427c7593f012037/docs/how-to/config/dynamic-metadata.md#L27"
+  },
+  {
+    "label": "python",
+    "code": "@define\nclass APIClient:\n    token: str\n    client: WebClient = field()  # needed! attr.ib works too\n\n    @client.default\n    def _client_factory(self):\n        return WebClient(self.token)",
+    "tag": "python",
+    "source": "https://github.com/python-attrs/attrs/blob/ee66e7274852438cc23d4240a1a9cd632fda8b52/docs/init.md#L547"
+  },
+  {
+    "label": "python",
+    "code": "from attrs import define, field\n\n\n@define\nclass SomeClass:\n    a_number = field(default=42)\n    list_of_numbers = field(factory=list)",
+    "tag": "python",
+    "source": "https://github.com/python-attrs/attrs/blob/ee66e7274852438cc23d4240a1a9cd632fda8b52/README.md#L125"
+  },
+  {
+    "label": "python",
+    "code": "class App:\n    async def __call__(self, scope, receive, send):\n        assert scope['type'] == 'http'\n        ...\n\napp = App()",
+    "tag": "python",
+    "source": "https://github.com/encode/uvicorn/blob/cc6fea5b40ad559f7ca358a24b1a521451232281/docs/concepts/asgi.md#L21"
+  },
+  {
+    "label": "python",
+    "code": "uvicorn.run(app, host=\"127.0.0.1\", port=5000, log_level=\"info\")",
+    "tag": "python",
+    "source": "https://github.com/encode/uvicorn/blob/cc6fea5b40ad559f7ca358a24b1a521451232281/docs/deployment/index.md#L49"
+  },
+  {
+    "label": "python",
+    "code": "x = f()\n\nassert 42 == x.some_attribute\nassert \"foo\" == x._a_private_attribute",
+    "tag": "python",
+    "source": "https://github.com/python-attrs/attrs/blob/ee66e7274852438cc23d4240a1a9cd632fda8b52/.github/CONTRIBUTING.md#L155"
+  },
+  {
+    "label": "python",
+    "code": "async def app(scope, receive, send):\n    assert scope['type'] == 'http'\n\n    await send({\n        'type': 'http.response.start',\n        'status': 200,\n        'headers': [\n            (b'content-type', b'text/plain'),\n            (b'content-length', b'13'),\n        ],\n    })\n    await send({\n        'type': 'http.response.body',\n        'body': b'Hello, world!',\n    })",
+    "tag": "python",
+    "source": "https://github.com/encode/uvicorn/blob/cc6fea5b40ad559f7ca358a24b1a521451232281/docs/index.md#L79"
+  },
+  {
+    "label": "python",
+    "code": "import sys\n\nfrom pkg.subpkg import func\n\nsys.exit(func())",
+    "tag": "python",
+    "source": "https://github.com/pypa/hatch/blob/e7495de2cac0710df2698b650427c7593f012037/docs/config/metadata.md#L218"
+  },
+  {
+    "label": "python",
+    "code": "cc_binary(\n    name = \"my_app\",\n    srcs = [\"my_app.cpp\"],\n    deps = [\"@cli11//:cli11\"],\n)",
+    "tag": "python",
+    "source": "https://github.com/CLIUtils/CLI11/blob/1764a057b760e8873eab03f4635b4aaed5303a04/book/chapters/installation.md#L280"
+  },
+  {
+    "label": "python",
+    "code": "from workouts.models import Workout\nfrom events.models import Events, Occurrences\n\n\n@mcp.tool(\n    name=\"save_form_fragment\",\n    description=\"Saves workout\",\n    meta={\"ui\": {\"visibility\": [\"app\"]}}\n)\nasync def save_form_fragment(ctx: Context, workout_dsl, event_id, occurrence_id) -> CallToolResult:\n    ...\n    validate\n    args and authenticate\n    user...\n    occurrence = await Occurrences.objects.select_related(\"event\").aget(id=occurrence_id, event_id=event_id)\n    workout = await Workout.objects.acreate(occurrence=occurrence, workout_dsl=workout_dsl)\n\n    # Render the events fragment\n    rendered_html = render_to_string(\"mcp/user_ui_resource.html#save-form-fragment\", {\"workout\": workout})\n    return CallToolResult(\n        text=\"Workout saved\",\n        structuredContent={\"html\": rendered_html}\n    )",
+    "tag": "python",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/essays/mcp_apps_hypermedia.md#L470"
+  },
+  {
+    "label": "python",
+    "code": "@app.route(\"/graph\")\ndef graph():\n    graphInfo = Contact.computeGraphInfo(page=request.args.get('page', default=0, type=int))\n    return render_template(\"graph.html\", info=graphInfo)",
+    "tag": "python",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/essays/mvc.md#L160"
+  },
+  {
+    "label": "bash",
+    "code": "cp Dockerfile Makefile.toml rust-toolchain.toml LICENSE.md README.md CODE_OF_CONDUCT.md <your-path-to-undici>/deps/milo/\ncp -R macros scripts <your-path-to-undici>/deps/milo/\nmkdir -p <your-path-to-undici>/deps/milo/parser\ncp parser/*.toml parser/*.lock parser/*.md <your-path-to-undici>/deps/milo/parser/\ncp -R parser/src <your-path-to-undici>/deps/milo/parser/",
+    "tag": "sh",
+    "source": "https://github.com/nodejs/undici/blob/046bb4c6fe413a32ecb6d51eb3ecaa56c8c15b87/CONTRIBUTING.md#L117"
+  },
+  {
+    "label": "bash",
+    "code": "$ hatch run cowsay -t \"Hello, world!\"\nSyncing dependencies\n  _____________\n| Hello, world! |\n  =============\n             \\\n              \\\n                ^__^\n                (oo)\\_______\n                (__)\\       )\\/\\\n                    ||----w |\n                    ||     ||",
+    "tag": "console",
+    "source": "https://github.com/pypa/hatch/blob/e7495de2cac0710df2698b650427c7593f012037/docs/environment.md#L80"
+  },
+  {
+    "label": "bash",
+    "code": "# macOS / Linux\n./server\n\n# Windows\nserver.exe",
+    "tag": "sh",
+    "source": "https://github.com/yhirose/cpp-httplib/blob/a210b43e1193a1eb6c944d9016a85f1e0d92a946/docs-src/pages/en/tour/01-getting-started.md#L65"
+  },
+  {
+    "label": "bash",
+    "code": "yarn\nyarn dev\n# or\nnpm install\nnpm run dev",
+    "tag": "bash",
+    "source": "https://github.com/vercel/swr/blob/8148ef012fd5b317d1e8ec2da4b2ca0673f63c0f/examples/global-fetcher/README.md#L20"
+  },
+  {
+    "label": "bash",
+    "code": "npm install @alpinejs/anchor",
+    "tag": "shell",
+    "source": "https://github.com/alpinejs/alpine/blob/8d3d9a2f98385d4c879f4b5be080a0221279ed4d/packages/docs/src/en/plugins/anchor.md#L37"
+  },
+  {
+    "label": "bash",
+    "code": "go run .",
+    "tag": "bash",
+    "source": "https://github.com/uber-go/fx/blob/d5da5b04ac906bfbad8b400baeee9b970c1be6f3/docs/src/get-started/minimal.md#L14"
+  },
+  {
+    "label": "bash",
+    "code": "WEBAPP_PORT=8080",
+    "tag": "bash",
+    "source": "https://github.com/jpetazzo/container.training/blob/13335a47ca4c5f9c3301f7125fb4e532be42cdd4/slides/containers/Advanced_Dockerfiles.md#L260"
+  },
+  {
+    "label": "bash",
+    "code": "rgb_to_hex() {\n    # Usage: rgb_to_hex \"r\" \"g\" \"b\"\n    printf '#%02x%02x%02x\\n' \"$1\" \"$2\" \"$3\"\n}",
+    "tag": "sh",
+    "source": "https://github.com/dylanaraps/pure-bash-bible/blob/8c19d0b482b04d8d50fb72b4c5148b41ce605c6d/README.md#L1828"
+  },
+  {
+    "label": "bash",
+    "code": "yarn add @mui/material-pigment-css @pigment-css/react",
+    "tag": "bash",
+    "source": "https://github.com/mui/material-ui/blob/f0a678be0b1117174de846b4d8d3e02af9727931/docs/data/material/migration/upgrade-to-v6/migrating-to-pigment-css.md#L41"
+  },
+  {
+    "label": "bash",
+    "code": "hatch test",
+    "tag": "bash",
+    "source": "https://github.com/pypa/hatch/blob/e7495de2cac0710df2698b650427c7593f012037/docs/community/contributing.md#L33"
+  },
+  {
+    "label": "bash",
+    "code": "plugins=(... dbt)",
+    "tag": "zsh",
+    "source": "https://github.com/ohmyzsh/ohmyzsh/blob/2100c630ba4bd67bb48802c3e7da893a4fdaa1a0/plugins/dbt/README.md#L8"
+  },
+  {
+    "label": "bash",
+    "code": "plugins=(... buf)",
+    "tag": "zsh",
+    "source": "https://github.com/ohmyzsh/ohmyzsh/blob/2100c630ba4bd67bb48802c3e7da893a4fdaa1a0/plugins/buf/README.md#L7"
+  },
+  {
+    "label": "bash",
+    "code": "$ ./goose-custom sqlite3 ./foo.db status\n    Applied At                  Migration\n    =======================================\n    Pending                  -- 00001_create_users_table.sql\n    Pending                  -- 00002_rename_root.go\n    Pending                  -- 00003_add_user_no_tx.go\n\n$ ./goose-custom sqlite3 ./foo.db up\n    OK   00001_create_users_table.sql (711.58µs)\n    OK   00002_rename_root.go (302.08µs)\n    OK   00003_add_user_no_tx.go (648.71µs)\n    goose: no migrations to run. current version: 3\n\n$ ./goose-custom sqlite3 ./foo.db status\n    Applied At                  Migration\n    =======================================\n    00001_create_users_table.sql\n    00002_rename_root.go\n    00003_add_user_no_tx.go",
+    "tag": "bash",
+    "source": "https://github.com/pressly/goose/blob/9a201bbb80d83c440855bd31272c0c0b99b41a79/examples/go-migrations/README.md#L9"
+  },
+  {
+    "label": "bash",
+    "code": "$ CUSTOM_COMPILE_COMMAND=\"./pipcompilewrapper\" pip-compile requirements.in\n#\n# This file is autogenerated by pip-compile with Python 3.12\n# by the following command:\n#\n#    ./pipcompilewrapper\n#\nfoo-example==4.1.7\n    # via -r requirements.in",
+    "tag": "console",
+    "source": "https://github.com/jazzband/pip-tools/blob/b03df325f429bf0212e3925ecbc584f3e14c7c5e/docs/how-to/customize-compiled-headers.md#L42"
+  },
+  {
+    "label": "bash",
+    "code": "cd example && make wsecho && ./wsecho",
+    "tag": "bash",
+    "source": "https://github.com/yhirose/cpp-httplib/blob/a210b43e1193a1eb6c944d9016a85f1e0d92a946/README-websocket.md#L569"
+  },
+  {
+    "label": "json",
+    "code": "/// file: wrangler.jsonc\n{\n\t\"name\": \"<any-name-you-want>\",\n\t\"main\": \".svelte-kit/cloudflare/_worker.js\",\n\t\"compatibility_flags\": [\"nodejs_als\"],\n\t\"compatibility_date\": \"<YYYY-MM-DD>\",\n\t\"assets\": {\n\t\t\"binding\": \"ASSETS\",\n\t\t\"directory\": \".svelte-kit/cloudflare\",\n\t}\n}",
+    "tag": "jsonc",
+    "source": "https://github.com/sveltejs/kit/blob/d955d1b604a051c0b21f59c6f9709b36756090b5/documentation/docs/25-build-and-deploy/60-adapter-cloudflare.md#L90"
+  },
+  {
+    "label": "json",
+    "code": "[\n    \"# Changelog\",\n    \"^\",\n    \"%% ^\\\\d+\\\\.\\\\d+\\\\.\\\\d+$\",\n    \"### Fixes\",\n    \"### Features\",\n    \"^\"\n]",
+    "tag": "json",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/doc-build/md043.md#L86"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"responseHandling\": [\n    {\"code\":\"422\", \"swap\": true},\n    {\"code\":\"204\", \"swap\": false},\n    {\"code\":\"[23]..\", \"swap\": true},\n    {\"code\":\"[45]..\", \"swap\": false, \"error\":true},\n    {\"code\":\"...\", \"swap\": false}]\n}",
+    "tag": "json",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/QUIRKS.md#L104"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"account\": {\n    \"account_number\": 12345,\n    \"balance\": {\n      \"currency\": \"usd\",\n      \"value\": 50.00\n    },\n    \"status\": \"open\",\n    \"links\": {\n      \"deposits\": \"/accounts/12345/deposits\",\n      \"withdrawals\": \"/accounts/12345/withdrawals\",\n      \"transfers\": \"/accounts/12345/transfers\",\n      \"close-requests\": \"/accounts/12345/close-requests\"\n    }\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/essays/hypermedia-clients.md#L99"
+  },
+  {
+    "label": "json",
+    "code": "/// file: src/service-worker/tsconfig.json\n{\n\t\"extends\": \"$app/tsconfig/service-worker\"\n}",
+    "tag": "json",
+    "source": "https://github.com/sveltejs/kit/blob/d955d1b604a051c0b21f59c6f9709b36756090b5/documentation/docs/98-reference/21-$app-tsconfig-service-worker.md#L7"
+  },
+  {
+    "label": "json",
+    "code": "\"scripts\": {\n  \"dev\": \"react-router dev\"\n}",
+    "tag": "json",
+    "source": "https://github.com/remix-run/react-router/blob/bb7c1f021363e96745dd3cfc5d2431e9b80ffe61/docs/upgrading/router-provider.md#L407"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"translation\": \"今日はいい天気ですね。散歩に行きましょうか？\"\n}",
+    "tag": "json",
+    "source": "https://github.com/yhirose/cpp-httplib/blob/a210b43e1193a1eb6c944d9016a85f1e0d92a946/docs-src/pages/ja/llm-app/ch01-setup.md#L15"
+  },
+  {
+    "label": "json",
+    "code": "/// file: package.json\n{\n\t\"sideEffects\": [\"**/*.css\"]\n}",
+    "tag": "json",
+    "source": "https://github.com/sveltejs/kit/blob/d955d1b604a051c0b21f59c6f9709b36756090b5/documentation/docs/30-advanced/70-packaging.md#L135"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"features\": {\n    \"ghcr.io/devcontainers/features/node:2\": {\n      \"version\": \"latest\"\n    }\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/devcontainers/images/blob/d394f016bd0b329c4563d659a479c8284e4fbe56/src/anaconda/README.md#L61"
+  },
+  {
+    "label": "json",
+    "code": "  \"sql\": [\n    {\n      \"schema\": \"schema.sql\",\n      \"queries\": \"query.sql\",\n      \"engine\": \"postgresql\",\n      \"gen\": {\n        \"kotlin\": {\n          \"out\": \"src/main/kotlin/com/example/foo\",\n          \"package\": \"com.example.foo\"\n        }\n      }\n    }\n  ]",
+    "tag": "json",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/guides/migrating-to-sqlc-gen-kotlin.md#L46"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"features\": {\n     \"ghcr.io/devcontainers/features/java:1\": {\n        \"version\": \"none\",\n        \"installGradle\": true,\n        \"installMaven\": true\n    }\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/devcontainers/images/blob/d394f016bd0b329c4563d659a479c8284e4fbe56/src/java/README.md#L50"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"error\": {\n    \"type\": \"RuntimeException\",\n    \"message\": \"Something broke!\",\n    \"file\": \"/var/project/foo/bar.php\",\n    \"line\": 22,\n\n     # if JsonResponseHandler::addTraceToOutput(true):\n     \"trace\": [\n        { \"file\": \"/var/project/foo/index.php\",\n          \"line\": 157,\n          \"function\": \"handleStuffs\",\n          \"class\": \"MyApplication\\DoerOfThings\",\n          \"args\": [ true, 10, \"yay method arguments\" ] },\n        # ... more frames here ...\n     ]\n  }\n}",
+    "tag": "json",
+    "source": "https://github.com/filp/whoops/blob/50670ba239926c50f2073e868f6672f775cd57ec/docs/API Documentation.md#L300"
+  },
+  {
+    "label": "json",
+    "code": "\"postCreateCommand\": \"sudo chmod a+x \\\"$(pwd)\\\" && sudo rm -rf /var/www/html && sudo ln -s \\\"$(pwd)\\\" /var/www/html\"",
+    "tag": "json",
+    "source": "https://github.com/devcontainers/images/blob/d394f016bd0b329c4563d659a479c8284e4fbe56/src/php/README.md#L74"
+  },
+  {
+    "label": "json",
+    "code": "[\n    \"# Heading\",\n    \"## Item\",\n    \"### Detail\"\n]",
+    "tag": "json",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/doc/md043.md#L26"
+  },
+  {
+    "label": "json",
+    "code": "{ \"color\": \"Silver\", \"location\": \"United States\" }",
+    "tag": "json",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/indexing/indexing-json.mdx#L75"
+  },
+  {
+    "label": "html",
+    "code": "<script src=\"https://cdn.jsdelivr.net/npm/htmx.org@2.0.11/dist/htmx.js\" integrity=\"sha384-gmJEF2eAKY4e+FDN+qtKIivWyb6ANwDB7JUdUybKgQspPKyEX/pIRZG/0uaRoW2C\" crossorigin=\"anonymous\"></script>",
+    "tag": "html",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/docs.md#L132"
+  },
+  {
+    "label": "html",
+    "code": "<meta name=\"htmx-config\" content='{\"defaultSwapStyle\":\"outerHTML\"}'>",
+    "tag": "html",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/reference.md#L273"
+  },
+  {
+    "label": "html",
+    "code": "<table class=\"table delete-row-example\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Email</th>\n      <th>Status</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody hx-confirm=\"Are you sure?\" hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\">\n    ...\n  </tbody>\n</table>",
+    "tag": "html",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/examples/delete-row.md#L9"
+  },
+  {
+    "label": "html",
+    "code": "<!--\n-->x",
+    "tag": "html",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/test/html-comment-in-list-item.md#L40"
+  },
+  {
+    "label": "html",
+    "code": "/// file: src/routes/about/+page.svelte\n<h1>About</h1>",
+    "tag": "html",
+    "source": "https://github.com/sveltejs/kit/blob/d955d1b604a051c0b21f59c6f9709b36756090b5/documentation/docs/20-core-concepts/10-routing.md#L214"
+  },
+  {
+    "label": "html",
+    "code": "@page \"/fetchdata\"\n@using RestSharp\n@inject RestClient _restClient",
+    "tag": "html",
+    "source": "https://github.com/restsharp/RestSharp/blob/466e5f8782bd52f98df829f63a83b45fdb8472ae/docs/versioned_docs/version-v112/usage/client.md#L90"
+  },
+  {
+    "label": "html",
+    "code": "<div x-sort>\n    <div x-sort:item class=\"[body:not(.sorting)_&]:hover:border\">foo</div>\n    <div x-sort:item class=\"[body:not(.sorting)_&]:hover:border\">bar</div>\n    <div x-sort:item class=\"[body:not(.sorting)_&]:hover:border\">baz</div>\n</div>",
+    "tag": "html",
+    "source": "https://github.com/alpinejs/alpine/blob/8d3d9a2f98385d4c879f4b5be080a0221279ed4d/packages/docs/src/en/plugins/sort.md#L327"
+  },
+  {
+    "label": "html",
+    "code": "<form data-sveltekit-reset=\"false\">\n\t<input type=\"text\" name=\"query\">\n</form>",
+    "tag": "html",
+    "source": "https://github.com/sveltejs/kit/blob/d955d1b604a051c0b21f59c6f9709b36756090b5/documentation/docs/30-advanced/30-link-options.md#L95"
+  },
+  {
+    "label": "html",
+    "code": "<h1>markdownlint</h1> {MD040:5}",
+    "tag": "html",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/test/md040-allowed_languages.md#L5"
+  },
+  {
+    "label": "html",
+    "code": "<!-- Other HTML for your app goes here -->\n<!-- prettier-ignore -->\n<script src=\"https://unpkg.com/react@>=16.8/umd/react.development.js\" crossorigin></script>",
+    "tag": "html",
+    "source": "https://github.com/remix-run/react-router/blob/bb7c1f021363e96745dd3cfc5d2431e9b80ffe61/docs/elements.md#L176"
+  },
+  {
+    "label": "html",
+    "code": "<span x-data=\"{ enabled: false }\">\n    <button @click.prevent=\"enabled = !enabled\">Toggle</button>\n\n    <template x-if=\"enabled\">\n        <span x-data=\"timer\" x-text=\"counter\"></span>\n    </template>\n</span>",
+    "tag": "html",
+    "source": "https://github.com/alpinejs/alpine/blob/8d3d9a2f98385d4c879f4b5be080a0221279ed4d/packages/docs/src/en/globals/alpine-data.md#L117"
+  },
+  {
+    "label": "html",
+    "code": "<img src=\"image.jpg\" alt=\"Alternate text\" />",
+    "tag": "html",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/doc-build/md045.md#L22"
+  },
+  {
+    "label": "html",
+    "code": "/// file: src/app.html\n<html lang=\"%lang%\">",
+    "tag": "html",
+    "source": "https://github.com/sveltejs/kit/blob/d955d1b604a051c0b21f59c6f9709b36756090b5/documentation/docs/40-best-practices/10-accessibility.md#L61"
+  },
+  {
+    "label": "html",
+    "code": "<!DOCTYPE html>\n<html>\n<head><title>My Page</title></head>\n<body>\n    <h1>Hello from cpp-httplib!</h1>\n    <p>This is a static file.</p>\n</body>\n</html>",
+    "tag": "html",
+    "source": "https://github.com/yhirose/cpp-httplib/blob/a210b43e1193a1eb6c944d9016a85f1e0d92a946/docs-src/pages/en/tour/04-static-file-server.md#L34"
+  },
+  {
+    "label": "html",
+    "code": "<form action=\"/stats\" enctype=\"multipart/form-data\" method=\"post\">\n  <div class=\"form-group\">\n    <input type=\"file\" class=\"form-control-file\" name=\"uploaded_file\">\n    <input type=\"text\" class=\"form-control\" placeholder=\"Number of speakers\" name=\"nspeakers\">\n    <input type=\"submit\" value=\"Get me the stats!\" class=\"btn btn-default\">\n  </div>\n</form>",
+    "tag": "html",
+    "source": "https://github.com/expressjs/multer/blob/2c380d06cdaacc68bbef8b36244493a3d33d6b88/README.md#L72"
+  },
+  {
+    "label": "css",
+    "code": "body {}  {MD040:11}",
+    "tag": "css",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/test/md040-allowed_languages.md#L11"
+  },
+  {
+    "label": "css",
+    "code": "    .my-indicator{\n        display:none;\n    }\n    .htmx-request .my-indicator,\n    .htmx-request.my-indicator{\n        display:inline;\n    }",
+    "tag": "css",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/attributes/hx-indicator.md#L62"
+  },
+  {
+    "label": "css",
+    "code": "a.active {\n  color: red;\n}\na.pending {\n  color: blue;\n}",
+    "tag": "css",
+    "source": "https://github.com/remix-run/react-router/blob/bb7c1f021363e96745dd3cfc5d2431e9b80ffe61/docs/api/components/NavLink.md#L85"
+  },
+  {
+    "label": "css",
+    "code": ".MuiChip-root .green {\n  color: green;\n}",
+    "tag": "css",
+    "source": "https://github.com/mui/material-ui/blob/f0a678be0b1117174de846b4d8d3e02af9727931/docs/data/material/migration/migration-v4/migration-v4.md#L279"
+  },
+  {
+    "label": "css",
+    "code": "color: royalblue;",
+    "tag": "css",
+    "source": "https://github.com/jpetazzo/container.training/blob/13335a47ca4c5f9c3301f7125fb4e532be42cdd4/slides/containers/Local_Development_Workflow.md#L251"
+  },
+  {
+    "label": "css",
+    "code": "@media (prefers-reduced-motion: reduce) {\n  ::view-transition-group(*),\n  ::view-transition-old(*),\n  ::view-transition-new(*) {\n    animation: none !important;\n  }\n}",
+    "tag": "css",
+    "source": "https://github.com/remix-run/react-router/blob/bb7c1f021363e96745dd3cfc5d2431e9b80ffe61/docs/how-to/view-transitions.md#L59"
+  },
+  {
+    "label": "css",
+    "code": ".htmx-indicator{\n    display:none;\n}\n.htmx-request .htmx-indicator{\n    display:inline;\n}\n.htmx-request.htmx-indicator{\n    display:inline;\n}",
+    "tag": "css",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/docs.md#L357"
+  },
+  {
+    "label": "css",
+    "code": ".progress {\n    height: 20px;\n    margin-bottom: 20px;\n    overflow: hidden;\n    background-color: #f5f5f5;\n    border-radius: 4px;\n    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);\n}\n.progress-bar {\n    float: left;\n    width: 0%;\n    height: 100%;\n    font-size: 12px;\n    line-height: 20px;\n    color: #fff;\n    text-align: center;\n    background-color: #337ab7;\n    -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);\n    box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);\n    -webkit-transition: width .6s ease;\n    -o-transition: width .6s ease;\n    transition: width .6s ease;\n}",
+    "tag": "css",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/examples/progress-bar.md#L69"
+  },
+  {
+    "label": "css",
+    "code": "a.active {\n  color: red;\n}",
+    "tag": "css",
+    "source": "https://github.com/remix-run/react-router/blob/bb7c1f021363e96745dd3cfc5d2431e9b80ffe61/docs/start/declarative/navigating.md#L39"
+  },
+  {
+    "label": "css",
+    "code": "#sort-warning {\n    display: none;\n}\n\nbody.sorting #sort-warning {\n    display: block;\n}",
+    "tag": "css",
+    "source": "https://github.com/alpinejs/alpine/blob/8d3d9a2f98385d4c879f4b5be080a0221279ed4d/packages/docs/src/en/plugins/sort.md#L286"
+  },
+  {
+    "label": "css",
+    "code": ".callout[data-callout=\"custom-question-type\"] {\n    --callout-color: #000000;\n    --callout-icon: lucide-alert-circle;\n}",
+    "tag": "css",
+    "source": "https://github.com/obsidianmd/obsidian-help/blob/f333c95d23fc1e30594fa7acb9181f67ab71861c/en/Editing and formatting/Callouts.md#L87"
+  },
+  {
+    "label": "css",
+    "code": "a {}",
+    "tag": "css",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/test/md040-language_only.md#L23"
+  },
+  {
+    "label": "css",
+    "code": "box-sizing: border-box;",
+    "tag": "css",
+    "source": "https://github.com/mui/material-ui/blob/f0a678be0b1117174de846b4d8d3e02af9727931/docs/data/material/migration/migration-v3/migration-v3.md#L409"
+  },
+  {
+    "label": "sql",
+    "code": "SELECT description, rating, category\nFROM mock_items\nWHERE description ||| 'running shoes' AND rating > 2\nORDER BY rating\nLIMIT 5;",
+    "tag": "sql",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/start/run-queries.mdx#L15"
+  },
+  {
+    "label": "sql",
+    "code": "ALTER INDEX search_idx SET (background_layer_sizes = '100MB, 1GB');",
+    "tag": "sql",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/operate/performance-tuning/writes.mdx#L19"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE INDEX idx ON profiles USING bm25 (...) WHERE deleted_at IS NULL;\nSELECT * FROM profiles WHERE headline ||| 'recruteur' AND deleted_at IS NULL;",
+    "tag": "sql",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/project/changelog/0.21.6.mdx#L21"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE authors (\n  id         SERIAL PRIMARY KEY,\n  name       text   NOT NULL,\n  bio        text   NOT NULL\n);\n\n-- name: CreateAuthors :copyfrom\nINSERT INTO authors (name, bio) VALUES ($1, $2);",
+    "tag": "sql",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/howto/insert.md#L164"
+  },
+  {
+    "label": "sql",
+    "code": "-- name: UpsertAuthorName :one\nUPDATE author\nSET\n  name = CASE WHEN $1::bool\n    THEN $2::text\n    ELSE name\n    END\nRETURNING *;",
+    "tag": "sql",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/howto/named_parameters.md#L7"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE foo (bar BOOLEAN NOT NULL);\n\n-- name: SelectColumnCast :many\nSELECT CAST(bar AS BIGINT) FROM foo;",
+    "tag": "sql",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/reference/changelog.md#L1071"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE IF NOT EXISTS users(\n   user_id serial PRIMARY KEY,\n   username VARCHAR (50) UNIQUE NOT NULL,\n   password VARCHAR (50) NOT NULL,\n   email VARCHAR (300) UNIQUE NOT NULL\n);",
+    "tag": "sql",
+    "source": "https://github.com/golang-migrate/migrate/blob/504568a3cbd23b8754760f55a3d89aec1b0c4963/database/postgres/TUTORIAL.md#L30"
+  },
+  {
+    "label": "sql",
+    "code": "ALTER TABLE goose_db_version MODIFY tstamp datetime NULL DEFAULT CURRENT_TIMESTAMP;",
+    "tag": "sql",
+    "source": "https://github.com/pressly/goose/blob/9a201bbb80d83c440855bd31272c0c0b99b41a79/CHANGELOG.md#L46"
+  },
+  {
+    "label": "sql",
+    "code": "CREATE TABLE IF NOT EXISTS goose_db_version (\n    version_id Int64,\n    is_applied UInt8,\n    date Date default now(),\n    tstamp DateTime default now()\n)\nENGINE = ReplicatedMergeTree()\nORDER BY (version_id)",
+    "tag": "sql",
+    "source": "https://github.com/pressly/goose/blob/9a201bbb80d83c440855bd31272c0c0b99b41a79/doc/dialect-clickhouse.md#L198"
+  },
+  {
+    "label": "sql",
+    "code": "-- +goose Up\nCREATE TABLE post (\n    id int NOT NULL,\n    title text,\n    body text,\n    PRIMARY KEY(id)\n);\n\n-- +goose Down\nDROP TABLE post;",
+    "tag": "sql",
+    "source": "https://github.com/pressly/goose/blob/9a201bbb80d83c440855bd31272c0c0b99b41a79/README.md#L283"
+  },
+  {
+    "label": "go",
+    "code": "seq := func(yield func(int) bool) {\n    _ = yield(1)\n    _ = yield(2)\n    _ = yield(2)\n    _ = yield(3)\n    _ = yield(3)\n    _ = yield(3)\n}\nmode := it.Mode(seq)\n// mode == []int{3}",
+    "tag": "go",
+    "source": "https://github.com/samber/lo/blob/5c6ddcb7063c9908031340db03f27ba7483d1ece/docs/data/it-mode.md#L23"
+  },
+  {
+    "label": "go",
+    "code": "collection := func(yield func(int) bool) {\n    yield(1)\n    yield(2)\n    yield(3)\n    yield(4)\n}\n\nfiltered := it.RejectMap(collection, func(x int) (string, bool) {\n    return fmt.Sprintf(\"item-%d\", x), x%2 == 0\n})\nvar result []string\nfor item := range filtered {\n    result = append(result, item)\n}\n// result contains [\"item-1\", \"item-3\"]",
+    "tag": "go",
+    "source": "https://github.com/samber/lo/blob/5c6ddcb7063c9908031340db03f27ba7483d1ece/docs/data/it-reject.md#L67"
+  },
+  {
+    "label": "go",
+    "code": "import \"github.com/samber/lo\"\n\n// Example: Map a slice of numbers to their squares\nnumbers := []int{1, 2, 3, 4, 5}\nsquared := lo.Map(numbers, func(x int, _ int) int {\n    return x * x\n})\n// Result: [1, 4, 9, 16, 25]",
+    "tag": "go",
+    "source": "https://github.com/samber/lo/blob/5c6ddcb7063c9908031340db03f27ba7483d1ece/docs/docs/getting-started.md#L27"
+  },
+  {
+    "label": "go",
+    "code": "import (\n    // Invoke init() functions within migrations pkg.\n    _ \"github.com/pressly/goose/example/migrations-go\"\n)",
+    "tag": "go",
+    "source": "https://github.com/pressly/goose/blob/9a201bbb80d83c440855bd31272c0c0b99b41a79/examples/go-migrations/README.md#L39"
+  },
+  {
+    "label": "go",
+    "code": "package tutorial\n\nimport (\n\t\"context\"\n\t\"database/sql\"\n)\n\ntype DBTX interface {\n\tExecContext(context.Context, string, ...any) (sql.Result, error)\n\tPrepareContext(context.Context, string) (*sql.Stmt, error)\n\tQueryContext(context.Context, string, ...any) (*sql.Rows, error)\n\tQueryRowContext(context.Context, string, ...any) *sql.Row\n}\n\nfunc New(db DBTX) *Queries {\n\treturn &Queries{db: db}\n}\n\ntype Queries struct {\n\tdb DBTX\n}\n\nfunc (q *Queries) WithTx(tx *sql.Tx) *Queries {\n\treturn &Queries{\n\t\tdb: tx,\n\t}\n}",
+    "tag": "go",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/howto/transactions.md#L26"
+  },
+  {
+    "label": "go",
+    "code": "import (\n  \"github.com/golang-migrate/migrate/v4\"\n  \"github.com/golang-migrate/migrate/v4/source/go_bindata\"\n  \"github.com/golang-migrate/migrate/v4/source/go_bindata/examples/migrations\"\n)\n\nfunc main() {\n  // wrap assets into Resource\n  s := bindata.Resource(migrations.AssetNames(),\n    func(name string) ([]byte, error) {\n      return migrations.Asset(name)\n    })\n    \n  d, err := bindata.WithInstance(s)\n  m, err := migrate.NewWithSourceInstance(\"go-bindata\", d, \"database://foobar\")\n  m.Up() // run your migrations and handle the errors above of course\n}",
+    "tag": "go",
+    "source": "https://github.com/golang-migrate/migrate/blob/504568a3cbd23b8754760f55a3d89aec1b0c4963/source/go_bindata/README.md#L14"
+  },
+  {
+    "label": "go",
+    "code": "import (\n\t\"log\"\n\n\t\"github.com/golang-migrate/migrate/v4\"\n\t_ \"github.com/golang-migrate/migrate/v4/database/postgres\"\n\t_ \"github.com/golang-migrate/migrate/v4/source/file\"\n)\n\nfunc main() {\n\tm, err := migrate.New(\n\t\t\"file://db/migrations\",\n\t\t\"postgres://postgres:postgres@localhost:5432/example?sslmode=disable\")\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tif err := m.Up(); err != nil {\n\t\tlog.Fatal(err)\n\t}\n}",
+    "tag": "go",
+    "source": "https://github.com/golang-migrate/migrate/blob/504568a3cbd23b8754760f55a3d89aec1b0c4963/database/postgres/TUTORIAL.md#L127"
+  },
+  {
+    "label": "go",
+    "code": "type ScoreAndTestsRow struct {\n\tID        int64\n\tName      string\n\tAge       int32\n\tStudentID int64\n\tScore     int32\n\tGrade     string\n}",
+    "tag": "go",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/howto/embedding.md#L34"
+  },
+  {
+    "label": "go",
+    "code": "package db\n\ntype Status string\n\nconst (\n\tStatusOpen   Status = \"open\"\n\tStatusClosed Status = \"closed\"\n)\n\ntype Store struct {\n\tName   string\n\tStatus Status\n}",
+    "tag": "go",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/reference/datatypes.md#L80"
+  },
+  {
+    "label": "go",
+    "code": "--8<-- \"modules/module.go:start\"\n--8<-- \"modules/module.go:provide\"\n--8<-- \"modules/module.go:privateProvide\"\n--8<-- \"modules/module.go:endProvide\"\n--8<-- \"modules/module.go:config\"\n--8<-- \"modules/module.go:new\"",
+    "tag": "go",
+    "source": "https://github.com/uber-go/fx/blob/d5da5b04ac906bfbad8b400baeee9b970c1be6f3/docs/src/modules.md#L110"
+  },
+  {
+    "label": "go",
+    "code": "fx.New(\n  fx.Provide(newHTTPServer), // provides an *http.Server\n).Run()",
+    "tag": "go",
+    "source": "https://github.com/uber-go/fx/blob/d5da5b04ac906bfbad8b400baeee9b970c1be6f3/docs/src/container.md#L106"
+  },
+  {
+    "label": "go",
+    "code": "fx.Supply(\n  fx.Annotate(redisClient, fx.As(new(ClientInterface))),\n)",
+    "tag": "go",
+    "source": "https://github.com/uber-go/fx/blob/d5da5b04ac906bfbad8b400baeee9b970c1be6f3/docs/src/faq.md#L72"
+  },
+  {
+    "label": "go",
+    "code": "if len(global) > 0 {\n\treturn nil, errors.New(\"global registry disabled, but provider has registered go migrations\")\n}",
+    "tag": "go",
+    "source": "https://github.com/pressly/goose/blob/9a201bbb80d83c440855bd31272c0c0b99b41a79/CHANGELOG.md#L168"
+  },
+  {
+    "label": "go",
+    "code": "import (\n  _ \"github.com/golang-migrate/migrate/v4/source/google_cloud_storage\"\n )",
+    "tag": "go",
+    "source": "https://github.com/golang-migrate/migrate/blob/504568a3cbd23b8754760f55a3d89aec1b0c4963/source/google_cloud_storage/README.md#L6"
+  },
+  {
+    "label": "go",
+    "code": "package migrations\n\nimport (\n\t\"database/sql\"\n\n\t\"github.com/pressly/goose/v3\"\n)\n\nfunc init() {\n\tgoose.AddMigration(Up, Down)\n}\n\nfunc Up(tx *sql.Tx) error {\n\t_, err := tx.Exec(\"UPDATE users SET username='admin' WHERE username='root';\")\n\tif err != nil {\n\t\treturn err\n\t}\n\treturn nil\n}\n\nfunc Down(tx *sql.Tx) error {\n\t_, err := tx.Exec(\"UPDATE users SET username='root' WHERE username='admin';\")\n\tif err != nil {\n\t\treturn err\n\t}\n\treturn nil\n}",
+    "tag": "go",
+    "source": "https://github.com/pressly/goose/blob/9a201bbb80d83c440855bd31272c0c0b99b41a79/README.md#L445"
+  },
+  {
+    "label": "rust",
+    "code": "impl<'tcx> LateLintPass<'tcx> for BorrowDerefRef {\n    fn check_expr(&mut self, cx: &LateContext<'tcx>, e: &rustc_hir::Expr<'tcx>) {\n        if let ... = ...\n            && ...\n            && !e.span.from_expansion()\n            && ...\n            && ...\n            && !is_from_proc_macro(cx, e)\n            && ...\n        {\n            ...\n        }\n    }\n}",
+    "tag": "rs",
+    "source": "https://github.com/rust-lang/rust-clippy/blob/4e2a51faef383650d36a282d0b04b86c83e9d773/book/src/development/macro_expansions.md#L189"
+  },
+  {
+    "label": "rust",
+    "code": "impl LateLintPass<'_> for MyStructLint {\n    fn check_expr(&mut self, cx: &LateContext<'_>, expr: &Expr<'_>) {\n        // Get type of `expr`\n        let ty = cx.typeck_results().expr_ty(expr);\n\n        // Check if the `Ty` of this expression is of character type\n        if ty.is_char() {\n            println!(\"Our expression is a char!\");\n        }\n    }\n}",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/rust-clippy/blob/4e2a51faef383650d36a282d0b04b86c83e9d773/book/src/development/type_checking.md#L50"
+  },
+  {
+    "label": "rust",
+    "code": "pattern!{\n    // matches if the expression is an empty array\n    my_pattern: Expr =\n        Array( () )\n}\n\npattern!{\n    // matches if expressions that don't have an else clause\n    my_pattern: Expr =\n        If(_, _, ())\n}",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/rust-clippy/blob/4e2a51faef383650d36a282d0b04b86c83e9d773/book/src/development/proposals/syntax-tree-patterns.md#L229"
+  },
+  {
+    "label": "rust",
+    "code": "use regex::Regex;\n\nconst TO_SEARCH: &'static str = \"\nOn 2010-03-14, foo happened. On 2014-10-14, bar happened.\n\";\n\nfn main() {\n    let re = Regex::new(r\"(\\d{4})-(\\d{2})-(\\d{2})\").unwrap();\n\n    for caps in re.captures_iter(TO_SEARCH) {\n        // Note that all of the unwraps are actually OK for this regex\n        // because the only way for the regex to match is if all of the\n        // capture groups match. This is not true in general though!\n        println!(\"year: {}, month: {}, day: {}\",\n                 caps.get(1).unwrap().as_str(),\n                 caps.get(2).unwrap().as_str(),\n                 caps.get(3).unwrap().as_str());\n    }\n}",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/regex/blob/80b9d14e4be9f0b703a742d11c064abce05f210b/regex-lite/README.md#L49"
+  },
+  {
+    "label": "rust",
+    "code": "use serde_json::json;\n\nfn main() {\n    // The type of `john` is `serde_json::Value`\n    let john = json!({\n        \"name\": \"John Doe\",\n        \"age\": 43,\n        \"phones\": [\n            \"+44 1234567\",\n            \"+44 2345678\"\n        ]\n    });\n\n    println!(\"first phone number: {}\", john[\"phones\"][0]);\n\n    // Convert to a string of JSON and print it out\n    println!(\"{}\", john.to_string());\n}",
+    "tag": "rust",
+    "source": "https://github.com/serde-rs/json/blob/8c535a260ce561eaab4111aafc29038eb9f77ff3/README.md#L216"
+  },
+  {
+    "label": "rust",
+    "code": "use regex_syntax::{hir::Hir, parse};\n\nlet hir = parse(\"a|b\").unwrap();\nassert_eq!(hir, Hir::alternation(vec![\n    Hir::literal(\"a\".as_bytes()),\n    Hir::literal(\"b\".as_bytes()),\n]));",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/regex/blob/80b9d14e4be9f0b703a742d11c064abce05f210b/regex-syntax/README.md#L31"
+  },
+  {
+    "label": "rust",
+    "code": "use std::{fmt, error::Error};\nuse tracing_error::SpanTrace;\n\n#[derive(Debug)]\npub struct MyError {\n    context: SpanTrace,\n    // ...\n}\n\nimpl fmt::Display for MyError {\n    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n        // ... format other parts of the error ...\n\n        self.context.fmt(f)?;\n\n        // ... format other error context information, cause chain, etc ...\n        # Ok(())\n    }\n}\n\nimpl Error for MyError {}\n\nimpl MyError {\n    pub fn new() -> Self {\n        Self {\n            context: SpanTrace::capture(),\n            // ... other error information ...\n        }\n    }\n}",
+    "tag": "rust",
+    "source": "https://github.com/tokio-rs/tracing/blob/9d0e557728ecb91e467fc29dfe738b9f28cf6684/tracing-error/README.md#L63"
+  },
+  {
+    "label": "rust",
+    "code": "/// Increment all values in slice.\nfn increment_all(slice: &mut [i32]) {\n    rayon::join(|| process(slice), || process(slice));\n}",
+    "tag": "rust",
+    "source": "https://github.com/rayon-rs/rayon/blob/ee0a00bdb1ab039e178a215ad5712fb7fa58e58f/FAQ.md#L46"
+  },
+  {
+    "label": "rust",
+    "code": "// If the error was caused by redaction, then return a\n// tombstone instead of the content.\nmatch root_cause.downcast_ref::<DataStoreError>() {\n    Some(DataStoreError::Censored(_)) => Ok(Poll::Ready(REDACTED_CONTENT)),\n    None => Err(error),\n}",
+    "tag": "rust",
+    "source": "https://github.com/dtolnay/anyhow/blob/2cbb4e1bcbf8e7015f8d8b04a291c4c0597030b4/README.md#L69"
+  },
+  {
+    "label": "rust",
+    "code": "async {\n    let _s = span.enter();\n    // ...\n}",
+    "tag": "rust",
+    "source": "https://github.com/tokio-rs/tracing/blob/9d0e557728ecb91e467fc29dfe738b9f28cf6684/tracing/README.md#L215"
+  },
+  {
+    "label": "rust",
+    "code": "use tracing::subscriber::with_default;\nuse tracing_mock::{expect, subscriber};\n\nfn yak_shaving() {\n    tracing::info!(\"preparing to shave yaks\");\n}\n\nlet (subscriber, handle) = subscriber::mock()\n    .event(expect::event().with_fields(expect::msg(\"preparing to shave yaks\")))\n    .only()\n    .run_with_handle();\n\nwith_default(subscriber, || {\n    yak_shaving();\n});\n\nhandle.assert_finished();",
+    "tag": "rust",
+    "source": "https://github.com/tokio-rs/tracing/blob/9d0e557728ecb91e467fc29dfe738b9f28cf6684/tracing-mock/README.md#L73"
+  },
+  {
+    "label": "rust",
+    "code": "use rayon::prelude::*;\nfn sum_of_squares(input: &[i32]) -> i32 {\n    input.par_iter() // <-- just change that!\n         .map(|&i| i * i)\n         .sum()\n}",
+    "tag": "rust",
+    "source": "https://github.com/rayon-rs/rayon/blob/ee0a00bdb1ab039e178a215ad5712fb7fa58e58f/README.md#L26"
+  },
+  {
+    "label": "rust",
+    "code": "use core::ffi::c_void;\nuse core::slice;\n\nuse milo_parser::{Parser, CALLBACK_ACTIVE_ON_DATA};\n\nfn main() {\n  // Create the parser.\n  let mut parser = Parser::new();\n\n  // Prepare a message to parse.\n  let message = String::from(\"HTTP/1.1 200 OK\\r\\nContent-Length: 3\\r\\n\\r\\nabc\");\n  parser.context = message.as_ptr() as *mut c_void;\n\n  // Milo works using callbacks.\n  //\n  // All callbacks have the same signature, which characterizes the payload:\n  //\n  // p: The current parser.\n  // from: The payload offset.\n  // size: The payload length.\n  //\n  // The payload parameters above are relative to the last data sent to the parse\n  // method.\n  //\n  // If the current callback has no payload, both values are set to 0.\n  parser.callbacks.on_data = |p: &mut Parser, from: usize, size: usize| {\n    let message =\n      unsafe { std::str::from_utf8_unchecked(slice::from_raw_parts(p.context.add(from) as *const u8, size)) };\n\n    // Use the callback data.\n    println!(\"Pos={} Body: {}\", from, message);\n  };\n\n  // Toggle on the callbacks you want to receive\n  parser.active_callbacks |= CALLBACK_ACTIVE_ON_DATA;\n\n  // Now perform the main parsing using milo.parse. The method returns the number\n  // of consumed characters.\n  parser.parse(message.as_ptr(), message.len());\n}",
+    "tag": "rust",
+    "source": "https://github.com/nodejs/undici/blob/046bb4c6fe413a32ecb6d51eb3ecaa56c8c15b87/deps/milo/README.md#L126"
+  },
+  {
+    "label": "rust",
+    "code": "use regex_automata::{meta::Regex, PatternID};\n\nlet re = Regex::new_many(&[\n    r#\"(?m)^(?<key>[[:word:]]+)=(?<val>[[:word:]]+)$\"#,\n    r#\"(?m)^(?<key>[[:word:]]+)=\"(?<val>[^\"]+)\"$\"#,\n    r#\"(?m)^(?<key>[[:word:]]+)='(?<val>[^']+)'$\"#,\n    r#\"(?m)^(?<key>[[:word:]]+):\\s*(?<val>[[:word:]]+)$\"#,\n]).unwrap();\nlet hay = r#\"\nbest_album=\"Blow Your Face Out\"\nbest_quote='\"then as it was, then again it will be\"'\nbest_year=1973\nbest_simpsons_episode: HOMR\n\"#;\nlet mut kvs = vec![];\nfor caps in re.captures_iter(hay) {\n    // N.B. One could use capture indices '1' and '2' here\n    // as well. Capture indices are local to each pattern.\n    // (Just like names are.)\n    let key = &hay[caps.get_group_by_name(\"key\").unwrap()];\n    let val = &hay[caps.get_group_by_name(\"val\").unwrap()];\n    kvs.push((key, val));\n}\nassert_eq!(kvs, vec![\n    (\"best_album\", \"Blow Your Face Out\"),\n    (\"best_quote\", \"\\\"then as it was, then again it will be\\\"\"),\n    (\"best_year\", \"1973\"),\n    (\"best_simpsons_episode\", \"HOMR\"),\n]);",
+    "tag": "rust",
+    "source": "https://github.com/rust-lang/regex/blob/80b9d14e4be9f0b703a742d11c064abce05f210b/regex-automata/README.md#L23"
+  },
+  {
+    "label": "rust",
+    "code": "pub trait ProducerCallback<T> {\n    type Output;\n    fn callback<P>(self, producer: P) -> Self::Output\n        where P: Producer<Item=T>;\n}",
+    "tag": "rust",
+    "source": "https://github.com/rayon-rs/rayon/blob/ee0a00bdb1ab039e178a215ad5712fb7fa58e58f/src/iter/plumbing/README.md#L253"
+  },
+  {
+    "label": "java",
+    "code": "GitHub github = Feign.builder()\n                     .logger(new Slf4jLogger())\n                     .logLevel(Level.FULL)\n                     .target(GitHub.class, \"https://api.github.com\");",
+    "tag": "java",
+    "source": "https://github.com/OpenFeign/feign/blob/86fbef7842ceeb555b7ca138ceed598baa1646a0/slf4j/README.md#L8"
+  },
+  {
+    "label": "java",
+    "code": "class TournamentWithNullsAdapter {\n  @ToJson void toJson(JsonWriter writer, Tournament tournament,\n      JsonAdapter<Tournament> delegate) throws IOException {\n    boolean wasSerializeNulls = writer.getSerializeNulls();\n    writer.setSerializeNulls(true);\n    try {\n      delegate.toJson(writer, tournament);\n    } finally {\n      writer.setLenient(wasSerializeNulls);\n    }\n  }\n}",
+    "tag": "java",
+    "source": "https://github.com/square/moshi/blob/889013ec2edb8d8034902662a1dc8c4f3b3f8111/README.md#L881"
+  },
+  {
+    "label": "java",
+    "code": "class DefaultConstructorException extends Exception {}",
+    "tag": "java",
+    "source": "https://github.com/OpenFeign/feign/blob/86fbef7842ceeb555b7ca138ceed598baa1646a0/annotation-error-decoder/README.md#L80"
+  },
+  {
+    "label": "java",
+    "code": "interface GitHub {\n\n  @RequestLine(\"GET /repos/{owner}/{repo}/contributors\")\n  JsonArray contributors(@Param(\"owner\") String owner, @Param(\"repo\") String repo);\n\n  @RequestLine(\"POST /repos/{owner}/{repo}/issues\")\n  @Headers(\"Content-Type: application/json\")\n  JsonObject createIssue(@Param(\"owner\") String owner, @Param(\"repo\") String repo, JsonValue issue);\n}\n\nGitHub github = Feign.builder()\n    .decoder(new JdkJsonDecoder())\n    .encoder(new JdkJsonEncoder())\n    .target(GitHub.class, \"https://api.github.com\");\n\nfor (JsonValue contributor : github.contributors(\"OpenFeign\", \"feign\").asList()) {\n  System.out.println(contributor.get(\"login\").asString());\n}\n\nJsonObject issue = github.createIssue(\"OpenFeign\", \"feign\", JsonObject.of(Map.of(\n    \"title\", JsonString.of(\"Found a bug\"),\n    \"labels\", JsonArray.of(List.of(JsonString.of(\"bug\"))))));",
+    "tag": "java",
+    "source": "https://github.com/OpenFeign/feign/blob/86fbef7842ceeb555b7ca138ceed598baa1646a0/jdk-json/README.md#L29"
+  },
+  {
+    "label": "java",
+    "code": "void main() {\n  int total = 0;\n  for (int i = 0; i < 10; i++) {\n    total += i;\n  }\n}",
+    "tag": "java",
+    "source": "https://github.com/square/javapoet/blob/b9017a9503b76e11b4ad4c1a9f050e2d29112cb0/README.md#L108"
+  },
+  {
+    "label": "java",
+    "code": "try (GenericContainer container = new GenericContainer(\"imagename\")) {\n    container.start();\n    // ... use the container\n    // no need to call stop() afterwards\n}",
+    "tag": "java",
+    "source": "https://github.com/testcontainers/testcontainers-java/blob/10b31599694f3c49b4d7455cf1a375f30f150d11/docs/test_framework_integration/manual_lifecycle_control.md#L10"
+  },
+  {
+    "label": "java",
+    "code": "foo.doSomething();",
+    "tag": "java",
+    "source": "https://github.com/testcontainers/testcontainers-java/blob/10b31599694f3c49b4d7455cf1a375f30f150d11/docs/contributing_docs.md#L81"
+  },
+  {
+    "label": "java",
+    "code": "  Contact c = getContact();\n  ChillTemplates.render(\"/contacts/detail.html\", \"contact\", c);",
+    "tag": "java",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/essays/template-fragments.md#L115"
+  },
+  {
+    "label": "java",
+    "code": "Slf4jLogConsumer logConsumer = new Slf4jLogConsumer(LOGGER).withMdc(map);",
+    "tag": "java",
+    "source": "https://github.com/testcontainers/testcontainers-java/blob/10b31599694f3c49b4d7455cf1a375f30f150d11/docs/features/container_logs.md#L54"
+  },
+  {
+    "label": "java",
+    "code": "Moshi moshi = new Moshi.Builder()\n    .add(Date.class, new Rfc3339DateJsonAdapter())\n    //etc\n    .build();",
+    "tag": "java",
+    "source": "https://github.com/square/moshi/blob/889013ec2edb8d8034902662a1dc8c4f3b3f8111/moshi-adapters/README.md#L8"
+  },
+  {
+    "label": "java",
+    "code": "new Moshi.Builder()\n    .add(EnumJsonAdapter.create(IsoCurrency.class)\n        .withUnknownFallback(IsoCurrency.USD))\n    .build();",
+    "tag": "java",
+    "source": "https://github.com/square/moshi/blob/889013ec2edb8d8034902662a1dc8c4f3b3f8111/CHANGELOG.md#L382"
+  },
+  {
+    "label": "java",
+    "code": "import module org.junit.start;\n\nvoid main() {\n    JUnit.run();\n}\n\n@Test\nvoid stringLength() {\n    Assertions.assertEquals(11, \"Hello JUnit\".length());\n}",
+    "tag": "java",
+    "source": "https://github.com/junit-team/junit5-samples/blob/53f60c4470b2e56cce74efad7e3a8970f3619b7a/junit-source-launcher/README.md#L6"
+  },
+  {
+    "label": "c",
+    "code": "sds s = sdsnew(\"foobar\");\ns[2] = '\\0';\nprintf(\"%d\\n\", sdslen(s));\nsdsupdatelen(s);\nprintf(\"%d\\n\", sdslen(s));\n\noutput> 6\noutput> 2",
+    "tag": "c",
+    "source": "https://github.com/antirez/sds/blob/5347739b1581fcba74fd5cab1fc21d2aef317d71/README.md#L809"
+  },
+  {
+    "label": "c",
+    "code": "esp_reset_reason();\nesp_core_dump_get_panic_reason(reason, sizeof(reason));\nesp_core_dump_get_summary(summary);\nesp_core_dump_image_get(&addr, &size);\nesp_core_dump_image_erase();",
+    "tag": "c",
+    "source": "https://github.com/cesanta/mongoose/blob/b766c656158aded41bc16fae43c45d513fca0a3d/tutorials/esp32/minimal/README.md#L28"
+  },
+  {
+    "label": "c",
+    "code": "#define AZURE_HUB_NAME \"HUB_NAME\"    // Change this\n#define AZURE_DEVICE_ID \"DEVICE_ID\"  // Change this\n\n// Do not change this\n#define MQTT_SERVER_URL \"mqtts://\" AZURE_HUB_NAME \".device.azure-devices.net\"\n#define MQTT_CLIENT_ID AZURE_DEVICE_ID\n#define MQTT_USER AZURE_HUB_NAME \".azure-devices.net/\" AZURE_DEVICE_ID \"/?api-version=2021-04-12\"\n#define MQTT_PUBLISH_TOPIC \"devices/\" AZURE_DEVICE_ID \"/messages/events/\"\n#define MQTT_SUBSCRIBE_TOPIC \"devices/\" AZURE_DEVICE_ID \"/messages/devicebound/#\"",
+    "tag": "c",
+    "source": "https://github.com/cesanta/mongoose/blob/b766c656158aded41bc16fae43c45d513fca0a3d/tutorials/mqtt/mqtt-client/README.md#L69"
+  },
+  {
+    "label": "c",
+    "code": "/* initialise a row of 3 items: the first item with a width\n** of 90 and the remaining two with the width of 100 */\nmu_layout_row(ctx, 3, (int[]) { 90, 100, 100 }, 0);",
+    "tag": "c",
+    "source": "https://github.com/rxi/microui/blob/0850aba860959c3e75fb3e97120ca92957f9d057/doc/usage.md#L126"
+  },
+  {
+    "label": "c",
+    "code": "log_trace(const char *fmt, ...);\nlog_debug(const char *fmt, ...);\nlog_info(const char *fmt, ...);\nlog_warn(const char *fmt, ...);\nlog_error(const char *fmt, ...);\nlog_fatal(const char *fmt, ...);",
+    "tag": "c",
+    "source": "https://github.com/rxi/log.c/blob/f9ea34994bd58ed342d2245cd4110bb5c6790153/README.md#L12"
+  },
+  {
+    "label": "c",
+    "code": "int copy_argc          = argc;\nconst char **copy_argv = argv;\ncopy_argv  = malloc(copy_argc * sizeof(char *));\nfor (int i = 0; i < argc; i++) {\n\tcopy_argv[i] = (char *)argv[i];\n}   \nargparse_parse(&argparse, copy_argc, copy_argv);",
+    "tag": "c",
+    "source": "https://github.com/cofyc/argparse/blob/4e30aba50340af7f2d3932492c4bffdef7669db8/FAQs.md#L15"
+  },
+  {
+    "label": "c",
+    "code": "/* Initialize context calling one of: */\nvoid AES_init_ctx(struct AES_ctx* ctx, const uint8_t* key);\nvoid AES_init_ctx_iv(struct AES_ctx* ctx, const uint8_t* key, const uint8_t* iv);\n\n/* ... or reset IV at random point: */\nvoid AES_ctx_set_iv(struct AES_ctx* ctx, const uint8_t* iv);\n\n/* Then start encrypting and decrypting with the functions below: */\nvoid AES_ECB_encrypt(const struct AES_ctx* ctx, uint8_t* buf);\nvoid AES_ECB_decrypt(const struct AES_ctx* ctx, uint8_t* buf);\n\nvoid AES_CBC_encrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length);\nvoid AES_CBC_decrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length);\n\n/* Same function for encrypting as for decrypting in CTR mode */\nvoid AES_CTR_xcrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length);",
+    "tag": "c",
+    "source": "https://github.com/kokke/tiny-AES-c/blob/23856752fbd139da0b8ca6e471a13d5bcc99a08d/README.md#L10"
+  },
+  {
+    "label": "c",
+    "code": "#include \"mongoose.h\"   // To build, run: cc main.c mongoose.c\n\n// HTTP server event handler function\nvoid ev_handler(struct mg_connection *c, int ev, void *ev_data) {\n  if (ev == MG_EV_HTTP_MSG) {\n    struct mg_http_message *hm = (struct mg_http_message *) ev_data;\n    struct mg_http_serve_opts opts = { .root_dir = \"./web_root/\" };\n    mg_http_serve_dir(c, hm, &opts);\n  }\n}\n\nint main(void) {\n  struct mg_mgr mgr;  // Declare event manager\n  mg_mgr_init(&mgr);  // Initialise event manager\n  mg_http_listen(&mgr, \"http://0.0.0.0:8000\", ev_handler, NULL);  // Setup listener\n  for (;;) {          // Run an infinite event loop\n    mg_mgr_poll(&mgr, 1000);\n  }\n  return 0;\n}",
+    "tag": "c",
+    "source": "https://github.com/cesanta/mongoose/blob/b766c656158aded41bc16fae43c45d513fca0a3d/README.md#L86"
+  },
+  {
+    "label": "c",
+    "code": "if (mu_begin_window(ctx, \"My Window\", mu_rect(10, 10, 140, 86))) {\n  mu_layout_row(ctx, 2, (int[]) { 60, -1 }, 0);\n\n  mu_label(ctx, \"First:\");\n  if (mu_button(ctx, \"Button1\")) {\n    printf(\"Button1 pressed\\n\");\n  }\n\n  mu_label(ctx, \"Second:\");\n  if (mu_button(ctx, \"Button2\")) {\n    mu_open_popup(ctx, \"My Popup\");\n  }\n\n  if (mu_begin_popup(ctx, \"My Popup\")) {\n    mu_label(ctx, \"Hello world!\");\n    mu_end_popup(ctx);\n  }\n\n  mu_end_window(ctx);\n}",
+    "tag": "c",
+    "source": "https://github.com/rxi/microui/blob/0850aba860959c3e75fb3e97120ca92957f9d057/README.md#L15"
+  },
+  {
+    "label": "cpp",
+    "code": "argparse::ArgumentParser program(\"test\");\n\nprogram.add_argument(\"numbers\")\n  .nargs(3)\n  .scan<'i', int>();\n\nprogram.add_argument(\"-a\")\n  .default_value(false)\n  .implicit_value(true);\n\nprogram.add_argument(\"-b\")\n  .default_value(false)\n  .implicit_value(true);\n\nprogram.add_argument(\"-c\")\n  .nargs(2)\n  .scan<'g', float>();\n\nprogram.add_argument(\"--files\")\n  .nargs(3);\n\ntry {\n  program.parse_args(argc, argv);\n}\ncatch (const std::exception& err) {\n  std::cerr << err.what() << std::endl;\n  std::cerr << program;\n  std::exit(1);\n}\n\nauto numbers = program.get<std::vector<int>>(\"numbers\");        // {1, 2, 3}\nauto a = program.get<bool>(\"-a\");                               // true\nauto b = program.get<bool>(\"-b\");                               // true\nauto c = program.get<std::vector<float>>(\"-c\");                 // {3.14f, 2.718f}\nauto files = program.get<std::vector<std::string>>(\"--files\");  // {\"a.txt\", \"b.txt\", \"c.txt\"}\n\n/// Some code that prints parsed arguments",
+    "tag": "cpp",
+    "source": "https://github.com/p-ranav/argparse/blob/7d093f8e1201db2dded2eee94de77665698ee9dc/README.md#L1219"
+  },
+  {
+    "label": "cpp",
+    "code": "options.parse_positional(\"another_option\", cxxopts::PositionalMode::Append);",
+    "tag": "cpp",
+    "source": "https://github.com/jarro2783/cxxopts/blob/bb791540908e3dc623f54b34898c6ad3e47292ab/README.md#L157"
+  },
+  {
+    "label": "cpp",
+    "code": "app.add_flag(\"--flag,!--no-flag\",result,\"help for flag\");",
+    "tag": "cpp",
+    "source": "https://github.com/CLIUtils/CLI11/blob/1764a057b760e8873eab03f4635b4aaed5303a04/README.md#L381"
+  },
+  {
+    "label": "cpp",
+    "code": "httplib::Client cli(\"https://example.com\");\ncli.set_compress(true);    // リクエストボディを圧縮\ncli.set_decompress(true);  // レスポンスボディを展開",
+    "tag": "cpp",
+    "source": "https://github.com/yhirose/cpp-httplib/blob/a210b43e1193a1eb6c944d9016a85f1e0d92a946/docs-src/pages/ja/tour/09-whats-next.md#L113"
+  },
+  {
+    "label": "cpp",
+    "code": "#include <cpp-llamalib.h>\n\nint main() {\n  auto llm = llamalib::Llama{\"models/gemma-2-2b-it-Q4_K_M.gguf\"};\n\n  // ... HTTPサーバーの構築・起動 ...\n}",
+    "tag": "cpp",
+    "source": "https://github.com/yhirose/cpp-httplib/blob/a210b43e1193a1eb6c944d9016a85f1e0d92a946/docs-src/pages/ja/llm-app/ch02-rest-api.md#L15"
+  },
+  {
+    "label": "cpp",
+    "code": "int port = svr.bind_to_any_port(\"0.0.0.0\");\nsvr.listen_after_bind();",
+    "tag": "cpp",
+    "source": "https://github.com/yhirose/cpp-httplib/blob/a210b43e1193a1eb6c944d9016a85f1e0d92a946/README.md#L362"
+  },
+  {
+    "label": "cpp",
+    "code": "int my_flag{0};\napp.add_flag(\"-f\", my_flag, \"Optional description\");",
+    "tag": "cpp",
+    "source": "https://github.com/CLIUtils/CLI11/blob/1764a057b760e8873eab03f4635b4aaed5303a04/book/chapters/flags.md#L35"
+  },
+  {
+    "label": "cpp",
+    "code": "constexpr auto colors = magic_enum::enum_values<Color>();\n// colors -> {Color::RED, Color::BLUE, Color::GREEN}\n// colors[0] -> Color::RED",
+    "tag": "cpp",
+    "source": "https://github.com/Neargye/magic_enum/blob/5de969c9005938a27a34d3af3ea5923d18679ad8/README.md#L86"
+  },
+  {
+    "label": "cpp",
+    "code": "enum Directions : std::uint64_t {\n  Left = 1,\n  Down = 2,\n  Up = 4,\n  Right = 8,\n  LeftAndDown = 3\n};\ntemplate <>\nstruct magic_enum::customize::enum_range<Directions> {\n  static constexpr bool is_flags = true;\n};\nusing namespace magic_enum::bitwise_operators; // Use with care; operators are enabled for all enums.\n\nmagic_enum::enum_flags_name(Directions::Up | Directions::Right); // -> \"Up|Right\"\nmagic_enum::enum_flags_name(Directions::LeftAndDown); // -> \"Left|Down\"\nmagic_enum::enum_flags_name(Directions::Up | Directions::Right, ','); // -> \"Up,Right\"\n\nmagic_enum::enum_flags_contains(Directions::Up | Directions::Right); // -> true\nmagic_enum::enum_flags_contains(Directions::LeftAndDown); // -> true\n\nmagic_enum::enum_flags_cast<Directions>(3).value(); // -> Directions::Left|Directions::Down\nmagic_enum::enum_flags_cast<Directions>(\"Left|Down\").value(); // -> Directions::Left|Directions::Down\nmagic_enum::enum_flags_cast<Directions>(\"Left,Down\", ',').value(); // -> Directions::Left|Directions::Down\n\nmagic_enum::enum_flags_test(Directions::Left | Directions::Down, Directions::Down); // -> true\nmagic_enum::enum_flags_test(Directions::Left | Directions::Down, Directions::Right); // -> false\n\nmagic_enum::enum_flags_test_any(Directions::Left | Directions::Down | Directions::Right, Directions::Down | Directions::Right); // -> true",
+    "tag": "cpp",
+    "source": "https://github.com/Neargye/magic_enum/blob/5de969c9005938a27a34d3af3ea5923d18679ad8/doc/reference.md#L646"
+  },
+  {
+    "label": "cpp",
+    "code": "auto *format = app.add_option_group(\"output_format\", \"formatting type for output\");",
+    "tag": "cpp",
+    "source": "https://github.com/CLIUtils/CLI11/blob/1764a057b760e8873eab03f4635b4aaed5303a04/book/chapters/option-groups.md#L7"
+  },
+  {
+    "label": "cpp",
+    "code": "namespace Deeply::Nested::Namespace {\n  enum class my_enum_type { my_enum_value1 = 10, my_enum_value2 = 11 };\n\n  auto magic_enum_define_range_adl(my_enum_type) {\n    return magic_enum::customize::adl_info()\n        .minmax<10, 11>()\n        .prefix<sizeof(\"my_enum_\") - 1>();\n  }\n}",
+    "tag": "cpp",
+    "source": "https://github.com/Neargye/magic_enum/blob/5de969c9005938a27a34d3af3ea5923d18679ad8/doc/limitations.md#L63"
+  },
+  {
+    "label": "cpp",
+    "code": "#include \"milo.h\"\n#include <cinttypes>\n#include <cstdio>\n#include <cstring>\n\nint main() {\n  // Create the parser.\n  milo_parser::Parser* parser = milo_parser::milo_create();\n\n  // Prepare a message to parse.\n  const char* message = \"HTTP/1.1 200 OK\\r\\nContent-Length: 3\\r\\n\\r\\nabc\";\n\n  parser->context = (char*) message;\n\n  /*\n    Milo works using callbacks.\n\n    All callbacks have the same signature, which characterizes the payload:\n\n      * p: The current parser.\n      * from: The payload offset.\n      * size: The payload length.\n\n    The payload parameters above are relative to the last data sent to the milo_parse method.\n\n    If the current callback has no payload, both values are set to 0.\n  */\n  parser->callbacks.on_data = [](milo_parser::Parser* p, uintptr_t from, uintptr_t size) {\n    const char* payload = reinterpret_cast<const char*>(p->context) + from;\n\n    printf(\"Pos=%\" PRIuPTR \" Body: %.*s\\n\", from, static_cast<int>(size), payload);\n  };\n\n  // Toggle on the callbacks you want to receive\n  parser->active_callbacks |= milo_parser::CALLBACK_ACTIVE_ON_DATA;\n\n  // Now perform the main parsing using milo.parse. The method returns the number of consumed characters.\n  milo_parser::milo_parse(parser, reinterpret_cast<const unsigned char*>(message), strlen(message));\n\n  // Cleanup used resources.\n  milo_parser::milo_destroy(parser);\n}",
+    "tag": "cpp",
+    "source": "https://github.com/nodejs/undici/blob/046bb4c6fe413a32ecb6d51eb3ecaa56c8c15b87/deps/milo/README.md#L185"
+  },
+  {
+    "label": "csharp",
+    "code": "KeyValuePair<int, string> item1 = new KeyValuePair<int, string>(1, \"One\");\nKeyValuePair<int, string> item2 = new KeyValuePair<int, string>(2, \"Two\");\n\ndictionary.Should().Contain(item1);\ndictionary.Should().Contain(item1, item2);\ndictionary.Should().Contain(2, \"Two\");\ndictionary.Should().NotContain(item1);\ndictionary.Should().NotContain(item1, item2);\ndictionary.Should().NotContain(9, \"Nine\");",
+    "tag": "csharp",
+    "source": "https://github.com/fluentassertions/fluentassertions/blob/db34ba49e2de8e6c791d1f28451848e08428733d/docs/_pages/dictionaries.md#L78"
+  },
+  {
+    "label": "csharp",
+    "code": "await dbContext\n    .MockItems.Where(item =>\n        EF.Functions.MatchAny(item.Description, \"running shoes\") && item.Rating > 2\n    )\n    .Select(item => new\n    {\n        item.Description,\n        Snippet = EF.Functions.Snippet(item.Description),\n        Score = EF.Functions.Score(item.Id)\n    })\n    .OrderByDescending(item => item.Score)\n    .Take(5)\n    .ToListAsync();",
+    "tag": "cs",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/start/run-queries.mdx#L553"
+  },
+  {
+    "label": "csharp",
+    "code": "var request = new RestRequest(resource, Method.Post);",
+    "tag": "csharp",
+    "source": "https://github.com/restsharp/RestSharp/blob/466e5f8782bd52f98df829f63a83b45fdb8472ae/docs/docs/usage/request.md#L16"
+  },
+  {
+    "label": "csharp",
+    "code": "public class DirectoryInfoAssertions :\n    ReferenceTypeAssertions<DirectoryInfo, DirectoryInfoAssertions>\n{\n    private AssertionChain chain;\n\n    public DirectoryInfoAssertions(DirectoryInfo instance, AssertionChain chain)\n        : base(instance)\n    {\n        this.chain = chain;\n    }\n\n    protected override string Identifier => \"directory\";\n\n    [CustomAssertion]\n    public AndConstraint<DirectoryInfoAssertions> ContainFile(\n        string filename, string because = \"\", params object[] becauseArgs)\n    {\n        chain\n            .BecauseOf(because, becauseArgs)\n            .ForCondition(!string.IsNullOrEmpty(filename))\n            .FailWith(\"You can't assert a file exist if you don't pass a proper name\")\n            .Then\n            .Given(() => Subject.GetFiles())\n            .ForCondition(files => files.Any(fileInfo => fileInfo.Name.Equals(filename)))\n            .FailWith(\"Expected {context:directory} to contain {0}{reason}, but found {1}.\",\n                _ => filename, files => files.Select(file => file.Name));\n\n        return new AndConstraint<DirectoryInfoAssertions>(this);\n    }\n}",
+    "tag": "csharp",
+    "source": "https://github.com/fluentassertions/fluentassertions/blob/db34ba49e2de8e6c791d1f28451848e08428733d/docs/_pages/extensibility.md#L34"
+  },
+  {
+    "label": "csharp",
+    "code": "await dbContext\n    .MockItems.Where(item => EF.Functions.MatchAny(item.Description, \"shoes\"))\n    .Select(item => new { item.Id, Score = EF.Functions.Score(item.Id) })\n    .OrderByDescending(item => item.Score)\n    .Take(5)\n    .ToListAsync();",
+    "tag": "cs",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/full-text/score.mdx#L82"
+  },
+  {
+    "label": "csharp",
+    "code": "var client = new RestClient(\"https://search.me\");\nvar request = new RestRequest(\"search\")\n    .AddParameter(\"foo\", \"bar\");\nvar response = await client.GetAsync<SearchResponse>(request);",
+    "tag": "csharp",
+    "source": "https://github.com/restsharp/RestSharp/blob/466e5f8782bd52f98df829f63a83b45fdb8472ae/docs/versioned_docs/version-v111/usage/request.md#L93"
+  },
+  {
+    "label": "csharp",
+    "code": "// Only enforce strict typing for properties named \"Nested\"\norderDto.Should().BeEquivalentTo(order, options => \n    options.WithStrictTypingFor(info => info.Path.EndsWith(\"Nested\")));\n\n// Only enforce strict typing for the root object\norderDto.Should().BeEquivalentTo(order, options => \n    options.WithStrictTypingFor(info => info.Path.Length == 0));",
+    "tag": "csharp",
+    "source": "https://github.com/fluentassertions/fluentassertions/blob/db34ba49e2de8e6c791d1f28451848e08428733d/docs/_pages/objectgraphs.md#L54"
+  },
+  {
+    "label": "csharp",
+    "code": "var options = new RestClientOptions(Url) {\n    ConfigureMessageHandler = handler => new MyDelegatingHandler(handler)\n};\nusing var client = new RestClient(options);",
+    "tag": "csharp",
+    "source": "https://github.com/restsharp/RestSharp/blob/466e5f8782bd52f98df829f63a83b45fdb8472ae/docs/versioned_docs/version-v114.1/advanced/configuration.md#L142"
+  },
+  {
+    "label": "csharp",
+    "code": "modelBuilder.Entity<MockItem>()\n    .HasParadeDbIndex(\"search_idx\", e => e.Id)\n    .HasField(\n        \"description || ' ' || category\",\n        Tokenizer.Simple(new() { [\"alias\"] = \"description_concat\" })\n    );",
+    "tag": "cs",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/indexing/indexing-expressions.mdx#L97"
+  },
+  {
+    "label": "csharp",
+    "code": "[Test]\npublic void With_Korean_Locale()\n{\n    var lorem = new Bogus.DataSets.Lorem(locale: \"ko\");\n    Console.WriteLine(lorem.Sentence(5));\n}\n\n/* 국가는 무상으로 행위로 의무를 구성하지 신체의 처벌받지 예술가의 경우와 */",
+    "tag": "csharp",
+    "source": "https://github.com/bchavez/Bogus/blob/6ece18c5c22648ab4606e45a0aaf2f07fc5259e4/README.md#L173"
+  },
+  {
+    "label": "csharp",
+    "code": "dotnet build -c Release",
+    "tag": "csharp",
+    "source": "https://github.com/bchavez/Bogus/blob/6ece18c5c22648ab4606e45a0aaf2f07fc5259e4/Source/Benchmark/README.md#L10"
+  },
+  {
+    "label": "ruby",
+    "code": "MockItem.search(:description)\n        .near(ParadeDB.proximity(ParadeDB.regex_term(\"sl.*\"), \"white\").within(1, \"shoes\"))\n        .select(:description, :rating, :category)",
+    "tag": "ruby",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/full-text/proximity.mdx#L411"
+  },
+  {
+    "label": "ruby",
+    "code": "Faker::TvShows::Community.characters #=> \"Jeff Winger\"\n\nFaker::TvShows::Community.quotes #=> I fear a political career could shine a negative light on my drug dealing.\"",
+    "tag": "ruby",
+    "source": "https://github.com/faker-ruby/faker/blob/577447c403c67c92200bca045390c3dfdb6d643b/doc/tv_shows/community.md#L5"
+  },
+  {
+    "label": "ruby",
+    "code": "MockItem.more_like_this({ description: \"Sleek running shoes\", category: \"footwear\" }.to_json)\n        .select(:id, :description, :rating, :category)\n        .order(:id)",
+    "tag": "ruby",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/full-text/more-like-this.mdx#L252"
+  },
+  {
+    "label": "ruby",
+    "code": "# Any one of the below four categories:\nFaker::Sport.sport #=> \"Snowboard\"\n\nFaker::Sport.summer_olympics_sport #=> \"Triathlon\"\n\nFaker::Sport.winter_olympics_sport #=> \"Luge\"\n\nFaker::Sport.summer_paralympics_sport #=> \"Goalball\"\n\nFaker::Sport.winter_paralympics_sport #=> \"Wheelchair curling\"",
+    "tag": "ruby",
+    "source": "https://github.com/faker-ruby/faker/blob/577447c403c67c92200bca045390c3dfdb6d643b/doc/sports/sport.md#L5"
+  },
+  {
+    "label": "ruby",
+    "code": "Faker::Movies::LordOfTheRings.character #=> \"Legolas\"\n\nFaker::Movies::LordOfTheRings.location #=> \"Helm's Deep\"",
+    "tag": "ruby",
+    "source": "https://github.com/faker-ruby/faker/blob/577447c403c67c92200bca045390c3dfdb6d643b/doc/movies/lord_of_the_rings.md#L3"
+  },
+  {
+    "label": "ruby",
+    "code": "print page.html",
+    "tag": "ruby",
+    "source": "https://github.com/teamcapybara/capybara/blob/265d2d175f4be3ddf785d7597bdfd19b231f844a/README.md#L683"
+  },
+  {
+    "label": "ruby",
+    "code": "MockItem.search(:id)\n        .match_all\n        .aggregate_by(\n          :rating,\n          agg: ParadeDB::Aggregations.top_hits(\n            size: 3,\n            sort: [{ created_at: \"desc\" }, { id: \"asc\" }],\n            docvalue_fields: %w[id created_at]\n          )\n        )",
+    "tag": "ruby",
+    "source": "https://github.com/paradedb/paradedb/blob/88bd07bf6121039cab01e2294c8dd3a4fae42b4f/docs/reference/aggregates/metrics/tophits.mdx#L288"
+  },
+  {
+    "label": "ruby",
+    "code": "# Use this example if you are using a pkcs12 file\n\nclass Client\n  include HTTParty\n\n  base_uri \"https://example.com\"\n  pkcs12 File.read(\"#{File.expand_path('.')}/path/to/certs/cert.p12\"), \"123456\"\nend",
+    "tag": "ruby",
+    "source": "https://github.com/jnunemaker/httparty/blob/253c2e39fc7d06fa7be054e36418110712b58af1/docs/README.md#L82"
+  },
+  {
+    "label": "ruby",
+    "code": "code",
+    "tag": "ruby",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/test/fenced_code_without_blank_lines.md#L7"
+  },
+  {
+    "label": "ruby",
+    "code": "Capybara.server = :webrick",
+    "tag": "ruby",
+    "source": "https://github.com/teamcapybara/capybara/blob/265d2d175f4be3ddf785d7597bdfd19b231f844a/UPGRADING.md#L8"
+  },
+  {
+    "label": "ruby",
+    "code": "# Use the class methods to get down to business quickly\nresponse = HTTParty.get('https://api.stackexchange.com/2.2/questions?site=stackoverflow')\n\nputs response.body, response.code, response.message, response.headers.inspect\n\n# Or wrap things up in your own class\nclass StackExchange\n  include HTTParty\n  base_uri 'api.stackexchange.com'\n\n  def initialize(service, page)\n    @options = { query: { site: service, page: page } }\n  end\n\n  def questions\n    self.class.get(\"/2.2/questions\", @options)\n  end\n\n  def users\n    self.class.get(\"/2.2/users\", @options)\n  end\nend\n\nstack_exchange = StackExchange.new(\"stackoverflow\", 1)\nputs stack_exchange.questions\nputs stack_exchange.users",
+    "tag": "ruby",
+    "source": "https://github.com/jnunemaker/httparty/blob/253c2e39fc7d06fa7be054e36418110712b58af1/README.md#L20"
+  },
+  {
+    "label": "ruby",
+    "code": "# This shouldn't trigger MD023 as it is a code comment.\nfoo = \"And here is some code\"",
+    "tag": "rb",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/test/headings_with_spaces_at_the_beginning.md#L13"
+  },
+  {
+    "label": "ruby",
+    "code": "def index\n  @contacts = Contacts.all\n\n  respond_to do |format|\n    format.html # default rendering logic\n    format.json { render json: @contacts }\n  end\nend",
+    "tag": "ruby",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/essays/why-tend-not-to-use-content-negotiation.md#L86"
+  },
+  {
+    "label": "php",
+    "code": "use League\\Csv\\RFC4180Field;\nuse League\\Csv\\Writer;\n\n$writer = Writer::from('php://temp', 'r+');\nRFC4180Field::addTo($writer, 'fo'); //incorrect sequence this will alter your CSV\n$writer->insertOne(['foo bar', 'bar']);\necho $writer->getContent(); //display ' o bar,baz' instead of 'foo bar,baz'",
+    "tag": "php",
+    "source": "https://github.com/thephpleague/csv/blob/74375f1e15621cea1cbb9b20368caebb8a4e258b/docs/9.0/interoperability/rfc4180-field.md#L68"
+  },
+  {
+    "label": "php",
+    "code": "use PHPMailer\\PHPMailer\\Exception;\n...\ntry {\n...\n} catch (Exception $e) {\n    echo $e->errorMessage();\n} catch (\\Exception $e) {\n    echo $e->getMessage();\n}",
+    "tag": "php",
+    "source": "https://github.com/PHPMailer/PHPMailer/blob/c0b5268a626d6ddbe71333cc1c60c5ae37e44e0d/UPGRADING.md#L81"
+  },
+  {
+    "label": "php",
+    "code": "$dotenv->required('FOO')->isBoolean();",
+    "tag": "php",
+    "source": "https://github.com/vlucas/phpdotenv/blob/301c07936b16d88628b126b01d082ba153cf4c40/README.md#L344"
+  },
+  {
+    "label": "php",
+    "code": "function(array $row [, int $rowOffset [, Iterator $iterator]]): array",
+    "tag": "php",
+    "source": "https://github.com/thephpleague/csv/blob/74375f1e15621cea1cbb9b20368caebb8a4e258b/docs/8.0/reading.md#L201"
+  },
+  {
+    "label": "php",
+    "code": "$converter = (new JsonConverter())->depth(2);\n$converter->depth; //returns the actual depth value (as used by json_encode)",
+    "tag": "php",
+    "source": "https://github.com/thephpleague/csv/blob/74375f1e15621cea1cbb9b20368caebb8a4e258b/docs/9.0/converter/json.md#L110"
+  },
+  {
+    "label": "php",
+    "code": "$request->getHeader('X-Foo');\n// ['bar']\n\n// Missing headers return an empty array.\n$request->getHeader('X-Bar');\n// []",
+    "tag": "php",
+    "source": "https://github.com/guzzle/psr7/blob/cdc139396207a5eba10c242d241fb014cb098390/docs/psr-7-messages.md#L146"
+  },
+  {
+    "label": "php",
+    "code": "// 2.x-style tolerant input, no longer accepted in 3.0\nMessage::parseRequest(\"GET /foo bar HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n\");\nnew Response(200, [], null, 'HTTP/1.1');\n\n// 3.0\nMessage::parseRequest(\"GET /foo%20bar HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n\");\nnew Response(200, [], null, '1.1');",
+    "tag": "php",
+    "source": "https://github.com/guzzle/psr7/blob/cdc139396207a5eba10c242d241fb014cb098390/UPGRADING.md#L471"
+  },
+  {
+    "label": "php",
+    "code": "// Should detailed stack trace output also be added to the\n// JSON payload body?\nJsonResponseHandler::addTraceToOutput(bool $yes = null)\n #=> bool\n\nJsonResponseHandler::handle()\n #=> int | null",
+    "tag": "php",
+    "source": "https://github.com/filp/whoops/blob/50670ba239926c50f2073e868f6672f775cd57ec/docs/API Documentation.md#L323"
+  },
+  {
+    "label": "php",
+    "code": "use GuzzleHttp\\Psr7\\Utils;\n\n$stream = Utils::streamFor('string data');\necho $stream;\n// string data\necho $stream->read(3);\n// str\necho $stream->getContents();\n// ing data\nvar_export($stream->eof());\n// true\nvar_export($stream->tell());\n// 11",
+    "tag": "php",
+    "source": "https://github.com/guzzle/psr7/blob/cdc139396207a5eba10c242d241fb014cb098390/docs/streams-and-decorators.md#L19"
+  },
+  {
+    "label": "php",
+    "code": "<?php\n\nuse Whoops\\Handler\\PrettyPageHandler;\n\n$handler = new PrettyPageHandler;\n$handler->setEditor('sublime');",
+    "tag": "php",
+    "source": "https://github.com/filp/whoops/blob/50670ba239926c50f2073e868f6672f775cd57ec/docs/Open Files In An Editor.md#L7"
+  },
+  {
+    "label": "php",
+    "code": "<?php\n\nuse Dotenv\\Repository\\Adapter\\ArrayAdapter;\nuse Dotenv\\Repository\\RepositoryBuilder;\nuse Dotenv\\Loader\\Loader;\n\n$adapters = [new ArrayAdapter()];\n\n$repository = RepositoryBuilder::create()\n    ->withReaders($adapters)\n    ->withWriters($adapters)\n    ->make();\n\n$variables = (new Loader())->load($repository, $content);",
+    "tag": "php",
+    "source": "https://github.com/vlucas/phpdotenv/blob/301c07936b16d88628b126b01d082ba153cf4c40/UPGRADING.md#L128"
+  },
+  {
+    "label": "php",
+    "code": "$serialized_exception = serialize(new Exception('Something has happened!'));\n\n$whoops = new \\Whoops\\Run;\n$whoops->pushHandler(new \\Whoops\\Handler\\PrettyPageHandler);\n$whoops->register();\n$whoops->handleException(unserialize($serialized_exception));",
+    "tag": "php",
+    "source": "https://github.com/filp/whoops/blob/50670ba239926c50f2073e868f6672f775cd57ec/docs/Replay Errors.md#L5"
+  },
+  {
+    "label": "php",
+    "code": "<?php\nrequire 'path-to-Carbon-directory/autoload.php';\n\nuse Carbon\\Carbon;\n\nprintf(\"Now: %s\", Carbon::now());",
+    "tag": "php",
+    "source": "https://github.com/briannesbitt/Carbon/blob/52225e930113640ce15cd20b8dcb1d2a6bfb1284/readme.md#L94"
+  },
+  {
+    "label": "php",
+    "code": "<?php\n//Import PHPMailer classes into the global namespace\n//These must be at the top of your script, not inside a function\nuse PHPMailer\\PHPMailer\\PHPMailer;\nuse PHPMailer\\PHPMailer\\SMTP;\nuse PHPMailer\\PHPMailer\\Exception;\n\n//Load Composer's autoloader (created by composer, not included with PHPMailer)\nrequire 'vendor/autoload.php';\n\n//Create an instance; passing `true` enables exceptions\n$mail = new PHPMailer(true);\n\ntry {\n    //Server settings\n    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output\n    $mail->isSMTP();                                            //Send using SMTP\n    $mail->Host       = 'smtp.example.com';                     //Set the SMTP server to send through\n    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication\n    $mail->Username   = 'user@example.com';                     //SMTP username\n    $mail->Password   = 'secret';                               //SMTP password\n    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption\n    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`\n\n    //Recipients\n    $mail->setFrom('from@example.com', 'Mailer');\n    $mail->addAddress('joe@example.net', 'Joe User');     //Add a recipient\n    $mail->addAddress('ellen@example.com');               //Name is optional\n    $mail->addReplyTo('info@example.com', 'Information');\n    $mail->addCC('cc@example.com');\n    $mail->addBCC('bcc@example.com');\n\n    //Attachments\n    $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments\n    $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name\n\n    //Content\n    $mail->isHTML(true);                                  //Set email format to HTML\n    $mail->Subject = 'Here is the subject';\n    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';\n    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';\n\n    $mail->send();\n    echo 'Message has been sent';\n} catch (Exception $e) {\n    echo \"Message could not be sent. Mailer Error: {$mail->ErrorInfo}\";\n}",
+    "tag": "php",
+    "source": "https://github.com/PHPMailer/PHPMailer/blob/c0b5268a626d6ddbe71333cc1c60c5ae37e44e0d/README.md#L91"
+  },
+  {
+    "label": "php",
+    "code": "echo Carbon::parse('2018-06-01')->subDay()->month;",
+    "tag": "php",
+    "source": "https://github.com/briannesbitt/Carbon/blob/52225e930113640ce15cd20b8dcb1d2a6bfb1284/.github/ISSUE_TEMPLATE/bug_report.md#L15"
+  },
+  {
+    "label": "yaml",
+    "code": "name: sqlc\non: [push]\njobs:\n  vet:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v3\n    - uses: sqlc-dev/setup-sqlc@v3\n      with:\n        sqlc-version: '1.31.1'\n    # Start a PostgreSQL server\n    - uses: sqlc-dev/action-setup-postgres@master\n      with:\n        postgres-version: \"16\"\n      id: postgres\n    - run: sqlc vet\n      env:\n        POSTGRESQL_SERVER_URI: ${{ steps.postgres.outputs.connection-uri }}?sslmode=disable",
+    "tag": "yaml",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/howto/ci-cd.md#L77"
+  },
+  {
+    "label": "yaml",
+    "code": "version: 2\nsql:\n  - schema: \"query.sql\"\n    queries: \"query.sql\"\n    engine: \"postgresql\"\n    database:\n      uri: \"postgresql://postgres:postgres@localhost:5432/postgres\"\n    gen:\n      go:\n        package: \"db\"\n        out: \"db\"\n    rules:\n      - has-index\nrules:\n- name: has-index\n  rule: >\n    query.sql.startsWith(\"SELECT\") &&\n    !(postgresql.explain.plan.plans.all(p, has(p.index_name) || p.plans.all(p, has(p.index_name))))",
+    "tag": "yaml",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/reference/changelog.md#L967"
+  },
+  {
+    "label": "yaml",
+    "code": "similarHelpers:\n  - core#slice#min        # Find minimum value\n  - core#slice#max        # Find maximum value\n  - core#slice#minby      # Find minimum by key function\n  - core#slice#maxby      # Find maximum by key function\n  - core#slice#minindex   # Find minimum value index\n  - core#slice#maxindex   # Find maximum value index",
+    "tag": "yaml",
+    "source": "https://github.com/samber/lo/blob/5c6ddcb7063c9908031340db03f27ba7483d1ece/docs/CLAUDE.md#L134"
+  },
+  {
+    "label": "yaml",
+    "code": "tests:\n  image: maven:3\n  stop_signal: SIGKILL\n  stdin_open: true\n  tty: true\n  working_dir: $PWD\n  volumes:\n    - $PWD:$PWD\n    - /var/run/docker.sock:/var/run/docker.sock\n    # Maven cache (optional)\n    - ~/.m2:/root/.m2\n  command: mvn test",
+    "tag": "yaml",
+    "source": "https://github.com/testcontainers/testcontainers-java/blob/10b31599694f3c49b4d7455cf1a375f30f150d11/docs/supported_docker_environment/continuous_integration/dind_patterns.md#L43"
+  },
+  {
+    "label": "yaml",
+    "code": "version: \"2\"\nsql:\n  - engine: \"postgresql\"\n    queries: \"query.sql\"\n    schema: \"schema.sql\"\n    gen:\n      go:\n        package: \"tutorial\"\n        out: \"tutorial\"\n        sql_package: \"pgx/v5\"",
+    "tag": "yaml",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/howto/generate.md#L5"
+  },
+  {
+    "label": "yaml",
+    "code": "variables:\n  TESTCONTAINERS_HOST_OVERRIDE: \"<ip-docker-host>\"",
+    "tag": "yml",
+    "source": "https://github.com/testcontainers/testcontainers-java/blob/10b31599694f3c49b4d7455cf1a375f30f150d11/docs/supported_docker_environment/continuous_integration/gitlab_ci.md#L25"
+  },
+  {
+    "label": "yaml",
+    "code": "on: push\nname: Clippy check\n\n# Make sure CI fails on all warnings, including Clippy lints\nenv:\n  RUSTFLAGS: \"-Dwarnings\"\n\njobs:\n  clippy_check:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - name: Run Clippy\n        run: cargo clippy --all-targets --all-features",
+    "tag": "yml",
+    "source": "https://github.com/rust-lang/rust-clippy/blob/4e2a51faef383650d36a282d0b04b86c83e9d773/book/src/continuous_integration/github_actions.md#L6"
+  },
+  {
+    "label": "yaml",
+    "code": "version: 0.2\n\nphases:\n  install:\n    runtime-versions:\n      java: corretto17\n  build:\n    commands:\n      - ./mvnw test",
+    "tag": "yaml",
+    "source": "https://github.com/testcontainers/testcontainers-java/blob/10b31599694f3c49b4d7455cf1a375f30f150d11/docs/supported_docker_environment/continuous_integration/aws_codebuild.md#L8"
+  },
+  {
+    "label": "yaml",
+    "code": "---\nname: value\n---",
+    "tag": "yaml",
+    "source": "https://github.com/obsidianmd/obsidian-help/blob/f333c95d23fc1e30594fa7acb9181f67ab71861c/en/Editing and formatting/Properties.md#L140"
+  },
+  {
+    "label": "yaml",
+    "code": "apiVersion: kubeadm.k8s.io/v1beta2\nkind: ClusterConfiguration\ncontrolPlaneEndpoint: \"192.168.1.173:6443\"\napiServer:\n  extraArgs:\n    authorization-mode: \"Node,RBAC\"\ncontrollerManager:\n  extraArgs:\n    bind-address: \"0.0.0.0\"\nscheduler:\n  extraArgs:\n    bind-address: \"0.0.0.0\"\ncertificatesDir: \"/etc/kubernetes/pki\"\netcd:\n  # one of local or external\n  local:\n    dataDir: \"/var/lib/etcd\"\nkubernetesVersion: \"v1.23.1\"\nnetworking:\n  dnsDomain: \"cluster.local\"\n  serviceSubnet: \"10.96.0.0/12\"\nimageRepository: \"registry.k8s.io\"",
+    "tag": "yaml",
+    "source": "https://github.com/prometheus-operator/kube-prometheus/blob/f71fb6c77d108ad2b4cbf4d9771b56cbe92611fb/docs/kube-prometheus-on-kubeadm.md#L24"
+  },
+  {
+    "label": "yaml",
+    "code": "version: 1\ndisable_existing_loggers: false\nformatters:\n  default:\n    \"()\": uvicorn.logging.DefaultFormatter\n    fmt: \"%(asctime)s - %(levelprefix)s %(message)s\"\n    datefmt: \"%Y-%m-%d %H:%M:%S\"\n    use_colors: null\n  access:\n    \"()\": uvicorn.logging.AccessFormatter\n    fmt: '%(asctime)s - %(levelprefix)s %(client_addr)s - \"%(request_line)s\" %(status_code)s'\n    datefmt: \"%Y-%m-%d %H:%M:%S\"\nhandlers:\n  default:\n    formatter: default\n    class: logging.StreamHandler\n    stream: ext://sys.stderr\n  access:\n    formatter: access\n    class: logging.StreamHandler\n    stream: ext://sys.stdout\nloggers:\n  uvicorn:\n    handlers:\n      - default\n    level: INFO\n    propagate: false\n  uvicorn.error:\n    level: INFO\n  uvicorn.access:\n    handlers:\n      - access\n    level: INFO\n    propagate: false",
+    "tag": "yaml",
+    "source": "https://github.com/encode/uvicorn/blob/cc6fea5b40ad559f7ca358a24b1a521451232281/docs/concepts/logging.md#L74"
+  },
+  {
+    "label": "yaml",
+    "code": "version: \"3\"\n\nservices:\n  www:\n    build: www\n    ports:\n      - ${PORT-8000}:5000\n    user: nobody\n    environment:\n      DEBUG: 1\n    command: python counter.py\n    volumes:\n      - ./www:/src\n\n  redis:\n    image: redis",
+    "tag": "yaml",
+    "source": "https://github.com/jpetazzo/container.training/blob/13335a47ca4c5f9c3301f7125fb4e532be42cdd4/slides/containers/Compose_For_Dev_Stacks.md#L159"
+  },
+  {
+    "label": "yaml",
+    "code": "env:\n  SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}",
+    "tag": "yaml",
+    "source": "https://github.com/super-linter/super-linter/blob/0209c200ae860f13235e78f50a36ed21c198ba4f/README.md#L872"
+  },
+  {
+    "label": "yaml",
+    "code": "---\ntags:\n  - recipe\n  - cooking\n---",
+    "tag": "yaml",
+    "source": "https://github.com/obsidianmd/obsidian-help/blob/f333c95d23fc1e30594fa7acb9181f67ab71861c/en/Editing and formatting/Tags.md#L14"
+  },
+  {
+    "label": "yaml",
+    "code": "repos:\n  - repo: https://github.com/pypa/pip-tools\n    rev: 7.4.1\n    hooks:\n      - id: pip-compile\n        files: ^requirements/production\\.(in|txt)$\n        args: [--index-url=https://example.com, requirements/production.in]",
+    "tag": "yaml",
+    "source": "https://github.com/jazzband/pip-tools/blob/b03df325f429bf0212e3925ecbc584f3e14c7c5e/README.md#L413"
+  },
+  {
+    "label": "markdown",
+    "code": "<h1 align=\"center\"><img src=\"https://placekitten.com/300/150\"/></h1>\n\nThis is a document with a top-level HTML heading",
+    "tag": "markdown",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/doc/Rules.md#L1760"
+  },
+  {
+    "label": "markdown",
+    "code": "[link](https://example.com)\n\n![image](https://example.com)",
+    "tag": "markdown",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/doc/md054.md#L35"
+  },
+  {
+    "label": "markdown",
+    "code": "space * in * emphasis <!-- markdownlint-disable --> <!-- markdownlint-enable -->",
+    "tag": "markdown",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/README.md#L271"
+  },
+  {
+    "label": "markdown",
+    "code": "line five\n\nline six",
+    "tag": "md",
+    "source": "https://github.com/obsidianmd/obsidian-help/blob/f333c95d23fc1e30594fa7acb9181f67ab71861c/en/Editing and formatting/Basic formatting syntax.md#L93"
+  },
+  {
+    "label": "markdown",
+    "code": "> [!info] Here's a callout title\n> Here's a callout block.\n> It supports **Markdown**, [[Internal link|Wikilinks]], and [[Embed files|embeds]]!\n> ![[Engelbart.jpg]]",
+    "tag": "markdown",
+    "source": "https://github.com/obsidianmd/obsidian-help/blob/f333c95d23fc1e30594fa7acb9181f67ab71861c/en/Editing and formatting/Callouts.md#L14"
+  },
+  {
+    "label": "markdown",
+    "code": "![](https://twitter.com/obsdmd/status/1580548874246443010)",
+    "tag": "md",
+    "source": "https://github.com/obsidianmd/obsidian-help/blob/f333c95d23fc1e30594fa7acb9181f67ab71861c/en/Editing and formatting/Embed web pages.md#L36"
+  },
+  {
+    "label": "markdown",
+    "code": "## Rust 1.XX (beta) -> ## Rust 1.XX",
+    "tag": "markdown",
+    "source": "https://github.com/rust-lang/rust-clippy/blob/4e2a51faef383650d36a282d0b04b86c83e9d773/book/src/development/infrastructure/release.md#L127"
+  },
+  {
+    "label": "markdown",
+    "code": "Bad header\n==========\n\n## Good header",
+    "tag": "markdown",
+    "source": "https://github.com/uber-go/fx/blob/d5da5b04ac906bfbad8b400baeee9b970c1be6f3/CONTRIBUTING.md#L171"
+  },
+  {
+    "label": "markdown",
+    "code": "# Main Header\n\nLast line of previous section.\n\n\n## Header of New Top Section\n\n### Header of New Section\n\nFirst line of new section.",
+    "tag": "markdown",
+    "source": "https://github.com/python-attrs/attrs/blob/ee66e7274852438cc23d4240a1a9cd632fda8b52/.github/CONTRIBUTING.md#L182"
+  },
+  {
+    "label": "markdown",
+    "code": "Fixed a bug which removed slashes from URLs in `-r` and `-c` in the output\nof `pip-compile` -- by {user}`sirosen`.",
+    "tag": "md",
+    "source": "https://github.com/jazzband/pip-tools/blob/b03df325f429bf0212e3925ecbc584f3e14c7c5e/changelog.d/README.md#L93"
+  },
+  {
+    "label": "markdown",
+    "code": "* `options` {AgentOptions} (optional) Extends {PoolOptions}.\n  * Returns: {Dispatcher}",
+    "tag": "markdown",
+    "source": "https://github.com/nodejs/undici/blob/046bb4c6fe413a32ecb6d51eb3ecaa56c8c15b87/docs/README.md#L67"
+  },
+  {
+    "label": "markdown",
+    "code": "Brief description of what this helper does. Be concise and not too long.\n\n```go\nresult := lo.HelperName(example)\n// expected result",
+    "tag": "markdown",
+    "source": "https://github.com/samber/lo/blob/5c6ddcb7063c9908031340db03f27ba7483d1ece/docs/CLAUDE.md#L81"
+  },
+  {
+    "label": "markdown",
+    "code": "[![Super-Linter](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE_NAME>/badge.svg)](https://github.com/marketplace/actions/super-linter)",
+    "tag": "markdown",
+    "source": "https://github.com/super-linter/super-linter/blob/0209c200ae860f13235e78f50a36ed21c198ba4f/README.md#L223"
+  },
+  {
+    "label": "diff",
+    "code": " <TextField\n-  InputProps={CustomInputProps}\n-  inputProps={CustomHtmlInputProps}\n-  SelectProps={CustomSelectProps}\n-  InputLabelProps={CustomInputLabelProps}\n-  FormHelperTextProps={CustomFormHelperTextProps}\n+  slotProps={{\n+    input: CustomInputProps,\n+    htmlInput: CustomHtmlInputProps,\n+    select: CustomSelectProps,\n+    inputLabel: CustomInputLabelProps,\n+    formHelperText: CustomFormHelperTextProps,\n+  }}\n />",
+    "tag": "diff",
+    "source": "https://github.com/mui/material-ui/blob/f0a678be0b1117174de846b4d8d3e02af9727931/docs/data/material/migration/upgrade-to-v9/upgrade-to-v9.md#L2177"
+  },
+  {
+    "label": "diff",
+    "code": "% sqlc diff\n--- a/postgresql/query.sql.go\n+++ b/postgresql/query.sql.go\n@@ -55,7 +55,7 @@\n\n const listAuthors = `-- name: ListAuthors :many\n SELECT id, name, bio FROM authors\n-ORDER BY name\n+ORDER BY bio\n `",
+    "tag": "diff",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/howto/ci-cd.md#L12"
+  },
+  {
+    "label": "diff",
+    "code": " <FormControlLabel\n-  componentsProps={{ typography: typographyProps }}\n+  slotProps={{ typography: typographyProps }}\n />",
+    "tag": "diff",
+    "source": "https://github.com/mui/material-ui/blob/f0a678be0b1117174de846b4d8d3e02af9727931/docs/data/material/migration/migrating-from-deprecated-apis/migrating-from-deprecated-apis.md#L1371"
+  },
+  {
+    "label": "diff",
+    "code": "-import AvatarGroup from '@mui/lab/AvatarGroup';\n+import AvatarGroup from '@mui/material/AvatarGroup';",
+    "tag": "diff",
+    "source": "https://github.com/mui/material-ui/blob/f0a678be0b1117174de846b4d8d3e02af9727931/docs/data/material/migration/migration-v4/v5-component-changes.md#L190"
+  },
+  {
+    "label": "diff",
+    "code": "- id serial NOT NULL,\n+ id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,\n\n- tstamp timestamp NULL default now(),\n+ tstamp timestamp NOT NULL DEFAULT now()",
+    "tag": "diff",
+    "source": "https://github.com/pressly/goose/blob/9a201bbb80d83c440855bd31272c0c0b99b41a79/CHANGELOG.md#L180"
+  },
+  {
+    "label": "diff",
+    "code": "- $converter = (new JsonConverter())->indentSize(2);\n+ $converter = (new JsonConverter())->withPrettyPrint(2);\n$converter->indentSize; //returns the value used",
+    "tag": "diff",
+    "source": "https://github.com/thephpleague/csv/blob/74375f1e15621cea1cbb9b20368caebb8a4e258b/docs/9.0/converter/json.md#L129"
+  },
+  {
+    "label": "diff",
+    "code": "- javapoet = { module = \"com.squareup:javapoet\", version = \"1.13.0\" }\n+ javapoet = { module = \"com.palantir.javapoet:javapoet\", version = \"0.5.0\" }",
+    "tag": "diff",
+    "source": "https://github.com/square/javapoet/blob/b9017a9503b76e11b4ad4c1a9f050e2d29112cb0/README.md#L22"
+  },
+  {
+    "label": "diff",
+    "code": "-      async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {\n+      onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {\n        const patchResult = dispatch(\n          api.util.updateQueryData('getPost', id, (draft) => {\n            Object.assign(draft, patch)\n          })\n        )\n-       try {\n-         await queryFulfilled\n-       } catch {\n-         patchResult.undo()\n-       }\n+       queryFulfilled.catch(patchResult.undo)\n      }",
+    "tag": "diff",
+    "source": "https://github.com/reduxjs/redux-toolkit/blob/0fd611cc79d44990ac9a040dec4d5cb446233440/docs/rtk-query/usage/manual-cache-updates.mdx#L127"
+  },
+  {
+    "label": "diff",
+    "code": "-NOTION_TOKEN=XXXX\n+NOTION_TOKEN=<YOUR_TOKEN>\n-BLOG_INDEX_ID=XXXXX\n+BLOG_INDEX_ID=<YOUR_BLOG_INDEX_ID>",
+    "tag": "diff",
+    "source": "https://github.com/jaredpalmer/formik/blob/91475adbf33579561e580eceea0c031f4ec2e992/website/README.md#L21"
+  },
+  {
+    "label": "diff",
+    "code": "  import { configureStore } from '@reduxjs/toolkit'\n- import { pokemonSlice } from './services/pokemonSlice'\n  import { api } from './services/api'\n\n\n  export const store = configureStore({\n    reducer: {\n-     pokemon: pokemonSlice.reducer,\n      [api.reducerPath]: api.reducer,\n    },\n    middleware: (gDM) => gDM().concat(api.middleware),\n  })\n\n  export type RootState = ReturnType<typeof store.getState>",
+    "tag": "diff",
+    "source": "https://github.com/reduxjs/redux-toolkit/blob/0fd611cc79d44990ac9a040dec4d5cb446233440/docs/rtk-query/usage/migrating-to-rtk-query.mdx#L443"
+  },
+  {
+    "label": "diff",
+    "code": "version: '2'\ncloud:\n  project: '<PROJECT_ID>'\n+ servers:\n+ - name: mysql\n+   uri: mysql://localhost:3306\n+ - name: postgres\n+   uri: postgres://localhost:5432/postgres?sslmode=disable",
+    "tag": "diff",
+    "source": "https://github.com/sqlc-dev/sqlc/blob/3ad8b20fb02b5bea81591b673da0758b8685d951/docs/guides/migrating-off-hosted-managed-databases.md#L58"
+  },
+  {
+    "label": "diff",
+    "code": "- const [, postAtom] = atomsWithMutation(/* ... */);\n- const [post, mutate] = useAtom(postAtom); // Accessing mutation status from post; and mutate() to execute the mutation\n\n+ const postAtom = atomWithMutation(/* ... */);\n+ const [{ data, error, mutate }] = useAtom(postAtom); // Accessing mutation result and mutate method from the same atom",
+    "tag": "diff",
+    "source": "https://github.com/pmndrs/jotai/blob/e5971ba44866d070564a0a30187f6976fee0e350/docs/extensions/query.mdx#L424"
+  },
+  {
+    "label": "diff",
+    "code": "  val jsonWriter = JsonWriter.of(buffer)\n- jsonWriter.setIndent(\"  \")\n+ jsonWriter.indent = \"  \"",
+    "tag": "diff",
+    "source": "https://github.com/square/moshi/blob/889013ec2edb8d8034902662a1dc8c4f3b3f8111/CHANGELOG.md#L84"
+  },
+  {
+    "label": "diff",
+    "code": "- <Field name=\"firstName\" render={props => ....} />\n+ <Field name=\"firstName\">{props => ... }</Field>",
+    "tag": "diff",
+    "source": "https://github.com/jaredpalmer/formik/blob/91475adbf33579561e580eceea0c031f4ec2e992/packages/formik/MIGRATING-v2.md#L290"
+  },
+  {
+    "label": "diff",
+    "code": "diff --git a/themes/robbyrussell.zsh-theme b/themes/robbyrussell.zsh-theme\nindex 2fd5f2cd..9d89a464 100644\n--- a/themes/robbyrussell.zsh-theme\n+++ b/themes/robbyrussell.zsh-theme\n@@ -1,5 +1,5 @@\n PROMPT=\"%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )\"\n-PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'\n+PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(branch_prompt_info)'\n\n ZSH_THEME_GIT_PROMPT_PREFIX=\"%{$fg_bold[blue]%}git:(%{$fg[red]%}\"\n ZSH_THEME_GIT_PROMPT_SUFFIX=\"%{$reset_color%} \"",
+    "tag": "diff",
+    "source": "https://github.com/ohmyzsh/ohmyzsh/blob/2100c630ba4bd67bb48802c3e7da893a4fdaa1a0/plugins/branch/README.md#L33"
+  },
+  {
+    "label": "dockerfile",
+    "code": "# syntax=docker/dockerfile:1\nFROM python:3.6\nADD mypackage.tgz wheels/\nRUN --network=none pip install --find-links wheels mypackage",
+    "tag": "dockerfile",
+    "source": "https://github.com/moby/buildkit/blob/fc10d048454e513f90683afecbe3e809e0c0beba/frontend/dockerfile/docs/reference.md#L1065"
+  },
+  {
+    "label": "dockerfile",
+    "code": "# build-cli builds the CLI binary\nFROM alpine AS build-cli\n# VERSION controls the version of the program\nARG VERSION=1",
+    "tag": "dockerfile",
+    "source": "https://github.com/moby/buildkit/blob/fc10d048454e513f90683afecbe3e809e0c0beba/frontend/dockerfile/docs/rules/invalid-definition-description.md#L29"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM ubuntu\nRUN apt-get update\nRUN apt-get install figlet",
+    "tag": "dockerfile",
+    "source": "https://github.com/jpetazzo/container.training/blob/13335a47ca4c5f9c3301f7125fb4e532be42cdd4/slides/containers/Building_Images_With_Dockerfiles.md#L69"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM <baseimage>\nRUN <install dependencies>\nCOPY <code>\nRUN <build code>\nRUN <install test dependencies>\nCOPY <test data sets and fixtures>\nRUN <unit tests>\nFROM <baseimage>\nRUN <install dependencies>\nCOPY <code>\nRUN <build code>\nCMD, EXPOSE ...",
+    "tag": "dockerfile",
+    "source": "https://github.com/jpetazzo/container.training/blob/13335a47ca4c5f9c3301f7125fb4e532be42cdd4/slides/containers/Dockerfile_Tips.md#L153"
+  },
+  {
+    "label": "dockerfile",
+    "code": "COPY --from=0 /file/from/first/stage /location/in/current/stage",
+    "tag": "dockerfile",
+    "source": "https://github.com/jpetazzo/container.training/blob/13335a47ca4c5f9c3301f7125fb4e532be42cdd4/slides/containers/Multi_Stage_Builds.md#L226"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM alpine\nEXPOSE \\\n# Port\n80",
+    "tag": "dockerfile",
+    "source": "https://github.com/moby/buildkit/blob/fc10d048454e513f90683afecbe3e809e0c0beba/frontend/dockerfile/docs/rules/no-empty-continuation.md#L49"
+  },
+  {
+    "label": "dockerfile",
+    "code": "RUN conda install -y python=3.6 \\\n    && pip install --no-cache-dir pipx \\\n    && pipx uninstall pipx \\\n    && pipx reinstall-all",
+    "tag": "dockerfile",
+    "source": "https://github.com/devcontainers/images/blob/d394f016bd0b329c4563d659a479c8284e4fbe56/src/miniconda/README.md#L99"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM python:3.12-slim\nCOPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/\n\n# Change the working directory to the `app` directory\nWORKDIR /app\n\n# Install dependencies\nRUN --mount=type=cache,target=/root/.cache/uv \\\n    --mount=type=bind,source=uv.lock,target=uv.lock \\\n    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \\\n    uv sync --frozen --no-install-project\n\n# Copy the project into the image\nADD . /app\n\n# Sync the project\nRUN --mount=type=cache,target=/root/.cache/uv \\\n    uv sync --frozen\n\n# Run with uvicorn\nCMD [\"uv\", \"run\", \"uvicorn\", \"main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+    "tag": "dockerfile",
+    "source": "https://github.com/encode/uvicorn/blob/cc6fea5b40ad559f7ca358a24b1a521451232281/docs/deployment/docker.md#L87"
+  },
+  {
+    "label": "dockerfile",
+    "code": "COPY requirements.txt /tmp/pip-tmp/\nRUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \\\n    && rm -rf /tmp/pip-tmp",
+    "tag": "dockerfile",
+    "source": "https://github.com/devcontainers/images/blob/d394f016bd0b329c4563d659a479c8284e4fbe56/src/python/README.md#L95"
+  },
+  {
+    "label": "dockerfile",
+    "code": "RUN conda install -y python=3.6",
+    "tag": "dockerfile",
+    "source": "https://github.com/devcontainers/images/blob/d394f016bd0b329c4563d659a479c8284e4fbe56/src/anaconda/README.md#L89"
+  },
+  {
+    "label": "dockerfile",
+    "code": "# Use bash for the shell\nSHELL [\"/bin/bash\", \"-o\", \"pipefail\", \"-c\"]\n\n# Create a script file sourced by both interactive and non-interactive bash shells\nENV BASH_ENV=\"${HOME:-/root}/.bash_env\"\nRUN touch \"${BASH_ENV}\"\nRUN echo '. \"${BASH_ENV}\"' >> ~/.bashrc\n\n# Download and install nvm\nRUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | PROFILE=\"${BASH_ENV}\" bash\nRUN echo node > .nvmrc\nRUN nvm install",
+    "tag": "dockerfile",
+    "source": "https://github.com/nvm-sh/nvm/blob/e780535240ee3ba67048b434cec6f7f509ee7b31/README.md#L146"
+  },
+  {
+    "label": "plaintext",
+    "code": "fence {MD031:-1} {MD031:+1}",
+    "tag": "text",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/test/lists-with-fenced-code.md#L21"
+  },
+  {
+    "label": "plaintext",
+    "code": "OPTIONS:\n  -h,   --help           Print this help message and exit\n        --opt TEXT [DEFFFF]\n  -o,   --opt2 INT       this is a description for opt2\n  -f, -n, --opt3, --option-double FLOAT\n                         this is a description for option3\n        --flag, --no_flag{false}\n                         a flag option with a negative flag as well",
+    "tag": "text",
+    "source": "https://github.com/CLIUtils/CLI11/blob/1764a057b760e8873eab03f4635b4aaed5303a04/book/chapters/formatting.md#L68"
+  },
+  {
+    "label": "plaintext",
+    "code": "POST /translate          → {\"translation\": \"...\"}\nPOST /translate/stream   → SSE: data: \"token\"",
+    "tag": "text",
+    "source": "https://github.com/yhirose/cpp-httplib/blob/a210b43e1193a1eb6c944d9016a85f1e0d92a946/docs-src/pages/ja/llm-app/ch07-code-reading.md#L32"
+  },
+  {
+    "label": "plaintext",
+    "code": "  GET /contacts -> render the form & contacts table",
+    "tag": "txt",
+    "source": "https://github.com/bigskysoftware/htmx/blob/fa978b24e75fb03c137bf2cdae4fef0e711cf8a1/www/content/essays/hypermedia-apis-vs-data-apis.md#L60"
+  },
+  {
+    "label": "plaintext",
+    "code": "Here is a short line in a code block.\nHere is a very very very very very very very very very very very very very very very very very very very long line in a code block. {MD013}",
+    "tag": "text",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/test/long_lines_code-default.md#L9"
+  },
+  {
+    "label": "plaintext",
+    "code": "FROM argument 'VARIANT' is not declared",
+    "tag": "text",
+    "source": "https://github.com/moby/buildkit/blob/fc10d048454e513f90683afecbe3e809e0c0beba/frontend/dockerfile/docs/rules/undefined-arg-in-from.md#L11"
+  },
+  {
+    "label": "plaintext",
+    "code": "offset=$OFFSET size=$SIZE event=error error=$ERROR description=\"$DESCRIPTION\"",
+    "tag": "text",
+    "source": "https://github.com/nodejs/undici/blob/046bb4c6fe413a32ecb6d51eb3ecaa56c8c15b87/deps/milo/README.md#L264"
+  },
+  {
+    "label": "plaintext",
+    "code": "'as' and 'FROM' keywords' casing do not match",
+    "tag": "text",
+    "source": "https://github.com/moby/buildkit/blob/fc10d048454e513f90683afecbe3e809e0c0beba/frontend/dockerfile/docs/rules/from-as-casing.md#L11"
+  },
+  {
+    "label": "plaintext",
+    "code": "Potentially sensitive data should not be used in the ARG or ENV commands",
+    "tag": "text",
+    "source": "https://github.com/moby/buildkit/blob/fc10d048454e513f90683afecbe3e809e0c0beba/frontend/dockerfile/docs/rules/secrets-used-in-arg-or-env.md#L11"
+  },
+  {
+    "label": "plaintext",
+    "code": "```\nThis is not {MD048:17}\n```",
+    "tag": "text",
+    "source": "https://github.com/DavidAnson/markdownlint/blob/5dd44fe44481cfbc8c6fee955719773fa17dc5d5/test/code_fence_style_backtick.md#L17"
+  },
+  {
+    "label": "plaintext",
+    "code": "/path/to/main/repo/.git/worktrees/my-worktree doesn't exist.\nEnsure to mount it as a volume when running the Super-linter container.\nSee https://github.com/super-linter/super-linter/blob/main/docs/run-linter-locally.md",
+    "tag": "text",
+    "source": "https://github.com/super-linter/super-linter/blob/0209c200ae860f13235e78f50a36ed21c198ba4f/docs/run-linter-locally.md#L86"
+  },
+  {
+    "label": "plaintext",
+    "code": "> cd rayon-demo\n> cargo run --release -- nbody visualize",
+    "tag": "text",
+    "source": "https://github.com/rayon-rs/rayon/blob/ee0a00bdb1ab039e178a215ad5712fb7fa58e58f/README.md#L127"
+  },
+  {
+    "label": "plaintext",
+    "code": "┌────────────────────────┬─────────┬────────────────────┬────────────┬─────────────────────────┐\n│  Tests                 │ Samples │ Result             │ Tolerance  │ Difference with slowest │\n├────────────────────────┼─────────┼────────────────────┼────────────┼─────────────────────────┤\n│  'node-fetch'          │ 50      │ '4711.86 req/sec'  │ '± 2.92 %' │ '-'                     │\n│  'undici - fetch'      │ 75      │ '5438.50 req/sec'  │ '± 2.97 %' │ '+ 15.42 %'             │\n│  'axios'               │ 45      │ '5448.08 req/sec'  │ '± 2.98 %' │ '+ 15.62 %'             │\n│  'request'             │ 65      │ '5809.63 req/sec'  │ '± 2.90 %' │ '+ 23.30 %'             │\n│  'http - no keepalive' │ 35      │ '5910.77 req/sec'  │ '± 2.87 %' │ '+ 25.44 %'             │\n│  'got'                 │ 50      │ '6047.80 req/sec'  │ '± 2.91 %' │ '+ 28.35 %'             │\n│  'superagent'          │ 60      │ '7534.53 req/sec'  │ '± 2.97 %' │ '+ 59.91 %'             │\n│  'http - keepalive'    │ 75      │ '9343.41 req/sec'  │ '± 2.90 %' │ '+ 98.30 %'             │\n│  'undici - pipeline'   │ 65      │ '13470.70 req/sec' │ '± 2.93 %' │ '+ 185.89 %'            │\n│  'undici - request'    │ 80      │ '16850.87 req/sec' │ '± 2.93 %' │ '+ 257.63 %'            │\n│  'undici - stream'     │ 101     │ '18488.56 req/sec' │ '± 3.81 %' │ '+ 292.38 %'            │\n│  'undici - dispatch'   │ 101     │ '20786.44 req/sec' │ '± 3.08 %' │ '+ 341.15 %'            │\n└────────────────────────┴─────────┴────────────────────┴────────────┴─────────────────────────┘",
+    "tag": "text",
+    "source": "https://github.com/nodejs/undici/blob/046bb4c6fe413a32ecb6d51eb3ecaa56c8c15b87/docs/docs/index.md#L31"
+  },
+  {
+    "label": "plaintext",
+    "code": "submission 1: |----✓-----✅\nsubmission 2:    |-----✓-----✅\nsubmission 3:             |-----✓-----✅",
+    "tag": "text",
+    "source": "https://github.com/remix-run/react-router/blob/bb7c1f021363e96745dd3cfc5d2431e9b80ffe61/docs/explanation/concurrency.md#L46"
+  },
+  {
+    "label": "plaintext",
+    "code": "Warning: Ambiguous class resolution, \"SortDirection\" was found in both\n\".../symfony/polyfill-php86/Resources/stubs/SortDirection.php\" and\n\".../league/csv/polyfill/SortDirection.php\", the first will be used.",
+    "tag": "text",
+    "source": "https://github.com/thephpleague/csv/blob/74375f1e15621cea1cbb9b20368caebb8a4e258b/docs/9.0/installation.md#L41"
+  }
+]

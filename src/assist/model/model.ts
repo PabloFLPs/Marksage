@@ -7,7 +7,7 @@
  *   magic "MSLM" · u32 version · u32 headerBytes · header JSON (utf-8, padded to 4 bytes)
  *   · int8[buckets × dim] embeddings · f32[buckets] per-row scales
  *   · f32[dim × classes] output weights · f32[classes] bias
- * header = { labels, buckets, dim, temperature, featurizer, trainedOn }
+ * header = { labels, buckets, dim, temperature, temperatureShort?, featurizer, trainedOn }
  */
 import { featureIds } from './features.ts'
 
@@ -17,6 +17,8 @@ export interface ModelHeader {
   dim: number
   /** Softmax temperature fitted on the dev set (calibration). */
   temperature: number
+  /** v2: temperature for short snippets (≤ SHORT_LINES non-blank lines), which are easier to over-trust. */
+  temperatureShort?: number
   featurizer: number
   trainedOn: string
 }
@@ -30,6 +32,18 @@ export interface LangModel {
 }
 
 export const MAGIC = 0x4d4c534d // "MSLM"
+export const SHORT_LINES = 3
+
+export function isShort(code: string): boolean {
+  let n = 0
+  for (const l of code.split('\n')) if (l.trim() && ++n > SHORT_LINES) return false
+  return true
+}
+
+/** The temperature this snippet is calibrated with. */
+export function temperatureFor(header: Pick<ModelHeader, 'temperature' | 'temperatureShort'>, code: string): number {
+  return header.temperatureShort && isShort(code) ? header.temperatureShort : header.temperature
+}
 export const FORMAT_VERSION = 1
 
 export function softmaxT(logits: Float32Array, temperature: number): Float32Array {
@@ -93,7 +107,7 @@ export function loadModel(buf: ArrayBuffer): LangModel {
     header,
     logits,
     predict(code) {
-      const p = softmaxT(logits(code), header.temperature)
+      const p = softmaxT(logits(code), temperatureFor(header, code))
       const out: Record<string, number> = {}
       labels.forEach((l, i) => (out[l] = p[i]))
       return out

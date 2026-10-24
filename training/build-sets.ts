@@ -11,7 +11,7 @@
  * - test → src/assist/__fixtures__/fences.real.json (keeps every existing entry, tops up to ≤ PER_LANG)
  * - train → training/data/train.jsonl (not committed; rebuild with collect.ts + this script)
  */
-import { readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { Block, Source } from './collect.ts'
 import { LABELS } from './labels.ts'
@@ -64,7 +64,16 @@ function assignSplits(blocks: Block[], docsSource: Map<string, Source>): Map<str
     totals.set(b.repo, (totals.get(b.repo) ?? 0) + 1)
     labelTotals[b.label] = (labelTotals[b.label] ?? 0) + 1
   }
-  for (const repo of counts.keys()) split.set(repo, docsSource.get(repo)?.split ?? 'train')
+  for (const repo of counts.keys()) split.set(repo, (docsSource.get(repo)?.split as Split | undefined) ?? 'train')
+  // Once splits.json exists the dev/test repos are frozen, so adding sources later only grows train
+  // and every earlier number stays comparable. `--resplit` recomputes from scratch.
+  const frozenFile = join(ROOT, 'splits.json')
+  if (existsSync(frozenFile) && !process.argv.includes('--resplit')) {
+    const frozen = JSON.parse(readFileSync(frozenFile, 'utf8')) as { dev: string[]; test: string[] }
+    for (const r of frozen.dev) split.set(r, 'dev')
+    for (const r of frozen.test) split.set(r, 'test')
+    return split
+  }
   const pinned = (repo: string) => docsSource.get(repo)?.split !== undefined
   const has = (repo: string, label: string) => (counts.get(repo)?.[label] ?? 0) >= MIN_BLOCKS
   for (const target of ['test', 'dev'] as const) {
@@ -93,6 +102,8 @@ function main() {
   const docsSource = new Map(sources.filter((s) => !s.code).map((s) => [s.repo, s]))
   const blocks = readFileSync(join(ROOT, 'data/blocks.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l) as Block)
 
+  // The collector writes repos in completion order (parallel clones): sort so sampling is reproducible.
+  blocks.sort((x, y) => (x.repo + '\0' + x.file).localeCompare(y.repo + '\0' + y.file) || x.line - y.line)
   const splits = assignSplits(blocks, docsSource)
   const by: Record<Split, Block[]> = { train: [], dev: [], test: [] }
   for (const b of blocks) {
@@ -146,12 +157,15 @@ function main() {
   const existingReal = existingAll.filter((f) => splits.get(repoOf(f)) === 'test')
   if (existingReal.length < existingAll.length) console.warn(`  dropped ${existingAll.length - existingReal.length} held-out entries whose repo is no longer in test`)
   const test = sample(by.test, 1, existingReal)
-  const dev = sample(by.dev, 2)
+  const existingDevAll = existsSync(join(FIX, 'fences.dev.json')) ? (JSON.parse(readFileSync(join(FIX, 'fences.dev.json'), 'utf8')) as Fixture[]) : []
+  const dev = sample(by.dev, 2, existingDevAll.filter((f) => splits.get(repoOf(f)) === 'dev'))
 
   // Leak guard: drop training blocks that match anything in dev/test, or any held-out block at all.
   const held = new Set<string>()
   const heldHead = new Set<string>()
-  for (const f of [...test, ...dev, ...by.dev, ...by.test]) {
+  // …and anything in the second, fresh held-out set (fences.real2.json), so later sources can't leak into it.
+  const real2 = existsSync(join(FIX, 'fences.real2.json')) ? (JSON.parse(readFileSync(join(FIX, 'fences.real2.json'), 'utf8')) as Fixture[]) : []
+  for (const f of [...test, ...dev, ...by.dev, ...by.test, ...real2]) {
     held.add(norm(f.code))
     const h = headKey(f.code)
     if (h) heldHead.add(h)

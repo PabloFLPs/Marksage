@@ -1,14 +1,15 @@
 /**
- * Smart Assist fixture eval — heuristic engine, plus Marksage's own F1 model when
- * public/models/lang-v1.bin exists (see training/README.md).
+ * Smart Assist fixture eval — heuristic engine, plus Marksage's own code-language model (the newest
+ * public/models/lang-v*.bin, combined with the heuristics exactly as the app does — model/hybrid.ts).
  *   node --experimental-strip-types scripts/eval-assist.ts            # all sets
- *   node --experimental-strip-types scripts/eval-assist.ts --real     # held-out real-world set only
+ *   node --experimental-strip-types scripts/eval-assist.ts --real     # held-out real-world sets only
  *   … --brief                                                         # no per-error lines
  *
  * Fixture sets (see src/assist/__fixtures__/README.md):
  *   authored  — written alongside the heuristics (regression tests; optimistic by construction)
  *   dev       — real-world excerpts to tune against (F1, F3)
  *   real      — real-world excerpts, held out: never tune heuristics against them
+ *   real2     — a second, fresh held-out code-block set (model v2), from repos used nowhere else
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { HeuristicEngine } from '../src/assist/heuristicEngine.ts'
@@ -16,16 +17,17 @@ import { passesGate } from '../src/assist/types.ts'
 import { LANGUAGES, PASTE_KINDS, Q } from '../src/assist/questions.ts'
 import { findStructureCandidates } from '../src/assist/prefilter.ts'
 import { loadModel } from '../src/assist/model/model.ts'
+import { combineFence, toChoice } from '../src/assist/model/hybrid.ts'
 
 const fixture = (f: string) => new URL(`../src/assist/__fixtures__/${f}`, import.meta.url)
 const load = (f: string) => JSON.parse(readFileSync(fixture(f), 'utf8'))
 const engine = new HeuristicEngine()
 const realOnly = process.argv.includes('--real')
 const brief = process.argv.includes('--brief')
-const MODEL_FILE = new URL('../public/models/lang-v1.bin', import.meta.url)
+const MODEL_FILE = ['lang-v2.bin', 'lang-v1.bin'].map((f) => new URL(`../public/models/${f}`, import.meta.url)).find((u) => existsSync(u)) ?? new URL('../public/models/none.bin', import.meta.url)
 const model = existsSync(MODEL_FILE) ? loadModel(new Uint8Array(readFileSync(MODEL_FILE)).buffer) : null
-type Set = 'authored' | 'dev' | 'real'
-const SETS: Set[] = realOnly ? ['real'] : ['authored', 'dev', 'real']
+type Set = 'authored' | 'dev' | 'real' | 'real2'
+const SETS: Set[] = realOnly ? ['real', 'real2'] : ['authored', 'dev', 'real', 'real2']
 const file = (base: string, set: Set) => (set === 'authored' ? `${base}.json` : `${base}.${set}.json`)
 const has = (base: string, set: Set) => existsSync(fixture(file(base, set)))
 
@@ -47,7 +49,7 @@ function report(name: string, rows: Row[], ms: number) {
 }
 
 for (const set of SETS) {
-  const TITLES = { authored: 'Authored set (written with the rules — optimistic)', dev: 'Dev set (real-world, used for tuning)', real: 'Real-world set (held out)' }
+  const TITLES = { authored: 'Authored set (written with the rules — optimistic)', dev: 'Dev set (real-world, used for tuning)', real: 'Real-world set (held out)', real2: 'Real-world set 2 (fresh, held out — model v2)' }
   console.log(`\n# ${TITLES[set]}`)
 
   // F1 — code-fence language
@@ -65,9 +67,12 @@ for (const set of SETS) {
       const t1 = performance.now()
       const mrows: Row[] = []
       for (const f of load(file('fences', set))) {
-        const p = model.predict(f.code)
-        const pred = Object.keys(p).reduce((a, k) => (p[k] > p[a] ? k : a))
-        mrows.push({ label: f.label, pred, conf: p[pred], shown: pred !== 'plaintext' && passesGate(Object.values(p)), source: f.source })
+        const v2 = MODEL_FILE.pathname.endsWith('lang-v2.bin')
+        const m = toChoice(model.predict(f.code), LANGUAGES)
+        const d = v2 ? await combineFence(m, () => engine.choice(f.code, Q.fenceLanguage, LANGUAGES)) : m
+        const pred = d.choice
+        const probs = Object.values(d.probs) as number[]
+        mrows.push({ label: f.label, pred, conf: d.probs[pred], shown: pred !== 'plaintext' && passesGate(probs), source: f.source })
       }
       report(`F1 code-fence language — ${set} · model (${(MODEL_FILE.pathname.split('/').pop())})`, mrows, performance.now() - t1)
     }

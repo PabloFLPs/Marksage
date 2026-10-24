@@ -156,8 +156,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssis
           </Feature>
           <p className="mt-4 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">
             {x(
-              <>Modes: <strong className="font-medium">Heuristics</strong> runs instantly with no download. <strong className="font-medium">Local model</strong> adds Marksage’s own language model (385 KB, trained on ~55k real code blocks) for code-block languages — it runs entirely on your device and is downloaded once, then kept in your browser.</>,
-              <>Modos: <strong className="font-medium">Heurísticas</strong> roda na hora, sem download. <strong className="font-medium">Modelo local</strong> adiciona o modelo de linguagem próprio do Marksage (385 KB, treinado com ~55 mil blocos de código reais) para as linguagens dos blocos de código — roda inteiramente no seu dispositivo e é baixado uma vez, depois fica guardado no navegador.</>,
+              <>Modes: <strong className="font-medium">Heuristics</strong> runs instantly with no download. <strong className="font-medium">Local model</strong> adds Marksage’s own language model (385 KB, trained on ~64k real code blocks) for code-block languages — it runs entirely on your device and is downloaded once, then kept in your browser.</>,
+              <>Modos: <strong className="font-medium">Heurísticas</strong> roda na hora, sem download. <strong className="font-medium">Modelo local</strong> adiciona o modelo de linguagem próprio do Marksage (385 KB, treinado com ~64 mil blocos de código reais) para as linguagens dos blocos de código — roda inteiramente no seu dispositivo e é baixado uma vez, depois fica guardado no navegador.</>,
             )}
           </p>
           <button

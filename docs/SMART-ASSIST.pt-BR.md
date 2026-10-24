@@ -227,34 +227,44 @@ resto continua com as heurísticas. Não é um chatbot nem um LLM — ele lê um
   vizinhos, como as linhas começam e terminam, o estilo de indentação e pedaços de três letras das
   palavras mais longas. Cada pista tem um vetor aprendido de 8 números; o modelo tira a média e
   transforma essa média numa probabilidade por linguagem.
-- **Calibrado:** a confiança foi ajustada para que "90 %" signifique mesmo cerca de 90 % de acerto —
-  o mesmo filtro de confiança das heurísticas (0,8 / 0,2) decide se você vê alguma coisa.
+- **Cuidadoso de propósito:** a confiança é ajustada com previsões para repositórios que ele nunca viu
+  no treino (trechos curtos à parte — é mais fácil confiar demais neles), mirando cerca de 95 % de acerto
+  quando ele sugere. O mesmo filtro de confiança das heurísticas (0,8 / 0,2) decide se você vê alguma coisa.
+- **Duas opiniões:** quando o modelo não tem certeza mas as heurísticas têm, a sugestão aparece mesmo
+  assim — só se o primeiro palpite do próprio modelo concordar.
 
 ### 4.2 Como foi treinado
 
-- **Dados:** cerca de 250 mil blocos de código de 265 repositórios públicos (documentação, READMEs,
+- **Dados:** cerca de 270 mil blocos de código de 309 repositórios públicos (documentação, READMEs,
   guias — incluindo em português), rotulados com a linguagem que os *próprios autores* marcaram,
   mais trechos de código-fonte real para as linguagens mais raras.
 - **Divisão justa:** repositórios inteiros vão para treino, ajuste (dev) ou teste final — nunca o
   mesmo projeto em dois lugares — e todo bloco de treino parecido com um bloco de teste é removido.
-- **Treino:** cerca de 55 mil blocos, poucos segundos por passada, feito em TypeScript com o mesmo
+- **Treino:** cerca de 64 mil blocos, poucos segundos por passada, feito em TypeScript com o mesmo
   código que o app usa para ler os trechos — o que o modelo viu no treino é exatamente o que ele vê aqui.
 - **Escolhido no dev, medido uma vez:** tamanho, configurações e como combinar com as heurísticas
-  foram decididos no conjunto dev; o conjunto separado foi rodado uma única vez, no fim.
+  foram decididos no conjunto dev; cada conjunto separado foi rodado uma única vez, no fim. O modelo
+  atual é a segunda versão — a primeira aparece nos resultados abaixo.
 
 ### 4.3 Resultados
 
-Em 314 blocos de código reais que o modelo nunca viu (15 por linguagem):
+A versão 2 foi medida num conjunto **novo**: 284 blocos de código de 67 repositórios que nenhuma versão
+do modelo, nem nenhum ajuste, tinha tocado (até 15 por linguagem):
 
 | Mecanismo | Acurácia | Sugestões exibidas | Certas quando exibidas | Sugestões certas / erradas |
 |---|---|---|---|---|
-| Heurísticas | 57 % | 75 (24 %) | 97 % | 73 / 2 |
-| **Modelo do Marksage** | **76 %** | **141 (45 %)** | **94 %** | **133 / 8** |
+| Heurísticas | 59 % | 70 (25 %) | 93 % | 65 / 5 |
+| Modelo v1 | 72 % | 151 (53 %) | 88 % | 133 / 18 |
+| **Modelo v2 (atual)** | **74 %** | **158 (56 %)** | **92 %** | **145 / 13** |
 
-Cerca do dobro de sugestões úteis, com uma taxa de erro um pouco maior — por isso é um modo
-opcional. A maioria dos erros é em trechos de uma a três linhas, onde as linguagens se parecem
-(`List<int> xs = new();` é C#, mas lembra muito Java); lidar melhor com trechos muito curtos é o
-próximo passo.
+No primeiro conjunto (314 blocos, onde a v1 foi medida) a v2 chega a 77 % de acurácia, 164 exibidas e
+96 % de acerto quando exibe (v1: 76 %, 141, 94 %; heurísticas: 57 %, 76, 97 %).
+
+Ou seja: mais que o dobro de sugestões úteis das heurísticas, e melhor que a v1 em todos os números —
+mas ainda cerca de um ponto menos precisa que as heurísticas em repositórios desconhecidos, por isso
+continua sendo um modo opcional. Cerca de metade dos erros são, na verdade, rótulos estranhos
+(`dotnet build -c Release` marcado como C#); o resto são linhas únicas que servem para várias
+linguagens (`void main() { … }` é Java *e* C++ válidos).
 
 ### 4.4 E o Laya?
 
@@ -287,14 +297,14 @@ incluído), e as regras nunca são ajustadas contra ele — então é o número 
 
 | Recurso | Exemplos reais | Acurácia | Exibidas | Precisão quando exibida |
 |---|---|---|---|---|
-| Linguagem do bloco de código | 314 | 57 % | 75 | 97 % |
+| Linguagem do bloco de código | 314 | 57 % | 76 | 97 % |
 | Colagem inteligente | 31 | 94 % | 23 | 100 % |
 | Dicas de estrutura | 30 | 93 % | 14 | 86 % |
 
 Leia assim: quando uma sugestão aparece, ela quase sempre está certa; o preço dessa cautela é que
 muitos blocos de código reais ficam sem sugestão de linguagem. As decisões heurísticas levam bem menos de um
-milissegundo. Com o *Modelo local*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **76 % de acurácia, 141
-exibidas e 94 % de precisão** (seção 4.3).
+milissegundo. Com o *Modelo local*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **77 % de
+acurácia, 164 exibidas e 96 % de precisão**, e 74 % / 158 / 92 % num segundo conjunto novo (seção 4.3).
 
 ---
 

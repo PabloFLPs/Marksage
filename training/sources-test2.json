@@ -1,0 +1,348 @@
+{
+ "note": "Fresh held-out sources for model v2 (2026-10-24): none of these repos are used by sources.json. Collected with collect.ts --sources sources-test2.json; sampled by build-test2.ts into fences.real2.json.",
+ "sources": [
+  {
+   "repo": "sindresorhus/ky",
+   "split": "test2"
+  },
+  {
+   "repo": "pmndrs/jotai",
+   "split": "test2"
+  },
+  {
+   "repo": "unjs/h3",
+   "split": "test2"
+  },
+  {
+   "repo": "vercel/swr",
+   "split": "test2"
+  },
+  {
+   "repo": "nodejs/undici",
+   "split": "test2"
+  },
+  {
+   "repo": "motdotla/dotenv",
+   "split": "test2"
+  },
+  {
+   "repo": "expressjs/multer",
+   "split": "test2"
+  },
+  {
+   "repo": "jaredpalmer/formik",
+   "split": "test2"
+  },
+  {
+   "repo": "python-attrs/attrs",
+   "split": "test2"
+  },
+  {
+   "repo": "pypa/hatch",
+   "split": "test2"
+  },
+  {
+   "repo": "jazzband/pip-tools",
+   "split": "test2"
+  },
+  {
+   "repo": "encode/uvicorn",
+   "split": "test2"
+  },
+  {
+   "repo": "nvm-sh/nvm",
+   "split": "test2"
+  },
+  {
+   "repo": "dylanaraps/pure-bash-bible",
+   "split": "test2"
+  },
+  {
+   "repo": "ohmyzsh/ohmyzsh",
+   "split": "test2",
+   "paths": [
+    "/plugins/[a-g]*/README.md"
+   ]
+  },
+  {
+   "repo": "samber/lo",
+   "split": "test2"
+  },
+  {
+   "repo": "charmbracelet/glow",
+   "split": "test2"
+  },
+  {
+   "repo": "golang-migrate/migrate",
+   "split": "test2"
+  },
+  {
+   "repo": "uber-go/fx",
+   "split": "test2"
+  },
+  {
+   "repo": "dtolnay/anyhow",
+   "split": "test2"
+  },
+  {
+   "repo": "rayon-rs/rayon",
+   "split": "test2"
+  },
+  {
+   "repo": "rust-lang/rust-clippy",
+   "split": "test2",
+   "paths": [
+    "/book/src/*"
+   ]
+  },
+  {
+   "repo": "square/javapoet",
+   "split": "test2"
+  },
+  {
+   "repo": "resilience4j/resilience4j",
+   "split": "test2"
+  },
+  {
+   "repo": "testcontainers/testcontainers-java",
+   "split": "test2",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "antirez/sds",
+   "split": "test2"
+  },
+  {
+   "repo": "zserge/jsmn",
+   "split": "test2"
+  },
+  {
+   "repo": "cesanta/mongoose",
+   "split": "test2",
+   "paths": [
+    "/tutorials/*",
+    "/README.md"
+   ]
+  },
+  {
+   "repo": "p-ranav/argparse",
+   "split": "test2"
+  },
+  {
+   "repo": "Neargye/magic_enum",
+   "split": "test2"
+  },
+  {
+   "repo": "CLIUtils/CLI11",
+   "split": "test2"
+  },
+  {
+   "repo": "bchavez/Bogus",
+   "split": "test2"
+  },
+  {
+   "repo": "fluentassertions/fluentassertions",
+   "split": "test2"
+  },
+  {
+   "repo": "restsharp/RestSharp",
+   "split": "test2"
+  },
+  {
+   "repo": "jnunemaker/httparty",
+   "split": "test2"
+  },
+  {
+   "repo": "teamcapybara/capybara",
+   "split": "test2"
+  },
+  {
+   "repo": "faker-ruby/faker",
+   "split": "test2"
+  },
+  {
+   "repo": "PHPMailer/PHPMailer",
+   "split": "test2"
+  },
+  {
+   "repo": "thephpleague/csv",
+   "split": "test2"
+  },
+  {
+   "repo": "filp/whoops",
+   "split": "test2"
+  },
+  {
+   "repo": "sqlc-dev/sqlc",
+   "split": "test2",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "pressly/goose",
+   "split": "test2"
+  },
+  {
+   "repo": "paradedb/paradedb",
+   "split": "test2",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "goreleaser/goreleaser",
+   "split": "test2",
+   "paths": [
+    "/www/docs/customization/*"
+   ]
+  },
+  {
+   "repo": "prometheus-operator/kube-prometheus",
+   "split": "test2",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "super-linter/super-linter",
+   "split": "test2"
+  },
+  {
+   "repo": "jpetazzo/container.training",
+   "split": "test2",
+   "paths": [
+    "/slides/containers/*"
+   ]
+  },
+  {
+   "repo": "devcontainers/images",
+   "split": "test2",
+   "paths": [
+    "/src/*/README.md"
+   ]
+  },
+  {
+   "repo": "bigskysoftware/htmx",
+   "split": "test2",
+   "paths": [
+    "/www/content/*"
+   ]
+  },
+  {
+   "repo": "alpinejs/alpine",
+   "split": "test2",
+   "paths": [
+    "/packages/docs/src/en/*"
+   ]
+  },
+  {
+   "repo": "DavidAnson/markdownlint",
+   "split": "test2"
+  },
+  {
+   "repo": "obsidianmd/obsidian-help",
+   "split": "test2",
+   "paths": [
+    "/en/Editing and formatting/*"
+   ]
+  },
+  {
+   "repo": "sveltejs/kit",
+   "split": "test2",
+   "paths": [
+    "/documentation/docs/*"
+   ]
+  },
+  {
+   "repo": "remix-run/react-router",
+   "split": "test2",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "OpenFeign/feign",
+   "split": "test2"
+  },
+  {
+   "repo": "square/moshi",
+   "split": "test2"
+  },
+  {
+   "repo": "junit-team/junit5-samples",
+   "split": "test2"
+  },
+  {
+   "repo": "rxi/log.c",
+   "split": "test2"
+  },
+  {
+   "repo": "cofyc/argparse",
+   "split": "test2"
+  },
+  {
+   "repo": "kokke/tiny-AES-c",
+   "split": "test2"
+  },
+  {
+   "repo": "rxi/microui",
+   "split": "test2"
+  },
+  {
+   "repo": "jarro2783/cxxopts",
+   "split": "test2"
+  },
+  {
+   "repo": "yhirose/cpp-httplib",
+   "split": "test2"
+  },
+  {
+   "repo": "vlucas/phpdotenv",
+   "split": "test2"
+  },
+  {
+   "repo": "guzzle/psr7",
+   "split": "test2"
+  },
+  {
+   "repo": "briannesbitt/Carbon",
+   "split": "test2"
+  },
+  {
+   "repo": "serde-rs/json",
+   "split": "test2"
+  },
+  {
+   "repo": "tokio-rs/tracing",
+   "split": "test2"
+  },
+  {
+   "repo": "rust-lang/regex",
+   "split": "test2"
+  },
+  {
+   "repo": "moby/buildkit",
+   "split": "test2",
+   "paths": [
+    "/frontend/dockerfile/docs/*"
+   ]
+  },
+  {
+   "repo": "reduxjs/redux-toolkit",
+   "split": "test2",
+   "paths": [
+    "/docs/*"
+   ]
+  },
+  {
+   "repo": "mui/material-ui",
+   "split": "test2",
+   "paths": [
+    "/docs/data/material/migration/*"
+   ]
+  }
+ ]
+}
