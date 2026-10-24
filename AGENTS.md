@@ -44,6 +44,7 @@ Full technical documentation: `docs/SMART-ASSIST.md` — also rendered in-app at
 - `LayaEngine` + `laya.worker.ts`: worker client ready; `loadModel()` is a TODO (model/export undecided).
   The "Local model" option stays disabled until it's wired and beats heuristics on the eval.
 - Flow: deterministic pre-filter (`prefilter.ts`) → engine → confidence gate (`passesGate`, 0.8 / 0.2 margin) → suggestion.
+- Fixtures: `*.json` = authored regression set, `*.real.json` = held-out real-world set (see `assist/__fixtures__/README.md`). Never tune heuristics against `*.real.json`.
 - Adding a feature: pre-filter candidates → feature in `assist/features/` returning a `Suggestion` with an
   `expected` guard → fixtures in `assist/__fixtures__/` → extend `scripts/eval-assist.ts` → document it on the About page.
 

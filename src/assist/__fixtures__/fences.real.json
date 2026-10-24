@@ -1,0 +1,389 @@
+[
+  {
+    "label": "bash",
+    "code": "php artisan install:api",
+    "tag": "shell",
+    "source": "https://github.com/laravel/docs/blob/HEAD/sanctum.md#L59"
+  },
+  {
+    "label": "bash",
+    "code": "curl -fsSL https://raw.githubusercontent.com/nubjs/nub/0ae8783f1f93763c56dfc827892cfb679e8a0a77/install.sh | bash -s -- 0.8.3",
+    "tag": "sh",
+    "source": "https://github.com/colinhacks/zod/blob/HEAD/CONTRIBUTING.md#L28"
+  },
+  {
+    "label": "bash",
+    "code": "php artisan folio:page \"users/[id]\"\n\n# pages/users/[id].blade.php → /users/1",
+    "tag": "shell",
+    "source": "https://github.com/laravel/docs/blob/HEAD/folio.md#L135"
+  },
+  {
+    "label": "bash",
+    "code": "npx create-snowpack-app react-client --template @snowpack/app-template-react",
+    "tag": "bash",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/react/create-a-snowpack-bundled-react-app.md#L18"
+  },
+  {
+    "label": "c",
+    "code": "    if (stuff_happened)\n    {\n        do_something();\n    }",
+    "tag": "c",
+    "source": "https://github.com/DaveGamble/cJSON/blob/HEAD/tests/unity/docs/ThrowTheSwitchCodingStandard.md#L136"
+  },
+  {
+    "label": "c",
+    "code": "#include <cjson/cJSON.h>",
+    "tag": "c",
+    "source": "https://github.com/DaveGamble/cJSON/blob/HEAD/README.md#L183"
+  },
+  {
+    "label": "cpp",
+    "code": "#include <nlohmann/json.hpp>\n\n// for convenience\nusing json = nlohmann::json;",
+    "tag": "cpp",
+    "source": "https://github.com/nlohmann/json/blob/HEAD/README.md#L1256"
+  },
+  {
+    "label": "cpp",
+    "code": "json::parse(std::string(\"123\") + '\\0');          // == 123, no error\njson::parse(std::string(\"123\") + '\\0' + \"true\"); // == 123, the \"true\" is silently ignored too",
+    "tag": "cpp",
+    "source": "https://github.com/nlohmann/json/blob/HEAD/docs/mkdocs/docs/home/faq.md#L104"
+  },
+  {
+    "label": "csharp",
+    "code": "new ResiliencePipelineBuilder<HttpResponseMessage>()\n    .AddChaosOutcome(new ChaosOutcomeStrategyOptions<HttpResponseMessage>\n    {\n        OutcomeGenerator = new OutcomeGenerator<HttpResponseMessage>()\n            .AddException<HttpRequestException>(),  // ⚠️ Avoid this ⚠️\n    });",
+    "tag": "cs",
+    "source": "https://github.com/App-vNext/Polly/blob/HEAD/docs/chaos/outcome.md#L314"
+  },
+  {
+    "label": "csharp",
+    "code": "// Retrieve an instance of ResilienceContext from the pool\n// with the ContinueOnCapturedContext property set to true\nResilienceContext context = ResilienceContextPool.Shared.Get(continueOnCapturedContext: true);\n\nawait pipeline.ExecuteAsync(\n    static async context =>\n    {\n        // Execute your code, honoring the ContinueOnCapturedContext setting\n        await MyMethodAsync(context.CancellationToken).ConfigureAwait(context.ContinueOnCapturedContext);\n    },\n    context);\n\n// Optionally, return the ResilienceContext instance back to the pool\n// to minimize allocations and enhance performance\nResilienceContextPool.Shared.Return(context);",
+    "tag": "cs",
+    "source": "https://github.com/App-vNext/Polly/blob/HEAD/docs/general.md#L18"
+  },
+  {
+    "label": "css",
+    "code": "/* No seu arquivo CSS */\n.avatar {\n  border-radius: 50%;\n}",
+    "tag": "css",
+    "source": "https://github.com/reactjs/pt-br.react.dev/blob/HEAD/src/content/learn/index.md#L106"
+  },
+  {
+    "label": "css",
+    "code": "* {\n  box-sizing: border-box;\n}\n\nbody {\n  font-family: sans-serif;\n  margin: 20px;\n  padding: 0;\n}\n\n.square {\n  background: #fff;\n  border: 1px solid #999;\n  float: left;\n  font-size: 24px;\n  font-weight: bold;\n  line-height: 34px;\n  height: 34px;\n  margin-right: -1px;\n  margin-top: -1px;\n  padding: 0;\n  text-align: center;\n  width: 34px;\n}\n\n.board-row:after {\n  clear: both;\n  content: '';\n  display: table;\n}\n\n.status {\n  margin-bottom: 10px;\n}\n.game {\n  display: flex;\n  flex-direction: row;\n}\n\n.game-info {\n  margin-left: 20px;\n}",
+    "tag": "css",
+    "source": "https://github.com/reactjs/pt-br.react.dev/blob/HEAD/src/content/learn/tutorial-tic-tac-toe.md#L150"
+  },
+  {
+    "label": "css",
+    "code": "body {\n  animation: pulse 20s infinite;\n}",
+    "tag": "css",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/css/create-a-pulsing-background-with-css-animation.md#L26"
+  },
+  {
+    "label": "diff",
+    "code": "- axios.post(\"/upload\", formData, {\n-   headers: { \"Content-Type\": \"multipart/form-data\" },\n- });\n+ axios.post(\"/upload\", formData);",
+    "tag": "diff",
+    "source": "https://github.com/axios/axios/blob/HEAD/docs/fr/pages/getting-started/upgrade-guide.md#L59"
+  },
+  {
+    "label": "diff",
+    "code": "- variant(strip: true, quality: 75, define: { webp: { lossless: false, alpha_quality: 85, thread_level: 1 } })\n+ variant(saver: { strip: true, quality: 75, lossless: false, alpha_q: 85, reduction_effort: 6, smart_subsample: true })",
+    "tag": "diff",
+    "source": "https://github.com/rails/rails/blob/HEAD/guides/source/upgrading_ruby_on_rails.md#L872"
+  },
+  {
+    "label": "diff",
+    "code": "- axios.defaults.headers.common[\"Accept\"] = \"application/json\";\n+ axios.defaults.headers[\"Accept\"] = \"application/json\";",
+    "tag": "diff",
+    "source": "https://github.com/axios/axios/blob/HEAD/docs/pages/getting-started/upgrade-guide.md#L50"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM node:12-slim AS build\n\nWORKDIR /usr/src/app\nCOPY package.json package-lock.json ./\nRUN npm ci --production && npm clean cache --force\n\n# これはしないでください!\nCMD \"npm start\"",
+    "tag": "dockerfile",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/HEAD/sections/docker/bootstrap-using-node.japanese.md#L42"
+  },
+  {
+    "label": "dockerfile",
+    "code": "COPY --from=nginx:latest /etc/nginx/nginx.conf /nginx.conf",
+    "tag": "dockerfile",
+    "source": "https://github.com/docker/docs/blob/HEAD/content/manuals/build/building/multi-stage.md#L119"
+  },
+  {
+    "label": "dockerfile",
+    "code": "FROM node:12-slim\n\n# Build logic comes here\n\nCMD [\"npm\", \"start\"]\n#Now Node will run a sub-process of npm and won't receive signals",
+    "tag": "dockerfile",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/HEAD/sections/docker/graceful-shutdown.french.md#L63"
+  },
+  {
+    "label": "go",
+    "code": "func main() {\n  r := gin.Default()\n\n  r.GET(\"/someJSON\", func(c *gin.Context) {\n    data := gin.H{\n      \"lang\": \"GO语言\",\n      \"tag\":  \"<br>\",\n    }\n\n    // will output : {\"lang\":\"GO\\u8bed\\u8a00\",\"tag\":\"\\u003cbr\\u003e\"}\n    c.AsciiJSON(http.StatusOK, data)\n  })\n\n  // Listen and serve on 0.0.0.0:8080\n  r.Run(\":8080\")\n}",
+    "tag": "go",
+    "source": "https://github.com/gin-gonic/gin/blob/HEAD/docs/doc.md#L1816"
+  },
+  {
+    "label": "go",
+    "code": "linkHandler := func(name string) string {\n\tbase := strings.TrimSuffix(name, path.Ext(name))\n\treturn \"/commands/\" + strings.ToLower(base) + \"/\"\n}",
+    "tag": "go",
+    "source": "https://github.com/spf13/cobra/blob/HEAD/site/content/docgen/md.md#L110"
+  },
+  {
+    "label": "go",
+    "code": "myCommand := &cobra.Command{\n\t// coommand setup ...\n\tRun: func(cmd *cobra.Command, args []string) {\n\t\tif cmd.Flags().Changed(\"seed\") {\n\t\t\tseed, err := cmd.Flags().GetInt64(\"seed\")\n\t\t\tif err != nil {\n\t\t\t\tfmt.Println(\"Seed flag is missing from `cmdFlags()`\")\n\t\t\t\tos.Exit(1)\n\t\t\t}\n\n\t\t\tfmt.Printf(\"Seed was set to %d\\n\", seed)\n\t\t} else {\n\t\t\tfmt.Println(\"Seed was not set\")\n\t\t}\n\t}\n}",
+    "tag": "go",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/go/check-if-cobra-flag-was-set.md#L20"
+  },
+  {
+    "label": "html",
+    "code": "<form id=\"htmlForm\">\n  <input type=\"text\" name=\"foo\" value=\"1\" />\n  <input type=\"text\" name=\"deep.prop\" value=\"2\" />\n  <input type=\"text\" name=\"deep prop spaced\" value=\"3\" />\n  <input type=\"text\" name=\"baz\" value=\"4\" />\n  <input type=\"text\" name=\"baz\" value=\"5\" />\n\n  <select name=\"user.age\">\n    <option value=\"value1\">Value 1</option>\n    <option value=\"value2\" selected>Value 2</option>\n    <option value=\"value3\">Value 3</option>\n  </select>\n\n  <input type=\"submit\" value=\"Save\" />\n</form>",
+    "tag": "html",
+    "source": "https://github.com/axios/axios/blob/HEAD/docs/es/pages/advanced/html-form-processing.md#L21"
+  },
+  {
+    "label": "html",
+    "code": "<img src=\"http://www.harmless.com/img\" width=\"400\" height=\"400\" onmouseover=\"...\" />",
+    "tag": "html",
+    "source": "https://github.com/rails/rails/blob/HEAD/guides/source/security.md#L554"
+  },
+  {
+    "label": "html",
+    "code": "<a\n  className=\"underline text-purple-600 cursor-pointer hover:text-purple-800\"\n  href=\"https://twitter.com/jbrancha\"\n>\n  twitter\n</a>",
+    "tag": "html",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/tailwind/base-styles-for-text-link.md#L15",
+    "note": "author tagged html, but it is JSX (className)"
+  },
+  {
+    "label": "java",
+    "code": "private class MoneyInstanceCreator implements InstanceCreator<Money> {\n  public Money createInstance(Type type) {\n    return new Money(\"1000000\", CurrencyCode.USD);\n  }\n}",
+    "tag": "java",
+    "source": "https://github.com/google/gson/blob/HEAD/UserGuide.md#L463"
+  },
+  {
+    "label": "java",
+    "code": "import java.io.BufferedReader;\nimport java.io.FileReader;\nimport java.io.IOException;\n\npublic class FileReaderExample {\n    public static void main(String[] args) {\n        String fileName = \"example.txt\";\n        \n        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {\n            String line;\n            int lineCount = 0;\n            \n            while ((line = reader.readLine()) != null && lineCount < 5) {\n                System.out.println(line);\n                lineCount++;\n            }\n        } catch (IOException e) {\n            System.out.println(\"An error occurred while reading the file: \" + e.getMessage());\n        }\n    }\n}",
+    "tag": "java",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/java/ensure-resources-always-get-closed.md#L21"
+  },
+  {
+    "label": "java",
+    "code": "class WebPage {\n    String languages;\n}",
+    "tag": "java",
+    "source": "https://github.com/google/gson/blob/HEAD/Troubleshooting.md#L180"
+  },
+  {
+    "label": "js",
+    "code": "import { useState } from 'react';\nimport { useSelectOptions } from './useSelectOptions.js';\n\nexport default function Page() {\n  const [\n    planetList,\n    planetId,\n    setPlanetId\n  ] = useSelectOptions('/planets');\n\n  const [\n    placeList,\n    placeId,\n    setPlaceId\n  ] = useSelectOptions(planetId ? `/planets/${planetId}/places` : null);\n\n  return (\n    <>\n      <label>\n        Pick a planet:{' '}\n        <select value={planetId} onChange={e => {\n          setPlanetId(e.target.value);\n        }}>\n          {planetList?.map(planet =>\n            <option key={planet.id} value={planet.id}>{planet.name}</option>\n          )}\n        </select>\n      </label>\n      <label>\n        Pick a place:{' '}\n        <select value={placeId} onChange={e => {\n          setPlaceId(e.target.value);\n        }}>\n          {placeList?.map(place =>\n            <option key={place.id} value={place.id}>{place.name}</option>\n          )}\n        </select>\n      </label>\n      <hr />\n      <p>You are going to: {placeId || '...'} on {planetId || '...'} </p>\n    </>\n  );\n}",
+    "tag": "js",
+    "source": "https://github.com/reactjs/pt-br.react.dev/blob/HEAD/src/content/learn/lifecycle-of-reactive-effects.md#L1948"
+  },
+  {
+    "label": "js",
+    "code": "axios.get('/user/12345').catch(function (error) {\n  if (error.response) {\n    // The request was made and the server responded with a status code\n    // that falls out of the range of 2xx\n    console.log(error.response.data);\n    console.log(error.response.status);\n    console.log(error.response.headers);\n  } else if (error.request) {\n    // The request was made but no response was received\n    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n    // http.ClientRequest in node.js\n    console.log(error.request);\n  } else {\n    // Something happened in setting up the request that triggered an Error\n    console.log('Error', error.message);\n  }\n  console.log(error.config);\n});",
+    "tag": "js",
+    "source": "https://github.com/axios/axios/blob/HEAD/README.md#L1511"
+  },
+  {
+    "label": "js",
+    "code": "const CancelToken = axios.CancelToken;\nconst source = CancelToken.source();\n\naxios\n  .get('/user/12345', {\n    cancelToken: source.token,\n  })\n  .catch(function (thrown) {\n    if (axios.isCancel(thrown)) {\n      console.log('Request canceled', thrown.message);\n    } else {\n      // handle error\n    }\n  });\n\naxios.post(\n  '/user/12345',\n  {\n    name: 'new name',\n  },\n  {\n    cancelToken: source.token,\n  }\n);\n\n// cancel the request (the message parameter is optional)\nsource.cancel('Operation canceled by the user.');",
+    "tag": "js",
+    "source": "https://github.com/axios/axios/blob/HEAD/docs/es/pages/advanced/cancellation.md#L23"
+  },
+  {
+    "label": "js",
+    "code": "const unsafe = new RegExp('/(x+x+)+y/)');",
+    "tag": "javascript",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/HEAD/sections/security/lintrules.basque.md#L33"
+  },
+  {
+    "label": "json",
+    "code": "{\n  \"log-driver\": \"splunk\", // Splunk を例に挙げていますが、別のストレージタイプを入力する可能性があります。\n  \"log-opts\": {\n    \"splunk-token\": \"\",\n    \"splunk-url\": \"\",\n    //...\n  }\n}",
+    "tag": "json5",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/HEAD/sections/production/logrouting.japanese.md#L53"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"name\": \"A\",\n    \"dependencies\": {\n        \"B\": {\n            \"version\": \"0.0.1\",\n            \"dependencies\": {\n                \"C\": {\n                    \"version\": \"0.1.0\"\n                }\n            }\n        }\n    }\n}",
+    "tag": "json",
+    "source": "https://github.com/goldbergyoni/nodebestpractices/blob/HEAD/sections/production/lockdependencies.russian.md#L24"
+  },
+  {
+    "label": "json",
+    "code": "{\n    \"item_id\": \"foo-item\",\n    \"needy\": \"sooooneedy\"\n}",
+    "tag": "json",
+    "source": "https://github.com/fastapi/fastapi/blob/HEAD/docs/pt/docs/tutorial/query-params.md#L167"
+  },
+  {
+    "label": "json",
+    "code": "[\n  {\n    \"id\": 1,\n    \"token\": \"abc\"\n  },\n  {\n    \"id\": 3,\n    \"token\": null\n  },\n  {\n    \"id\": 5\n  },\n  ...\n]",
+    "tag": "json",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/jq/find-all-objects-in-an-array-where-key-is-set.md#L9"
+  },
+  {
+    "label": "markdown",
+    "code": "---\nname: refund-policy\ndescription: Use when a customer asks for a refund or disputes a charge.\n---\n\n# Refund Policy\n\nCustomers may request a full refund within 30 days of purchase...",
+    "tag": "markdown",
+    "source": "https://github.com/laravel/docs/blob/HEAD/ai-sdk.md#L1419"
+  },
+  {
+    "label": "markdown",
+    "code": "```html+erb\n<%# app/views/products/show.html.erb %>\n<h1><%= @product.name %></h1>\n\n<%= link_to \"Back\", products_path %>\n```",
+    "tag": "markdown",
+    "source": "https://github.com/rails/rails/blob/HEAD/guides/source/ruby_on_rails_guides_guidelines.md#L101"
+  },
+  {
+    "label": "markdown",
+    "code": "# Project Rules Index\n\nBefore planning or editing, find the row whose globs match the file's path and read that rule file.\n\n| Applies to | Rule file |\n| --- | --- |\n| app/Http/Controllers/** | .ai/rules/controllers.md |\n| app/Models/** | .ai/rules/models.md |",
+    "tag": "markdown",
+    "source": "https://github.com/laravel/docs/blob/HEAD/boost.md#L376"
+  },
+  {
+    "label": "php",
+    "code": "use Illuminate\\Broadcasting\\BroadcastException;\nuse Illuminate\\Cache\\RateLimiting\\Limit;\nuse Throwable;\n\n->withExceptions(function (Exceptions $exceptions): void {\n    $exceptions->throttle(function (Throwable $e) {\n        if ($e instanceof BroadcastException) {\n            return Limit::perMinute(300)->by($e->getMessage());\n        }\n    });\n})",
+    "tag": "php",
+    "source": "https://github.com/laravel/docs/blob/HEAD/errors.md#L434"
+  },
+  {
+    "label": "php",
+    "code": "$flights = Flight::where('active', 1)\n    ->orderBy('name')\n    ->limit(10)\n    ->get();",
+    "tag": "php",
+    "source": "https://github.com/laravel/docs/blob/HEAD/eloquent.md#L488"
+  },
+  {
+    "label": "plaintext",
+    "code": "Invalid URL \"https:example.com\": missing \"//\" after protocol",
+    "tag": "text",
+    "source": "https://github.com/axios/axios/blob/HEAD/docs/es/pages/advanced/error-handling.md#L63"
+  },
+  {
+    "label": "plaintext",
+    "code": "Claude Code support is typically enabled automatically. If you find it isn't, open a shell in the project's directory and run the following command:\n\nclaude mcp add -s local -t stdio laravel-boost php artisan boost:mcp",
+    "tag": "text",
+    "source": "https://github.com/laravel/docs/blob/HEAD/boost.md#L67"
+  },
+  {
+    "label": "plaintext",
+    "code": "User authenticated. {\"auth_id\":27} {\"url\":\"https://example.com/login\",\"trace_id\":\"e04e1a11-e75c-4db3-b5b5-cfef4ef56697\"}",
+    "tag": "text",
+    "source": "https://github.com/laravel/docs/blob/HEAD/context.md#L59"
+  },
+  {
+    "label": "python",
+    "code": "q: str | None = Query(default=None, max_length=50)",
+    "tag": "python",
+    "source": "https://github.com/fastapi/fastapi/blob/HEAD/docs/pt/docs/tutorial/query-params-str-validations.md#L119"
+  },
+  {
+    "label": "python",
+    "code": "from app.routers import items, users",
+    "tag": "python",
+    "source": "https://github.com/fastapi/fastapi/blob/HEAD/docs/en/docs/tutorial/bigger-applications.md#L351"
+  },
+  {
+    "label": "python",
+    "code": "client = httpx.Client()\nclient.post(..., cookies=...)",
+    "tag": "python",
+    "source": "https://github.com/encode/httpx/blob/HEAD/docs/compatibility.md#L116"
+  },
+  {
+    "label": "python",
+    "code": "class CliContext:\n    def __init__(self, verbose: bool) -> None:\n        # ...\n        self.repo = JsonRepository()\n        # ...\n\n    def session_log(self) -> list[Session]:\n        return self.repo.load_session_log()",
+    "tag": "python",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/python/turn-method-into-cached-property-on-class-instance.md#L8"
+  },
+  {
+    "label": "ruby",
+    "code": "[\n  \"ActionView::Template::Error\"\n]",
+    "tag": "ruby",
+    "source": "https://github.com/rails/rails/blob/HEAD/guides/source/configuring.md#L2561",
+    "note": "author tagged ruby; also valid JSON"
+  },
+  {
+    "label": "ruby",
+    "code": "# config/initializers/assets.rb\nRails.application.config.assets.paths <<\n  Rails.root.join(\"lib\", \"legal\", \"docs\")",
+    "tag": "ruby",
+    "source": "https://github.com/rails/rails/blob/HEAD/guides/source/asset_pipeline.md#L115"
+  },
+  {
+    "label": "ruby",
+    "code": "validates :name, presence: true",
+    "tag": "ruby",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/rails/add-activerecord-error-not-tied-to-any-attribute.md#L8"
+  },
+  {
+    "label": "rust",
+    "code": "use axum::{\n    extract::{Request, Json, Path, Extension, Query},\n    routing::post,\n    http::header::HeaderMap,\n    body::{Bytes, Body},\n    Router,\n};\nuse serde_json::Value;\nuse std::collections::HashMap;\n\n// `Path` gives you the path parameters and deserializes them. See its docs for\n// more details\nasync fn path(Path(user_id): Path<u32>) {}\n\n// `Query` gives you the query parameters and deserializes them.\nasync fn query(Query(params): Query<HashMap<String, String>>) {}\n\n// `HeaderMap` gives you all the headers\nasync fn headers(headers: HeaderMap) {}\n\n// `String` consumes the request body and ensures it is valid utf-8\nasync fn string(body: String) {}\n\n// `Bytes` gives you the raw request body\nasync fn bytes(body: Bytes) {}\n\n// We've already seen `Json` for parsing the request body as json\nasync fn json(Json(payload): Json<Value>) {}\n\n// `Request` gives you the whole request for maximum control\nasync fn request(request: Request) {}\n\n// `Extension` extracts data from \"request extensions\"\n// This is commonly used to share state with handlers\nasync fn extension(Extension(state): Extension<State>) {}\n\n#[derive(Clone)]\nstruct State { /* ... */ }\n\nlet app = Router::new()\n    .route(\"/path/{user_id}\", post(path))\n    .route(\"/query\", post(query))\n    .route(\"/string\", post(string))\n    .route(\"/bytes\", post(bytes))\n    .route(\"/json\", post(json))\n    .route(\"/request\", post(request))\n    .route(\"/extension\", post(extension));\n# let _: Router = app;",
+    "tag": "rust",
+    "source": "https://github.com/tokio-rs/axum/blob/HEAD/axum/src/docs/extract.md#L39"
+  },
+  {
+    "label": "rust",
+    "code": "use axum::{\n    routing::get,\n    Router,\n};\nuse tower_http::validate_request::ValidateRequestHeaderLayer;\n\nlet app = Router::new()\n    .route(\"/foo\", get(|| async {}))\n    .route_layer(ValidateRequestHeaderLayer::bearer(\"password\"));\n\n// `GET /foo` with a valid token will receive `200 OK`\n// `GET /foo` with an invalid token will receive `401 Unauthorized`\n// `GET /not-found` with an invalid token will receive `404 Not Found`\n# let _: Router = app;",
+    "tag": "rust",
+    "source": "https://github.com/tokio-rs/axum/blob/HEAD/axum/src/docs/routing/route_layer.md#L20"
+  },
+  {
+    "label": "rust",
+    "code": "use globset::Glob;\n\nlet glob = Glob::new(\"*.rs\")?.compile_matcher();\n\nassert!(glob.is_match(\"foo.rs\"));\nassert!(glob.is_match(\"foo/bar.rs\"));\nassert!(!glob.is_match(\"Cargo.toml\"));",
+    "tag": "rust",
+    "source": "https://github.com/BurntSushi/ripgrep/blob/HEAD/crates/globset/README.md#L33"
+  },
+  {
+    "label": "sql",
+    "code": "copy pokemons to '/tmp/pokemon_dump.csv' csv;",
+    "tag": "sql",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/postgres/export-query-results-to-a-csv.md#L20"
+  },
+  {
+    "label": "sql",
+    "code": "sqlite> pragma user_version;\n0",
+    "tag": "sql",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/sqlite/manage-lightweight-schema-migrations-with-user-version.md#L15",
+    "note": "author tagged sql; sqlite REPL session with output"
+  },
+  {
+    "label": "sql",
+    "code": "BEGIN;\nSET LOCAL min_parallel_table_scan_size = 1;\nSET LOCAL parallel_setup_cost = 1;\nSELECT ...\nCOMMIT;",
+    "tag": "sql",
+    "source": "https://github.com/pgvector/pgvector/blob/HEAD/README.md#L919"
+  },
+  {
+    "label": "ts",
+    "code": "const person = z\n  .object({\n    name: z.string(),\n  })\n  .catchall(z.number());\n\nperson.parse({\n  name: \"bob dylan\",\n  validExtraKey: 61, // 运行良好\n});\n\nperson.parse({\n  name: \"bob dylan\",\n  validExtraKey: false, // 未能成功\n});\n// => throws ZodError",
+    "tag": "ts",
+    "source": "https://github.com/colinhacks/zod/blob/HEAD/packages/docs-v3/README_ZH.md#L811"
+  },
+  {
+    "label": "ts",
+    "code": "z.decode(stringToDate, \"2024-01-15T10:30:00.000Z\"); // => Date",
+    "tag": "ts",
+    "source": "https://github.com/colinhacks/zod/blob/HEAD/packages/docs/content/api.mdx#L2908"
+  },
+  {
+    "label": "ts",
+    "code": "request<T, R, D, P>(config: AxiosRequestConfig<D, P>): Promise<R>;",
+    "tag": "ts",
+    "source": "https://github.com/axios/axios/blob/HEAD/docs/fr/pages/advanced/api-reference.md#L48"
+  },
+  {
+    "label": "ts",
+    "code": "import type { MarkdownInstance } from \"astro\";\n\nexport type BarePost = {\n  layout: string;\n  title: string;\n  slug: string;\n  tags: string[];\n};\n\nexport type Post = MarkdownInstance<BarePost>;",
+    "tag": "typescript",
+    "source": "https://github.com/jbranchaud/til/blob/HEAD/astro/markdown-files-are-of-type-markdown-instance.md#L30"
+  },
+  {
+    "label": "yaml",
+    "code": "depends_on:\n    - mysql\n    - redis\n    - selenium",
+    "tag": "yaml",
+    "source": "https://github.com/laravel/docs/blob/HEAD/sail.md#L331"
+  },
+  {
+    "label": "yaml",
+    "code": "services:\n  base:\n    env_file: ./container.env",
+    "tag": "yaml",
+    "source": "https://github.com/docker/docs/blob/HEAD/content/manuals/compose/how-tos/multiple-compose-files/extends.md#L182"
+  },
+  {
+    "label": "yaml",
+    "code": "one:\n  product: tshirt\n  wishlist: one\n\ntwo:\n  product: tshirt\n  wishlist: two",
+    "tag": "yaml",
+    "source": "https://github.com/rails/rails/blob/HEAD/guides/source/wishlists.md#L1222"
+  }
+]

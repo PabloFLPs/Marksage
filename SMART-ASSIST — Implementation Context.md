@@ -134,12 +134,29 @@ src/components/SuggestionBar.tsx
   if selected, the engine falls back to heuristics.
 - **Eval:** `npm run eval:assist` (heuristic engine, fixtures in `src/assist/__fixtures__/`).
 
-| Feature | n | Accuracy | Shown past gate | Precision when shown | Latency |
-|---|---|---|---|---|---|
-| F1 fence language | 40 | 100% | 27/40 | 100% | ~0.2 ms |
-| F2 smart paste | 14 | 100% | 10/14 | 100% | ~0.3 ms |
-| F3 structure | 10 | 100% | 6/10 | 100% | ~0.1 ms |
-| Laya | — | pending | — | — | — |
+Two fixture sets per feature (`src/assist/__fixtures__/README.md`): **authored** (written with the rules —
+regression tests) and **real** (excerpts from real docs, wikis and command output — held out, never tune against it).
 
-> Caveat: fixtures were written alongside the heuristics, so these numbers are optimistic. Grow the set
-> with real-world snippets (target 60 / 30 / 30) before comparing against Laya.
+| Feature | Set | n | Accuracy | Shown past gate | Precision when shown | Latency |
+|---|---|---|---|---|---|---|
+| F1 fence language | authored | 42 | 100% | 29/42 | 100% | ~0.2 ms |
+| F1 fence language | **real** | 64 | **59%** | **14/64** | **93%** (1 error: Ruby array that is also valid JSON) | ~0.2 ms |
+| F2 smart paste | authored | 15 | 100% | 11/15 | 100% | ~0.3 ms |
+| F2 smart paste | **real** | 31 | **81%** | **17/31** | **100%** | ~0.5 ms |
+| F3 structure | authored | 10 | 100% | 6/10 | 100% | ~0.1 ms |
+| F3 structure | **real** | 30 | **67%** | **22/30** | **55%** (10 false positives) | <0.1 ms |
+| Laya | real | — | pending | — | — | — |
+
+Reading the real-set numbers (2026-10-23):
+- **F1** — the gate does its job (shown ⇒ ~93% right), but coverage is low: 50/64 real blocks get no
+  suggestion. Misses are short snippets (`php artisan …`, `#include <x.h>`, one-line SQL/Python), C#/PHP/C++
+  read as Java/Rust/TS, and diffs of code. This is where a model could actually earn its download.
+- **F2** — never wrong when shown. Misses: a list copied from a rendered page (no bullets, sentence-like
+  items) reads as prose; `pip list` / `rails routes` (separator row, empty cells) aren't seen as tables;
+  JSON with `//` comments before the object.
+- **F3** — the weak one. Every true case is caught, but half the shown suggestions are wrong:
+  `-flag` lines inside **indented code blocks** (CLI help, terminal output, CSS) and bold labels
+  (`**Note**`, `**Likelihood Of Impact: Very Low**`) pass at 0.80–0.86, and the 0.8–0.9 bucket is only
+  44% correct (miscalibrated). Likely fixes: skip 4-space indented code in the pre-filter; penalise
+  `-` + flag-like token; lower bold-label confidence when the next block is a list/table or the line
+  carries a value. Build those against a separate dev set, not the held-out one.

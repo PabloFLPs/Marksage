@@ -1,0 +1,175 @@
+[
+  {
+    "label": "csv",
+    "text": "Country Name,Country Code,Year,Value\nAfghanistan,AFG,2000,3521418059.923445\nAfghanistan,AFG,2001,2813571753.8725324\nAfghanistan,AFG,2002,3825701438.9996333\nAfghanistan,AFG,2003,4520946818.545814\nAfghanistan,AFG,2004,5224896718.67782",
+    "source": "https://github.com/datasets/gdp — data/gdp.csv (first 6 lines)"
+  },
+  {
+    "label": "csv",
+    "text": "ident,type,name,elevation_ft,continent,iso_country,iso_region,municipality,icao_code,iata_code,gps_code,local_code,coordinates\n00A,heliport,Total RF Heliport,11,NA,US,US-PA,Bensalem,,,K00A,00A,\"40.070985, -74.933689\"\n00AA,small_airport,Aero B Ranch Airport,3435,NA,US,US-KS,Leoti,,,00AA,00AA,\"38.704022, -101.473911\"\n00AK,small_airport,Lowell Field,450,NA,US,US-AK,Anchor Point,,,00AK,00AK,\"59.947733, -151.692524\"\n00AL,small_airport,Epps Airpark,820,NA,US,US-AL,Harvest,,,00AL,00AL,\"34.86479949951172, -86.77030181884766\"\n00AN,small_airport,Katmai Lodge Airport,80,NA,US,US-AK,King Salmon,,,00AN,00AN,\"59.093287, -156.456699\"",
+    "source": "https://github.com/datasets/airport-codes — data/airport-codes.csv (first 6 lines)"
+  },
+  {
+    "label": "csv",
+    "text": "synonym,wdId,cur_state,cur_lexLabel,type,ref,notes\nAugusto Severo,Q1802671,RN,campo.grande,alt oficial,[1903 1991],\"Em 28 de agosto de 1903, a Lei nº 192 mudou o nome do município para Augusto Severo\"\nBom Jesus,Q891725,GO,bom.jesus.goias,alt oficial reduz,CEP e Wikipedia-pt,\nCampo de Santana,,PB,tacima,alt canonico,[1996 2009-12-22],\nDona Euzébia,Q1756805,MG,dona.eusebia,alt oficial orto arcaica,CEP e Wikipedia-pt,",
+    "source": "https://github.com/datasets-br/city-codes — data/br-city-synonyms.csv (first 5 lines)",
+    "note": "quoted cell with commas and a pt-BR sentence"
+  },
+  {
+    "label": "csv",
+    "text": "subdivision,region,name_prefix,name,id,idIBGE,wdId,lexLabel,creation,extinction,category,timeZone,utcOffset,utcOffset_DST,postalCode_ranges,km2,borders,centroid_geohash,utm_zones,bounds_geohash,bounds_lat,bounds_long,notes\nAC,N,Estado do,Acre,1,12,Q40780,acre,1904,,State,America/Rio_Branco,-5,-5,[69900-000 69999-999],164124,AM,6qmgs6fgj,18S 19S,6q52s71b3 6w8xecq4d,-11.1455614673583 -7.11182437923207,-73.9904499689999 -66.6237537659999,\nAL,NE,Estado de,Alagoas,2,27,Q40885,alagoas,1889,,State,America/Maceio,-3,-3,[57000-000 57999-999],27848,BA PE SE,7nmcys499,24S 25S,7nhu3bk4p 7nrjb5e5u,-10.5011858043386 -8.81312673328604,-38.237588925 -35.1519504509999,\nAM,N,Estado do,Amazonas,3,13,Q40040,amazonas,1889,,State,America/Manaus,-4,-4,[69000-000 69299-999]; [69400-000 69899-999],1559148,AC MT PA RO RR,6x602gc00,19N 20N 21N 18S 19S 20S 21S,6q780seme db2hg2zp8,-9.81804587531735 2.24663056107414,-73.8015581149999 -56.0975580379999,",
+    "source": "https://github.com/datasets-br/state-codes — data/br-state-codes.csv (first 4 lines)",
+    "note": "very wide rows; semicolons inside cells"
+  },
+  {
+    "label": "csv",
+    "text": "benchmark,warmup_iter,iter,name,command,duration,lines,env\nlinux_alternates,1,3,rg (ignore),rg -n ERR_SYS|PME_TURN_OFF|LINK_REQ_RST|CFG_BME_EVT,0.16187143325805664,68,\nlinux_alternates,1,3,rg (ignore),rg -n ERR_SYS|PME_TURN_OFF|LINK_REQ_RST|CFG_BME_EVT,0.15862464904785156,68,\nlinux_alternates,1,3,rg (ignore),rg -n ERR_SYS|PME_TURN_OFF|LINK_REQ_RST|CFG_BME_EVT,0.15711188316345215,68,\nlinux_alternates,1,3,ag (ignore),ag -s ERR_SYS|PME_TURN_OFF|LINK_REQ_RST|CFG_BME_EVT,0.5682125091552734,68,\nlinux_alternates,1,3,ag (ignore),ag -s ERR_SYS|PME_TURN_OFF|LINK_REQ_RST|CFG_BME_EVT,0.551994800567627,68,",
+    "source": "https://github.com/BurntSushi/ripgrep — benchsuite/runs/2016-09-22-archlinux-cheetah/raw.csv (first 6 lines)"
+  },
+  {
+    "label": "tsv",
+    "text": "AD\tAndorra\nAE\tUnited Arab Emirates\nAF\tAfghanistan\nAG\tAntigua & Barbuda\nAI\tAnguilla\nAL\tAlbania\nAM\tArmenia\nAO\tAngola",
+    "source": "IANA tzdata — iso3166.tab (first 8 data lines)"
+  },
+  {
+    "label": "tsv",
+    "text": "AD\t+4230+00131\tEurope/Andorra\nAE,OM,RE,SC,TF\t+2518+05518\tAsia/Dubai\tCrozet\nAF\t+3431+06912\tAsia/Kabul\nAL\t+4120+01950\tEurope/Tirane\nAM\t+4011+04430\tAsia/Yerevan\nAQ\t-6617+11031\tAntarctica/Casey\tCasey\nAQ\t-6835+07758\tAntarctica/Davis\tDavis\nAQ\t-6736+06253\tAntarctica/Mawson\tMawson",
+    "source": "IANA tzdata — zone1970.tab (first 8 data lines)",
+    "note": "rows have 3 or 4 columns"
+  },
+  {
+    "label": "tsv",
+    "text": "XX\t-1416-17042\tPacific/Pago_Pago\tMidway; Samoa (SST)\nXX\t-1901-16955\tPacific/Niue\tNiue\nXX\t+211825-1575130\tPacific/Honolulu\tHawaii (HST)\nXX\t-1732-14934\tPacific/Tahiti\tTahiti; Cook Islands\nXX\t+515248-1763929\tAmerica/Adak\twestern Aleutians in Alaska (HST/HDT)\nXX\t-0900-13930\tPacific/Marquesas\tMarquesas\nXX\t-2308-13457\tPacific/Gambier\tGambier\nXX\t+611305-1495401\tAmerica/Anchorage\tmost of Alaska (AKST/AKDT)",
+    "source": "IANA tzdata — zonenow.tab (first 8 data lines)",
+    "note": "free-text last column with spaces and semicolons"
+  },
+  {
+    "label": "tsv",
+    "text": "1\tFolha\tFolha\tPROPN\t_\tGender=Fem|Number=Sing\t0\troot\t_\t_\n2\t--\t--\tPUNCT\t_\t_\t1\tpunct\t_\t_\n3\tComo\tcomo\tADV\t_\t_\t5\tadvmod\t_\t_\n4\tvocê\tvocê\tPRON\t_\tCase=Nom|Number=Sing|Person=3|PronType=Prs\t5\tnsubj\t_\t_\n5\trecebeu\treceber\tVERB\t_\tMood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin\t1\tparataxis\t_\t_\n6\ta\to\tDET\t_\tDefinite=Def|Gender=Fem|Number=Sing|PronType=Art\t7\tdet\t_\t_\n7\tnotícia\tnotícia\tNOUN\t_\tGender=Fem|Number=Sing\t5\tobj\t_\t_\n8\tde\tde\tSCONJ\t_\t_\t11\tmark\t_\t_\n9\tque\tque\tSCONJ\t_\t_\t11\tmark\t_\t_\n10\tseria\tser\tAUX\t_\tMood=Cnd|Number=Sing|Person=3|VerbForm=Fin\t11\taux:pass\t_\t_\n11\tsubstituído\tsubstituir\tVERB\t_\tGender=Masc|Number=Sing|VerbForm=Part|Voice=Pass\t7\tacl\t_\tSpaceAfter=No\n12\t?\t?\tPUNCT\t_\t_\t1\tpunct\t_\t_",
+    "source": "https://github.com/UniversalDependencies/UD_Portuguese-Bosque — pt_bosque-ud-test.conllu L5-16",
+    "note": "pt-BR tokens, 10 columns"
+  },
+  {
+    "label": "table",
+    "text": "      Prefix Verb   URI Pattern                  Controller#Action\n    products GET    /products(.:format)          products#index\n             POST   /products(.:format)          products#create\n new_product GET    /products/new(.:format)      products#new\nedit_product GET    /products/:id/edit(.:format) products#edit\n     product GET    /products/:id(.:format)      products#show\n             PATCH  /products/:id(.:format)      products#update\n             PUT    /products/:id(.:format)      products#update\n             DELETE /products/:id(.:format)      products#destroy",
+    "source": "https://github.com/rails/rails — guides/source/getting_started.md L872-880 (bin/rails routes output)",
+    "note": "right-aligned first column with empty cells"
+  },
+  {
+    "label": "table",
+    "text": "  PID USER     %CPU %MEM COMMAND\n    1 root      0.4  0.0 process_api\n    2 root      0.0  0.0 kthreadd\n    3 root      0.0  0.0 pool_workqueue_release\n    4 root      0.0  0.0 kworker/R-rcu_gp\n    5 root      0.0  0.0 kworker/R-sync_wq\n    6 root      0.0  0.0 kworker/R-kvfree_rcu_reclaim",
+    "source": "real `ps -eo pid,user,%cpu,%mem,comm` output"
+  },
+  {
+    "label": "table",
+    "text": "Package                    Version\n-------------------------- ---------------\nabsl-py                    2.5.1\nannotated-types            0.8.0\nanyio                      4.15.1\nargcomplete                3.1.4\nattrs                      26.1.0\nbabel                      2.18.0\nbackrefs                   8.0",
+    "source": "real `pip list` output",
+    "note": "dashed separator row"
+  },
+  {
+    "label": "table",
+    "text": "-rw-r--r-- 1 root root  12052 Oct 23 21:46 BENCHMARKS.md\n-rw-r--r-- 1 root root  50830 Oct 23 21:46 CHANGELOG.md\n-rw-r--r-- 1 root root   3219 Oct 23 21:46 CODE_OF_CONDUCT.md\n-rw-r--r-- 1 root root   2106 Oct 23 21:46 CONTRIBUTING.md\n-rw-r--r-- 1 root root   1099 Oct 23 21:46 LICENSE\n-rw-r--r-- 1 root root   3010 Oct 23 21:46 Makefile\n-rw-r--r-- 1 root root  11827 Oct 23 21:46 README.md\n-rw-r--r-- 1 root root   3838 Oct 23 21:46 auth.go",
+    "source": "real `ls -l` output"
+  },
+  {
+    "label": "list",
+    "text": "How to install Rails, create a new Rails application, and connect your application to a database.\nThe general layout of a Rails application.\nThe basic principles of MVC (Model, View, Controller) and RESTful design.\nHow to quickly generate the starting pieces of a Rails application.\nHow to deploy your app to production using Kamal.",
+    "source": "https://github.com/rails/rails — guides/source/getting_started.md L10-15",
+    "note": "copied from the rendered page (bullets dropped)"
+  },
+  {
+    "label": "list",
+    "text": "uv init: cria um novo projeto Python.\nawesome-project: cria o projeto em um novo diretório com este nome.\n--bare: cria apenas o arquivo pyproject.toml mínimo, sem gerar um main.py, README.md ou outros arquivos de exemplo. Você criará os arquivos da aplicação nos próximos passos deste tutorial.",
+    "source": "https://github.com/fastapi/fastapi — docs/pt/docs/tutorial/index.md L83-85",
+    "note": "pt-BR, copied from the rendered page (bullets dropped); items are long"
+  },
+  {
+    "label": "list",
+    "text": "1. Workers poll queues for jobs that are ready to run and execute them.\n2. Dispatchers handle scheduled jobs — they check for jobs due to run in the\nfuture and move them into the ready queue for workers to pick up.\n3. A Supervisor manages both workers and dispatchers, by forking and monitoring\n   them.",
+    "source": "https://github.com/rails/rails — guides/source/active_job_basics.md L907-911",
+    "note": "numbered, hard-wrapped items"
+  },
+  {
+    "label": "list",
+    "text": "__init__.py\n__version__.py\n_api.py\n_auth.py\n_client.py\n_config.py\n_content.py\n_decoders.py\n_exceptions.py",
+    "source": "real `ls -1` output (httpx package dir)"
+  },
+  {
+    "label": "list",
+    "text": "Ajay Bhargav\nAlexanderVasiljev\nAlper Akcan\nAndrew Tang\nAndy\nAnton Sergeev\nBenbuck Nason\nBernt Johan Damslora",
+    "source": "https://github.com/DaveGamble/cJSON — CONTRIBUTORS.md L12-19",
+    "note": "names copied from the rendered page"
+  },
+  {
+    "label": "code",
+    "text": "func (c *Context) DefaultQuery(key, defaultValue string) string {\n\tif value, ok := c.GetQuery(key); ok {\n\t\treturn value\n\t}\n\treturn defaultValue\n}\n\n// GetQuery is like Query(), it returns the keyed url query value\n// if it exists `(value, true)` (even when the value is an empty string),\n// otherwise it returns `(\"\", false)`.\n// It is shortcut for `c.Request.URL.Query().Get(key)`\n//\n//\tGET /?name=Manu&lastname=\n//\t(\"Manu\", true) == c.GetQuery(\"name\")\n//\t(\"\", false) == c.GetQuery(\"id\")\n//\t(\"\", true) == c.GetQuery(\"lastname\")\nfunc (c *Context) GetQuery(key string) (string, bool) {\n\tif values, ok := c.GetQueryArray(key); ok {\n\t\treturn values[0], ok\n\t}\n\treturn \"\", false\n}\n\n// QueryArray returns a slice of strings for a given query key.\n// The length of the slice depends on the number of params with the given key.\nfunc (c *Context) QueryArray(key string) (values []string) {\n\tvalues, _ = c.GetQueryArray(key)\n\treturn\n}",
+    "source": "https://github.com/gin-gonic/gin — context.go L547-575"
+  },
+  {
+    "label": "code",
+    "text": "    def _merge_url(self, url: URL | str) -> URL:\n        \"\"\"\n        Merge a URL argument together with any 'base_url' on the client,\n        to create the URL used for the outgoing request.\n        \"\"\"\n        merge_url = URL(url)\n        if merge_url.is_relative_url:\n            # To merge URLs we always append to the base URL. To get this\n            # behaviour correct we always ensure the base URL ends in a '/'\n            # separator, and strip any leading '/' from the merge URL.\n            #\n            # So, eg...\n            #\n            # >>> client = Client(base_url=\"https://www.example.com/subpath\")\n            # >>> client.base_url\n            # URL('https://www.example.com/subpath/')\n            # >>> client.build_request(\"GET\", \"/path\").url\n            # URL('https://www.example.com/subpath/path')\n            merge_raw_path = self.base_url.raw_path + merge_url.raw_path.lstrip(b\"/\")\n            return self.base_url.copy_with(raw_path=merge_raw_path)\n        return merge_url\n",
+    "source": "https://github.com/encode/httpx — httpx/_client.py L391-412",
+    "note": "mostly comments and a docstring"
+  },
+  {
+    "label": "code",
+    "text": "export function floatSafeRemainder(val: number, step: number): number {\n  const ratio = val / step;\n  const roundedRatio = Math.round(ratio);\n  // `val` and `step` each round to a double before the division rounds again, so a true decimal multiple's quotient can sit up to 1.5 of these scaled epsilons from the integer. A 1x tolerance therefore rejected 2.03 as a multiple of 0.07; 4x covers the worst case with margin.\n  const tolerance = 4 * Number.EPSILON * Math.max(Math.abs(ratio), 1);\n  if (Math.abs(ratio - roundedRatio) < tolerance) return 0;\n  return ratio - roundedRatio;\n}\n",
+    "source": "https://github.com/colinhacks/zod — packages/zod/src/v4/core/util.ts L327-335"
+  },
+  {
+    "label": "code",
+    "text": "//! Run with\n//!\n//! ```not_rust\n//! cargo run -p example-hello-world\n//! ```\n\nuse axum::{response::Html, routing::get, Router};\n\n#[tokio::main]\nasync fn main() {\n    // build our application with a route\n    let app = Router::new().route(\"/\", get(handler));\n\n    // run it\n    let listener = tokio::net::TcpListener::bind(\"127.0.0.1:3000\")\n        .await\n        .unwrap();\n    println!(\"listening on {}\", listener.local_addr().unwrap());\n    axum::serve(listener, app).await;\n}\n\nasync fn handler() -> Html<&'static str> {\n    Html(\"<h1>Hello, World!</h1>\")\n}",
+    "source": "https://github.com/tokio-rs/axum — examples/hello-world/src/main.rs"
+  },
+  {
+    "label": "json",
+    "text": "{\n  \"shasum\": \"e806cf64a7f4e37635ce9f2f52c04c3766f75e5b\",\n  \"tarball\": \"https://registry.npmjs.org/zod/-/zod-4.6.7.tgz\",\n  \"integrity\": \"sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==\",\n  \"fileCount\": 840,\n  \"unpackedSize\": 6148944,\n  \"attestations\": {\n    \"url\": \"https://registry.npmjs.org/-/npm/v1/attestations/zod@4.6.7\",\n    \"provenance\": {\n      \"predicateType\": \"https://slsa.dev/provenance/v1\"\n    }\n  },\n  \"signatures\": [\n    {\n      \"keyid\": \"SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U\",\n      \"sig\": \"MEUCIQCwQ7Os025hoW1C24cDvgD4t5gynQpYlWHx1ok/Bke33AIgPP2J7w4z9B/fqA62pHpEBvjlB5ScCMm3c0adt03XQlY=\"\n    }\n  ]\n}",
+    "source": "real `npm view zod dist --json` output"
+  },
+  {
+    "label": "json",
+    "text": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2022\",\n    \"module\": \"NodeNext\",\n    \"moduleResolution\": \"NodeNext\",\n    \"strict\": true,\n    \"skipLibCheck\": true,\n    \"noEmit\": true,\n    \"customConditions\": []\n  },\n  \"include\": [\"fixtures/**/*.ts\", \"fixtures/**/*.cts\"]\n}",
+    "source": "https://github.com/colinhacks/zod — packages/integration/tsconfig.json"
+  },
+  {
+    "label": "json",
+    "text": "// Recommended settings for VSCode.\n//\n// Copy to `.vscode/settings.json` at the crate root too use.\n{\n    \"rust-analyzer.linkedProjects\": [\n        \"Cargo.toml\",\n        \"examples/Cargo.toml\"\n    ]\n}",
+    "source": "https://github.com/tokio-rs/axum — contrib/ide/vscode/settings.json",
+    "note": "line comments before the object"
+  },
+  {
+    "label": "json",
+    "text": "{\n  \"$schema\": \"https://openapi.vercel.sh/vercel.json\",\n  \"installCommand\": \"bash -o pipefail -c 'curl -fsSL https://raw.githubusercontent.com/nubjs/nub/0ae8783f1f93763c56dfc827892cfb679e8a0a77/install.sh | bash -s -- 0.8.3 && export PATH=\\\"$HOME/.nub/bin:$PATH\\\" && cd ../.. && nub install --frozen-lockfile'\",\n  \"buildCommand\": \"export PATH=\\\"$HOME/.nub/bin:$PATH\\\" && nub run build\"\n}",
+    "source": "https://github.com/colinhacks/zod — packages/docs/vercel.json",
+    "note": "string values full of shell code"
+  },
+  {
+    "label": "prose",
+    "text": "Welcome to Ruby on Rails! In this guide, we'll walk through the core concepts of\nbuilding web applications with Rails. You don't need any experience with Rails\nto follow along with this guide.\n\nRails is a web framework built for the Ruby programming language. Rails takes\nadvantage of many features of Ruby so we **strongly** recommend learning the\nbasics of Ruby so that you understand some of the basic terms and vocabulary you\nwill see in this tutorial.",
+    "source": "https://github.com/rails/rails — guides/source/getting_started.md L22-29",
+    "note": "hard-wrapped at 80 columns"
+  },
+  {
+    "label": "prose",
+    "text": "HTTPX offers a standard synchronous API by default, but also gives you\nthe option of an async client if you need it.\n\nAsync is a concurrency model that is far more efficient than multi-threading,\nand can provide significant performance benefits and enable the use of\nlong-lived network connections such as WebSockets.\n\nIf you're working with an async web framework then you'll also want to use an\nasync client for sending outgoing HTTP requests.",
+    "source": "https://github.com/encode/httpx — docs/async.md L3-11",
+    "note": "hard-wrapped short lines"
+  },
+  {
+    "label": "prose",
+    "text": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+    "source": "https://github.com/axios/axios — LICENSE L3-7"
+  },
+  {
+    "label": "prose",
+    "text": "Comece desenhando caixas ao redor de cada componente e subcomponente no mockup e nomeando-os. Se você trabalha com um designer, eles podem já ter nomeado esses componentes em sua ferramenta de design. Pergunte a eles!\n\nDependendo do seu background, você pode pensar sobre dividir um design em componentes de diferentes maneiras:",
+    "source": "https://github.com/reactjs/pt-br.react.dev — src/content/learn/thinking-in-react.md L36-38",
+    "note": "pt-BR"
+  },
+  {
+    "label": "prose",
+    "text": "`uv` usará uma versão compatível do Python já instalada em seu sistema, ou baixará uma se necessário.\n\nQuando você executa `uv add`, ele seleciona versões compatíveis do FastAPI e de todos os pacotes dos quais o FastAPI depende. Ele registra as versões exatas em `uv.lock`, tornando possível instalar as mesmas versões dos pacotes posteriormente em outro computador ou ao fazer deploy da aplicação.\n\nCriar ou atualizar este arquivo é chamado de [**locking** das dependências do projeto](https://docs.astral.sh/uv/concepts/projects/sync/). O `uv` faz isso automaticamente quando você adiciona um pacote.",
+    "source": "https://github.com/fastapi/fastapi — docs/pt/docs/tutorial/index.md L89-93",
+    "note": "pt-BR with inline code and a link"
+  }
+]

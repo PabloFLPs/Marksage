@@ -1,0 +1,207 @@
+[
+  {
+    "doc": ":arrow_down: | `git-dirty-added-diff-glyph` | \n:arrow_down: | `git-dirty-deleted-diff-glyph` | \n\n##Search Contributions\n\nStatus | Style | TM Setting\n---|--------|--------",
+    "expect": true,
+    "kind": "heading-nospace",
+    "source": "https://github.com/microsoft/vscode/wiki/Editor-decorations-&-colors#L114"
+  },
+  {
+    "doc": "#Coding Interview University\n\n>Επίσημη έκδοση: [Αγγλικά](https://github.com/jwasham/coding-interview-university/blob/master/README.md)\n",
+    "expect": true,
+    "kind": "heading-nospace",
+    "source": "https://github.com/jwasham/coding-interview-university/blob/HEAD/translations/README-el.md#L1"
+  },
+  {
+    "doc": "\n#A glimpse into the future (v8 3.29)\n## Iteration protocol.",
+    "expect": true,
+    "kind": "heading-nospace",
+    "source": "https://github.com/nodejs/node/wiki/ES6-(a.k.a.-Harmony)-Features-Implemented-in-V8-and-Available-in-Node#L70"
+  },
+  {
+    "doc": "\n### API\n  \n####re!() syntax extension\n\nPro:\n",
+    "expect": true,
+    "kind": "heading-nospace",
+    "source": "https://github.com/rust-lang/rust/wiki/Lib-re#L169"
+  },
+  {
+    "doc": "*[ISO]: International Organization for Standardization",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/nlohmann/json/blob/HEAD/docs/mkdocs/includes/glossary.md#L20",
+    "note": "MkDocs abbreviation syntax"
+  },
+  {
+    "doc": "  -webkit-line-clamp: 2;",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/axios/axios/blob/HEAD/docs/fr/index.md#L162",
+    "note": "CSS inside a <style> block"
+  },
+  {
+    "doc": "  ([#2512](https://github.com/tmux/tmux/issues/2512)) Add a way for\n  command-prompt, confirm-before and possibly choose-tree and similar to print\n  choice to stdout. Options are 1) to add flags to do it (like display-message\n  -p) or 2) permit display-message -p to work when used as the choice command.\n  Perhaps they need a blocking flag.\n\n- ([#1784](https://github.com/tmux/tmux/issues/1784)) A way to disable line",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/tmux/tmux/wiki/Contributing#L175",
+    "note": "wrapped prose that starts with a flag"
+  },
+  {
+    "doc": "يمكن أيضا استخدام هؤلاء لكن اقرأ عنهم أولا. ربما هم من المحاذير\n\n- الجافا سكربت \"JavaScript\"\n-الروبي \"Ruby\"\n\nهذا مقال كتبته عن اختيار لغة المقابلة: [Pick One Language for the Coding Interview](https://startupnextdoor.com/important-pick-one-language-for-the-coding-interview/).\n",
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/jwasham/coding-interview-university/blob/HEAD/translations/README-ar.md#L307",
+    "note": "Arabic, RTL"
+  },
+  {
+    "doc": "    +SIMD +AVX (runtime)",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/BurntSushi/ripgrep/blob/HEAD/benchsuite/runs/2020-10-14-archlinux-frink/README.md#L16",
+    "note": "indented code block (build features)"
+  },
+  {
+    "doc": "    - [Algoritma kNN K-d tree (video)](https://www.youtube.com/watch?v=Y4ZgLlDfKDg)\n\n- ### Skip lists\n    -\"Ini adalah semacam struktur data kultus\" - Skiena\n    - [Pengacakan: Skip lists (video)](https://www.youtube.com/watch?v=2g9OSRKJuzM&index=10&list=PLUl4u3cNGP6317WaSNfmCvGym2ucw3oGp)\n    - [Untuk animasi dan sedikit lebih detail](https://en.wikipedia.org/wiki/Skip_list)\n",
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/jwasham/coding-interview-university/blob/HEAD/translations/README-id.md#L1673",
+    "note": "Indonesian; nested list"
+  },
+  {
+    "doc": "\n      su - test123\n      cd /opt/NzbDrone/\n      -su cd: /opt/NzbDrone/: Permission denied",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Sonarr/Sonarr/wiki/Autostart-on-Debian#L158",
+    "note": "terminal output in an indented code block"
+  },
+  {
+    "doc": "\nOptions:\n  -s, --search <search>...\n          search remote repositories for matching strings\n",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/clap-rs/clap/blob/HEAD/examples/snapshots/pacman.txt#L46",
+    "note": "CLI --help output"
+  },
+  {
+    "doc": "- Does this behavior feel aligned with the rest of VS Code?\n- Could a new user understand it? Can they learn about it?\n- Can I break it? What happens if I try entering invalid values or going off of the recommended flow\n-Does it work nicely for all sorts of VS Code setups and configurations and usage patterns (see notes on UI testing below)\n\n# Basics for testing UI features\n- Is the feature accessible?",
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/microsoft/vscode/wiki/Endgame-testing-and-verification#L28"
+  },
+  {
+    "doc": "\n**Returns:**\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-4.1)#L2996",
+    "note": "bold label before a table"
+  },
+  {
+    "doc": "<!-- endSnippet -->\n\n**Reasoning**:\n\nThe triggering conditions and logic are spread across different sections. This design is not ideal for extensibility since adding more conditions can make the code less readable.",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/App-vNext/Polly/blob/HEAD/docs/strategies/retry.md#L623",
+    "note": "bold label"
+  },
+  {
+    "doc": "\nNone\n\n**Returns:**\n\n| HTTP Status Code | Scenario      |\n| ---------------- | ------------- |",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-5.0)#L715",
+    "note": "bold label before a table"
+  },
+  {
+    "doc": "\n*(Note: The optional \"nodejs-legacy\" package from Debian helps prevent a conflict with the Amateur Packet Radio \"Node\" Program)*\n\n**Available architectures:**\n\n* **i386** (32-bit)\n* **amd64** (64-bit)",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/nodejs/node/wiki/Installing-Node.js-via-package-manager#L62",
+    "note": "bold label before a list"
+  },
+  {
+    "doc": "**Endpoint: \"/system/backup\"**\n\n## GET ##\n",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Sonarr/Sonarr/wiki/System-Backup#L1",
+    "note": "acts as the page title (line 1)"
+  },
+  {
+    "doc": "<!-- endSnippet -->\n\n**Reasoning**:\n\nIn this approach, we leverage the escalation mechanism provided by Polly rather than creating our own through nesting. `CancellationToken` values are automatically propagated between the strategies for you.",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/App-vNext/Polly/blob/HEAD/docs/strategies/fallback.md#L389",
+    "note": "bold label"
+  },
+  {
+    "doc": "<a name=\"default-password-reset-subject\"></a>\n#### Default Password Reset Subject\n\n**Likelihood Of Impact: Very Low**\n\nLaravel's default password reset mail subject has changed:\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/laravel/docs/blob/HEAD/upgrade.md#L283",
+    "note": "metadata line under a real heading"
+  },
+  {
+    "doc": "\nNvim GUIs are implemented as processes communicating with Nvim. Originally the UI protocol exposed most functionality as a single, terminal-like screen grid. Work has been done to allow UIs (including embeddings in GUI editors, like VSCode) to render the screen layout themselves, based on semantic updates from Nvim. Some screen elements like the cmdline, popupmenu and message area has been externalized. As a result of a 2018 [GSOC project](https://github.com/neovim/neovim/issues/8320), windows can be drawn on separate grids.\n\n**Expected Result:**\n\nFurther improvements to the GUI protocol.\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/neovim/neovim/wiki/Google-Summer-of-Code#L193",
+    "note": "bold label"
+  },
+  {
+    "doc": "When using RegEx in window title you have to start and end the string with `//` (double slashes).  \nFor example `//Coconut//`\n\n**Note**\n - `.*` -> means throw away everything\n - `()` -> means select the part inside the bracket\n - `(.*)` -> means select everything",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/keepassxreboot/keepassxc/wiki/Autotype-Window-Title#L16",
+    "note": "bold label before a list"
+  },
+  {
+    "doc": "  - See `ArgMatches::grouped_values_of` behind `unstable-grouped` feature flag\n  - See [clap-rs/clap#1026](https://github.com/clap-rs/clap/issues/1026)\n\n**From structopt 0.3.25**\n\n- Allow defaulting with native types via new `default_value_t [= <expr>]` attribute ([clap-rs/clap#1694](https://github.com/clap-rs/clap/issues/1694))\n- New `update` API",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/clap-rs/clap/blob/HEAD/CHANGELOG.md#L2217",
+    "note": "changelog sub-section"
+  },
+  {
+    "doc": "### Language Specific\n## ភាសាជាក់លាក់\n\n**អ្នកត្រូវជ្រើសរើសភាសាសំរាប់សំភាសន៍ (សូមមើលខាងលើ) ។**\n\nនេះជាអ្នីដែលខ្ញុំគិតថាអ្នកគួរមេីល។ ខ្ញុំមិនមានធនធានសម្រាប់ភាសាទាំងអស់ទេ។ ខ្ញុំស្វាគមន៍ការដាក់បន្ថែមពីអ្នក។\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/jwasham/coding-interview-university/blob/HEAD/translations/README-kh.md#L302",
+    "note": "Khmer; emphasised sentence"
+  },
+  {
+    "doc": "### Options ###\n**Automatic** - Enable automatic updating, please test the update process manually to ensure it will work for your setup before enabling\n\n**Mechanism**   \n  - **Built-in** - Use Sonarr's own updater\n  - **Script** - Use a custom external script to update Sonarr, it will need to take care of stopping and starting Sonarr during the update process\n  - **Apt** - Set by the Debian/Ubuntu package when updating is managed exclusively via Apt",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/Sonarr/Sonarr/wiki/Updating#L16",
+    "note": "settings field label"
+  },
+  {
+    "doc": "Only bug fixes, no API changes, no new features.\nExcept as necessary for security fixes.\n\n**Minor `Y`**\n\nNew features, may contain API changes (Serve as major versions of Semver).\nBreaking changes are paired with deprecation notices in the previous minor",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/rails/rails/blob/HEAD/guides/source/maintenance_policy.md#L22",
+    "note": "definition-style term; arguable"
+  },
+  {
+    "doc": "- requests for a path that gets deleted later maybe rewatched by reusing an existing recursive watcher or via `fs.watchFile`\n\n**`DiskFileSystemProvider`**\n- every request to `watch` is passed through and not deduplicated in any way\n",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/microsoft/vscode/wiki/File-Watcher-Internals#L71",
+    "note": "sub-section naming a component"
+  },
+  {
+    "doc": "\n**Modifying calls to class methods**\n",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/rails/rails/blob/HEAD/guides/source/configuring.md#L4501",
+    "note": "caption over a code example; arguable"
+  },
+  {
+    "doc": "* `e.keyCode` is the equivalent of Windows **virtual-keys**.\n* `e.key` is the **mostly** produced character, except for dead keys, where it has the value `Dead`.\n\n**Keyboard layouts under Windows consist of two mappings**:\n* the first one maps scan codes to virtual keys. For example, that is how <kbd>Z</kbd> and <kbd>Y</kbd> are swapped on the GER keyboard layout.\n* the second one maps virtual keys and modifiers to produced characters. For example, <kbd>Shift+0x37</kbd> produces `&` on the US keyboard layout, while <kbd>Shift+0x37</kbd> produces `/` on the GER keyboard layout.\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/microsoft/vscode/wiki/Keybinding-Issues#L197",
+    "note": "bold lead-in sentence"
+  },
+  {
+    "doc": "accessor refers to the *entire* composite key rather than the individual `id`\ncolumn. You assign it as `id: [1, 2]` which maps to `store_id: 1` and `id: 2`.\nAttempting to assign the `id` to a single value (`Order.create!(store_id: 1, id:\n2)`) results in a `TypeError`, which can be a bit surprising.\n\nNOTE: We use `reload` above because we want to see the SQL. Without it,\n`book.order` returns the cached version without querying the database, so no SQL",
+    "expect": false,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/rails/rails/blob/HEAD/guides/source/active_record_composite_primary_keys.md#L296",
+    "note": "wrapped prose"
+  }
+]
