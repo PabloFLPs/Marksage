@@ -1,16 +1,17 @@
 # Smart Assist fixtures
 
-Two sets per feature. `npm run eval:assist` scores both, separately; `-- --real` runs only the held-out set.
+Up to three sets per feature. `npm run eval:assist` scores each separately; `-- --real` runs only the held-out set.
 
 | File | Set | n | What it is |
 |---|---|---|---|
-| `fences.json` / `pastes.json` / `lines.json` | authored | 42 / 15 / 10 | Written alongside the heuristics. Regression tests: they should stay at 100 %, which says nothing about real-world quality. |
+| `fences.json` / `pastes.json` / `lines.json` | authored | 42 / 15 / 23 | Written alongside the heuristics. Regression tests: they should stay at 100 %, which says nothing about real-world quality. |
+| `lines.dev.json` | real, dev | 36 | Same method as `lines.real.json`, but from *other* sources (23 repos/wikis: javascript-algorithms, 30-Days-Of-JavaScript and system-design-primer translations, clean-code-javascript, ossu, fd, bat, and the fzf, sway, Proton, jq, rclone, ranger, yabai, scrcpy wikis…). Tune F3 against this one. |
 | `fences.real.json` | real, held out | 64 | Fenced code blocks from real docs (25 public repos), labelled with the author's own info string. |
 | `pastes.real.json` | real, held out | 31 | Excerpts of real files and real command output, as someone would paste them. |
 | `lines.real.json` | real, held out | 30 | Lines the F3 pre-filter flags in real docs and wikis, labelled by hand. |
 
-**Held-out rule:** don't tune heuristics (or Laya prompts) against the `*.real.json` sets. If a fix needs
-examples, add them to the authored set or build a separate dev set from *other* sources, then re-run
+**Held-out rule:** don't tune heuristics (or Laya prompts) against the `*.real.json` sets. Tune against
+the authored and `*.dev.json` sets (a dev set comes from *other* sources than the real set), then run
 the real set once to measure. Every real fixture has a `source` so it can be traced; `note` marks
 the hard or arguable cases.
 

@@ -165,7 +165,8 @@ the F1 language only if *that* decision also passes the gate. `prose` never sugg
 
 ### F3 — Structure intent (`noul`)
 
-**Trigger.** Near-miss Markdown on a line that is **not** the one being typed:
+**Trigger.** Near-miss Markdown on a line that is **not** the one being typed, outside code —
+fenced blocks, indented code blocks and raw HTML (`<pre>`, `<style>`, …) are skipped:
 
 | Candidate | Fix |
 |---|---|
@@ -177,9 +178,15 @@ the F1 language only if *that* decision also passes the gate. `prose` never sugg
 
 **Heuristic**. The engine gets the ±2 lines of context and a statement
 such as *"The line "**Installation**" is meant to be a section heading."*. The probability starts
-from a per-kind prior and is adjusted by evidence: long bold lines or lines ending in `.`/`!`/`?`
-are emphasis, not headings; `-5 degrees` is a negative number; `*word*` is emphasis; neighbouring
-list items raise confidence for list fixes.
+from a per-kind prior and is adjusted by evidence:
+
+- **Bold lines** that are long, end like a sentence (`.` `!` `?`, also `。` `！` `？` and other scripts),
+  end with a colon (`**Returns:**`), start with a callout word (`Note`, `Warning`, `Tip`, `Q`/`A`,
+  `Nota`, `Atenção`, `Dica`, …) or are just a link are labels or emphasis, not headings.
+- **Dash lines** that look like CLI flags (`-s, --search`), flag sets (`+SIMD +AVX`), CSS
+  (`-webkit-line-clamp: 2;`) or negative numbers (`-5 degrees`) aren't list items; `*word*` is emphasis.
+- **List fixes** need company: neighbouring list items raise confidence; a lone `*line` is more
+  often a footnote than a bullet, so it stays quiet.
 
 ### F4 — Readability (`score`)
 
@@ -273,15 +280,20 @@ including Portuguese prose and mixed-language text. For each feature we track:
 - **Calibration** — whether "90 % confident" really means ~90 % correct;
 - **Latency** per decision.
 
-| Feature | Examples | Accuracy | Shown | Precision when shown |
-|---|---|---|---|---|
-| F1 code-block language | 42 | 100 % | 29 | 100 % |
-| F2 smart paste | 15 | 100 % | 11 | 100 % |
-| F3 structure hints | 10 | 100 % | 6 | 100 % |
+There are two kinds of examples. The **written** set was made alongside the rules — it catches
+regressions, but scores near 100 % by construction. The **real-world** set is taken from real
+documentation, GitHub wikis, community translations, data files and terminal output (Portuguese
+included), and the rules are never tuned against it — so it's the honest number:
 
-Heuristic decisions take well under a millisecond. The set was written alongside the heuristics,
-so these numbers are optimistic; it keeps growing with real-world samples — and Laya will have
-to beat these numbers on the same set before it's switched on.
+| Feature | Real-world examples | Accuracy | Shown | Precision when shown |
+|---|---|---|---|---|
+| F1 code-block language | 64 | 59 % | 14 | 93 % |
+| F2 smart paste | 31 | 81 % | 17 | 100 % |
+| F3 structure hints | 30 | 93 % | 14 | 86 % |
+
+Read it like this: when a suggestion appears it's almost always right; the cost of that caution
+is that many real code blocks get no suggestion at all (F1). Heuristic decisions take well under
+a millisecond. Laya will have to beat these numbers on the same real-world set before it's switched on.
 
 ---
 

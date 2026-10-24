@@ -1,0 +1,234 @@
+[
+  {
+    "doc": "### Added\n- Article Git - the simple guide to the prerequisite section\n\n##[1.1.1] 2015-10-11\n### Fixed\n- Fix typos\n  - As MOOC is a \"Massive Open Online Course\" MOOC course is redundant",
+    "expect": true,
+    "kind": "heading-nospace",
+    "source": "https://github.com/ossu/computer-science/blob/HEAD/CHANGELOG.md#L316"
+  },
+  {
+    "doc": "[kwin]: https://github.com/Genymobile/scrcpy/issues/114#issuecomment-378778613\n\n\n###비디오 스트림을 열 수 없는 에러가 발생합니다.(Could not open video stream).\n\n여러가지 원인이 있을 수 있습니다. 가장 흔한 원인은 디바이스의 하드웨어 인코더(hardware encoder)가\n주어진 해상도를 인코딩할 수 없는 경우입니다.",
+    "expect": true,
+    "kind": "heading-nospace",
+    "source": "https://github.com/Genymobile/scrcpy/wiki/FAQ.ko#L71"
+  },
+  {
+    "doc": "Çoxsətirli şərhlər  \n Çoxsətirli şərhlər bir neçə sətiri ehtiva edə bilir  \n JavaScript web-in dilidir  \n */\n\n##### Sintaksis\n",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Asabeneh/30-Days-Of-JavaScript/blob/HEAD/Azerbaijani/readMe.md#L238",
+    "note": "comment closer in unfenced code"
+  },
+  {
+    "doc": "  *node = nút,",
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/trekhleb/javascript-algorithms/blob/HEAD/src/data-structures/linked-list/README.vi-VN.md#L38",
+    "note": "Vietnamese glossary list (neighbours are candidates too)"
+  },
+  {
+    "doc": "    Los comentarios multilínea pueden tomar múltiples líneas.\n\n    JavaScript es el lenguaje de la web\n    */\n\n##### Sintaxis\n",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Asabeneh/30-Days-Of-JavaScript/blob/HEAD/Spanish/readme.md#L179",
+    "note": "comment closer in indented code"
+  },
+  {
+    "doc": "| PATCH | Partially updates a resource | No | No | Yes if response contains freshness info |\n| DELETE | Deletes a resource | Yes | No | No |\n\n*Can be called many times without different outcomes.\n\nHTTP is an application layer protocol relying on lower-level protocols such as **TCP** and **UDP**.\n",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/donnemartin/system-design-primer/blob/HEAD/README.md#L1392",
+    "note": "footnote marker after a table"
+  },
+  {
+    "doc": "| PATCH  | 更新部分資料                     | No    | No     | Yes if response contains freshness info |\n| DELETE | 刪除資料                         | Yes   | No     | No                                      |\n\n*指的是當進行多次相同請求時，結果是相同的。\n\nHTTP 是依賴於較底層的協議(例如：**TCP** 和 **UDP**) 的應用層協議。\n",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/donnemartin/system-design-primer/blob/HEAD/README-zh-TW.md#L1344",
+    "note": "footnote marker (Chinese)"
+  },
+  {
+    "doc": "\n### On Ubuntu (最新の `.deb` パッケージを使用)\n*... や他のDebianベースのLinuxディストリビューション\n\nbatの最新リリースを実行する場合、または Ubuntu/Debian の古いバージョンを使用している場合は、[release page](https://github.com/sharkdp/bat/releases) から最新の `.deb` パッケージをダウンロードし、",
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/sharkdp/bat/blob/HEAD/doc/README-ja.md#L203",
+    "note": "italic subtitle missing its closing *"
+  },
+  {
+    "doc": "\n**𝑸**: What language bindings are available for Python?\n\n**A**:\n\n    pip install jq # For details, see https://pypi.python.org/pypi/jq\n    pip install pyjq # For details, see https://pypi.python.org/pypi/pyjq",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/jqlang/jq/wiki/FAQ#L1162",
+    "note": "Q&A label"
+  },
+  {
+    "doc": "\n- Проверка типов данных: чтобы проверить тип данных определённого типа данных, мы используем `typeof` и также меняем один тип данных на другой.\n\n**Пример:**\n\n```js\n// Различные типы данных JavaScript",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/Asabeneh/30-Days-Of-JavaScript/blob/HEAD/RU/02_Day/02_day_data_types.md#L790"
+  },
+  {
+    "doc": "\n**Q: 面接のためには、ここにあるものすべてをやらないといけないのでしょうか？**\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/donnemartin/system-design-primer/blob/HEAD/README-ja.md#L185",
+    "note": "question sentence"
+  },
+  {
+    "doc": "\n**[⬆ back to top](#table-of-contents)**\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ryanmcdermott/clean-code-javascript/blob/HEAD/README.md#L2316",
+    "note": "bold link"
+  },
+  {
+    "doc": "* 添加 [**MySQL 读取副本**](https://github.com/donnemartin/system-design-primer#master-slave-replication) 来减少写主线程的负载\n* 添加更多 **Web 服务器** and **应用服务器** 来提高响应\n\n**折中方案, 可选方案, 和其他细节:**\n\n* 查阅以上链接获得更多细节\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/donnemartin/system-design-primer/blob/HEAD/solutions/system_design/scaling_aws/README-zh-Hans.md#L244"
+  },
+  {
+    "doc": "\n**Exemplo: 1**\n",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Asabeneh/30-Days-Of-JavaScript/blob/HEAD/Portuguese/Dia_02_Tipos_Dados/dia_02_tipos_dados.md#L388",
+    "note": "example caption"
+  },
+  {
+    "doc": "\n## Examples\n\n**Example #1**\n\nInput:\n```",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/trekhleb/javascript-algorithms/blob/HEAD/src/algorithms/string/regular-expression-matching/README.md#L18",
+    "note": "example caption"
+  },
+  {
+    "doc": "\n## Cara menggunakan repositori ini\n\n**Meng-_install_ semua dependensi**\n\n```\nnpm install",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/trekhleb/javascript-algorithms/blob/HEAD/README.id-ID.md#L212"
+  },
+  {
+    "doc": "\n*The trailing letter and number (a2) will depend on how many disks are attached.*\n\n**UUID**\n```\n$ sudo blkid\n```",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Windows#L61"
+  },
+  {
+    "doc": "\n**Uruchom ESLint**\n",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/trekhleb/javascript-algorithms/blob/HEAD/README.pl-PL.md#L212"
+  },
+  {
+    "doc": "\n### Core ethics\n\n**Topics covered**:\n`Social Context`\n`Analytical Tools`\n`Professional Ethics`",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ossu/computer-science/blob/HEAD/README.md#L287"
+  },
+  {
+    "doc": "\nKodumuza yorum ekleyebiliriz. Yorumlar, kodu daha okunabilir hale getirmek ve kodumuzda açıklamalar bırakmak için çok önemlidir. JavaScript, kodumuzun yorum bölümünü çalıştırmaz. JavaScript'te `//` ile başlayan satırlar ve `/*...*/` işaretler arasında yer alan herhangi metinler yorum olarak algılanır.\n\n**Örnek: Tek Satırlı Açıklama**\n\n```js\n// Bu ilk yorum",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Asabeneh/30-Days-Of-JavaScript/blob/HEAD/Turkish/readMe.md#L227"
+  },
+  {
+    "doc": "\n**Install Dependencies (RVM, for docs)**\n",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jqlang/jq/wiki/Installation#L149"
+  },
+  {
+    "doc": "\n**Explanation**\n",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jqlang/jq/wiki/Cookbook#L535"
+  },
+  {
+    "doc": "\n**macOS Big Sur:**\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(from-HEAD)#L24",
+    "note": "trailing colon = label"
+  },
+  {
+    "doc": "\n![Imgur](http://i.imgur.com/bWxPtQA.png)\n\n**重要提示：不要直接从最初设计跳到最终设计！**\n\n现在你要 1) **基准测试、负载测试**。2) **分析、描述**性能瓶颈。3) 在解决瓶颈问题的同时，评估替代方案、权衡利弊。4) 重复以上步骤。请阅读[设计一个系统，并将其扩大到为数以百万计的 AWS 用户服务](../scaling_aws/README.md) 来了解如何逐步扩大初始设计。\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/donnemartin/system-design-primer/blob/HEAD/solutions/system_design/web_crawler/README-zh-Hans.md#L260"
+  },
+  {
+    "doc": "\n**Step 3: Encrypt rclone configuration file**\n",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/rclone/rclone/wiki/Windows-PowerShell-use-rclone-password-command-for-config-file-password#L29"
+  },
+  {
+    "doc": "The space key should now behave as the Super/Windows/Mod4 key when held and combined with another key.\n\n\n**If your chording style does not agree with this method:**\n\nYou may find that your typing style makes it hard to hit the \"chord timing\" needed to trigger the Mod4 key.\nThere is an alternative plugin for interception-tools you can use which changes the behaviour of the tool. Feel free to play with the \"TAP_MILLISEC\" value in `/etc/interception/spacetomod4.yaml` to adjust it to your taste (increase it if you find you trigger the Mod key by accident as you type).",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/swaywm/sway/wiki/Tricks#L185"
+  },
+  {
+    "doc": "\n## Available in Proton 8.0:\n\n**Note: Proton 8.0 requires a GPU that supports Vulkan 1.3.**\n\n###### 8.0-5:\n- Now playable:",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ValveSoftware/Proton/wiki/Changelog#L829",
+    "note": "admonition sentence"
+  },
+  {
+    "doc": "### Debian stable steps\nThe stable debian apt source list uses a 0.49.2 version of meson.\n\n**get newer version of meson**\nlisted here there is 3 ways of doing that\n\n1. A **safe and easy** method is to download the deb directly from packages.debian.org and use `sudo apt install /path/to/package/name.deb` or **gdebi** to try and install it. If there’s dependency issues with the stable libraries, it will refuse to do so.",
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/swaywm/sway/wiki/Debian-10-(Buster)-Installation#L41"
+  },
+  {
+    "doc": "\nThe image preview method `kitty` can be used with the kitty terminal.\n\n**NOTE: Tested with kitty 0.14.6**\n\n* Add the following lines to your `~/.config/ranger/rc.conf`:\n  ```",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ranger/ranger/wiki/Image-Previews#L61",
+    "note": "admonition"
+  },
+  {
+    "doc": "\nThis is an **automated and untested** release of Proton that happens on Experimental's beta branch (find Proton Experimental in Steam's Library -> right click on the entry or click the cog icon in the main view after selecting the entry -> properties -> game versions & betas). It automatically picks up latest developemnt in dxvk, vkd3d-proton, dxvk-nvapi, vkd3d and Proton's wine.\n\n**It can eat your game prefix / saves. Use it at your own risk.**",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ValveSoftware/Proton/wiki/Proton-Versions#L19",
+    "note": "emphasised sentences"
+  },
+  {
+    "doc": "\nEnvironment variables are inherited from the process that starts sway. You need to set variables there.\n\n**We will discuss the following solutions:** \n- Display Manager (Which is usually also the login manager)\n- systemd / environment.d: use the EnvironmentFile= key and an environment file\n- PAM",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/swaywm/sway/wiki/Setting-Environmental-Variables#L7"
+  },
+  {
+    "doc": "\n**macOS Big Sur:**\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#L17"
+  },
+  {
+    "doc": "```\nfor some numbers C,R after `set myterm to (make new terminal)`\n\n**And for zsh**:\n\n```sh\n#!/usr/local/bin/zsh",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/junegunn/fzf/wiki/On-MacVim-with-iTerm2#L139"
+  },
+  {
+    "doc": "## Contributing to *fd*\n\n**Thank you very much for considering contributing to this project!**\n\nWe welcome any form of contribution:\n",
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/sharkdp/fd/blob/HEAD/CONTRIBUTING.md#L3",
+    "note": "emphasised sentence"
+  },
+  {
+    "doc": "  1.A birleşim B'yi bulun",
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/Asabeneh/30-Days-Of-JavaScript/blob/HEAD/Turkish/10_Day_Sets_And_Maps/10_day_Sets_and_Maps.md#L406"
+  },
+  {
+    "doc": "    - Find the average age(all items divided by number of items)\n    - Find the range of the ages(max minus min)\n    - Compare the value of (min - average) and (max - average), use _abs()_ method\n1.Slice the first ten countries from the [countries array](https://github.com/Asabeneh/30DaysOfJavaScript/tree/master/data/countries.js)\n1. Find the middle country(ies) in the [countries array](https://github.com/Asabeneh/30DaysOfJavaScript/tree/master/data/countries.js)\n2. Divide the countries array into two equal arrays if it is even.  If countries array is not even , one more country for the first half.\n  ",
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/Asabeneh/30-Days-Of-JavaScript/blob/HEAD/05_Day_Arrays/05_day_arrays.md#L768"
+  }
+]

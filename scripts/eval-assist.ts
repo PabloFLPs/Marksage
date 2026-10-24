@@ -1,23 +1,27 @@
 /**
  * Smart Assist fixture eval — heuristic engine (Laya column once wired).
- *   node --experimental-strip-types scripts/eval-assist.ts            # both sets
+ *   node --experimental-strip-types scripts/eval-assist.ts            # all sets
  *   node --experimental-strip-types scripts/eval-assist.ts --real     # held-out real-world set only
  *
- * Two fixture sets per feature (see src/assist/__fixtures__/README.md):
+ * Fixture sets (see src/assist/__fixtures__/README.md):
  *   authored  — written alongside the heuristics (regression tests; optimistic by construction)
- *   real      — excerpts from real documents, held out: never tune heuristics against them
+ *   dev       — real-world excerpts to tune against (F3 only so far)
+ *   real      — real-world excerpts, held out: never tune heuristics against them
  */
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { HeuristicEngine } from '../src/assist/heuristicEngine.ts'
 import { passesGate } from '../src/assist/types.ts'
 import { LANGUAGES, PASTE_KINDS, Q } from '../src/assist/questions.ts'
 import { findStructureCandidates } from '../src/assist/prefilter.ts'
 
-const load = (f: string) => JSON.parse(readFileSync(new URL(`../src/assist/__fixtures__/${f}`, import.meta.url), 'utf8'))
+const fixture = (f: string) => new URL(`../src/assist/__fixtures__/${f}`, import.meta.url)
+const load = (f: string) => JSON.parse(readFileSync(fixture(f), 'utf8'))
 const engine = new HeuristicEngine()
 const realOnly = process.argv.includes('--real')
-const SETS = realOnly ? (['real'] as const) : (['authored', 'real'] as const)
-const file = (base: string, set: 'authored' | 'real') => (set === 'authored' ? `${base}.json` : `${base}.real.json`)
+type Set = 'authored' | 'dev' | 'real'
+const SETS: Set[] = realOnly ? ['real'] : ['authored', 'dev', 'real']
+const file = (base: string, set: Set) => (set === 'authored' ? `${base}.json` : `${base}.${set}.json`)
+const has = (base: string, set: Set) => existsSync(fixture(file(base, set)))
 
 type Row = { label: string; pred: string; conf: number; shown: boolean; source?: string }
 function report(name: string, rows: Row[], ms: number) {
@@ -37,10 +41,11 @@ function report(name: string, rows: Row[], ms: number) {
 }
 
 for (const set of SETS) {
-  console.log(`\n# ${set === 'authored' ? 'Authored set (written with the rules — optimistic)' : 'Real-world set (held out)'}`)
+  const TITLES = { authored: 'Authored set (written with the rules — optimistic)', dev: 'Dev set (real-world, used for tuning)', real: 'Real-world set (held out)' }
+  console.log(`\n# ${TITLES[set]}`)
 
   // F1 — code-fence language
-  {
+  if (has('fences', set)) {
     const t0 = performance.now()
     const rows: Row[] = []
     for (const f of load(file('fences', set))) {
@@ -52,7 +57,7 @@ for (const set of SETS) {
   }
 
   // F2 — smart paste
-  {
+  if (has('pastes', set)) {
     const t0 = performance.now()
     const rows: Row[] = []
     for (const p of load(file('pastes', set))) {
@@ -63,7 +68,7 @@ for (const set of SETS) {
   }
 
   // F3 — structure intent
-  {
+  if (has('lines', set)) {
     const t0 = performance.now()
     const rows: Row[] = []
     for (const l of load(file('lines', set))) {

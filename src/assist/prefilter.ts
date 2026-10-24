@@ -10,14 +10,35 @@ export interface Line {
   start: number // offset of first char
   end: number // offset after last char (excluding \n)
   inFence: boolean // inside (or delimiting) a fenced code block
+  /** Not prose: fenced code, an indented code block, or a raw HTML block (`<pre>`, `<style>`, …). */
+  inCode: boolean
 }
 
 const FENCE_RE = /^( {0,3})(`{3,}|~{3,})(.*)$/
+const LIST_ITEM_RE = /^(\s*)([-+*]|\d{1,9}[.)])( {1,4}|\t)(?=\S)/
+const RAW_HTML_OPEN_RE = /^ {0,3}<(pre|script|style|textarea)(?=[\s>]|$)/i
+const RAW_HTML_CLOSE_RE = /<\/(pre|script|style|textarea)>/i
+
+/** Leading whitespace width, tabs counting as 4 columns (CommonMark tab stops are close enough here). */
+function indentOf(line: string): number {
+  let w = 0
+  for (const ch of line) {
+    if (ch === ' ') w++
+    else if (ch === '\t') w += 4 - (w % 4)
+    else break
+  }
+  return w
+}
 
 export function splitLines(text: string): Line[] {
   const lines: Line[] = []
   let offset = 0
   let fence: { char: string; len: number } | null = null
+  // CommonMark blocks that are code without a fence:
+  let inHtml = false // raw HTML block (type 1) until its closing tag
+  let inIndented = false // indented code block (≥ 4 columns past the enclosing list item's content)
+  let listContent: number | null = null // content column of the list item we are inside, if any
+  let prevBlank = true
   for (const raw of text.split('\n')) {
     const m = FENCE_RE.exec(raw)
     let inFence = fence !== null
@@ -33,7 +54,31 @@ export function splitLines(text: string): Line[] {
         inFence = true
       }
     }
-    lines.push({ text: raw, start: offset, end: offset + raw.length, inFence })
+
+    let inCode = inFence
+    const blank = raw.trim() === ''
+    if (!inFence) {
+      if (inHtml) {
+        inCode = true
+        if (RAW_HTML_CLOSE_RE.test(raw)) inHtml = false
+      } else if (RAW_HTML_OPEN_RE.test(raw)) {
+        inCode = true
+        inHtml = !RAW_HTML_CLOSE_RE.test(raw)
+        inIndented = false
+      } else if (!blank) {
+        const indent = indentOf(raw)
+        const item = LIST_ITEM_RE.exec(raw)
+        // Leaving the list: an unindented paragraph after a blank line.
+        if (!item && listContent !== null && prevBlank && indent < listContent) listContent = null
+        const base = listContent ?? 0
+        // Indented code can't interrupt a paragraph, so it needs a blank line before it (or to continue).
+        inIndented = !item && indent >= base + 4 && (prevBlank || inIndented)
+        inCode = inIndented
+        if (item && !inIndented) listContent = indentOf(item[1]) + item[2].length + Math.max(1, indentOf(item[3]))
+      }
+    }
+    prevBlank = blank
+    lines.push({ text: raw, start: offset, end: offset + raw.length, inFence, inCode })
     offset += raw.length + 1
   }
   return lines
@@ -123,7 +168,7 @@ export function findStructureCandidates(text: string): StructureCandidate[] {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
-    if (line.inFence) continue
+    if (line.inCode) continue
     const t = line.text
     const ctx = lines
       .slice(Math.max(0, i - 2), i + 3)
@@ -140,7 +185,8 @@ export function findStructureCandidates(text: string): StructureCandidate[] {
     } else if ((m = /^(={2,6})\s*([^=].*?)\s*\1\s*$/.exec(t))) {
       const level = Math.min(6, Math.max(1, 7 - m[1].length))
       push('heading-wiki', `${'#'.repeat(level)} ${m[2]}`, `The line "${t}" is meant to be a heading.`)
-    } else if ((m = /^(\s*)([-+*])([^\s\-+*].*)$/.exec(t)) && !/^\s*\*[^*]+\*/.test(t)) {
+    } else if ((m = /^(\s*)([-+*])([^\s\-+*./>=|<)\]}].*)$/.exec(t)) && !/^\s*\*[^*]+\*/.test(t)) {
+      // `*/`, `->`, `*...` and the like are code or punctuation, not a missing space.
       push('list-nospace', `${m[1]}${m[2]} ${m[3]}`, `The line "${t}" is meant to be a bullet list item.`)
     } else if ((m = /^(\s*)(\d{1,3})([.)])([^\s\d.)].*)$/.exec(t))) {
       push('ordered-nospace', `${m[1]}${m[2]}${m[3]} ${m[4]}`, `The line "${t}" is meant to be a numbered list item.`)

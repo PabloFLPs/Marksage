@@ -164,7 +164,8 @@ com a linguagem do F1 apenas se *essa* decisão também passar no filtro. `prose
 
 ### F3 — Intenção de estrutura (`noul`)
 
-**Gatilho.** Markdown "quase certo" numa linha que **não** é a que está sendo digitada:
+**Gatilho.** Markdown "quase certo" numa linha que **não** é a que está sendo digitada, fora de código —
+blocos cercados, blocos de código indentados e HTML bruto (`<pre>`, `<style>`, …) são ignorados:
 
 | Candidato | Correção |
 |---|---|
@@ -176,9 +177,16 @@ com a linguagem do F1 apenas se *essa* decisão também passar no filtro. `prose
 
 **Heurística**. O mecanismo recebe ±2 linhas de contexto e uma
 afirmação como *"A linha "**Instalação**" deveria ser um título de seção."*. A probabilidade parte
-de um valor inicial por tipo e é ajustada pelas evidências: linhas em negrito longas ou terminadas
-em `.`/`!`/`?` são ênfase, não título; `-5 graus` é um número negativo; `*palavra*` é ênfase; itens
-de lista vizinhos aumentam a confiança nas correções de lista.
+de um valor inicial por tipo e é ajustada pelas evidências:
+
+- **Linhas em negrito** longas, que terminam como frase (`.` `!` `?`, também `。` `！` `？` e outras
+  escritas), terminam com dois-pontos (`**Retorno:**`), começam com uma palavra de aviso (`Nota`,
+  `Atenção`, `Dica`, `Note`, `Warning`, `P`/`R`, …) ou são só um link são rótulos ou ênfase, não títulos.
+- **Linhas com traço** que parecem flags de linha de comando (`-s, --search`), conjuntos de flags
+  (`+SIMD +AVX`), CSS (`-webkit-line-clamp: 2;`) ou números negativos (`-5 graus`) não são itens de
+  lista; `*palavra*` é ênfase.
+- **Correções de lista** precisam de companhia: itens de lista vizinhos aumentam a confiança; uma
+  linha `*solta` costuma ser nota de rodapé, não marcador, então fica em silêncio.
 
 ### F4 — Legibilidade (`score`)
 
@@ -275,15 +283,20 @@ acompanhamos:
 - **Calibração** — se "90 % de confiança" significa mesmo ~90 % de acerto;
 - **Latência** por decisão.
 
-| Recurso | Exemplos | Acurácia | Exibidas | Precisão quando exibida |
-|---|---|---|---|---|
-| F1 linguagem do bloco | 42 | 100 % | 29 | 100 % |
-| F2 colagem inteligente | 15 | 100 % | 11 | 100 % |
-| F3 dicas de estrutura | 10 | 100 % | 6 | 100 % |
+Há dois tipos de exemplo. O conjunto **escrito** foi feito junto com as regras — pega regressões,
+mas fica perto de 100 % por construção. O conjunto **do mundo real** vem de documentação real,
+wikis do GitHub, traduções da comunidade, arquivos de dados e saída de terminal (português
+incluído), e as regras nunca são ajustadas contra ele — então é o número honesto:
 
-As decisões heurísticas levam bem menos de um milissegundo. O conjunto foi escrito junto com as
-heurísticas, então os números são otimistas; ele continua crescendo com amostras reais — e o Laya
-vai ter que superar esses números no mesmo conjunto antes de ser ativado.
+| Recurso | Exemplos reais | Acurácia | Exibidas | Precisão quando exibida |
+|---|---|---|---|---|
+| F1 linguagem do bloco | 64 | 59 % | 14 | 93 % |
+| F2 colagem inteligente | 31 | 81 % | 17 | 100 % |
+| F3 dicas de estrutura | 30 | 93 % | 14 | 86 % |
+
+Leia assim: quando uma sugestão aparece, ela quase sempre está certa; o preço dessa cautela é que
+muitos blocos de código reais ficam sem sugestão (F1). As decisões heurísticas levam bem menos de um
+milissegundo. O Laya vai ter que superar esses números no mesmo conjunto real antes de ser ativado.
 
 ---
 
