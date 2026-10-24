@@ -346,12 +346,12 @@ button:not(:disabled),
   transition-timing-function: var(--ease-out);
 }
 @media (hover: hover) {
-  header button:not(:disabled):hover,
+  header button:not(:disabled):not([data-brand]):hover,
   .press:hover {
     transform: translateY(-1px);
     box-shadow: 0 2px 6px -2px rgb(0 0 0 / 0.12);
   }
-  .dark header button:not(:disabled):hover,
+  .dark header button:not(:disabled):not([data-brand]):hover,
   .dark .press:hover {
     box-shadow: 0 2px 8px -2px rgb(0 0 0 / 0.5);
   }

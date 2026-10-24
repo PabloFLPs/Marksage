@@ -1,6 +1,7 @@
 /** English — source of truth for message keys. */
 export const en = {
   'app.name': 'Marksage',
+  'app.home': 'Back to Marksage',
   'app.tagline': 'The Markdown editor that notices.',
   'doc.untitled': 'Untitled',
   'doc.unsaved': 'Unsaved changes',

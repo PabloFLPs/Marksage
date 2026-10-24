@@ -126,6 +126,13 @@ export default function App() {
     window.history.replaceState(null, '', window.location.pathname + window.location.search)
     goToInfo(null)
   }, [goToInfo])
+  // Logo / app name: leave About or the docs straight back to the app — the open document,
+  // or the start screen when there is none. Already there → nothing to do.
+  const goHome = useCallback(() => {
+    if (infoRef.current === null) return
+    window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    goToInfo(null)
+  }, [goToInfo])
 
   // Editor enter/exit: the pane slides in from the right, and back out on close.
   const [editorClosing, setEditorClosing] = useState(false)
@@ -372,6 +379,7 @@ export default function App() {
         assistStatus={assist.status}
         onAssistModeChange={handleAssistModeChange}
         onAbout={openAbout}
+        onHome={goHome}
         appIconSrc={appIconUrl(appIcon, theme)}
         history={recent}
         currentDocId={document?.id}

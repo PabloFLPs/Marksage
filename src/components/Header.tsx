@@ -39,6 +39,8 @@ interface HeaderProps {
   assistStatus: EngineStatus
   onAssistModeChange: (mode: AssistMode) => void
   onAbout: () => void
+  /** Logo / app name → back to the app (open document or start screen). */
+  onHome: () => void
   appIconSrc: string
   history: HistoryEntry[]
   currentDocId?: string
@@ -69,6 +71,7 @@ export function Header({
   assistStatus,
   onAssistModeChange,
   onAbout,
+  onHome,
   appIconSrc,
   history,
   currentDocId,
@@ -97,10 +100,19 @@ export function Header({
           </button>
         ) : (
           <>
-            <img src={appIconSrc} alt="" className="h-5 w-5 shrink-0" />
-            <span className="min-w-0 truncate text-sm font-semibold tracking-tight text-ink dark:text-dark-ink">
-              {t('app.name')}
-            </span>
+            <button
+              type="button"
+              data-brand
+              onClick={onHome}
+              aria-label={t('app.home')}
+              title={showingAbout ? t('app.home') : undefined}
+              className="group -ml-1 inline-flex min-w-0 shrink-0 items-center gap-2.5 rounded-md px-1 py-0.5"
+            >
+              <img src={appIconSrc} alt="" className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110 group-active:scale-95 motion-reduce:transition-none motion-reduce:group-hover:scale-100" />
+              <span className="min-w-0 truncate text-sm font-semibold tracking-tight text-ink transition-colors group-hover:text-accent dark:text-dark-ink dark:group-hover:text-dark-accent">
+                {t('app.name')}
+              </span>
+            </button>
             {hasDocument && (
               <span className="anim-rise hidden min-w-0 items-baseline gap-1 truncate text-sm text-ink-muted sm:flex dark:text-dark-ink-muted">
                 <span className="text-line dark:text-dark-line">/</span>

@@ -5,6 +5,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'app.tagline': 'O editor de Markdown que percebe.',
   'doc.untitled': 'Sem título',
   'doc.unsaved': 'Alterações não salvas',
+  'app.home': 'Voltar ao Marksage',
   'action.edit': 'Editar',
   'action.preview': 'Visualizar',
   'action.editTitle': 'Editor ao vivo',
