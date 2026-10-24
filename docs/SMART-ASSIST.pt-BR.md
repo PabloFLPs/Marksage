@@ -33,22 +33,42 @@ com IA" (ferramentas determinísticas como `nspell`/`remark-lint` são as certas
 
 ## 2. Arquitetura
 
+Dois fluxos independentes usam as mesmas peças: as **sugestões** enquanto você edita e o **painel Estrutura**, que só lê o documento.
+
+<!-- diagram: architecture -->
+![Como o Smart Assist funciona: sugestões no editor (à esquerda) e o painel Estrutura (à direita)](architecture.pt-BR.svg)
+
+<details>
+<summary>O mesmo diagrama em Mermaid</summary>
+
+```mermaid
+flowchart LR
+  subgraph S ["Sugestões"]
+    direction TB
+    E["Editor<br/>pausa de 400 ms · colagem · 2 s parado"] --> P["Pré-filtro<br/>acha um candidato — sem ele, para aqui"]
+    P --> H["Heurísticas<br/>sempre prontas"]
+    P --> M["Modelo local<br/>modelos + heurísticas"]
+    H --> G["Filtro de confiança<br/>topo ≥ 0,8 e à frente por ≥ 0,2"]
+    M --> G
+    G --> F["Recurso + conversor<br/>monta a edição: tabela, lista, bloco"]
+    F --> B["Barra de sugestão<br/>Tab aceita · Esc dispensa · dá para desfazer"]
+  end
+  subgraph O ["Estrutura e documento"]
+    direction TB
+    D["Documento"] --> X["Seções<br/>divididas nos títulos, sem código"]
+    X --> R["Regra dos títulos<br/>“Como instalar” → Instalação"]
+    R -- "o título não diz" --> SM["Modelo de seções<br/>modo Modelo local · lê o texto"]
+    R -- "com tipo" --> T1["Aba Estrutura<br/>tipo + frase-chave"]
+    R -- "com tipo" --> T2["Aba Documento<br/>fatos · tom · alertas"]
+    SM --> T1
+    SM --> T2
+  end
+  S ~~~ O
+  classDef gate stroke-width:2px
+  class G gate
 ```
-textarea ──(debounce 400 ms / colar / 2 s ocioso)──► pre-filter     "há um candidato?"
-                                                       │  não → para (nenhuma chamada ao mecanismo)
-                                                       ▼
-                                                DecisionEngine
-                                     ┌─────────────────┴─────────────────┐
-                              HeuristicEngine                      ModelEngine
-                         (sempre disponível, rápido)   (modelo próprio nas linguagens, heurísticas no resto)
-                                     └─────────────────┬─────────────────┘
-                                                       ▼
-                                      filtro de confiança (passesGate)
-                                                       ▼
-                                Suggestion { edit, expected, confidence }
-                                                       ▼
-                        SuggestionBar  →  Tab: aplica a edição  /  Esc: dispensa
-```
+
+</details>
 
 ### 2.1 Peças
 
@@ -60,6 +80,7 @@ textarea ──(debounce 400 ms / colar / 2 s ocioso)──► pre-filter     "h
 | **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos abaixo). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
 | **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. |
+| **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Modelo local*) pelo modelo de seções; a aba Documento resume o arquivo inteiro. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão usados para medir cada recurso antes de ele ir ao ar. |
 
 ### 2.2 O contrato do mecanismo

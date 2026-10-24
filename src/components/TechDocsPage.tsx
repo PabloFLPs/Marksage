@@ -1,9 +1,14 @@
-import { useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { ArrowLeft, BookOpen } from 'lucide-react'
 import { MarkdownPreview } from './MarkdownPreview'
 // Single source of truth: the repo docs are rendered in-app with our own renderer.
 import techDocsEn from '../../docs/SMART-ASSIST.md?raw'
 import techDocsPt from '../../docs/SMART-ASSIST.pt-BR.md?raw'
+import archEn from '../../docs/architecture.svg?raw'
+import archPt from '../../docs/architecture.pt-BR.svg?raw'
+import archNarrowEn from '../../docs/architecture.narrow.svg?raw'
+import archNarrowPt from '../../docs/architecture.narrow.pt-BR.svg?raw'
+import { DocDiagram } from './DocDiagram'
 import { useI18n } from '../hooks/useI18n'
 
 interface TechDocsPageProps {
@@ -11,13 +16,43 @@ interface TechDocsPageProps {
   onBack: () => void
 }
 
+/** The SVG each Markdown image points to, plus a stacked version for narrow screens (app only). */
+const SVGS: Record<string, { svg: string; narrow: string }> = {
+  'architecture.svg': { svg: archEn, narrow: archNarrowEn },
+  'architecture.pt-BR.svg': { svg: archPt, narrow: archNarrowPt },
+}
+
+interface Diagram {
+  alt: string
+  svg: string
+  narrow: string
+  mermaid: string
+}
+
+/**
+ * In the Markdown (for GitHub): `<!-- diagram: x -->`, the SVG image, then the Mermaid version inside
+ * <details>. In the app the whole group becomes one ```marksage-diagram block, rendered as a DocDiagram.
+ */
+function extractDiagrams(md: string): { md: string; diagrams: Map<string, Diagram> } {
+  const diagrams = new Map<string, Diagram>()
+  const re = /<!-- diagram: ([\w-]+) -->\n!\[([^\]]*)\]\(([^)]+)\)\n+<details>[\s\S]*?```mermaid\n([\s\S]*?)```\s*<\/details>/g
+  const out = md.replace(re, (all, name: string, alt: string, file: string, mermaid: string) => {
+    const svgs = SVGS[file]
+    if (!svgs) return all
+    diagrams.set(name, { alt, ...svgs, mermaid })
+    return '```marksage-diagram\n' + name + '\n```'
+  })
+  return { md: out, diagrams }
+}
+
 /** Split the doc into its H1 title, intro (before the first `##`) and body, plus `##` titles for the TOC. */
-function parseDoc(md: string) {
+function parseDoc(source: string) {
+  const { md, diagrams } = extractDiagrams(source)
   const lines = md.split('\n')
   const title = (lines.find((l) => l.startsWith('# ')) ?? '').replace(/^#\s+/, '')
   const rest = lines.filter((l) => !l.startsWith('# ')).join('\n')
   const sections = [...rest.matchAll(/^##\s+(.+)$/gm)].map((m) => m[1].replace(/^\d+\.\s*/, ''))
-  return { title, body: rest, sections }
+  return { title, body: rest, sections, diagrams }
 }
 
 /** "How Smart Assist works" — technical docs (heuristics, own model, evaluation). */
@@ -25,6 +60,15 @@ export function TechDocsPage({ closing = false, onBack }: TechDocsPageProps) {
   const { t, lang } = useI18n()
   const bodyRef = useRef<HTMLDivElement>(null)
   const doc = useMemo(() => parseDoc(lang === 'pt-BR' ? techDocsPt : techDocsEn), [lang])
+
+  const renderBlock = useCallback(
+    (lang: string, code: string) => {
+      if (lang !== 'marksage-diagram') return null
+      const d = doc.diagrams.get(code.trim())
+      return d ? <DocDiagram svg={d.svg} narrowSvg={d.narrow} mermaid={d.mermaid} alt={d.alt} /> : null
+    },
+    [doc],
+  )
 
   const jumpTo = (i: number) => {
     const h = bodyRef.current?.querySelectorAll('.markdown-body h2')[i]
@@ -75,7 +119,7 @@ export function TechDocsPage({ closing = false, onBack }: TechDocsPageProps) {
         </header>
 
         <div ref={bodyRef} className="tech-docs">
-          <MarkdownPreview content={doc.body} />
+          <MarkdownPreview content={doc.body} renderBlock={renderBlock} />
         </div>
       </div>
     </main>

@@ -212,6 +212,148 @@ body {
   line-height: 1.6;
 }
 
+/* Fenced code: wrapper keeps data-line and holds the copy button. */
+.markdown-body .code-block {
+  position: relative;
+  margin: 0 0 1em;
+}
+.markdown-body .code-block > pre {
+  margin: 0;
+}
+.markdown-body .code-copy {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  opacity: 0;
+  transition: opacity 120ms, color 120ms;
+}
+.markdown-body .code-block:hover .code-copy,
+.markdown-body .code-copy:focus-visible,
+.markdown-body .code-copy.is-copied {
+  opacity: 1;
+}
+@media (hover: none) {
+  .markdown-body .code-copy {
+    opacity: 0.8;
+  }
+}
+
+/* Syntax colors (Prism token classes). Keywords follow the app accent; the rest are fixed hues
+   picked for contrast on both surfaces. */
+.markdown-body .token.comment,
+.markdown-body .token.prolog,
+.markdown-body .token.doctype,
+.markdown-body .token.cdata {
+  color: #6e7781;
+  font-style: italic;
+}
+.markdown-body .token.punctuation,
+.markdown-body .token.operator {
+  color: #57606a;
+}
+.markdown-body .token.keyword,
+.markdown-body .token.atrule,
+.markdown-body .token.important,
+.markdown-body .token.tag,
+.markdown-body .token.selector,
+.markdown-body .token.rule {
+  color: var(--color-accent);
+}
+.markdown-body .token.string,
+.markdown-body .token.char,
+.markdown-body .token.attr-value,
+.markdown-body .token.regex,
+.markdown-body .token.template-string,
+.markdown-body .token.inserted {
+  color: #116329;
+}
+.markdown-body .token.number,
+.markdown-body .token.boolean,
+.markdown-body .token.constant,
+.markdown-body .token.symbol,
+.markdown-body .token.attr-name,
+.markdown-body .token.variable {
+  color: #a0430a;
+}
+.markdown-body .token.function,
+.markdown-body .token.function-name,
+.markdown-body .token.method {
+  color: #8250df;
+}
+.markdown-body .token.class-name,
+.markdown-body .token.builtin,
+.markdown-body .token.property,
+.markdown-body .token.namespace,
+.markdown-body .token.key {
+  color: #0e6e8a;
+}
+.markdown-body .token.deleted {
+  color: #b42318;
+}
+.markdown-body .token.coord,
+.markdown-body .token.shell-symbol,
+.markdown-body .token.prefix.unchanged {
+  color: #6e7781;
+}
+.markdown-body .token.bold {
+  font-weight: 600;
+}
+.markdown-body .token.italic {
+  font-style: italic;
+}
+.dark .markdown-body .token.comment,
+.dark .markdown-body .token.prolog,
+.dark .markdown-body .token.doctype,
+.dark .markdown-body .token.cdata,
+.dark .markdown-body .token.coord,
+.dark .markdown-body .token.shell-symbol,
+.dark .markdown-body .token.prefix.unchanged {
+  color: #8b949e;
+}
+.dark .markdown-body .token.punctuation,
+.dark .markdown-body .token.operator {
+  color: #9da7b3;
+}
+.dark .markdown-body .token.keyword,
+.dark .markdown-body .token.atrule,
+.dark .markdown-body .token.important,
+.dark .markdown-body .token.tag,
+.dark .markdown-body .token.selector,
+.dark .markdown-body .token.rule {
+  color: var(--color-dark-accent);
+}
+.dark .markdown-body .token.string,
+.dark .markdown-body .token.char,
+.dark .markdown-body .token.attr-value,
+.dark .markdown-body .token.regex,
+.dark .markdown-body .token.template-string,
+.dark .markdown-body .token.inserted {
+  color: #7ee787;
+}
+.dark .markdown-body .token.number,
+.dark .markdown-body .token.boolean,
+.dark .markdown-body .token.constant,
+.dark .markdown-body .token.symbol,
+.dark .markdown-body .token.attr-name,
+.dark .markdown-body .token.variable {
+  color: #ffa657;
+}
+.dark .markdown-body .token.function,
+.dark .markdown-body .token.function-name,
+.dark .markdown-body .token.method {
+  color: #d2a8ff;
+}
+.dark .markdown-body .token.class-name,
+.dark .markdown-body .token.builtin,
+.dark .markdown-body .token.property,
+.dark .markdown-body .token.namespace,
+.dark .markdown-body .token.key {
+  color: #56d4dd;
+}
+.dark .markdown-body .token.deleted {
+  color: #ff7b72;
+}
+
 .markdown-body table {
   display: block;
   width: max-content;
@@ -442,3 +584,98 @@ body {
   background: color-mix(in srgb, var(--color-dark-accent) 14%, transparent);
   box-shadow: -10px 0 0 color-mix(in srgb, var(--color-dark-accent) 14%, transparent), 10px 0 0 color-mix(in srgb, var(--color-dark-accent) 14%, transparent);
 }
+
+/* Docs diagrams: drawn SVG (themed through its msd-* classes) or Mermaid, with a style switch. */
+.doc-diagram-figure {
+  margin: 0 0 1.5em;
+}
+.doc-diagram-switch {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+  margin-bottom: 0.5rem;
+}
+.doc-diagram-switch button {
+  border-radius: 6px;
+  padding: 0.15rem 0.6rem;
+  font-size: 12px;
+  color: var(--color-ink-muted);
+  transition: color 120ms, background-color 120ms;
+}
+.doc-diagram-switch button:hover {
+  color: var(--color-ink);
+}
+.doc-diagram-switch button[aria-pressed='true'] {
+  background: var(--color-surface-soft);
+  color: var(--color-ink);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--color-line);
+}
+.dark .doc-diagram-switch button {
+  color: var(--color-dark-ink-muted);
+}
+.dark .doc-diagram-switch button:hover,
+.dark .doc-diagram-switch button[aria-pressed='true'] {
+  color: var(--color-dark-ink);
+}
+.dark .doc-diagram-switch button[aria-pressed='true'] {
+  background: var(--color-dark-surface-soft);
+  box-shadow: inset 0 0 0 1px var(--color-dark-line);
+}
+.doc-diagram {
+  overflow-x: auto;
+}
+.doc-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 720px;
+  min-width: 520px; /* phones scroll sideways instead of shrinking the text below reading size */
+  margin: 0 auto;
+}
+.doc-diagram-mermaid svg {
+  min-width: 0;
+}
+.doc-diagram-narrow {
+  display: none;
+}
+.doc-diagram-narrow svg {
+  min-width: 0;
+  max-width: 400px;
+}
+@media (max-width: 599px) {
+  .doc-diagram-wide {
+    display: none;
+  }
+  .doc-diagram-narrow {
+    display: block;
+  }
+}
+.doc-diagram-loading {
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-ink-muted);
+}
+.doc-diagram .msd-lane { stroke: var(--color-line); }
+.doc-diagram .msd-lane-t { fill: var(--color-accent); }
+.doc-diagram .msd-box { fill: var(--color-surface-soft); stroke: var(--color-line); }
+.doc-diagram .msd-box.msd-accent { stroke: var(--color-accent); }
+.doc-diagram .msd-group { stroke: var(--color-ink-muted); }
+.doc-diagram .msd-t { fill: var(--color-ink); }
+.doc-diagram .msd-s,
+.doc-diagram .msd-label,
+.doc-diagram .msd-note { fill: var(--color-ink-muted); }
+.doc-diagram .msd-line { stroke: var(--color-ink-muted); }
+.doc-diagram .msd-head { fill: var(--color-ink-muted); }
+.dark .doc-diagram .msd-lane { stroke: var(--color-dark-line); }
+.dark .doc-diagram .msd-lane-t { fill: var(--color-dark-accent); }
+.dark .doc-diagram .msd-box { fill: var(--color-dark-surface-soft); stroke: var(--color-dark-line); }
+.dark .doc-diagram .msd-box.msd-accent { stroke: var(--color-dark-accent); }
+.dark .doc-diagram .msd-group { stroke: var(--color-dark-ink-muted); }
+.dark .doc-diagram .msd-t { fill: var(--color-dark-ink); }
+.dark .doc-diagram .msd-s,
+.dark .doc-diagram .msd-label,
+.dark .doc-diagram .msd-note { fill: var(--color-dark-ink-muted); }
+.dark .doc-diagram .msd-line { stroke: var(--color-dark-ink-muted); }
+.dark .doc-diagram .msd-head { fill: var(--color-dark-ink-muted); }

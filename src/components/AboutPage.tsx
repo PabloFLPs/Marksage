@@ -217,8 +217,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssis
           </Feature>
           <Feature icon={<ClipboardPaste />} title={x('GitHub-flavoured Markdown', 'Markdown no estilo GitHub')}>
             {x(
-              'Tables, task lists, strikethrough and autolinks render out of the box.',
-              'Tabelas, listas de tarefas, tachado e links automáticos funcionam de cara.',
+              'Tables, task lists, strikethrough and autolinks render out of the box, and code blocks get syntax colors (about 30 languages) and a copy button.',
+              'Tabelas, listas de tarefas, tachado e links automáticos funcionam de cara, e os blocos de código ganham cores de sintaxe (cerca de 30 linguagens) e um botão de copiar.',
             )}
           </Feature>
           <Feature icon={<Moon />} title={x('Light & dark', 'Claro e escuro')}>

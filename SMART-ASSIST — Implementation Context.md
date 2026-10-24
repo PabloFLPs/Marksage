@@ -269,3 +269,15 @@ There are no cookies, analytics or third-party requests (system fonts only).
 - **Flags**: heading jumps, extra H1s (not in changelogs), empty sections, repeated headings under one parent,
   untagged code, images without alt, "click here" links, very long sections, sentences > 40 words. Click → jump.
 - Word count matches the footer (whitespace words). Nothing stored; the tab is session state.
+
+## 16. Docs diagram + code highlighting (2026-10-24)
+
+- The ASCII architecture diagram had mixed arrows and predated the Outline. Measured options: Prism 37 KB gzip,
+  highlight.js 51, Shiki 287 (21 langs), Mermaid ~930 total (≈ 630 actually loaded for one flowchart).
+- Pablo chose **both** diagram styles with a reader switch: a generated, theme-aware SVG (two lanes: suggestions,
+  Outline) as default, plus Mermaid lazy-loaded on demand. A stacked SVG variant serves phones. GitHub shows the SVG
+  and the Mermaid version under <details>.
+- **Highlighting:** Prism (refractor, ~30 languages) in the preview and the docs, lazy chunk ~30 KB gzip, colors from
+  the theme (keywords = accent), copy button on every code block. Untagged blocks stay plain (Pablo: no auto-detect).
+- Fixed on the way: the readability-dot `h2` override dropped `data-line`, breaking scroll sync / Outline jumps on
+  those headings.

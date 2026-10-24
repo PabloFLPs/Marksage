@@ -1,31 +1,46 @@
 import { Children, isValidElement, useMemo } from 'react'
-import type { ReactNode } from 'react'
+import type { HTMLAttributes, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import type { Components } from 'react-markdown'
 import type { ReadabilityMark } from '../assist/types'
 import { rehypeSourceLines } from '../lib/scrollSync'
 import { useI18n } from '../hooks/useI18n'
+import { CodeBlock } from './CodeBlock'
+import { codeOf } from '../lib/codeOf'
 
 interface MarkdownPreviewProps {
   content: string
   /** Smart Assist readability — per-`##` marks. */
   readability?: ReadabilityMark[]
+  /** Replace a fenced block with something else (the docs page renders its diagrams this way). */
+  renderBlock?: (lang: string, code: string) => ReactNode | null
 }
 
 const DOT_COLORS = ['bg-emerald-500/70', 'bg-emerald-500/70', 'bg-amber-500/70', 'bg-orange-500/80', 'bg-red-500/80']
 
-export function MarkdownPreview({ content, readability }: MarkdownPreviewProps) {
+export function MarkdownPreview({ content, readability, renderBlock }: MarkdownPreviewProps) {
   const { t } = useI18n()
   const components = useMemo<Components>(() => {
-    if (!readability?.length) return baseComponents
+    const base: Components = {
+      ...baseComponents,
+      // Fenced blocks: highlighted when tagged, always with a copy button. Props (data-line) stay on the
+      // outer element, so scroll sync and the Outline still find the block.
+      pre: ({ node, children, ref: _ref, ...rest }) => {
+        const { lang, code } = codeOf(node)
+        const custom = renderBlock?.(lang, code)
+        if (custom) return <div {...(rest as HTMLAttributes<HTMLDivElement>)}>{custom}</div>
+        return <CodeBlock lang={lang} code={code} fallback={children} {...(rest as HTMLAttributes<HTMLDivElement>)} />
+      },
+    }
+    if (!readability?.length) return base
     const byHeading = new Map(readability.map((m) => [normalize(m.heading), m]))
     return {
-      ...baseComponents,
-      h2: ({ children }) => {
+      ...base,
+      h2: ({ node: _node, children, ...rest }) => {
         const mark = byHeading.get(normalize(textOf(children)))
         return (
-          <h2 className="relative">
+          <h2 {...rest} className="relative">
             {mark && (
               <span
                 title={t('readability.title', { label: t(`readability.${mark.value}`) })}
@@ -38,7 +53,7 @@ export function MarkdownPreview({ content, readability }: MarkdownPreviewProps) 
         )
       },
     }
-  }, [readability, t])
+  }, [readability, t, renderBlock])
 
   return (
     <div className="markdown-body mx-auto w-full max-w-[900px] px-4 py-8 sm:px-6 sm:py-10">

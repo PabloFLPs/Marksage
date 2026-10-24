@@ -34,22 +34,42 @@ spell-check" (deterministic tools such as `nspell`/`remark-lint` are the right t
 
 ## 2. Architecture
 
+Two independent flows share the same building blocks: **suggestions** while you edit, and the **Outline panel**, which only reads the document.
+
+<!-- diagram: architecture -->
+![How Smart Assist works: suggestions in the editor (left) and the Outline panel (right)](architecture.svg)
+
+<details>
+<summary>The same diagram in Mermaid</summary>
+
+```mermaid
+flowchart LR
+  subgraph S ["Suggestions"]
+    direction TB
+    E["Editor<br/>typing pause 400 ms · paste · 2 s idle"] --> P["Pre-filter<br/>finds a candidate — none: stop here"]
+    P --> H["Heuristics<br/>always ready"]
+    P --> M["Local model<br/>own models + heuristics"]
+    H --> G["Confidence gate<br/>top ≥ 0.8 and ahead by ≥ 0.2"]
+    M --> G
+    G --> F["Feature + converter<br/>builds the edit: table, list, fence"]
+    F --> B["Suggestion bar<br/>Tab accept · Esc dismiss · undo works"]
+  end
+  subgraph O ["Outline & Document"]
+    direction TB
+    D["Document"] --> X["Sections<br/>split at headings, code skipped"]
+    X --> R["Heading rule<br/>“Installation” → Setup"]
+    R -- "heading says nothing" --> SM["Section model<br/>Local model mode · reads the text"]
+    R -- "typed" --> T1["Outline tab<br/>type + key sentence"]
+    R -- "typed" --> T2["Document tab<br/>facts · tone · flags"]
+    SM --> T1
+    SM --> T2
+  end
+  S ~~~ O
+  classDef gate stroke-width:2px
+  class G gate
 ```
-textarea ──(debounce 400 ms / paste / 2 s idle)──► pre-filter     "is there a candidate?"
-                                                     │  no → stop (no engine call)
-                                                     ▼
-                                              DecisionEngine
-                                   ┌─────────────────┴─────────────────┐
-                            HeuristicEngine                      ModelEngine
-                         (always available, sync-ish)   (own model for code languages, heuristics for the rest)
-                                   └─────────────────┬─────────────────┘
-                                                     ▼
-                                     confidence gate (passesGate)
-                                                     ▼
-                              Suggestion { edit, expected, confidence }
-                                                     ▼
-                         SuggestionBar  →  Tab: apply edit  /  Esc: dismiss
-```
+
+</details>
 
 ### 2.1 Building blocks
 
@@ -61,6 +81,7 @@ textarea ──(debounce 400 ms / paste / 2 s idle)──► pre-filter     "is 
 | **Features** | Turn a confident decision into a concrete, reversible edit (the four features below). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
 | **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. |
+| **Outline panel** | Visual only: sections typed by the heading rule, then (in *Local model* mode) by the section model; its Document tab sums the whole file up. |
 | **Evaluation set** | Hand-labelled examples used to measure each feature before it ships. |
 
 ### 2.2 The engine contract

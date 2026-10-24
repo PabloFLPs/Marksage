@@ -12,10 +12,13 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "hast-util-to-jsx-runtime": "^2.3.6",
     "lucide-react": "^1.31.0",
+    "mermaid": "^12.1.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-markdown": "^10.1.0",
+    "refractor": "^5.0.0",
     "remark-gfm": "^4.0.1",
     "tailwindcss": "^4.3.3"
   },
