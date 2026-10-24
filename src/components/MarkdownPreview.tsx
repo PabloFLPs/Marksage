@@ -9,7 +9,7 @@ import { useI18n } from '../hooks/useI18n'
 
 interface MarkdownPreviewProps {
   content: string
-  /** Smart Assist F4 — per-`##` readability marks. */
+  /** Smart Assist readability — per-`##` marks. */
   readability?: ReadabilityMark[]
 }
 

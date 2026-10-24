@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { ClipboardPaste, FileText, FolderOpen } from 'lucide-react'
-import type { HistoryEntry } from '../lib/history'
+import { searchHistory, type HistoryEntry } from '../lib/history'
 import { HistoryList } from './HistoryList'
+import { ClearHistory, HistorySearch } from './HistoryTools'
 import { useI18n } from '../hooks/useI18n'
 
 interface EmptyStateProps {
@@ -11,11 +12,14 @@ interface EmptyStateProps {
   history: HistoryEntry[]
   onOpenHistory: (entry: HistoryEntry) => void
   onRemoveHistory: (id: string) => void
+  onClearHistory: () => void
 }
 
-export function EmptyState({ isDragging, onOpenFile, onPaste, history, onOpenHistory, onRemoveHistory }: EmptyStateProps) {
+export function EmptyState({ isDragging, onOpenFile, onPaste, history, onOpenHistory, onRemoveHistory, onClearHistory }: EmptyStateProps) {
   const { t } = useI18n()
   const [hint, setHint] = useState<string | null>(null)
+  const [query, setQuery] = useState('')
+  const matches = searchHistory(history, query, t('doc.untitled'))
 
   useEffect(() => {
     if (!hint) return
@@ -72,10 +76,24 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, history, onOpenHis
       </div>
       {history.length > 0 && (
         <section className="w-full max-w-md">
-          <h2 className="mb-2 px-2.5 text-xs font-semibold uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
-            {t('history.title')}
-          </h2>
-          <HistoryList entries={history} onOpen={onOpenHistory} onRemove={onRemoveHistory} limit={5} />
+          <div className="mb-2 flex items-center justify-between gap-2 px-2.5">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
+              {t('history.title')}
+            </h2>
+            <ClearHistory count={history.length} onClear={onClearHistory} />
+          </div>
+          {history.length > 5 && (
+            <div className="mb-1.5 px-1">
+              <HistorySearch value={query} onChange={setQuery} />
+            </div>
+          )}
+          {matches.length === 0 ? (
+            <p className="anim-rise px-2.5 py-3 text-center text-xs text-ink-muted dark:text-dark-ink-muted">
+              {t('history.noMatches', { q: query.trim() })}
+            </p>
+          ) : (
+            <HistoryList entries={matches} onOpen={onOpenHistory} onRemove={onRemoveHistory} limit={query ? 8 : 5} />
+          )}
         </section>
       )}
     </div>

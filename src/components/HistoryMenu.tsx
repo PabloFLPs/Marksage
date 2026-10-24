@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { History } from 'lucide-react'
-import type { HistoryEntry } from '../lib/history'
+import { searchHistory, type HistoryEntry } from '../lib/history'
 import { HistoryList } from './HistoryList'
+import { ClearHistory, HistorySearch } from './HistoryTools'
 import { Presence } from './motion'
 import { useI18n } from '../hooks/useI18n'
 
@@ -18,7 +19,14 @@ interface HistoryMenuProps {
 export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, compact = false }: HistoryMenuProps) {
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
   const rootRef = useRef<HTMLDivElement>(null)
+  const shown = searchHistory(entries, query, t('doc.untitled'))
+
+  // A fresh search every time the menu opens.
+  useEffect(() => {
+    if (!open) setQuery('')
+  }, [open])
 
   useEffect(() => {
     if (!open) return
@@ -74,31 +82,30 @@ export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, com
             : 'absolute right-0 top-10 z-40 w-80 origin-top-right'
         }
       >
-        <div className="rounded-lg border border-line bg-surface p-1.5 shadow-lg dark:border-dark-line dark:bg-dark-surface-soft">
+        <div className="whitespace-normal rounded-lg border border-line bg-surface p-1.5 shadow-lg dark:border-dark-line dark:bg-dark-surface-soft">
           <div className="flex items-center justify-between px-2.5 pb-1.5 pt-1">
             <span className="text-xs font-semibold uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
               {t('history.title')}
             </span>
-            {entries.length > 1 && (
-              <button
-                type="button"
-                onClick={() => {
-                  if (window.confirm(t('history.clearConfirm'))) onClear()
-                }}
-                className="text-xs text-ink-muted hover:text-red-600 dark:text-dark-ink-muted dark:hover:text-red-400"
-              >
-                {t('history.clearAll')}
-              </button>
-            )}
+            {entries.length > 0 && <ClearHistory count={entries.length} onClear={onClear} />}
           </div>
+          {entries.length > 0 && (
+            <div className="px-1 pb-1.5">
+              <HistorySearch value={query} onChange={setQuery} autoFocus={open && !compact} />
+            </div>
+          )}
           {entries.length === 0 ? (
             <p className="px-2.5 py-4 text-center text-xs text-ink-muted dark:text-dark-ink-muted">
               {t('history.empty')}
             </p>
+          ) : shown.length === 0 ? (
+            <p className="anim-rise px-2.5 py-4 text-center text-xs text-ink-muted dark:text-dark-ink-muted">
+              {t('history.noMatches', { q: query.trim() })}
+            </p>
           ) : (
             <div className="max-h-[60vh] overflow-y-auto">
               <HistoryList
-                entries={entries}
+                entries={shown}
                 currentId={currentId}
                 onRemove={onRemove}
                 onOpen={(e) => {

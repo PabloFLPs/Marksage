@@ -72,6 +72,26 @@ export class ModelEngine implements DecisionEngine {
   }
 }
 
+/** Remove the downloaded model from this browser (it downloads again if the mode is picked later). */
+export async function deleteDownloadedModel(): Promise<boolean> {
+  loads.clear()
+  try {
+    return await caches.delete(CACHE_NAME)
+  } catch {
+    return false
+  }
+}
+
+/** Whether the model file is currently stored in this browser. */
+export async function hasDownloadedModel(url = MODEL_URL): Promise<boolean> {
+  try {
+    if (!(await caches.has(CACHE_NAME))) return false // don't create an empty cache just by asking
+    return !!(await (await caches.open(CACHE_NAME)).match(url))
+  } catch {
+    return false
+  }
+}
+
 async function fetchModel(url: string, onProgress: (loaded: number, total: number) => void): Promise<ArrayBuffer> {
   let cache: Cache | null = null
   try {

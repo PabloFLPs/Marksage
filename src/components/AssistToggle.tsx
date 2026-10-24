@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, ChevronDown, Cpu, PowerOff, Sparkles, Zap } from 'lucide-react'
+import { Check, ChevronDown, Cpu, Download, PowerOff, Sparkles, Zap } from 'lucide-react'
 import { Presence } from './motion'
 import type { AssistMode } from '../assist/types'
 import type { EngineStatus } from '../assist/useSmartAssist'
 import { useI18n } from '../hooks/useI18n'
 import type { MessageKey, Vars } from '../lib/i18n'
+import { loadModelNoticeSeen, saveModelNoticeSeen } from '../lib/storage'
 
 interface AssistToggleProps {
   mode: AssistMode
@@ -38,6 +39,9 @@ export function AssistToggle({ mode, status, onChange, compact = false }: Assist
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const [focus, setFocus] = useState(0)
+  // First pick of Local model: say what gets downloaded and stored before doing it.
+  const [notice, setNotice] = useState(false)
+  const confirmRef = useRef<HTMLButtonElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([])
   const active = mode !== 'off'
@@ -55,8 +59,13 @@ export function AssistToggle({ mode, status, onChange, compact = false }: Assist
 
   // Move DOM focus with the roving index while the menu is open.
   useEffect(() => {
-    if (open) itemRefs.current[focus]?.focus({ preventScroll: true })
-  }, [open, focus])
+    if (open && !notice) itemRefs.current[focus]?.focus({ preventScroll: true })
+  }, [open, focus, notice])
+
+  useEffect(() => {
+    if (!open) setNotice(false)
+    else if (notice) confirmRef.current?.focus({ preventScroll: true })
+  }, [open, notice])
 
   const enabledIdx = OPTIONS.map((o, i) => (o.disabled ? -1 : i)).filter((i) => i >= 0)
   const openMenu = () => {
@@ -64,7 +73,16 @@ export function AssistToggle({ mode, status, onChange, compact = false }: Assist
     setOpen(true)
   }
   const choose = (id: AssistMode) => {
+    if (id === 'model' && mode !== 'model' && !loadModelNoticeSeen()) {
+      setNotice(true)
+      return
+    }
     onChange(id)
+    setOpen(false)
+  }
+  const confirmModel = () => {
+    saveModelNoticeSeen(true)
+    onChange('model')
     setOpen(false)
   }
   const onMenuKey = (e: React.KeyboardEvent) => {
@@ -126,11 +144,38 @@ export function AssistToggle({ mode, status, onChange, compact = false }: Assist
           role="menu"
           aria-label={t('assist.label')}
           onKeyDown={onMenuKey}
-          className="rounded-lg border border-line bg-surface p-1.5 shadow-lg dark:border-dark-line dark:bg-dark-surface-soft"
+          className="whitespace-normal rounded-lg border border-line bg-surface p-1.5 shadow-lg dark:border-dark-line dark:bg-dark-surface-soft"
         >
           <p className="px-2.5 pb-1.5 pt-1 text-xs font-semibold uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
             Smart Assist
           </p>
+          {notice ? (
+            <div className="anim-rise px-2.5 pb-1.5 pt-0.5">
+              <p className="flex items-center gap-2 text-sm font-medium text-ink dark:text-dark-ink">
+                <Download className="h-4 w-4 text-accent dark:text-dark-accent" />
+                {t('assist.notice.title')}
+              </p>
+              <p className="mt-2 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">{t('assist.notice.body')}</p>
+              <p className="mt-1.5 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">{t('assist.notice.remove')}</p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <button
+                  ref={confirmRef}
+                  type="button"
+                  onClick={confirmModel}
+                  className="press inline-flex min-h-9 items-center gap-1.5 rounded-md bg-accent px-3 text-xs font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
+                >
+                  {t('assist.notice.confirm')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNotice(false)}
+                  className="inline-flex min-h-9 items-center rounded-md px-3 text-xs text-ink-muted transition-colors hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink"
+                >
+                  {t('assist.notice.cancel')}
+                </button>
+              </div>
+            </div>
+          ) : (
           <div className="anim-stagger flex flex-col">
             {OPTIONS.map((o, i) => {
               const Icon = o.icon
@@ -174,6 +219,7 @@ export function AssistToggle({ mode, status, onChange, compact = false }: Assist
               )
             })}
           </div>
+          )}
         </div>
       </Presence>
     </div>

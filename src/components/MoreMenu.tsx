@@ -66,7 +66,7 @@ export function MoreMenu(props: MoreMenuProps) {
         duration={140}
         className="fixed right-3 top-[3.75rem] z-40 w-56 origin-top-right"
       >
-        <div role="menu" className="anim-stagger flex flex-col rounded-lg border border-line bg-surface p-1.5 shadow-lg dark:border-dark-line dark:bg-dark-surface-soft">
+        <div role="menu" className="anim-stagger flex flex-col whitespace-normal rounded-lg border border-line bg-surface p-1.5 shadow-lg dark:border-dark-line dark:bg-dark-surface-soft">
           <Item icon={<FilePlus2 />} label={t('action.newDocument')} onClick={run(onNew)} />
           <Item icon={<FolderOpen />} label={t('action.openFile')} onClick={run(onOpen)} />
           {hasDocument && (

@@ -82,3 +82,37 @@ export function saveAssistMode(mode: StoredAssistMode): void {
     // Ignore.
   }
 }
+
+// The user has read the Local model notice (download + browser storage) once.
+const MODEL_NOTICE_KEY = 'marksage:model-notice'
+
+export function loadModelNoticeSeen(): boolean {
+  try {
+    return localStorage.getItem(MODEL_NOTICE_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+export function saveModelNoticeSeen(seen: boolean): void {
+  try {
+    if (seen) localStorage.setItem(MODEL_NOTICE_KEY, '1')
+    else localStorage.removeItem(MODEL_NOTICE_KEY)
+  } catch {
+    // Ignore.
+  }
+}
+
+/** Everything Marksage keeps in this browser: every `marksage:*` key, plus the downloaded model. */
+export async function deleteAllLocalData(): Promise<void> {
+  try {
+    for (const key of Object.keys(localStorage)) if (key.startsWith('marksage:')) localStorage.removeItem(key)
+  } catch {
+    // Ignore.
+  }
+  try {
+    for (const name of await caches.keys()) if (name.startsWith('marksage-')) await caches.delete(name)
+  } catch {
+    // Cache API unavailable — nothing was stored there.
+  }
+}

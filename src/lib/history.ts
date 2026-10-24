@@ -101,3 +101,14 @@ export function entryTitle(e: Pick<HistoryEntry, 'filename' | 'content'>, untitl
   const first = heading ?? e.content.split('\n').find((l) => l.trim())?.trim() ?? untitled
   return first.length > 48 ? `${first.slice(0, 47)}…` : first
 }
+
+/** Case- and accent-insensitive match on the title, file name and content ("relatorio" finds "Relatório"). */
+export function searchHistory(entries: HistoryEntry[], query: string, untitled = 'Untitled'): HistoryEntry[] {
+  const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
+  const terms = fold(query).split(/\s+/).filter(Boolean)
+  if (!terms.length) return entries
+  return entries.filter((e) => {
+    const hay = fold(`${entryTitle(e, untitled)}\n${e.filename ?? ''}\n${e.content}`)
+    return terms.every((t) => hay.includes(t))
+  })
+}

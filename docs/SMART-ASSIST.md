@@ -41,7 +41,7 @@ textarea ──(debounce 400 ms / paste / 2 s idle)──► pre-filter     "is 
                                               DecisionEngine
                                    ┌─────────────────┴─────────────────┐
                             HeuristicEngine                      ModelEngine
-                         (always available, sync-ish)   (own model for F1, heuristics for the rest)
+                         (always available, sync-ish)   (own model for code languages, heuristics for the rest)
                                    └─────────────────┬─────────────────┘
                                                      ▼
                                      confidence gate (passesGate)
@@ -56,9 +56,9 @@ textarea ──(debounce 400 ms / paste / 2 s idle)──► pre-filter     "is 
 | Piece | What it does |
 |---|---|
 | **Pre-filter** | Cheap, deterministic checks that find *candidates* (an untagged code block, a multi-line paste, a near-miss heading). No candidate → nothing else runs. |
-| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Local model* (Marksage's own model for F1 + heuristics for the rest). |
+| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Local model* (Marksage's own model for code-block languages + heuristics for the rest). |
 | **Confidence gate** | Drops any answer that isn't clearly ahead of the alternatives. |
-| **Features** | Turn a confident decision into a concrete, reversible edit (F1–F4 below). |
+| **Features** | Turn a confident decision into a concrete, reversible edit (the four features below). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
 | **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. |
 | **Evaluation set** | Hand-labelled examples used to measure each feature before it ships. |
@@ -90,9 +90,9 @@ passesGate(probs, threshold = 0.8, minMargin = 0.2)
 
 | Feature | Gate |
 |---|---|
-| F1 code fence, F2 smart paste | 0.8 / 0.2 |
-| F3 structure (`noul`) | p ≥ 0.8 (implies margin 0.6 over "false") |
-| F4 readability | 0.5 / 0.15 (it's a passive hint, not an edit) |
+| Code-block language, smart paste | 0.8 / 0.2 |
+| Structure hints (`noul`) | p ≥ 0.8 (implies margin 0.6 over "false") |
+| Readability | 0.5 / 0.15 (it's a passive hint, not an edit) |
 
 Silence is the default: a missed suggestion costs nothing, a wrong one costs trust.
 
@@ -113,7 +113,7 @@ Silence is the default: a missed suggestion costs nothing, a wrong one costs tru
 
 ## 3. Features and their heuristics
 
-### F1 — Code-fence language (`choice`)
+### Code-block language (`choice`)
 
 **Trigger.** A *closed* fenced block (```` ``` ```` or `~~~`) with an empty info string, body ≥ 3
 chars, and the cursor **outside** the block (you've finished writing it). The nearest such fence
@@ -138,7 +138,7 @@ logits — each matching rule adds its weight once:
 Scores go through `softmax` → probabilities → gate. **Action:** insert the language id right after
 the opening fence marker.
 
-### F2 — Smart paste (`choice`)
+### Smart paste (`choice`)
 
 **Trigger.** A `paste` into the editor with ≥ 2 non-empty lines (≤ 50 k chars) that doesn't
 already start as Markdown structure (tables, fences, headings, lists). **The paste always lands
@@ -155,14 +155,14 @@ untouched**; the suggestion offers to convert the pasted range afterwards.
 | `csv` | consistent comma-cell count (quote-aware), short cells; penalised by sentences and "wordy" cells (> 5 words) |
 | `table` | column gutters (2+ spaces) shared by every line — terminal / `kubectl`-style output |
 | `list` | bullet markers (`•`, `–`, `1)`, `a.`…) or ≥ 3 short lines without terminal punctuation |
-| `code` | reuses F1 language scores + structural code shape (lines ending in `{ } ;`, indentation) |
+| `code` | reuses the code-block language scores + structural code shape (lines ending in `{ } ;`, indentation) |
 | `prose` | lines with sentence punctuation and ≥ 8 words |
 
 **Action**: CSV/TSV/aligned → GFM table (first row = header, `|` escaped); list →
 `- item` (existing bullets normalised); JSON → ```` ```json ```` (minified JSON is pretty-printed first); code → fenced block, tagged with
-the F1 language only if *that* decision also passes the gate. `prose` never suggests anything.
+the detected language only if *that* decision also passes the gate. `prose` never suggests anything.
 
-### F3 — Structure intent (`noul`)
+### Structure hints (`noul`)
 
 **Trigger.** Near-miss Markdown on a line that is **not** the one being typed, outside code —
 fenced blocks, indented code blocks and raw HTML (`<pre>`, `<style>`, …) are skipped:
@@ -187,7 +187,7 @@ from a per-kind prior and is adjusted by evidence:
 - **List fixes** need company: neighbouring list items raise confidence; a lone `*line` is more
   often a footnote than a bullet, so it stays quiet.
 
-### F4 — Readability (`score`)
+### Readability (`score`)
 
 **Trigger.** 2 s idle; one decision per `##` section with ≥ 30 words.
 
@@ -213,14 +213,15 @@ Marks are only re-rendered when a score actually changes.
 ### 4.1 What it is
 
 *Local model* mode adds a small language classifier trained for exactly one job: naming the
-language of an untagged code block (F1, and the tag on a pasted code block). Everything else keeps
+language of an untagged code block (and of a pasted block of code). Everything else keeps
 using the heuristics. It isn't a chatbot or an LLM — it reads a snippet and picks one of the 21
 answers, like the rest of Smart Assist.
 
 - **Size and speed:** 385 KB; one decision takes about 0.1 ms in plain JavaScript — no ML runtime,
   no WebGPU, no worker needed.
-- **Private:** downloaded once from the same site as the app (only when you pick the mode), then
-  kept in your browser's cache. Your text never leaves the page.
+- **Private:** downloaded once from the same site as the app — only after you pick the mode and
+  confirm a short notice — then kept in your browser's cache (removable any time in About → Privacy
+  & storage). Your text never leaves the page.
 - **How it reads code:** the snippet becomes a set of small clues — words and symbols, pairs of
   neighbouring tokens, how lines start and end, the indentation style, and three-letter pieces of
   longer words. Each clue has a learned 8-number vector; the model averages them and turns the
@@ -257,11 +258,10 @@ is the next step.
 ### 4.4 And Laya?
 
 **Laya** — an open-weights decision model (~322–421 M parameters) that natively answers
-`choice` / `score` / `noul` — was the original plan for this mode. For F1 a purpose-trained model
+`choice` / `score` / `noul` — was the original plan for this mode. For code-block languages a purpose-trained model
 turned out to be the better fit: thousands of times smaller, instant, and measurable on real data.
-Laya stays an option for future questions where no such training data exists. Its hosted sibling,
-**Jev**, is never used: calling a hosted model would break the "files never leave your machine"
-promise.
+Laya stays an option for future questions where no such training data exists. Whatever runs, runs
+on your device — a hosted model would break the "files never leave your machine" promise.
 
 ---
 
@@ -284,13 +284,13 @@ included), and the rules are never tuned against it — so it's the honest numbe
 
 | Feature | Real-world examples | Accuracy | Shown | Precision when shown |
 |---|---|---|---|---|
-| F1 code-block language | 314 | 57 % | 75 | 97 % |
-| F2 smart paste | 31 | 81 % | 17 | 100 % |
-| F3 structure hints | 30 | 93 % | 14 | 86 % |
+| Code-block language | 314 | 57 % | 75 | 97 % |
+| Smart paste | 31 | 81 % | 17 | 100 % |
+| Structure hints | 30 | 93 % | 14 | 86 % |
 
 Read it like this: when a suggestion appears it's almost always right; the cost of that caution
-is that many real code blocks get no suggestion at all (F1). Heuristic decisions take well under
-a millisecond. With *Local model*, F1 on the same 314 blocks reaches **76 % accuracy, 141 shown, 94 %
+is that many real code blocks get no language suggestion at all. Heuristic decisions take well under
+a millisecond. With *Local model*, code-block language on the same 314 blocks reaches **76 % accuracy, 141 shown, 94 %
 precision** (section 4.3).
 
 ---

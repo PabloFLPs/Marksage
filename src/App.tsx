@@ -14,7 +14,8 @@ import {
   fallbackFilename,
   openFilePicker,
 } from './lib/file'
-import { loadAssistMode, loadSplitRatio, saveAssistMode, saveSplitRatio } from './lib/storage'
+import { deleteAllLocalData, loadAssistMode, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveSplitRatio } from './lib/storage'
+import { deleteDownloadedModel } from './assist/modelEngine'
 import { AboutPage } from './components/AboutPage'
 import { TechDocsPage } from './components/TechDocsPage'
 import { getSampleDocument } from './lib/sampleDocument'
@@ -183,11 +184,14 @@ export default function App() {
     </MarkdownEditor>
   )
 
+  // Opening or creating a document always lands in the app — never behind About / the docs.
   const showResult = useCallback(
     (created: boolean) => {
-      if (created) setViewMode(isDesktop ? 'preview' : 'edit')
+      if (!created) return
+      goHome()
+      setViewMode(isDesktop ? 'preview' : 'edit')
     },
-    [isDesktop],
+    [isDesktop, goHome],
   )
 
   const handleImport = useCallback(() => {
@@ -212,23 +216,35 @@ export default function App() {
   const handleOpenHistory = useCallback(
     (entry: Parameters<typeof openFromHistory>[0]) => {
       openFromHistory(entry)
-      if (showAbout) closeAbout()
+      goHome()
       setViewMode(isDesktop ? 'preview' : 'edit')
     },
-    [openFromHistory, showAbout, closeAbout, isDesktop],
+    [openFromHistory, goHome, isDesktop],
   )
 
   const handleNew = useCallback(() => {
     newDocument()
+    goHome()
     setViewMode('edit')
-  }, [newDocument])
+  }, [newDocument, goHome])
+
+  const handleRemoveModel = useCallback(async () => {
+    await deleteDownloadedModel()
+    saveModelNoticeSeen(false) // picking it again shows the download notice again
+    if (assistMode === 'model') handleAssistModeChange('heuristics')
+  }, [assistMode, handleAssistModeChange])
+
+  const handleDeleteAllData = useCallback(async () => {
+    await deleteAllLocalData()
+    window.location.replace(window.location.pathname + window.location.search) // fresh start, no #about
+  }, [])
 
   const handleTrySmartAssist = useCallback(() => {
     pasteText(getSampleDocument(lang))
     handleAssistModeChange(assistMode === 'off' ? 'heuristics' : assistMode)
-    closeAbout()
+    goHome()
     setViewMode('edit')
-  }, [lang, pasteText, handleAssistModeChange, assistMode, closeAbout])
+  }, [lang, pasteText, handleAssistModeChange, assistMode, goHome])
 
   const handleExport = useCallback(() => {
     if (!document) return
@@ -307,9 +323,7 @@ export default function App() {
       setIsDragging(false)
       const file = e.dataTransfer?.files?.[0]
       if (file) {
-        openFile(file).then((ok) => {
-          if (ok) setViewMode(isDesktop ? 'preview' : 'edit')
-        })
+        openFile(file).then(showResult)
       }
     }
 
@@ -321,7 +335,7 @@ export default function App() {
       window.removeEventListener('dragleave', handleDragLeave)
       window.removeEventListener('drop', handleDrop)
     }
-  }, [openFile, isDesktop])
+  }, [openFile, showResult])
 
   // Paste Markdown anywhere outside the editor.
   useEffect(() => {
@@ -408,6 +422,8 @@ export default function App() {
           onTrySmartAssist={handleTrySmartAssist}
           appIcon={appIcon}
           onAppIconChange={setAppIcon}
+          onRemoveModel={handleRemoveModel}
+          onDeleteAllData={handleDeleteAllData}
           theme={theme}
         />
       ) : !document ? (
@@ -418,6 +434,7 @@ export default function App() {
           history={recent}
           onOpenHistory={handleOpenHistory}
           onRemoveHistory={removeFromHistory}
+          onClearHistory={clearHistory}
         />
       ) : editing ? (
         isDesktop ? (

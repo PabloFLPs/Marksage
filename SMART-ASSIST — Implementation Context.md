@@ -1,12 +1,12 @@
 # Smart Assist — Implementation Context (Markdown Preview)
 
 > Paste this into a new chat to start implementation. Origin: a case-study discussion
-> (2026-09-25) on where "System 1" decision models (Jev / Laya) actually add value.
+> (2026-09-25) on where "System 1" decision models (Laya) actually add value.
 
 ## 1. The concept in one paragraph
 
-Decision models (Jev = closed, hosted API; **Laya** = Apache-2.0, open weights, ~322M/421M
-params, ONNX exports) do **not** generate text. They answer typed questions over a set of options
+Decision models (**Laya** = Apache-2.0, open weights, ~322M/421M params,
+ONNX exports) do **not** generate text. They answer typed questions over a set of options
 that is fixed up front: `choice` (pick one option, with a probability per option), `score` (a place on an ordered scale),
 `noul` (probability a statement is true). Output can't be malformed. **The model decides; our
 TypeScript code acts.** If you can't list the possible answers up front, it's not a decision-model job.
@@ -201,3 +201,18 @@ GitHub, so a small purpose-trained classifier is the better fit for a fast, loca
   Tab applies; 1 request on first load, 0 on the next; 404 → fallback. Docs §4 rewritten (EN + PT-BR).
 - **Next (v2):** short snippets (≤ 3 lines), TS-vs-JS cues, more SQL/C#/Markdown one-liners — tuned on dev,
   claimed only on a fresh held-out set built from new repos.
+
+## 12. Privacy & storage (2026-10-24)
+
+Checked against the EU ePrivacy rule (Art. 5(3) — per EDPB Guidelines 2/2023 it covers local storage and
+caches, not just cookies) and the Brazilian ANPD cookie guide. Everything Marksage stores is strictly
+necessary for something the user asked for — their document and Recent list, their settings, and the model
+file only after they pick Local model — so **no consent banner is needed**, but users must be told clearly.
+There are no cookies, analytics or third-party requests (system fonts only).
+
+- First pick of Local model shows a short notice (385 KB download, kept in the browser, nothing you write is
+  sent) with "Download and turn on" / "Cancel"; seen once (`marksage:model-notice`).
+- About → **Privacy & storage**: what is kept and where, why there's no cookie banner, hosting logs note,
+  **Remove downloaded model** and **Delete all Marksage data** (every `marksage:*` key + `marksage-*` caches).
+- Theme is stored only when the user changes it (it used to be written on every load).
+- Not legal advice — the hosting provider's own terms/logs still apply.

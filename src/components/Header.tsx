@@ -106,7 +106,7 @@ export function Header({
               onClick={onHome}
               aria-label={t('app.home')}
               title={showingAbout ? t('app.home') : undefined}
-              className="group -ml-1 inline-flex min-w-0 shrink-0 items-center gap-2.5 rounded-md px-1 py-0.5"
+              className="group -ml-1 inline-flex min-w-0 shrink-0 cursor-pointer items-center gap-2.5 rounded-md px-1 py-0.5"
             >
               <img src={appIconSrc} alt="" className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110 group-active:scale-95 motion-reduce:transition-none motion-reduce:group-hover:scale-100" />
               <span className="min-w-0 truncate text-sm font-semibold tracking-tight text-ink transition-colors group-hover:text-accent dark:text-dark-ink dark:group-hover:text-dark-accent">

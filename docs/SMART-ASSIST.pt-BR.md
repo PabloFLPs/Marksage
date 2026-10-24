@@ -40,7 +40,7 @@ textarea ──(debounce 400 ms / colar / 2 s ocioso)──► pre-filter     "h
                                                 DecisionEngine
                                      ┌─────────────────┴─────────────────┐
                               HeuristicEngine                      ModelEngine
-                         (sempre disponível, rápido)   (modelo próprio no F1, heurísticas no resto)
+                         (sempre disponível, rápido)   (modelo próprio nas linguagens, heurísticas no resto)
                                      └─────────────────┬─────────────────┘
                                                        ▼
                                       filtro de confiança (passesGate)
@@ -55,9 +55,9 @@ textarea ──(debounce 400 ms / colar / 2 s ocioso)──► pre-filter     "h
 | Peça | O que faz |
 |---|---|
 | **Pré-filtro** | Verificações baratas e determinísticas que encontram *candidatos* (um bloco de código sem linguagem, uma colagem de várias linhas, um título quase certo). Sem candidato → nada mais roda. |
-| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Modelo local* (o modelo próprio do Marksage no F1 + heurísticas no resto). |
+| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Modelo local* (o modelo próprio do Marksage na linguagem dos blocos de código + heurísticas no resto). |
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
-| **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (F1–F4 abaixo). |
+| **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos abaixo). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
 | **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão usados para medir cada recurso antes de ele ir ao ar. |
@@ -89,9 +89,9 @@ passesGate(probs, threshold = 0.8, minMargin = 0.2)
 
 | Recurso | Filtro |
 |---|---|
-| F1 bloco de código, F2 colagem inteligente | 0,8 / 0,2 |
-| F3 estrutura (`noul`) | p ≥ 0,8 (implica margem de 0,6 sobre "falso") |
-| F4 legibilidade | 0,5 / 0,15 (é uma dica passiva, não uma edição) |
+| Linguagem do bloco de código, colagem inteligente | 0,8 / 0,2 |
+| Dicas de estrutura (`noul`) | p ≥ 0,8 (implica margem de 0,6 sobre "falso") |
+| Legibilidade | 0,5 / 0,15 (é uma dica passiva, não uma edição) |
 
 O silêncio é o padrão: uma sugestão perdida não custa nada; uma errada custa confiança.
 
@@ -113,7 +113,7 @@ O silêncio é o padrão: uma sugestão perdida não custa nada; uma errada cust
 
 ## 3. Recursos e suas heurísticas
 
-### F1 — Linguagem do bloco de código (`choice`)
+### Linguagem do bloco de código (`choice`)
 
 **Gatilho.** Um bloco *fechado* (```` ``` ```` ou `~~~`) sem linguagem, com corpo ≥ 3 caracteres,
 e o cursor **fora** do bloco (você terminou de escrever). O bloco mais próximo é avaliado primeiro
@@ -138,7 +138,7 @@ como logits — cada regra que casa soma seu peso uma vez:
 As pontuações passam por `softmax` → probabilidades → filtro. **Ação:** inserir o id da linguagem
 logo após o marcador de abertura.
 
-### F2 — Colagem inteligente (`choice`)
+### Colagem inteligente (`choice`)
 
 **Gatilho.** Um `paste` no editor com ≥ 2 linhas não vazias (≤ 50 mil caracteres) que ainda não
 comece como estrutura Markdown (tabelas, blocos, títulos, listas). **A colagem sempre entra
@@ -155,14 +155,14 @@ intacta**; a sugestão oferece converter o trecho colado depois.
 | `csv` | quantidade consistente de células por vírgula (respeitando aspas), células curtas; penalizado por frases e células "longas" (> 5 palavras) |
 | `table` | colunas separadas por 2+ espaços em todas as linhas — saída de terminal / estilo `kubectl` |
 | `list` | marcadores (`•`, `–`, `1)`, `a.`…) ou ≥ 3 linhas curtas sem pontuação final |
-| `code` | reaproveita as pontuações do F1 + formato de código (linhas terminando em `{ } ;`, indentação) |
+| `code` | reaproveita as pontuações de linguagem dos blocos de código + formato de código (linhas terminando em `{ } ;`, indentação) |
 | `prose` | linhas com pontuação de frase e ≥ 8 palavras |
 
 **Ação**: CSV/TSV/alinhado → tabela GFM (primeira linha = cabeçalho, `|` escapado);
 lista → `- item` (marcadores existentes normalizados); JSON → ```` ```json ```` (JSON minificado é formatado antes); código → bloco,
-com a linguagem do F1 apenas se *essa* decisão também passar no filtro. `prose` nunca sugere nada.
+com a linguagem detectada apenas se *essa* decisão também passar no filtro. `prose` nunca sugere nada.
 
-### F3 — Intenção de estrutura (`noul`)
+### Dicas de estrutura (`noul`)
 
 **Gatilho.** Markdown "quase certo" numa linha que **não** é a que está sendo digitada, fora de código —
 blocos cercados, blocos de código indentados e HTML bruto (`<pre>`, `<style>`, …) são ignorados:
@@ -188,7 +188,7 @@ de um valor inicial por tipo e é ajustada pelas evidências:
 - **Correções de lista** precisam de companhia: itens de lista vizinhos aumentam a confiança; uma
   linha `*solta` costuma ser nota de rodapé, não marcador, então fica em silêncio.
 
-### F4 — Legibilidade (`score`)
+### Legibilidade (`score`)
 
 **Gatilho.** 2 s ocioso; uma decisão por seção `##` com ≥ 30 palavras.
 
@@ -214,14 +214,15 @@ o mouse. As marcas só são redesenhadas quando uma pontuação muda de fato.
 ### 4.1 O que é
 
 O modo *Modelo local* adiciona um pequeno classificador treinado para uma única tarefa: dizer a
-linguagem de um bloco de código sem linguagem (F1, e a linguagem de um bloco de código colado). O
+linguagem de um bloco de código sem linguagem (e de um bloco de código colado). O
 resto continua com as heurísticas. Não é um chatbot nem um LLM — ele lê um trecho e escolhe uma das
 21 respostas, como todo o Smart Assist.
 
 - **Tamanho e velocidade:** 385 KB; uma decisão leva cerca de 0,1 ms em JavaScript puro — sem
   runtime de ML, sem WebGPU, sem worker.
-- **Privado:** baixado uma vez do mesmo site do app (só quando você escolhe o modo) e guardado no
-  cache do navegador. Seu texto nunca sai da página.
+- **Privado:** baixado uma vez do mesmo site do app — só depois de você escolher o modo e confirmar
+  um aviso curto — e guardado no cache do navegador (removível a qualquer momento em Sobre →
+  Privacidade e armazenamento). Seu texto nunca sai da página.
 - **Como ele lê código:** o trecho vira um conjunto de pistas — palavras e símbolos, pares de tokens
   vizinhos, como as linhas começam e terminam, o estilo de indentação e pedaços de três letras das
   palavras mais longas. Cada pista tem um vetor aprendido de 8 números; o modelo tira a média e
@@ -258,11 +259,11 @@ próximo passo.
 ### 4.4 E o Laya?
 
 O **Laya** — um modelo de decisão com pesos abertos (~322–421 M de parâmetros) que responde
-nativamente perguntas `choice` / `score` / `noul` — era o plano original para este modo. Para o F1,
-um modelo treinado para a tarefa se mostrou a melhor escolha: milhares de vezes menor, instantâneo e
+nativamente perguntas `choice` / `score` / `noul` — era o plano original para este modo. Para a
+linguagem dos blocos de código, um modelo treinado para a tarefa se mostrou a melhor escolha: milhares de vezes menor, instantâneo e
 mensurável em dados reais. O Laya continua sendo uma opção para perguntas futuras em que não existam
-dados de treino assim. O irmão hospedado dele, o **Jev**, nunca é usado: chamar um modelo hospedado
-quebraria a promessa de que "os arquivos nunca saem da sua máquina".
+dados de treino assim. O que rodar, roda no seu dispositivo — um modelo hospedado quebraria a
+promessa de que "os arquivos nunca saem da sua máquina".
 
 ---
 
@@ -286,13 +287,13 @@ incluído), e as regras nunca são ajustadas contra ele — então é o número 
 
 | Recurso | Exemplos reais | Acurácia | Exibidas | Precisão quando exibida |
 |---|---|---|---|---|
-| F1 linguagem do bloco | 314 | 57 % | 75 | 97 % |
-| F2 colagem inteligente | 31 | 81 % | 17 | 100 % |
-| F3 dicas de estrutura | 30 | 93 % | 14 | 86 % |
+| Linguagem do bloco de código | 314 | 57 % | 75 | 97 % |
+| Colagem inteligente | 31 | 81 % | 17 | 100 % |
+| Dicas de estrutura | 30 | 93 % | 14 | 86 % |
 
 Leia assim: quando uma sugestão aparece, ela quase sempre está certa; o preço dessa cautela é que
-muitos blocos de código reais ficam sem sugestão (F1). As decisões heurísticas levam bem menos de um
-milissegundo. Com o *Modelo local*, o F1 nos mesmos 314 blocos chega a **76 % de acurácia, 141
+muitos blocos de código reais ficam sem sugestão de linguagem. As decisões heurísticas levam bem menos de um
+milissegundo. Com o *Modelo local*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **76 % de acurácia, 141
 exibidas e 94 % de precisão** (seção 4.3).
 
 ---

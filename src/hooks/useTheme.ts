@@ -6,9 +6,22 @@ export type Theme = 'light' | 'dark'
 const STORAGE_KEY = 'marksage:theme'
 
 function getInitialTheme(): Theme {
-  const stored = localStorage.getItem(STORAGE_KEY)
-  if (stored === 'light' || stored === 'dark') return stored
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored === 'light' || stored === 'dark') return stored
+  } catch {
+    // Storage unavailable — follow the system.
+  }
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+/** Saved only when the user picks a theme; until then the system setting is followed (nothing stored). */
+function saveTheme(theme: Theme) {
+  try {
+    localStorage.setItem(STORAGE_KEY, theme)
+  } catch {
+    // Ignore.
+  }
 }
 
 export function useTheme() {
@@ -16,11 +29,15 @@ export function useTheme() {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
-    localStorage.setItem(STORAGE_KEY, theme)
   }, [theme])
 
   const toggleTheme = useCallback(() => {
-    const flip = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+    const flip = () =>
+      setTheme((prev) => {
+        const next = prev === 'dark' ? 'light' : 'dark'
+        saveTheme(next)
+        return next
+      })
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     // View Transitions: one GPU cross-fade of two snapshots — cheap even for huge documents.
     const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown }

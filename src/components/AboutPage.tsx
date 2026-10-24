@@ -4,6 +4,9 @@ import {
   BookOpen,
   ClipboardPaste,
   Code2,
+  Cookie,
+  HardDrive,
+  Trash2,
   Columns2,
   Download,
   FileText,
@@ -16,7 +19,8 @@ import {
   Sparkles,
   Table,
 } from 'lucide-react'
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { hasDownloadedModel } from '../assist/modelEngine'
 import { AppIconPicker } from './AppIconPicker'
 import type { AppIconId } from '../lib/appIcons'
 import { keyLabel, type KeyStyle, type KeyToken } from '../lib/keyStyle'
@@ -35,6 +39,10 @@ interface AboutPageProps {
   appIcon: AppIconId
   onAppIconChange: (id: AppIconId) => void
   theme: 'light' | 'dark'
+  /** Delete the cached Local model file (and leave Local model mode). */
+  onRemoveModel: () => Promise<void>
+  /** Wipe every Marksage key and cache in this browser, then reload. */
+  onDeleteAllData: () => Promise<void>
 }
 
 const SHORTCUTS: [KeyToken[], string, string][] = [
@@ -47,7 +55,7 @@ const SHORTCUTS: [KeyToken[], string, string][] = [
   [['esc'], 'Dismiss a suggestion', 'Dispensar uma sugestão'],
 ]
 
-export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssist, appIcon, onAppIconChange, theme }: AboutPageProps) {
+export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssist, appIcon, onAppIconChange, theme, onRemoveModel, onDeleteAllData }: AboutPageProps) {
   const { keyStyle, setKeyStyle } = useKeyStyle()
   const { t, lang, setLang } = useI18n()
   const pt = lang === 'pt-BR'
@@ -224,17 +232,88 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssis
           </dl>
         </Section>
 
-        <Section title={x('Privacy', 'Privacidade')}>
+        <Section title={x('Privacy & storage', 'Privacidade e armazenamento')}>
+          <div id="privacy" className="scroll-mt-6" />
           <Feature icon={<Lock />} title={x('Local-first, always', 'Local em primeiro lugar, sempre')}>
             {x(
-              'No accounts, no server, no uploads. Files are read by your browser and Smart Assist runs on your device. Once loaded, the app works offline.',
-              'Sem contas, sem servidor, sem uploads. Os arquivos são lidos pelo seu navegador e o Smart Assist roda no seu dispositivo. Depois de carregado, o app funciona offline.',
+              'No accounts, no server, no uploads. Files are read by your browser and Smart Assist runs on your device — nothing you open or write is sent anywhere.',
+              'Sem contas, sem servidor, sem uploads. Os arquivos são lidos pelo seu navegador e o Smart Assist roda no seu dispositivo — nada do que você abre ou escreve é enviado.',
             )}
           </Feature>
+          <Feature icon={<HardDrive />} title={x('What’s kept in this browser', 'O que fica guardado neste navegador')}>
+            {x(
+              <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode). If you turn on <span className={strong}>Local model</span>, its 385 KB file is kept in the browser cache so it downloads once. It all stays until you clear it.</>,
+              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist). Se você ativar o <span className={strong}>Modelo local</span>, o arquivo de 385 KB fica no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
+            )}
+          </Feature>
+          <Feature icon={<Cookie />} title={x('No cookies, no tracking', 'Sem cookies, sem rastreamento')}>
+            {x(
+              'No cookies, analytics, ads or third-party services — even the fonts are your system’s. Everything above is stored only because a feature you use needs it, which is why there’s no cookie banner. The server that hosts this site may keep standard technical logs (such as IP address and time) to deliver it.',
+              'Sem cookies, análises, anúncios ou serviços de terceiros — até as fontes são as do seu sistema. Tudo acima é guardado só porque um recurso que você usa precisa disso, e por isso não há banner de cookies. O servidor que hospeda este site pode manter registros técnicos padrão (como endereço IP e horário) para entregá-lo.',
+            )}
+          </Feature>
+          <StorageControls x={x} onRemoveModel={onRemoveModel} onDeleteAllData={onDeleteAllData} />
         </Section>
       </div>
     </main>
     </KeyStyleContext.Provider>
+  )
+}
+
+type Pick2 = <T>(en: T, ptBR: T) => T
+
+/** Remove the downloaded model / delete everything Marksage keeps in this browser. */
+function StorageControls({ x, onRemoveModel, onDeleteAllData }: { x: Pick2; onRemoveModel: () => Promise<void>; onDeleteAllData: () => Promise<void> }) {
+  const [hasModel, setHasModel] = useState(false)
+  const [removed, setRemoved] = useState(false)
+  const [confirmAll, setConfirmAll] = useState(false)
+  useEffect(() => {
+    let alive = true
+    hasDownloadedModel().then((v) => alive && setHasModel(v))
+    return () => {
+      alive = false
+    }
+  }, [])
+  const btn =
+    'press inline-flex min-h-9 items-center gap-1.5 rounded-md border border-line px-3 text-xs font-medium text-ink transition-colors hover:border-red-500 hover:text-red-600 dark:border-dark-line dark:text-dark-ink dark:hover:border-red-400 dark:hover:text-red-400'
+  return (
+    <div className="flex flex-wrap items-center gap-2 pl-7">
+      {hasModel && (
+        <button
+          type="button"
+          className={btn}
+          onClick={async () => {
+            await onRemoveModel()
+            setHasModel(false)
+            setRemoved(true)
+          }}
+        >
+          <Trash2 className="h-3.5 w-3.5" /> {x('Remove downloaded model', 'Remover o modelo baixado')}
+        </button>
+      )}
+      {removed && (
+        <span role="status" className="anim-rise text-xs text-ink-muted dark:text-dark-ink-muted">
+          {x('Model removed — Smart Assist is back on heuristics.', 'Modelo removido — o Smart Assist voltou para as heurísticas.')}
+        </span>
+      )}
+      {confirmAll ? (
+        <span className="anim-rise inline-flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-ink-muted dark:text-dark-ink-muted">
+            {x('Delete the open document, recent documents, settings and the model from this browser?', 'Apagar o documento aberto, os recentes, as configurações e o modelo deste navegador?')}
+          </span>
+          <button type="button" onClick={onDeleteAllData} className="rounded px-1 font-medium text-red-600 hover:underline dark:text-red-400">
+            {x('Delete everything', 'Apagar tudo')}
+          </button>
+          <button type="button" onClick={() => setConfirmAll(false)} className="rounded px-1 text-ink-muted hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink">
+            {x('Cancel', 'Cancelar')}
+          </button>
+        </span>
+      ) : (
+        <button type="button" className={btn} onClick={() => setConfirmAll(true)}>
+          <Trash2 className="h-3.5 w-3.5" /> {x('Delete all Marksage data', 'Apagar todos os dados do Marksage')}
+        </button>
+      )}
+    </div>
   )
 }
 

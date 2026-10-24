@@ -33,7 +33,8 @@ training/                 F1 model pipeline (collect → split → train); clone
   because the animated wrapper becomes the containing block. Everything must respect `prefers-reduced-motion`.
 - **Buttons:** header buttons lift on hover automatically (`header button:hover`); non-button controls use `.press`.
 - **i18n:** every user-facing string goes through `useI18n().t(key)`; add keys to `src/lib/locales/en.ts` (source) and `pt-BR.ts`. Long-form copy (About page) uses the `x(en, pt)` helper; the Smart Assist docs exist as `docs/SMART-ASSIST.md` + `.pt-BR.md`.
-- **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang}` — wrap every access in try/catch. (Renamed from `markdown-preview:*`; `index.html` migrates old keys once on load.)
+- **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice}`, plus the Cache API store `marksage-models-v1` (Local model file) — wrap every access in try/catch.
+- **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests). Any new key or download must be listed in About → Privacy & storage (EN + PT-BR) and be removed by "Delete all Marksage data" (`deleteAllLocalData`). (Renamed from `markdown-preview:*`; `index.html` migrates old keys once on load.)
 - **Scroll sync:** preview blocks carry `data-line` (rehype plugin in `lib/scrollSync.ts`); the editor side is measured with a hidden mirror. Keep `rehypeSourceLines` on the preview.
 - **Focus:** call `focus({ preventScroll: true })` — plain focus during slide animations shifts the layout.
 - **Imports inside `src/assist/`** use explicit `.ts` extensions so `node --experimental-strip-types` can run the eval.
