@@ -41,6 +41,18 @@ export interface Suggestion {
   edit: TextEdit
   /** Guard: the text in [from, to) must still equal this when accepting. */
   expected: string
+  /**
+   * A choice instead of a single fix: the user picks one (Tab = first, Alt+2 = second, or click).
+   * `edit` above is the first choice's edit.
+   */
+  choices?: SuggestionChoice[]
+}
+
+export interface SuggestionChoice {
+  id: string
+  label: string
+  confidence: number
+  edit: TextEdit
 }
 
 export interface ReadabilityMark {

@@ -97,6 +97,8 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'suggest.dismiss': 'Dispensar ({key})',
   'suggest.confidence': 'Confiança do mecanismo',
   'suggest.fence': 'Adicionar a linguagem “{lang}” ao bloco de código',
+  'suggest.fencePair': 'Qual linguagem?',
+  'suggest.choose': 'Usar {name}',
   'suggest.paste.csv': 'Converter CSV em tabela Markdown',
   'suggest.paste.tsv': 'Converter em tabela Markdown',
   'suggest.paste.table': 'Converter em tabela Markdown',

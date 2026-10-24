@@ -96,6 +96,8 @@ export const en = {
   'suggest.dismiss': 'Dismiss ({key})',
   'suggest.confidence': 'Engine confidence',
   'suggest.fence': 'Add language “{lang}” to code block',
+  'suggest.fencePair': 'Which language?',
+  'suggest.choose': 'Use {name}',
   'suggest.paste.csv': 'Convert CSV to Markdown table',
   'suggest.paste.tsv': 'Convert to Markdown table',
   'suggest.paste.table': 'Convert to Markdown table',

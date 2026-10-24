@@ -18,6 +18,7 @@ import { LANGUAGES, PASTE_KINDS, Q } from '../src/assist/questions.ts'
 import { findStructureCandidates } from '../src/assist/prefilter.ts'
 import { loadModel } from '../src/assist/model/model.ts'
 import { combineFence, toChoice } from '../src/assist/model/hybrid.ts'
+import { fencePair } from '../src/assist/features/codeFence.ts'
 
 const fixture = (f: string) => new URL(`../src/assist/__fixtures__/${f}`, import.meta.url)
 const load = (f: string) => JSON.parse(readFileSync(fixture(f), 'utf8'))
@@ -31,7 +32,7 @@ const SETS: Set[] = realOnly ? ['real', 'real2'] : ['authored', 'dev', 'real', '
 const file = (base: string, set: Set) => (set === 'authored' ? `${base}.json` : `${base}.${set}.json`)
 const has = (base: string, set: Set) => existsSync(fixture(file(base, set)))
 
-type Row = { label: string; pred: string; conf: number; shown: boolean; source?: string }
+type Row = { label: string; pred: string; conf: number; shown: boolean; source?: string; pair?: [string, string] }
 function report(name: string, rows: Row[], ms: number) {
   const acc = rows.filter((r) => r.pred === r.label).length / rows.length
   const shown = rows.filter((r) => r.shown)
@@ -39,6 +40,12 @@ function report(name: string, rows: Row[], ms: number) {
   console.log(`\n## ${name}  (n=${rows.length}, ${(ms / rows.length).toFixed(2)} ms/decision)`)
   console.log(`accuracy (argmax): ${(acc * 100).toFixed(1)}%`)
   console.log(`shown past gate:   ${shown.length}/${rows.length}  — precision when shown: ${(precision * 100).toFixed(1)}%`)
+  const pairs = rows.filter((r) => r.pair)
+  if (pairs.length) {
+    const among = pairs.filter((r) => r.pair!.includes(r.label)).length
+    const first = pairs.filter((r) => r.pair![0] === r.label).length
+    console.log(`two-option offers: ${pairs.length}  — right one among the two: ${among} (${((among / pairs.length) * 100).toFixed(0)}%), first option right: ${first}`)
+  }
   const bins = [0, 0.5, 0.7, 0.8, 0.9, 1.01]
   for (let i = 0; i < bins.length - 1; i++) {
     const b = rows.filter((r) => r.conf >= bins[i] && r.conf < bins[i + 1])
@@ -72,7 +79,8 @@ for (const set of SETS) {
         const d = v2 ? await combineFence(m, () => engine.choice(f.code, Q.fenceLanguage, LANGUAGES)) : m
         const pred = d.choice
         const probs = Object.values(d.probs) as number[]
-        mrows.push({ label: f.label, pred, conf: d.probs[pred], shown: pred !== 'plaintext' && passesGate(probs), source: f.source })
+        const shownNow = pred !== 'plaintext' && passesGate(probs)
+        mrows.push({ label: f.label, pred, conf: d.probs[pred], shown: shownNow, source: f.source, pair: shownNow ? undefined : (fencePair(d.probs) ?? undefined) })
       }
       report(`F1 code-fence language — ${set} · model (${(MODEL_FILE.pathname.split('/').pop())})`, mrows, performance.now() - t1)
     }

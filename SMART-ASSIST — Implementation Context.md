@@ -232,3 +232,5 @@ There are no cookies, analytics or third-party requests (system fonts only).
   (145 right, 13 wrong). Shipped: beats v1 on everything; still ~1 point under the heuristics' precision
   on unfamiliar repos, so the mode stays opt-in.
 - Vite ignores `training/data/**` (the dev server ran out of file watchers with the clones present).
+
+- 2026-10-24: **two-option suggestion** (`fencePair`, model mode only): top-2 ≥ 85 % together, second ≥ 20 %, neither passing the gate → chips, Tab / Alt+2. Dev: 15 offers, 13 right-among-two; held-out real: 15/15; real2: 17/17.

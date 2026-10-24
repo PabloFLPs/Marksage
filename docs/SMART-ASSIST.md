@@ -138,6 +138,12 @@ logits — each matching rule adds its weight once:
 Scores go through `softmax` → probabilities → gate. **Action:** insert the language id right after
 the opening fence marker.
 
+**Two options.** With *Local model*, when no language passes the gate but the top two together hold
+≥ 85 % (the second ≥ 20 %), the bar offers both — `Tab` (or a click) takes the first, `Alt+2` the second.
+Typical pairs: JavaScript/TypeScript, JSON/YAML, C/C++. The rule was set on the dev set; on the two
+held-out sets it made 15 and 17 offers, and the right language was one of the two every time. (Only the
+model's probabilities are calibrated well enough for this, so heuristics mode doesn't offer pairs.)
+
 ### Smart paste (`choice`)
 
 **Trigger.** A `paste` into the editor with ≥ 2 non-empty lines (≤ 50 k chars) that doesn't

@@ -128,13 +128,14 @@ export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
     setSuggestion(null)
   }, [suggestion])
 
-  const accept = useCallback(() => {
+  /** Apply the suggestion — or, for a choice, the `index`-th option (0 = first). */
+  const accept = useCallback((index = 0) => {
     const el = textareaRef.current
     const s = suggestion
     if (!s || !el) return
     setSuggestion(null)
     pasteSticky.current = false
-    const { from, to, insert } = s.edit
+    const { from, to, insert } = s.choices?.[index]?.edit ?? s.edit
     if (el.value.slice(from, to) !== s.expected) return // text moved on — stale suggestion
     el.focus({ preventScroll: true })
     el.setSelectionRange(from, to)
@@ -153,6 +154,10 @@ export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
       if (e.key === 'Tab' && !e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault()
         accept()
+      } else if (e.altKey && !e.metaKey && !e.ctrlKey && e.code === 'Digit2' && (suggestion.choices?.length ?? 0) > 1) {
+        // Alt+2 picks the second option (e.code: on macOS ⌥2 would otherwise type "™").
+        e.preventDefault()
+        accept(1)
       } else if (e.key === 'Escape') {
         e.preventDefault()
         dismiss()

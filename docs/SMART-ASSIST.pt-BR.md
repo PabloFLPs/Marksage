@@ -138,6 +138,13 @@ como logits — cada regra que casa soma seu peso uma vez:
 As pontuações passam por `softmax` → probabilidades → filtro. **Ação:** inserir o id da linguagem
 logo após o marcador de abertura.
 
+**Duas opções.** Com o *Modelo local*, quando nenhuma linguagem passa no filtro mas as duas primeiras
+somam ≥ 85 % (a segunda ≥ 20 %), a barra oferece as duas — `Tab` (ou um clique) escolhe a primeira,
+`Alt+2` a segunda. Pares típicos: JavaScript/TypeScript, JSON/YAML, C/C++. A regra foi definida no
+conjunto dev; nos dois conjuntos separados ela fez 15 e 17 ofertas, e a linguagem certa estava entre as
+duas em todas. (Só as probabilidades do modelo são calibradas o bastante para isso, então o modo
+heurístico não oferece pares.)
+
 ### Colagem inteligente (`choice`)
 
 **Gatilho.** Um `paste` no editor com ≥ 2 linhas não vazias (≤ 50 mil caracteres) que ainda não
