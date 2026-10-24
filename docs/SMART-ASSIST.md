@@ -5,8 +5,8 @@ editor, detects a small set of fixable situations, and **suggests** an edit the 
 (`Tab`) or dismiss (`Esc`). Nothing is sent over the network and nothing is ever applied
 automatically.
 
-> This page is for the curious: how the assistant decides, why it stays quiet, and what "Laya"
-> is. Some familiarity with programming helps, but you don't need the source code — it's on
+> This page is for the curious: how the assistant decides, why it stays quiet, and how
+> Marksage's own little model was trained. Some familiarity with programming helps, but you don't need the source code — it's on
 > [GitHub](https://github.com/PabloFLPs/Marksage) if you want to dig in.
 
 ---
@@ -40,8 +40,8 @@ textarea ──(debounce 400 ms / paste / 2 s idle)──► pre-filter     "is 
                                                      ▼
                                               DecisionEngine
                                    ┌─────────────────┴─────────────────┐
-                            HeuristicEngine                      LayaEngine
-                         (always available, sync-ish)     (Web Worker, scaffolded)
+                            HeuristicEngine                      ModelEngine
+                         (always available, sync-ish)   (own model for F1, heuristics for the rest)
                                    └─────────────────┬─────────────────┘
                                                      ▼
                                      confidence gate (passesGate)
@@ -56,7 +56,7 @@ textarea ──(debounce 400 ms / paste / 2 s idle)──► pre-filter     "is 
 | Piece | What it does |
 |---|---|
 | **Pre-filter** | Cheap, deterministic checks that find *candidates* (an untagged code block, a multi-line paste, a near-miss heading). No candidate → nothing else runs. |
-| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* (today) and the *Laya* model (planned). |
+| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Local model* (Marksage's own model for F1 + heuristics for the rest). |
 | **Confidence gate** | Drops any answer that isn't clearly ahead of the alternatives. |
 | **Features** | Turn a confident decision into a concrete, reversible edit (F1–F4 below). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
@@ -105,8 +105,7 @@ Silence is the default: a missed suggestion costs nothing, a wrong one costs tru
   browser's native undo stack (`⌘/Ctrl Z`); a controlled `onChange` is the fallback.
 - **Never per keystroke.** Analysis is debounced (400 ms), readability waits for 2 s idle, and
   the pre-filter must find a candidate before any engine call.
-- **Cancellation.** Each run owns an `AbortController`; new input aborts stale runs (and calls
-  `LayaEngine.cancelAll()` for in-flight worker requests).
+- **Cancellation.** Each run owns an `AbortController`; new input aborts stale runs.
 - **Dismissals stick** for the session (keyed by a content hash), so the same hint never nags.
 - **Off means off.** With the mode set to *Off*, no handlers are attached to the textarea.
 
@@ -209,62 +208,60 @@ Marks are only re-rendered when a score actually changes.
 
 ---
 
-## 4. Laya
+## 4. Marksage's own model
 
 ### 4.1 What it is
 
-**Laya** is an open-weights decision model (Apache-2.0; ~322 M multilingual and ~421 M parameter
-variants with ONNX exports) that natively answers `choice` / `score` / `noul` questions — the
-exact contract above. Its closed-source counterpart, **Jev**, is a hosted API and is *not* used:
-calling a hosted model would break the product's "files never leave your machine" promise.
+*Local model* mode adds a small language classifier trained for exactly one job: naming the
+language of an untagged code block (F1, and the tag on a pasted code block). Everything else keeps
+using the heuristics. It isn't a chatbot or an LLM — it reads a snippet and picks one of the 21
+answers, like the rest of Smart Assist.
 
-Laya is meant to be an **upgrade over the heuristics, not a dependency**: the app must be fully
-useful without it, and it only replaces heuristics for a feature where the eval shows a
-meaningful win.
+- **Size and speed:** 385 KB; one decision takes about 0.1 ms in plain JavaScript — no ML runtime,
+  no WebGPU, no worker needed.
+- **Private:** downloaded once from the same site as the app (only when you pick the mode), then
+  kept in your browser's cache. Your text never leaves the page.
+- **How it reads code:** the snippet becomes a set of small clues — words and symbols, pairs of
+  neighbouring tokens, how lines start and end, the indentation style, and three-letter pieces of
+  longer words. Each clue has a learned 8-number vector; the model averages them and turns the
+  average into one probability per language.
+- **Calibrated:** its confidence was tuned so that "90 %" really means about 90 % right — the same
+  confidence gate as the heuristics (0.8 / 0.2) decides whether you see anything.
 
-### 4.2 How it plugs in
+### 4.2 How it was trained
 
-```
-editor ──► LayaEngine (main thread) ──postMessage──► Laya worker (Web Worker)
-                     │  id-tagged requests                      │  load → WebGPU, else WASM
-                     │  cancelAll() on new input                │  choice / score / noul
-                     ◄──────────── { id, ok, result } / progress ┘
-```
+- **Data:** about 250,000 code blocks from 265 public repositories (docs, READMEs, guides —
+  including Portuguese ones), labelled with the language the *original authors* tagged them with,
+  plus snippets of real source files for rarer languages.
+- **Fair split:** whole repositories go to training, tuning (dev) or the final test — never the same
+  project in two places — and any training block that looks like a test block is removed.
+- **Training:** about 55,000 blocks, a few seconds per pass, done in TypeScript with the same code
+  the app uses to read snippets, so what the model saw in training is exactly what it sees here.
+- **Chosen on dev, measured once:** size, settings and how to combine it with the heuristics were
+  decided on the dev set; the held-out set was run once at the end.
 
-- **Worker-only inference** — the UI thread never runs the model.
-- **Protocol:** `{ id, op: 'load' | 'choice' | 'score' | 'noul' | 'cancel', payload }` →
-  `{ id, ok, result | error }`, plus `{ op: 'progress', loaded, total }` during download.
-- **Prompts:** the worker receives `PROMPTS[q]` (natural language) plus the option map / scale /
-  statement, so the same feature code works for both engines.
-- **Lifecycle:** selecting *Local model* starts the worker; heuristics answer while it loads; if
-  `ready()` rejects, the hook reports `fallback` (amber dot on the Assist button) and keeps using
-  heuristics.
-- **Download policy (planned):** lazy, opt-in, with size + progress shown; cached by the browser
-  so it works offline after the first load.
+### 4.3 Results
 
-### 4.3 Current status
+On 314 real code blocks the model had never seen (15 per language):
 
-| Piece | State |
-|---|---|
-| `DecisionEngine` contract, prompts, gate | ✅ done |
-| Worker client with cancellation + progress | ✅ done |
-| Worker protocol | ✅ done |
-| Model runtime inside `loadModel()` / `infer()` | ⏳ TODO |
-| UI option "Local model" | disabled ("soon") until the runtime lands |
+| Engine | Accuracy | Suggestions shown | Right when shown | Right / wrong suggestions |
+|---|---|---|---|---|
+| Heuristics | 57 % | 75 (24 %) | 97 % | 73 / 2 |
+| **Marksage's model** | **76 %** | **141 (45 %)** | **94 %** | **133 / 8** |
 
-**What's left:** plugging an ONNX runtime (transformers.js or onnxruntime-web, preferring
-WebGPU with a WASM fallback) into the worker. The "Local model" option stays disabled until the
-model beats the heuristics on the evaluation set.
+About twice as many useful suggestions, at a slightly higher miss rate — which is why it's an
+opt-in mode. Most of its misses are one- to three-line snippets, where languages look alike
+(`List<int> xs = new();` is C#, but reads a lot like Java); a better handle on very short snippets
+is the next step.
 
-### 4.4 Before enabling it (open questions)
+### 4.4 And Laya?
 
-1. Which exact ONNX export to use and its JS runtime API (transformers.js vs raw onnxruntime-web).
-2. Real download size and quantisation — reported sizes don't match the parameter counts, so
-   measure before committing to a variant (prefer the 322 M multilingual one if quality holds).
-3. Latency on WASM-only devices (no WebGPU).
-4. **Calibration.** Laya has a documented failure mode of being *confidently wrong* on unfamiliar
-   input; the gate assumes "0.9" means ~90 % correct. Verify with the eval (include pt-BR and
-   mixed-language snippets) before trusting its probabilities.
+**Laya** — an open-weights decision model (~322–421 M parameters) that natively answers
+`choice` / `score` / `noul` — was the original plan for this mode. For F1 a purpose-trained model
+turned out to be the better fit: thousands of times smaller, instant, and measurable on real data.
+Laya stays an option for future questions where no such training data exists. Its hosted sibling,
+**Jev**, is never used: calling a hosted model would break the "files never leave your machine"
+promise.
 
 ---
 
@@ -293,7 +290,8 @@ included), and the rules are never tuned against it — so it's the honest numbe
 
 Read it like this: when a suggestion appears it's almost always right; the cost of that caution
 is that many real code blocks get no suggestion at all (F1). Heuristic decisions take well under
-a millisecond. Laya will have to beat these numbers on the same real-world set before it's switched on.
+a millisecond. With *Local model*, F1 on the same 314 blocks reaches **76 % accuracy, 141 shown, 94 %
+precision** (section 4.3).
 
 ---
 

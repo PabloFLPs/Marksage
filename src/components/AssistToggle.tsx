@@ -31,7 +31,7 @@ function statusText(mode: AssistMode, status: EngineStatus, t: (k: MessageKey, v
 const OPTIONS: { id: AssistMode; icon: typeof Sparkles; disabled?: boolean }[] = [
   { id: 'off', icon: PowerOff },
   { id: 'heuristics', icon: Zap },
-  { id: 'model', icon: Cpu, disabled: true },
+  { id: 'model', icon: Cpu },
 ]
 
 export function AssistToggle({ mode, status, onChange, compact = false }: AssistToggleProps) {

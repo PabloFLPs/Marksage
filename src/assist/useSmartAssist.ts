@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { ClipboardEvent, KeyboardEvent, RefObject } from 'react'
 import type { AssistMode, DecisionEngine, ReadabilityMark, Suggestion } from './types.ts'
 import { HeuristicEngine } from './heuristicEngine.ts'
-import { LayaEngine } from './layaEngine.ts'
+import { ModelEngine } from './modelEngine.ts'
 import { suggestFenceLanguage } from './features/codeFence.ts'
 import { suggestPasteConversion } from './features/smartPaste.ts'
 import { suggestStructure } from './features/structure.ts'
@@ -48,28 +48,23 @@ export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
       setStatus({ state: 'ready', kind: 'heuristic' })
       return
     }
-    // Local model: heuristics serve while the model loads — and if it can't.
-    let laya: LayaEngine | null = null
+    // Local model: Marksage's own code-language model (F1) on top of the heuristics.
+    // Heuristics serve while it loads — and if it can't.
     let alive = true
     setEngine(heuristic)
-    try {
-      laya = new LayaEngine()
-      laya.onProgress = (loaded, total) => alive && setStatus({ state: 'loading', progress: total ? loaded / total : undefined })
-      setStatus({ state: 'loading' })
-      laya.ready().then(
-        () => {
-          if (!alive) return
-          setEngine(laya)
-          setStatus({ state: 'ready', kind: 'model' })
-        },
-        (err: Error) => alive && setStatus({ state: 'fallback', reason: err.message }),
-      )
-    } catch (err) {
-      setStatus({ state: 'fallback', reason: err instanceof Error ? err.message : 'Worker unavailable' })
-    }
+    const model = new ModelEngine(heuristic)
+    model.onProgress = (loaded, total) => alive && setStatus({ state: 'loading', progress: total ? loaded / total : undefined })
+    setStatus({ state: 'loading' })
+    model.ready().then(
+      () => {
+        if (!alive) return
+        setEngine(model)
+        setStatus({ state: 'ready', kind: 'model' })
+      },
+      (err: Error) => alive && setStatus({ state: 'fallback', reason: err.message }),
+    )
     return () => {
       alive = false
-      laya?.dispose()
     }
   }, [mode, heuristic])
 
@@ -97,7 +92,6 @@ export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
     return () => {
       ctrl.abort()
       window.clearTimeout(timer)
-      if (engine instanceof LayaEngine) engine.cancelAll()
     }
     // `suggestion` intentionally omitted: only input changes should re-run analysis.
     // eslint-disable-next-line react-hooks/exhaustive-deps

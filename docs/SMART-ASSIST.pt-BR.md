@@ -4,8 +4,8 @@ O Smart Assist é o "radar de escrita" opcional e local do Marksage. Ele observa
 editor, detecta um pequeno conjunto de situações corrigíveis e **sugere** uma edição que você pode
 aceitar (`Tab`) ou dispensar (`Esc`). Nada é enviado pela rede e nada é aplicado automaticamente.
 
-> Esta página é para os curiosos: como o assistente decide, por que ele fica em silêncio e o que
-> é o "Laya". Alguma familiaridade com programação ajuda, mas você não precisa do código-fonte —
+> Esta página é para os curiosos: como o assistente decide, por que ele fica em silêncio e como
+> o pequeno modelo próprio do Marksage foi treinado. Alguma familiaridade com programação ajuda, mas você não precisa do código-fonte —
 > ele está no [GitHub](https://github.com/PabloFLPs/Marksage) se quiser se aprofundar.
 
 ---
@@ -39,8 +39,8 @@ textarea ──(debounce 400 ms / colar / 2 s ocioso)──► pre-filter     "h
                                                        ▼
                                                 DecisionEngine
                                      ┌─────────────────┴─────────────────┐
-                              HeuristicEngine                      LayaEngine
-                         (sempre disponível, rápido)        (Web Worker, estruturado)
+                              HeuristicEngine                      ModelEngine
+                         (sempre disponível, rápido)   (modelo próprio no F1, heurísticas no resto)
                                      └─────────────────┬─────────────────┘
                                                        ▼
                                       filtro de confiança (passesGate)
@@ -55,7 +55,7 @@ textarea ──(debounce 400 ms / colar / 2 s ocioso)──► pre-filter     "h
 | Peça | O que faz |
 |---|---|
 | **Pré-filtro** | Verificações baratas e determinísticas que encontram *candidatos* (um bloco de código sem linguagem, uma colagem de várias linhas, um título quase certo). Sem candidato → nada mais roda. |
-| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* (hoje) e o modelo *Laya* (planejado). |
+| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Modelo local* (o modelo próprio do Marksage no F1 + heurísticas no resto). |
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
 | **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (F1–F4 abaixo). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
@@ -105,7 +105,7 @@ O silêncio é o padrão: uma sugestão perdida não custa nada; uma errada cust
 - **Nunca a cada tecla.** A análise tem debounce (400 ms), a legibilidade espera 2 s ociosos e o
   pré-filtro precisa achar um candidato antes de qualquer chamada ao mecanismo.
 - **Cancelamento.** Cada execução tem seu `AbortController`; novas digitações abortam execuções
-  antigas (e chamam `LayaEngine.cancelAll()` para pedidos em andamento no worker).
+  antigas.
 - **Dispensas permanecem** durante a sessão (por hash do conteúdo), para a mesma dica não insistir.
 - **Desligado é desligado.** No modo *Desligado*, nenhum handler é ligado ao textarea.
 
@@ -209,64 +209,60 @@ o mouse. As marcas só são redesenhadas quando uma pontuação muda de fato.
 
 ---
 
-## 4. Laya
+## 4. O modelo próprio do Marksage
 
 ### 4.1 O que é
 
-O **Laya** é um modelo de decisão com pesos abertos (Apache-2.0; variantes multilíngue de ~322 M e
-de ~421 M de parâmetros, com exportações ONNX) que responde nativamente perguntas `choice` / `score`
-/ `noul` — exatamente o contrato acima. Seu equivalente de código fechado, o **Jev**, é uma API
-hospedada e *não* é usado: chamar um modelo hospedado quebraria a promessa de que "os arquivos
-nunca saem da sua máquina".
+O modo *Modelo local* adiciona um pequeno classificador treinado para uma única tarefa: dizer a
+linguagem de um bloco de código sem linguagem (F1, e a linguagem de um bloco de código colado). O
+resto continua com as heurísticas. Não é um chatbot nem um LLM — ele lê um trecho e escolhe uma das
+21 respostas, como todo o Smart Assist.
 
-O Laya deve ser uma **melhoria sobre as heurísticas, não uma dependência**: o app precisa ser
-totalmente útil sem ele, e ele só substitui as heurísticas num recurso em que a avaliação mostrar
-um ganho relevante.
+- **Tamanho e velocidade:** 385 KB; uma decisão leva cerca de 0,1 ms em JavaScript puro — sem
+  runtime de ML, sem WebGPU, sem worker.
+- **Privado:** baixado uma vez do mesmo site do app (só quando você escolhe o modo) e guardado no
+  cache do navegador. Seu texto nunca sai da página.
+- **Como ele lê código:** o trecho vira um conjunto de pistas — palavras e símbolos, pares de tokens
+  vizinhos, como as linhas começam e terminam, o estilo de indentação e pedaços de três letras das
+  palavras mais longas. Cada pista tem um vetor aprendido de 8 números; o modelo tira a média e
+  transforma essa média numa probabilidade por linguagem.
+- **Calibrado:** a confiança foi ajustada para que "90 %" signifique mesmo cerca de 90 % de acerto —
+  o mesmo filtro de confiança das heurísticas (0,8 / 0,2) decide se você vê alguma coisa.
 
-### 4.2 Como ele se encaixa
+### 4.2 Como foi treinado
 
-```
-editor ──► LayaEngine (thread principal) ──postMessage──► Laya worker (Web Worker)
-                     │  pedidos com id                             │  carrega → WebGPU, senão WASM
-                     │  cancelAll() a cada nova digitação          │  choice / score / noul
-                     ◄──────────── { id, ok, result } / progresso ─┘
-```
+- **Dados:** cerca de 250 mil blocos de código de 265 repositórios públicos (documentação, READMEs,
+  guias — incluindo em português), rotulados com a linguagem que os *próprios autores* marcaram,
+  mais trechos de código-fonte real para as linguagens mais raras.
+- **Divisão justa:** repositórios inteiros vão para treino, ajuste (dev) ou teste final — nunca o
+  mesmo projeto em dois lugares — e todo bloco de treino parecido com um bloco de teste é removido.
+- **Treino:** cerca de 55 mil blocos, poucos segundos por passada, feito em TypeScript com o mesmo
+  código que o app usa para ler os trechos — o que o modelo viu no treino é exatamente o que ele vê aqui.
+- **Escolhido no dev, medido uma vez:** tamanho, configurações e como combinar com as heurísticas
+  foram decididos no conjunto dev; o conjunto separado foi rodado uma única vez, no fim.
 
-- **Inferência só no worker** — a thread da interface nunca roda o modelo.
-- **Protocolo:** `{ id, op: 'load' | 'choice' | 'score' | 'noul' | 'cancel', payload }` →
-  `{ id, ok, result | error }`, mais `{ op: 'progress', loaded, total }` durante o download.
-- **Prompts:** o worker recebe `PROMPTS[q]` (linguagem natural) mais o mapa de opções / escala /
-  afirmação, então o mesmo código de recurso funciona com os dois mecanismos.
-- **Ciclo de vida:** escolher *Modelo local* inicia o worker; as heurísticas respondem enquanto ele
-  carrega; se `ready()` falhar, o hook reporta `fallback` (ponto âmbar no botão Assist) e segue com
-  as heurísticas.
-- **Política de download (planejada):** preguiçosa, opcional, com tamanho e progresso visíveis;
-  cache do navegador para funcionar offline após o primeiro carregamento.
+### 4.3 Resultados
 
-### 4.3 Situação atual
+Em 314 blocos de código reais que o modelo nunca viu (15 por linguagem):
 
-| Peça | Estado |
-|---|---|
-| Contrato `DecisionEngine`, prompts, filtro | ✅ pronto |
-| Cliente do worker com cancelamento e progresso | ✅ pronto |
-| Protocolo do worker | ✅ pronto |
-| Runtime do modelo em `loadModel()` / `infer()` | ⏳ a fazer |
-| Opção "Modelo local" na interface | desativada ("em breve") até o runtime existir |
+| Mecanismo | Acurácia | Sugestões exibidas | Certas quando exibidas | Sugestões certas / erradas |
+|---|---|---|---|---|
+| Heurísticas | 57 % | 75 (24 %) | 97 % | 73 / 2 |
+| **Modelo do Marksage** | **76 %** | **141 (45 %)** | **94 %** | **133 / 8** |
 
-**O que falta:** plugar um runtime ONNX (transformers.js ou onnxruntime-web, preferindo WebGPU e
-caindo para WASM) no worker. A opção "Modelo local" fica desativada até o modelo superar as
-heurísticas no conjunto de avaliação.
+Cerca do dobro de sugestões úteis, com uma taxa de erro um pouco maior — por isso é um modo
+opcional. A maioria dos erros é em trechos de uma a três linhas, onde as linguagens se parecem
+(`List<int> xs = new();` é C#, mas lembra muito Java); lidar melhor com trechos muito curtos é o
+próximo passo.
 
-### 4.4 Antes de ativar (questões em aberto)
+### 4.4 E o Laya?
 
-1. Qual exportação ONNX usar e a API de runtime em JS (transformers.js vs onnxruntime-web puro).
-2. Tamanho real do download e quantização — os tamanhos relatados não batem com a contagem de
-   parâmetros, então meça antes de escolher uma variante (prefira a multilíngue de 322 M se a
-   qualidade se mantiver).
-3. Latência em dispositivos só com WASM (sem WebGPU).
-4. **Calibração.** O Laya tem um modo de falha documentado de errar *com confiança* em entradas
-   desconhecidas; o filtro assume que "0,9" significa ~90 % de acerto. Verifique com a avaliação
-   (inclua trechos em pt-BR e em idiomas misturados) antes de confiar nas probabilidades.
+O **Laya** — um modelo de decisão com pesos abertos (~322–421 M de parâmetros) que responde
+nativamente perguntas `choice` / `score` / `noul` — era o plano original para este modo. Para o F1,
+um modelo treinado para a tarefa se mostrou a melhor escolha: milhares de vezes menor, instantâneo e
+mensurável em dados reais. O Laya continua sendo uma opção para perguntas futuras em que não existam
+dados de treino assim. O irmão hospedado dele, o **Jev**, nunca é usado: chamar um modelo hospedado
+quebraria a promessa de que "os arquivos nunca saem da sua máquina".
 
 ---
 
@@ -296,7 +292,8 @@ incluído), e as regras nunca são ajustadas contra ele — então é o número 
 
 Leia assim: quando uma sugestão aparece, ela quase sempre está certa; o preço dessa cautela é que
 muitos blocos de código reais ficam sem sugestão (F1). As decisões heurísticas levam bem menos de um
-milissegundo. O Laya vai ter que superar esses números no mesmo conjunto real antes de ser ativado.
+milissegundo. Com o *Modelo local*, o F1 nos mesmos 314 blocos chega a **76 % de acurácia, 141
+exibidas e 94 % de precisão** (seção 4.3).
 
 ---
 

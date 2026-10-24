@@ -191,5 +191,13 @@ GitHub, so a small purpose-trained classifier is the better fit for a fast, loca
   Mixed against the bar: ~1.8× the right suggestions and +18 points accuracy, but precision 3 points
   lower (within noise at these sizes) and coverage just under the 50% target. 6 of the 8 wrong ones are
   1–3 line snippets; 2 are label noise. Details and v2 ideas: `training/README.md`.
-- **Next:** decide how v1 ships (opt-in "Local model" mode) → phase 3 `ModelEngine` + docs (EN/PT-BR).
-  Any v2 claim needs a fresh held-out set (the pipeline can build one from new repos).
+- **Phase 3 (done 2026-10-23):** v1 shipped as the opt-in **Local model** mode. `assist/modelEngine.ts`
+  answers `fence.language` (F1 + the tag on code pastes) with the model and delegates everything else
+  to the heuristics. Runs on the main thread — the old "worker only" rule was written for a 300M-param
+  model; at ~0.1 ms a worker costs more than inference. Lazy `fetch` with progress, one load shared by
+  every engine instance, stored in the Cache API (no re-download; the app itself has no service worker,
+  so this is "downloaded once", not "offline"). Failure → `fallback` status, heuristics keep working.
+  Verified in a browser: heuristics silent on an untagged Python block, model suggests `python` (99 %),
+  Tab applies; 1 request on first load, 0 on the next; 404 → fallback. Docs §4 rewritten (EN + PT-BR).
+- **Next (v2):** short snippets (≤ 3 lines), TS-vs-JS cues, more SQL/C#/Markdown one-liners — tuned on dev,
+  claimed only on a fresh held-out set built from new repos.

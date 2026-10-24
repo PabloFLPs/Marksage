@@ -20,7 +20,7 @@ function parseDoc(md: string) {
   return { title, body: rest, sections }
 }
 
-/** "How Smart Assist works" — technical docs (heuristics, Laya, evaluation). */
+/** "How Smart Assist works" — technical docs (heuristics, own model, evaluation). */
 export function TechDocsPage({ closing = false, onBack }: TechDocsPageProps) {
   const { t, lang } = useI18n()
   const bodyRef = useRef<HTMLDivElement>(null)
