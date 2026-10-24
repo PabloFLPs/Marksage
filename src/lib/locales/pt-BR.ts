@@ -102,6 +102,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'suggest.paste.table': 'Converter em tabela Markdown',
   'suggest.paste.list': 'Converter em lista Markdown',
   'suggest.paste.json': 'Envolver em bloco de código ```json',
+  'suggest.paste.jsonc': 'Envolver em bloco de código ```jsonc (JSON com comentários)',
   'suggest.paste.jsonFormat': 'Formatar o JSON num bloco de código ```json',
   'suggest.paste.code': 'Envolver em bloco de código',
   'suggest.paste.codeLang': 'Envolver em bloco de código ```{lang}',

@@ -4,7 +4,7 @@ import { isPasteCandidate } from '../prefilter.ts'
 import { LANGUAGES, PASTE_KINDS, Q, type Language, type PasteKind } from '../questions.ts'
 import { alignedToTable, csvToTable, toCodeBlock, toList, tsvToTable } from '../convert.ts'
 import { hash } from './codeFence.ts'
-import { prettyJson } from '../json.ts'
+import { parseJsonLike, prettyJson } from '../json.ts'
 
 /** F2 — the paste already happened untouched; offer to convert the pasted range. */
 export async function suggestPasteConversion(
@@ -44,10 +44,13 @@ export async function suggestPasteConversion(
       break
     case 'json': {
       const pretty = prettyJson(pasted)
-      insert = toCodeBlock(pretty, 'json')
+      // Comments / trailing commas aren't JSON: tag it `jsonc` (JSON with Comments) so it stays honest.
+      const tag = parseJsonLike(pasted)?.strict === false ? 'jsonc' : 'json'
+      insert = toCodeBlock(pretty, tag)
       const formatted = pretty !== pasted.trim()
-      label = formatted ? 'Format JSON into a ```json code block' : 'Wrap in ```json code block'
+      label = formatted ? 'Format JSON into a ```json code block' : `Wrap in \`\`\`${tag} code block`
       if (formatted) msgKey = 'suggest.paste.jsonFormat'
+      else if (tag === 'jsonc') msgKey = 'suggest.paste.jsonc'
       break
     }
     case 'code': {

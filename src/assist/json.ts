@@ -33,7 +33,9 @@ export function stripJsonc(text: string): string {
 /** Parsed value if `text` is a JSON object/array (strict or JSONC), else undefined. */
 export function parseJsonLike(text: string): { value: unknown; strict: boolean } | undefined {
   const t = text.trim()
-  if (!/^[{[]/.test(t) || !/[}\]]$/.test(t)) return undefined
+  // Config files often open with comment lines ("// For format details, see …") before the object.
+  const shape = /^\/[/*]/.test(t) ? stripJsonc(t).trim() : t
+  if (!/^[{[]/.test(shape) || !/[}\]]$/.test(shape)) return undefined
   try {
     return { value: JSON.parse(t), strict: true }
   } catch {

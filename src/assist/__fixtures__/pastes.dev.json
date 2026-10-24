@@ -1,0 +1,155 @@
+[
+  {
+    "label": "csv",
+    "text": "Country Name,Country Code,Year,Value\nAruba,ABW,1960,54922\nAruba,ABW,1961,55578\nAruba,ABW,1962,56320\nAruba,ABW,1963,57002\nAruba,ABW,1964,57619",
+    "source": "https://github.com/datasets/population — data/population.csv (first 6 lines)"
+  },
+  {
+    "label": "csv",
+    "text": "Date,Decimal Date,Average,Interpolated,Trend,Number of Days\n1958-03,1958.2027,315.71,314.44,-01,-9.99,-0.99\n1958-04,1958.2877,317.45,315.16,-01,-9.99,-0.99\n1958-05,1958.3699,317.51,314.69,-01,-9.99,-0.99\n1958-06,1958.4548,317.27,315.15,-01,-9.99,-0.99\n1958-07,1958.5370,315.87,315.20,-01,-9.99,-0.99",
+    "source": "https://github.com/datasets/co2-ppm — data/co2-mm-mlo.csv (first 6 lines)"
+  },
+  {
+    "label": "csv",
+    "text": "\"alpha3-b\",\"alpha3-t\",\"alpha2\",\"English\",\"French\"\n\"aar\",\"\",\"aa\",\"Afar\",\"afar\n\"\n\"abk\",\"\",\"ab\",\"Abkhazian\",\"abkhaze\n\"",
+    "source": "https://github.com/datasets/language-codes — data/language-codes-full.csv (first 5 lines)",
+    "note": "quoted cells, empty cells"
+  },
+  {
+    "label": "tsv",
+    "text": "ip\t0\tIP\t\t# internet protocol, pseudo protocol number\nhopopt\t0\tHOPOPT\t\t# IPv6 Hop-by-Hop Option [RFC1883]\nicmp\t1\tICMP\t\t# internet control message protocol\nigmp\t2\tIGMP\t\t# Internet Group Management\nggp\t3\tGGP\t\t# gateway-gateway protocol\nipencap\t4\tIP-ENCAP\t# IP encapsulated in IP (officially ``IP'')",
+    "source": "Debian netbase — /etc/protocols (first 6 data lines)",
+    "note": "double tabs, trailing comment column"
+  },
+  {
+    "label": "tsv",
+    "text": "AD\t+4230+00131\tEurope/Andorra\nAE\t+2518+05518\tAsia/Dubai\nAF\t+3431+06912\tAsia/Kabul\nAG\t+1703-06148\tAmerica/Antigua\nAI\t+1812-06304\tAmerica/Anguilla\nAL\t+4120+01950\tEurope/Tirane\nAM\t+4011+04430\tAsia/Yerevan\nAO\t-0848+01314\tAfrica/Luanda",
+    "source": "IANA tzdata — zone.tab (first 8 data lines)",
+    "note": "3 or 4 columns"
+  },
+  {
+    "label": "tsv",
+    "text": "tcpmux\t\t1/tcp\t\t\t\t# TCP port service multiplexer\necho\t\t7/tcp\necho\t\t7/udp\ndiscard\t\t9/tcp\t\tsink null\ndiscard\t\t9/udp\t\tsink null\nsystat\t\t11/tcp\t\tusers\ndaytime\t\t13/tcp\ndaytime\t\t13/udp",
+    "source": "Debian netbase — /etc/services (first 8 data lines)",
+    "note": "mixed tab widths, optional alias column"
+  },
+  {
+    "label": "table",
+    "text": "Templates                                         Short Name               Language          Tags\n--------------------------------------------      -------------------      ------------      ----------------------\nExample templates: async project                  consoleasync             [C#]              Common/Console",
+    "source": "https://github.com/dotnet/docs — cli-templates-create-project-template.md L126-128 (dotnet new list output)",
+    "note": "dashed separator row"
+  },
+  {
+    "label": "table",
+    "text": "Pid    Role     Uptime\n---    ----     ------\n84518  pd       35m22.929404512s\n84519  tikv     35m22.927757153s\n86189  tidb     exited\n86526  tidb     34m28.293148663s",
+    "source": "https://github.com/pingcap/docs — tiup/tiup-playground.md L130-135",
+    "note": "dashed separator row"
+  },
+  {
+    "label": "table",
+    "text": "     Prefix Verb   URI Pattern                Controller#Action\n     people GET    /people(.:format)          people#index\n            POST   /people(.:format)          people#create\n new_person GET    /people/new(.:format)      people#new\nedit_person GET    /people/:id/edit(.:format) people#edit\n     person GET    /people/:id(.:format)      people#show\n            PATCH  /people/:id(.:format)      people#update\n            PUT    /people/:id(.:format)      people#update\n            DELETE /people/:id(.:format)      people#destroy",
+    "source": "https://github.com/rails/rails — guides/source/routing.md L1467-1475 (bin/rails routes --unused)",
+    "note": "right-aligned first column with empty cells"
+  },
+  {
+    "label": "table",
+    "text": "NAME                                READY   STATUS    RESTARTS   AGE\nnginx-deployment-67d4bdd6f5-cx2nz   1/1     Running   0          13s\nnginx-deployment-67d4bdd6f5-w6kd7   1/1     Running   0          13s",
+    "source": "https://github.com/kubernetes/website — debug-running-pod.md L47-49 (kubectl get pods)"
+  },
+  {
+    "label": "table",
+    "text": "   40 app/src/assist/convert.ts\n   40 app/src/assist/heuristicEngine.ts\n   53 app/src/assist/json.ts\n   46 app/src/assist/laya.worker.ts\n   68 app/src/assist/layaEngine.ts\n  137 app/src/assist/modelEngine.ts",
+    "source": "real `wc -l` output",
+    "note": "right-aligned numbers, single space before names"
+  },
+  {
+    "label": "list",
+    "text": "Otimizando o HTML estático sem uma etapa de construção\nEmbutindo como Componentes da Web em qualquer página\nAplicação de Página Única, ou SPA\nInterpretação do Lado do Servidor, ou SSR\nGeração de Aplicação Estática, ou SSG\nMirando aplicações de nativas de área de trabalho, móvel, WebGL, e até mesmo o terminal",
+    "source": "https://github.com/vuejs-translations/docs-pt — src/guide/introduction.md L100-105",
+    "note": "pt-BR, copied from the rendered page"
+  },
+  {
+    "label": "list",
+    "text": "A configuração de ambiente de desenvolvimento integrado recomendada é o editor de texto Visual Studio Code mais a Vue - extensão oficial. Se usarmos outros editores, temos que consultar a secção do suporte de ambiente de desenvolvimento integrado.\nMais detalhes sobre o ferramental, incluindo a integração com abstrações de backend, são discutidos no Guia de Ferramental.\nPara sabermos mais sobre a ferramenta de construção subjacente Vite, temos que consultar a documentação da Vite.",
+    "source": "https://github.com/vuejs-translations/docs-pt — src/guide/quick-start.md L126-128",
+    "note": "pt-BR, long sentence items, copied from the rendered page"
+  },
+  {
+    "label": "list",
+    "text": "nodejs.org\nnodejs.dev (Direciona para https://nodejs.org)\niojs.org (Direciona para https://nodejs.org)",
+    "source": "https://github.com/nodejs/nodejs.org — pages/pt-br/about/index.mdx L64-66",
+    "note": "copied from the rendered page"
+  },
+  {
+    "label": "list",
+    "text": "1. The [kubectl proxy](#directly-accessing-the-rest-api):\n\n   - runs on a user's desktop or in a pod\n   - proxies from a localhost address to the Kubernetes apiserver\n   - client to proxy uses HTTP\n   - proxy to apiserver uses HTTPS\n   - locates apiserver\n   - adds authentication headers\n\n1. The [apiserver proxy](/docs/tasks/access-application-cluster/access-cluster-services/#discovering-builtin-services):\n\n   - is a bastion built into the apiserver\n   - connects a user outside of the cluster to cluster IPs which otherwise might not be reachable\n   - runs in the apiserver processes\n   - client to proxy uses HTTPS (or http if apiserver so configured)\n   - proxy to target may use HTTP or HTTPS as chosen by proxy using available information\n   - can be used to reach a Node, Pod, or Service\n   - does load balancing when used to reach a Service\n\n1. The [kube proxy](/docs/concepts/services-networking/service/#ips-and-vips):\n\n   - runs on each node\n   - proxies UDP and TCP\n   - does not understand HTTP\n   - provides load balancing\n   - is only used to reach services",
+    "source": "https://github.com/kubernetes/website — access-cluster.md L236-262",
+    "note": "numbered items with indented details — check"
+  },
+  {
+    "label": "list",
+    "text": "AnthonyCalandra__modern-cpp-features\nApp-vNext__Polly\nAutoMapper__AutoMapper\nBurntSushi__ripgrep\nClickHouse__clickhouse-docs\nDaveGamble__cJSON\nDelgan__loguru\nGoogleContainerTools__distroless",
+    "source": "real `ls -1` output (directory of repo clones)"
+  },
+  {
+    "label": "json",
+    "text": "{\n  \"compilerOptions\": {\n    \"tsBuildInfoFile\": \"./node_modules/.tmp/tsconfig.app.tsbuildinfo\",\n    \"target\": \"es2023\",\n    \"lib\": [\"ES2023\", \"DOM\"],\n    \"module\": \"esnext\",\n    \"types\": [\"vite/client\"],\n    \"allowArbitraryExtensions\": true,\n    \"skipLibCheck\": true,\n\n    /* Bundler mode */\n    \"moduleResolution\": \"bundler\",\n    \"allowImportingTsExtensions\": true,\n    \"verbatimModuleSyntax\": true,\n    \"moduleDetection\": \"force\",\n    \"noEmit\": true,\n    \"jsx\": \"react-jsx\",\n\n    /* Linting */\n    \"noUnusedLocals\": true,\n    \"noUnusedParameters\": true,\n    \"erasableSyntaxOnly\": true,\n    \"noFallthroughCasesInSwitch\": true\n  },\n  \"include\": [\"src\"]\n}",
+    "source": "https://github.com/vitejs/vite — packages/create-vite/template-react-ts/tsconfig.app.json",
+    "note": "comments inside the object"
+  },
+  {
+    "label": "json",
+    "text": "// For format details, see https://aka.ms/devcontainer.json. For config options, see the\n// README at: https://github.com/devcontainers/templates/tree/main/src/ruby\n{\n\t\"name\": \"Ruby\",\n\t// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile\n\t\"image\": \"mcr.microsoft.com/devcontainers/ruby:0-3-bullseye\",\n\t\"features\": {\n\t\t\"ghcr.io/devcontainers/features/github-cli:1\": {}\n\t},\n\n\t// Features to add to the dev container. More info: https://containers.dev/features.\n\t// \"features\": {},\n\n\t// Use 'forwardPorts' to make a list of ports inside the container available locally.\n\t// \"forwardPorts\": [],\n\n\t// Use 'postCreateCommand' to run commands after the container is created.\n\t\"postCreateCommand\": \"bundle install\",\n\n\t// Configure tool-specific properties.\n\t// \"customizations\": {},\n\n\t// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.\n\t// \"remoteUser\": \"root\"\n}",
+    "source": "https://github.com/heartcombo/devise — .devcontainer/devcontainer.json",
+    "note": "line comments before the object"
+  },
+  {
+    "label": "json",
+    "text": "{\n\t\"name\": \"Code - OSS\",\n\t\"build\": {\n\t\t\"dockerfile\": \"Dockerfile\"\n\t},\n\t\"features\": {\n\t\t\"ghcr.io/devcontainers/features/desktop-lite:\": {},\n\t\t\"ghcr.io/devcontainers/features/rust:\": {},\n\t\t\"ghcr.io/devcontainers/features/sshd:1\": {}\n\t},\n\t\"containerEnv\": {\n\t\t\"DISPLAY\": \"\" // Allow the Dev Containers extension to set DISPLAY, post-create.sh will add it back in ~/.bashrc and ~/.zshrc if not set.\n\t},\n\t\"overrideCommand\": false,\n\t\"privileged\": true,\n\t\"mounts\": [\n\t\t{\n\t\t\t\"source\": \"vscode-dev\",\n\t\t\t\"target\": \"/vscode-dev\",\n\t\t\t\"type\": \"volume\"\n\t\t}\n\t],\n\t\"postCreateCommand\": \"./.devcontainer/post-create.sh\",\n\t\"customizations\": {\n\t\t\"vscode\": {\n\t\t\t\"settings\": {\n\t\t\t\t\"resmon.show.battery\": false,\n\t\t\t\t\"resmon.show.cpufreq\": false\n\t\t\t},\n\t\t\t\"extensions\": [\n\t\t\t\t\"dbaeumer.vscode-eslint\",\n\t\t\t\t\"EditorConfig.EditorConfig\",\n\t\t\t\t\"GitHub.vscode-pull-request-github\",\n\t\t\t\t\"ms-vscode.vscode-github-issue-notebooks\",\n\t\t\t\t\"ms-vscode.vscode-selfhost-test-provider\",\n\t\t\t\t\"mutantdino.resourcemonitor\"\n\t\t\t]\n\t\t}\n\t},\n\t\"forwardPorts\": [6080, 5901],\n\t\"portsAttributes\": {\n\t\t\"6080\": {\n\t\t\t\"label\": \"VNC web client (noVNC)\",\n\t\t\t\"onAutoForward\": \"silent\"\n\t\t},\n\t\t\"5901\": {\n\t\t\t\"label\": \"VNC TCP port\",\n\t\t\t\"onAutoForward\": \"silent\"\n\t\t}\n\t},\n\t\"hostRequirements\": {\n\t\t\"memory\": \"9gb\"\n\t}\n}",
+    "source": "https://github.com/microsoft/vscode — .devcontainer/devcontainer.json"
+  },
+  {
+    "label": "json",
+    "text": "{\n  \"repository\": {\n    \"url\": \"git+https://github.com/vitejs/vite.git\",\n    \"type\": \"git\",\n    \"directory\": \"packages/vite\"\n  },\n  \"bugs\": {\n    \"url\": \"https://github.com/vitejs/vite/issues\"\n  }\n}",
+    "source": "real `npm view vite repository bugs --json` output"
+  },
+  {
+    "label": "code",
+    "text": "\n#define MAX_BUILDINGS   100\n\n//------------------------------------------------------------------------------------\n// Program main entry point\n//------------------------------------------------------------------------------------\nint main(void)\n{\n    // Initialization\n    //--------------------------------------------------------------------------------------\n    const int screenWidth = 800;\n    const int screenHeight = 450;\n\n    InitWindow(screenWidth, screenHeight, \"raylib [core] example - 2d camera\");\n\n    Rectangle player = { 400, 280, 40, 40 };\n    Rectangle buildings[MAX_BUILDINGS] = { 0 };\n    Color buildColors[MAX_BUILDINGS] = { 0 };\n\n    int spacing = 0;\n\n    for (int i = 0; i < MAX_BUILDINGS; i++)\n    {",
+    "source": "https://github.com/raysan5/raylib — examples/core/core_2d_camera.c L18-40"
+  },
+  {
+    "label": "code",
+    "text": "def dump(obj, fp, *, skipkeys=False, ensure_ascii=True, check_circular=True,\n        allow_nan=True, cls=None, indent=None, separators=None,\n        default=None, sort_keys=False, **kw):\n    \"\"\"Serialize ``obj`` as a JSON formatted stream to ``fp`` (a\n    ``.write()``-supporting file-like object).\n\n    If ``skipkeys`` is true then ``dict`` keys that are not basic types\n    (``str``, ``int``, ``float``, ``bool``, ``None``) will be skipped\n    instead of raising a ``TypeError``.\n\n    If ``ensure_ascii`` is false, then the strings written to ``fp`` can\n    contain non-ASCII characters if they appear in strings contained in\n    ``obj``. Otherwise, all such characters are escaped in JSON strings.\n\n    If ``check_circular`` is false, then the circular reference check\n    for container types will be skipped and a circular reference will\n    result in an ``RecursionError`` (or worse).\n\n    If ``allow_nan`` is false, then it will be a ``ValueError`` to\n    serialize out of range ``float`` values (``nan``, ``inf``, ``-inf``)\n    in strict compliance of the JSON specification, instead of using the",
+    "source": "CPython 3.11 — Lib/json/__init__.py L120-140"
+  },
+  {
+    "label": "code",
+    "text": "/*global navigator*/\n'use strict';\n\nconst {\n  REGEX_BACKSLASH,\n  REGEX_REMOVE_BACKSLASH,\n  REGEX_SPECIAL_CHARS,\n  REGEX_SPECIAL_CHARS_GLOBAL\n} = require('./constants');\n\nexports.isObject = val => val !== null && typeof val === 'object' && !Array.isArray(val);\nexports.hasRegexChars = str => REGEX_SPECIAL_CHARS.test(str);\nexports.isRegexChar = str => str.length === 1 && exports.hasRegexChars(str);\nexports.escapeRegex = str => str.replace(REGEX_SPECIAL_CHARS_GLOBAL, '\\\\$1');\nexports.toPosixSlashes = str => str.replace(REGEX_BACKSLASH, '/');\n\nexports.isWindows = () => {\n  if (typeof navigator !== 'undefined' && navigator.platform) {\n    const platform = navigator.platform.toLowerCase();\n    return platform === 'win32' || platform === 'windows';\n  }\n\n  if (typeof process !== 'undefined' && process.platform) {\n    return process.platform === 'win32';\n  }",
+    "source": "picomatch — lib/utils.js L1-25 (npm package)"
+  },
+  {
+    "label": "prose",
+    "text": "The first step is to install Rust. We’ll download Rust through `rustup`, a\ncommand line tool for managing Rust versions and associated tools. You’ll need\nan internet connection for the download.\n\n> Note: If you prefer not to use `rustup` for some reason, please see the\n> [Other Rust Installation Methods page][otherinstall] for more options.\n\nThe following steps install the latest stable version of the Rust compiler.\nRust’s stability guarantees ensure that all the examples in the book that\ncompile will continue to compile with newer Rust versions. The output might\ndiffer slightly between versions because Rust often improves error messages and\nwarnings. In other words, any newer, stable version of Rust you install using\nthese steps should work as expected with the content of this book.",
+    "source": "https://github.com/rust-lang/book — src/ch01-01-installation.md L3-15",
+    "note": "hard-wrapped, with a blockquote"
+  },
+  {
+    "label": "prose",
+    "text": "O projeto Node.js segue um modelo de tomada de decisão baseado em [Busca por Consenso](https://en.wikipedia.org/wiki/Consensus-seeking_decision-making).\n\n## Colaboradores\n\nO repositório principal do GitHub [nodejs/node](https://github.com/nodejs/node) é mantido pelos Colaboradores, que são nomeados por outros Colaboradores existentes de forma contínua.",
+    "source": "https://github.com/nodejs/nodejs.org — pages/pt-br/about/governance.md L10-14",
+    "note": "pt-BR, heading line in between"
+  },
+  {
+    "label": "prose",
+    "text": "Vue (pronunciado /vjuː/, como **view** ) é uma abstração de JavaScript para construção de interfaces de aplicações de utilizador. Ela constrói sobre a HTML, CSS e JavaScript padrão, e fornece um modelo de programação declarativa baseado em componente que ajuda-nos a desenvolver eficientemente interfaces de utilizador de qualquer complexidade.\n\nSe houverem questões, não é coisa de preocupar-se porque cobriremos todos os pequenos detalhes no resto da documentação. Por agora, vamos ler, assim podemos ter uma compreensão de alto nível do que a Vue oferece.",
+    "source": "https://github.com/vuejs-translations/docs-pt — src/guide/introduction.md (first two long paragraphs)",
+    "note": "pt-BR"
+  },
+  {
+    "label": "prose",
+    "text": "A _Pod_ (as in a pod of whales or pea pod) is a group of one or more\n{{< glossary_tooltip text=\"containers\" term_id=\"container\" >}}, with shared storage and network resources, and a specification for how to run the containers. A Pod's contents are always co-located and\nco-scheduled, and run in a shared context. A Pod models an\napplication-specific \"logical host\": it contains one or more application\ncontainers which are relatively tightly coupled.\nIn non-cloud contexts, applications executed on the same physical or virtual machine are analogous to cloud applications executed on the same logical host.\n\nAs well as application containers, a Pod can contain\n{{< glossary_tooltip text=\"init containers\" term_id=\"init-container\" >}} that run\nduring Pod startup. You can also inject\n{{< glossary_tooltip text=\"ephemeral containers\" term_id=\"ephemeral-container\" >}}\nfor debugging a running Pod.",
+    "source": "https://github.com/kubernetes/website — concepts/workloads/pods/_index.md (first two long paragraphs)",
+    "note": "hard-wrapped"
+  }
+]

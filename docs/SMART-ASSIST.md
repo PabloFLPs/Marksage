@@ -150,16 +150,16 @@ untouched**; the suggestion offers to convert the pasted range afterwards.
 
 | Kind | Evidence |
 |---|---|
-| `json` | parses as JSON (strict, or with comments / trailing commas) — even a single-line, minified payload |
-| `tsv` | tab count identical on every line (+7) |
-| `csv` | consistent comma-cell count (quote-aware), short cells; penalised by sentences and "wordy" cells (> 5 words) |
-| `table` | column gutters (2+ spaces) shared by every line — terminal / `kubectl`-style output |
-| `list` | bullet markers (`•`, `–`, `1)`, `a.`…) or ≥ 3 short lines without terminal punctuation |
+| `json` | parses as JSON (strict, or with comments / trailing commas — even comment lines before the object) — also a single-line, minified payload |
+| `tsv` | a tab on every line (strong on its own — prose never has that), more so when the counts agree; runs of tabs count as one |
+| `csv` | consistent comma-cell count (quote-aware, quoted cells may span lines; a header with one column more or less is fine), short cells; penalised by sentences and "wordy" cells (> 5 words) |
+| `table` | column gutters shared by every line — terminal / `kubectl`-style output. `----` rule rows are skipped; 1-space gutters (right-aligned columns like `rails routes`) count when every row also has a wider gap |
+| `list` | bullet markers (`•`, `–`, `1)`, `a.`…), ≥ 3 short lines without terminal punctuation, or ≥ 3 lines copied from a web page list — one item per line, no blank lines between, no sentence carrying on to the next line |
 | `code` | reuses the code-block language scores + structural code shape (lines ending in `{ } ;`, indentation) |
 | `prose` | lines with sentence punctuation and ≥ 8 words |
 
 **Action**: CSV/TSV/aligned → GFM table (first row = header, `|` escaped); list →
-`- item` (existing bullets normalised); JSON → ```` ```json ```` (minified JSON is pretty-printed first); code → fenced block, tagged with
+`- item` (existing bullets normalised); JSON → ```` ```json ```` (minified JSON is pretty-printed first; JSON with comments gets ```` ```jsonc ````); code → fenced block, tagged with
 the detected language only if *that* decision also passes the gate. `prose` never suggests anything.
 
 ### Structure hints (`noul`)
@@ -285,7 +285,7 @@ included), and the rules are never tuned against it — so it's the honest numbe
 | Feature | Real-world examples | Accuracy | Shown | Precision when shown |
 |---|---|---|---|---|
 | Code-block language | 314 | 57 % | 75 | 97 % |
-| Smart paste | 31 | 81 % | 17 | 100 % |
+| Smart paste | 31 | 94 % | 23 | 100 % |
 | Structure hints | 30 | 93 % | 14 | 86 % |
 
 Read it like this: when a suggestion appears it's almost always right; the cost of that caution

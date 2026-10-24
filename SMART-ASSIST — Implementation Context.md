@@ -143,7 +143,8 @@ regression tests) and **real** (excerpts from real docs, wikis and command outpu
 | F1 fence language | dev | 280 | 62% | 98/280 | 90% | ~0.2 ms |
 | F1 fence language | **real** | 314 (was 64) | **57%** (was 59%) | **75/314** (24%) | **97%** (was 93%) | ~0.1 ms |
 | F2 smart paste | authored | 15 | 100% | 11/15 | 100% | ~0.3 ms |
-| F2 smart paste | **real** | 31 | **81%** | **17/31** | **100%** | ~0.5 ms |
+| F2 smart paste | dev | 27 | 93% (was 78%) | 19/27 | 100% | ~0.4 ms |
+| F2 smart paste | **real** | 31 | **94%** (was 81%) | **23/31** (was 17) | **100%** | ~0.5 ms |
 | F3 structure | authored | 23 | 100% | 9/23 | 100% | ~0.1 ms |
 | F3 structure | dev | 36 | 94% (was 69%) | 13/36 | 100% (was 58%) | <0.1 ms |
 | F3 structure | **real** | 30 | **93%** (was 67%) | **14/30** | **86%** (was 55%; 12/12 true cases caught) | <0.1 ms |

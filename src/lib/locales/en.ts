@@ -101,6 +101,7 @@ export const en = {
   'suggest.paste.table': 'Convert to Markdown table',
   'suggest.paste.list': 'Convert to Markdown list',
   'suggest.paste.json': 'Wrap in ```json code block',
+  'suggest.paste.jsonc': 'Wrap in ```jsonc code block (JSON with comments)',
   'suggest.paste.jsonFormat': 'Format JSON into a ```json code block',
   'suggest.paste.code': 'Wrap in code block',
   'suggest.paste.codeLang': 'Wrap in ```{lang} code block',

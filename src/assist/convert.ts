@@ -1,4 +1,4 @@
-import { alignedColumns, nonEmptyLines, splitCsvLine } from './heuristics/paste.ts'
+import { SEPARATOR_RE, alignedColumns, csvRecords, nonEmptyLines, splitCsvLine } from './heuristics/paste.ts'
 
 const escapeCell = (c: string) => c.replace(/\|/g, '\\|').trim()
 
@@ -11,15 +11,19 @@ export function rowsToTable(rows: string[][]): string {
 }
 
 export function csvToTable(text: string): string {
-  return rowsToTable(nonEmptyLines(text).map(splitCsvLine))
+  return rowsToTable(csvRecords(text).map(splitCsvLine))
 }
 
+/** Spreadsheet TSV keeps empty cells (`a\t\tc`); files padded with tab runs (/etc/services) don't. */
 export function tsvToTable(text: string): string {
-  return rowsToTable(nonEmptyLines(text).map((l) => l.split('\t')))
+  const lines = nonEmptyLines(text)
+  const exact = lines.map((l) => l.split('\t'))
+  const consistent = exact.every((r) => r.length === exact[0].length)
+  return rowsToTable(consistent ? exact : lines.map((l) => l.trim().split(/\t+/)))
 }
 
 export function alignedToTable(text: string): string | null {
-  const lines = nonEmptyLines(text)
+  const lines = nonEmptyLines(text).filter((l) => !SEPARATOR_RE.test(l))
   const starts = alignedColumns(lines)
   if (!starts) return null
   return rowsToTable(

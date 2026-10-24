@@ -8,6 +8,7 @@ Up to three sets per feature. `npm run eval:assist` scores each separately; `-- 
 | `lines.dev.json` | real, dev | 36 | Same method as `lines.real.json`, but from *other* sources (23 repos/wikis: javascript-algorithms, 30-Days-Of-JavaScript and system-design-primer translations, clean-code-javascript, ossu, fd, bat, and the fzf, sway, Proton, jq, rclone, ranger, yabai, scrcpy wikis…). Tune F3 against this one. |
 | `fences.dev.json` | real, dev | 280 | Fenced code blocks from 28 repos that are neither train nor test (built by `training/build-sets.ts`). Tune / calibrate F1 against this. |
 | `fences.real.json` | real, held out | 314 | Fenced code blocks from 66 test repos, ≤ 15 per language, labelled with the author's own info string. The first 64 are the original hand-sampled set; the rest were added by `training/build-sets.ts` (see `training/README.md`). |
+| `pastes.dev.json` | real, dev | 27 | Pastes from *other* sources than `pastes.real.json` (datasets, `/etc/protocols`/`services`, `dotnet`/`tiup`/`kubectl` output, rendered pt-BR lists, JSONC configs…). Tune smart paste against this. |
 | `pastes.real.json` | real, held out | 31 | Excerpts of real files and real command output, as someone would paste them. |
 | `lines.real.json` | real, held out | 30 | Lines the F3 pre-filter flags in real docs and wikis, labelled by hand. |
 

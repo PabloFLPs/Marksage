@@ -150,16 +150,16 @@ intacta**; a sugestão oferece converter o trecho colado depois.
 
 | Tipo | Evidência |
 |---|---|
-| `json` | é JSON (estrito, ou com comentários / vírgulas sobrando) — mesmo numa única linha minificada |
-| `tsv` | mesma quantidade de tabulações em todas as linhas (+7) |
-| `csv` | quantidade consistente de células por vírgula (respeitando aspas), células curtas; penalizado por frases e células "longas" (> 5 palavras) |
-| `table` | colunas separadas por 2+ espaços em todas as linhas — saída de terminal / estilo `kubectl` |
-| `list` | marcadores (`•`, `–`, `1)`, `a.`…) ou ≥ 3 linhas curtas sem pontuação final |
+| `json` | é JSON (estrito, ou com comentários / vírgulas sobrando — inclusive linhas de comentário antes do objeto) — também numa única linha minificada |
+| `tsv` | uma tabulação em todas as linhas (forte por si só — prosa nunca tem isso), ainda mais quando as contagens batem; tabulações seguidas contam como uma |
+| `csv` | quantidade consistente de células por vírgula (respeitando aspas, células entre aspas podem ter quebra de linha; cabeçalho com uma coluna a mais ou a menos não atrapalha), células curtas; penalizado por frases e células "longas" (> 5 palavras) |
+| `table` | colunas alinhadas em todas as linhas — saída de terminal / estilo `kubectl`. Linhas de traços `----` são ignoradas; colunas separadas por 1 espaço (alinhadas à direita, como `rails routes`) contam quando toda linha também tem um espaço maior |
+| `list` | marcadores (`•`, `–`, `1)`, `a.`…), ≥ 3 linhas curtas sem pontuação final, ou ≥ 3 linhas copiadas de uma lista de página web — um item por linha, sem linhas em branco, sem frase continuando na linha seguinte |
 | `code` | reaproveita as pontuações de linguagem dos blocos de código + formato de código (linhas terminando em `{ } ;`, indentação) |
 | `prose` | linhas com pontuação de frase e ≥ 8 palavras |
 
 **Ação**: CSV/TSV/alinhado → tabela GFM (primeira linha = cabeçalho, `|` escapado);
-lista → `- item` (marcadores existentes normalizados); JSON → ```` ```json ```` (JSON minificado é formatado antes); código → bloco,
+lista → `- item` (marcadores existentes normalizados); JSON → ```` ```json ```` (JSON minificado é formatado antes; JSON com comentários vira ```` ```jsonc ````); código → bloco,
 com a linguagem detectada apenas se *essa* decisão também passar no filtro. `prose` nunca sugere nada.
 
 ### Dicas de estrutura (`noul`)
@@ -288,7 +288,7 @@ incluído), e as regras nunca são ajustadas contra ele — então é o número 
 | Recurso | Exemplos reais | Acurácia | Exibidas | Precisão quando exibida |
 |---|---|---|---|---|
 | Linguagem do bloco de código | 314 | 57 % | 75 | 97 % |
-| Colagem inteligente | 31 | 81 % | 17 | 100 % |
+| Colagem inteligente | 31 | 94 % | 23 | 100 % |
 | Dicas de estrutura | 30 | 93 % | 14 | 86 % |
 
 Leia assim: quando uma sugestão aparece, ela quase sempre está certa; o preço dessa cautela é que
