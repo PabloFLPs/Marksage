@@ -18,7 +18,7 @@ how sure they are about each one. They don't write text, chat or "understand" an
 fast, very narrow expert that has seen tens of thousands of examples and learned which small details go
 with which answer.
 
-```
+```text
 "def greet(name): …"  →  python 83% · yaml 7% · markdown 4% · ruby 3% · …
 ```
 
@@ -83,10 +83,10 @@ Our snippet produces **55 clues**. A clue counts once, however often it appears,
 drown out a short one. The trigrams help with names the model has never seen: `greet` is new, but `gre` and
 `eet` show up in many words.
 
-The section model reads prose instead of code, so its clues are different: words and word pairs (lower-case,
-accents removed, so *instalação* and *instalacao* are the same clue), the first word of each line, the words
-inside code blocks, the language of each code block, and the *shape* of the section — does it have a table, a
-list, a shell prompt, a version number, a date, an issue reference? "Before you begin" sections, for
+The section model reads prose instead of code, so its clues are different. It uses words and word pairs
+(lower-case, accents removed, so *instalação* and *instalacao* are the same clue), the first word of each line,
+the words inside code blocks and the language of each code block. It also reads the *shape* of the section:
+does it have a table, a list, a shell prompt, a version number, a date, an issue reference? "Before you begin" sections, for
 example, are full of `W:need`, `W:install` and `C:node`.
 
 ### 2.2 Clues become slot numbers (the hashing trick)
@@ -98,7 +98,7 @@ Instead, each clue is put through a **hash function** — a quick calculation th
 number, always the same number for the same text. Marksage uses FNV-1a and keeps the remainder after dividing
 by 32,768:
 
-```
+```text
 "T:def"  →  hash 774,298,682  →  774,298,682 mod 32,768  =  slot 23,610
 ```
 
@@ -112,7 +112,7 @@ model has a fixed size, needs no dictionary file, and new words still land somew
 Every slot owns a short list of **8 numbers**, called its **embedding** or vector. Here is the slot of `T:def`
 as stored in the file:
 
-```
+```text
 T:def → [−2.21, −2.61, 0.92, 1.87, −3.01, 3.90, −1.66, 0.52]
 ```
 
@@ -124,7 +124,7 @@ clues that point to the same answer ended up with similar lists. You can picture
 
 The snippet's 55 lists are **averaged** into one list of 8 numbers:
 
-```
+```text
 [0.114, −0.234, 0.322, 0.023, −0.301, 0.209, −0.068, 0.058]
 ```
 
@@ -137,7 +137,7 @@ from **fastText**, a well-known approach to fast text classification.
 For each of the 21 answers, the model has 8 **weights** and one **bias**. An answer's score is the bias plus
 each of the 8 averaged numbers times its weight:
 
-```
+```text
 score(python) = bias + w₁·0.114 + w₂·(−0.234) + … + w₈·0.058
 ```
 
@@ -163,7 +163,7 @@ Scores aren't percentages yet. **Softmax** turns them into probabilities that ad
 (≈ 2.718) to each score and divide each result by the total. Big gaps between scores become very lopsided
 probabilities:
 
-```
+```text
 softmax at temperature 1:     python 99.7% · yaml 0.2% · …
 ```
 
@@ -171,7 +171,7 @@ softmax at temperature 1:     python 99.7% · yaml 0.2% · …
 less often than 99% of the time. So the scores are divided by a **temperature** first. A temperature above 1
 pulls the probabilities closer together:
 
-```
+```text
 softmax at temperature 2.55:  python 82.7% · yaml 7.4% · markdown 3.6% · ruby 3.0% · …
 ```
 
@@ -302,8 +302,8 @@ after the first test set had been seen, a second, fresh one was built from 72 re
 ### 4.2 Overfitting
 
 Training loss always goes down; that doesn't mean the model is getting better. An early section model, with
-twice as many slots, twice the numbers per slot and 10 epochs, reached a training loss of 0.05 — nearly perfect — while agreeing
-with headings on new repositories only 57% of the time, in a 1.3 MB file. It had started memorising its
+twice as many slots, twice the numbers per slot and 10 epochs, reached a training loss of 0.05 — nearly
+perfect. Yet it agreed with headings on new repositories only 57% of the time, in a 1.3 MB file. It had started memorising its
 examples instead of learning patterns: **overfitting**. A smaller model trained for 3 epochs did as well or
 better on dev in a third of the size, so that's what ships.
 
@@ -349,7 +349,7 @@ The section model, on 133 held-out repositories, types 15% of sections confident
 262,144 slot numbers stored the usual way (4 bytes each) take 1 MB. Each slot's 8 numbers are instead stored
 as **8-bit integers** (−127 to 127) plus one shared **scale** — *quantization*:
 
-```
+```text
 stored:    [−72, −85, 30, 61, −98, 127, −54, 17]   scale 0.03067
 restored:  [−2.21, −2.61, 0.92, 1.87, −3.01, 3.90, −1.66, 0.52]
 ```

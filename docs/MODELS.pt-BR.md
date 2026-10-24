@@ -1,7 +1,7 @@
 # Como os dois modelos funcionam
 
-O Marksage traz dois modelos minúsculos próprios: um identifica a **linguagem de um bloco de código** (21
-respostas, de TypeScript a "não é código"), o outro identifica o **tipo de uma seção** do documento para a
+O Marksage traz dois modelos minúsculos próprios. Um identifica a **linguagem de um bloco de código** (21
+respostas, de TypeScript a "não é código"); o outro identifica o **tipo de uma seção** do documento para a
 Estrutura (10 tipos, mais "outro"). Os dois compartilham o mesmo desenho, o mesmo formato de arquivo e a mesma
 receita de treino.
 
@@ -19,7 +19,7 @@ dizendo o quanto têm certeza de cada uma. Eles não escrevem texto, não conver
 num especialista muito rápido e muito específico, que viu dezenas de milhares de exemplos e aprendeu quais
 detalhes pequenos combinam com qual resposta.
 
-```
+```text
 "def greet(name): …"  →  python 83% · yaml 7% · markdown 4% · ruby 3% · …
 ```
 
@@ -85,10 +85,10 @@ Nosso trecho gera **55 pistas**. Uma pista conta uma vez só, não importa quant
 bloco longo não abafe um curto. Os trigramas ajudam com nomes que o modelo nunca viu: `greet` é novo, mas `gre`
 e `eet` aparecem em muitas palavras.
 
-O modelo de seções lê texto corrido em vez de código, então as pistas dele são outras: palavras e pares de
-palavras (em minúsculas e sem acentos, então *instalação* e *instalacao* são a mesma pista), a primeira palavra
-de cada linha, as palavras dentro de blocos de código, a linguagem de cada bloco e o *formato* da seção — tem
-tabela, lista, prompt de terminal, número de versão, data, referência a issue? Seções "Antes de começar", por
+O modelo de seções lê texto corrido em vez de código, então as pistas dele são outras. Ele usa palavras e pares
+de palavras (em minúsculas e sem acentos, então *instalação* e *instalacao* são a mesma pista), a primeira
+palavra de cada linha, as palavras dentro de blocos de código e a linguagem de cada bloco. Também lê o *formato*
+da seção: tem tabela, lista, prompt de terminal, número de versão, data, referência a issue? Seções "Antes de começar", por
 exemplo, são cheias de `W:need`, `W:install` e `C:node`.
 
 ### 2.2 As pistas viram números de slot (o truque do hash)
@@ -100,7 +100,7 @@ Em vez disso, cada pista passa por uma **função de hash** — uma conta rápid
 número grande, sempre o mesmo número para o mesmo texto. O Marksage usa o FNV-1a e fica com o resto da divisão
 por 32.768:
 
-```
+```text
 "T:def"  →  hash 774.298.682  →  774.298.682 mod 32.768  =  slot 23.610
 ```
 
@@ -114,7 +114,7 @@ tamanho fixo, não precisa de arquivo de dicionário, e palavras novas ainda cae
 Cada slot tem uma listinha de **8 números**, chamada de **embedding** ou vetor. Este é o slot de `T:def` como
 está guardado no arquivo:
 
-```
+```text
 T:def → [−2,21; −2,61; 0,92; 1,87; −3,01; 3,90; −1,66; 0,52]
 ```
 
@@ -127,7 +127,7 @@ outra.
 
 As 55 listas do trecho viram **uma média**, uma lista de 8 números:
 
-```
+```text
 [0,114; −0,234; 0,322; 0,023; −0,301; 0,209; −0,068; 0,058]
 ```
 
@@ -140,7 +140,7 @@ desenho vem do **fastText**, uma abordagem conhecida de classificação rápida 
 Para cada uma das 21 respostas, o modelo tem 8 **pesos** e um **viés**. A pontuação de uma resposta é o viés
 mais cada um dos 8 números da média vezes o seu peso:
 
-```
+```text
 pontuação(python) = viés + p₁·0,114 + p₂·(−0,234) + … + p₈·0,058
 ```
 
@@ -165,7 +165,7 @@ Pontuações ainda não são porcentagens. O **softmax** as transforma em probab
 (≈ 2,718) a cada pontuação e divide cada resultado pelo total. Diferenças grandes entre pontuações viram
 probabilidades bem desequilibradas:
 
-```
+```text
 softmax com temperatura 1:     python 99,7% · yaml 0,2% · …
 ```
 
@@ -173,7 +173,7 @@ softmax com temperatura 1:     python 99,7% · yaml 0,2% · …
 que 99% das vezes. Então as pontuações são divididas antes por uma **temperatura**. Uma temperatura acima de 1
 aproxima as probabilidades:
 
-```
+```text
 softmax com temperatura 2,55:  python 82,7% · yaml 7,4% · markdown 3,6% · ruby 3,0% · …
 ```
 
@@ -305,8 +305,8 @@ segundo, novo, foi montado com 72 repositórios que não aparecem em mais nenhum
 ### 4.2 Overfitting
 
 A perda de treino sempre cai; isso não quer dizer que o modelo está melhorando. Um modelo de seções antigo, com
-o dobro de slots, o dobro de números por slot e 10 épocas, chegou a uma perda de treino de 0,05 — quase perfeita
-— enquanto concordava com os títulos em repositórios novos só 57% das vezes, num arquivo de 1,3 MB. Ele tinha
+o dobro de slots, o dobro de números por slot e 10 épocas, chegou a uma perda de treino de 0,05 — quase perfeita.
+Mesmo assim, concordava com os títulos em repositórios novos só 57% das vezes, num arquivo de 1,3 MB. Ele tinha
 começado a decorar os exemplos em vez de aprender padrões: **overfitting** (sobreajuste). Um modelo menor,
 treinado por 3 épocas, foi tão bem ou melhor no ajuste com um terço do tamanho, e é ele que vai no app.
 
@@ -352,7 +352,7 @@ vezes. Tabelas completas: [Como o Smart Assist funciona](SMART-ASSIST.pt-BR.md),
 262.144 números de slot guardados do jeito normal (4 bytes cada) ocupam 1 MB. Em vez disso, os 8 números de cada
 slot são guardados como **inteiros de 8 bits** (−127 a 127) mais uma **escala** compartilhada — *quantização*:
 
-```
+```text
 guardado:     [−72, −85, 30, 61, −98, 127, −54, 17]   escala 0,03067
 restaurado:   [−2,21; −2,61; 0,92; 1,87; −3,01; 3,90; −1,66; 0,52]
 ```
@@ -371,8 +371,8 @@ O arquivo (394.280 bytes) é organizado assim:
 | Pesos e vieses das 21 respostas | ~0,7 KB |
 
 Um terço do arquivo são escalas — uma das próximas coisas a encolher. O app baixa o arquivo uma vez (só depois
-que você escolhe o *Modelo local* e confirma), guarda no cache do navegador e roda tudo em JavaScript puro: sem
-biblioteca de aprendizado de máquina, sem GPU, sem worker em segundo plano. Cada decisão são alguns milhares de
+que você escolhe o *Modelo local* e confirma) e o guarda no cache do navegador. Tudo roda em JavaScript puro:
+sem biblioteca de aprendizado de máquina, sem GPU, sem worker em segundo plano. Cada decisão são alguns milhares de
 multiplicações.
 
 ## 6. Limites, com honestidade

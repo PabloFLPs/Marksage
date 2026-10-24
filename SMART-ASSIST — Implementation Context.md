@@ -293,3 +293,15 @@ There are no cookies, analytics or third-party requests (system fonts only).
   (210 shown at 87.6% vs 157 at 94.9% on dev), class weights, overfitting story, limits (`x = 1` → Python 97%).
 - Two new single-column diagrams (inference, training) from `scripts/diagrams.py` (renamed from
   diagram-architecture.py), drawn + Mermaid like the architecture one.
+
+## 18. Why decision models, in the docs + dogfooding (2026-10-24)
+
+- Pablo: decision models were an option because of the recent releases (Laya, open weights), but the real reason is
+  engineering — specialised models are cheaper, faster and contained. Added SMART-ASSIST §1.1 (generative vs decision
+  vs our models: output, work per answer, size, latency, cost, failure modes, measurability, privacy) and §1.2 (the
+  "smallest tool that works" ladder: rules → tiny trained model → general decision model → never generative).
+  Kept Jev out of the docs (Pablo's rule); Laya is named.
+- Ran the Outline + Document tab over our own docs: 9 untagged code blocks and several 40+ word sentences in
+  today's text → fixed (blocks tagged `text`). Findings for later: SMART-ASSIST.md gets 0 typed sections (the 10
+  types are README-shaped; explanation docs fall in "other"); the sentence splitter misses sentences starting
+  with inline code.

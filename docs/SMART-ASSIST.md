@@ -30,6 +30,42 @@ Because the answer space is closed, the output can never be malformed. The guidi
 This is also why the project explicitly avoids generative autocomplete, rewriting, and "AI
 spell-check" (deterministic tools such as `nspell`/`remark-lint` are the right tool there).
 
+### 1.1 Why not a generative model
+
+Decision models became an option when Laya, an open-weights decision model, was released. But the reason
+Smart Assist uses them is engineering, not novelty: a model that only has to *pick* from a known list is a
+much smaller, cheaper and more predictable thing than one that has to *write*.
+
+| | Generative model (chatbot, autocomplete) | Decision model | Marksage's own models |
+|---|---|---|---|
+| Output | free text, token by token | one of the listed answers + probabilities | one of the listed answers + probabilities |
+| Work per answer | one pass of the model *per generated token* | one pass, whatever the answer | a few thousand multiplications |
+| Size and where it runs | from hundreds of millions to billions of parameters; usually a GPU or a hosted API | Laya: ~322–421 M parameters | ~262 thousand parameters, 385 KB, plain JavaScript in the page |
+| Time per decision | seconds, or a network round trip when hosted | well under a second on a laptop | about 0.1 ms |
+| Cost per decision | GPU time or a per-call API bill | local compute | effectively zero |
+| How it fails | can invent, ramble or return something unparseable | can pick the wrong option | can pick the wrong option |
+| Can it be measured? | hard: many acceptable outputs | yes: right or wrong against a label | yes: right or wrong against a label |
+| Privacy | hosted means your text leaves the device | runs locally | runs locally |
+
+A specialised model is contained: it can't say anything outside its list, its confidence can be calibrated,
+and its accuracy can be measured on held-out data before it ships. For "which language is this block?" or
+"what kind of section is this?", that's everything the job needs — and generating text would add cost,
+latency and new ways to fail without making the answer any better.
+
+### 1.2 The smallest tool that works
+
+Every Smart Assist question climbs the same ladder, and stops at the first step that's good enough:
+
+1. **Rules** (the heuristics) — instant, transparent, precise; tried first for every feature.
+2. **A tiny purpose-trained model** — only where the rules stay too quiet *and* real labelled data exists.
+   Both of Marksage's models are here. Each had to prove, on repositories it never saw, that it adds answers
+   the rules can't give. The code model shows more than twice as many suggestions at about the same
+   precision; the section model types sections whose heading says nothing.
+3. **A general decision model such as Laya** — reserved for questions with no training data to learn from.
+   No feature needs it yet.
+4. **A generative model** — not used. If the possible answers can't be listed up front, it isn't a Smart
+   Assist feature.
+
 ---
 
 ## 2. Architecture
@@ -221,7 +257,7 @@ from a per-kind prior and is adjusted by evidence:
 **Heuristic**. **LIX**, chosen because it is language-agnostic
 (works for English and Portuguese, unlike Flesch variants tuned to English syllables):
 
-```
+```text
 LIX = words / sentences + 100 × longWords / words      (long = more than 6 letters)
 ```
 
@@ -347,9 +383,9 @@ With *Local model*, the Outline also types sections whose heading doesn't say �
 "Bug fixes", "Theming" — by reading the text under the heading.
 
 - **Same recipe, other clues:** the same kind of model and file format (385 KB, ~0.1 ms per section),
-  reading prose instead of code — words and word pairs (accents folded, so *instalação* =
-  *instalacao*), how lines start, the words inside code, and the shape of the section: code blocks and
-  their languages, tables, lists, shell prompts, version numbers, dates, issue references.
+  reading prose instead of code. Its clues are words and word pairs (accents folded, so *instalação* =
+  *instalacao*), how lines start and the words inside code. It also reads the shape of the section: code
+  blocks and their languages, tables, lists, shell prompts, version numbers, dates, issue references.
 - **Labels from headings, without the headings:** about 26,000 sections from the same public
   repositories, labelled by the heading rule above (a stricter version that only trusts unambiguous
   headings). The model never sees the heading, only the text under it — that's what lets it type the

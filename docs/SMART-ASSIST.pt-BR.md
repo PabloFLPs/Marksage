@@ -29,6 +29,42 @@ Como o espaço de respostas é fechado, a saída nunca vem malformada. A regra q
 Por isso o projeto evita, de propósito, autocompletar generativo, reescrita e "corretor ortográfico
 com IA" (ferramentas determinísticas como `nspell`/`remark-lint` são as certas para isso).
 
+### 1.1 Por que não um modelo generativo
+
+Os modelos de decisão viraram uma opção quando o Laya, um modelo de decisão com pesos abertos, foi lançado. Mas
+o motivo de o Smart Assist usá-los é de engenharia, não de novidade: um modelo que só precisa *escolher* numa
+lista conhecida é muito menor, mais barato e mais previsível que um que precisa *escrever*.
+
+| | Modelo generativo (chatbot, autocompletar) | Modelo de decisão | Modelos próprios do Marksage |
+|---|---|---|---|
+| Saída | texto livre, token a token | uma das respostas listadas + probabilidades | uma das respostas listadas + probabilidades |
+| Trabalho por resposta | uma passada do modelo *por token gerado* | uma passada, seja qual for a resposta | alguns milhares de multiplicações |
+| Tamanho e onde roda | de centenas de milhões a bilhões de parâmetros; em geral GPU ou API hospedada | Laya: ~322–421 M de parâmetros | ~262 mil parâmetros, 385 KB, JavaScript puro na página |
+| Tempo por decisão | segundos, ou uma ida e volta pela rede quando hospedado | bem menos de um segundo num notebook | cerca de 0,1 ms |
+| Custo por decisão | tempo de GPU ou uma conta de API por chamada | processamento local | praticamente zero |
+| Como falha | pode inventar, divagar ou devolver algo impossível de interpretar | pode escolher a opção errada | pode escolher a opção errada |
+| Dá para medir? | difícil: muitas saídas aceitáveis | sim: certo ou errado contra um rótulo | sim: certo ou errado contra um rótulo |
+| Privacidade | hospedado quer dizer que seu texto sai do dispositivo | roda localmente | roda localmente |
+
+Um modelo especializado é contido: não consegue dizer nada fora da sua lista, a confiança dele pode ser
+calibrada e a acurácia pode ser medida em dados de fora antes de ir ao ar. Para "que linguagem é este bloco?"
+ou "que tipo de seção é esta?", isso é tudo de que a tarefa precisa — e gerar texto só somaria custo, demora e
+novas formas de falhar, sem deixar a resposta melhor.
+
+### 1.2 A menor ferramenta que resolve
+
+Toda pergunta do Smart Assist sobe a mesma escada e para no primeiro degrau que basta:
+
+1. **Regras** (as heurísticas) — instantâneas, transparentes, precisas; tentadas primeiro em todo recurso.
+2. **Um modelo minúsculo treinado para a tarefa** — só onde as regras ficam quietas demais *e* existem dados
+   rotulados reais. Os dois modelos do Marksage estão aqui. Cada um precisou provar, em repositórios que nunca
+   tinha visto, que traz respostas que as regras não dão. O modelo de código mostra mais que o dobro de
+   sugestões com quase a mesma precisão; o modelo de seções identifica seções cujo título não diz nada.
+3. **Um modelo de decisão geral, como o Laya** — reservado para perguntas sem dados de treino para aprender.
+   Nenhum recurso precisa dele ainda.
+4. **Um modelo generativo** — não é usado. Se não dá para listar as respostas possíveis de antemão, não é um
+   recurso do Smart Assist.
+
 ---
 
 ## 2. Arquitetura
@@ -223,7 +259,7 @@ de um valor inicial por tipo e é ajustada pelas evidências:
 **Heurística**. **LIX**, escolhido por ser independente de idioma
 (funciona em português e inglês, ao contrário das variantes de Flesch ajustadas às sílabas do inglês):
 
-```
+```text
 LIX = palavras / frases + 100 × palavrasLongas / palavras      (longa = mais de 6 letras)
 ```
 
@@ -351,10 +387,10 @@ Com o *Modelo local*, a Estrutura também identifica seções cujo título não 
 "Bug fixes", "Tema" — lendo o texto sob o título.
 
 - **Mesma receita, outras pistas:** o mesmo tipo de modelo e formato de arquivo (385 KB, ~0,1 ms por
-  seção), lendo texto em vez de código — palavras e pares de palavras (sem acentos, então *instalação*
-  = *instalacao*), como as linhas começam, as palavras dentro do código e o formato da seção: blocos de
-  código e suas linguagens, tabelas, listas, prompts de terminal, números de versão, datas, referências
-  a issues.
+  seção), lendo texto em vez de código. As pistas são palavras e pares de palavras (sem acentos, então
+  *instalação* = *instalacao*), como as linhas começam e as palavras dentro do código. Também conta o formato
+  da seção: blocos de código e suas linguagens, tabelas, listas, prompts de terminal, números de versão,
+  datas, referências a issues.
 - **Rótulos pelos títulos, sem os títulos:** cerca de 26 mil seções dos mesmos repositórios públicos,
   rotuladas pela regra dos títulos acima (uma versão mais rígida, que só confia em títulos sem
   ambiguidade). O modelo nunca vê o título, só o texto sob ele — é isso que permite identificar as
