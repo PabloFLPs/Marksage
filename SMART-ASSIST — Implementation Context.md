@@ -217,3 +217,5 @@ There are no cookies, analytics or third-party requests (system fonts only).
   **Remove downloaded model** and **Delete all Marksage data** (every `marksage:*` key + `marksage-*` caches).
 - Theme is stored only when the user changes it (it used to be written on every load).
 - Not legal advice — the hosting provider's own terms/logs still apply.
+
+- 2026-10-24: the unused `LayaEngine` / `laya.worker.ts` scaffold and `PROMPTS` were removed (still in git history); Laya remains a documented option for future questions without training data.

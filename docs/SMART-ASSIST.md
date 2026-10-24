@@ -76,8 +76,8 @@ interface DecisionEngine {
 ```
 
 Both engines implement the same interface, so features never know which one answered.
-`q` is a stable id (e.g. `fence.language`); a model engine receives the matching
-natural-language prompt from `PROMPTS`, while the heuristic engine uses it to pick a scorer.
+`q` is a stable id (e.g. `fence.language`): the heuristic engine uses it to pick a scorer, and the
+*Local model* engine uses it to decide which questions its own model answers.
 
 ### 2.3 The confidence gate
 

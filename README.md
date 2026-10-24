@@ -54,4 +54,4 @@ cp .env.example .env   # then edit VITE_SITE_URL, or set it in your host's env v
 
 Stack: React 19 + TypeScript + Vite + Tailwind CSS 4, `react-markdown` + `remark-gfm`, `lucide-react`.
 See `AGENTS.md` for architecture and conventions, `docs/SMART-ASSIST.md` for the Smart Assist
-technical documentation (heuristics, Laya), and `SMART-ASSIST — Implementation Context.md` for the original design notes.
+technical documentation (heuristics, Marksage's own model, evaluation), [`training/`](training/README.md) for the model pipeline, and `SMART-ASSIST — Implementation Context.md` for the original design notes.

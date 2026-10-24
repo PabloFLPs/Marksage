@@ -75,8 +75,8 @@ interface DecisionEngine {
 ```
 
 Os dois mecanismos implementam a mesma interface, então os recursos nunca sabem quem respondeu.
-`q` é um id estável (ex.: `fence.language`); um mecanismo de modelo recebe o prompt em linguagem
-natural correspondente em `PROMPTS`, enquanto o heurístico usa o id para escolher o pontuador.
+`q` é um id estável (ex.: `fence.language`): o mecanismo heurístico usa o id para escolher o
+pontuador, e o mecanismo do *Modelo local* usa para decidir quais perguntas o seu modelo responde.
 
 ### 2.3 O filtro de confiança
 

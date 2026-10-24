@@ -1,15 +1,9 @@
-/** Stable question ids + the natural-language prompts a model engine receives. */
+/** Stable question ids — every engine routes on these. */
 export const Q = {
   fenceLanguage: 'fence.language',
   pasteKind: 'paste.kind',
   readability: 'section.readability',
 } as const
-
-export const PROMPTS: Record<string, string> = {
-  [Q.fenceLanguage]: 'Which programming or markup language is this code snippet written in?',
-  [Q.pasteKind]: 'What kind of content is this pasted text?',
-  [Q.readability]: 'How hard is this section to read for a general technical audience?',
-}
 
 export const LANGUAGES = {
   ts: 'TypeScript',

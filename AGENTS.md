@@ -46,7 +46,7 @@ Full technical documentation: `docs/SMART-ASSIST.md` — also rendered in-app at
 - `ModelEngine` ("Local model" mode): Marksage's own F1 model (`assist/model/`, weights in `public/models/lang-v1.bin`)
   answers `fence.language`; everything else falls back to `HeuristicEngine`. Lazy fetch + Cache API, main thread
   (~0.1 ms/decision). Retrain with `training/` (see its README); a new model must beat the current one on dev,
-  then on a held-out set. `LayaEngine` + `laya.worker.ts` are an unused scaffold for a possible larger model.
+  then on a held-out set. (The earlier `LayaEngine` worker scaffold was removed on 2026-10-24 — it's in git history.)
 - Flow: deterministic pre-filter (`prefilter.ts`) → engine → confidence gate (`passesGate`, 0.8 / 0.2 margin) → suggestion.
 - Fixtures: `*.json` = authored regression set, `*.dev.json` = real-world set to tune against, `*.real.json` = held-out real-world set (see `assist/__fixtures__/README.md`). Never tune heuristics against `*.real.json` — tune on dev, then run real once.
 - Adding a feature: pre-filter candidates → feature in `assist/features/` returning a `Suggestion` with an

@@ -12,7 +12,7 @@ Up to three sets per feature. `npm run eval:assist` scores each separately; `-- 
 | `pastes.real.json` | real, held out | 31 | Excerpts of real files and real command output, as someone would paste them. |
 | `lines.real.json` | real, held out | 30 | Lines the F3 pre-filter flags in real docs and wikis, labelled by hand. |
 
-**Held-out rule:** don't tune heuristics (or Laya prompts) against the `*.real.json` sets. Tune against
+**Held-out rule:** don't tune heuristics (or retrain the model) against the `*.real.json` sets. Tune against
 the authored and `*.dev.json` sets (a dev set comes from *other* sources than the real set), then run
 the real set once to measure. Every real fixture has a `source` so it can be traced; `note` marks
 the hard or arguable cases.
