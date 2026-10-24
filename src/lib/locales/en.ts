@@ -219,6 +219,7 @@ export const en = {
 
   'about.back': 'Back',
   'docs.backToAbout': 'About',
+  'docs.backToDocs': 'Smart Assist docs',
   'docs.badge': 'Technical docs',
   'diagram.view': 'Diagram style',
   'diagram.drawn': 'Drawn',

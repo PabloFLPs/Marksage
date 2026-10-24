@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { AlertCircle, Eye, X } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
@@ -17,7 +17,6 @@ import {
 import { deleteAllLocalData, loadAssistMode, loadOutlineOpen, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveSplitRatio } from './lib/storage'
 import { deleteDownloadedModel } from './assist/modelEngine'
 import { AboutPage } from './components/AboutPage'
-import { TechDocsPage } from './components/TechDocsPage'
 import { getSampleDocument } from './lib/sampleDocument'
 import { useI18n } from './hooks/useI18n'
 import { Presence } from './components/motion'
@@ -32,12 +31,15 @@ import { OutlinePanel, type PanelTab } from './components/OutlinePanel'
 import type { AssistMode } from './assist/types'
 import type { ViewMode } from './lib/viewMode'
 
+// The technical docs (Markdown + diagrams, both languages) load only when opened.
+const TechDocsPage = lazy(() => import('./components/TechDocsPage').then((m) => ({ default: m.TechDocsPage })))
+
 const EXIT_MS = 220
 
-type InfoPage = 'about' | 'docs'
+type InfoPage = 'about' | 'docs' | 'models'
 function pageFromHash(): InfoPage | null {
   const h = window.location.hash
-  return h === '#about' ? 'about' : h === '#smart-assist' ? 'docs' : null
+  return h === '#about' ? 'about' : h === '#smart-assist' ? 'docs' : h === '#models' ? 'models' : null
 }
 const DESKTOP_QUERY = '(min-width: 768px)'
 const nullRef = { current: null }
@@ -122,8 +124,15 @@ export default function App() {
   const openDocs = useCallback(() => {
     window.location.hash = 'smart-assist'
   }, [])
+  const openModelsDocs = useCallback(() => {
+    window.location.hash = 'models'
+  }, [])
   const closeAbout = useCallback(() => {
-    // Docs → back to About; About → back to the app.
+    // Models → back to the Smart Assist docs; docs → back to About; About → back to the app.
+    if (infoRef.current === 'models') {
+      window.location.hash = 'smart-assist'
+      return
+    }
     if (infoRef.current === 'docs') {
       window.location.hash = 'about'
       return
@@ -460,12 +469,15 @@ export default function App() {
         </div>
       </Presence>
 
-      {infoPage === 'docs' ? (
-        <TechDocsPage key="docs" closing={aboutClosing} onBack={closeAbout} />
+      {infoPage === 'docs' || infoPage === 'models' ? (
+        <Suspense fallback={<main className="min-h-0 flex-1" />}>
+          <TechDocsPage key={infoPage} page={infoPage === 'models' ? 'models' : 'smart-assist'} closing={aboutClosing} onBack={closeAbout} />
+        </Suspense>
       ) : showAbout ? (
         <AboutPage
           key="about"
           onOpenDocs={openDocs}
+          onOpenModelsDocs={openModelsDocs}
           closing={aboutClosing}
           onBack={closeAbout}
           onTrySmartAssist={handleTrySmartAssist}

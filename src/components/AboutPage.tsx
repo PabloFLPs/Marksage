@@ -2,6 +2,7 @@ import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
+  Brain,
   ClipboardPaste,
   Code2,
   Cookie,
@@ -35,6 +36,7 @@ const KeyStyleContext = createContext<KeyStyle>('mac')
 interface AboutPageProps {
   onBack: () => void
   onOpenDocs: () => void
+  onOpenModelsDocs: () => void
   closing?: boolean
   onTrySmartAssist: () => void
   appIcon: AppIconId
@@ -56,7 +58,7 @@ const SHORTCUTS: [KeyToken[], string, string][] = [
   [['esc'], 'Dismiss a suggestion', 'Dispensar uma sugestão'],
 ]
 
-export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssist, appIcon, onAppIconChange, theme, onRemoveModel, onDeleteAllData }: AboutPageProps) {
+export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDocs, onTrySmartAssist, appIcon, onAppIconChange, theme, onRemoveModel, onDeleteAllData }: AboutPageProps) {
   const { keyStyle, setKeyStyle } = useKeyStyle()
   const { t, lang, setLang } = useI18n()
   const pt = lang === 'pt-BR'
@@ -181,6 +183,13 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssis
           >
             <BookOpen className="h-4 w-4" /> {x('How it works', 'Como funciona')}
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </button>
+          <button
+            type="button"
+            onClick={onOpenModelsDocs}
+            className="group ml-1 mt-5 inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-accent hover:bg-accent/5 dark:text-dark-accent dark:hover:bg-dark-accent/10"
+          >
+            <Brain className="h-4 w-4" /> {x('How the models work', 'Como os modelos funcionam')}
           </button>
         </Section>
 

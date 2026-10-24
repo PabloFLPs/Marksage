@@ -281,3 +281,15 @@ There are no cookies, analytics or third-party requests (system fonts only).
   the theme (keywords = accent), copy button on every code block. Untagged blocks stay plain (Pablo: no auto-detect).
 - Fixed on the way: the readability-dot `h2` override dropped `data-line`, breaking scroll sync / Outline jumps on
   those headings.
+
+## 17. "How the two models work" page (2026-10-24)
+
+- Pablo asked for a deep, from-zero explanation of both models (he didn't design them and hasn't trained models
+  before). `docs/MODELS.md` + PT-BR, in-app at `#models` (About → "How the models work", and a link from the
+  Smart Assist docs §4).
+- One real snippet (`def greet(name): …`) traced through the shipped `lang-v2.bin`: 55 clues → slot 23,610 for
+  `T:def` → 8-number average → logits (python 16.66) → softmax at T 1 (99.7%) vs calibrated 2.55 (82.7%) → gate.
+  Also: real loss curve (1.31 → 0.06 over 8 epochs), int8 row of `T:def`, file layout, calibration before/after
+  (210 shown at 87.6% vs 157 at 94.9% on dev), class weights, overfitting story, limits (`x = 1` → Python 97%).
+- Two new single-column diagrams (inference, training) from `scripts/diagrams.py` (renamed from
+  diagram-architecture.py), drawn + Mermaid like the architecture one.

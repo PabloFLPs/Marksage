@@ -15,15 +15,26 @@ interface MarkdownPreviewProps {
   readability?: ReadabilityMark[]
   /** Replace a fenced block with something else (the docs page renders its diagrams this way). */
   renderBlock?: (lang: string, code: string) => ReactNode | null
+  /** Relative links that stay in the app: href → in-app hash (the docs link to each other this way). */
+  internalLinks?: Record<string, string>
 }
 
 const DOT_COLORS = ['bg-emerald-500/70', 'bg-emerald-500/70', 'bg-amber-500/70', 'bg-orange-500/80', 'bg-red-500/80']
 
-export function MarkdownPreview({ content, readability, renderBlock }: MarkdownPreviewProps) {
+export function MarkdownPreview({ content, readability, renderBlock, internalLinks }: MarkdownPreviewProps) {
   const { t } = useI18n()
   const components = useMemo<Components>(() => {
     const base: Components = {
-      ...baseComponents,
+      a: ({ href, children }) => {
+        const internal = href ? internalLinks?.[href.replace(/^\.\//, '')] : undefined
+        return internal ? (
+          <a href={internal}>{children}</a>
+        ) : (
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            {children}
+          </a>
+        )
+      },
       // Fenced blocks: highlighted when tagged, always with a copy button. Props (data-line) stay on the
       // outer element, so scroll sync and the Outline still find the block.
       pre: ({ node, children, ref: _ref, ...rest }) => {
@@ -53,7 +64,7 @@ export function MarkdownPreview({ content, readability, renderBlock }: MarkdownP
         )
       },
     }
-  }, [readability, t, renderBlock])
+  }, [readability, t, renderBlock, internalLinks])
 
   return (
     <div className="markdown-body mx-auto w-full max-w-[900px] px-4 py-8 sm:px-6 sm:py-10">
@@ -64,13 +75,6 @@ export function MarkdownPreview({ content, readability, renderBlock }: MarkdownP
   )
 }
 
-const baseComponents: Components = {
-  a: ({ href, children }) => (
-    <a href={href} target="_blank" rel="noopener noreferrer">
-      {children}
-    </a>
-  ),
-}
 
 function textOf(node: ReactNode): string {
   return Children.toArray(node)

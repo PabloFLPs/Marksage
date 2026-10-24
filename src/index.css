@@ -629,18 +629,16 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  max-width: 720px;
-  min-width: 520px; /* phones scroll sideways instead of shrinking the text below reading size */
+  max-width: var(--diagram-max, 720px);
   margin: 0 auto;
 }
 .doc-diagram-mermaid svg {
-  min-width: 0;
+  max-width: 720px;
 }
 .doc-diagram-narrow {
   display: none;
 }
 .doc-diagram-narrow svg {
-  min-width: 0;
   max-width: 400px;
 }
 @media (max-width: 599px) {

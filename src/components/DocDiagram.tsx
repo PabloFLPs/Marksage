@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { useI18n } from '../hooks/useI18n'
 
 interface DocDiagramProps {
@@ -18,8 +19,10 @@ export function DocDiagram({ svg, narrowSvg, mermaid, alt }: DocDiagramProps) {
   const { t } = useI18n()
   const [view, setView] = useState<View>('drawn')
   const fallBack = useCallback(() => setView('drawn'), [])
+  // Never wider than the drawing itself (the single-column diagrams are 440 px wide).
+  const width = Number(/<svg[^>]*\swidth="(\d+)"/.exec(svg)?.[1]) || 720
   return (
-    <figure className="doc-diagram-figure">
+    <figure className="doc-diagram-figure" style={{ '--diagram-max': `${width}px` } as CSSProperties}>
       <div role="group" aria-label={t('diagram.view')} className="doc-diagram-switch">
         {(['drawn', 'mermaid'] as const).map((v) => (
           <button

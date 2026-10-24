@@ -284,6 +284,9 @@ hover to mark the heading in the preview. Nothing in the document changes.
 
 ## 4. Marksage's own models
 
+> New to machine learning? [How the two models work](MODELS.md) walks through every step — clues, hashing,
+> training, calibration — with real numbers from the model files.
+
 ### 4.1 What it is
 
 *Local model* mode adds a small language classifier trained for exactly one job: naming the

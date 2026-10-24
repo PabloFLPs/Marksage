@@ -4,6 +4,12 @@ import { MarkdownPreview } from './MarkdownPreview'
 // Single source of truth: the repo docs are rendered in-app with our own renderer.
 import techDocsEn from '../../docs/SMART-ASSIST.md?raw'
 import techDocsPt from '../../docs/SMART-ASSIST.pt-BR.md?raw'
+import modelsEn from '../../docs/MODELS.md?raw'
+import modelsPt from '../../docs/MODELS.pt-BR.md?raw'
+import inferEn from '../../docs/models-inference.svg?raw'
+import inferPt from '../../docs/models-inference.pt-BR.svg?raw'
+import trainEn from '../../docs/models-training.svg?raw'
+import trainPt from '../../docs/models-training.pt-BR.svg?raw'
 import archEn from '../../docs/architecture.svg?raw'
 import archPt from '../../docs/architecture.pt-BR.svg?raw'
 import archNarrowEn from '../../docs/architecture.narrow.svg?raw'
@@ -11,21 +17,41 @@ import archNarrowPt from '../../docs/architecture.narrow.pt-BR.svg?raw'
 import { DocDiagram } from './DocDiagram'
 import { useI18n } from '../hooks/useI18n'
 
+export type DocsPageId = 'smart-assist' | 'models'
+
 interface TechDocsPageProps {
+  page: DocsPageId
   closing?: boolean
   onBack: () => void
 }
 
+const DOCS: Record<DocsPageId, { en: string; pt: string }> = {
+  'smart-assist': { en: techDocsEn, pt: techDocsPt },
+  models: { en: modelsEn, pt: modelsPt },
+}
+
+/** Links between the doc files (they work on GitHub) become in-app pages. */
+const INTERNAL_LINKS: Record<string, string> = {
+  'SMART-ASSIST.md': '#smart-assist',
+  'SMART-ASSIST.pt-BR.md': '#smart-assist',
+  'MODELS.md': '#models',
+  'MODELS.pt-BR.md': '#models',
+}
+
 /** The SVG each Markdown image points to, plus a stacked version for narrow screens (app only). */
-const SVGS: Record<string, { svg: string; narrow: string }> = {
+const SVGS: Record<string, { svg: string; narrow?: string }> = {
   'architecture.svg': { svg: archEn, narrow: archNarrowEn },
   'architecture.pt-BR.svg': { svg: archPt, narrow: archNarrowPt },
+  'models-inference.svg': { svg: inferEn },
+  'models-inference.pt-BR.svg': { svg: inferPt },
+  'models-training.svg': { svg: trainEn },
+  'models-training.pt-BR.svg': { svg: trainPt },
 }
 
 interface Diagram {
   alt: string
   svg: string
-  narrow: string
+  narrow?: string
   mermaid: string
 }
 
@@ -55,11 +81,11 @@ function parseDoc(source: string) {
   return { title, body: rest, sections, diagrams }
 }
 
-/** "How Smart Assist works" — technical docs (heuristics, own model, evaluation). */
-export function TechDocsPage({ closing = false, onBack }: TechDocsPageProps) {
+/** Technical docs pages: "How Smart Assist works" (#smart-assist) and "How the two models work" (#models). */
+export function TechDocsPage({ page, closing = false, onBack }: TechDocsPageProps) {
   const { t, lang } = useI18n()
   const bodyRef = useRef<HTMLDivElement>(null)
-  const doc = useMemo(() => parseDoc(lang === 'pt-BR' ? techDocsPt : techDocsEn), [lang])
+  const doc = useMemo(() => parseDoc(lang === 'pt-BR' ? DOCS[page].pt : DOCS[page].en), [lang, page])
 
   const renderBlock = useCallback(
     (lang: string, code: string) => {
@@ -84,7 +110,7 @@ export function TechDocsPage({ closing = false, onBack }: TechDocsPageProps) {
             onClick={onBack}
             className="-ml-2 inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
           >
-            <ArrowLeft className="h-4 w-4" /> {t('docs.backToAbout')}
+            <ArrowLeft className="h-4 w-4" /> {page === 'models' ? t('docs.backToDocs') : t('docs.backToAbout')}
           </button>
           <span className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
             <BookOpen className="h-3.5 w-3.5" /> {t('docs.badge')}
@@ -119,7 +145,7 @@ export function TechDocsPage({ closing = false, onBack }: TechDocsPageProps) {
         </header>
 
         <div ref={bodyRef} className="tech-docs">
-          <MarkdownPreview content={doc.body} renderBlock={renderBlock} />
+          <MarkdownPreview content={doc.body} renderBlock={renderBlock} internalLinks={INTERNAL_LINKS} />
         </div>
       </div>
     </main>

@@ -287,6 +287,9 @@ o mouse para marcar o título na pré-visualização. Nada no documento muda.
 
 ## 4. Os modelos próprios do Marksage
 
+> Nunca treinou um modelo? [Como os dois modelos funcionam](MODELS.pt-BR.md) percorre cada passo — pistas,
+> hash, treino, calibração — com números reais dos arquivos dos modelos.
+
 ### 4.1 O que é
 
 O modo *Modelo local* adiciona um pequeno classificador treinado para uma única tarefa: dizer a

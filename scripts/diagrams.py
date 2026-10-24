@@ -1,10 +1,12 @@
 """
-Architecture diagram for docs/SMART-ASSIST(.pt-BR).md — one geometry, two languages, two layouts:
-  python3 scripts/diagram-architecture.py docs
-writes docs/architecture.svg + .pt-BR.svg (wide: GitHub and the app) and architecture.narrow.svg + .narrow.pt-BR.svg
-(lanes stacked: the app on narrow screens). Colors are msd-* classes: the SVG's own <style> covers GitHub
-(light/dark via prefers-color-scheme); in the app, index.css overrides them with the theme and accent.
-Keep the Mermaid version in the docs in sync when the boxes change.
+Diagrams for the docs — one geometry per diagram, EN + PT-BR:
+  python3 scripts/diagrams.py docs
+- architecture(.narrow)(.pt-BR).svg — docs/SMART-ASSIST(.pt-BR).md; wide for GitHub and the app, "narrow" (lanes
+  stacked) for the app on small screens;
+- models-inference(.pt-BR).svg, models-training(.pt-BR).svg — docs/MODELS(.pt-BR).md (single column, phone-friendly).
+Colors are msd-* classes: the SVG's own <style> covers GitHub (light/dark via prefers-color-scheme); in the app,
+index.css overrides them with the theme and accent. Keep the Mermaid versions in the docs in sync when boxes change.
+The example numbers in the models diagrams come from the shipped model files (see MODELS.md, section 2).
 """
 from html import escape
 import sys
@@ -60,6 +62,8 @@ STYLE = """
   .msd-s.msd-small { font-size: 11px; }
   .msd-label { fill: #59636e; font-size: 11px; }
   .msd-note { fill: #59636e; font-size: 11.5px; font-style: italic; }
+  .msd-mono { fill: #59636e; font-size: 11.5px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .msd-step { fill: #2563eb; font-size: 11px; font-weight: 700; }
   .msd-line { fill: none; stroke: #8c959f; stroke-width: 1.4; }
   .msd-head { fill: #8c959f; }
   @media (prefers-color-scheme: dark) {
@@ -69,7 +73,8 @@ STYLE = """
     .msd-box.msd-accent { stroke: #58a6ff; }
     .msd-group { stroke: #6e7681; }
     .msd-t { fill: #e6edf3; }
-    .msd-s, .msd-label, .msd-note { fill: #8b949e; }
+    .msd-s, .msd-label, .msd-note, .msd-mono { fill: #8b949e; }
+    .msd-step { fill: #58a6ff; }
     .msd-line { stroke: #6e7681; }
     .msd-head { fill: #6e7681; }
   }
@@ -143,9 +148,88 @@ def svg(t, narrow=False):
     out.append('</svg>')
     return '\n'.join(out) + '\n'
 
+
+# ---------------------------------------------------------------- single-column step diagrams (MODELS.md)
+
+CHAINS = {
+ 'models-inference': {
+  'en': dict(title='From a snippet to an answer', desc='How the code-language model turns a snippet into probabilities, with real numbers.',
+    steps=[('Snippet', 'def greet(name): return f"Hello…"'),
+           ('Clues (features)', '55 clues: T:def  F:return  G:gre  E::'),
+           ('Hash each clue to a slot', 'T:def → slot 23,610 of 32,768'),
+           ('Look up 8 numbers per slot', '55 clues × 8 learned numbers'),
+           ('Average them', '[0.11, −0.23, 0.32, 0.02, …]'),
+           ('Score each answer', 'python 16.7 · yaml 10.5 · markdown 8.6 …'),
+           ('Softmax, temperature 2.55', 'python 83% · yaml 7% · markdown 4% …'),
+           ('Confidence gate', '83% ≥ 80% and 75 points ahead → “python”')],
+    accent=7),
+  'pt': dict(title='De um trecho a uma resposta', desc='Como o modelo de linguagens transforma um trecho em probabilidades, com números reais.',
+    steps=[('Trecho', 'def greet(name): return f"Hello…"'),
+           ('Pistas (features)', '55 pistas: T:def  F:return  G:gre  E::'),
+           ('Hash de cada pista para um slot', 'T:def → slot 23.610 de 32.768'),
+           ('Busca 8 números por slot', '55 pistas × 8 números aprendidos'),
+           ('Tira a média', '[0,11; −0,23; 0,32; 0,02; …]'),
+           ('Pontua cada resposta', 'python 16,7 · yaml 10,5 · markdown 8,6 …'),
+           ('Softmax, temperatura 2,55', 'python 83% · yaml 7% · markdown 4% …'),
+           ('Filtro de confiança', '83% ≥ 80% e 75 pontos à frente → “python”')],
+    accent=7),
+ },
+ 'models-training': {
+  'en': dict(title='How the models learned', desc='The training pipeline, from public repositories to the published numbers.',
+    steps=[('Public repositories', '309 repos: docs, READMEs, guides'),
+           ('Labelled examples', 'code: the authors’ tags · sections: headings'),
+           ('Split by repository', 'train · dev (choices) · test (once)'),
+           ('Training loop', 'guess → measure the miss → nudge the numbers'),
+           ('Calibrate', 'temperature from repos it never saw'),
+           ('Shrink', '8 bits + one scale per row → 385 KB'),
+           ('Measure once', 'held-out repos → the published numbers')],
+    accent=3, loop='× several passes'),
+  'pt': dict(title='Como os modelos aprenderam', desc='O fluxo de treino, dos repositórios públicos aos números publicados.',
+    steps=[('Repositórios públicos', '309 repositórios: docs, READMEs, guias'),
+           ('Exemplos rotulados', 'código: as tags dos autores · seções: títulos'),
+           ('Divisão por repositório', 'treino · ajuste (escolhas) · teste (uma vez)'),
+           ('Laço de treino', 'chuta → mede o erro → ajusta os números'),
+           ('Calibra', 'temperatura em repositórios nunca vistos'),
+           ('Encolhe', '8 bits + uma escala por linha → 385 KB'),
+           ('Mede uma vez', 'repositórios de fora → os números publicados')],
+    accent=3, loop='× várias passadas'),
+ },
+}
+
+def chain_svg(name, t):
+    W, BOX_H, GAP, X, BW = 440, 56, 22, 20, 360
+    n = len(t['steps'])
+    H = 24 + n * BOX_H + (n - 1) * GAP + 24
+    SFX[0] = '-' + name
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="msd-title-{name} msd-desc-{name}" font-family="system-ui, -apple-system, \'Segoe UI\', Helvetica, Arial, sans-serif">',
+           f'<title id="msd-title-{name}">{escape(t["title"])}</title><desc id="msd-desc-{name}">{escape(t["desc"])}</desc>',
+           f'<style>{STYLE}</style>',
+           f'<defs><marker id="msd-arrow-{name}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="msd-head" d="M0,0 L10,5 L0,10 z"/></marker></defs>']
+    cx = X + BW / 2
+    for i, (title, mono) in enumerate(t['steps']):
+        y = 24 + i * (BOX_H + GAP)
+        cls = 'msd-accent' if i == t.get('accent') else ''
+        out.append(f'<rect class="msd-box {cls}" x="{X}" y="{y}" width="{BW}" height="{BOX_H}" rx="9"/>')
+        out.append(f'<text class="msd-step" x="{X + 14}" y="{y + 22}">{i + 1}</text>')
+        out.append(f'<text class="msd-t" x="{X + 32}" y="{y + 22}">{escape(title)}</text>')
+        out.append(f'<text class="msd-mono" x="{X + 32}" y="{y + 42}">{escape(mono)}</text>')
+        if i < n - 1:
+            out.append(line([(cx, y + BOX_H), (cx, y + BOX_H + GAP - 1)]))
+    if 'loop' in t:
+        i = t['accent']
+        y = 24 + i * (BOX_H + GAP)
+        right = X + BW
+        out.append(line([(right, y + BOX_H - 14), (right + 22, y + BOX_H - 14), (right + 22, y + 14), (right + 1, y + 14)]))
+        out.append(f'<text class="msd-label" x="{right + 34}" y="{y + BOX_H / 2}" text-anchor="middle" transform="rotate(90 {right + 34} {y + BOX_H / 2})">{escape(t["loop"])}</text>')
+    out.append('</svg>')
+    return '\n'.join(out) + '\n'
+
 dest = sys.argv[1]
 open(f'{dest}/architecture.svg', 'w').write(svg(T['en']))
 open(f'{dest}/architecture.pt-BR.svg', 'w').write(svg(T['pt']))
 open(f'{dest}/architecture.narrow.svg', 'w').write(svg(T['en'], narrow=True))
 open(f'{dest}/architecture.narrow.pt-BR.svg', 'w').write(svg(T['pt'], narrow=True))
 print('ok')
+for name, langs in CHAINS.items():
+    open(f'{dest}/{name}.svg', 'w').write(chain_svg(name, langs['en']))
+    open(f'{dest}/{name}.pt-BR.svg', 'w').write(chain_svg(name, langs['pt']))
