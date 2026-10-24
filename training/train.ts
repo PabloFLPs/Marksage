@@ -13,7 +13,8 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { featureIds } from '../src/assist/model/features.ts'
-import { FORMAT_VERSION, MAGIC, forward, isShort, loadModel, softmaxT, type ModelHeader } from '../src/assist/model/model.ts'
+import { forward, isShort, loadModel, softmaxT, type ModelHeader } from '../src/assist/model/model.ts'
+import { fit, fitTemperature, fnv, rng, rowOf, serialise, type Sample as BaseSample } from './fasttext.ts'
 import { HeuristicEngine } from '../src/assist/heuristicEngine.ts'
 import { LANGUAGES, Q } from '../src/assist/questions.ts'
 import { passesGate } from '../src/assist/types.ts'
@@ -46,17 +47,7 @@ const K = LABELS.length
 const idx = new Map(LABELS.map((l, i) => [l, i]))
 const PLAIN_IDX = idx.get('plaintext')!
 
-function fnv(str: string) {
-  let h = 2166136261
-  for (const c of str) h = Math.imul(h ^ c.charCodeAt(0), 16777619)
-  return h >>> 0
-}
-function rng(seed: number) {
-  let a = seed
-  return () => ((a = (a + 0x6d2b79f5) | 0), ((Math.imul(a ^ (a >>> 15), 1 | a) ^ (a >>> 7)) >>> 0) / 2 ** 32)
-}
-
-type Sample = { y: number; ids: Uint32Array; code: string; repo: string; slice?: boolean }
+type Sample = BaseSample & { code: string; repo: string; slice?: boolean }
 type Row = { label: string; code: string; repo?: string; slice?: boolean }
 const load = (rows: Row[]): Sample[] =>
   rows.filter((r) => idx.has(r.label)).map((r) => ({ y: idx.get(r.label)!, ids: featureIds(r.code, BUCKETS), code: r.code, repo: r.repo ?? '', slice: r.slice }))
@@ -84,61 +75,9 @@ const log = (...a: unknown[]) => !QUIET && console.log(...a)
 log(`featurised ${train.length} train / ${dev.length} dev in ${((performance.now() - t0) / 1000).toFixed(1)}s`)
 
 // ---------- train ----------
-type Weights = { emb: Float32Array; W: Float32Array; b: Float32Array }
-function fit(samples: Sample[], seed: number, quiet = QUIET): Weights {
-  const rand = rng(seed)
-  const emb = new Float32Array(BUCKETS * DIM).map(() => (rand() * 2 - 1) / DIM)
-  const W = new Float32Array(DIM * K)
-  const b = new Float32Array(K)
-  const counts: number[] = Array.from({ length: K }, () => 0)
-  for (const s of samples) counts[s.y]++
-  const nMax = Math.max(...counts)
-  const classW = counts.map((n) => (n ? (nMax / n) ** BALANCE : 0))
-  const row = (id: number, h: Float32Array) => {
-    const base = id * DIM
-    for (let d = 0; d < DIM; d++) h[d] += emb[base + d]
-  }
-  const order = samples.map((_, i) => i)
-  const total = EPOCHS * samples.length
-  let step = 0
-  const gH = new Float32Array(DIM)
-  for (let ep = 0; ep < EPOCHS; ep++) {
-    for (let i = order.length - 1; i > 0; i--) {
-      const j = Math.floor(rand() * (i + 1))
-      ;[order[i], order[j]] = [order[j], order[i]]
-    }
-    let loss = 0
-    for (const oi of order) {
-      const s = samples[oi]
-      if (!s.ids.length) continue
-      const lr = LR * (1 - step++ / total)
-      const { h, logits } = forward(s.ids, DIM, K, row, W, b)
-      const p = softmaxT(logits, 1)
-      loss -= Math.log(Math.max(p[s.y], 1e-9)) * classW[s.y]
-      gH.fill(0)
-      for (let k = 0; k < K; k++) {
-        const g = (p[k] - (k === s.y ? 1 : 0)) * classW[s.y]
-        if (g === 0) continue
-        for (let d = 0; d < DIM; d++) {
-          gH[d] += W[d * K + k] * g
-          W[d * K + k] -= lr * g * h[d]
-        }
-        b[k] -= lr * g
-      }
-      const scale = lr / s.ids.length
-      for (const id of s.ids) {
-        const base = id * DIM
-        for (let d = 0; d < DIM; d++) emb[base + d] -= scale * gH[d]
-      }
-    }
-    if (!quiet) console.log(`epoch ${ep + 1}/${EPOCHS}  loss ${(loss / samples.length).toFixed(4)}`)
-  }
-  return { emb, W, b }
-}
-const rowOf = (emb: Float32Array) => (id: number, h: Float32Array) => {
-  const base = id * DIM
-  for (let d = 0; d < DIM; d++) h[d] += emb[base + d]
-}
+const FIT = { dim: DIM, buckets: BUCKETS, classes: K, epochs: EPOCHS, lr: LR, balance: BALANCE }
+const fitWith = (samples: Sample[], seed: number, quiet = QUIET) => fit(samples, { ...FIT, seed, quiet })
+const rowFor = (emb: Float32Array) => rowOf(emb, DIM)
 
 /**
  * v2: calibrate on repos the model hasn't seen, from inside train — 5 folds by repo; each fold's model
@@ -149,11 +88,11 @@ function outOfRepoLogits(): { logits: Float32Array[]; y: number[]; short: boolea
   const fold = (repo: string) => fnv(repo) % 5
   const out = { logits: [] as Float32Array[], y: [] as number[], short: [] as boolean[] }
   for (let f = 0; f < 5; f++) {
-    const w = fit(train.filter((s) => fold(s.repo) !== f), SEED + f + 1, true)
+    const w = fitWith(train.filter((s) => fold(s.repo) !== f), SEED + f + 1, true)
     const held = train.filter((s) => fold(s.repo) === f && !s.slice)
     const r = rng(SEED + 50 + f)
     for (const s of held.filter(() => r() < 1500 / Math.max(1, held.length))) {
-      out.logits.push(forward(s.ids, DIM, K, rowOf(w.emb), w.W, w.b).logits)
+      out.logits.push(forward(s.ids, DIM, K, rowFor(w.emb), w.W, w.b).logits)
       out.y.push(s.y)
       out.short.push(isShort(s.code))
     }
@@ -162,8 +101,9 @@ function outOfRepoLogits(): { logits: Float32Array[]; y: number[]; short: boolea
   return out
 }
 
-const { emb, W, b } = fit(train, SEED)
-const floatRow = rowOf(emb)
+const weights = fitWith(train, SEED)
+const { W, b } = weights
+const floatRow = rowFor(weights.emb)
 
 // ---------- calibrate + evaluate on dev ----------
 const devLogits = dev.map((s) => forward(s.ids, DIM, K, floatRow, W, b).logits)
@@ -180,12 +120,6 @@ function fitT(idx: number[]) {
 void nll
 const shortIdx = dev.map((s, i) => (isShort(s.code) ? i : -1)).filter((i) => i >= 0)
 const longIdx = dev.map((s, i) => (isShort(s.code) ? -1 : i)).filter((i) => i >= 0)
-function fitOn(logits: Float32Array[], y: number[]) {
-  const nllOn = (T: number) => logits.reduce((a, l, j) => a - Math.log(Math.max(softmaxT(l, T)[y[j]], 1e-9)), 0) / Math.max(1, logits.length)
-  let best = 1
-  for (let T = 0.25; T <= 8; T += 0.05) if (nllOn(T) < nllOn(best)) best = +T.toFixed(2)
-  return best
-}
 let bestT: number
 let bestTShort: number | undefined
 if (CV_T) {
@@ -206,7 +140,7 @@ if (CV_T) {
     return { precision: ok / Math.max(1, shown), shown: shown / Math.max(1, ix.length) }
   }
   const tune = (ix: number[]) => {
-    let T = fitOn(ix.map((i) => oof.logits[i]), ix.map((i) => oof.y[i]))
+    let T = fitTemperature(ix.map((i) => oof.logits[i]), ix.map((i) => oof.y[i]))
     if (TARGET_P) while (T < 8 && gatePrecision(ix, T).precision < TARGET_P) T = +(T + 0.05).toFixed(2)
     const g = gatePrecision(ix, T)
     log(`  oof (${ix.length}): T ${T} → shown ${(g.shown * 100).toFixed(0)}%, precision ${(g.precision * 100).toFixed(1)}%`)
@@ -239,46 +173,8 @@ function report(name: string, preds: Pred[]) {
   console.log(`${name.padEnd(22)} acc ${(acc * 100).toFixed(1).padStart(5)}%   shown ${String(shown.length).padStart(3)}/${preds.length} (${((shown.length / preds.length) * 100).toFixed(0)}%)   precision ${((right / Math.max(1, shown.length)) * 100).toFixed(1)}%   ${cal.filter(Boolean).join(' ')}`)
 }
 
-// Quantise: int8 per row with a float scale.
-function quantise() {
-  const q = new Int8Array(BUCKETS * DIM)
-  const scales = new Float32Array(BUCKETS)
-  for (let r = 0; r < BUCKETS; r++) {
-    let m = 0
-    for (let d = 0; d < DIM; d++) m = Math.max(m, Math.abs(emb[r * DIM + d]))
-    const s = m / 127
-    scales[r] = s
-    if (s) for (let d = 0; d < DIM; d++) q[r * DIM + d] = Math.round(emb[r * DIM + d] / s)
-  }
-  return { q, scales }
-}
-function serialise(header: ModelHeader): ArrayBuffer {
-  const { q, scales } = quantise()
-  let headerBytes = new TextEncoder().encode(JSON.stringify(header))
-  const pad = (4 - (headerBytes.length % 4)) % 4
-  headerBytes = Uint8Array.from([...headerBytes, ...Array.from({ length: pad }, () => 0x20)])
-  const embBytes = (q.length + 3) & ~3
-  const size = 12 + headerBytes.length + embBytes + scales.byteLength + W.byteLength + b.byteLength
-  const buf = new ArrayBuffer(size)
-  const view = new DataView(buf)
-  view.setUint32(0, MAGIC, true)
-  view.setUint32(4, FORMAT_VERSION, true)
-  view.setUint32(8, headerBytes.length, true)
-  let off = 12
-  new Uint8Array(buf, off, headerBytes.length).set(headerBytes)
-  off += headerBytes.length
-  new Int8Array(buf, off, q.length).set(q)
-  off += embBytes
-  new Float32Array(buf, off, scales.length).set(scales)
-  off += scales.byteLength
-  new Float32Array(buf, off, W.length).set(W)
-  off += W.byteLength
-  new Float32Array(buf, off, b.length).set(b)
-  return buf
-}
-
 const header: ModelHeader = { labels: LABELS, buckets: BUCKETS, dim: DIM, temperature: bestT, ...(bestTShort ? { temperatureShort: bestTShort } : {}), featurizer: 1, trainedOn: `${train.length} blocks, training/README.md` }
-const buf = serialise(header)
+const buf = serialise(header, weights)
 const model = loadModel(buf)
 const heur = new HeuristicEngine()
 const heurPreds: Pred[] = []

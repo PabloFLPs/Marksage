@@ -9,6 +9,7 @@ import {
   PenLine,
   Info,
   Eye,
+  ListTree,
 } from 'lucide-react'
 import type { ViewMode } from '../lib/viewMode'
 import { ThemeToggle } from './ThemeToggle'
@@ -48,10 +49,16 @@ interface HeaderProps {
   onRemoveHistory: (id: string) => void
   onClearHistory: () => void
   showingAbout?: boolean
+  outlineOpen: boolean
+  onToggleOutline: () => void
 }
 
 const actionButton =
   'inline-flex h-8 items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 text-xs font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
+
+// Same button, highlighted (Outline open, just copied) — its own classes so the base border/text colors don't win.
+const actionButtonOn =
+  'inline-flex h-8 items-center gap-1.5 rounded-md border border-accent bg-surface px-2.5 text-xs font-medium text-accent transition-colors dark:border-dark-accent dark:bg-dark-surface-soft dark:text-dark-accent'
 
 export function Header({
   hasDocument,
@@ -79,6 +86,8 @@ export function Header({
   onRemoveHistory,
   onClearHistory,
   showingAbout = false,
+  outlineOpen,
+  onToggleOutline,
 }: HeaderProps) {
   const { t } = useI18n()
   const compact = !isDesktop
@@ -137,6 +146,19 @@ export function Header({
           <AssistToggle mode={assistMode} status={assistStatus} onChange={onAssistModeChange} compact={compact} />
         </CollapseX>
 
+        <CollapseX show={hasDocument && !compact && !showingAbout}>
+          <button
+            type="button"
+            onClick={onToggleOutline}
+            aria-pressed={outlineOpen}
+            title={t('outline.toggleTitle')}
+            className={outlineOpen ? actionButtonOn : actionButton}
+          >
+            <ListTree className="h-3.5 w-3.5" />
+            <span className="hidden lg:inline">{t('outline.toggle')}</span>
+          </button>
+        </CollapseX>
+
         <CollapseX show={hasDocument && isDesktop}>
           <button
             type="button"
@@ -156,7 +178,7 @@ export function Header({
             type="button"
             onClick={onCopy}
             title={t('action.copyTitle', { keys: 'Ctrl/Cmd + Shift + C' })}
-            className={copied ? `${actionButton} border-accent text-accent dark:border-dark-accent dark:text-dark-accent` : actionButton}
+            className={copied ? actionButtonOn : actionButton}
           >
             {copied ? <Check className="anim-pop h-3.5 w-3.5" /> : <Clipboard className="h-3.5 w-3.5" />}
             <span key={copied ? 'c' : 'n'} className={copied ? 'anim-rise' : 'hidden md:inline'}>{copied ? t('action.copied') : t('action.copy')}</span>
@@ -209,6 +231,7 @@ export function Header({
             onCopy={onCopy}
             onAbout={onAbout}
             onToggleTheme={onToggleTheme}
+            onOutline={showingAbout ? undefined : onToggleOutline}
           />
         ) : (
           <>

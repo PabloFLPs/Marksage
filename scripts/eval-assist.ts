@@ -15,6 +15,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { HeuristicEngine } from '../src/assist/heuristicEngine.ts'
 import { passesGate } from '../src/assist/types.ts'
 import { LANGUAGES, PASTE_KINDS, Q } from '../src/assist/questions.ts'
+import { headingType } from '../src/assist/sections.ts'
 import { findStructureCandidates } from '../src/assist/prefilter.ts'
 import { loadModel } from '../src/assist/model/model.ts'
 import { combineFence, toChoice } from '../src/assist/model/hybrid.ts'
@@ -110,4 +111,13 @@ for (const set of SETS) {
     }
     report(`F3 structure intent — ${set}`, rows, performance.now() - t0)
   }
+}
+
+// Outline — section type from the heading alone (authored regression set; the section model is measured in training/)
+if (!realOnly && existsSync(fixture('headings.json'))) {
+  const rows: Row[] = (load('headings.json') as { heading: string; expect: string | null }[]).map((h) => {
+    const pred = headingType(h.heading)
+    return { label: String(h.expect), pred: String(pred), conf: 1, shown: pred !== null, source: h.heading }
+  })
+  report('Outline heading rule — authored', rows, 0)
 }

@@ -1,4 +1,7 @@
-# training/ — data for Marksage's own F1 model
+# training/ — data for Marksage's own models
+
+Two models live here: the **code-language model** (`lang-v2.bin`, below) and the **section model**
+(`sections-v1.bin`, for the Outline panel — see the last section). Both use `fasttext.ts`.
 
 Smart Assist's code-block language detection (F1) is precise but quiet: on real documents the
 heuristics speak on about a quarter of blocks. The plan is a small, purpose-trained classifier
@@ -10,6 +13,10 @@ node --experimental-strip-types training/collect.ts     # clone sources, extract
 node --experimental-strip-types training/build-sets.ts  # split by repo → train / dev / test
 node --experimental-strip-types training/train.ts --dim 8 --buckets 32768 --cv-temp --short-t --target-precision 0.95 --save public/models/lang-v2.bin
 npm run eval:assist                                     # heuristics + model on every set
+
+# section model (reads the clones collect.ts made)
+node --experimental-strip-types training/build-sections.ts    # sections → data/sections.jsonl (~40 s)
+node --experimental-strip-types training/train-sections.ts --save public/models/sections-v1.bin   # add --test once, for the reported numbers
 ```
 
 | File | Committed | What it is |
@@ -18,9 +25,11 @@ npm run eval:assist                                     # heuristics + model on 
 | `manifest.json` | ✓ | Commit of every clone, so the data can be rebuilt exactly. |
 | `splits.json` | ✓ | Which repos are dev and test (everything else is train). |
 | `labels.ts` | ✓ | Info string → language map, shared by every set (`sh`/`console` → `bash`, `tsx` → `ts`, …). |
-| `train.ts` | ✓ | Trainer: SGD, class re-weighting, temperature calibration on dev, int8 export. Deterministic (same data + seed → identical file). |
+| `fasttext.ts` | ✓ | Shared training code: SGD with a decaying rate, class re-weighting, temperature fitting, int8 export (MSLM format). |
+| `train.ts` | ✓ | Code-language trainer: temperature calibration, int8 export. Deterministic (same data + seed → identical file). |
+| `build-sections.ts`, `train-sections.ts` | ✓ | Section model: dataset from the cloned Markdown, trainer (see the last section). |
 | `sources-test2.json`, `manifest-test2.json`, `build-test2.ts` | ✓ | The second, fresh held-out set (`fences.real2.json`): 72 repos used nowhere else, built once and frozen. |
-| `data/` | ✗ (gitignored) | Clones, `blocks.jsonl` (~270k blocks), `blocks-test2.jsonl` and `train.jsonl` (~64k). Rebuild with the scripts. |
+| `data/` | ✗ (gitignored) | Clones, `blocks.jsonl` (~270k blocks), `blocks-test2.jsonl`, `train.jsonl` (~64k) and `sections.jsonl` (~41k sections). Rebuild with the scripts. |
 
 ## How the sets are made
 
@@ -109,3 +118,42 @@ heuristics' precision" goal is not met yet. ~5 of the 13 wrong suggestions are l
 one-liners valid in several languages (`void main() { … }`, `print page.html`, `foo.doSomething();`) and a
 few genuine misses (`a {}` → js). v3 ideas: a "too short to tell" abstain rule for one-liners; per-language
 gates; more CSS/diff/Markdown in training.
+
+## Section model (sections-v1, 2026-10-24)
+
+`public/models/sections-v1.bin` (385 KB, dim 8, 32,768 buckets, featurizer 2 = `src/assist/model/sectionFeatures.ts`)
+types sections for the Outline panel when the heading rule (`src/assist/sections.ts`) can't. Fetched only while
+the Outline is open in Local model mode.
+
+**Data** (`build-sections.ts`): every Markdown file of the clones, split into sections by the app's own splitter.
+A section is labelled only when the *strict* heading rule names exactly one of the 10 types (phrase covers ≥ half
+the heading, no competing type, no ambiguous phrase like "Features"); the model gets the text under the heading,
+never the heading. An 11th class, `other`, is sampled from sections whose heading names no type (≤ 40 per repo,
+spread over files), plus navigation sections ("See also", "Next steps") always. ≤ 60 per repo per type; texts
+deduplicated within a split; template-only bodies (`{% include %}`, `[!code…]`, images) skipped.
+Split by repo: `splits.json` dev → dev (27 repos), `splits.json` test + `sources-test2.json` → test (133), rest → train.
+Train 26,105 sections (7,832 `other`), dev 4,316, test 11,107.
+
+**Choices, all on dev:**
+- dim 8 / 32k buckets / 3 epochs / lr 0.3 / balance 0.5 — bigger (dim 16, 64k) or longer (5–10 epochs) overfit:
+  same or lower agreement, up to 1.3 MB.
+- The `other` class: without it the model typed every topic section ("Arrays", "Amazon S3"); a hand check of its
+  confident answers on untyped sections was ~2 in 3 right. With it, ~9 in 10, at a small cost in coverage.
+- Version headings (`v1.2.3 (date)`, `[2.0.0] - …`) became a heading rule, navigation headings are never typed.
+- Gates: 0.8 / 0.2 like everything else for a confident badge; from 0.6 the app shows a muted "probably" badge
+  (`LABEL_GATE` in `src/assist/outline.ts`) — a label edits nothing.
+
+| Dev (3,076 typed + 1,240 other) | Shown | Agrees with heading | "Other" given a type |
+|---|---|---|---|
+| gate 0.8 | 346 (11.2%) | 91.0% | 3.0% |
+| gate 0.6 | 662 (21.5%) | 86.3% | 8.5% |
+
+| Test (6,002 typed / 133 repos + 5,105 other, run once) | Shown | Agrees with heading | "Other" given a type |
+|---|---|---|---|
+| gate 0.8 | 904 (15.1%) | 91.5% | 4.8% |
+| gate 0.6 | 1,645 (27.4%) | 87.1% | 11.0% |
+
+Changelog sections are 547 of the 904 shown at 0.8 (test2 repos have many release notes); without them agreement is
+88%. Weakest types: guide (0/6 shown on test — "usage" text looks like setup or example), config (45/63).
+Labels are weak (heading-derived), so "agrees" isn't hand-checked accuracy; the hand check of confident answers
+on sections whose heading names no type (dev repos, ~25 samples per round) matched it.

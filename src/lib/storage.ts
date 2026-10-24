@@ -103,6 +103,26 @@ export function saveModelNoticeSeen(seen: boolean): void {
   }
 }
 
+// Outline panel open next to the document (desktop).
+const OUTLINE_KEY = 'marksage:outline'
+
+export function loadOutlineOpen(): boolean {
+  try {
+    return localStorage.getItem(OUTLINE_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+export function saveOutlineOpen(open: boolean): void {
+  try {
+    if (open) localStorage.setItem(OUTLINE_KEY, '1')
+    else localStorage.removeItem(OUTLINE_KEY)
+  } catch {
+    // Ignore.
+  }
+}
+
 /** Everything Marksage keeps in this browser: every `marksage:*` key, plus the downloaded model. */
 export async function deleteAllLocalData(): Promise<void> {
   try {

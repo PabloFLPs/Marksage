@@ -234,3 +234,24 @@ There are no cookies, analytics or third-party requests (system fonts only).
 - Vite ignores `training/data/**` (the dev server ran out of file watchers with the clones present).
 
 - 2026-10-24: **two-option suggestion** (`fencePair`, model mode only): top-2 ≥ 85 % together, second ≥ 20 %, neither passing the gate → chips, Tab / Alt+2. Dev: 15 offers, 13 right-among-two; held-out real: 15/15; real2: 17/17.
+
+## 14. Outline panel + section model (2026-10-24)
+
+- **Idea (from Pablo):** a categorizer — "hovering blocks pre-analyzed, showing a summary, a category" — and
+  later a whole-document analytics view. Decision: a side panel (Outline) instead of hover popups — hover
+  can't work on touch and hides what you're reading; the panel lists every section at once, and hovering a row
+  marks the heading in the preview. A bottom sheet on mobile. The Document tab (analytics) goes in the same panel next.
+- **Ten types:** overview, setup, guide, reference, configuration, example, troubleshooting, changelog,
+  contributing, license & credits. Heading rule first (EN + PT phrases, coverage ≥ half the heading, competing
+  types cancel, version headings → changelog, navigation never typed).
+- **Section model** (`sections-v1.bin`, 385 KB): same fastText recipe as the language model, new prose
+  featurizer; trained on ~26k sections labelled by the strict heading rule, *without* the heading, plus an
+  `other` class. First version without `other` looked fine on labelled data (87% when shown) but a hand check
+  on untyped sections was ~2 in 3 — the real job. Adding `other` fixed it (~9 in 10). Held-out (133 repos, run
+  once): 91.5% agreement at 0.8 (15% of sections typed), 87.1% from 0.6 (27%).
+- **Lower gate for labels:** a badge edits nothing, so 0.6–0.8 is shown as a muted "Configuration?" badge.
+- **Key sentence:** extractive (word overlap with the rest of the section), paragraphs before list items. No
+  generated summaries — nothing to hallucinate.
+- Shared training code moved to `training/fasttext.ts` (lang-v2 retrains byte-identically).
+- Model cache purge is now per model family, so the two files coexist; the notice, About and the privacy list
+  name both files.

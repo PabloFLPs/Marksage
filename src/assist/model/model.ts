@@ -8,8 +8,13 @@
  *   · int8[buckets × dim] embeddings · f32[buckets] per-row scales
  *   · f32[dim × classes] output weights · f32[classes] bias
  * header = { labels, buckets, dim, temperature, temperatureShort?, featurizer, trainedOn }
+ * The same format carries the section-type model (training/train-sections.ts, featurizer 2).
  */
 import { featureIds } from './features.ts'
+import { sectionFeatureIds } from './sectionFeatures.ts'
+
+/** header.featurizer → features: 1 = code (features.ts, language model), 2 = sections (sectionFeatures.ts). */
+export const FEATURIZERS: Record<number, (text: string, buckets: number) => Uint32Array> = { 1: featureIds, 2: sectionFeatureIds }
 
 export interface ModelHeader {
   labels: string[]
@@ -79,7 +84,7 @@ export function forward(
 
 export function loadModel(buf: ArrayBuffer): LangModel {
   const view = new DataView(buf)
-  if (view.getUint32(0, true) !== MAGIC) throw new Error('Not a Marksage language model')
+  if (view.getUint32(0, true) !== MAGIC) throw new Error('Not a Marksage model')
   const version = view.getUint32(4, true)
   if (version !== FORMAT_VERSION) throw new Error(`Unsupported model format v${version}`)
   const headerBytes = view.getUint32(8, true)
@@ -102,7 +107,9 @@ export function loadModel(buf: ArrayBuffer): LangModel {
     const base = id * dim
     for (let d = 0; d < dim; d++) h[d] += emb[base + d] * s
   }
-  const logits = (code: string) => forward(featureIds(code, buckets), dim, K, row, W, b).logits
+  const featurize = FEATURIZERS[header.featurizer]
+  if (!featurize) throw new Error(`Unknown featurizer ${header.featurizer}`)
+  const logits = (code: string) => forward(featurize(code, buckets), dim, K, row, W, b).logits
   return {
     header,
     logits,

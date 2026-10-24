@@ -306,6 +306,19 @@ body {
 }
 
 .anim-slide-down { animation: slide-down-out 160ms var(--ease-out) both; }
+@keyframes slide-out-left {
+  to { opacity: 0; transform: translateX(-12px); }
+}
+.anim-slide-out-left { animation: slide-out-left 180ms var(--ease-out) both; }
+/* Bottom sheet (Outline on small screens). */
+@keyframes sheet-in {
+  from { transform: translateY(100%); }
+}
+@keyframes sheet-out {
+  to { transform: translateY(100%); }
+}
+.anim-sheet-in { animation: sheet-in 260ms var(--ease-out) both; }
+.anim-sheet-out { animation: sheet-out 200ms var(--ease-out) both; }
 .anim-slide-in-left { animation: slide-in-left 220ms var(--ease-out) both; }
 @keyframes menu-in {
   from { opacity: 0; transform: translateY(-4px) scale(0.97); }
@@ -416,4 +429,16 @@ body {
 }
 .scroll-area {
   scrollbar-gutter: stable;
+}
+
+/* Outline panel: the section under the pointer, marked in the preview. */
+.markdown-body [data-outline-hit] {
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+  box-shadow: -10px 0 0 color-mix(in srgb, var(--color-accent) 9%, transparent), 10px 0 0 color-mix(in srgb, var(--color-accent) 9%, transparent);
+  transition: background-color 120ms;
+}
+.dark .markdown-body [data-outline-hit] {
+  background: color-mix(in srgb, var(--color-dark-accent) 14%, transparent);
+  box-shadow: -10px 0 0 color-mix(in srgb, var(--color-dark-accent) 14%, transparent), 10px 0 0 color-mix(in srgb, var(--color-dark-accent) 14%, transparent);
 }

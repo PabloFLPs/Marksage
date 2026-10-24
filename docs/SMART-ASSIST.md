@@ -6,7 +6,7 @@ editor, detects a small set of fixable situations, and **suggests** an edit the 
 automatically.
 
 > This page is for the curious: how the assistant decides, why it stays quiet, and how
-> Marksage's own little model was trained. Some familiarity with programming helps, but you don't need the source code — it's on
+> Marksage's own little models were trained. Some familiarity with programming helps, but you don't need the source code — it's on
 > [GitHub](https://github.com/PabloFLPs/Marksage) if you want to dig in.
 
 ---
@@ -56,7 +56,7 @@ textarea ──(debounce 400 ms / paste / 2 s idle)──► pre-filter     "is 
 | Piece | What it does |
 |---|---|
 | **Pre-filter** | Cheap, deterministic checks that find *candidates* (an untagged code block, a multi-line paste, a near-miss heading). No candidate → nothing else runs. |
-| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Local model* (Marksage's own model for code-block languages + heuristics for the rest). |
+| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Local model* (Marksage's own models for code-block languages and Outline section types + heuristics for the rest). |
 | **Confidence gate** | Drops any answer that isn't clearly ahead of the alternatives. |
 | **Features** | Turn a confident decision into a concrete, reversible edit (the four features below). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
@@ -212,9 +212,34 @@ sections produce flat distributions and stay silent.
 **Action.** A small coloured dot next to the section's heading in the preview, with a tooltip.
 Marks are only re-rendered when a score actually changes.
 
+### Outline — section types
+
+**Trigger.** While the Outline panel is open; recomputed as you type.
+
+**Heuristic.** Every heading (`#` style or underlined; code blocks and front matter skipped) is
+matched against English and Portuguese phrases for ten types — *overview, setup, guide, reference,
+configuration, example, troubleshooting, changelog, contributing, license & credits*:
+
+- the phrase must cover at least half the heading — "Basic usage" → guide, while "Perform the first
+  migration" says nothing;
+- a longer phrase beats one inside it — "How to fix it" → troubleshooting, not guide;
+- phrases of two different types cancel out — "Usage examples" is left to the text;
+- release headings (`v1.4.0 (2025-11-19)`, `[2.0.0] - 2024-01-01`) are changelog;
+- navigation ("See also", "Next steps", "Veja também") is never typed.
+
+With *Local model*, sections the heading rule leaves untyped are read by the section model
+(section 4.4).
+
+**Key sentence.** Picked from the section, not written: the sentence that shares the most words with
+the rest of its section (stop-words removed, in both languages), nudged towards the start; a sentence
+from a paragraph wins over a list item.
+
+**Action.** Visual only: a panel with every section, its type and key sentence. Click to jump there,
+hover to mark the heading in the preview. Nothing in the document changes.
+
 ---
 
-## 4. Marksage's own model
+## 4. Marksage's own models
 
 ### 4.1 What it is
 
@@ -270,12 +295,45 @@ still about a point less precise than the heuristics on unfamiliar repositories,
 opt-in mode. About half of its misses are really labelling quirks (`dotnet build -c Release` tagged as
 C#), the rest are one-liners that fit several languages (`void main() { … }` is valid Java *and* C++).
 
-### 4.4 And Laya?
+### 4.4 The section model
+
+With *Local model*, the Outline also types sections whose heading doesn't say — "Before you begin",
+"Bug fixes", "Theming" — by reading the text under the heading.
+
+- **Same recipe, other clues:** the same kind of model and file format (385 KB, ~0.1 ms per section),
+  reading prose instead of code — words and word pairs (accents folded, so *instalação* =
+  *instalacao*), how lines start, the words inside code, and the shape of the section: code blocks and
+  their languages, tables, lists, shell prompts, version numbers, dates, issue references.
+- **Labels from headings, without the headings:** about 26,000 sections from the same public
+  repositories, labelled by the heading rule above (a stricter version that only trusts unambiguous
+  headings). The model never sees the heading, only the text under it — that's what lets it type the
+  sections whose heading says nothing.
+- **Allowed to decline:** most real sections are just topics ("Arrays", "Amazon S3"), so an eleventh
+  answer, *other*, is learned from sections whose heading names no type. When *other* wins, the
+  section stays untyped.
+- **Fair split:** the dev and test repositories of the language model (plus the 72 fresh ones) are held
+  out; settings were chosen on dev and the test set was run once.
+
+Held-out results — 6,002 typed sections from 133 repositories. The labels come from headings, so
+"agrees" means the model, reading only the text, named the type the heading names:
+
+| Confidence | Sections typed | Agrees with the heading | "Other" sections given a type |
+|---|---|---|---|
+| ≥ 0.8 — badge with ✦ | 904 (15 %) | 91.5 % | 4.8 % |
+| ≥ 0.6 — includes "probably" | 1,645 (27 %) | 87.1 % | 11.0 % |
+
+Changelog sections are the easy, common case; without them, agreement at ≥ 0.8 is about 88 %. The last
+column is an upper bound on mistakes — some "other" sections really are a setup or a reference. A hand
+check of its confident answers on sections whose heading names no type came out the same, roughly
+9 in 10 right. A type badge changes nothing in your document, so the Outline uses the model from 0.6:
+between 0.6 and 0.8 it shows a muted "Configuration?" badge with the confidence on hover.
+
+### 4.5 And Laya?
 
 **Laya** — an open-weights decision model (~322–421 M parameters) that natively answers
 `choice` / `score` / `noul` — was the original plan for this mode. For code-block languages a purpose-trained model
 turned out to be the better fit: thousands of times smaller, instant, and measurable on real data.
-Laya stays an option for future questions where no such training data exists. Whatever runs, runs
+The section model followed the same path. Laya stays an option for future questions where no such training data exists. Whatever runs, runs
 on your device — a hosted model would break the "files never leave your machine" promise.
 
 ---

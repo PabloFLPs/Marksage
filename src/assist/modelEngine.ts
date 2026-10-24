@@ -14,11 +14,14 @@ import { combineFence, toChoice } from './model/hybrid.ts'
  * If anything fails, `ready()` rejects and the hook keeps the heuristics (status "fallback").
  */
 export const MODEL_URL = `${import.meta.env.BASE_URL}models/lang-v2.bin`
+/** Section types for the Outline panel (training/train-sections.ts) — fetched only while the panel is open. */
+export const SECTIONS_MODEL_URL = `${import.meta.env.BASE_URL}models/sections-v1.bin`
 const CACHE_NAME = 'marksage-models-v1'
 const loads = new Map<string, Promise<LangModel>>()
 const listeners = new Map<string, Set<(loaded: number, total: number) => void>>()
 
-function sharedLoad(url: string, onProgress: (loaded: number, total: number) => void): Promise<LangModel> {
+/** Load a Marksage model file once per page (cached in the browser after the first download). */
+export function sharedLoad(url: string, onProgress: (loaded: number, total: number) => void = () => {}): Promise<LangModel> {
   const subs = listeners.get(url) ?? listeners.set(url, new Set()).get(url)!
   subs.add(onProgress)
   let p = loads.get(url)
@@ -64,7 +67,7 @@ export class ModelEngine implements DecisionEngine {
   }
 }
 
-/** Remove the downloaded model from this browser (it downloads again if the mode is picked later). */
+/** Remove the downloaded models from this browser (they download again if the mode is picked later). */
 export async function deleteDownloadedModel(): Promise<boolean> {
   loads.clear()
   try {
@@ -74,11 +77,11 @@ export async function deleteDownloadedModel(): Promise<boolean> {
   }
 }
 
-/** Whether the model file is currently stored in this browser. */
-export async function hasDownloadedModel(url = MODEL_URL): Promise<boolean> {
+/** Whether any model file is currently stored in this browser. */
+export async function hasDownloadedModel(): Promise<boolean> {
   try {
     if (!(await caches.has(CACHE_NAME))) return false // don't create an empty cache just by asking
-    return !!(await (await caches.open(CACHE_NAME)).match(url))
+    return (await (await caches.open(CACHE_NAME)).keys()).length > 0
   } catch {
     return false
   }
@@ -122,8 +125,10 @@ async function fetchModel(url: string, onProgress: (loaded: number, total: numbe
 
   try {
     await cache?.put(url, new Response(buf.slice(0), { headers: { 'content-type': 'application/octet-stream' } }))
-    // A newer model replaces the old file instead of piling up next to it.
-    for (const req of (await cache?.keys()) ?? []) if (req.url !== new URL(url, location.href).href) await cache?.delete(req)
+    // A newer version replaces the old file of the same model ("lang-v1" → "lang-v2") instead of piling up.
+    const href = new URL(url, location.href).href
+    const family = (u: string) => u.replace(/-v\d+\.bin(\?.*)?$/, '')
+    for (const req of (await cache?.keys()) ?? []) if (req.url !== href && family(req.url) === family(href)) await cache?.delete(req)
   } catch {
     // Quota or private mode — the model still works for this session.
   }

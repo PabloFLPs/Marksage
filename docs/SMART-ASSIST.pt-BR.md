@@ -5,7 +5,7 @@ editor, detecta um pequeno conjunto de situações corrigíveis e **sugere** uma
 aceitar (`Tab`) ou dispensar (`Esc`). Nada é enviado pela rede e nada é aplicado automaticamente.
 
 > Esta página é para os curiosos: como o assistente decide, por que ele fica em silêncio e como
-> o pequeno modelo próprio do Marksage foi treinado. Alguma familiaridade com programação ajuda, mas você não precisa do código-fonte —
+> os pequenos modelos próprios do Marksage foram treinados. Alguma familiaridade com programação ajuda, mas você não precisa do código-fonte —
 > ele está no [GitHub](https://github.com/PabloFLPs/Marksage) se quiser se aprofundar.
 
 ---
@@ -55,7 +55,7 @@ textarea ──(debounce 400 ms / colar / 2 s ocioso)──► pre-filter     "h
 | Peça | O que faz |
 |---|---|
 | **Pré-filtro** | Verificações baratas e determinísticas que encontram *candidatos* (um bloco de código sem linguagem, uma colagem de várias linhas, um título quase certo). Sem candidato → nada mais roda. |
-| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Modelo local* (o modelo próprio do Marksage na linguagem dos blocos de código + heurísticas no resto). |
+| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Modelo local* (os modelos próprios do Marksage na linguagem dos blocos de código e nos tipos de seção da Estrutura + heurísticas no resto). |
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
 | **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos abaixo). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
@@ -214,9 +214,34 @@ curtas geram distribuições planas e ficam em silêncio.
 **Ação.** Um pontinho colorido ao lado do título da seção na pré-visualização, com dica ao passar
 o mouse. As marcas só são redesenhadas quando uma pontuação muda de fato.
 
+### Estrutura — tipos de seção
+
+**Gatilho.** Enquanto o painel Estrutura está aberto; recalculado conforme você digita.
+
+**Heurística.** Cada título (estilo `#` ou sublinhado; blocos de código e front matter ignorados) é
+comparado com frases em português e inglês para dez tipos — *visão geral, instalação, guia,
+referência, configuração, exemplo, solução de problemas, mudanças, contribuição, licença e créditos*:
+
+- a frase precisa cobrir pelo menos metade do título — "Uso básico" → guia, enquanto "Faça a primeira
+  migração" não diz nada;
+- uma frase mais longa vence a que está dentro dela — "How to fix it" → solução de problemas, não guia;
+- frases de dois tipos diferentes se anulam — "Usage examples" fica para o texto decidir;
+- títulos de versão (`v1.4.0 (2025-11-19)`, `[2.0.0] - 2024-01-01`) são mudanças;
+- navegação ("Veja também", "Próximos passos", "See also") nunca recebe tipo.
+
+Com o *Modelo local*, as seções que a regra dos títulos deixa sem tipo são lidas pelo modelo de seções
+(seção 4.4).
+
+**Frase-chave.** Escolhida da própria seção, não escrita: a frase que mais compartilha palavras com o
+resto da seção (sem palavras vazias, nos dois idiomas), com preferência pelo começo; uma frase de
+parágrafo vence um item de lista.
+
+**Ação.** Só visual: um painel com cada seção, seu tipo e sua frase-chave. Clique para ir até ela, passe
+o mouse para marcar o título na pré-visualização. Nada no documento muda.
+
 ---
 
-## 4. O modelo próprio do Marksage
+## 4. Os modelos próprios do Marksage
 
 ### 4.1 O que é
 
@@ -273,12 +298,47 @@ continua sendo um modo opcional. Cerca de metade dos erros são, na verdade, ró
 (`dotnet build -c Release` marcado como C#); o resto são linhas únicas que servem para várias
 linguagens (`void main() { … }` é Java *e* C++ válidos).
 
-### 4.4 E o Laya?
+### 4.4 O modelo de seções
+
+Com o *Modelo local*, a Estrutura também identifica seções cujo título não diz — "Before you begin",
+"Bug fixes", "Tema" — lendo o texto sob o título.
+
+- **Mesma receita, outras pistas:** o mesmo tipo de modelo e formato de arquivo (385 KB, ~0,1 ms por
+  seção), lendo texto em vez de código — palavras e pares de palavras (sem acentos, então *instalação*
+  = *instalacao*), como as linhas começam, as palavras dentro do código e o formato da seção: blocos de
+  código e suas linguagens, tabelas, listas, prompts de terminal, números de versão, datas, referências
+  a issues.
+- **Rótulos pelos títulos, sem os títulos:** cerca de 26 mil seções dos mesmos repositórios públicos,
+  rotuladas pela regra dos títulos acima (uma versão mais rígida, que só confia em títulos sem
+  ambiguidade). O modelo nunca vê o título, só o texto sob ele — é isso que permite identificar as
+  seções cujo título não diz nada.
+- **Pode recusar:** a maioria das seções reais é só um assunto ("Arrays", "Amazon S3"), então uma
+  décima primeira resposta, *outro*, é aprendida com seções cujo título não nomeia tipo. Quando *outro*
+  vence, a seção fica sem tipo.
+- **Divisão justa:** os repositórios de ajuste e de teste do modelo de linguagem (mais os 72 novos)
+  ficam de fora do treino; as configurações foram escolhidas no ajuste e o teste rodou uma vez.
+
+Resultados em repositórios de fora — 6.002 seções com tipo, de 133 repositórios. Os rótulos vêm dos
+títulos, então "concorda" quer dizer que o modelo, lendo só o texto, chegou ao tipo que o título diz:
+
+| Confiança | Seções com tipo | Concorda com o título | Seções "outro" que receberam tipo |
+|---|---|---|---|
+| ≥ 0,8 — selo com ✦ | 904 (15 %) | 91,5 % | 4,8 % |
+| ≥ 0,6 — inclui "provável" | 1.645 (27 %) | 87,1 % | 11,0 % |
+
+Seções de mudanças são o caso fácil e comum; sem elas, a concordância em ≥ 0,8 fica em cerca de 88 %. A
+última coluna é um limite superior de erros — algumas seções "outro" são mesmo uma instalação ou uma
+referência. Uma checagem à mão das respostas confiantes em seções cujo título não nomeia tipo deu o
+mesmo resultado, umas 9 em 10 certas. Um selo de tipo não muda nada no documento, então a Estrutura usa
+o modelo a partir de 0,6: entre 0,6 e 0,8 mostra um selo discreto "Configuração?" com a confiança ao
+passar o mouse.
+
+### 4.5 E o Laya?
 
 O **Laya** — um modelo de decisão com pesos abertos (~322–421 M de parâmetros) que responde
 nativamente perguntas `choice` / `score` / `noul` — era o plano original para este modo. Para a
 linguagem dos blocos de código, um modelo treinado para a tarefa se mostrou a melhor escolha: milhares de vezes menor, instantâneo e
-mensurável em dados reais. O Laya continua sendo uma opção para perguntas futuras em que não existam
+mensurável em dados reais. O modelo de seções seguiu o mesmo caminho. O Laya continua sendo uma opção para perguntas futuras em que não existam
 dados de treino assim. O que rodar, roda no seu dispositivo — um modelo hospedado quebraria a
 promessa de que "os arquivos nunca saem da sua máquina".
 

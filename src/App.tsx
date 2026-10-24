@@ -14,7 +14,7 @@ import {
   fallbackFilename,
   openFilePicker,
 } from './lib/file'
-import { deleteAllLocalData, loadAssistMode, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveSplitRatio } from './lib/storage'
+import { deleteAllLocalData, loadAssistMode, loadOutlineOpen, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveSplitRatio } from './lib/storage'
 import { deleteDownloadedModel } from './assist/modelEngine'
 import { AboutPage } from './components/AboutPage'
 import { TechDocsPage } from './components/TechDocsPage'
@@ -26,6 +26,9 @@ import { useAppIcon } from './hooks/useAppIcon'
 import { appIconUrl } from './lib/appIcons'
 import { useScrollSync } from './hooks/useScrollSync'
 import { useSmartAssist } from './assist/useSmartAssist'
+import { useOutline } from './assist/useOutline'
+import { useOutlineNav } from './hooks/useOutlineNav'
+import { OutlinePanel } from './components/OutlinePanel'
 import type { AssistMode } from './assist/types'
 import type { ViewMode } from './lib/viewMode'
 
@@ -37,6 +40,7 @@ function pageFromHash(): InfoPage | null {
   return h === '#about' ? 'about' : h === '#smart-assist' ? 'docs' : null
 }
 const DESKTOP_QUERY = '(min-width: 768px)'
+const nullRef = { current: null }
 const COPIED_RESET_MS = 1600
 
 function countWords(content: string): number {
@@ -157,6 +161,29 @@ export default function App() {
     },
     [viewMode],
   )
+
+  // Outline panel: docked on desktop (remembered), a bottom sheet on small screens (never auto-opens).
+  const [outlineOpen, setOutlineOpen] = useState(() => isDesktop && loadOutlineOpen())
+  const [outlineClosing, setOutlineClosing] = useState(false)
+  const outlineTimer = useRef<number | null>(null)
+  const closeOutline = useCallback(() => {
+    if (outlineTimer.current) return
+    setOutlineClosing(true)
+    outlineTimer.current = window.setTimeout(() => {
+      outlineTimer.current = null
+      setOutlineClosing(false)
+      setOutlineOpen(false)
+    }, EXIT_MS)
+    if (isDesktop) saveOutlineOpen(false)
+  }, [isDesktop])
+  const toggleOutline = useCallback(() => {
+    if (outlineOpen && !outlineClosing) return closeOutline()
+    if (outlineTimer.current) window.clearTimeout(outlineTimer.current)
+    outlineTimer.current = null
+    setOutlineClosing(false)
+    setOutlineOpen(true)
+    if (isDesktop) saveOutlineOpen(true)
+  }, [outlineOpen, outlineClosing, closeOutline, isDesktop])
 
   const handleAssistModeChange = useCallback((mode: AssistMode) => {
     setAssistMode(mode)
@@ -362,6 +389,25 @@ export default function App() {
   // Split view: preview and editor scroll together (desktop only).
   const previewPaneRef = useRef<HTMLDivElement>(null)
   useScrollSync(previewPaneRef, textareaRef, editing && isDesktop && !showAbout)
+  const previewScrollRef = useRef<HTMLElement>(null)
+  const outlineShown = outlineOpen && hasDocument && !showAbout
+  const outline = useOutline(document?.content ?? '', outlineShown, assistMode === 'model')
+  // The preview on screen: the left pane in split view, the page in preview mode, none in the mobile editor.
+  const visiblePreview = editing ? (isDesktop ? previewPaneRef : nullRef) : previewScrollRef
+  const outlineNav = useOutlineNav(
+    visiblePreview,
+    textareaRef,
+    outline.items.map((i) => i.line),
+    outlineShown,
+    `${editing ? 'edit' : 'preview'}|${isDesktop}|${document?.id ?? ''}`,
+  )
+  const selectSection = useCallback(
+    (line: number) => {
+      outlineNav.goTo(line)
+      if (!isDesktop) closeOutline()
+    },
+    [outlineNav, isDesktop, closeOutline],
+  )
   // Previous screen — lets the preview skip its fade when it's revealed by the editor closing.
   const view = showAbout ? 'about' : !hasDocument ? 'empty' : editing ? 'edit' : 'preview'
   const prevView = useRef(view)
@@ -401,6 +447,8 @@ export default function App() {
         onRemoveHistory={removeFromHistory}
         onClearHistory={clearHistory}
         showingAbout={showAbout}
+        outlineOpen={outlineShown && !outlineClosing}
+        onToggleOutline={toggleOutline}
       />
 
       <Presence show={isDragging} duration={160} className="pointer-events-none fixed inset-0 z-50">
@@ -436,46 +484,77 @@ export default function App() {
           onRemoveHistory={removeFromHistory}
           onClearHistory={clearHistory}
         />
-      ) : editing ? (
-        isDesktop ? (
-          <SplitPanes
-            closing={editorClosing}
-            leftRef={previewPaneRef}
-            animateWidth={document.content.length < 40_000}
-            ratio={splitRatio}
-            onRatioChange={handleChangeSplitRatio}
-            left={
-              <main>
+      ) : (
+        <div className="flex min-h-0 flex-1">
+          {outlineShown && isDesktop && (
+            <OutlinePanel
+              variant="side"
+              items={outline.items}
+              status={outline.status}
+              activeLine={outlineNav.activeLine}
+              onSelect={selectSection}
+              onHover={outlineNav.hover}
+              onClose={closeOutline}
+              closing={outlineClosing}
+            />
+          )}
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+            {editing ? (
+              isDesktop ? (
+                <SplitPanes
+                  closing={editorClosing}
+                  leftRef={previewPaneRef}
+                  animateWidth={document.content.length < 40_000}
+                  ratio={splitRatio}
+                  onRatioChange={handleChangeSplitRatio}
+                  left={
+                    <main>
+                      <MarkdownPreview content={document.content} readability={assist.readability} />
+                    </main>
+                  }
+                  right={
+                    <main className="h-full">
+                      {editor}
+                    </main>
+                  }
+                />
+              ) : (
+                <>
+                  <main className={`min-h-0 flex-1 ${editorClosing ? 'anim-slide-out-right' : 'anim-slide-in-right'}`}>
+                    {editor}
+                  </main>
+                  <div className="shrink-0 border-t border-line bg-surface p-3 dark:border-dark-line dark:bg-dark-surface">
+                    <button
+                      type="button"
+                      onClick={() => changeViewMode('preview')}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
+                    >
+                      <Eye className="h-4 w-4" />
+                      {t('action.preview')}
+                    </button>
+                  </div>
+                </>
+              )
+            ) : (
+              <main ref={previewScrollRef} key="preview" className={`scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto ${prevView.current === 'edit' ? '' : 'anim-fade'}`}>
                 <MarkdownPreview content={document.content} readability={assist.readability} />
               </main>
-            }
-            right={
-              <main className="h-full">
-                {editor}
-              </main>
-            }
-          />
-        ) : (
-          <>
-            <main className={`min-h-0 flex-1 ${editorClosing ? 'anim-slide-out-right' : 'anim-slide-in-right'}`}>
-              {editor}
-            </main>
-            <div className="shrink-0 border-t border-line bg-surface p-3 dark:border-dark-line dark:bg-dark-surface">
-              <button
-                type="button"
-                onClick={() => changeViewMode('preview')}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
-              >
-                <Eye className="h-4 w-4" />
-                {t('action.preview')}
-              </button>
-            </div>
-          </>
-        )
-      ) : (
-        <main key="preview" className={`scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto ${prevView.current === 'edit' ? '' : 'anim-fade'}`}>
-          <MarkdownPreview content={document.content} readability={assist.readability} />
-        </main>
+            )}
+          </div>
+        </div>
+      )}
+
+      {outlineShown && !isDesktop && (
+        <OutlinePanel
+          variant="sheet"
+          items={outline.items}
+          status={outline.status}
+          activeLine={outlineNav.activeLine}
+          onSelect={selectSection}
+          onHover={outlineNav.hover}
+          onClose={closeOutline}
+          closing={outlineClosing}
+        />
       )}
 
       {document && !showAbout && (

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Check, Clipboard, FilePlus2, FolderOpen, Info, Moon, MoreHorizontal, Sun } from 'lucide-react'
+import { Check, Clipboard, FilePlus2, FolderOpen, Info, ListTree, Moon, MoreHorizontal, Sun } from 'lucide-react'
 import type { Theme } from '../hooks/useTheme'
 import { Presence } from './motion'
 import { useI18n } from '../hooks/useI18n'
@@ -14,11 +14,13 @@ interface MoreMenuProps {
   onCopy: () => void
   onAbout: () => void
   onToggleTheme: () => void
+  /** Open the Outline sheet (only with a document, outside About). */
+  onOutline?: () => void
 }
 
 /** Compact (mobile) overflow menu for secondary header actions. */
 export function MoreMenu(props: MoreMenuProps) {
-  const { hasDocument, copied, theme, onNew, onOpen, onCopy, onAbout, onToggleTheme } = props
+  const { hasDocument, copied, theme, onNew, onOpen, onCopy, onAbout, onToggleTheme, onOutline } = props
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
@@ -76,6 +78,7 @@ export function MoreMenu(props: MoreMenuProps) {
               onClick={run(onCopy, false)}
             />
           )}
+          {hasDocument && onOutline && <Item icon={<ListTree />} label={t('outline.title')} onClick={run(onOutline)} />}
           <Item
             icon={theme === 'dark' ? <Sun /> : <Moon />}
             label={theme === 'dark' ? t('theme.light') : t('theme.dark')}

@@ -46,3 +46,10 @@ data); the notes below describe the original hand-built sets.
   surrounding list (list item), so accepting the fix makes the document more correct. Bold
   labels that introduce one value/table/list (`**Returns:**`, `**Note**`), emphasised sentences,
   CLI flags, terminal output, CSS and wrapped prose are `false`.
+
+## Outline heading rule
+
+`headings.json` (authored): headings → expected section type, or `null` when the heading alone shouldn't decide
+(long headings where a type word is incidental, competing types, navigation like "See also"). It guards
+`headingType` in `sections.ts`. The section model itself is evaluated on held-out repositories by
+`training/train-sections.ts` (labels come from headings there, see `training/README.md`).

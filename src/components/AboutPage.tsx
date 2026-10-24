@@ -12,6 +12,7 @@ import {
   FileText,
   Gauge,
   Heading,
+  ListTree,
   Lock,
   Moon,
   Save,
@@ -154,10 +155,16 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssis
               <>Cada seção <code>##</code> ganha um pontinho discreto na pré-visualização — do verde ao vermelho — com uma dica ao passar o mouse. Funciona em português e inglês.</>,
             )}
           </Feature>
+          <Feature icon={<ListTree />} title={x('Outline', 'Estrutura')}>
+            {x(
+              <>The <em>Outline</em> panel lists every section with what it is — setup, reference, changelog and 7 more — and its key sentence; click one to jump there. Types come from the headings; in <em>Local model</em> mode, Marksage’s section model also reads the text under headings that don’t say.</>,
+              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, mudanças e mais 7 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Modelo local</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem.</>,
+            )}
+          </Feature>
           <p className="mt-4 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">
             {x(
-              <>Modes: <strong className="font-medium">Heuristics</strong> runs instantly with no download. <strong className="font-medium">Local model</strong> adds Marksage’s own language model (385 KB, trained on ~64k real code blocks) for code-block languages — it runs entirely on your device and is downloaded once, then kept in your browser.</>,
-              <>Modos: <strong className="font-medium">Heurísticas</strong> roda na hora, sem download. <strong className="font-medium">Modelo local</strong> adiciona o modelo de linguagem próprio do Marksage (385 KB, treinado com ~64 mil blocos de código reais) para as linguagens dos blocos de código — roda inteiramente no seu dispositivo e é baixado uma vez, depois fica guardado no navegador.</>,
+              <>Modes: <strong className="font-medium">Heuristics</strong> runs instantly with no download. <strong className="font-medium">Local model</strong> adds Marksage’s own small models: one for code-block languages (385 KB, trained on ~64k real code blocks) and one for section types in the Outline (385 KB, trained on ~26k real doc sections, fetched the first time you open it). They run entirely on your device and are downloaded once, then kept in your browser.</>,
+              <>Modos: <strong className="font-medium">Heurísticas</strong> roda na hora, sem download. <strong className="font-medium">Modelo local</strong> adiciona os modelos pequenos do próprio Marksage: um para as linguagens dos blocos de código (385 KB, treinado com ~64 mil blocos de código reais) e um para os tipos de seção na Estrutura (385 KB, treinado com ~26 mil seções de documentação reais, baixado na primeira vez que você a abre). Eles rodam inteiramente no seu dispositivo e são baixados uma vez, depois ficam guardados no navegador.</>,
             )}
           </p>
           <button
@@ -242,8 +249,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssis
           </Feature>
           <Feature icon={<HardDrive />} title={x('What’s kept in this browser', 'O que fica guardado neste navegador')}>
             {x(
-              <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode). If you turn on <span className={strong}>Local model</span>, its 385 KB file is kept in the browser cache so it downloads once. It all stays until you clear it.</>,
-              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist). Se você ativar o <span className={strong}>Modelo local</span>, o arquivo de 385 KB fica no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
+              <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode, whether the Outline is open). If you turn on <span className={strong}>Local model</span>, its files (385 KB for code languages, plus 385 KB for section types once you open the Outline) are kept in the browser cache so they download once. It all stays until you clear it.</>,
+              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist, se a Estrutura está aberta). Se você ativar o <span className={strong}>Modelo local</span>, os arquivos dele (385 KB para linguagens de código, mais 385 KB para tipos de seção quando você abre a Estrutura) ficam no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
             )}
           </Feature>
           <Feature icon={<Cookie />} title={x('No cookies, no tracking', 'Sem cookies, sem rastreamento')}>
@@ -262,7 +269,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onTrySmartAssis
 
 type Pick2 = <T>(en: T, ptBR: T) => T
 
-/** Remove the downloaded model / delete everything Marksage keeps in this browser. */
+/** Remove the downloaded models / delete everything Marksage keeps in this browser. */
 function StorageControls({ x, onRemoveModel, onDeleteAllData }: { x: Pick2; onRemoveModel: () => Promise<void>; onDeleteAllData: () => Promise<void> }) {
   const [hasModel, setHasModel] = useState(false)
   const [removed, setRemoved] = useState(false)
@@ -288,18 +295,18 @@ function StorageControls({ x, onRemoveModel, onDeleteAllData }: { x: Pick2; onRe
             setRemoved(true)
           }}
         >
-          <Trash2 className="h-3.5 w-3.5" /> {x('Remove downloaded model', 'Remover o modelo baixado')}
+          <Trash2 className="h-3.5 w-3.5" /> {x('Remove downloaded models', 'Remover os modelos baixados')}
         </button>
       )}
       {removed && (
         <span role="status" className="anim-rise text-xs text-ink-muted dark:text-dark-ink-muted">
-          {x('Model removed — Smart Assist is back on heuristics.', 'Modelo removido — o Smart Assist voltou para as heurísticas.')}
+          {x('Models removed — Smart Assist is back on heuristics.', 'Modelos removidos — o Smart Assist voltou para as heurísticas.')}
         </span>
       )}
       {confirmAll ? (
         <span className="anim-rise inline-flex flex-wrap items-center gap-2 text-xs">
           <span className="text-ink-muted dark:text-dark-ink-muted">
-            {x('Delete the open document, recent documents, settings and the model from this browser?', 'Apagar o documento aberto, os recentes, as configurações e o modelo deste navegador?')}
+            {x('Delete the open document, recent documents, settings and the models from this browser?', 'Apagar o documento aberto, os recentes, as configurações e os modelos deste navegador?')}
           </span>
           <button type="button" onClick={onDeleteAllData} className="rounded px-1 font-medium text-red-600 hover:underline dark:text-red-400">
             {x('Delete everything', 'Apagar tudo')}
