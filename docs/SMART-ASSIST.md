@@ -32,25 +32,34 @@ spell-check" (deterministic tools such as `nspell`/`remark-lint` are the right t
 
 ### 1.1 Why not a generative model
 
-Decision models became an option when Laya, an open-weights decision model, was released. But the reason
-Smart Assist uses them is engineering, not novelty: a model that only has to *pick* from a known list is a
-much smaller, cheaper and more predictable thing than one that has to *write*.
+In September 2026, TypeSafe AI released **Jev**, a closed model built to answer typed questions (`choice`,
+`score`, `noul`) instead of writing text, and with it the term *decision model* reached a wide audience. The
+idea isn't new — classifiers, categorizers and structured-output models have done narrower versions of it
+for years — but Jev gave it a clear shape. Three days later, Convai Innovations released **Laya**, an
+open-weights model (Apache 2.0) that answers the same three question types and can run on your own machine.
+Smart Assist takes the path one step further, with tiny models of its own, trained for exactly its questions.
 
-| | Generative model (chatbot, autocomplete) | Decision model | Marksage's own models |
+The reason is engineering, not novelty: a model that only has to *pick* from a known list is a much smaller,
+cheaper and more predictable thing than one that has to *write*.
+
+| | Generative model (chatbot, autocomplete) | Decision model (Jev, Laya) | Marksage's own models |
 |---|---|---|---|
 | Output | free text, token by token | one of the listed answers + probabilities | one of the listed answers + probabilities |
 | Work per answer | one pass of the model *per generated token* | one pass, whatever the answer | a few thousand multiplications |
-| Size and where it runs | from hundreds of millions to billions of parameters; usually a GPU or a hosted API | Laya: ~322–421 M parameters | ~262 thousand parameters, 385 KB, plain JavaScript in the page |
-| Time per decision | seconds, or a network round trip when hosted | well under a second on a laptop | about 0.1 ms |
-| Cost per decision | GPU time or a per-call API bill | local compute | effectively zero |
+| Size and where it runs | from hundreds of millions to billions of parameters; usually a GPU or a hosted API | Jev: hosted API · Laya: 322–421 M parameters, on your machine | ~262 thousand parameters, 385 KB, plain JavaScript in the page |
+| Time per decision | seconds, or a network round trip when hosted | a network round trip (Jev) or a fraction of a second locally (Laya) | about 0.1 ms |
+| Cost per decision | GPU time or a per-call API bill | a per-token price (Jev) or local compute (Laya) | effectively zero |
 | How it fails | can invent, ramble or return something unparseable | can pick the wrong option | can pick the wrong option |
 | Can it be measured? | hard: many acceptable outputs | yes: right or wrong against a label | yes: right or wrong against a label |
-| Privacy | hosted means your text leaves the device | runs locally | runs locally |
+| Privacy | hosted means your text leaves the device | Jev is hosted; Laya runs locally | runs locally |
 
 A specialised model is contained: it can't say anything outside its list, its confidence can be calibrated,
 and its accuracy can be measured on held-out data before it ships. For "which language is this block?" or
 "what kind of section is this?", that's everything the job needs — and generating text would add cost,
 latency and new ways to fail without making the answer any better.
+
+*Jev is a product of TypeSafe AI and Laya of Convai Innovations. Marksage isn't affiliated with either, and
+uses neither today.*
 
 ### 1.2 The smallest tool that works
 
@@ -61,10 +70,12 @@ Every Smart Assist question climbs the same ladder, and stops at the first step 
    Both of Marksage's models are here. Each had to prove, on repositories it never saw, that it adds answers
    the rules can't give. The code model shows more than twice as many suggestions at about the same
    precision; the section model types sections whose heading says nothing.
-3. **A general decision model such as Laya** — reserved for questions with no training data to learn from.
-   No feature needs it yet.
-4. **A generative model** — not used. If the possible answers can't be listed up front, it isn't a Smart
-   Assist feature.
+3. **A general decision model** — Laya preferably, because it runs on your device. Reserved for questions
+   with no training data to learn from; no feature needs it yet.
+4. **A generative or hosted model** — not used by the built-in features: if the possible answers can't be
+   listed up front, it isn't a Smart Assist feature. Coming next: an optional *bring your own key* (BYOK)
+   mode to connect a hosted model with your own key — off by default, clearly marked, and documented here
+   when it ships.
 
 ---
 
@@ -274,15 +285,18 @@ Marks are only re-rendered when a score actually changes.
 **Trigger.** While the Outline panel is open; recomputed as you type.
 
 **Heuristic.** Every heading (`#` style or underlined; code blocks and front matter skipped) is
-matched against English and Portuguese phrases for ten types — *overview, setup, guide, reference,
-configuration, example, troubleshooting, changelog, contributing, license & credits*:
+matched against English and Portuguese phrases for eleven types — *overview, setup, guide, reference,
+configuration, example, troubleshooting, changelog, contributing, license & credits, explanation*. The last
+one completes the four kinds of documentation in the Diátaxis framework (tutorials, how-to guides, reference,
+explanation) and covers "How it works", "Architecture", "Concepts":
 
 - the phrase must cover at least half the heading — "Basic usage" → guide, while "Perform the first
   migration" says nothing;
 - a longer phrase beats one inside it — "How to fix it" → troubleshooting, not guide;
 - phrases of two different types cancel out — "Usage examples" is left to the text;
 - release headings (`v1.4.0 (2025-11-19)`, `[2.0.0] - 2024-01-01`) are changelog;
-- navigation ("See also", "Next steps", "Veja também") is never typed.
+- navigation ("See also", "Next steps", "Veja também") is never typed;
+- broad words ("Features", "Background") only count when they are the whole heading.
 
 With *Local model*, sections the heading rule leaves untyped are read by the section model
 (section 4.4).
@@ -393,6 +407,10 @@ With *Local model*, the Outline also types sections whose heading doesn't say �
 - **Allowed to decline:** most real sections are just topics ("Arrays", "Amazon S3"), so an eleventh
   answer, *other*, is learned from sections whose heading names no type. When *other* wins, the
   section stays untyped.
+- **Explanation stays with the headings:** a version trained to recognise explanation sections too (with
+  extra examples from Diátaxis-style `concepts/` and `architecture/` folders) got none right on the dev
+  repositories — explanatory prose uses the same words as any topic. So the model keeps its ten types, and
+  explanation sections are typed from their heading only.
 - **Fair split:** the dev and test repositories of the language model (plus the 72 fresh ones) are held
   out; settings were chosen on dev and the test set was run once.
 
@@ -410,13 +428,14 @@ check of its confident answers on sections whose heading names no type came out 
 9 in 10 right. A type badge changes nothing in your document, so the Outline uses the model from 0.6:
 between 0.6 and 0.8 it shows a muted "Configuration?" badge with the confidence on hover.
 
-### 4.5 And Laya?
+### 4.5 And Jev and Laya?
 
-**Laya** — an open-weights decision model (~322–421 M parameters) that natively answers
-`choice` / `score` / `noul` — was the original plan for this mode. For code-block languages a purpose-trained model
+**Laya** — Convai Innovations' open-weights decision model (322–421 M parameters) that natively answers
+`choice` / `score` / `noul`, like TypeSafe AI's hosted **Jev** — was the original plan for this mode, chosen
+over Jev because it can run on your device. For code-block languages a purpose-trained model
 turned out to be the better fit: thousands of times smaller, instant, and measurable on real data.
-The section model followed the same path. Laya stays an option for future questions where no such training data exists. Whatever runs, runs
-on your device — a hosted model would break the "files never leave your machine" promise.
+The section model followed the same path. Laya stays an option for future questions where no such training data exists. By default, whatever
+runs, runs on your device; anything hosted, like the planned BYOK mode, will be opt-in and clearly marked.
 
 ---
 

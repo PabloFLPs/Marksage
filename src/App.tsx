@@ -471,7 +471,14 @@ export default function App() {
 
       {infoPage === 'docs' || infoPage === 'models' ? (
         <Suspense fallback={<main className="min-h-0 flex-1" />}>
-          <TechDocsPage key={infoPage} page={infoPage === 'models' ? 'models' : 'smart-assist'} closing={aboutClosing} onBack={closeAbout} />
+          <TechDocsPage
+            key={infoPage}
+            page={infoPage === 'models' ? 'models' : 'smart-assist'}
+            closing={aboutClosing}
+            onBack={closeAbout}
+            isDesktop={isDesktop}
+            useModel={assistMode === 'model'}
+          />
         </Suspense>
       ) : showAbout ? (
         <AboutPage

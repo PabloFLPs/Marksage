@@ -41,7 +41,11 @@ training/                 Own models' pipeline (collect → split → train; bui
 
 ## Smart Assist
 Full technical documentation: `docs/SMART-ASSIST.md` — also rendered in-app at `#smart-assist` (About → "How it works"), written for curious readers with basic dev knowledge — no repo-only instructions there (commands, file paths, contributing steps belong here). Keep EN + PT-BR in sync when changing heuristics or the model.
-`docs/MODELS.md` (+ `.pt-BR`, in-app at `#models`, linked from SMART-ASSIST §4 and About) explains both models from zero with real numbers from the shipped files — retraining a model means re-checking its walkthrough numbers, tables and diagrams.
+Jev (TypeSafe AI) and Laya (Convai Innovations) are named in the docs factually, as plain words — no logos, no
+implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
+`docs/MODELS.md` (+ `.pt-BR`, in-app at `#models`, linked from SMART-ASSIST §4 and About) explains both models from zero with real numbers from the shipped files — retraining a model means re-checking its walkthrough numbers, tables, diagrams and model cards (§7).
+`examples/marksage-models.mjs` is the standalone runner documented there; keep it in step with `src/assist/model/`
+(the eval fails parity otherwise).
 - Contract: `DecisionEngine` (`choice` / `score` / `noul`) in `assist/types.ts`. The engine decides; our code edits.
 - `HeuristicEngine` (always available) routes by question id (`assist/questions.ts`) to `assist/heuristics/*`.
 - `ModelEngine` ("Local model" mode): Marksage's own code-language model (`assist/model/`, weights in `public/models/lang-v2.bin`)
@@ -53,6 +57,8 @@ Full technical documentation: `docs/SMART-ASSIST.md` — also rendered in-app at
   (shared with `training/build-sections.ts` — change the splitter or heading rules there and rebuild the section data);
   type = heading rule, else (Local model mode) `sections-v1.bin` reading the text, gate 0.8 (badge) / 0.6 ("probably").
   Visual only — it never edits. Heading lines are 0-based; the preview's `data-line` is 1-based.
+  `explanation` is heading-only (`SECTION_TYPES` vs `MODEL_SECTION_TYPES`, see training/README.md). The docs pages
+  show the same panel over their own Markdown (read-only by design: no "open in editor").
   Its Document tab (`components/DocumentTab.tsx`) renders `assist/docStats.ts` (facts, kind, readability, tone signals, flags);
   the active tab is session state only (no storage key). Regression sets: `__fixtures__/headings.json`, `docstats.json`.
 - Fixtures: `*.json` = authored regression set, `*.dev.json` = real-world set to tune against, `*.real.json` = held-out real-world set (see `assist/__fixtures__/README.md`). Never tune heuristics against `*.real.json` — tune on dev, then run real once.

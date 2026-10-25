@@ -8,7 +8,8 @@ receita de treino.
 > Esta página não pressupõe nenhum conhecimento de aprendizado de máquina. Cada termo é explicado na primeira
 > vez que aparece, e há um glossário no fim. Os números dos exemplos são reais: vêm dos arquivos de modelo que
 > o app baixa. Para *para que* servem os modelos e como são medidos, veja
-> [Como o Smart Assist funciona](SMART-ASSIST.pt-BR.md).
+> [Como o Smart Assist funciona](SMART-ASSIST.pt-BR.md). Quer as especificações, ou rodar os modelos você
+> mesmo? A seção 7 tem uma ficha técnica de cada um.
 
 ---
 
@@ -194,7 +195,9 @@ não tem certeza, duas regras extras ainda podem ajudar:
   recebe as duas — JavaScript ou TypeScript, C ou C++.
 
 Na Estrutura o filtro é o mesmo, mas como um selo de tipo não muda nada no documento, uma resposta do modelo de
-seções entre 60% e 80% ainda aparece, marcada como "provável".
+seções entre 60% e 80% ainda aparece, marcada como "provável". A Estrutura também tem um décimo primeiro tipo,
+**Explicação** ("Como funciona", "Arquitetura"), que só vem dos títulos: o modelo não conseguiu aprendê-lo (veja a
+ficha dele).
 
 ## 3. Como os modelos aprenderam
 
@@ -389,7 +392,86 @@ multiplicações.
 - **Alguns tipos são fracos.** Seções de "guia" parecem muito com instalação ou exemplos; o modelo de seções
   raramente as marca com confiança.
 
-## 7. Glossário
+## 7. Fichas técnicas (model cards)
+
+Uma ficha técnica (*model card*) é a folha de especificação de um modelo: o que entra, o que sai, como foi feito,
+quão bem funciona e onde falha. Tudo o que é preciso para usar os arquivos fora do Marksage está aqui.
+
+### 7.1 Modelo de linguagens de código
+
+| Item | Valor |
+|---|---|
+| **Arquivo** | `lang-v2.bin` — 394.280 bytes, servido junto do app em `/models/lang-v2.bin` |
+| **Tarefa** | Dizer a linguagem de um trecho de código |
+| **Entrada** | O código em si, sem as linhas ```` ``` ```` do bloco. Só os primeiros 2.000 caracteres são lidos. |
+| **Saída** | Uma probabilidade para cada uma das 21 respostas, somando 1 |
+| **Respostas, na ordem do arquivo** | `ts` `js` `python` `bash` `json` `html` `css` `sql` `go` `rust` `java` `c` `cpp` `csharp` `ruby` `php` `yaml` `markdown` `diff` `dockerfile` `plaintext` (não é código) |
+| **Como lê** | Leitor de pistas 1 (pistas de código, seção 2.1) → hash FNV-1a mod 32.768 → média de 8 números aprendidos por pista → 8 × 21 pesos + 21 vieses → softmax |
+| **Parâmetros** | 262.333 (guardados como números de 8 bits, com uma escala por slot) |
+| **Temperatura** | 1,85; 2,55 quando o trecho tem 3 linhas não vazias ou menos |
+| **Dados de treino** | 63.751 blocos de código de 309 repositórios públicos, rotulados pelas tags dos autores, no máximo 6.000 por linguagem, mais janelas de arquivos de código reais para linguagens raras |
+| **Treino** | 8 épocas de SGD, taxa de aprendizado de 0,4 caindo até 0, linguagens raras com peso (6.000 ÷ quantidade)^0,5, semente 1; temperaturas ajustadas em previsões fora do repositório (5 grupos) para 95% de precisão no filtro |
+| **Resultados de fora** (284 blocos, 67 repositórios nunca vistos) | A primeira resposta acerta 74,3% das vezes; com o filtro 0,8 / 0,2 ele responde 51% dos blocos e acerta 92,5% das vezes |
+| **Velocidade** | Cerca de 0,1 ms por trecho em JavaScript puro |
+| **Use para** | Adivinhar a linguagem de um trecho curto de código, principalmente em documentação |
+| **Não use para** | Linguagens fora das 21 (ele diz a mais parecida, nunca "não sei"); linhas únicas (`x = 1` sai Python com 97%); nada em que um palpite errado importe |
+
+### 7.2 Modelo de seções
+
+| Item | Valor |
+|---|---|
+| **Arquivo** | `sections-v1.bin` — 393.864 bytes, servido junto do app em `/models/sections-v1.bin` |
+| **Tarefa** | Dizer o tipo de uma seção de documentação pelo texto dela |
+| **Entrada** | O Markdown logo abaixo de um título, até o próximo título de qualquer nível, **sem a linha do título**. Só os primeiros 2.000 caracteres são lidos. Seções com menos de 40 caracteres de texto de verdade (sem tags de template, imagens e endereços de links) não valem a pergunta. |
+| **Saída** | Uma probabilidade para cada uma das 11 respostas, somando 1 |
+| **Respostas, na ordem do arquivo** | `overview` `setup` `guide` `reference` `config` `example` `troubleshooting` `changelog` `contributing` `legal` (licença e créditos) `other` (sem tipo definido) |
+| **Como lê** | Leitor de pistas 2 (pistas de texto, seção 2.1) → o mesmo hash, média e pontuação do modelo de código, com 11 respostas |
+| **Parâmetros** | 262.243 |
+| **Temperatura** | 1,6 |
+| **Dados de treino** | 26.105 seções dos mesmos repositórios, rotuladas por títulos sem ambiguidade (o título depois fica escondido do modelo); 7.832 delas são "outro" |
+| **Treino** | 3 épocas de SGD, taxa de aprendizado de 0,3 caindo até 0, peso de classe 0,5, semente 1; temperatura ajustada nos repositórios de ajuste |
+| **Resultados de fora** (133 repositórios nunca vistos) | Com o filtro 0,8 / 0,2 ele dá tipo a 15% das seções rotuladas e concorda com o título 91,5% das vezes (88% sem as de mudanças); a partir de 0,6, 27% e 87,1%. Os rótulos vêm dos títulos, então é concordância, não acurácia conferida à mão. |
+| **Velocidade** | Cerca de 0,1 ms por seção |
+| **Use para** | Identificar seções de READMEs e docs técnicas cujo título não diz o que são; ignore "outro" |
+| **Não use para** | Seções de explicação ("Como funciona", "Arquitetura"): o texto delas parece o de qualquer assunto, e um modelo treinado para reconhecê-las não acertou nenhuma nos repositórios de ajuste, então o Marksage as identifica só pelo título. "Guia" também quase nunca é reconhecido. |
+
+### 7.3 Rodando você mesmo
+
+O repositório tem um executor de arquivo único, `marksage-models.mjs`, na pasta `examples`: sem dependências,
+Node 18+ ou qualquer navegador moderno. É uma cópia do código do próprio app, e a avaliação do Marksage confere
+que ele dá exatamente as mesmas probabilidades que o app.
+
+```js
+import { loadModel, decide } from './marksage-models.mjs'
+
+const file = await fetch('/models/lang-v2.bin').then((r) => r.arrayBuffer())
+const model = loadModel(file)
+
+const probs = model.predict('def greet(name):\n    return f"Hello, {name}!"')
+// { python: 0.827, yaml: 0.074, markdown: 0.036, ruby: 0.030, … }
+
+decide(probs)                       // { answer: 'python', confidence: 0.827 } — a regra 0,8 / 0,2 do Marksage
+decide(probs, { threshold: 0.6 })  // o nível "provável" da Estrutura
+```
+
+O modelo de seções funciona do mesmo jeito: passe o texto abaixo de um título, nunca o título.
+
+Para levar os modelos a outra linguagem (Python, Go…), você precisa de três coisas, todas no executor:
+
+1. **O formato do arquivo.** Little-endian: a assinatura `MSLM` (4 bytes), versão 1, tamanho do cabeçalho (4
+   bytes cada); o cabeçalho em JSON (respostas, número de slots, números por slot, temperaturas, leitor de
+   pistas); depois os números dos slots como inteiros de 8 bits com sinal (slots × 8, completados até múltiplo de
+   4 bytes), uma escala float de 32 bits por slot, os pesos como floats de 32 bits (8 × respostas, agrupados por
+   dimensão) e um viés float de 32 bits por resposta.
+2. **O leitor de pistas.** As regras exatas que transformam texto em pistas — as expressões regulares importam,
+   porque uma pista escrita diferente cai em outro slot.
+3. **O hash.** FNV-1a de 32 bits sobre as unidades UTF-16 da pista, depois o resto da divisão pelo número de
+   slots.
+
+Então: tire a média dos números restaurados de cada slot distinto, calcule viés + pesos · média para cada
+resposta, divida pela temperatura e aplique o softmax.
+
+## 8. Glossário
 
 | Termo | Significado |
 |---|---|

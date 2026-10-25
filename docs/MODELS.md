@@ -7,7 +7,8 @@ plus "other"). They share one design, one file format and one training recipe.
 > This page assumes no machine-learning background. Every term is explained the first time it appears,
 > and there's a glossary at the end. The numbers in the examples are real: they come from the model files
 > the app downloads. For what the models are *for* and how they're measured, see
-> [How Smart Assist works](SMART-ASSIST.md).
+> [How Smart Assist works](SMART-ASSIST.md). Want the specs, or to run the models yourself? Section 7 has a
+> model card for each.
 
 ---
 
@@ -192,7 +193,9 @@ rules can still help:
   offered both — JavaScript or TypeScript, C or C++.
 
 For the Outline, the gate is the same, but because a type badge changes nothing in your document, a section
-model answer between 60% and 80% is still shown, marked as "probably".
+model answer between 60% and 80% is still shown, marked as "probably". The Outline also has an eleventh type,
+**Explanation** ("How it works", "Architecture"), that only comes from headings: the model couldn't learn it
+(see its model card).
 
 ## 3. How the models learned
 
@@ -385,7 +388,86 @@ machine-learning library, no GPU, no background worker. Each decision is a few t
 - **Some types are weak.** "Guide" sections read a lot like setup or examples; the section model rarely labels
   them confidently.
 
-## 7. Glossary
+## 7. Model cards
+
+A model card is a model's spec sheet: what goes in, what comes out, how it was made, how well it does and
+where it fails. Everything needed to use the files outside Marksage is here.
+
+### 7.1 Code-language model
+
+| Property | Value |
+|---|---|
+| **File** | `lang-v2.bin` — 394,280 bytes, served next to the app at `/models/lang-v2.bin` |
+| **Task** | Name the language of a code snippet |
+| **Input** | The code itself, without the ```` ``` ```` fence lines. Only the first 2,000 characters are read. |
+| **Output** | A probability for each of 21 answers, adding up to 1 |
+| **Answers, in file order** | `ts` `js` `python` `bash` `json` `html` `css` `sql` `go` `rust` `java` `c` `cpp` `csharp` `ruby` `php` `yaml` `markdown` `diff` `dockerfile` `plaintext` (not code) |
+| **How it reads** | Clue reader 1 (code clues, section 2.1) → FNV-1a hash mod 32,768 → average of 8 learned numbers per clue → 8 × 21 weights + 21 biases → softmax |
+| **Parameters** | 262,333 (stored as 8-bit numbers with one scale per slot) |
+| **Temperature** | 1.85; 2.55 when the snippet has 3 non-blank lines or fewer |
+| **Training data** | 63,751 fenced blocks from 309 public repositories, labelled by their authors' tags, at most 6,000 per language, plus windows of real source files for rare languages |
+| **Training** | 8 epochs of SGD, learning rate 0.4 falling to 0, rarer languages weighted by (6,000 ÷ count)^0.5, seed 1; temperatures fitted on out-of-repository predictions (5 folds) for 95% precision at the gate |
+| **Held-out results** (284 blocks, 67 repositories never seen) | Top answer right 74.3% of the time; with the 0.8 / 0.2 gate it answers 51% of blocks and is right 92.5% of the time |
+| **Speed** | About 0.1 ms per snippet in plain JavaScript |
+| **Use it for** | Guessing the language of a short code snippet, especially in documentation |
+| **Not for** | Languages outside the 21 (it will name the closest one, never "unknown"); one-liners (`x = 1` comes out Python at 97%); anything where a wrong guess matters |
+
+### 7.2 Section model
+
+| Property | Value |
+|---|---|
+| **File** | `sections-v1.bin` — 393,864 bytes, served next to the app at `/models/sections-v1.bin` |
+| **Task** | Name the type of a documentation section from its text |
+| **Input** | The Markdown directly under a heading, up to the next heading of any level, **without the heading line**. Only the first 2,000 characters are read. Sections with under 40 characters of real text (after removing template tags, images and link targets) aren't worth asking. |
+| **Output** | A probability for each of 11 answers, adding up to 1 |
+| **Answers, in file order** | `overview` `setup` `guide` `reference` `config` `example` `troubleshooting` `changelog` `contributing` `legal` (license & credits) `other` (no particular type) |
+| **How it reads** | Clue reader 2 (prose clues, section 2.1) → the same hashing, averaging and scoring as the code model, with 11 answers |
+| **Parameters** | 262,243 |
+| **Temperature** | 1.6 |
+| **Training data** | 26,105 sections from the same repositories, labelled by unambiguous headings (the heading is then hidden from the model); 7,832 of them are "other" |
+| **Training** | 3 epochs of SGD, learning rate 0.3 falling to 0, class weighting 0.5, seed 1; temperature fitted on the dev repositories |
+| **Held-out results** (133 repositories never seen) | With the 0.8 / 0.2 gate it types 15% of labelled sections and agrees with their heading 91.5% of the time (88% without changelogs); from 0.6, 27% and 87.1%. Labels come from headings, so this is agreement, not hand-checked accuracy. |
+| **Speed** | About 0.1 ms per section |
+| **Use it for** | Labelling sections of READMEs and technical docs whose heading doesn't say what they are; ignore "other" |
+| **Not for** | Explanation sections ("How it works", "Architecture"): their prose looks like any topic's, and a model trained to recognise them got none right on the dev repositories, so Marksage types them from the heading only. "Guide" is also rarely recognised. |
+
+### 7.3 Running them yourself
+
+The repository has a single-file runner, `marksage-models.mjs` in the `examples` folder: no dependencies,
+Node 18+ or any modern browser. It's a copy of the app's own code, and Marksage's evaluation checks that it
+gives exactly the same probabilities as the app.
+
+```js
+import { loadModel, decide } from './marksage-models.mjs'
+
+const file = await fetch('/models/lang-v2.bin').then((r) => r.arrayBuffer())
+const model = loadModel(file)
+
+const probs = model.predict('def greet(name):\n    return f"Hello, {name}!"')
+// { python: 0.827, yaml: 0.074, markdown: 0.036, ruby: 0.030, … }
+
+decide(probs)                       // { answer: 'python', confidence: 0.827 } — Marksage's 0.8 / 0.2 rule
+decide(probs, { threshold: 0.6 })  // the Outline's "probably" level
+```
+
+The section model works the same way: pass it the text under a heading, never the heading.
+
+To port the models to another language (Python, Go…), you need three things, all in the runner:
+
+1. **The file format.** Little-endian: the signature `MSLM` (4 bytes), version 1, header length (4 bytes
+   each); the header as JSON (answers, number of slots, numbers per slot, temperatures, clue reader); then
+   the slot numbers as signed 8-bit integers (slots × 8, padded to a multiple of 4 bytes), one 32-bit float
+   scale per slot, the weights as 32-bit floats (8 × answers, grouped by dimension), and one 32-bit float
+   bias per answer.
+2. **The clue reader.** The exact rules that turn text into clue strings — the regular expressions matter,
+   because a clue that's spelled differently hashes to a different slot.
+3. **The hash.** 32-bit FNV-1a over the clue's UTF-16 code units, then the remainder after dividing by the
+   number of slots.
+
+Then: average the restored numbers of every distinct slot, compute bias + weights · average for each answer,
+divide by the temperature and apply softmax.
+
+## 8. Glossary
 
 | Term | Meaning |
 |---|---|

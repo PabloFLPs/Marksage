@@ -16,12 +16,20 @@ export const SECTION_TYPES = [
   'changelog',
   'contributing',
   'legal',
+  // Diátaxis' fourth kind (tutorial, how-to, reference, explanation): "How it works", "Architecture", "Concepts".
+  'explanation',
 ] as const
 export type SectionType = (typeof SECTION_TYPES)[number]
 
+/**
+ * The types the section model answers (plus "other"). Explanation is heading-only: explanatory prose and
+ * ordinary topic prose share the same words, and the model couldn't tell them apart (training/README.md).
+ */
+export const MODEL_SECTION_TYPES = SECTION_TYPES.filter((t) => t !== 'explanation')
+
 /** Heading phrases → type. Lower-case, accents kept (matching folds both sides). */
 const PHRASES: Record<SectionType, string[]> = {
-  overview: ['introduction', 'intro', 'overview', 'about', 'what is', 'why', 'motivation', 'background', 'features', 'key features', 'highlights', 'summary', 'introdução', 'visão geral', 'sobre', 'o que é', 'por que', 'por quê', 'motivação', 'recursos', 'funcionalidades', 'resumo'],
+  overview: ['introduction', 'intro', 'overview', 'about', 'what is', 'why', 'motivation', 'features', 'key features', 'highlights', 'summary', 'introdução', 'visão geral', 'sobre', 'o que é', 'por que', 'por quê', 'motivação', 'recursos', 'funcionalidades', 'resumo'],
   setup: ['installation', 'install', 'installing', 'getting started', 'get started', 'quick start', 'quickstart', 'prerequisites', 'requirements', 'setup', 'set up', 'setting up', 'download', 'instalação', 'instalando', 'instalar', 'primeiros passos', 'começando', 'início rápido', 'requisitos', 'pré-requisitos'],
   guide: ['usage', 'how to', 'tutorial', 'guide', 'walkthrough', 'basic usage', 'using', 'uso', 'como usar', 'utilização', 'guia', 'passo a passo'],
   reference: ['api', 'reference', 'methods', 'functions', 'options', 'parameters', 'arguments', 'props', 'properties', 'commands', 'cli', 'flags', 'endpoints', 'syntax', 'return value', 'referência', 'métodos', 'funções', 'opções', 'parâmetros', 'argumentos', 'comandos', 'propriedades', 'sintaxe'],
@@ -30,6 +38,7 @@ const PHRASES: Record<SectionType, string[]> = {
   troubleshooting: ['troubleshooting', 'how to fix', 'faq', 'frequently asked questions', 'known issues', 'common issues', 'common problems', 'debugging', 'errors', 'caveats', 'gotchas', 'limitations', 'solução de problemas', 'perguntas frequentes', 'problemas conhecidos', 'problemas comuns', 'depuração', 'erros', 'limitações'],
   changelog: ['changelog', 'change log', 'unreleased', 'changes', 'release notes', "what's new", 'whats new', 'history', 'version history', 'migration', 'migrating', 'upgrading', 'upgrade guide', 'breaking changes', 'new features', 'notas de versão', 'novidades', 'histórico', 'migração', 'atualizando'],
   contributing: ['contributing', 'contribute', 'contribution', 'development', 'developing', 'building from source', 'running tests', 'testing', 'code of conduct', 'contribuindo', 'contribuir', 'contribuição', 'desenvolvimento', 'testes'],
+  explanation: ['how it works', 'how does it work', 'how this works', 'architecture', 'design', 'design decisions', 'design principles', 'concepts', 'core concepts', 'key concepts', 'basic concepts', 'fundamentals', 'under the hood', 'internals', 'implementation details', 'theory', 'explanation', 'deep dive', 'principles', 'mental model', 'philosophy', 'rationale', 'background', 'como funciona', 'arquitetura', 'conceitos', 'conceitos básicos', 'principais conceitos', 'fundamentos', 'por dentro', 'princípios', 'filosofia', 'decisões de design', 'teoria', 'explicação', 'detalhes de implementação'],
   legal: ['license', 'licence', 'licensing', 'copyright', 'credits', 'acknowledgements', 'acknowledgments', 'authors', 'sponsors', 'security policy', 'licença', 'créditos', 'agradecimentos', 'autores', 'patrocinadores', 'segurança'],
 }
 
@@ -74,7 +83,7 @@ const NAVIGATION = /^(see also|next steps?|what'?s next|related( \w+)?|learn mor
 export const isNavigationHeading = (heading: string) => NAVIGATION.test(normalizeHeading(heading))
 
 /** Too broad to label training data with: "Features" heads READMEs (overview) and release notes (changelog) alike. */
-const AMBIGUOUS = new Set(['features', 'highlights', 'using', 'changes', 'history', 'testing', 'download', 'about'])
+const AMBIGUOUS = new Set(['features', 'highlights', 'using', 'changes', 'history', 'testing', 'download', 'about', 'design', 'theory', 'background', 'recursos'])
 
 /**
  * Section type from the heading alone, or null when the heading doesn't say. A heading of up to 5 words
@@ -97,7 +106,9 @@ export function headingType(heading: string, strict = false): SectionType | null
   hits = hits.filter((m) => !hits.some((o) => o !== m && o.phrase.length > m.phrase.length && o.at <= m.at && o.at + o.phrase.length >= m.at + m.phrase.length))
   if (!hits.length || new Set(hits.map((x) => x.type)).size > 1) return null
   const top = hits.reduce((x, y) => (y.phrase.length > x.phrase.length ? y : x))
-  if (top.phrase.split(' ').length * 2 < words || (strict && AMBIGUOUS.has(top.phrase))) return null
+  if (top.phrase.split(' ').length * 2 < words) return null
+  // Ambiguous words only count as the whole heading ("Background", not "Background colors"), and never label training data.
+  if (AMBIGUOUS.has(top.phrase) && (strict || h !== top.phrase)) return null
   return top.type
 }
 

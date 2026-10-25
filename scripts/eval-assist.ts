@@ -139,3 +139,27 @@ if (!realOnly && existsSync(fixture('docstats.json'))) {
   }
   console.log(`${ok}/${cases.length} documents as expected`)
 }
+
+// Standalone runner (examples/marksage-models.mjs) must give the app's probabilities, for both models.
+if (!realOnly) {
+  const runner = await import('../examples/marksage-models.mjs')
+  const bin = (f: string) => new Uint8Array(readFileSync(new URL(`../public/models/${f}`, import.meta.url))).buffer
+  const { splitDocSections } = await import('../src/assist/sections.ts')
+  const docs = ['SMART-ASSIST.md', 'MODELS.md', 'SMART-ASSIST.pt-BR.md', 'MODELS.pt-BR.md'].map((f) => readFileSync(new URL(`../docs/${f}`, import.meta.url), 'utf8'))
+  const cases: [string, string[]][] = [
+    ['lang-v2.bin', ['fences.json', 'fences.dev.json', 'fences.real.json', 'fences.real2.json'].filter((f) => existsSync(fixture(f))).flatMap((f) => (load(f) as { code: string }[]).map((x) => x.code))],
+    ['sections-v1.bin', docs.flatMap((d) => splitDocSections(d).map((s) => s.own))],
+  ]
+  console.log('\n## Standalone runner parity')
+  for (const [file, texts] of cases) {
+    const app = loadModel(bin(file))
+    const ext = runner.loadModel(bin(file))
+    let worst = 0
+    for (const t of texts) {
+      const a = app.predict(t)
+      const e = ext.predict(t) as Record<string, number>
+      for (const k of Object.keys(a)) worst = Math.max(worst, Math.abs(a[k] - e[k]))
+    }
+    console.log(`${worst < 1e-6 ? '✓' : '✗'} ${file}: ${texts.length} inputs, largest difference ${worst.toExponential(1)}`)
+  }
+}

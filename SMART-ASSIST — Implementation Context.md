@@ -305,3 +305,19 @@ There are no cookies, analytics or third-party requests (system fonts only).
   today's text → fixed (blocks tagged `text`). Findings for later: SMART-ASSIST.md gets 0 typed sections (the 10
   types are README-shaped; explanation docs fall in "other"); the sentence splitter misses sentences starting
   with inline code.
+
+## 19. Jev/Laya story, explanation type, docs Outline, model cards (2026-10-25)
+
+- Pablo lifted the "no Jev" rule: docs now say Jev (TypeSafe AI, closed, Sept 15, 2026) popularised "decision
+  models", Laya (Convai Innovations, Apache 2.0, Sept 18) is the open option, Marksage goes further with its own
+  tiny models. Checked legally: factual nominative mention (plain words, no logos, no endorsement; BR LPI art. 132
+  IV allows citing a mark in a publication without commercial connotation) + affiliation note.
+- Ladder step 4 now: "generative or hosted — not used by the built-in features; optional BYOK coming, off by
+  default". The old "a hosted model would break the promise" line was softened to "opt-in and clearly marked".
+- **Explanation type:** heading rule yes; model no (0 right in two training rounds, incl. folder labels). Honest
+  result documented in SMART-ASSIST §4.4, the model card and training/README.md.
+- **Docs pages show the Outline/Document panel** over their own Markdown (desktop: open by default; mobile: sheet).
+  "Open in editor" rejected by Pablo: docs must stay read-only.
+- **Model cards** (MODELS §7) + `examples/marksage-models.mjs` (zero deps, Node/browser), parity-checked in the eval
+  (0 difference on 1,010 inputs). Model-alone code numbers on real2: 74.3% / 51% shown / 92.5% right.
+- Found: the repository has no LICENSE file, so nobody may legally reuse the code or the model files yet; the model cards have no license row until Pablo picks one.

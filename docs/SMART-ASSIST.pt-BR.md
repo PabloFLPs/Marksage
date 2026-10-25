@@ -31,25 +31,35 @@ com IA" (ferramentas determinísticas como `nspell`/`remark-lint` são as certas
 
 ### 1.1 Por que não um modelo generativo
 
-Os modelos de decisão viraram uma opção quando o Laya, um modelo de decisão com pesos abertos, foi lançado. Mas
-o motivo de o Smart Assist usá-los é de engenharia, não de novidade: um modelo que só precisa *escolher* numa
-lista conhecida é muito menor, mais barato e mais previsível que um que precisa *escrever*.
+Em setembro de 2026, a TypeSafe AI lançou o **Jev**, um modelo fechado feito para responder perguntas tipadas
+(`choice`, `score`, `noul`) em vez de escrever texto, e com ele o termo *modelo de decisão* chegou a um público
+grande. A ideia não é nova — classificadores, categorizadores e modelos de saída estruturada fazem versões mais
+estreitas dela há anos —, mas o Jev deu a ela uma forma clara. Três dias depois, a Convai Innovations lançou o
+**Laya**, um modelo com pesos abertos (Apache 2.0) que responde os mesmos três tipos de pergunta e pode rodar na
+sua própria máquina. O Smart Assist leva o caminho um passo adiante, com modelos minúsculos próprios, treinados
+exatamente para as suas perguntas.
 
-| | Modelo generativo (chatbot, autocompletar) | Modelo de decisão | Modelos próprios do Marksage |
+O motivo é de engenharia, não de novidade: um modelo que só precisa *escolher* numa lista conhecida é muito
+menor, mais barato e mais previsível que um que precisa *escrever*.
+
+| | Modelo generativo (chatbot, autocompletar) | Modelo de decisão (Jev, Laya) | Modelos próprios do Marksage |
 |---|---|---|---|
 | Saída | texto livre, token a token | uma das respostas listadas + probabilidades | uma das respostas listadas + probabilidades |
 | Trabalho por resposta | uma passada do modelo *por token gerado* | uma passada, seja qual for a resposta | alguns milhares de multiplicações |
-| Tamanho e onde roda | de centenas de milhões a bilhões de parâmetros; em geral GPU ou API hospedada | Laya: ~322–421 M de parâmetros | ~262 mil parâmetros, 385 KB, JavaScript puro na página |
-| Tempo por decisão | segundos, ou uma ida e volta pela rede quando hospedado | bem menos de um segundo num notebook | cerca de 0,1 ms |
-| Custo por decisão | tempo de GPU ou uma conta de API por chamada | processamento local | praticamente zero |
+| Tamanho e onde roda | de centenas de milhões a bilhões de parâmetros; em geral GPU ou API hospedada | Jev: API hospedada · Laya: 322–421 M de parâmetros, na sua máquina | ~262 mil parâmetros, 385 KB, JavaScript puro na página |
+| Tempo por decisão | segundos, ou uma ida e volta pela rede quando hospedado | uma ida e volta pela rede (Jev) ou uma fração de segundo localmente (Laya) | cerca de 0,1 ms |
+| Custo por decisão | tempo de GPU ou uma conta de API por chamada | um preço por token (Jev) ou processamento local (Laya) | praticamente zero |
 | Como falha | pode inventar, divagar ou devolver algo impossível de interpretar | pode escolher a opção errada | pode escolher a opção errada |
 | Dá para medir? | difícil: muitas saídas aceitáveis | sim: certo ou errado contra um rótulo | sim: certo ou errado contra um rótulo |
-| Privacidade | hospedado quer dizer que seu texto sai do dispositivo | roda localmente | roda localmente |
+| Privacidade | hospedado quer dizer que seu texto sai do dispositivo | o Jev é hospedado; o Laya roda localmente | roda localmente |
 
 Um modelo especializado é contido: não consegue dizer nada fora da sua lista, a confiança dele pode ser
 calibrada e a acurácia pode ser medida em dados de fora antes de ir ao ar. Para "que linguagem é este bloco?"
 ou "que tipo de seção é esta?", isso é tudo de que a tarefa precisa — e gerar texto só somaria custo, demora e
 novas formas de falhar, sem deixar a resposta melhor.
+
+*O Jev é um produto da TypeSafe AI e o Laya, da Convai Innovations. O Marksage não tem vínculo com nenhuma das
+duas e não usa nenhum dos dois hoje.*
 
 ### 1.2 A menor ferramenta que resolve
 
@@ -60,10 +70,12 @@ Toda pergunta do Smart Assist sobe a mesma escada e para no primeiro degrau que 
    rotulados reais. Os dois modelos do Marksage estão aqui. Cada um precisou provar, em repositórios que nunca
    tinha visto, que traz respostas que as regras não dão. O modelo de código mostra mais que o dobro de
    sugestões com quase a mesma precisão; o modelo de seções identifica seções cujo título não diz nada.
-3. **Um modelo de decisão geral, como o Laya** — reservado para perguntas sem dados de treino para aprender.
-   Nenhum recurso precisa dele ainda.
-4. **Um modelo generativo** — não é usado. Se não dá para listar as respostas possíveis de antemão, não é um
-   recurso do Smart Assist.
+3. **Um modelo de decisão geral** — de preferência o Laya, porque roda no seu dispositivo. Reservado para
+   perguntas sem dados de treino para aprender; nenhum recurso precisa dele ainda.
+4. **Um modelo generativo ou hospedado** — não é usado pelos recursos embutidos: se não dá para listar as
+   respostas possíveis de antemão, não é um recurso do Smart Assist. Em breve: um modo opcional *traga sua
+   própria chave* (BYOK) para conectar um modelo hospedado com a sua chave — desligado por padrão, bem
+   sinalizado e documentado aqui quando sair.
 
 ---
 
@@ -276,15 +288,18 @@ o mouse. As marcas só são redesenhadas quando uma pontuação muda de fato.
 **Gatilho.** Enquanto o painel Estrutura está aberto; recalculado conforme você digita.
 
 **Heurística.** Cada título (estilo `#` ou sublinhado; blocos de código e front matter ignorados) é
-comparado com frases em português e inglês para dez tipos — *visão geral, instalação, guia,
-referência, configuração, exemplo, solução de problemas, mudanças, contribuição, licença e créditos*:
+comparado com frases em português e inglês para onze tipos — *visão geral, instalação, guia,
+referência, configuração, exemplo, solução de problemas, mudanças, contribuição, licença e créditos,
+explicação*. O último completa os quatro tipos de documentação do Diátaxis (tutoriais, guias práticos,
+referência, explicação) e cobre "Como funciona", "Arquitetura", "Conceitos":
 
 - a frase precisa cobrir pelo menos metade do título — "Uso básico" → guia, enquanto "Faça a primeira
   migração" não diz nada;
 - uma frase mais longa vence a que está dentro dela — "How to fix it" → solução de problemas, não guia;
 - frases de dois tipos diferentes se anulam — "Usage examples" fica para o texto decidir;
 - títulos de versão (`v1.4.0 (2025-11-19)`, `[2.0.0] - 2024-01-01`) são mudanças;
-- navegação ("Veja também", "Próximos passos", "See also") nunca recebe tipo.
+- navegação ("Veja também", "Próximos passos", "See also") nunca recebe tipo;
+- palavras amplas ("Recursos", "Background") só contam quando são o título inteiro.
 
 Com o *Modelo local*, as seções que a regra dos títulos deixa sem tipo são lidas pelo modelo de seções
 (seção 4.4).
@@ -398,6 +413,10 @@ Com o *Modelo local*, a Estrutura também identifica seções cujo título não 
 - **Pode recusar:** a maioria das seções reais é só um assunto ("Arrays", "Amazon S3"), então uma
   décima primeira resposta, *outro*, é aprendida com seções cujo título não nomeia tipo. Quando *outro*
   vence, a seção fica sem tipo.
+- **Explicação fica com os títulos:** uma versão treinada para reconhecer também seções de explicação (com
+  exemplos extras de pastas no estilo Diátaxis, como `concepts/` e `architecture/`) não acertou nenhuma nos
+  repositórios de ajuste — texto explicativo usa as mesmas palavras de qualquer assunto. Então o modelo fica
+  com seus dez tipos, e as seções de explicação recebem tipo só pelo título.
 - **Divisão justa:** os repositórios de ajuste e de teste do modelo de linguagem (mais os 72 novos)
   ficam de fora do treino; as configurações foram escolhidas no ajuste e o teste rodou uma vez.
 
@@ -416,14 +435,15 @@ mesmo resultado, umas 9 em 10 certas. Um selo de tipo não muda nada no document
 o modelo a partir de 0,6: entre 0,6 e 0,8 mostra um selo discreto "Configuração?" com a confiança ao
 passar o mouse.
 
-### 4.5 E o Laya?
+### 4.5 E o Jev e o Laya?
 
-O **Laya** — um modelo de decisão com pesos abertos (~322–421 M de parâmetros) que responde
-nativamente perguntas `choice` / `score` / `noul` — era o plano original para este modo. Para a
+O **Laya** — o modelo de decisão com pesos abertos da Convai Innovations (322–421 M de parâmetros), que responde
+nativamente perguntas `choice` / `score` / `noul`, como o **Jev** hospedado da TypeSafe AI — era o plano
+original para este modo, escolhido no lugar do Jev porque pode rodar no seu dispositivo. Para a
 linguagem dos blocos de código, um modelo treinado para a tarefa se mostrou a melhor escolha: milhares de vezes menor, instantâneo e
 mensurável em dados reais. O modelo de seções seguiu o mesmo caminho. O Laya continua sendo uma opção para perguntas futuras em que não existam
-dados de treino assim. O que rodar, roda no seu dispositivo — um modelo hospedado quebraria a
-promessa de que "os arquivos nunca saem da sua máquina".
+dados de treino assim. Por padrão, o que rodar, roda no seu dispositivo;
+qualquer coisa hospedada, como o modo BYOK planejado, será opcional e bem sinalizada.
 
 ---
 

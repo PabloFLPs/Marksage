@@ -157,3 +157,28 @@ Changelog sections are 547 of the 904 shown at 0.8 (test2 repos have many releas
 88%. Weakest types: guide (0/6 shown on test — "usage" text looks like setup or example), config (45/63).
 Labels are weak (heading-derived), so "agrees" isn't hand-checked accuracy; the hand check of confident answers
 on sections whose heading names no type (dev repos, ~25 samples per round) matched it.
+
+### Tried: an "explanation" type (2026-10-25) — not shipped in the model
+
+Goal: make the Outline type explanation sections ("How it works", "Architecture", "Concepts" — Diátaxis' fourth
+kind), so the docs can showcase the Outline. Two rounds, all on dev:
+
+1. Heading labels only (`how it works`, `architecture`, `rationale`, `core concepts`, … — 748 train sections): the
+   model never showed "explanation" past the gate (0 shown); real explanation sections came out as `other` or
+   `overview`.
+2. Plus folder labels: sections in Diátaxis-style folders (`concepts/`, `explanation/`, `architecture/`,
+   `how-it-works/`, `internals/`, …) whose heading names no type → 1,283 train sections. Still 0 right when shown
+   at every setting tried (dim 8/16, 32k/64k slots, class balance 0.5/0.75/1). Mean p(explanation): 0.12 on
+   explanation sections vs 0.07 on `other` — not separable with bag-of-clue features.
+
+Outcome: `explanation` is a heading-only type (`SECTION_TYPES`); the model keeps 10 types + other
+(`MODEL_SECTION_TYPES`), and `build-sections.ts` drops explanation-labelled sections. `sections-v1.bin` unchanged.
+"Background" moved from overview to explanation and, like "Features", only counts as the whole heading.
+Telling explanation from topic prose needs a model that reads more than word clues — a general decision model
+(step 3 of the ladder in docs/SMART-ASSIST.md §1.2) is the natural candidate.
+
+## Standalone runner
+
+`examples/marksage-models.mjs` — a zero-dependency copy of the inference code (loader, both clue readers, hash,
+`decide`). `npm run eval:assist` checks it returns exactly the app's probabilities on every code fixture and every
+docs section. Model cards with the full spec: docs/MODELS.md §7.

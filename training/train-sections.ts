@@ -17,7 +17,7 @@ import { fit, fitTemperature, rowOf, serialise, type Sample } from './fasttext.t
 import { forward, softmaxT, type ModelHeader } from '../src/assist/model/model.ts'
 import { sectionFeatureIds } from '../src/assist/model/sectionFeatures.ts'
 import { passesGate } from '../src/assist/types.ts'
-import { SECTION_TYPES } from '../src/assist/sections.ts'
+import { MODEL_SECTION_TYPES as SECTION_TYPES } from '../src/assist/sections.ts'
 import { OTHER, type SectionRow } from './build-sections.ts'
 
 const ROOT = new URL('.', import.meta.url).pathname

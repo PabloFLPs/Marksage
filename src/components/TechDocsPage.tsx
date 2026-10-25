@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useRef } from 'react'
-import { ArrowLeft, BookOpen } from 'lucide-react'
+import { useCallback, useMemo, useRef, useState } from 'react'
+import { ArrowLeft, BookOpen, ListTree } from 'lucide-react'
 import { MarkdownPreview } from './MarkdownPreview'
 // Single source of truth: the repo docs are rendered in-app with our own renderer.
 import techDocsEn from '../../docs/SMART-ASSIST.md?raw'
@@ -16,6 +16,11 @@ import archNarrowEn from '../../docs/architecture.narrow.svg?raw'
 import archNarrowPt from '../../docs/architecture.narrow.pt-BR.svg?raw'
 import { DocDiagram } from './DocDiagram'
 import { useI18n } from '../hooks/useI18n'
+import { useOutline } from '../assist/useOutline'
+import { useOutlineNav } from '../hooks/useOutlineNav'
+import { OutlinePanel, type PanelTab } from './OutlinePanel'
+
+const noEditor = { current: null }
 
 export type DocsPageId = 'smart-assist' | 'models'
 
@@ -23,6 +28,9 @@ interface TechDocsPageProps {
   page: DocsPageId
   closing?: boolean
   onBack: () => void
+  isDesktop: boolean
+  /** Local model mode: the Outline may use the section model, as it does for documents. */
+  useModel: boolean
 }
 
 const DOCS: Record<DocsPageId, { en: string; pt: string }> = {
@@ -82,10 +90,40 @@ function parseDoc(source: string) {
 }
 
 /** Technical docs pages: "How Smart Assist works" (#smart-assist) and "How the two models work" (#models). */
-export function TechDocsPage({ page, closing = false, onBack }: TechDocsPageProps) {
+export function TechDocsPage({ page, closing = false, onBack, isDesktop, useModel }: TechDocsPageProps) {
   const { t, lang } = useI18n()
   const bodyRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLElement>(null)
   const doc = useMemo(() => parseDoc(lang === 'pt-BR' ? DOCS[page].pt : DOCS[page].en), [lang, page])
+
+  // The docs double as a demo of the Outline: same panel, reading this page (read-only, it only scrolls).
+  const [panelOpen, setPanelOpen] = useState(isDesktop)
+  const [tab, setTab] = useState<PanelTab>('outline')
+  const outline = useOutline(doc.body, panelOpen, useModel)
+  const nav = useOutlineNav(scrollRef, noEditor, outline.items.map((i) => i.line), panelOpen, `${page}|${lang}`)
+  const closePanel = useCallback(() => setPanelOpen(false), [])
+  const select = useCallback(
+    (line: number) => {
+      nav.goTo(line)
+      if (!isDesktop) setPanelOpen(false)
+    },
+    [nav, isDesktop],
+  )
+  const panel = (variant: 'side' | 'sheet') => (
+    <OutlinePanel
+      variant={variant}
+      items={outline.items}
+      status={outline.status}
+      activeLine={nav.activeLine}
+      onSelect={select}
+      onHover={nav.hover}
+      onClose={closePanel}
+      tab={tab}
+      onTabChange={setTab}
+      text={outline.text}
+      filename={page === 'models' ? 'MODELS.md' : 'SMART-ASSIST.md'}
+    />
+  )
 
   const renderBlock = useCallback(
     (lang: string, code: string) => {
@@ -102,7 +140,9 @@ export function TechDocsPage({ page, closing = false, onBack }: TechDocsPageProp
   }
 
   return (
-    <main className={`scroll-area min-h-0 flex-1 overflow-y-auto ${closing ? 'anim-fade-out' : 'anim-fade'}`}>
+    <div className={`flex min-h-0 flex-1 ${closing ? 'anim-fade-out' : 'anim-fade'}`}>
+    {panelOpen && isDesktop && panel('side')}
+    <main ref={scrollRef} className="scroll-area min-h-0 min-w-0 flex-1 overflow-y-auto">
       <div className={`mx-auto w-full max-w-[900px] ${closing ? 'anim-stagger-out' : 'anim-stagger'}`}>
         <div className="flex items-center justify-between px-4 pt-8 sm:px-6 sm:pt-10">
           <button
@@ -112,8 +152,23 @@ export function TechDocsPage({ page, closing = false, onBack }: TechDocsPageProp
           >
             <ArrowLeft className="h-4 w-4" /> {page === 'models' ? t('docs.backToDocs') : t('docs.backToAbout')}
           </button>
-          <span className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
-            <BookOpen className="h-3.5 w-3.5" /> {t('docs.badge')}
+          <span className="flex items-center gap-3">
+            <span className="hidden items-center gap-1.5 text-xs uppercase tracking-wider text-ink-muted sm:inline-flex dark:text-dark-ink-muted">
+              <BookOpen className="h-3.5 w-3.5" /> {t('docs.badge')}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPanelOpen((o) => !o)}
+              aria-pressed={panelOpen}
+              title={t('docs.outlineDemo')}
+              className={`inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 text-xs font-medium transition-colors ${
+                panelOpen
+                  ? 'border-accent text-accent dark:border-dark-accent dark:text-dark-accent'
+                  : 'border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
+              }`}
+            >
+              <ListTree className="h-3.5 w-3.5" /> {t('outline.toggle')}
+            </button>
           </span>
         </div>
 
@@ -149,5 +204,7 @@ export function TechDocsPage({ page, closing = false, onBack }: TechDocsPageProp
         </div>
       </div>
     </main>
+    {panelOpen && !isDesktop && panel('sheet')}
+    </div>
   )
 }
