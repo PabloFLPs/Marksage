@@ -18,7 +18,7 @@ the authored and `*.dev.json` sets (a dev set comes from *other* sources than th
 the real set once to measure. Every real fixture has a `source` so it can be traced; `note` marks
 the hard or arguable cases.
 
-## How the real sets were built (2026-10-23)
+## How the real sets were built (committed 2026-10-24, ccd7ca0)
 
 F1 dev/test now come from the `training/` pipeline (split by repo, leak-checked against the training
 data); the notes below describe the original hand-built sets.

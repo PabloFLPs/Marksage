@@ -454,11 +454,11 @@ The section model works the same way: pass it the text under a heading, never th
 
 To port the models to another language (Python, Go…), you need three things, all in the runner:
 
-1. **The file format.** Little-endian: the signature `MSLM` (4 bytes), version 1, header length (4 bytes
-   each); the header as JSON (answers, number of slots, numbers per slot, temperatures, clue reader); then
-   the slot numbers as signed 8-bit integers (slots × 8, padded to a multiple of 4 bytes), one 32-bit float
-   scale per slot, the weights as 32-bit floats (8 × answers, grouped by dimension), and one 32-bit float
-   bias per answer.
+1. **The file format.** Little-endian. It starts with the signature `MSLM`, the version (1) and the header
+   length, 4 bytes each. Next comes the header as JSON (answers, number of slots, numbers per slot,
+   temperatures, clue reader). Then the slot numbers as signed 8-bit integers (slots × 8, padded to a multiple
+   of 4 bytes), one 32-bit float scale per slot, the weights as 32-bit floats (8 × answers, grouped by
+   dimension) and one 32-bit float bias per answer.
 2. **The clue reader.** The exact rules that turn text into clue strings — the regular expressions matter,
    because a clue that's spelled differently hashes to a different slot.
 3. **The hash.** 32-bit FNV-1a over the clue's UTF-16 code units, then the remainder after dividing by the
@@ -467,7 +467,41 @@ To port the models to another language (Python, Go…), you need three things, a
 Then: average the restored numbers of every distinct slot, compute bias + weights · average for each answer,
 divide by the temperature and apply softmax.
 
-## 8. Glossary
+## 8. Versions and test sets
+
+Every model version and every experiment, with the numbers it was measured at. Dates are the day it was
+committed. "Shown" is how many answers pass the 0.8 / 0.2 gate; "right" is precision when shown.
+
+### 8.1 Code-language model
+
+| Version | Date | Training data | What changed | First held-out set (314 blocks) | Fresh held-out set (284 blocks) | Status |
+|---|---|---|---|---|---|---|
+| Heuristics only | — | — | rules, no model | 57.3% · 76 shown · 97.4% right | 58.5% · 70 shown · 92.9% right | reference |
+| **v1** | 2026-10-24 | ~55,000 blocks, 264 repositories | first model: 8 numbers per clue, 32,768 slots, 8 epochs, temperature 1.85 fitted on dev | 75.8% · 141 · 94.3% | 71.5% · 151 · 88.1% | replaced by v2 |
+| **v2** | 2026-10-24 | 63,751 blocks, 309 repositories | +45 repositories; temperature from repositories it never saw (1.85, short snippets 2.55, 95% target); in the app, agreement with the heuristics | 77.4% · 164 · 95.7% | 74.3% · 158 · 91.8% (model alone: 74.3% · 146 · 92.5%) | **in use** |
+
+v1 was measured once on the first held-out set. Because that set had then been seen, v2 was judged on a second,
+fresh one, built from 72 repositories used nowhere else.
+
+### 8.2 Section model
+
+| Version | Date | Training data | What changed | Held-out (133 repositories) | Status |
+|---|---|---|---|---|---|
+| Draft without "other" | 2026-10-24 | ~17,000 labelled sections | 10 types only | dev: 87% right when shown on labelled sections, but about 2 in 3 on sections with uninformative headings | not shipped |
+| **v1** | 2026-10-24 | 26,105 sections (7,832 "other") | adds "other"; 8 numbers per clue, 32,768 slots, 3 epochs, temperature 1.6 | from 0.8: 15.1% typed, 91.5% agree with the heading · from 0.6: 27.4%, 87.1% | **in use** |
+| Explanation experiment | 2026-10-25 | + 748, then 1,283 explanation sections | an 11th type, labelled by headings, then also by `concepts/`-style folders | dev: 0 explanation answers right when shown, at every setting tried | not shipped — Explanation is typed from headings only |
+
+### 8.3 Test sets
+
+| Set | What it is | Size | Rule |
+|---|---|---|---|
+| Written | examples written alongside the rules | code 42 · paste 15 · structure 23 · headings 45 · documents 4 | catches regressions; scores near 100% by construction |
+| Dev | real documents, used to make choices | code 280 · paste 27 · structure 36 · sections from 27 repositories | tune here, never on the held-out sets |
+| First held-out (2026-10-24) | real documents, never tuned on | code 314 · paste 31 · structure 30 | run once per version; v1's judge |
+| Fresh held-out (2026-10-24) | code from 72 repositories used nowhere else | code 284 (67 repositories) | built once for v2, then frozen |
+| Sections held-out (2026-10-24) | sections from the code model's test repositories plus the fresh ones | 133 repositories | run once per section model |
+
+## 9. Glossary
 
 | Term | Meaning |
 |---|---|

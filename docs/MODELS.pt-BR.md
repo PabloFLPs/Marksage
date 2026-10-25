@@ -458,11 +458,11 @@ O modelo de seções funciona do mesmo jeito: passe o texto abaixo de um título
 
 Para levar os modelos a outra linguagem (Python, Go…), você precisa de três coisas, todas no executor:
 
-1. **O formato do arquivo.** Little-endian: a assinatura `MSLM` (4 bytes), versão 1, tamanho do cabeçalho (4
-   bytes cada); o cabeçalho em JSON (respostas, número de slots, números por slot, temperaturas, leitor de
-   pistas); depois os números dos slots como inteiros de 8 bits com sinal (slots × 8, completados até múltiplo de
-   4 bytes), uma escala float de 32 bits por slot, os pesos como floats de 32 bits (8 × respostas, agrupados por
-   dimensão) e um viés float de 32 bits por resposta.
+1. **O formato do arquivo.** Little-endian. Começa com a assinatura `MSLM`, a versão (1) e o tamanho do
+   cabeçalho, 4 bytes cada. Depois vem o cabeçalho em JSON (respostas, número de slots, números por slot,
+   temperaturas, leitor de pistas). Em seguida, os números dos slots como inteiros de 8 bits com sinal (slots × 8,
+   completados até múltiplo de 4 bytes) e uma escala float de 32 bits por slot. Por fim, os pesos como floats de
+   32 bits (8 × respostas, agrupados por dimensão) e um viés float de 32 bits por resposta.
 2. **O leitor de pistas.** As regras exatas que transformam texto em pistas — as expressões regulares importam,
    porque uma pista escrita diferente cai em outro slot.
 3. **O hash.** FNV-1a de 32 bits sobre as unidades UTF-16 da pista, depois o resto da divisão pelo número de
@@ -471,7 +471,41 @@ Para levar os modelos a outra linguagem (Python, Go…), você precisa de três 
 Então: tire a média dos números restaurados de cada slot distinto, calcule viés + pesos · média para cada
 resposta, divida pela temperatura e aplique o softmax.
 
-## 8. Glossário
+## 8. Versões e conjuntos de teste
+
+Cada versão de modelo e cada experimento, com os números em que foi medido. As datas são o dia do commit.
+"Mostradas" é quantas respostas passam no filtro 0,8 / 0,2; "certas" é a precisão quando mostradas.
+
+### 8.1 Modelo de linguagens de código
+
+| Versão | Data | Dados de treino | O que mudou | Primeiro conjunto de fora (314 blocos) | Conjunto de fora novo (284 blocos) | Situação |
+|---|---|---|---|---|---|---|
+| Só heurísticas | — | — | regras, sem modelo | 57,3% · 76 mostradas · 97,4% certas | 58,5% · 70 mostradas · 92,9% certas | referência |
+| **v1** | 2026-10-24 | ~55 mil blocos, 264 repositórios | primeiro modelo: 8 números por pista, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no conjunto de ajuste | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | substituído pela v2 |
+| **v2** | 2026-10-24 | 63.751 blocos, 309 repositórios | +45 repositórios; temperatura em repositórios nunca vistos (1,85; trechos curtos 2,55; meta de 95%); no app, concordância com as heurísticas | 77,4% · 164 · 95,7% | 74,3% · 158 · 91,8% (só o modelo: 74,3% · 146 · 92,5%) | **em uso** |
+
+A v1 foi medida uma vez no primeiro conjunto de fora. Como ele já tinha sido visto, a v2 foi julgada num segundo
+conjunto, novo, montado com 72 repositórios que não aparecem em mais nenhum lugar.
+
+### 8.2 Modelo de seções
+
+| Versão | Data | Dados de treino | O que mudou | De fora (133 repositórios) | Situação |
+|---|---|---|---|---|---|
+| Rascunho sem "outro" | 2026-10-24 | ~17 mil seções rotuladas | só os 10 tipos | ajuste: 87% certas quando mostradas nas seções rotuladas, mas umas 2 em 3 em seções com títulos que não dizem nada | não foi ao ar |
+| **v1** | 2026-10-24 | 26.105 seções (7.832 "outro") | acrescenta "outro"; 8 números por pista, 32.768 slots, 3 épocas, temperatura 1,6 | a partir de 0,8: 15,1% com tipo, 91,5% concordam com o título · a partir de 0,6: 27,4%, 87,1% | **em uso** |
+| Experimento explicação | 2026-10-25 | + 748, depois 1.283 seções de explicação | um 11º tipo, rotulado pelos títulos e depois também por pastas no estilo `concepts/` | ajuste: nenhuma resposta "explicação" certa quando mostrada, em todas as configurações | não foi ao ar — Explicação vem só dos títulos |
+
+### 8.3 Conjuntos de teste
+
+| Conjunto | O que é | Tamanho | Regra |
+|---|---|---|---|
+| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · estrutura 23 · títulos 45 · documentos 4 | pega regressões; dá perto de 100% por construção |
+| Ajuste | documentos reais, usados para tomar decisões | código 280 · colagem 27 · estrutura 36 · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de fora |
+| Primeiro de fora (2026-10-24) | documentos reais, nunca usados para ajustar | código 314 · colagem 31 · estrutura 30 | roda uma vez por versão; julgou a v1 |
+| De fora novo (2026-10-24) | código de 72 repositórios que não aparecem em mais nenhum lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |
+| Seções de fora (2026-10-24) | seções dos repositórios de teste do modelo de código mais os novos | 133 repositórios | roda uma vez por modelo de seções |
+
+## 9. Glossário
 
 | Termo | Significado |
 |---|---|

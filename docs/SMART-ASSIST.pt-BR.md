@@ -125,7 +125,7 @@ flowchart LR
 | **Pré-filtro** | Verificações baratas e determinísticas que encontram *candidatos* (um bloco de código sem linguagem, uma colagem de várias linhas, um título quase certo). Sem candidato → nada mais roda. |
 | **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Modelo local* (os modelos próprios do Marksage na linguagem dos blocos de código e nos tipos de seção da Estrutura + heurísticas no resto). |
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
-| **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos abaixo). |
+| **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos de sugestão abaixo; a Estrutura e a aba Documento só leem). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
 | **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. |
 | **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Modelo local*) pelo modelo de seções; a aba Documento resume o arquivo inteiro. |
@@ -161,6 +161,7 @@ passesGate(probs, threshold = 0.8, minMargin = 0.2)
 | Linguagem do bloco de código, colagem inteligente | 0,8 / 0,2 |
 | Dicas de estrutura (`noul`) | p ≥ 0,8 (implica margem de 0,6 sobre "falso") |
 | Legibilidade | 0,5 / 0,15 (é uma dica passiva, não uma edição) |
+| Tipos de seção da Estrutura (modelo de seções) | 0,8 / 0,2 para o selo; a partir de 0,6 como "provável" (um rótulo, não uma edição) |
 
 O silêncio é o padrão: uma sugestão perdida não custa nada; uma errada custa confiança.
 
@@ -216,7 +217,7 @@ heurístico não oferece pares.)
 
 ### Colagem inteligente (`choice`)
 
-**Gatilho.** Um `paste` no editor com ≥ 2 linhas não vazias (≤ 50 mil caracteres) que ainda não
+**Gatilho.** Um `paste` no editor com ≥ 2 linhas não vazias, ou uma única linha de JSON (≤ 50 mil caracteres), que ainda não
 comece como estrutura Markdown (tabelas, blocos, títulos, listas). **A colagem sempre entra
 intacta**; a sugestão oferece converter o trecho colado depois.
 
@@ -339,7 +340,8 @@ o mouse para marcar o título na pré-visualização. Nada no documento muda.
 ## 4. Os modelos próprios do Marksage
 
 > Nunca treinou um modelo? [Como os dois modelos funcionam](MODELS.pt-BR.md) percorre cada passo — pistas,
-> hash, treino, calibração — com números reais dos arquivos dos modelos.
+> hash, treino, calibração — com números reais dos arquivos dos modelos, mais uma ficha técnica e o histórico
+> completo de versões de cada modelo.
 
 ### 4.1 O que é
 

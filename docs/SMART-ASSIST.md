@@ -125,7 +125,7 @@ flowchart LR
 | **Pre-filter** | Cheap, deterministic checks that find *candidates* (an untagged code block, a multi-line paste, a near-miss heading). No candidate → nothing else runs. |
 | **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Local model* (Marksage's own models for code-block languages and Outline section types + heuristics for the rest). |
 | **Confidence gate** | Drops any answer that isn't clearly ahead of the alternatives. |
-| **Features** | Turn a confident decision into a concrete, reversible edit (the four features below). |
+| **Features** | Turn a confident decision into a concrete, reversible edit (the four suggestion features below; the Outline and Document tab only read). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
 | **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. |
 | **Outline panel** | Visual only: sections typed by the heading rule, then (in *Local model* mode) by the section model; its Document tab sums the whole file up. |
@@ -161,6 +161,7 @@ passesGate(probs, threshold = 0.8, minMargin = 0.2)
 | Code-block language, smart paste | 0.8 / 0.2 |
 | Structure hints (`noul`) | p ≥ 0.8 (implies margin 0.6 over "false") |
 | Readability | 0.5 / 0.15 (it's a passive hint, not an edit) |
+| Outline section types (section model) | 0.8 / 0.2 for a badge; from 0.6 as "probably" (a label, not an edit) |
 
 Silence is the default: a missed suggestion costs nothing, a wrong one costs trust.
 
@@ -214,7 +215,7 @@ model's probabilities are calibrated well enough for this, so heuristics mode do
 
 ### Smart paste (`choice`)
 
-**Trigger.** A `paste` into the editor with ≥ 2 non-empty lines (≤ 50 k chars) that doesn't
+**Trigger.** A `paste` into the editor with ≥ 2 non-empty lines, or a single line of JSON (≤ 50 k chars), that doesn't
 already start as Markdown structure (tables, fences, headings, lists). **The paste always lands
 untouched**; the suggestion offers to convert the pasted range afterwards.
 
@@ -335,7 +336,8 @@ hover to mark the heading in the preview. Nothing in the document changes.
 ## 4. Marksage's own models
 
 > New to machine learning? [How the two models work](MODELS.md) walks through every step — clues, hashing,
-> training, calibration — with real numbers from the model files.
+> training, calibration — with real numbers from the model files, plus a model card and the full version
+> history of each model.
 
 ### 4.1 What it is
 

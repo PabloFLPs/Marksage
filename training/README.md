@@ -47,7 +47,7 @@ node --experimental-strip-types training/train-sections.ts --save public/models/
 - **train** — capped at 6,000 blocks per language and 600 per repo per language, so no single project
   or language dominates.
 
-## The model (v1, 2026-10-23) — superseded by v2 below
+## The model (v1, committed 2026-10-24, d425964) — superseded by v2 below
 
 `src/assist/model/` — shared by the trainer and the app, so both see identical features.
 

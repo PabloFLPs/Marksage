@@ -321,3 +321,15 @@ There are no cookies, analytics or third-party requests (system fonts only).
 - **Model cards** (MODELS §7) + `examples/marksage-models.mjs` (zero deps, Node/browser), parity-checked in the eval
   (0 difference on 1,010 inputs). Model-alone code numbers on real2: 74.3% / 51% shown / 92.5% right.
 - Found: the repository has no LICENSE file, so nobody may legally reuse the code or the model files yet; the model cards have no license row until Pablo picks one.
+
+## 20. Docs-vs-code audit, version history, roadmap (2026-10-25)
+
+- Audited every number and rule in the in-app docs against the code and a fresh eval run: all eval tables,
+  gates, timings (400 ms / 2 s), trigger rules and heuristic weights matched. Fixed: §2.1 "four features" (Outline
+  and Document tab only read), §2.3 gate table missing the Outline row, smart-paste trigger (single-line JSON).
+- New `docs/MODELS.md` §8 "Versions and test sets": every model version and experiment with the numbers it was
+  measured at (lang v1, v2; sections draft, v1, explanation experiment) and every test set.
+- Dates: the timeline follows git commit dates (São Paulo time). Earlier notes said 2026-10-23 for the real set
+  and v1 (work dates from the session's notes); their commits — ccd7ca0, d425964 — are 2026-10-24.
+- `ROADMAP.md`: BYOK (next, fresh session — Pablo's idea first), Laya as ladder step 3, dogfooding findings,
+  small items, showcase. README updated (Local model, Outline, highlighting, docs pages, runner).

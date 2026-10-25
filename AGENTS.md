@@ -73,5 +73,11 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   same diagram in Mermaid under `<details>` (GitHub renders both). In the app, `TechDocsPage` turns that group into a
   `DocDiagram` with a Drawn / Mermaid switch (Mermaid lazy-loads, ~650 KB gzip, only on that click).
 
+## Roadmap and timeline
+- `ROADMAP.md` — what's next (BYOK, Laya as a general decision model, dogfooding, small items, showcase).
+- Docs must match the code: when a model, test set or number changes, update `docs/MODELS.md` §7 (model cards)
+  and §8 (versions and test sets), `docs/SMART-ASSIST.md` §4–5 (EN + PT-BR), `training/README.md` and the timeline.
+  Dates in the timeline and version tables are git commit dates (America/Sao_Paulo).
+
 ## Verify before committing
 `npx tsc -b` · `npm run lint` · `npm run eval:assist` · manually check light/dark, desktop/mobile, and reduced motion.
