@@ -411,6 +411,7 @@ where it fails. Everything needed to use the files outside Marksage is here.
 | **Speed** | About 0.1 ms per snippet in plain JavaScript |
 | **Use it for** | Guessing the language of a short code snippet, especially in documentation |
 | **Not for** | Languages outside the 21 (it will name the closest one, never "unknown"); one-liners (`x = 1` comes out Python at 97%); anything where a wrong guess matters |
+| **License** | GNU AGPL-3.0, like the rest of Marksage |
 
 ### 7.2 Section model
 
@@ -430,6 +431,7 @@ where it fails. Everything needed to use the files outside Marksage is here.
 | **Speed** | About 0.1 ms per section |
 | **Use it for** | Labelling sections of READMEs and technical docs whose heading doesn't say what they are; ignore "other" |
 | **Not for** | Explanation sections ("How it works", "Architecture"): their prose looks like any topic's, and a model trained to recognise them got none right on the dev repositories, so Marksage types them from the heading only. "Guide" is also rarely recognised. |
+| **License** | GNU AGPL-3.0, like the rest of Marksage |
 
 ### 7.3 Running them yourself
 

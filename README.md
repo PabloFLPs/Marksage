@@ -70,3 +70,12 @@ technical documentation (heuristics, Marksage's own models, evaluation), `docs/M
 from zero (model cards, version history), [`training/`](training/README.md) for the model pipeline,
 `ROADMAP.md` for what's next, and `SMART-ASSIST — Implementation Context.md` for the design notes and
 timeline.
+
+## License
+
+Copyright (C) 2026 PabloFLPs.
+
+Marksage — the app, the training code and the model files — is free software under the
+[GNU Affero General Public License v3.0](LICENSE) (`AGPL-3.0-only`). You can use, study, change and share it;
+if you distribute it, or run a modified version for others over a network, you must offer your source under
+the same license.

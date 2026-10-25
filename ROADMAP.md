@@ -48,7 +48,10 @@ on the dev repositories before it ships.
 
 ## 3. Dogfooding round (Pablo will ask after the current iteration)
 
-Run the Outline and Document tab over Marksage's own docs and fix what they find. Already noticed:
+"Dogfooding" = using your own product as a user would. Here: open Marksage's own docs (the technical pages
+already show the Outline/Document panel), read what the panel reports — flags, key sentences, types, tone —
+and fix the docs where it's right and the features where it's wrong. Both get better, and it's a good story
+("we run our own tool on our own docs"). Already noticed:
 
 - A key sentence comes out as a fragment ("language, tables, links…" under "3. Features and their
   heuristics" in `docs/SMART-ASSIST.md`).
@@ -61,7 +64,6 @@ Run the Outline and Document tab over Marksage's own docs and fix what they find
 - **"Too short to judge"** for the code model: one-liners get overconfident answers (`x = 1` → Python 97%).
 - **Shrink the model files:** a third of each file is per-slot scales.
 - **"Guide" sections** are rarely recognised by the section model.
-- **License:** the repository has no LICENSE file yet — Pablo to choose (see the conversation of 2026-10-25).
 
 ## 5. Showcase
 

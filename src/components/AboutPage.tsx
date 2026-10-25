@@ -17,6 +17,7 @@ import {
   Lock,
   Moon,
   Save,
+  Scale,
   History,
   Sparkles,
   Table,
@@ -269,6 +270,15 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
             )}
           </Feature>
           <StorageControls x={x} onRemoveModel={onRemoveModel} onDeleteAllData={onDeleteAllData} />
+        </Section>
+
+        <Section title={x('Open source', 'Código aberto')}>
+          <Feature icon={<Scale />} title={x('Free software, AGPL-3.0', 'Software livre, AGPL-3.0')}>
+            {x(
+              <>Marksage — code and models — is free software under the GNU Affero General Public License v3.0: you can read, change and share it, and if you run a changed version for other people, you share your changes too. The source is on <a href="https://github.com/PabloFLPs/Marksage" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>.</>,
+              <>O Marksage — código e modelos — é software livre sob a GNU Affero General Public License v3.0: você pode ler, mudar e compartilhar, e se rodar uma versão modificada para outras pessoas, compartilha as suas mudanças também. O código está no <a href="https://github.com/PabloFLPs/Marksage" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>.</>,
+            )}
+          </Feature>
         </Section>
       </div>
     </main>

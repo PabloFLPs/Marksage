@@ -415,6 +415,7 @@ quão bem funciona e onde falha. Tudo o que é preciso para usar os arquivos for
 | **Velocidade** | Cerca de 0,1 ms por trecho em JavaScript puro |
 | **Use para** | Adivinhar a linguagem de um trecho curto de código, principalmente em documentação |
 | **Não use para** | Linguagens fora das 21 (ele diz a mais parecida, nunca "não sei"); linhas únicas (`x = 1` sai Python com 97%); nada em que um palpite errado importe |
+| **Licença** | GNU AGPL-3.0, como o resto do Marksage |
 
 ### 7.2 Modelo de seções
 
@@ -434,6 +435,7 @@ quão bem funciona e onde falha. Tudo o que é preciso para usar os arquivos for
 | **Velocidade** | Cerca de 0,1 ms por seção |
 | **Use para** | Identificar seções de READMEs e docs técnicas cujo título não diz o que são; ignore "outro" |
 | **Não use para** | Seções de explicação ("Como funciona", "Arquitetura"): o texto delas parece o de qualquer assunto, e um modelo treinado para reconhecê-las não acertou nenhuma nos repositórios de ajuste, então o Marksage as identifica só pelo título. "Guia" também quase nunca é reconhecido. |
+| **Licença** | GNU AGPL-3.0, como o resto do Marksage |
 
 ### 7.3 Rodando você mesmo
 

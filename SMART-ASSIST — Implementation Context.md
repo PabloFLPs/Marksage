@@ -333,3 +333,10 @@ There are no cookies, analytics or third-party requests (system fonts only).
   and v1 (work dates from the session's notes); their commits — ccd7ca0, d425964 — are 2026-10-24.
 - `ROADMAP.md`: BYOK (next, fresh session — Pablo's idea first), Laya as ladder step 3, dogfooding findings,
   small items, showcase. README updated (Local model, Outline, highlighting, docs pages, runner).
+
+## 21. License (2026-10-25)
+
+- Pablo chose **AGPL-3.0** (MIT felt too permissive): open source, and anyone running a modified Marksage as a
+  website must publish their changes; as sole author he can dual-license later. `LICENSE` (official text via the
+  SPDX list), `package.json` "AGPL-3.0-only", README section, model cards row, and an About "Open source" section
+  with the GitHub link (AGPL §13: network users must be offered the source).
