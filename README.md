@@ -8,7 +8,7 @@ Everything runs in the browser — files never leave your machine.
 
 - **Preview-first** rendering with GFM (tables, task lists, strikethrough, autolinks)
 - **Open** via file picker, drag & drop, or paste; **live split editor** with a resizable divider
-  and **synced scrolling** (preview and editor stay on the same passage)
+  and **synced scrolling** (preview and editor stay on the same passage); start/end buttons on long documents
 - **Smart Assist** (opt-in, local): code-fence language, smart paste (CSV/TSV/aligned text → table,
   lists, JSON/code → fenced block), structure hints (`**Title**` → heading, `-item` → list…),
   per-section readability dots. Suggest-only: `Tab` accepts, `Esc` dismisses, undo still works.

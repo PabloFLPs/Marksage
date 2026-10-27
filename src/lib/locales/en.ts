@@ -44,6 +44,8 @@ export const en = {
   'code.copied': 'Copied',
   'editor.placeholder': 'Write your Markdown here...',
   'split.resize': 'Resize preview and editor',
+  'scroll.toStart': 'Back to the start',
+  'scroll.toEnd': 'Jump to the end',
   'split.resizeTitle': 'Drag to resize — double-click to reset',
 
   'error.notMarkdown': 'Please select a Markdown file (.md).',

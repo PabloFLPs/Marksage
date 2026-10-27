@@ -173,6 +173,13 @@ kind), so the docs can showcase the Outline. Two rounds, all on dev:
 
 Outcome: `explanation` is a heading-only type (`SECTION_TYPES`); the model keeps 10 types + other
 (`MODEL_SECTION_TYPES`), and `build-sections.ts` drops explanation-labelled sections. `sections-v1.bin` unchanged.
+
+### Heading rule change after v1 (2026-10-27)
+
+"Security policy" / "Segurança" no longer count as *License & credits* — a security section is neither. `sections-v1`
+was labelled with the old rule: 61 sections whose heading names security were `legal` examples. The model itself
+doesn't answer `legal` from security text (checked: a vulnerability-reporting text → `other` 53%, `legal` 26%), so
+the file stays; the next retrain drops those labels.
 "Background" moved from overview to explanation and, like "Features", only counts as the whole heading.
 Telling explanation from topic prose needs a model that reads more than word clues — a general decision model
 (step 3 of the ladder in docs/SMART-ASSIST.md §1.2) is the natural candidate.

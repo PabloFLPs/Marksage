@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, BookOpen, ListTree } from 'lucide-react'
+import { ScrollJump } from './ScrollJump'
 import { MarkdownPreview } from './MarkdownPreview'
 // Single source of truth: the repo docs are rendered in-app with our own renderer.
 import techDocsEn from '../../docs/SMART-ASSIST.md?raw'
@@ -203,6 +204,7 @@ export function TechDocsPage({ page, closing = false, onBack, isDesktop, useMode
           <MarkdownPreview content={doc.body} renderBlock={renderBlock} internalLinks={INTERNAL_LINKS} />
         </div>
       </div>
+      <ScrollJump />
     </main>
     {panelOpen && !isDesktop && panel('sheet')}
     </div>

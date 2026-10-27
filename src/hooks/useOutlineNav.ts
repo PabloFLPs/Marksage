@@ -4,6 +4,7 @@ import { editorLineTops, previewAnchors } from '../lib/scrollSync'
 
 /** How far below the top edge a section counts as "the one being read". */
 const PROBE_PX = 48
+const SCROLL_KEYS = new Set(['PageUp', 'PageDown', 'Home', 'End', 'ArrowUp', 'ArrowDown', ' '])
 
 /**
  * Outline ↔ document: which section is in view, jump to a section, and mark the hovered one.
@@ -22,8 +23,10 @@ export function useOutlineNav(
   const linesRef = useRef(headingLines)
   linesRef.current = headingLines
   const linesKey = headingLines.join(',')
-  // After a click, the clicked section stays highlighted while the smooth scroll passes the others.
-  const pinnedUntil = useRef(0)
+  // After a click, the clicked section stays highlighted until the reader scrolls on their own — not while the
+  // smooth scroll passes other sections (however long it takes), and not when a short document can't bring the
+  // clicked heading to the top (the "scrolled to the end" rule would pick the last section).
+  const pinned = useRef(false)
 
   useEffect(() => {
     if (!enabled) return
@@ -31,9 +34,10 @@ export function useOutlineNav(
     if (!el) return
     let frame = 0
     const update = () => {
-      if (performance.now() < pinnedUntil.current) return
+      if (pinned.current) return
       cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
+        if (pinned.current) return // a click landed between the scroll event and this frame
         const lines = linesRef.current
         if (!lines.length) return setActiveLine(null)
         let current = 0 // 0-based source line at the probe
@@ -52,19 +56,30 @@ export function useOutlineNav(
         setActiveLine(active ?? lines[0])
       })
     }
-    const settle = () => {
-      pinnedUntil.current = 0
+    // The reader taking over (wheel, touch, keys, dragging the scrollbar) releases a clicked section.
+    const release = () => {
+      if (!pinned.current) return
+      pinned.current = false
       update()
+    }
+    const INTENT = ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const
+    // Scrolling keys work with the focus anywhere on the page, so listen for those on the window.
+    const onKey = (e: KeyboardEvent) => {
+      if (SCROLL_KEYS.has(e.key)) release()
     }
     update()
     el.addEventListener('scroll', update, { passive: true })
-    el.addEventListener('scrollend', settle)
+    // In split view the editor drives the preview through scroll sync, so its input counts too.
+    const sources = [el, editor.current].filter((x, i, a): x is HTMLElement => !!x && a.indexOf(x) === i)
+    for (const src of sources) for (const ev of INTENT) src.addEventListener(ev, release, { passive: true })
     window.addEventListener('resize', update)
+    window.addEventListener('keydown', onKey)
     return () => {
       cancelAnimationFrame(frame)
       el.removeEventListener('scroll', update)
-      el.removeEventListener('scrollend', settle)
+      for (const src of sources) for (const ev of INTENT) src.removeEventListener(ev, release)
       window.removeEventListener('resize', update)
+      window.removeEventListener('keydown', onKey)
     }
   }, [enabled, preview, editor, viewKey, linesKey])
 
@@ -72,7 +87,7 @@ export function useOutlineNav(
     (line: number) => {
       const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
       setActiveLine(line)
-      pinnedUntil.current = performance.now() + (smooth ? 1200 : 0) // `scrollend` releases it sooner
+      pinned.current = true
       const box = preview.current
       if (box) {
         const target = elementForLine(box, line)

@@ -39,7 +39,7 @@ const PHRASES: Record<SectionType, string[]> = {
   changelog: ['changelog', 'change log', 'unreleased', 'changes', 'release notes', "what's new", 'whats new', 'history', 'version history', 'migration', 'migrating', 'upgrading', 'upgrade guide', 'breaking changes', 'new features', 'notas de versão', 'novidades', 'histórico', 'migração', 'atualizando'],
   contributing: ['contributing', 'contribute', 'contribution', 'development', 'developing', 'building from source', 'running tests', 'testing', 'code of conduct', 'contribuindo', 'contribuir', 'contribuição', 'desenvolvimento', 'testes'],
   explanation: ['how it works', 'how does it work', 'how this works', 'architecture', 'design', 'design decisions', 'design principles', 'concepts', 'core concepts', 'key concepts', 'basic concepts', 'fundamentals', 'under the hood', 'internals', 'implementation details', 'theory', 'explanation', 'deep dive', 'principles', 'mental model', 'philosophy', 'rationale', 'background', 'como funciona', 'arquitetura', 'conceitos', 'conceitos básicos', 'principais conceitos', 'fundamentos', 'por dentro', 'princípios', 'filosofia', 'decisões de design', 'teoria', 'explicação', 'detalhes de implementação'],
-  legal: ['license', 'licence', 'licensing', 'copyright', 'credits', 'acknowledgements', 'acknowledgments', 'authors', 'sponsors', 'security policy', 'licença', 'créditos', 'agradecimentos', 'autores', 'patrocinadores', 'segurança'],
+  legal: ['license', 'licence', 'licensing', 'copyright', 'credits', 'acknowledgements', 'acknowledgments', 'authors', 'sponsors', 'licença', 'créditos', 'agradecimentos', 'autores', 'patrocinadores'],
 }
 
 const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()

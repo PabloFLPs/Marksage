@@ -76,3 +76,8 @@ Mude para a pré-visualização (ou olhe o painel da esquerda): cada seção \`#
 export function getSampleDocument(lang: string): string {
   return lang === 'pt-BR' ? SAMPLE_DOCUMENT_PT_BR : SAMPLE_DOCUMENT
 }
+
+/** The playground's file name, shown in the header and in history instead of "Untitled". */
+export function getSampleFilename(lang: string): string {
+  return lang === 'pt-BR' ? 'playground-smart-assist.md' : 'smart-assist-playground.md'
+}

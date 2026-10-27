@@ -178,5 +178,17 @@
   {
     "heading": "Features of the CLI",
     "expect": null
+  },
+  {
+    "heading": "Segurança",
+    "expect": null
+  },
+  {
+    "heading": "Security",
+    "expect": null
+  },
+  {
+    "heading": "Security policy",
+    "expect": null
   }
 ]

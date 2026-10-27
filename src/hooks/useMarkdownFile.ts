@@ -83,10 +83,14 @@ export function useMarkdownFile() {
     [idFor, flushCurrent],
   )
 
+  /**
+   * Open text that isn't a file. `filename` names a document the app offers (the playground), which then
+   * starts clean: there is nothing of the user's to lose until they edit it.
+   */
   const pasteText = useCallback(
-    (text: string) => {
+    (text: string, filename: string | null = null) => {
       flushCurrent()
-        setDocument({ id: idFor(null, text), filename: null, content: text, savedContent: '' })
+      setDocument({ id: idFor(filename, text), filename, content: text, savedContent: filename ? text : '' })
       setError(null)
     },
     [idFor, flushCurrent],
@@ -94,13 +98,13 @@ export function useMarkdownFile() {
 
   const newDocument = useCallback(() => {
     flushCurrent()
-        setDocument({ id: newDocId(), filename: null, content: '', savedContent: '' })
+    setDocument({ id: newDocId(), filename: null, content: '', savedContent: '' })
     setError(null)
   }, [flushCurrent])
 
   const openFromHistory = useCallback((entry: HistoryEntry) => {
     flushCurrent()
-        setDocument({
+    setDocument({
       id: entry.id,
       filename: entry.filename,
       content: entry.content,

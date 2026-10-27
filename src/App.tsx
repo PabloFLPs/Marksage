@@ -17,7 +17,7 @@ import {
 import { deleteAllLocalData, loadAssistMode, loadOutlineOpen, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveSplitRatio } from './lib/storage'
 import { deleteDownloadedModel } from './assist/modelEngine'
 import { AboutPage } from './components/AboutPage'
-import { getSampleDocument } from './lib/sampleDocument'
+import { getSampleDocument, getSampleFilename } from './lib/sampleDocument'
 import { useI18n } from './hooks/useI18n'
 import { Presence } from './components/motion'
 import { SuggestionBar } from './components/SuggestionBar'
@@ -27,6 +27,7 @@ import { useScrollSync } from './hooks/useScrollSync'
 import { useSmartAssist } from './assist/useSmartAssist'
 import { useOutline } from './assist/useOutline'
 import { useOutlineNav } from './hooks/useOutlineNav'
+import { ScrollJump } from './components/ScrollJump'
 import { OutlinePanel, type PanelTab } from './components/OutlinePanel'
 import type { AssistMode } from './assist/types'
 import type { ViewMode } from './lib/viewMode'
@@ -277,7 +278,7 @@ export default function App() {
   }, [])
 
   const handleTrySmartAssist = useCallback(() => {
-    pasteText(getSampleDocument(lang))
+    pasteText(getSampleDocument(lang), getSampleFilename(lang))
     handleAssistModeChange(assistMode === 'off' ? 'heuristics' : assistMode)
     goHome()
     setViewMode('edit')
@@ -534,6 +535,7 @@ export default function App() {
                   left={
                     <main>
                       <MarkdownPreview content={document.content} readability={assist.readability} />
+                      <ScrollJump />
                     </main>
                   }
                   right={
@@ -562,6 +564,7 @@ export default function App() {
             ) : (
               <main ref={previewScrollRef} key="preview" className={`scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto ${prevView.current === 'edit' ? '' : 'anim-fade'}`}>
                 <MarkdownPreview content={document.content} readability={assist.readability} />
+                <ScrollJump />
               </main>
             )}
           </div>

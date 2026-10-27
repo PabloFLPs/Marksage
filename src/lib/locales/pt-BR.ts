@@ -45,6 +45,8 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'code.copied': 'Copiado',
   'editor.placeholder': 'Escreva seu Markdown aqui...',
   'split.resize': 'Redimensionar pré-visualização e editor',
+  'scroll.toStart': 'Voltar ao início',
+  'scroll.toEnd': 'Ir para o fim',
   'split.resizeTitle': 'Arraste para redimensionar — clique duplo para redefinir',
 
   'error.notMarkdown': 'Selecione um arquivo Markdown (.md).',

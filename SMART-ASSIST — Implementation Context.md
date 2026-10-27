@@ -340,3 +340,20 @@ There are no cookies, analytics or third-party requests (system fonts only).
   website must publish their changes; as sole author he can dual-license later. `LICENSE` (official text via the
   SPDX list), `package.json` "AGPL-3.0-only", README section, model cards row, and an About "Open source" section
   with the GitHub link (AGPL §13: network users must be offered the source).
+
+## 22. Polish round: Outline highlight, pointer cursor, start/end, named playground (2026-10-27)
+
+- **Outline highlight blinking / wrong section** (Pablo: a far click flashed the previous section; on the playground,
+  clicking section 1 lit the last one). Cause: the clicked section was pinned for 1.2 s only, so a longer smooth
+  scroll, or a short page that can't bring the heading to the top ("scrolled to the end → last section" rule),
+  took over. Now the pin holds until the reader acts (wheel, touch, pointer, keys on the page; the editor too in
+  split view). Checked in Chromium: far jumps on a 4,700-word doc and every playground section, EN/PT, two sizes.
+- **Pointer cursor** on every clickable element (base-layer CSS: buttons, tabs, menu items, summary, labels…).
+- **Start / end buttons** (`ScrollJump`): bottom-right of the preview, the split view's preview pane and the docs
+  pages; only on documents ≥ 1.8 screens; each hides at its own end. Stores nothing.
+- **Playground has a name:** `smart-assist-playground.md` / `playground-smart-assist.md` instead of "Untitled";
+  it opens clean (nothing of the user's to lose until edited). It's the only document the app offers.
+- **"Segurança" typed as License & credits:** the heading rule had `segurança` and `security policy` under legal.
+  Removed both (+ 3 fixture cases, 48 total). The section model wasn't the cause (see training/README.md).
+- Discussed, not built: more section types — corpus counts for security, performance, deployment, glossary,
+  roadmap; meeting-notes types would be heading-only (no such docs in the corpus).
