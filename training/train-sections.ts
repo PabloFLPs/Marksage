@@ -1,7 +1,7 @@
 /**
- * Train the section-type model → public/models/sections-v1.bin
+ * Train the section-type model → public/models/sections-v2.bin
  *   node --experimental-strip-types training/build-sections.ts
- *   node --experimental-strip-types training/train-sections.ts [--dim 8] [--buckets 32768] [--epochs 3] [--lr 0.3] [--balance 0.5] [--save public/models/sections-v1.bin] [--test]
+ *   node --experimental-strip-types training/train-sections.ts [--dim 8] [--buckets 32768] [--epochs 3] [--lr 0.3] [--balance 0.5] [--save public/models/sections-v2.bin] [--test]
  *
  * Same recipe as the language model (training/fasttext.ts) with the prose featurizer
  * (src/assist/model/sectionFeatures.ts). Fitted on the train repos; the temperature is fitted on the

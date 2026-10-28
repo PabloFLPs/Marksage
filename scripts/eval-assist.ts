@@ -148,7 +148,7 @@ if (!realOnly) {
   const docs = ['SMART-ASSIST.md', 'MODELS.md', 'SMART-ASSIST.pt-BR.md', 'MODELS.pt-BR.md'].map((f) => readFileSync(new URL(`../docs/${f}`, import.meta.url), 'utf8'))
   const cases: [string, string[]][] = [
     ['lang-v2.bin', ['fences.json', 'fences.dev.json', 'fences.real.json', 'fences.real2.json'].filter((f) => existsSync(fixture(f))).flatMap((f) => (load(f) as { code: string }[]).map((x) => x.code))],
-    ['sections-v1.bin', docs.flatMap((d) => splitDocSections(d).map((s) => s.own))],
+    ['sections-v2.bin', docs.flatMap((d) => splitDocSections(d).map((s) => s.own))],
   ]
   console.log('\n## Standalone runner parity')
   for (const [file, texts] of cases) {

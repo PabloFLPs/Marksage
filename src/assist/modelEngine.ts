@@ -15,7 +15,7 @@ import { combineFence, toChoice } from './model/hybrid.ts'
  */
 export const MODEL_URL = `${import.meta.env.BASE_URL}models/lang-v2.bin`
 /** Section types for the Outline panel (training/train-sections.ts) — fetched only while the panel is open. */
-export const SECTIONS_MODEL_URL = `${import.meta.env.BASE_URL}models/sections-v1.bin`
+export const SECTIONS_MODEL_URL = `${import.meta.env.BASE_URL}models/sections-v2.bin`
 const CACHE_NAME = 'marksage-models-v1'
 const loads = new Map<string, Promise<LangModel>>()
 const listeners = new Map<string, Set<(loaded: number, total: number) => void>>()

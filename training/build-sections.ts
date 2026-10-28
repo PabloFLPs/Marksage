@@ -17,7 +17,7 @@ import { existsSync, lstatSync, readdirSync, readFileSync, writeFileSync } from 
 import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Source } from './collect.ts'
-import { headingType, isNavigationHeading, meaningfulChars, MIN_SECTION_CHARS, splitDocSections, MODEL_SECTION_TYPES, type SectionType } from '../src/assist/sections.ts'
+import { headingType, isNavigationHeading, meaningfulChars, MIN_SECTION_CHARS, splitDocSections, MODEL_SECTION_TYPES, HEADING_ONLY_TYPES, type SectionType } from '../src/assist/sections.ts'
 
 const ROOT = new URL('.', import.meta.url).pathname
 const REPOS = join(ROOT, 'data/repos')
@@ -87,8 +87,8 @@ function build() {
         if (meaningfulChars(input) < MIN_SECTION_CHARS) continue
         const row = { heading: sec.heading, text: input, repo: s.repo, file: relative(dir, p), line: sec.line, split }
         const label = headingType(sec.heading, true)
-        // Explanation is heading-only in the app: the model couldn't separate it from topic prose (README).
-        if (label === 'explanation') continue
+        // Heading-only types (explanation, glossary, roadmap) never train the model (README).
+        if (label && HEADING_ONLY_TYPES.includes(label)) continue
         if (label) add({ label, ...row }, PER_REPO)
         // Navigation ("See also", "Next steps") reads like the section it points to: always "other".
         else if (isNavigationHeading(sec.heading)) add({ label: OTHER, ...row }, NAV_PER_REPO)

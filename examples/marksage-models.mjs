@@ -8,7 +8,7 @@
  *
  * From a terminal:
  *   node examples/marksage-models.mjs public/models/lang-v2.bin 'SELECT * FROM users;'
- *   node examples/marksage-models.mjs public/models/sections-v1.bin "$(cat section.md)"
+ *   node examples/marksage-models.mjs public/models/sections-v2.bin "$(cat section.md)"
  *
  * This is a faithful copy of the app's code (src/assist/model/: model.ts, features.ts,
  * sectionFeatures.ts). The eval checks that both give the same probabilities, so they can't drift apart.

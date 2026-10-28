@@ -16,16 +16,25 @@ export const SECTION_TYPES = [
   'changelog',
   'contributing',
   'legal',
+  'security',
+  'performance',
+  'deployment',
   // Diátaxis' fourth kind (tutorial, how-to, reference, explanation): "How it works", "Architecture", "Concepts".
   'explanation',
+  'glossary',
+  'roadmap',
 ] as const
 export type SectionType = (typeof SECTION_TYPES)[number]
 
 /**
- * The types the section model answers (plus "other"). Explanation is heading-only: explanatory prose and
- * ordinary topic prose share the same words, and the model couldn't tell them apart (training/README.md).
+ * Types only the heading rule gives. Explanation: explanatory prose and ordinary topic prose share the same
+ * words, and the model couldn't tell them apart. Glossary and roadmap: too few sections in the training
+ * repositories to learn from (76 and 57 headings). See training/README.md.
  */
-export const MODEL_SECTION_TYPES = SECTION_TYPES.filter((t) => t !== 'explanation')
+export const HEADING_ONLY_TYPES: readonly SectionType[] = ['explanation', 'glossary', 'roadmap']
+
+/** The types the section model answers (plus "other"). */
+export const MODEL_SECTION_TYPES = SECTION_TYPES.filter((t) => !HEADING_ONLY_TYPES.includes(t))
 
 /** Heading phrases → type. Lower-case, accents kept (matching folds both sides). */
 const PHRASES: Record<SectionType, string[]> = {
@@ -40,6 +49,11 @@ const PHRASES: Record<SectionType, string[]> = {
   contributing: ['contributing', 'contribute', 'contribution', 'development', 'developing', 'building from source', 'running tests', 'testing', 'code of conduct', 'contribuindo', 'contribuir', 'contribuição', 'desenvolvimento', 'testes'],
   explanation: ['how it works', 'how does it work', 'how this works', 'architecture', 'design', 'design decisions', 'design principles', 'concepts', 'core concepts', 'key concepts', 'basic concepts', 'fundamentals', 'under the hood', 'internals', 'implementation details', 'theory', 'explanation', 'deep dive', 'principles', 'mental model', 'philosophy', 'rationale', 'background', 'como funciona', 'arquitetura', 'conceitos', 'conceitos básicos', 'principais conceitos', 'fundamentos', 'por dentro', 'princípios', 'filosofia', 'decisões de design', 'teoria', 'explicação', 'detalhes de implementação'],
   legal: ['license', 'licence', 'licensing', 'copyright', 'credits', 'acknowledgements', 'acknowledgments', 'authors', 'sponsors', 'licença', 'créditos', 'agradecimentos', 'autores', 'patrocinadores'],
+  security: ['security', 'security policy', 'security considerations', 'security notes', 'security model', 'reporting a vulnerability', 'reporting vulnerabilities', 'reporting security issues', 'reporting security vulnerabilities', 'vulnerabilities', 'vulnerability disclosure', 'threat model', 'segurança', 'política de segurança', 'considerações de segurança', 'vulnerabilidades', 'reportando vulnerabilidades', 'relatando vulnerabilidades', 'modelo de ameaças'],
+  performance: ['performance', 'benchmarks', 'benchmark', 'benchmarking', 'benchmark results', 'performance tips', 'optimization', 'optimizations', 'optimizing', 'profiling', 'desempenho', 'performance e otimização', 'otimização', 'otimizações', 'otimizando'],
+  deployment: ['deployment', 'deploying', 'deploy', 'deploy to', 'deploying to', 'production', 'production deployment', 'running in production', 'going to production', 'hosting', 'self-hosting', 'self hosting', 'implantação', 'publicação', 'em produção', 'produção', 'hospedagem', 'implantando'],
+  glossary: ['glossary', 'terminology', 'definitions', 'terms and definitions', 'glossário', 'terminologia', 'definições', 'termos e definições'],
+  roadmap: ['roadmap', 'road map', 'future plans', 'future work', 'planned features', 'upcoming features', 'todo', 'to do', 'to-do', 'planos futuros', 'trabalhos futuros', 'funcionalidades planejadas', 'recursos planejados', 'a fazer'],
 }
 
 const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
@@ -83,7 +97,7 @@ const NAVIGATION = /^(see also|next steps?|what'?s next|related( \w+)?|learn mor
 export const isNavigationHeading = (heading: string) => NAVIGATION.test(normalizeHeading(heading))
 
 /** Too broad to label training data with: "Features" heads READMEs (overview) and release notes (changelog) alike. */
-const AMBIGUOUS = new Set(['features', 'highlights', 'using', 'changes', 'history', 'testing', 'download', 'about', 'design', 'theory', 'background', 'recursos'])
+const AMBIGUOUS = new Set(['features', 'highlights', 'using', 'changes', 'history', 'testing', 'download', 'about', 'design', 'theory', 'background', 'recursos', 'definitions', 'production', 'produção', 'hosting', 'optimization', 'profiling', 'todo'])
 
 /**
  * Section type from the heading alone, or null when the heading doesn't say. A heading of up to 5 words

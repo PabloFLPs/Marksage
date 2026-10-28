@@ -33,7 +33,7 @@ training/                 Own models' pipeline (collect → split → train; bui
   because the animated wrapper becomes the containing block. Everything must respect `prefers-reduced-motion`.
 - **Buttons:** header buttons lift on hover automatically (`header button:hover`); non-button controls use `.press`.
 - **i18n:** every user-facing string goes through `useI18n().t(key)`; add keys to `src/lib/locales/en.ts` (source) and `pt-BR.ts`. Long-form copy (About page) uses the `x(en, pt)` helper; the Smart Assist docs exist as `docs/SMART-ASSIST.md` + `.pt-BR.md`.
-- **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice,outline}`, plus the Cache API store `marksage-models-v1` (Local model files: `lang-v2.bin`, and `sections-v1.bin` once the Outline is opened in that mode) — wrap every access in try/catch.
+- **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice,outline}`, plus the Cache API store `marksage-models-v1` (Local model files: `lang-v2.bin`, and `sections-v2.bin` once the Outline is opened in that mode) — wrap every access in try/catch.
 - **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests). Any new key or download must be listed in About → Privacy & storage (EN + PT-BR) and be removed by "Delete all Marksage data" (`deleteAllLocalData`). (Renamed from `markdown-preview:*`; `index.html` migrates old keys once on load.)
 - **Scroll sync:** preview blocks carry `data-line` (rehype plugin in `lib/scrollSync.ts`); the editor side is measured with a hidden mirror. Keep `rehypeSourceLines` on the preview.
 - **Focus:** call `focus({ preventScroll: true })` — plain focus during slide animations shifts the layout.
@@ -55,9 +55,11 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
 - Flow: deterministic pre-filter (`prefilter.ts`) → engine → confidence gate (`passesGate`, 0.8 / 0.2 margin) → suggestion.
 - Outline panel (`components/OutlinePanel.tsx`, `assist/useOutline.ts`, `hooks/useOutlineNav.ts`): sections from `assist/sections.ts`
   (shared with `training/build-sections.ts` — change the splitter or heading rules there and rebuild the section data);
-  type = heading rule, else (Local model mode) `sections-v1.bin` reading the text, gate 0.8 (badge) / 0.6 ("probably").
+  type = heading rule, else (Local model mode) `sections-v2.bin` reading the text, gate 0.8 (badge) / 0.6 ("probably").
   Visual only — it never edits. Heading lines are 0-based; the preview's `data-line` is 1-based.
-  `explanation` is heading-only (`SECTION_TYPES` vs `MODEL_SECTION_TYPES`, see training/README.md). The docs pages
+  `explanation`, `glossary`, `roadmap` are heading-only (`HEADING_ONLY_TYPES`; `SECTION_TYPES` vs `MODEL_SECTION_TYPES`,
+  see training/README.md). A new type needs: phrases in `sections.ts`, an icon (`sectionIcons.ts`), EN + PT labels,
+  fixtures, the About count, and docs §3/§4.4 + MODELS §7/§8; a model type also a rebuild + retrain + new file version. The docs pages
   show the same panel over their own Markdown (read-only by design: no "open in editor").
   Its Document tab (`components/DocumentTab.tsx`) renders `assist/docStats.ts` (facts, kind, readability, tone signals, flags);
   the active tab is session state only (no storage key). Regression sets: `__fixtures__/headings.json`, `docstats.json`.

@@ -289,10 +289,13 @@ o mouse. As marcas só são redesenhadas quando uma pontuação muda de fato.
 **Gatilho.** Enquanto o painel Estrutura está aberto; recalculado conforme você digita.
 
 **Heurística.** Cada título (estilo `#` ou sublinhado; blocos de código e front matter ignorados) é
-comparado com frases em português e inglês para onze tipos — *visão geral, instalação, guia,
+comparado com frases em português e inglês para dezesseis tipos — *visão geral, instalação, guia,
 referência, configuração, exemplo, solução de problemas, mudanças, contribuição, licença e créditos,
-explicação*. O último completa os quatro tipos de documentação do Diátaxis (tutoriais, guias práticos,
-referência, explicação) e cobre "Como funciona", "Arquitetura", "Conceitos":
+segurança, desempenho, implantação, explicação, glossário, roadmap*. Explicação completa os quatro tipos de
+documentação do Diátaxis (tutoriais, guias práticos, referência, explicação) e cobre "Como funciona",
+"Arquitetura", "Conceitos". Segurança cobre "Segurança", "Política de segurança", "Reporting a
+vulnerability"; desempenho, "Desempenho", "Benchmarks"; implantação, "Implantação", "Deploy to …",
+"Hospedagem"; glossário, "Terminologia"; roadmap, "Planos futuros", "Future plans":
 
 - a frase precisa cobrir pelo menos metade do título — "Uso básico" → guia, enquanto "Faça a primeira
   migração" não diz nada;
@@ -300,7 +303,7 @@ referência, explicação) e cobre "Como funciona", "Arquitetura", "Conceitos":
 - frases de dois tipos diferentes se anulam — "Usage examples" fica para o texto decidir;
 - títulos de versão (`v1.4.0 (2025-11-19)`, `[2.0.0] - 2024-01-01`) são mudanças;
 - navegação ("Veja também", "Próximos passos", "See also") nunca recebe tipo;
-- palavras amplas ("Recursos", "Background") só contam quando são o título inteiro.
+- palavras amplas ("Recursos", "Background", "Produção", "Todo") só contam quando são o título inteiro.
 
 Com o *Modelo local*, as seções que a regra dos títulos deixa sem tipo são lidas pelo modelo de seções
 (seção 4.4).
@@ -309,8 +312,9 @@ Com o *Modelo local*, as seções que a regra dos títulos deixa sem tipo são l
 resto da seção (sem palavras vazias, nos dois idiomas), com preferência pelo começo; uma frase de
 parágrafo vence um item de lista.
 
-**Ação.** Só visual: um painel com cada seção, seu tipo e sua frase-chave. Clique para ir até ela, passe
-o mouse para marcar o título na pré-visualização. Nada no documento muda.
+**Ação.** Só visual: um painel com cada seção, seu tipo e sua frase-chave. Clique para ir até ela (a seção
+clicada fica destacada até você rolar por conta própria), passe o mouse para destacar a seção inteira na
+pré-visualização. Nada no documento muda.
 
 ### Aba Documento
 
@@ -408,34 +412,42 @@ Com o *Modelo local*, a Estrutura também identifica seções cujo título não 
   *instalação* = *instalacao*), como as linhas começam e as palavras dentro do código. Também conta o formato
   da seção: blocos de código e suas linguagens, tabelas, listas, prompts de terminal, números de versão,
   datas, referências a issues.
-- **Rótulos pelos títulos, sem os títulos:** cerca de 26 mil seções dos mesmos repositórios públicos,
+- **Rótulos pelos títulos, sem os títulos:** cerca de 27 mil seções dos mesmos repositórios públicos,
   rotuladas pela regra dos títulos acima (uma versão mais rígida, que só confia em títulos sem
   ambiguidade). O modelo nunca vê o título, só o texto sob ele — é isso que permite identificar as
   seções cujo título não diz nada.
 - **Pode recusar:** a maioria das seções reais é só um assunto ("Arrays", "Amazon S3"), então uma
-  décima primeira resposta, *outro*, é aprendida com seções cujo título não nomeia tipo. Quando *outro*
+  resposta a mais, *outro*, é aprendida com seções cujo título não nomeia tipo. Quando *outro*
   vence, a seção fica sem tipo.
-- **Explicação fica com os títulos:** uma versão treinada para reconhecer também seções de explicação (com
-  exemplos extras de pastas no estilo Diátaxis, como `concepts/` e `architecture/`) não acertou nenhuma nos
-  repositórios de ajuste — texto explicativo usa as mesmas palavras de qualquer assunto. Então o modelo fica
-  com seus dez tipos, e as seções de explicação recebem tipo só pelo título.
+- **Três tipos ficam com os títulos:** uma versão treinada para reconhecer também seções de explicação
+  (com exemplos extras de pastas no estilo Diátaxis, como `concepts/` e `architecture/`) não acertou nenhuma
+  nos repositórios de ajuste — texto explicativo usa as mesmas palavras de qualquer assunto. Glossários e
+  roadmaps são raros demais para aprender (76 e 57 títulos em 381 repositórios). Esses três recebem tipo só
+  pelo título; o modelo responde os outros treze.
 - **Divisão justa:** os repositórios de ajuste e de teste do modelo de linguagem (mais os 72 novos)
   ficam de fora do treino; as configurações foram escolhidas no ajuste e o teste rodou uma vez.
 
-Resultados em repositórios de fora — 6.002 seções com tipo, de 133 repositórios. Os rótulos vêm dos
+Resultados em repositórios de fora — 6.339 seções com tipo, de 134 repositórios. Os rótulos vêm dos
 títulos, então "concorda" quer dizer que o modelo, lendo só o texto, chegou ao tipo que o título diz:
 
 | Confiança | Seções com tipo | Concorda com o título | Seções "outro" que receberam tipo |
 |---|---|---|---|
-| ≥ 0,8 — selo com ✦ | 904 (15 %) | 91,5 % | 4,8 % |
-| ≥ 0,6 — inclui "provável" | 1.645 (27 %) | 87,1 % | 11,0 % |
+| ≥ 0,8 — selo com ✦ | 858 (14 %) | 88,9 % | 4,2 % |
+| ≥ 0,6 — inclui "provável" | 1.588 (25 %) | 85,6 % | 10,4 % |
 
-Seções de mudanças são o caso fácil e comum; sem elas, a concordância em ≥ 0,8 fica em cerca de 88 %. A
+Seções de mudanças são o caso fácil e comum; sem elas, a concordância em ≥ 0,8 fica em cerca de 85 %. A
 última coluna é um limite superior de erros — algumas seções "outro" são mesmo uma instalação ou uma
 referência. Uma checagem à mão das respostas confiantes em seções cujo título não nomeia tipo deu o
 mesmo resultado, umas 9 em 10 certas. Um selo de tipo não muda nada no documento, então a Estrutura usa
 o modelo a partir de 0,6: entre 0,6 e 0,8 mostra um selo discreto "Configuração?" com a confiança ao
 passar o mouse.
+
+**Versão 2 (2026-10-27)** acrescentou segurança, desempenho e implantação. Nos repositórios de fora, 34 das
+38 respostas de segurança mostradas concordam com o título, 45 de 60 em desempenho (o tipo mais fraco) e 2 de
+2 em implantação (que teve só 246 exemplos de treino). Contra a versão 1 no mesmo conjunto: a v1 dá tipo a
+14,5 % com 89,6 %, a v2 a 13,5 % com 88,9 % — praticamente empatadas no geral; a v2 mostra menos seções de
+mudanças e acrescenta os três tipos novos. Todas as versões estão em
+[Como os dois modelos funcionam](MODELS.pt-BR.md), seção 8.
 
 ### 4.5 E o Jev e o Laya?
 

@@ -286,10 +286,13 @@ Marks are only re-rendered when a score actually changes.
 **Trigger.** While the Outline panel is open; recomputed as you type.
 
 **Heuristic.** Every heading (`#` style or underlined; code blocks and front matter skipped) is
-matched against English and Portuguese phrases for eleven types — *overview, setup, guide, reference,
-configuration, example, troubleshooting, changelog, contributing, license & credits, explanation*. The last
-one completes the four kinds of documentation in the Diátaxis framework (tutorials, how-to guides, reference,
-explanation) and covers "How it works", "Architecture", "Concepts":
+matched against English and Portuguese phrases for sixteen types — *overview, setup, guide, reference,
+configuration, example, troubleshooting, changelog, contributing, license & credits, security, performance,
+deployment, explanation, glossary, roadmap*. Explanation completes the four kinds of documentation in the
+Diátaxis framework (tutorials, how-to guides, reference, explanation) and covers "How it works",
+"Architecture", "Concepts". Security covers "Security", "Reporting a vulnerability", "Segurança"; performance,
+"Benchmarks", "Desempenho"; deployment, "Deploy to …", "Hosting", "Implantação"; glossary, "Terminology";
+roadmap, "Future plans", "Planos futuros":
 
 - the phrase must cover at least half the heading — "Basic usage" → guide, while "Perform the first
   migration" says nothing;
@@ -297,7 +300,7 @@ explanation) and covers "How it works", "Architecture", "Concepts":
 - phrases of two different types cancel out — "Usage examples" is left to the text;
 - release headings (`v1.4.0 (2025-11-19)`, `[2.0.0] - 2024-01-01`) are changelog;
 - navigation ("See also", "Next steps", "Veja também") is never typed;
-- broad words ("Features", "Background") only count when they are the whole heading.
+- broad words ("Features", "Background", "Production", "Todo") only count when they are the whole heading.
 
 With *Local model*, sections the heading rule leaves untyped are read by the section model
 (section 4.4).
@@ -306,8 +309,9 @@ With *Local model*, sections the heading rule leaves untyped are read by the sec
 the rest of its section (stop-words removed, in both languages), nudged towards the start; a sentence
 from a paragraph wins over a list item.
 
-**Action.** Visual only: a panel with every section, its type and key sentence. Click to jump there,
-hover to mark the heading in the preview. Nothing in the document changes.
+**Action.** Visual only: a panel with every section, its type and key sentence. Click to jump there (the
+clicked section stays highlighted until you scroll yourself), hover to tint the whole section in the preview.
+Nothing in the document changes.
 
 ### Document tab
 
@@ -402,33 +406,40 @@ With *Local model*, the Outline also types sections whose heading doesn't say �
   reading prose instead of code. Its clues are words and word pairs (accents folded, so *instalação* =
   *instalacao*), how lines start and the words inside code. It also reads the shape of the section: code
   blocks and their languages, tables, lists, shell prompts, version numbers, dates, issue references.
-- **Labels from headings, without the headings:** about 26,000 sections from the same public
+- **Labels from headings, without the headings:** about 27,000 sections from the same public
   repositories, labelled by the heading rule above (a stricter version that only trusts unambiguous
   headings). The model never sees the heading, only the text under it — that's what lets it type the
   sections whose heading says nothing.
-- **Allowed to decline:** most real sections are just topics ("Arrays", "Amazon S3"), so an eleventh
+- **Allowed to decline:** most real sections are just topics ("Arrays", "Amazon S3"), so one more
   answer, *other*, is learned from sections whose heading names no type. When *other* wins, the
   section stays untyped.
-- **Explanation stays with the headings:** a version trained to recognise explanation sections too (with
+- **Three types stay with the headings:** a version trained to recognise explanation sections too (with
   extra examples from Diátaxis-style `concepts/` and `architecture/` folders) got none right on the dev
-  repositories — explanatory prose uses the same words as any topic. So the model keeps its ten types, and
-  explanation sections are typed from their heading only.
+  repositories — explanatory prose uses the same words as any topic. Glossaries and roadmaps are too rare to
+  learn from (76 and 57 headings in 381 repositories). These three are typed from their heading only; the
+  model answers the other thirteen.
 - **Fair split:** the dev and test repositories of the language model (plus the 72 fresh ones) are held
   out; settings were chosen on dev and the test set was run once.
 
-Held-out results — 6,002 typed sections from 133 repositories. The labels come from headings, so
+Held-out results — 6,339 typed sections from 134 repositories. The labels come from headings, so
 "agrees" means the model, reading only the text, named the type the heading names:
 
 | Confidence | Sections typed | Agrees with the heading | "Other" sections given a type |
 |---|---|---|---|
-| ≥ 0.8 — badge with ✦ | 904 (15 %) | 91.5 % | 4.8 % |
-| ≥ 0.6 — includes "probably" | 1,645 (27 %) | 87.1 % | 11.0 % |
+| ≥ 0.8 — badge with ✦ | 858 (14 %) | 88.9 % | 4.2 % |
+| ≥ 0.6 — includes "probably" | 1,588 (25 %) | 85.6 % | 10.4 % |
 
-Changelog sections are the easy, common case; without them, agreement at ≥ 0.8 is about 88 %. The last
+Changelog sections are the easy, common case; without them, agreement at ≥ 0.8 is about 85 %. The last
 column is an upper bound on mistakes — some "other" sections really are a setup or a reference. A hand
 check of its confident answers on sections whose heading names no type came out the same, roughly
 9 in 10 right. A type badge changes nothing in your document, so the Outline uses the model from 0.6:
 between 0.6 and 0.8 it shows a muted "Configuration?" badge with the confidence on hover.
+
+**Version 2 (2026-10-27)** added security, performance and deployment. On the held-out set, 34 of the 38
+security answers shown agree with the heading, 45 of 60 for performance (the weakest type) and 2 of 2 for
+deployment (it had only 246 training examples). Against version 1 on the same set: v1 types 14.5 % at
+89.6 %, v2 13.5 % at 88.9 % — about level overall; v2 shows fewer changelog sections and adds the three new
+types. Every version is listed in [How the two models work](MODELS.md), section 8.
 
 ### 4.5 And Jev and Laya?
 

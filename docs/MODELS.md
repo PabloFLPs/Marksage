@@ -1,7 +1,7 @@
 # How the two models work
 
 Marksage ships two tiny models of its own: one names the **language of a code block** (21 answers, from
-TypeScript to "not code"), the other names the **type of a document section** for the Outline (10 types,
+TypeScript to "not code"), the other names the **type of a document section** for the Outline (13 types,
 plus "other"). They share one design, one file format and one training recipe.
 
 > This page assumes no machine-learning background. Every term is explained the first time it appears,
@@ -193,9 +193,9 @@ rules can still help:
   offered both — JavaScript or TypeScript, C or C++.
 
 For the Outline, the gate is the same, but because a type badge changes nothing in your document, a section
-model answer between 60% and 80% is still shown, marked as "probably". The Outline also has an eleventh type,
-**Explanation** ("How it works", "Architecture"), that only comes from headings: the model couldn't learn it
-(see its model card).
+model answer between 60% and 80% is still shown, marked as "probably". The Outline also has three types that
+only come from headings: **Explanation** ("How it works", "Architecture"), which the model couldn't learn, and
+**Glossary** and **Roadmap**, too rare in the training repositories to learn from (see its model card).
 
 ## 3. How the models learned
 
@@ -239,12 +239,12 @@ rarer languages. Training used 63,751 of them, at most 6,000 per language so the
 | Not code | 3,112 | HTML | 2,877 | | |
 
 **Section model.** Here nobody wrote labels, so they come from headings: a section headed "Installation" is
-a setup section. Only headings that clearly name one type are used (about 26,000 sections). The trick is that
+a setup section. Only headings that clearly name one type are used (about 27,000 sections). The trick is that
 the model **never sees the heading** — only the text under it. That's what lets it type a section whose
 heading says nothing, like "Before you begin". Labels made this way are called *weak labels*: mostly right,
 not hand-checked.
 
-It also learns an eleventh answer, **other**, from sections whose heading names no type ("Arrays", "Amazon
+It also learns one more answer, **other**, from sections whose heading names no type ("Arrays", "Amazon
 S3"). Most real sections are just topics; without "other", the first version forced a type on every one of
 them, and only about 2 in 3 of its confident answers on such sections were right. With "other" it can decline,
 and that went up to about 9 in 10.
@@ -344,8 +344,8 @@ fresh held-out set, confidence and correctness line up like this:
 
 On 284 fresh code blocks from 67 repositories it had never seen, the code model shows a suggestion for 158
 (56%), right 92% of the time — more than twice as many useful suggestions as the heuristics (70, 93% right).
-The section model, on 133 held-out repositories, types 15% of sections confidently and agrees with the heading
-91.5% of the time. Full tables: [How Smart Assist works](SMART-ASSIST.md), section 4.
+The section model, on 134 held-out repositories, types 13.5% of sections confidently and agrees with the heading
+88.9% of the time. Full tables: [How Smart Assist works](SMART-ASSIST.md), section 4.
 
 ## 5. Making it small: 8-bit numbers
 
@@ -386,7 +386,8 @@ machine-learning library, no GPU, no background worker. Each decision is a few t
 - **Patterns, not meaning.** With 8 numbers per clue, it recognises the look of a language or a section. It
   doesn't know what the code does or what the section says. It also can't explain its answer.
 - **Some types are weak.** "Guide" sections read a lot like setup or examples; the section model rarely labels
-  them confidently.
+  them confidently. Of the types added in v2, "performance" is the least reliable (75% agreement on the
+  held-out set) and "deployment" had few examples to learn from (246).
 
 ## 7. Model cards
 
@@ -417,20 +418,20 @@ where it fails. Everything needed to use the files outside Marksage is here.
 
 | Property | Value |
 |---|---|
-| **File** | `sections-v1.bin` — 393,864 bytes, served next to the app at `/models/sections-v1.bin` |
+| **File** | `sections-v2.bin` — 394,008 bytes, served next to the app at `/models/sections-v2.bin` |
 | **Task** | Name the type of a documentation section from its text |
 | **Input** | The Markdown directly under a heading, up to the next heading of any level, **without the heading line**. Only the first 2,000 characters are read. Sections with under 40 characters of real text (after removing template tags, images and link targets) aren't worth asking. |
-| **Output** | A probability for each of 11 answers, adding up to 1 |
-| **Answers, in file order** | `overview` `setup` `guide` `reference` `config` `example` `troubleshooting` `changelog` `contributing` `legal` (license & credits) `other` (no particular type) |
-| **How it reads** | Clue reader 2 (prose clues, section 2.1) → the same hashing, averaging and scoring as the code model, with 11 answers |
-| **Parameters** | 262,243 |
+| **Output** | A probability for each of 14 answers, adding up to 1 |
+| **Answers, in file order** | `overview` `setup` `guide` `reference` `config` `example` `troubleshooting` `changelog` `contributing` `legal` (license & credits) `security` `performance` `deployment` `other` (no particular type) |
+| **How it reads** | Clue reader 2 (prose clues, section 2.1) → the same hashing, averaging and scoring as the code model, with 14 answers |
+| **Parameters** | 262,270 |
 | **Temperature** | 1.6 |
-| **Training data** | 26,105 sections from the same repositories, labelled by unambiguous headings (the heading is then hidden from the model); 7,832 of them are "other" |
+| **Training data** | 27,250 sections from the same repositories, labelled by unambiguous headings (the heading is then hidden from the model); 7,813 of them are "other" |
 | **Training** | 3 epochs of SGD, learning rate 0.3 falling to 0, class weighting 0.5, seed 1; temperature fitted on the dev repositories |
-| **Held-out results** (133 repositories never seen) | With the 0.8 / 0.2 gate it types 15% of labelled sections and agrees with their heading 91.5% of the time (88% without changelogs); from 0.6, 27% and 87.1%. Labels come from headings, so this is agreement, not hand-checked accuracy. |
+| **Held-out results** (134 repositories never seen) | With the 0.8 / 0.2 gate it types 13.5% of labelled sections and agrees with their heading 88.9% of the time (84.5% without changelogs); from 0.6, 25.1% and 85.6%. New types: security 34 of 38 shown agree, performance 45 of 60, deployment 2 of 2. Labels come from headings, so this is agreement, not hand-checked accuracy. |
 | **Speed** | About 0.1 ms per section |
 | **Use it for** | Labelling sections of READMEs and technical docs whose heading doesn't say what they are; ignore "other" |
-| **Not for** | Explanation sections ("How it works", "Architecture"): their prose looks like any topic's, and a model trained to recognise them got none right on the dev repositories, so Marksage types them from the heading only. "Guide" is also rarely recognised. |
+| **Not for** | Explanation sections ("How it works", "Architecture"): their prose looks like any topic's, and a model trained to recognise them got none right on the dev repositories, so Marksage types them from the heading only — like glossaries and roadmaps (76 and 57 headings in 381 repositories: too few). "Guide" is also rarely recognised, and "performance" is the weakest of the v2 types. |
 | **License** | GNU AGPL-3.0, like the rest of Marksage |
 
 ### 7.3 Running them yourself
@@ -487,21 +488,22 @@ fresh one, built from 72 repositories used nowhere else.
 
 ### 8.2 Section model
 
-| Version | Date | Training data | What changed | Held-out (133 repositories) | Status |
+| Version | Date | Training data | What changed | Held-out | Status |
 |---|---|---|---|---|---|
 | Draft without "other" | 2026-10-24 | ~17,000 labelled sections | 10 types only | dev: 87% right when shown on labelled sections, but about 2 in 3 on sections with uninformative headings | not shipped |
-| **v1** | 2026-10-24 | 26,105 sections (7,832 "other") | adds "other"; 8 numbers per clue, 32,768 slots, 3 epochs, temperature 1.6 | from 0.8: 15.1% typed, 91.5% agree with the heading · from 0.6: 27.4%, 87.1% | **in use** |
+| **v1** | 2026-10-24 | 26,105 sections (7,832 "other") | adds "other"; 8 numbers per clue, 32,768 slots, 3 epochs, temperature 1.6 | from 0.8: 15.1% typed, 91.5% agree with the heading · from 0.6: 27.4%, 87.1% (133 repositories) | replaced by v2 |
 | Explanation experiment | 2026-10-25 | + 748, then 1,283 explanation sections | an 11th type, labelled by headings, then also by `concepts/`-style folders | dev: 0 explanation answers right when shown, at every setting tried | not shipped — Explanation is typed from headings only |
+| **v2** | 2026-10-27 | 27,250 sections (7,813 "other") | + security, performance, deployment; security headings no longer count as license & credits; same settings as v1 (chosen again on dev) | from 0.8: 13.5% typed, 88.9% agree · from 0.6: 25.1%, 85.6% (134 repositories) · v1 on the same set: 14.5%, 89.6% | **in use** |
 
 ### 8.3 Test sets
 
 | Set | What it is | Size | Rule |
 |---|---|---|---|
-| Written | examples written alongside the rules | code 42 · paste 15 · structure 23 · headings 48 · documents 4 | catches regressions; scores near 100% by construction |
+| Written | examples written alongside the rules | code 42 · paste 15 · structure 23 · headings 65 · documents 4 | catches regressions; scores near 100% by construction |
 | Dev | real documents, used to make choices | code 280 · paste 27 · structure 36 · sections from 27 repositories | tune here, never on the held-out sets |
 | First held-out (2026-10-24) | real documents, never tuned on | code 314 · paste 31 · structure 30 | run once per version; v1's judge |
 | Fresh held-out (2026-10-24) | code from 72 repositories used nowhere else | code 284 (67 repositories) | built once for v2, then frozen |
-| Sections held-out (2026-10-24) | sections from the code model's test repositories plus the fresh ones | 133 repositories | run once per section model |
+| Sections held-out (2026-10-24) | sections from the code model's test repositories plus the fresh ones | 133 repositories (134 from v2: new types label sections in one more) | run once per section model |
 
 ## 9. Glossary
 

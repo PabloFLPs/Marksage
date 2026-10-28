@@ -1,7 +1,7 @@
 # training/ — data for Marksage's own models
 
 Two models live here: the **code-language model** (`lang-v2.bin`, below) and the **section model**
-(`sections-v1.bin`, for the Outline panel — see the last section). Both use `fasttext.ts`.
+(`sections-v2.bin`, for the Outline panel — see the last sections). Both use `fasttext.ts`.
 
 Smart Assist's code-block language detection (F1) is precise but quiet: on real documents the
 heuristics speak on about a quarter of blocks. The plan is a small, purpose-trained classifier
@@ -15,8 +15,8 @@ node --experimental-strip-types training/train.ts --dim 8 --buckets 32768 --cv-t
 npm run eval:assist                                     # heuristics + model on every set
 
 # section model (reads the clones collect.ts made)
-node --experimental-strip-types training/build-sections.ts    # sections → data/sections.jsonl (~40 s)
-node --experimental-strip-types training/train-sections.ts --save public/models/sections-v1.bin   # add --test once, for the reported numbers
+node --experimental-strip-types training/build-sections.ts    # sections → data/sections.jsonl (~70 s)
+node --experimental-strip-types training/train-sections.ts --save public/models/sections-v2.bin   # add --test once, for the reported numbers
 ```
 
 | File | Committed | What it is |
@@ -119,9 +119,9 @@ one-liners valid in several languages (`void main() { … }`, `print page.html`,
 few genuine misses (`a {}` → js). v3 ideas: a "too short to tell" abstain rule for one-liners; per-language
 gates; more CSS/diff/Markdown in training.
 
-## Section model (sections-v1, 2026-10-24)
+## Section model v1 (sections-v1, 2026-10-24) — replaced by v2
 
-`public/models/sections-v1.bin` (385 KB, dim 8, 32,768 buckets, featurizer 2 = `src/assist/model/sectionFeatures.ts`)
+`sections-v1.bin` (385 KB, in git history since v2; dim 8, 32,768 buckets, featurizer 2 = `src/assist/model/sectionFeatures.ts`)
 types sections for the Outline panel when the heading rule (`src/assist/sections.ts`) can't. Fetched only while
 the Outline is open in Local model mode.
 
@@ -174,18 +174,65 @@ kind), so the docs can showcase the Outline. Two rounds, all on dev:
 Outcome: `explanation` is a heading-only type (`SECTION_TYPES`); the model keeps 10 types + other
 (`MODEL_SECTION_TYPES`), and `build-sections.ts` drops explanation-labelled sections. `sections-v1.bin` unchanged.
 
+"Background" moved from overview to explanation and, like "Features", only counts as the whole heading.
+Telling explanation from topic prose needs a model that reads more than word clues — a general decision model
+(step 3 of the ladder in docs/SMART-ASSIST.md §1.2) is the natural candidate.
+
 ### Heading rule change after v1 (2026-10-27)
 
 "Security policy" / "Segurança" no longer count as *License & credits* — a security section is neither. `sections-v1`
 was labelled with the old rule: 61 sections whose heading names security were `legal` examples. The model itself
-doesn't answer `legal` from security text (checked: a vulnerability-reporting text → `other` 53%, `legal` 26%), so
-the file stays; the next retrain drops those labels.
-"Background" moved from overview to explanation and, like "Features", only counts as the whole heading.
-Telling explanation from topic prose needs a model that reads more than word clues — a general decision model
-(step 3 of the ladder in docs/SMART-ASSIST.md §1.2) is the natural candidate.
+didn't answer `legal` from security text (checked: a vulnerability-reporting text → `other` 53%, `legal` 26%). The
+same day, v2 turned those headings into `security` labels (below).
 
 ## Standalone runner
 
 `examples/marksage-models.mjs` — a zero-dependency copy of the inference code (loader, both clue readers, hash,
 `decide`). `npm run eval:assist` checks it returns exactly the app's probabilities on every code fixture and every
 docs section. Model cards with the full spec: docs/MODELS.md §7.
+
+## Section model v2 (sections-v2, 2026-10-27) — in use
+
+`public/models/sections-v2.bin` (394,008 bytes, same recipe and settings as v1). Adds three types the model
+answers — **security**, **performance**, **deployment** — and two the heading rule gives alone — **glossary**,
+**roadmap** (`HEADING_ONLY_TYPES`, with explanation). The security headings that v1 learnt as `legal` are now
+`security` labels.
+
+**Why these five:** heading counts over the 381 cloned repositories (637,122 headings; exact-heading regexes,
+numbering and emoji stripped): security 555 headings in 169 repos, performance/benchmarks 447 in 96,
+deployment 379 in 61, glossary 76 in 41, roadmap 57 in 37. Other candidates were already covered (requirements →
+setup, migration → changelog, testing → contributing, FAQ → troubleshooting, architecture → explanation).
+Glossary and roadmap are too rare to learn from, so they are heading-only.
+
+**Data:** train 27,250 sections (7,813 `other`; security 405, performance 723, deployment 246), dev 4,474
+(3,233 typed + 1,241 other; security 114, performance 74, deployment 14), test 11,434 (6,339 typed / 134 repos +
+5,095 other; security 154, performance 218, deployment 27).
+
+**Choices, on dev:** the v1 settings again (dim 8 / 32k / 3 epochs / lr 0.3 / balance 0.5). Tried balance 0.75
+and 1 (more of the rare types shown, lower agreement: 89.9%, 88.9%), 5 epochs (93.0% but 8.9% shown), dim 16
+(13.1% shown, 89.4%). Dev has too few performance (74) and deployment (14) sections to judge them — a known risk.
+
+| Dev (3,233 typed + 1,241 other) | Shown | Agrees with heading | "Other" given a type |
+|---|---|---|---|
+| gate 0.8 | 385 (11.9%) | 90.9% | 3.5% |
+| gate 0.6 | 718 (22.2%) | 85.5% | 8.8% |
+
+| Test (6,339 typed / 134 repos + 5,095 other, run once) | Shown | Agrees with heading | "Other" given a type |
+|---|---|---|---|
+| gate 0.8 | 858 (13.5%) | 88.9% | 4.2% |
+| gate 0.6 | 1,588 (25.1%) | 85.6% | 10.4% |
+
+Per type on test at 0.8 (agree / shown): changelog 371/394 · setup 88/109 · example 61/68 · legal 57/58 ·
+performance 45/60 · config 44/58 · security 34/38 · reference 27/32 · contributing 27/28 · troubleshooting 7/8 ·
+guide 0/3 · deployment 2/2 · overview 0/0. Without changelog: 392/464 = 84.5%.
+
+**Against v1 on the same test set** (both files through `examples/marksage-models.mjs`, so the same quantised
+numbers the app uses): v1 922 shown (14.5%), 89.6% agree; v2 857 (13.5%), 88.9%. On the old types only: v1
+903 / 91.5%, v2 770 / 88.4% — v2 shows fewer changelog sections (393 vs 560, more precise: 94% vs 92%) and is
+less precise on setup (88/109 vs 84/88). v1 couldn't type security text at all: of the 154 security sections
+it gave 144 no type, 6 changelog, 3 legal, 1 config. Net: level overall, three new types, performance the
+weakest (75%). A v3 would start there.
+
+**Hand check** (dev sections whose heading names no type, every confident answer: 43): 9 were navigation
+sections ("Related content", "Next steps", "What's next?") that the app never asks about — including all 3
+security and the 1 deployment answer. Of the other 34, about 30 right (~9 in 10, as v1).

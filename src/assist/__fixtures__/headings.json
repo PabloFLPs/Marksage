@@ -137,7 +137,7 @@
   },
   {
     "heading": "Security",
-    "expect": null
+    "expect": "security"
   },
   {
     "heading": "How to deploy with Docker and Kubernetes clusters fast",
@@ -181,14 +181,82 @@
   },
   {
     "heading": "Segurança",
-    "expect": null
+    "expect": "security"
   },
   {
     "heading": "Security",
-    "expect": null
+    "expect": "security"
   },
   {
     "heading": "Security policy",
+    "expect": "security"
+  },
+  {
+    "heading": "Reporting a Vulnerability",
+    "expect": "security"
+  },
+  {
+    "heading": "Política de segurança",
+    "expect": "security"
+  },
+  {
+    "heading": "Security configuration",
     "expect": null
+  },
+  {
+    "heading": "Supported Versions",
+    "expect": null
+  },
+  {
+    "heading": "Performance",
+    "expect": "performance"
+  },
+  {
+    "heading": "Benchmarks",
+    "expect": "performance"
+  },
+  {
+    "heading": "Desempenho",
+    "expect": "performance"
+  },
+  {
+    "heading": "Deployment",
+    "expect": "deployment"
+  },
+  {
+    "heading": "Deploy to Vercel",
+    "expect": "deployment"
+  },
+  {
+    "heading": "Implantação",
+    "expect": "deployment"
+  },
+  {
+    "heading": "Production builds",
+    "expect": null
+  },
+  {
+    "heading": "Glossary",
+    "expect": "glossary"
+  },
+  {
+    "heading": "Glossário",
+    "expect": "glossary"
+  },
+  {
+    "heading": "Terminology",
+    "expect": "glossary"
+  },
+  {
+    "heading": "Roadmap",
+    "expect": "roadmap"
+  },
+  {
+    "heading": "Future plans",
+    "expect": "roadmap"
+  },
+  {
+    "heading": "Planos futuros",
+    "expect": "roadmap"
   }
 ]

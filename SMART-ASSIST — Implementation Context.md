@@ -357,3 +357,16 @@ There are no cookies, analytics or third-party requests (system fonts only).
   Removed both (+ 3 fixture cases, 48 total). The section model wasn't the cause (see training/README.md).
 - Discussed, not built: more section types — corpus counts for security, performance, deployment, glossary,
   roadmap; meeting-notes types would be heading-only (no such docs in the corpus).
+
+## 23. Five new section types, sections-v2, whole-section hover (2026-10-27)
+
+- **Hover:** hovering an Outline item tints the whole section in the preview (one box from the heading to the next
+  Outline heading, behind the text, with an accent bar), not just the heading.
+- **New types** (picked from heading counts over the 381 cloned repositories): security, performance, deployment
+  (heading rule + section model), glossary, roadmap (heading rule only, too rare: 76 / 57 headings). 16 types in
+  all, 13 the model answers (`HEADING_ONLY_TYPES`). Icons: ShieldCheck, Zap, Rocket, BookA, Milestone. PT labels:
+  Segurança, Desempenho, Implantação, Glossário, Roadmap. Broad words (Production, Hosting, Todo, Definitions,
+  Optimization, Profiling) only count as the whole heading. Heading fixtures 65.
+- **sections-v2.bin** (394,008 bytes), v1 settings re-chosen on dev, test run once: 13.5% typed at 88.9%
+  agreement (v1 on the same set: 14.5% / 89.6%); security 34/38, performance 45/60 (weakest), deployment 2/2.
+  The model cache replaces v1 by itself (same family). Numbers in training/README.md, MODELS §7–8, SMART-ASSIST §4.4.

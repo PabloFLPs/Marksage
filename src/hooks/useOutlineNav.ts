@@ -112,22 +112,55 @@ export function useOutlineNav(
     [preview, editor],
   )
 
-  const hovered = useRef<HTMLElement | null>(null)
+  // Hovering a section in the Outline tints the whole section in the preview: one box from its heading down to
+  // the next heading in the Outline (or the end of the document), drawn behind the text.
+  const hoverBox = useRef<HTMLDivElement | null>(null)
   const hover = useCallback(
     (line: number | null) => {
-      hovered.current?.removeAttribute('data-outline-hit')
-      hovered.current = null
       const box = preview.current
-      if (line === null || !box) return
-      const target = elementForLine(box, line)
-      if (target && /^H[1-6]$/.test(target.tagName)) {
-        target.setAttribute('data-outline-hit', '')
-        hovered.current = target
+      const heading = line === null || !box ? null : elementForLine(box, line)
+      const body = heading?.closest<HTMLElement>('.markdown-body')
+      if (!box || !heading || !body || !/^H[1-6]$/.test(heading.tagName)) {
+        hoverBox.current?.classList.remove('is-shown')
+        return
       }
+      const lines = linesRef.current
+      const next = lines.find((l) => l > (line as number))
+      const nextEl = next === undefined ? null : box.querySelector<HTMLElement>(`[data-line="${next + 1}"]`)
+      const origin = body.getBoundingClientRect()
+      const h = heading.getBoundingClientRect()
+      const top = h.top - origin.top
+      // The section's text ends where the next heading's top margin starts, or where the content ends.
+      const last = body.lastElementChild === hoverBox.current ? hoverBox.current?.previousElementSibling : body.lastElementChild
+      const bottom =
+        nextEl && body.contains(nextEl)
+          ? nextEl.getBoundingClientRect().top - origin.top - parseFloat(getComputedStyle(nextEl).marginTop) / 2
+          : (last?.getBoundingClientRect().bottom ?? origin.bottom) - origin.top + 6
+      let el = hoverBox.current
+      if (!el || el.parentElement !== body) {
+        el?.remove()
+        el = document.createElement('div')
+        el.className = 'outline-hit-box'
+        el.setAttribute('aria-hidden', 'true')
+        body.appendChild(el)
+        hoverBox.current = el
+        void el.offsetWidth // start from here, not from 0, when it first appears
+      }
+      el.style.top = `${top - 6}px`
+      el.style.height = `${Math.max(0, bottom - top + 6)}px`
+      el.style.left = `${h.left - origin.left - 10}px`
+      el.style.width = `${h.width + 20}px`
+      el.classList.add('is-shown')
     },
     [preview],
   )
-  useEffect(() => () => hovered.current?.removeAttribute('data-outline-hit'), [viewKey])
+  useEffect(
+    () => () => {
+      hoverBox.current?.remove()
+      hoverBox.current = null
+    },
+    [viewKey],
+  )
 
   return { activeLine, goTo, hover }
 }

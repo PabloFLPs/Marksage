@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import { BookMarked, BookOpen, Download, FlaskConical, GitPullRequest, History, LifeBuoy, Lightbulb, Route, Scale, SlidersHorizontal } from 'lucide-react'
+import { BookA, BookMarked, BookOpen, Download, FlaskConical, GitPullRequest, History, LifeBuoy, Lightbulb, Milestone, Rocket, Route, Scale, ShieldCheck, SlidersHorizontal, Zap } from 'lucide-react'
 import type { SectionType } from '../assist/sections'
 
 export const SECTION_ICONS: Record<SectionType, ComponentType<{ className?: string }>> = {
@@ -13,5 +13,10 @@ export const SECTION_ICONS: Record<SectionType, ComponentType<{ className?: stri
   changelog: History,
   contributing: GitPullRequest,
   legal: Scale,
+  security: ShieldCheck,
+  performance: Zap,
+  deployment: Rocket,
   explanation: Lightbulb,
+  glossary: BookA,
+  roadmap: Milestone,
 }

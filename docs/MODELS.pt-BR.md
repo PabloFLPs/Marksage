@@ -2,7 +2,7 @@
 
 O Marksage traz dois modelos minúsculos próprios. Um identifica a **linguagem de um bloco de código** (21
 respostas, de TypeScript a "não é código"); o outro identifica o **tipo de uma seção** do documento para a
-Estrutura (10 tipos, mais "outro"). Os dois compartilham o mesmo desenho, o mesmo formato de arquivo e a mesma
+Estrutura (13 tipos, mais "outro"). Os dois compartilham o mesmo desenho, o mesmo formato de arquivo e a mesma
 receita de treino.
 
 > Esta página não pressupõe nenhum conhecimento de aprendizado de máquina. Cada termo é explicado na primeira
@@ -195,9 +195,9 @@ não tem certeza, duas regras extras ainda podem ajudar:
   recebe as duas — JavaScript ou TypeScript, C ou C++.
 
 Na Estrutura o filtro é o mesmo, mas como um selo de tipo não muda nada no documento, uma resposta do modelo de
-seções entre 60% e 80% ainda aparece, marcada como "provável". A Estrutura também tem um décimo primeiro tipo,
-**Explicação** ("Como funciona", "Arquitetura"), que só vem dos títulos: o modelo não conseguiu aprendê-lo (veja a
-ficha dele).
+seções entre 60% e 80% ainda aparece, marcada como "provável". A Estrutura também tem três tipos que só vêm
+dos títulos: **Explicação** ("Como funciona", "Arquitetura"), que o modelo não conseguiu aprender, e **Glossário** e
+**Roadmap**, raros demais nos repositórios de treino para aprender (veja a ficha dele).
 
 ## 3. Como os modelos aprenderam
 
@@ -241,12 +241,12 @@ linguagens mais raras. O treino usou 63.751 deles, no máximo 6.000 por linguage
 | Não é código | 3.112 | HTML | 2.877 | | |
 
 **Modelo de seções.** Aqui ninguém escreveu rótulos, então eles vêm dos títulos: uma seção chamada "Instalação"
-é uma seção de instalação. Só entram títulos que nomeiam claramente um tipo (cerca de 26 mil seções). O truque é
+é uma seção de instalação. Só entram títulos que nomeiam claramente um tipo (cerca de 27 mil seções). O truque é
 que o modelo **nunca vê o título** — só o texto sob ele. É isso que permite identificar uma seção cujo título não
 diz nada, como "Antes de começar". Rótulos feitos assim se chamam *rótulos fracos*: quase sempre certos, mas não
 conferidos à mão.
 
-Ele também aprende uma décima primeira resposta, **outro**, a partir de seções cujo título não nomeia tipo
+Ele também aprende uma resposta a mais, **outro**, a partir de seções cujo título não nomeia tipo
 ("Arrays", "Amazon S3"). A maioria das seções reais é só um assunto; sem "outro", a primeira versão forçava um
 tipo em todas, e só umas 2 em 3 das respostas confiantes nessas seções estavam certas. Com "outro" ele pode
 recusar, e isso subiu para umas 9 em 10.
@@ -347,7 +347,7 @@ novo, confiança e acerto se alinham assim:
 
 Em 284 blocos de código novos de 67 repositórios que ele nunca viu, o modelo de código mostra sugestão para 158
 (56%), certas 92% das vezes — mais que o dobro de sugestões úteis das heurísticas (70, 93% certas). O modelo de
-seções, em 133 repositórios de fora, dá tipo com confiança a 15% das seções e concorda com o título 91,5% das
+seções, em 134 repositórios de fora, dá tipo com confiança a 13,5% das seções e concorda com o título 88,9% das
 vezes. Tabelas completas: [Como o Smart Assist funciona](SMART-ASSIST.pt-BR.md), seção 4.
 
 ## 5. Deixando pequeno: números de 8 bits
@@ -390,7 +390,8 @@ multiplicações.
 - **Padrões, não significado.** Com 8 números por pista, ele reconhece a cara de uma linguagem ou de uma seção.
   Não sabe o que o código faz nem o que a seção diz. Também não sabe explicar a resposta.
 - **Alguns tipos são fracos.** Seções de "guia" parecem muito com instalação ou exemplos; o modelo de seções
-  raramente as marca com confiança.
+  raramente as marca com confiança. Dos tipos acrescentados na v2, "desempenho" é o menos confiável (75% de
+  concordância nos repositórios de fora) e "implantação" teve poucos exemplos para aprender (246).
 
 ## 7. Fichas técnicas (model cards)
 
@@ -421,20 +422,20 @@ quão bem funciona e onde falha. Tudo o que é preciso para usar os arquivos for
 
 | Item | Valor |
 |---|---|
-| **Arquivo** | `sections-v1.bin` — 393.864 bytes, servido junto do app em `/models/sections-v1.bin` |
+| **Arquivo** | `sections-v2.bin` — 394.008 bytes, servido junto do app em `/models/sections-v2.bin` |
 | **Tarefa** | Dizer o tipo de uma seção de documentação pelo texto dela |
 | **Entrada** | O Markdown logo abaixo de um título, até o próximo título de qualquer nível, **sem a linha do título**. Só os primeiros 2.000 caracteres são lidos. Seções com menos de 40 caracteres de texto de verdade (sem tags de template, imagens e endereços de links) não valem a pergunta. |
-| **Saída** | Uma probabilidade para cada uma das 11 respostas, somando 1 |
-| **Respostas, na ordem do arquivo** | `overview` `setup` `guide` `reference` `config` `example` `troubleshooting` `changelog` `contributing` `legal` (licença e créditos) `other` (sem tipo definido) |
-| **Como lê** | Leitor de pistas 2 (pistas de texto, seção 2.1) → o mesmo hash, média e pontuação do modelo de código, com 11 respostas |
-| **Parâmetros** | 262.243 |
+| **Saída** | Uma probabilidade para cada uma das 14 respostas, somando 1 |
+| **Respostas, na ordem do arquivo** | `overview` `setup` `guide` `reference` `config` `example` `troubleshooting` `changelog` `contributing` `legal` (licença e créditos) `security` `performance` `deployment` `other` (sem tipo definido) |
+| **Como lê** | Leitor de pistas 2 (pistas de texto, seção 2.1) → o mesmo hash, média e pontuação do modelo de código, com 14 respostas |
+| **Parâmetros** | 262.270 |
 | **Temperatura** | 1,6 |
-| **Dados de treino** | 26.105 seções dos mesmos repositórios, rotuladas por títulos sem ambiguidade (o título depois fica escondido do modelo); 7.832 delas são "outro" |
+| **Dados de treino** | 27.250 seções dos mesmos repositórios, rotuladas por títulos sem ambiguidade (o título depois fica escondido do modelo); 7.813 delas são "outro" |
 | **Treino** | 3 épocas de SGD, taxa de aprendizado de 0,3 caindo até 0, peso de classe 0,5, semente 1; temperatura ajustada nos repositórios de ajuste |
-| **Resultados de fora** (133 repositórios nunca vistos) | Com o filtro 0,8 / 0,2 ele dá tipo a 15% das seções rotuladas e concorda com o título 91,5% das vezes (88% sem as de mudanças); a partir de 0,6, 27% e 87,1%. Os rótulos vêm dos títulos, então é concordância, não acurácia conferida à mão. |
+| **Resultados de fora** (134 repositórios nunca vistos) | Com o filtro 0,8 / 0,2 ele dá tipo a 13,5% das seções rotuladas e concorda com o título 88,9% das vezes (84,5% sem as de mudanças); a partir de 0,6, 25,1% e 85,6%. Tipos novos: segurança 34 de 38 mostradas concordam, desempenho 45 de 60, implantação 2 de 2. Os rótulos vêm dos títulos, então é concordância, não acurácia conferida à mão. |
 | **Velocidade** | Cerca de 0,1 ms por seção |
 | **Use para** | Identificar seções de READMEs e docs técnicas cujo título não diz o que são; ignore "outro" |
-| **Não use para** | Seções de explicação ("Como funciona", "Arquitetura"): o texto delas parece o de qualquer assunto, e um modelo treinado para reconhecê-las não acertou nenhuma nos repositórios de ajuste, então o Marksage as identifica só pelo título. "Guia" também quase nunca é reconhecido. |
+| **Não use para** | Seções de explicação ("Como funciona", "Arquitetura"): o texto delas parece o de qualquer assunto, e um modelo treinado para reconhecê-las não acertou nenhuma nos repositórios de ajuste, então o Marksage as identifica só pelo título — como glossários e roadmaps (76 e 57 títulos em 381 repositórios: poucos demais). "Guia" também quase nunca é reconhecido, e "desempenho" é o mais fraco dos tipos da v2. |
 | **Licença** | GNU AGPL-3.0, como o resto do Marksage |
 
 ### 7.3 Rodando você mesmo
@@ -491,21 +492,22 @@ conjunto, novo, montado com 72 repositórios que não aparecem em mais nenhum lu
 
 ### 8.2 Modelo de seções
 
-| Versão | Data | Dados de treino | O que mudou | De fora (133 repositórios) | Situação |
+| Versão | Data | Dados de treino | O que mudou | De fora | Situação |
 |---|---|---|---|---|---|
 | Rascunho sem "outro" | 2026-10-24 | ~17 mil seções rotuladas | só os 10 tipos | ajuste: 87% certas quando mostradas nas seções rotuladas, mas umas 2 em 3 em seções com títulos que não dizem nada | não foi ao ar |
-| **v1** | 2026-10-24 | 26.105 seções (7.832 "outro") | acrescenta "outro"; 8 números por pista, 32.768 slots, 3 épocas, temperatura 1,6 | a partir de 0,8: 15,1% com tipo, 91,5% concordam com o título · a partir de 0,6: 27,4%, 87,1% | **em uso** |
+| **v1** | 2026-10-24 | 26.105 seções (7.832 "outro") | acrescenta "outro"; 8 números por pista, 32.768 slots, 3 épocas, temperatura 1,6 | a partir de 0,8: 15,1% com tipo, 91,5% concordam com o título · a partir de 0,6: 27,4%, 87,1% (133 repositórios) | substituída pela v2 |
 | Experimento explicação | 2026-10-25 | + 748, depois 1.283 seções de explicação | um 11º tipo, rotulado pelos títulos e depois também por pastas no estilo `concepts/` | ajuste: nenhuma resposta "explicação" certa quando mostrada, em todas as configurações | não foi ao ar — Explicação vem só dos títulos |
+| **v2** | 2026-10-27 | 27.250 seções (7.813 "outro") | + segurança, desempenho, implantação; títulos de segurança deixam de contar como licença e créditos; mesmas configurações da v1 (escolhidas de novo no ajuste) | a partir de 0,8: 13,5% com tipo, 88,9% concordam · a partir de 0,6: 25,1%, 85,6% (134 repositórios) · a v1 no mesmo conjunto: 14,5%, 89,6% | **em uso** |
 
 ### 8.3 Conjuntos de teste
 
 | Conjunto | O que é | Tamanho | Regra |
 |---|---|---|---|
-| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · estrutura 23 · títulos 48 · documentos 4 | pega regressões; dá perto de 100% por construção |
+| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · estrutura 23 · títulos 65 · documentos 4 | pega regressões; dá perto de 100% por construção |
 | Ajuste | documentos reais, usados para tomar decisões | código 280 · colagem 27 · estrutura 36 · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de fora |
 | Primeiro de fora (2026-10-24) | documentos reais, nunca usados para ajustar | código 314 · colagem 31 · estrutura 30 | roda uma vez por versão; julgou a v1 |
 | De fora novo (2026-10-24) | código de 72 repositórios que não aparecem em mais nenhum lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |
-| Seções de fora (2026-10-24) | seções dos repositórios de teste do modelo de código mais os novos | 133 repositórios | roda uma vez por modelo de seções |
+| Seções de fora (2026-10-24) | seções dos repositórios de teste do modelo de código mais os novos | 133 repositórios (134 a partir da v2: os tipos novos rotulam seções em mais um) | roda uma vez por modelo de seções |
 
 ## 9. Glossário
 
