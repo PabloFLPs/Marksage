@@ -69,13 +69,34 @@ Toda pergunta do Smart Assist sobe a mesma escada e para no primeiro degrau que 
 2. **Um modelo minúsculo treinado para a tarefa** — só onde as regras ficam quietas demais *e* existem dados
    rotulados reais. Os dois modelos do Marksage estão aqui. Cada um precisou provar, em repositórios que nunca
    tinha visto, que traz respostas que as regras não dão. O modelo de código mostra mais que o dobro de
-   sugestões com quase a mesma precisão; o modelo de seções identifica seções cujo título não diz nada.
+   sugestões com quase a mesma precisão; o modelo de seções identifica seções cujo título não diz nada. Mais
+   dois foram treinados e medidos do mesmo jeito — dicas de estrutura e tipos de colagem — e não se saíram
+   melhor que as regras em textos reais, então não são usados (seção 4.6).
 3. **Um modelo de decisão geral** — de preferência o Laya, porque roda no seu dispositivo. Reservado para
    perguntas sem dados de treino para aprender; nenhum recurso precisa dele ainda.
 4. **Um modelo generativo ou hospedado** — não é usado pelos recursos embutidos: se não dá para listar as
    respostas possíveis de antemão, não é um recurso do Smart Assist. Em breve: um modo opcional *traga sua
    própria chave* (BYOK) para conectar um modelo hospedado com a sua chave — desligado por padrão, bem
    sinalizado e documentado aqui quando sair.
+
+### 1.3 Dois modos
+
+Além de *Desligado*, o Smart Assist tem dois modos. **Heurísticas** responde todas as perguntas com regras:
+instantâneo, nada para baixar. **Híbrido** usa os modelos próprios do Marksage onde eles superam as regras em
+textos reais, e as regras no resto:
+
+| Pergunta | Heurísticas | Híbrido |
+|---|---|---|
+| Linguagem do bloco de código | regras | modelo ✦ — ou as regras quando a primeira escolha do modelo concorda |
+| Colagem inteligente (que tipo de texto) | regras | regras — a linguagem de um bloco de código colado, como acima |
+| Dicas de estrutura | regras | regras |
+| Legibilidade | regras (LIX) | regras (LIX) |
+| Tipos de seção na Estrutura | regra dos títulos | regra dos títulos, depois o modelo de seções ✦ para títulos que não dizem |
+
+Um terceiro modo em que *só* modelos decidem foi considerado e descartado: a legibilidade e a regra dos títulos
+não têm rótulos de onde um modelo possa aprender além da própria saída delas (um modelo treinado com notas do
+LIX só copiaria o LIX), e os modelos de estrutura e de colagem não se saíram melhor que as regras (seção 4.6).
+Um modo assim seria mais fraco que o Híbrido sem ser mais honesto.
 
 ---
 
@@ -95,7 +116,7 @@ flowchart LR
     direction TB
     E["Editor<br/>pausa de 400 ms · colagem · 2 s parado"] --> P["Pré-filtro<br/>acha um candidato — sem ele, para aqui"]
     P --> H["Heurísticas<br/>sempre prontas"]
-    P --> M["Modelo local<br/>modelos + heurísticas"]
+    P --> M["Híbrido<br/>modelos + heurísticas"]
     H --> G["Filtro de confiança<br/>topo ≥ 0,8 e à frente por ≥ 0,2"]
     M --> G
     G --> F["Recurso + conversor<br/>monta a edição: tabela, lista, bloco"]
@@ -105,7 +126,7 @@ flowchart LR
     direction TB
     D["Documento"] --> X["Seções<br/>divididas nos títulos, sem código"]
     X --> R["Regra dos títulos<br/>“Como instalar” → Instalação"]
-    R -- "o título não diz" --> SM["Modelo de seções<br/>modo Modelo local · lê o texto"]
+    R -- "o título não diz" --> SM["Modelo de seções<br/>modo Híbrido · lê o texto"]
     R -- "com tipo" --> T1["Aba Estrutura<br/>tipo + frase-chave"]
     R -- "com tipo" --> T2["Aba Documento<br/>fatos · tom · alertas"]
     SM --> T1
@@ -123,12 +144,12 @@ flowchart LR
 | Peça | O que faz |
 |---|---|
 | **Pré-filtro** | Verificações baratas e determinísticas que encontram *candidatos* (um bloco de código sem linguagem, uma colagem de várias linhas, um título quase certo). Sem candidato → nada mais roda. |
-| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Modelo local* (os modelos próprios do Marksage na linguagem dos blocos de código e nos tipos de seção da Estrutura + heurísticas no resto). |
+| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Híbrido* (os modelos próprios do Marksage na linguagem dos blocos de código e nos tipos de seção da Estrutura + heurísticas no resto). |
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
 | **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos de sugestão abaixo; a Estrutura e a aba Documento só leem). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
-| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título); um ✦ quer dizer que o modelo local decidiu. Clicar no cartão rola até o ponto e o destaca na pré-visualização. |
-| **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Modelo local*) pelo modelo de seções; a aba Documento resume o arquivo inteiro; a aba Sugestões lista cada ponto que dá para corrigir. |
+| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título, link); um ✦ quer dizer que o modelo local decidiu. Clicar no cartão rola até o ponto e o destaca na pré-visualização. |
+| **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Híbrido*) pelo modelo de seções; a aba Documento resume o arquivo inteiro; a aba Sugestões lista cada ponto que dá para corrigir. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão usados para medir cada recurso antes de ele ir ao ar. |
 
 ### 2.2 O contrato do mecanismo
@@ -145,7 +166,7 @@ interface DecisionEngine {
 
 Os dois mecanismos implementam a mesma interface, então os recursos nunca sabem quem respondeu.
 `q` é um id estável (ex.: `fence.language`): o mecanismo heurístico usa o id para escolher o
-pontuador, e o mecanismo do *Modelo local* usa para decidir quais perguntas o seu modelo responde.
+pontuador, e o mecanismo do *Híbrido* usa para decidir quais perguntas os seus modelos respondem.
 
 ### 2.3 O filtro de confiança
 
@@ -209,7 +230,7 @@ como logits — cada regra que casa soma seu peso uma vez:
 As pontuações passam por `softmax` → probabilidades → filtro. **Ação:** inserir o id da linguagem
 logo após o marcador de abertura.
 
-**Duas opções.** Com o *Modelo local*, quando nenhuma linguagem passa no filtro mas as duas primeiras
+**Duas opções.** Com o *Híbrido*, quando nenhuma linguagem passa no filtro mas as duas primeiras
 somam ≥ 85 % (a segunda ≥ 20 %), a barra oferece as duas — `Tab` (ou um clique) escolhe a primeira,
 `Alt+2` a segunda. Pares típicos: JavaScript/TypeScript, JSON/YAML, C/C++. A regra foi definida no
 conjunto dev; nos dois conjuntos separados ela fez 15 e 17 ofertas, e a linguagem certa estava entre as
@@ -251,7 +272,10 @@ blocos cercados, blocos de código indentados e HTML bruto (`<pre>`, `<style>`, 
 | `#Título` (sem espaço) — mas não `#tag` de uma palavra nem cores `#fff` | `# Título` |
 | `== Título ==` (estilo wiki) | título, nível pela quantidade de `=` |
 | `-item`, `*item`, `+item` | `- item` |
+| `• item`, `– item`, `✔️ item` — um marcador tipográfico, colado de um documento, de uma página ou de um chat | `- item` (um ✔️ fica: `- ✔️ item`) |
 | `1)item`, `1.item` | `1) item` |
+| `1- item`, `1 - item` | `1. item` |
+| `[texto] (https://…)` — o espaço quebra o link | `[texto](https://…)` |
 
 **Heurística**. O mecanismo recebe ±2 linhas de contexto e uma
 afirmação como *"A linha "**Instalação**" deveria ser um título de seção."*. A probabilidade parte
@@ -260,13 +284,22 @@ de um valor inicial por tipo e é ajustada pelas evidências:
 - **Linhas em negrito** longas, que terminam como frase (`.` `!` `?`, também `。` `！` `？` e outras
   escritas), terminam com dois-pontos (`**Retorno:**`), começam com uma palavra de aviso (`Nota`,
   `Atenção`, `Dica`, `Note`, `Warning`, `P`/`R`, …) ou são só um link são rótulos ou ênfase, não títulos.
+  Também não são as linhas em negrito logo acima de uma imagem (uma legenda: `**Antes**`) nem identificadores
+  em negrito (`**android.permission.CAMERA**`).
+- **Linhas com `#`** feitas só de hashtags (`#CLT #Remoto #React`), referências a issues (`#123 corrigido …`)
+  ou código (`#include`, `#!/bin/sh`, `#[derive]`) não são títulos; um separador como `=== === ===` também não.
 - **Linhas com traço** que parecem flags de linha de comando (`-s, --search`), conjuntos de flags
-  (`+SIMD +AVX`), CSS (`-webkit-line-clamp: 2;`) ou números negativos (`-5 graus`) não são itens de
-  lista; `*palavra*` é ênfase.
+  (`+SIMD +AVX`), CSS (`-webkit-line-clamp: 2;`), números negativos (`-5 graus`) ou saída do `ls -l`
+  (`-rw-r--r-- 1 …`) não são itens de lista; `*palavra*` é ênfase.
 - **Correções de lista** precisam de companhia: itens de lista vizinhos aumentam a confiança; uma
   linha `*solta` costuma ser nota de rodapé, não marcador, então fica em silêncio. Uma linha `-solta` só é
   sugerida quando parece texto comum (três palavras ou mais, nada com cara de código como `/`, `:` ou `=`):
   "-isto deveria ser um item de lista" sim; "-verbose" ou "-su cd: /opt/app: Permission denied" não.
+- **Marcadores tipográficos** também precisam de companhia: uma linha `• solta` fica em silêncio, uma linha com
+  vários marcadores é uma barra de separação (`• English • Русский • Français`) e um `— Nome` sozinho assina uma
+  citação. **`1 - item`** precisa de um vizinho numerado: `3 - 2` sozinho é um intervalo, `31- zone 2 passed` é
+  saída de teste.
+- **Um link quebrado por um espaço** é sempre oferecido (0,9): o Markdown nunca lê `[texto] (url)` como link.
 
 ### Legibilidade (`score`)
 
@@ -308,7 +341,7 @@ vulnerability"; desempenho, "Desempenho", "Benchmarks"; implantação, "Implanta
 - navegação ("Veja também", "Próximos passos", "See also") nunca recebe tipo;
 - palavras amplas ("Recursos", "Background", "Produção", "Todo") só contam quando são o título inteiro.
 
-Com o *Modelo local*, as seções que a regra dos títulos deixa sem tipo são lidas pelo modelo de seções
+Com o *Híbrido*, as seções que a regra dos títulos deixa sem tipo são lidas pelo modelo de seções
 (seção 4.4).
 
 **Frase-chave.** Escolhida da própria seção, não escrita: a frase que mais compartilha palavras com o
@@ -349,8 +382,8 @@ pré-visualização. Nada no documento muda.
 recalculada 600 ms depois que você para de digitar.
 
 **O que lista:** cada ponto do documento que receberia uma sugestão, na ordem do documento — blocos de código
-sem linguagem (mesma pergunta, mesmo filtro e mesma regra das duas opções do editor) e títulos ou listas quase
-certos (mesmas regras das dicas de estrutura). Cada linha tem o ícone da correção, a linha do documento, a
+sem linguagem (mesma pergunta, mesmo filtro e mesma regra das duas opções do editor) e títulos, listas e links
+quase certos (mesmas regras das dicas de estrutura). Cada linha tem o ícone da correção, a linha do documento, a
 primeira linha do código ou o que vira o quê, a confiança e um ✦ quando o modelo local decidiu. Colagens não
 entram: elas são oferecidas na hora em que você cola. Sugestões dispensadas (`Esc`) saem da lista até o modo mudar.
 
@@ -367,7 +400,7 @@ dá para desfazer — a mesma edição protegida de sempre.
 
 ### 4.1 O que é
 
-O modo *Modelo local* adiciona um pequeno classificador treinado para uma única tarefa: dizer a
+O modo *Híbrido* adiciona um pequeno classificador treinado para uma única tarefa: dizer a
 linguagem de um bloco de código sem linguagem (e de um bloco de código colado). O
 resto continua com as heurísticas. Não é um chatbot nem um LLM — ele lê um trecho e escolhe uma das
 21 respostas, como todo o Smart Assist.
@@ -422,7 +455,7 @@ linguagens (`void main() { … }` é Java *e* C++ válidos).
 
 ### 4.4 O modelo de seções
 
-Com o *Modelo local*, a Estrutura também identifica seções cujo título não diz — "Before you begin",
+Com o *Híbrido*, a Estrutura também identifica seções cujo título não diz — "Before you begin",
 "Bug fixes", "Tema" — lendo o texto sob o título.
 
 - **Mesma receita, outras pistas:** o mesmo tipo de modelo e formato de arquivo (385 KB, ~0,1 ms por
@@ -477,6 +510,55 @@ mensurável em dados reais. O modelo de seções seguiu o mesmo caminho. O Laya 
 dados de treino assim. Por padrão, o que rodar, roda no seu dispositivo;
 qualquer coisa hospedada, como o modo BYOK planejado, será opcional e bem sinalizada.
 
+### 4.6 Testados, não usados: dicas de estrutura, tipos de colagem, texto de links
+
+Mais três perguntas passaram pelo mesmo processo em outubro de 2026 — treinadas (ou escritas) com os
+repositórios públicos, toda escolha feita num conjunto dev, depois medidas uma vez em textos reais separados — e
+nenhuma se saiu melhor que as regras. Ficam registradas para que a próxima tentativa comece pelos números.
+
+**Um modelo de estrutura** — "esta linha quase certa é um item de lista ou um título?" (sim / não), mesma
+receita e tamanho dos outros dois, lendo a linha e duas linhas em volta. Aprendeu com 66.076 linhas: itens de
+lista e títulos reais dos 381 repositórios com o erro recolocado (`- item` → `-item` ou `• item`, `## Título` →
+`##Título` ou `**Título**`), contra parecidos reais (ajuda de linha de comando, saída do `ls -l`, linhas de diff,
+CSS, `#include`, notas de rodapé, rótulos em negrito). Foi avaliado em 227 linhas rotuladas à mão, de issues,
+pull requests e comentários de 43 repositórios que ele nunca viu — texto sem revisão, onde esses quase-acertos
+acontecem de verdade:
+
+| Separado (227 linhas, rodado uma vez) | Exibidas | Certas quando exibidas | Linhas verdadeiras achadas (de 132) |
+|---|---|---|---|
+| Regras | 140 | 88,6 % | 124 |
+| Só o modelo | 76 | 90,8 % | 69 |
+| Regras + respostas do modelo com ≥ 95 % onde as regras ficam quietas | 141 | 88,7 % | 125 |
+
+A combinação passou na régua definida antes — a precisão das regras, pelo menos tantas linhas verdadeiras —
+por uma linha em 227: não vale um download. Os dois erram em coisas diferentes: as regras marcam errado linhas
+de hashtags, `+20K estudantes` e linhas de diff, que o modelo acerta; o modelo marca errado assinaturas (`-Jake`) e
+`#32 will fix this`, que as regras acertam. Uma versão em que os dois precisam concordar é a próxima tentativa
+natural, num conjunto separado novo. As linhas em negrito ficam com as regras por um bom motivo: os exemplos de
+"não" do modelo eram linhas em negrito reais, e muitas delas *são* títulos, então ele aprendeu "negrito → não"
+(5 de 80 exibidas).
+
+**Um modelo de tipos de colagem** — "que tipo de texto é esta colagem?" (os sete tipos da colagem
+inteligente), treinado com 16.977 colagens feitas de arquivos reais: blocos de código e de JSON como os autores
+escreveram, tabelas Markdown reais transformadas de volta em texto CSV, de planilha e de terminal, listas e
+parágrafos como um navegador os copia. Foi avaliado em 53 colagens reais de 19 fontes fora dos seus dados
+(arquivos de dados, células de planilha, saída do `pip` e do `kubectl`, código-fonte, configurações, READMEs em
+inglês e português):
+
+| Separado (53 colagens, rodado uma vez) | Exibidas | Certas quando exibidas |
+|---|---|---|
+| Regras | 41 | 97,6 % |
+| Modelo | 44 | 90,9 % |
+
+Ele confundiu saída do `kubectl`, uma lista de comandos e dois arquivos JSON com código.
+
+**Texto do link para uma URL colada** — sem internet, o texto só pode vir da própria URL. Medido contra 2.842
+links que ficam sozinhos na linha nos repositórios dev, o que os autores escrevem é um título ou um nome: o
+último trecho da URL bate 10 % das vezes, o domínio nunca, `dono/repo` 28 %. Só links de issues e pull requests
+do GitHub (`dono/repo#123`) bateram com frequência no dev (90 %) — e 32 % nos repositórios separados, onde cada
+projeto tem seu costume ("BUG #523", "Pull Request", um título). Sem buscar a página não há um bom texto a
+oferecer, então uma URL colada fica como está (o Markdown do GitHub já a mostra como link).
+
 ---
 
 ## 5. Como é medido
@@ -501,11 +583,18 @@ incluído), e as regras nunca são ajustadas contra ele — então é o número 
 |---|---|---|---|---|
 | Linguagem do bloco de código | 314 | 57 % | 76 | 97 % |
 | Colagem inteligente | 31 | 94 % | 23 | 100 % |
+| Colagem inteligente, conjunto novo (2026-10-28) | 53 | 94 % | 41 | 98 % |
 | Dicas de estrutura | 30 | 93 % | 14 | 86 % |
+| Dicas de estrutura, conjunto novo (2026-10-28) | 227 | 89 % | 140 | 89 % |
+
+Os conjuntos novos foram montados para os modelos da seção 4.6 e rodados uma vez: 53 colagens de arquivos reais
+e 227 linhas de issues, pull requests e comentários do GitHub — texto sem revisão, onde os quase-acertos
+acontecem de verdade. No conjunto dev em que foram ajustadas (212 linhas de outros repositórios), as regras de
+estrutura chegam a 97 %; os 89 % do conjunto separado são o número honesto.
 
 Leia assim: quando uma sugestão aparece, ela quase sempre está certa; o preço dessa cautela é que
 muitos blocos de código reais ficam sem sugestão de linguagem. As decisões heurísticas levam bem menos de um
-milissegundo. Com o *Modelo local*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **77 % de
+milissegundo. Com o *Híbrido*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **77 % de
 acurácia, 164 exibidas e 96 % de precisão**, e 74 % / 158 / 92 % num segundo conjunto novo (seção 4.3).
 
 ---

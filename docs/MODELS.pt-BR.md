@@ -3,7 +3,8 @@
 O Marksage traz dois modelos minúsculos próprios. Um identifica a **linguagem de um bloco de código** (21
 respostas, de TypeScript a "não é código"); o outro identifica o **tipo de uma seção** do documento para a
 Estrutura (13 tipos, mais "outro"). Os dois compartilham o mesmo desenho, o mesmo formato de arquivo e a mesma
-receita de treino.
+receita de treino. Mais dois foram treinados do mesmo jeito — para as dicas de estrutura e os tipos de colagem — e
+não são usados, porque não se saíram melhor que as regras em textos reais (seção 8).
 
 > Esta página não pressupõe nenhum conhecimento de aprendizado de máquina. Cada termo é explicado na primeira
 > vez que aparece, e há um glossário no fim. Os números dos exemplos são reais: vêm dos arquivos de modelo que
@@ -374,7 +375,7 @@ O arquivo (394.280 bytes) é organizado assim:
 | Pesos e vieses das 21 respostas | ~0,7 KB |
 
 Um terço do arquivo são escalas — uma das próximas coisas a encolher. O app baixa o arquivo uma vez (só depois
-que você escolhe o *Modelo local* e confirma) e o guarda no cache do navegador. Tudo roda em JavaScript puro:
+que você escolhe o *Híbrido* e confirma) e o guarda no cache do navegador. Tudo roda em JavaScript puro:
 sem biblioteca de aprendizado de máquina, sem GPU, sem worker em segundo plano. Cada decisão são alguns milhares de
 multiplicações.
 
@@ -499,15 +500,50 @@ conjunto, novo, montado com 72 repositórios que não aparecem em mais nenhum lu
 | Experimento explicação | 2026-10-25 | + 748, depois 1.283 seções de explicação | um 11º tipo, rotulado pelos títulos e depois também por pastas no estilo `concepts/` | ajuste: nenhuma resposta "explicação" certa quando mostrada, em todas as configurações | não foi ao ar — Explicação vem só dos títulos |
 | **v2** | 2026-10-27 | 27.250 seções (7.813 "outro") | + segurança, desempenho, implantação; títulos de segurança deixam de contar como licença e créditos; mesmas configurações da v1 (escolhidas de novo no ajuste) | a partir de 0,8: 13,5% com tipo, 88,9% concordam · a partir de 0,6: 25,1%, 85,6% (134 repositórios) · a v1 no mesmo conjunto: 14,5%, 89,6% | **em uso** |
 
-### 8.3 Conjuntos de teste
+### 8.3 Modelo de estrutura (testado, não usado)
+
+Pergunta: "esta linha quase certa é um item de lista ou um título?" — duas respostas, *não* e *sim*. O leitor de
+pistas 3 lê a linha (o marcador, as palavras depois dele, a forma: flags, permissões do `ls -l`, hashtags, fim de
+frase, dois-pontos…) e a categoria das duas linhas antes e depois (em branco, item de lista, o mesmo quase-acerto,
+título, código, prosa…). Mesmo tamanho e configurações do modelo de seções (8 números por pista, 32.768 slots,
+3 épocas, taxa de aprendizado 0,3; peso total por classe), temperatura 1,55.
+
+| Versão | Data | Dados de treino | Ajuste (212 linhas) | De fora novo (227 linhas) | Situação |
+|---|---|---|---|---|---|
+| Regras | 2026-10-28 | — | 115 mostradas · 97,4% certas | 140 mostradas · 88,6% certas · 124 de 132 linhas verdadeiras | **em uso** |
+| **v1** | 2026-10-28 | 66.076 linhas dos 381 repositórios: itens e títulos reais transformados em quase-acertos (sim), parecidos reais de prosa e de blocos de código, mais algumas linhas sintéticas de hashtags e assinaturas (não) | modelo 64 · 93,8% · regras + modelo ≥ 95% 116 · 97,4% | modelo 76 · 90,8% · 69 linhas verdadeiras; regras + modelo ≥ 95% 141 · 88,7% · 125 | não usado |
+
+A combinação foi escolhida no ajuste antes de rodar o conjunto de fora e passou na régua (a precisão das regras,
+pelo menos tantas linhas verdadeiras) por uma linha — pouco demais para um download de 385 KB. As regras e o
+modelo erram linhas diferentes, então uma versão que precisa dos dois concordando é a próxima tentativa, num
+conjunto de fora novo. Linhas em negrito não dá para aprender assim: os exemplos de "não" são linhas em negrito
+reais, e muitas delas são títulos.
+
+### 8.4 Modelo de tipos de colagem (testado, não usado)
+
+Pergunta: "que tipo de texto é esta colagem?" — os sete tipos da colagem inteligente. O leitor de pistas 4 lê a
+forma da colagem (se é JSON, tabs e células com vírgula e o quanto são consistentes, colunas alinhadas, marcadores,
+linhas curtas, prosa quebrada, frases, estrutura de código), mais o primeiro token e o último caractere de cada
+linha. Mesmo tamanho dos outros modelos; 5 épocas (escolhidas no ajuste), taxa 0,3, peso por classe 0,5,
+temperatura 1,05.
+
+| Versão | Data | Dados de treino | Ajuste (27 colagens) | De fora novo (53 colagens) | Situação |
+|---|---|---|---|---|---|
+| Regras | — | — | 19 mostradas · 100% certas | 41 mostradas · 97,6% certas | **em uso** |
+| **v1** | 2026-10-28 | 16.977 colagens a partir de blocos de código reais, JSON, tabelas Markdown (como CSV, planilha e terminal), listas e parágrafos dos repositórios | 17 mostradas · 94,1% | 44 mostradas · 90,9% | não usado |
+
+### 8.5 Conjuntos de teste
 
 | Conjunto | O que é | Tamanho | Regra |
 |---|---|---|---|
-| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · estrutura 26 · títulos 65 · documentos 4 | pega regressões; dá perto de 100% por construção |
-| Ajuste | documentos reais, usados para tomar decisões | código 280 · colagem 27 · estrutura 36 · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de fora |
+| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · estrutura 36 · títulos 65 · documentos 4 | pega regressões; dá perto de 100% por construção |
+| Ajuste | documentos reais, usados para tomar decisões | código 280 · colagem 27 · estrutura 212 (36, mais 176 linhas de issues e wikis em 2026-10-28) · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de fora |
 | Primeiro de fora (2026-10-24) | documentos reais, nunca usados para ajustar | código 314 · colagem 31 · estrutura 30 | roda uma vez por versão; julgou a v1 |
 | De fora novo (2026-10-24) | código de 72 repositórios que não aparecem em mais nenhum lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |
 | Seções de fora (2026-10-24) | seções dos repositórios de teste do modelo de código mais os novos | 133 repositórios (134 a partir da v2: os tipos novos rotulam seções em mais um) | roda uma vez por modelo de seções |
+| Estrutura de fora (2026-10-28) | linhas quase certas de issues, pull requests e comentários do GitHub de 43 repositórios que não aparecem em mais nenhum lugar, rotuladas à mão | 227 linhas | montado uma vez para o modelo de estrutura, depois congelado |
+| Colagens de fora (2026-10-28) | colagens reais de 19 fontes fora do corpus: arquivos de dados, células de planilha, saída de comandos, código-fonte, configurações, READMEs | 53 colagens | montado uma vez para o modelo de colagem, depois congelado |
+| Links (2026-10-28) | links sozinhos na linha, com o texto que os autores escolheram | ajuste 2.842 (28 repositórios) · de fora 5.058 (138) | julga a regra do texto do link (SMART-ASSIST §4.6) |
 
 ## 9. Glossário
 

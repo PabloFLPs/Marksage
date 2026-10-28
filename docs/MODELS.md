@@ -2,7 +2,9 @@
 
 Marksage ships two tiny models of its own: one names the **language of a code block** (21 answers, from
 TypeScript to "not code"), the other names the **type of a document section** for the Outline (13 types,
-plus "other"). They share one design, one file format and one training recipe.
+plus "other"). They share one design, one file format and one training recipe. Two more were trained the
+same way — for structure hints and paste types — and aren't used, because they didn't do better than the rules
+on real text (section 8).
 
 > This page assumes no machine-learning background. Every term is explained the first time it appears,
 > and there's a glossary at the end. The numbers in the examples are real: they come from the model files
@@ -371,7 +373,7 @@ The file (394,280 bytes) is laid out like this:
 | Weights and biases of the 21 answers | ~0.7 KB |
 
 A third of the file is scales — one of the next things to shrink. The app downloads it once (only after you
-pick *Local model* and confirm), keeps it in the browser's cache, and runs everything in plain JavaScript: no
+pick *Hybrid* and confirm), keeps it in the browser's cache, and runs everything in plain JavaScript: no
 machine-learning library, no GPU, no background worker. Each decision is a few thousand multiplications.
 
 ## 6. Limits, honestly
@@ -495,15 +497,48 @@ fresh one, built from 72 repositories used nowhere else.
 | Explanation experiment | 2026-10-25 | + 748, then 1,283 explanation sections | an 11th type, labelled by headings, then also by `concepts/`-style folders | dev: 0 explanation answers right when shown, at every setting tried | not shipped — Explanation is typed from headings only |
 | **v2** | 2026-10-27 | 27,250 sections (7,813 "other") | + security, performance, deployment; security headings no longer count as license & credits; same settings as v1 (chosen again on dev) | from 0.8: 13.5% typed, 88.9% agree · from 0.6: 25.1%, 85.6% (134 repositories) · v1 on the same set: 14.5%, 89.6% | **in use** |
 
-### 8.3 Test sets
+### 8.3 Structure model (tried, not used)
+
+Question: "is this near-miss line a list item or a heading?" — two answers, *no* and *yes*. Clue reader 3 reads
+the line (its marker, the words after it, its shape: flags, `ls -l` permissions, hashtags, a sentence end, a
+colon…) and the category of the two lines before and after it (blank, list item, the same near-miss, heading,
+code, prose…). Same size and settings as the section model (8 numbers per clue, 32,768 slots, 3 epochs, learning
+rate 0.3; full class weighting), temperature 1.55.
+
+| Version | Date | Training data | Dev (212 lines) | Fresh held-out (227 lines) | Status |
+|---|---|---|---|---|---|
+| Rules | 2026-10-28 | — | 115 shown · 97.4% right | 140 shown · 88.6% right · 124 of 132 true lines | **in use** |
+| **v1** | 2026-10-28 | 66,076 lines from the 381 repositories: real items and headings made into near-misses (yes), real look-alikes from prose and code blocks plus a few synthetic hashtag and signature lines (no) | model 64 · 93.8% · rules + model ≥ 95% 116 · 97.4% | model 76 · 90.8% · 69 true lines; rules + model ≥ 95% 141 · 88.7% · 125 | not used |
+
+The combination was chosen on dev before the held-out run and met the bar (the rules' precision, at least as many
+true lines) by one line — too little for a 385 KB download. The rules and the model miss different lines, so a
+version that needs both to agree is the next thing to try, on a fresh held-out set. Bold lines can't be learned
+this way: the "no" examples are real bold lines, and many of them are headings.
+
+### 8.4 Paste-type model (tried, not used)
+
+Question: "what kind of text is this paste?" — the seven smart-paste kinds. Clue reader 4 reads the paste's shape
+(parses as JSON, tabs and comma cells and how consistent they are, aligned columns, bullets, short lines, wrapped
+prose, sentences, code structure) plus the first token and last character of each line. Same size as the other
+models; 5 epochs (chosen on dev), learning rate 0.3, class weighting 0.5, temperature 1.05.
+
+| Version | Date | Training data | Dev (27 pastes) | Fresh held-out (53 pastes) | Status |
+|---|---|---|---|---|---|
+| Rules | — | — | 19 shown · 100% right | 41 shown · 97.6% right | **in use** |
+| **v1** | 2026-10-28 | 16,977 pastes from the repositories' real code blocks, JSON, Markdown tables (as CSV, spreadsheet and terminal text), lists and paragraphs | 17 shown · 94.1% | 44 shown · 90.9% | not used |
+
+### 8.5 Test sets
 
 | Set | What it is | Size | Rule |
 |---|---|---|---|
-| Written | examples written alongside the rules | code 42 · paste 15 · structure 26 · headings 65 · documents 4 | catches regressions; scores near 100% by construction |
-| Dev | real documents, used to make choices | code 280 · paste 27 · structure 36 · sections from 27 repositories | tune here, never on the held-out sets |
+| Written | examples written alongside the rules | code 42 · paste 15 · structure 36 · headings 65 · documents 4 | catches regressions; scores near 100% by construction |
+| Dev | real documents, used to make choices | code 280 · paste 27 · structure 212 (36, plus 176 lines from issues and wikis on 2026-10-28) · sections from 27 repositories | tune here, never on the held-out sets |
 | First held-out (2026-10-24) | real documents, never tuned on | code 314 · paste 31 · structure 30 | run once per version; v1's judge |
 | Fresh held-out (2026-10-24) | code from 72 repositories used nowhere else | code 284 (67 repositories) | built once for v2, then frozen |
 | Sections held-out (2026-10-24) | sections from the code model's test repositories plus the fresh ones | 133 repositories (134 from v2: new types label sections in one more) | run once per section model |
+| Structure held-out (2026-10-28) | near-miss lines from GitHub issues, pull requests and comments of 43 repositories used nowhere else, labelled by hand | 227 lines | built once for the structure model, then frozen |
+| Paste held-out (2026-10-28) | real pastes from 19 sources outside the corpus: data files, spreadsheet copies, command output, source files, configs, READMEs | 53 pastes | built once for the paste model, then frozen |
+| Links (2026-10-28) | links alone on their line, with the text their authors chose | dev 2,842 (28 repositories) · held-out 5,058 (138) | judges the link-text rule (SMART-ASSIST §4.6) |
 
 ## 9. Glossary
 

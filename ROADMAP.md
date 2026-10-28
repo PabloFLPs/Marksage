@@ -5,42 +5,15 @@ What's planned next, with the context a fresh session needs to start. Shipped wo
 
 ---
 
-## 0. Structure model + "Local models only" mode (next — decided 2026-10-28)
+## 0. Done (2026-10-28): structure and paste models tried, Hybrid mode, new near-misses
 
-**Why:** Pablo wants the small models to be the reliable, useful core of Local model mode. Today only two
-questions use a model (code-block language, Outline section type); structure hints, smart paste and readability
-are rules in every mode (`ModelEngine.score` / `noul` and non-fence `choice` fall back to the heuristics). The
-lone "-item" fix (Implementation Context §27) showed the limit: a hand-written rule with thin evidence.
+The plan that was here — a structure model and a "Local models only" mode — ran its course: modes are now Off /
+Heuristics / **Hybrid**, three new near-misses ship as rules (`• item`, `1- item`, `[text] (url)`), and the
+structure model, a paste-type model and a URL link-text rule were measured on fresh held-out sets and not used.
+Numbers and reasons: `SMART-ASSIST — Implementation Context.md` §28, `training/README.md`, `docs/MODELS.md` §8.3–8.5.
+Follow-ups are in §4.
 
-**Decisions (Pablo):**
-
-- **Modes:** keep *Off* and *Heuristics*; rename *Local model* to something like *Local model + heuristics*
-  (current behaviour); add a new mode, something like *Local models only*, where only our models decide.
-  Names in EN + PT-BR to be agreed with him.
-- **Docs:** a table per mode of which question uses a model and which uses rules (SMART-ASSIST §1–2, About,
-  README), plus a section for the models-only mode.
-- **Structure model** (third model, same recipe — fastText-style, MSLM file, featurizer 3 on the line + ±2 lines
-  of context): "is this line a list item / heading missing its space (or near-miss) — yes/no".
-  - Positives: real list items and headings from the 381 repositories with the space removed (`- item` →
-    `-item`, `1. item` → `1.item`, `## Title` → `##Title`), plus `**Title**`-style lines if it fits.
-  - Negatives: real look-alikes from the same repositories — CLI flags, negative numbers, CSS declarations,
-    hashtags / hex colors, `*emphasis*`, shell output, signatures ("-the team").
-  - Check Pablo's hypothesis with corpus counts first: a flag at the start of a prose line is mostly written as
-    `code`, so bare `-flag` lines may be rare.
-  - **Real held-out set** from unpolished text (GitHub issues, discussions, wikis — not docs, where authors already
-    fixed these): ~150–300 hand-checked lines, collected once and frozen. Tune on dev, run held-out once; ships
-    only if it matches or beats the rules' precision there. If not, document it honestly (like Explanation).
-- **Pattern hunt:** while mining the repositories and the unpolished text, list other near-misses a model could
-  catch, and propose them to Pablo before building. His idea: pasting a URL → offer `[text](URL)`.
-
-**Open questions for Pablo at the start:** what *Local models only* does for questions with no model (smart
-paste, readability, and the Outline's heading rule — off, or a model for each where learnable); mode names; the
-new model file in Privacy & storage (it's a new download → listed, removed by "Delete all Marksage data").
-
-**Rebuild note:** `training/data/repos` isn't committed; `training/collect.ts` re-clones from `manifest.json`
-(~10 min) before any of this.
-
-## 1. BYOK — bring your own key (after §0)
+## 1. BYOK — bring your own key (next)
 
 **Status:** idea owned by Pablo, not yet shared in detail ("I have a really cool idea for this"). Start the
 session by asking him for it; don't design before hearing it.
@@ -95,6 +68,17 @@ and fix the docs where it's right and the features where it's wrong. Both get be
 - Most headings of the technical docs get no type — expected (topic sections are "other"), but worth a look.
 
 ## 4. Smaller items
+
+- **Structure model v2:** the rules and v1 miss *different* lines on the held-out set (rules: hashtag lines with an
+  emoji, `+20K` stat lines, unfenced diff lines, pasted logs; model: `-Name` signatures, `#123 …` references), so
+  a version where both must agree (or the model can veto) is the next try. `lines.real2.json` has been seen: it
+  needs a fresh held-out set (same issue-API workflow, other repositories — training/README.md).
+- **Rules seen failing on the held-out set** (fix on dev data first, then measure on a fresh set): `#Tag 🚀`
+  (the emoji counts as a word), `+20K estudantes`, `+if …` / `-if …` diff lines without a fence.
+- **Paste model v2:** train on messier tables (real terminal output, configs with comments) — v1 took `kubectl`
+  output, a list of commands and two JSON configs for code.
+- **URL paste → `[text](url)`:** authors write titles, which a URL doesn't contain; only possible with the page's
+  title, i.e. a network request — at most an opt-in idea for the BYOK era.
 
 - **"Too short to judge"** for the code model: one-liners get overconfident answers (`x = 1` → Python 97%).
 - **Shrink the model files:** a third of each file is per-slot scales.

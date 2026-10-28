@@ -69,13 +69,34 @@ Every Smart Assist question climbs the same ladder, and stops at the first step 
 2. **A tiny purpose-trained model** — only where the rules stay too quiet *and* real labelled data exists.
    Both of Marksage's models are here. Each had to prove, on repositories it never saw, that it adds answers
    the rules can't give. The code model shows more than twice as many suggestions at about the same
-   precision; the section model types sections whose heading says nothing.
+   precision; the section model types sections whose heading says nothing. Two more were trained and
+   measured the same way — structure hints and paste types — and didn't do better than the rules on real
+   text, so they aren't used (section 4.6).
 3. **A general decision model** — Laya preferably, because it runs on your device. Reserved for questions
    with no training data to learn from; no feature needs it yet.
 4. **A generative or hosted model** — not used by the built-in features: if the possible answers can't be
    listed up front, it isn't a Smart Assist feature. Coming next: an optional *bring your own key* (BYOK)
    mode to connect a hosted model with your own key — off by default, clearly marked, and documented here
    when it ships.
+
+### 1.3 Two modes
+
+Smart Assist has two modes besides *Off*. **Heuristics** answers every question with rules: instant, nothing
+to download. **Hybrid** uses Marksage's own models where they beat the rules on real text, and the rules
+everywhere else:
+
+| Question | Heuristics | Hybrid |
+|---|---|---|
+| Code-block language | rules | model ✦ — or the rules when the model's first pick agrees |
+| Smart paste (what kind of text) | rules | rules — a pasted code block's language as above |
+| Structure hints | rules | rules |
+| Readability | rules (LIX) | rules (LIX) |
+| Outline section types | heading rule | heading rule, then the section model ✦ for headings that don't say |
+
+A third mode where *only* models decide was considered and dropped: readability and the heading rule have no
+labels a model could learn from but their own output (a model trained on LIX scores would just copy LIX), and
+the structure and paste models didn't do better than the rules (section 4.6). Such a mode would have been
+weaker than Hybrid without being any more honest.
 
 ---
 
@@ -95,7 +116,7 @@ flowchart LR
     direction TB
     E["Editor<br/>typing pause 400 ms · paste · 2 s idle"] --> P["Pre-filter<br/>finds a candidate — none: stop here"]
     P --> H["Heuristics<br/>always ready"]
-    P --> M["Local model<br/>own models + heuristics"]
+    P --> M["Hybrid<br/>own models + heuristics"]
     H --> G["Confidence gate<br/>top ≥ 0.8 and ahead by ≥ 0.2"]
     M --> G
     G --> F["Feature + converter<br/>builds the edit: table, list, fence"]
@@ -105,7 +126,7 @@ flowchart LR
     direction TB
     D["Document"] --> X["Sections<br/>split at headings, code skipped"]
     X --> R["Heading rule<br/>“Installation” → Setup"]
-    R -- "heading says nothing" --> SM["Section model<br/>Local model mode · reads the text"]
+    R -- "heading says nothing" --> SM["Section model<br/>Hybrid mode · reads the text"]
     R -- "typed" --> T1["Outline tab<br/>type + key sentence"]
     R -- "typed" --> T2["Document tab<br/>facts · tone · flags"]
     SM --> T1
@@ -123,12 +144,12 @@ flowchart LR
 | Piece | What it does |
 |---|---|
 | **Pre-filter** | Cheap, deterministic checks that find *candidates* (an untagged code block, a multi-line paste, a near-miss heading). No candidate → nothing else runs. |
-| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Local model* (Marksage's own models for code-block languages and Outline section types + heuristics for the rest). |
+| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Hybrid* (Marksage's own models for code-block languages and Outline section types + heuristics for the rest). |
 | **Confidence gate** | Drops any answer that isn't clearly ahead of the alternatives. |
 | **Features** | Turn a confident decision into a concrete, reversible edit (the four suggestion features below; the Outline and Document tab only read). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
-| **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading); a ✦ means the local model made the call. Clicking the card scrolls to the spot and flashes it in the preview. |
-| **Outline panel** | Visual only: sections typed by the heading rule, then (in *Local model* mode) by the section model; its Document tab sums the whole file up; its Suggestions tab lists every fixable spot. |
+| **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading, link); a ✦ means the local model made the call. Clicking the card scrolls to the spot and flashes it in the preview. |
+| **Outline panel** | Visual only: sections typed by the heading rule, then (in *Hybrid* mode) by the section model; its Document tab sums the whole file up; its Suggestions tab lists every fixable spot. |
 | **Evaluation set** | Hand-labelled examples used to measure each feature before it ships. |
 
 ### 2.2 The engine contract
@@ -145,7 +166,7 @@ interface DecisionEngine {
 
 Both engines implement the same interface, so features never know which one answered.
 `q` is a stable id (e.g. `fence.language`): the heuristic engine uses it to pick a scorer, and the
-*Local model* engine uses it to decide which questions its own model answers.
+*Hybrid* engine uses it to decide which questions its own models answer.
 
 ### 2.3 The confidence gate
 
@@ -208,7 +229,7 @@ logits — each matching rule adds its weight once:
 Scores go through `softmax` → probabilities → gate. **Action:** insert the language id right after
 the opening fence marker.
 
-**Two options.** With *Local model*, when no language passes the gate but the top two together hold
+**Two options.** With *Hybrid*, when no language passes the gate but the top two together hold
 ≥ 85 % (the second ≥ 20 %), the bar offers both — `Tab` (or a click) takes the first, `Alt+2` the second.
 Typical pairs: JavaScript/TypeScript, JSON/YAML, C/C++. The rule was set on the dev set; on the two
 held-out sets it made 15 and 17 offers, and the right language was one of the two every time. (Only the
@@ -249,7 +270,10 @@ fenced blocks, indented code blocks and raw HTML (`<pre>`, `<style>`, …) are s
 | `#Heading` (no space) — but not `#tag` single words or `#fff` colours | `# Heading` |
 | `== Title ==` (wiki style) | heading, level from the `=` count |
 | `-item`, `*item`, `+item` | `- item` |
+| `• item`, `– item`, `✔️ item` — a typographic bullet, as pasted from a document, a web page or a chat | `- item` (a check mark stays: `- ✔️ item`) |
 | `1)item`, `1.item` | `1) item` |
+| `1- item`, `1 - item` | `1. item` |
+| `[text] (https://…)` — the space breaks the link | `[text](https://…)` |
 
 **Heuristic**. The engine gets the ±2 lines of context and a statement
 such as *"The line "**Installation**" is meant to be a section heading."*. The probability starts
@@ -257,13 +281,21 @@ from a per-kind prior and is adjusted by evidence:
 
 - **Bold lines** that are long, end like a sentence (`.` `!` `?`, also `。` `！` `？` and other scripts),
   end with a colon (`**Returns:**`), start with a callout word (`Note`, `Warning`, `Tip`, `Q`/`A`,
-  `Nota`, `Atenção`, `Dica`, …) or are just a link are labels or emphasis, not headings.
+  `Nota`, `Atenção`, `Dica`, …) or are just a link are labels or emphasis, not headings. So are bold lines
+  right above an image (a caption: `**Before**`) and bold identifiers (`**android.permission.CAMERA**`).
+- **`#` lines** made only of hashtags (`#CLT #Remoto #React`), issue references (`#123 fixed …`) or code
+  (`#include`, `#!/bin/sh`, `#[derive]`) aren't headings; neither is a separator like `=== === ===`.
 - **Dash lines** that look like CLI flags (`-s, --search`), flag sets (`+SIMD +AVX`), CSS
-  (`-webkit-line-clamp: 2;`) or negative numbers (`-5 degrees`) aren't list items; `*word*` is emphasis.
+  (`-webkit-line-clamp: 2;`), negative numbers (`-5 degrees`) or `ls -l` output (`-rw-r--r-- 1 …`) aren't
+  list items; `*word*` is emphasis.
 - **List fixes** need company: neighbouring list items raise confidence; a lone `*line` is more
   often a footnote than a bullet, so it stays quiet. A lone `-line` is suggested only when it reads as plain
   prose (three or more words, nothing code-like such as `/`, `:` or `=`): "-this should be a list item" yes,
   "-verbose" or "-su cd: /opt/app: Permission denied" no.
+- **Typographic bullets** need company too: a lone `• line` stays quiet, a line with several bullets is a
+  separator bar (`• English • Русский • Français`), and `— Name` alone signs a quote. **`1 - item`** needs a
+  numbered neighbour: `3 - 2` alone is a range, `31- zone 2 passed` is test output.
+- **A link broken by a space** is always offered (0.9): Markdown never reads `[text] (url)` as a link.
 
 ### Readability (`score`)
 
@@ -305,7 +337,7 @@ roadmap, "Future plans", "Planos futuros":
 - navigation ("See also", "Next steps", "Veja também") is never typed;
 - broad words ("Features", "Background", "Production", "Todo") only count when they are the whole heading.
 
-With *Local model*, sections the heading rule leaves untyped are read by the section model
+With *Hybrid*, sections the heading rule leaves untyped are read by the section model
 (section 4.4).
 
 **Key sentence.** Picked from the section, not written: the sentence that shares the most words with
@@ -345,8 +377,8 @@ Nothing in the document changes.
 after you stop typing.
 
 **What it lists:** every spot of the document that would get a suggestion, in document order — code blocks
-without a language (same question, same gate and two-option rule as in the editor) and near-miss headings or
-lists (same rules as the structure hints). Each row has the fix's icon, its line, the code's first line or
+without a language (same question, same gate and two-option rule as in the editor) and near-miss headings,
+lists and links (same rules as the structure hints). Each row has the fix's icon, its line, the code's first line or
 what changes into what, the confidence and a ✦ when the local model decided. Pastes aren't listed: they're
 offered at the moment you paste. Dismissed suggestions (`Esc`) leave the list until the mode changes.
 
@@ -363,7 +395,7 @@ dismisses, undo works — the same guarded edit as everywhere else.
 
 ### 4.1 What it is
 
-*Local model* mode adds a small language classifier trained for exactly one job: naming the
+*Hybrid* mode adds a small language classifier trained for exactly one job: naming the
 language of an untagged code block (and of a pasted block of code). Everything else keeps
 using the heuristics. It isn't a chatbot or an LLM — it reads a snippet and picks one of the 21
 answers, like the rest of Smart Assist.
@@ -417,7 +449,7 @@ C#), the rest are one-liners that fit several languages (`void main() { … }` i
 
 ### 4.4 The section model
 
-With *Local model*, the Outline also types sections whose heading doesn't say — "Before you begin",
+With *Hybrid*, the Outline also types sections whose heading doesn't say — "Before you begin",
 "Bug fixes", "Theming" — by reading the text under the heading.
 
 - **Same recipe, other clues:** the same kind of model and file format (385 KB, ~0.1 ms per section),
@@ -468,6 +500,52 @@ turned out to be the better fit: thousands of times smaller, instant, and measur
 The section model followed the same path. Laya stays an option for future questions where no such training data exists. By default, whatever
 runs, runs on your device; anything hosted, like the planned BYOK mode, will be opt-in and clearly marked.
 
+### 4.6 Tried, not used: structure hints, paste types, link text
+
+Three more questions went through the same process in October 2026 — trained (or written) on the public
+repositories, every choice made on a dev set, then measured once on held-out real text — and none did better
+than the rules. They're written down so the next attempt starts from the numbers.
+
+**A structure model** — "is this near-miss line a list item or a heading?" (yes / no), same recipe and size as
+the other two, reading the line and two lines around it. It learned from 66,076 lines: real list items and
+headings from the 381 repositories with the near-miss put back in (`- item` → `-item` or `• item`, `## Title` →
+`##Title` or `**Title**`), against real look-alikes (CLI help, `ls -l` output, diff lines, CSS, `#include`,
+footnotes, bold labels). It was judged on 227 hand-labelled lines from issues, pull requests and comments of 43
+repositories it never saw — unpolished text, where these near-misses really happen:
+
+| Held-out (227 lines, run once) | Shown | Right when shown | True lines found (of 132) |
+|---|---|---|---|
+| Rules | 140 | 88.6 % | 124 |
+| Model alone | 76 | 90.8 % | 69 |
+| Rules + the model's ≥ 95 % answers where the rules stay quiet | 141 | 88.7 % | 125 |
+
+The combination met the bar set beforehand — the rules' precision, at least as many true lines — by one line
+in 227: not worth a download. The two make different mistakes: the rules wrongly flag hashtag lines,
+`+20K estudantes` and diff lines, which the model gets right; the model wrongly flags signatures (`-Jake`) and
+`#32 will fix this`, which the rules get right. A version where both must agree is the natural next try, on a
+fresh held-out set. Bold lines stay with the rules for good reason: the model's "no" examples were real bold
+lines, and many real bold lines *are* headings, so it learned "bold → no" (5 of 80 shown).
+
+**A paste-type model** — "what kind of text is this paste?" (the seven kinds of smart paste), trained on 16,977
+pastes made from real files: code and JSON blocks as their authors wrote them, real Markdown tables turned back
+into CSV, spreadsheet and terminal text, lists and paragraphs as a browser copies them. It was judged on 53 real
+pastes from 19 sources outside its data (data files, spreadsheet copies, `pip` and `kubectl` output, source
+files, configs, READMEs in English and Portuguese):
+
+| Held-out (53 pastes, run once) | Shown | Right when shown |
+|---|---|---|
+| Rules | 41 | 97.6 % |
+| Model | 44 | 90.9 % |
+
+It took `kubectl` output, a list of commands and two JSON files for code.
+
+**Link text for a pasted URL** — offline, the text can only come from the URL itself. Measured against 2,842
+links that stand alone on their line in the dev repositories, what authors write is a title or a name: the URL's
+last segment matches it 10 % of the time, the domain never, `owner/repo` 28 %. Only GitHub issue and pull
+request links (`owner/repo#123`) matched often on dev (90 %) — and 32 % on the held-out repositories, where each
+project has its own habit ("BUG #523", "Pull Request", a title). Without fetching the page there's no good text
+to offer, so a pasted URL stays as it is (GitHub-flavoured Markdown shows it as a link anyway).
+
 ---
 
 ## 5. How it's measured
@@ -491,11 +569,18 @@ included), and the rules are never tuned against it — so it's the honest numbe
 |---|---|---|---|---|
 | Code-block language | 314 | 57 % | 76 | 97 % |
 | Smart paste | 31 | 94 % | 23 | 100 % |
+| Smart paste, fresh set (2026-10-28) | 53 | 94 % | 41 | 98 % |
 | Structure hints | 30 | 93 % | 14 | 86 % |
+| Structure hints, fresh set (2026-10-28) | 227 | 89 % | 140 | 89 % |
+
+The fresh sets were built for the models of section 4.6 and run once: 53 pastes from real files, and 227 lines
+from GitHub issues, pull requests and comments — unpolished text, where the near-misses really happen. On the
+dev set they were tuned against (212 lines from other repositories), the structure rules reach 97 %; the
+held-out 89 % is the honest number.
 
 Read it like this: when a suggestion appears it's almost always right; the cost of that caution
 is that many real code blocks get no language suggestion at all. Heuristic decisions take well under
-a millisecond. With *Local model*, code-block language on the same 314 blocks reaches **77 % accuracy, 164 shown, 96 %
+a millisecond. With *Hybrid*, code-block language on the same 314 blocks reaches **77 % accuracy, 164 shown, 96 %
 precision**, and 74 % / 158 / 92 % on a second, fresh set (section 4.3).
 
 ---

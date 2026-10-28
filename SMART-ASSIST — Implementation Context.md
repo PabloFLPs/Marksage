@@ -414,3 +414,34 @@ There are no cookies, analytics or third-party requests (system fonts only).
   no `/ : = $ \` { } < > |`, not indented as code) scores 0.82. Dev and real sets unchanged (no such lines in
   them); +3 written cases (structure 26: the playground line, the real "-su cd: …" shell output, "-verbose").
 
+
+## 28. Structure / paste models tried, Hybrid mode, new near-misses (2026-10-28)
+
+- **Plan (ROADMAP §0):** a third model for structure hints and a "Local models only" mode. Pablo's decisions
+  along the way: no models-only mode after all (readability and the heading rule have no labels a model could
+  learn from but their own output; the trained models didn't beat the rules) — modes are **Off / Heuristics /
+  Hybrid** ("Local model" renamed; stored value still `model`); try bold lines in the model; also try a
+  paste-type model, the URL-paste idea (rules first) and the pattern-hunt items below.
+- **Corpus rebuilt** at the manifest commits (`collect.ts` now pins clones; `--fresh` for HEAD). Pablo's
+  hypothesis confirmed: in the docs a line starting with a CLI flag is written as code 6,539 times vs 110 bare;
+  in issues the bare `-word` lines are list items missing the space, signatures and unfenced `ls -l` output.
+- **Pattern hunt** (counts over docs / issues / wikis): lone URLs (12% of issue bodies), typographic bullets
+  (459 lines in 48 issue bodies, mostly job posts), `1- item`, `[text] (url)`; letter lists, unfenced code,
+  checkbox near-misses, `** x **` and `'''` fences were rare or not fixable.
+- **Shipped (rules, both modes):** new structure kinds `list-glyph` (`• – ✔️` → `- item`, a check mark kept),
+  `ordered-dash` (`1- item` → `1. item`), `link-space` (`[text] (url)` → `[text](url)`, Link icon, "Fix this
+  link?"); rule fixes tuned on dev: hashtag-only lines, issue refs and `#include`/shebangs aren't headings, `ls -l`
+  permissions aren't items, bold captions over images and bold identifiers aren't headings, `=== ===` separators,
+  glyph separator bars and `— Name` signatures, neighbour counting that ignores `**bold**`/`--flags`.
+- **New sets:** `lines.dev.json` 36 → 212 (issues of 20 repos + 16 wikis), `lines.real2.json` 227 (issues, PRs
+  and comments of 43 fresh repos, frozen), `pastes.real2.json` 53 (19 real sources, frozen). The eval reads a
+  case's `line` when present.
+- **Structure model v1** (clue reader 3, 66k lines): held-out 227 — rules 140 shown / 88.6% / 124 true; model 76 /
+  90.8% / 69; rules + model ≥ 0.95 (chosen on dev) 141 / 88.7% / 125. Met the bar by one line; Pablo: don't ship,
+  document. Rules and model miss different lines → v2 idea: agreement, on a fresh held-out set.
+- **Paste model v1** (clue reader 4, 17k pastes): held-out 53 — rules 41 / 97.6%; model 44 / 90.9%. Not used.
+- **URL paste → `[text](url)`:** only GitHub issue/PR links got the author's text on dev (89.8%); held-out
+  32.4% (projects differ: "BUG #523", "Pull Request", titles). Not shipped; no model (the missing piece is the
+  page title, which needs the network).
+- Docs: SMART-ASSIST §1.2–1.3 (modes table), §3 (new kinds and rules), §4.6 (tried, not used), §5 (fresh sets);
+  MODELS §8.3–8.5; About (modes table, structure hints text); README table; training/README.md; AGENTS.md.
