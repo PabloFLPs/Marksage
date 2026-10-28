@@ -1,6 +1,7 @@
 /**
  * Step 1 — collect labelled code blocks from the public sources in sources.json.
  *   node --experimental-strip-types training/collect.ts [--jobs 8]
+ *   (clones are pinned to the commits in the manifest; --fresh clones HEAD and rewrites it)
  *   … --sources sources-test2.json --out blocks-test2.jsonl --manifest manifest-test2.json   (a separate held-out set)
  *
  * Shallow, sparse clones (only Markdown, or only the listed source files) into training/data/repos/,
@@ -57,13 +58,21 @@ function sparsePatterns(s: Source): string[] {
   return s.paths.flatMap((p) => (p.endsWith('*') ? [p.replace(/\*$/, '**/*.md'), p.replace(/\*$/, '**/*.mdx')] : [p]))
 }
 
-async function clone(s: Source): Promise<string | null> {
+async function clone(s: Source, pin?: string): Promise<string | null> {
   const dir = dirFor(s)
   const url = `https://github.com/${s.repo}${s.wiki ? '.wiki' : ''}.git`
   try {
     if (!existsSync(join(dir, '.git'))) {
       await run('git', ['clone', '-q', '--depth', '1', '--filter=blob:none', '--sparse', url, dir], { timeout: 240_000 })
       await run('git', ['-C', dir, 'sparse-checkout', 'set', '--no-cone', ...sparsePatterns(s)], { timeout: 240_000 })
+      if (pin) {
+        // Rebuild exactly: move to the commit recorded in the manifest (GitHub serves any commit by its hash).
+        const { stdout: head } = await run('git', ['-C', dir, 'rev-parse', 'HEAD'])
+        if (head.trim() !== pin) {
+          await run('git', ['-C', dir, 'fetch', '-q', '--depth', '1', '--filter=blob:none', 'origin', pin], { timeout: 240_000 })
+          await run('git', ['-C', dir, 'checkout', '-q', pin], { timeout: 240_000 })
+        }
+      }
     }
     const { stdout } = await run('git', ['-C', dir, 'rev-parse', 'HEAD'])
     return stdout.trim()
@@ -159,6 +168,10 @@ function fileBlocks(s: Source, dir: string): Block[] {
 async function main() {
   const { sources } = JSON.parse(readFileSync(join(ROOT, SOURCES), 'utf8')) as { sources: Source[] }
   mkdirSync(REPOS, { recursive: true })
+  // --fresh: clone each repo's current HEAD and write a new manifest. Default: pin to the manifest's commits.
+  const fresh = process.argv.includes('--fresh')
+  const pinned: Record<string, string> =
+    !fresh && existsSync(join(ROOT, MANIFEST)) ? JSON.parse(readFileSync(join(ROOT, MANIFEST), 'utf8')).commits : {}
   const manifest: Record<string, string> = {}
   const outFile = createWriteStream(join(DATA, OUT))
   let total = 0
@@ -167,7 +180,7 @@ async function main() {
   async function worker() {
     while (next < sources.length) {
       const s = sources[next++]
-      const sha = await clone(s)
+      const sha = await clone(s, pinned[s.repo + (s.code ? '#code' : '')])
       if (!sha) continue
       manifest[s.repo + (s.code ? '#code' : '')] = sha
       const blocks = s.code ? fileBlocks(s, dirFor(s)) : fenceBlocks(s, dirFor(s))
@@ -182,7 +195,12 @@ async function main() {
   await Promise.all(Array.from({ length: JOBS }, worker))
   outFile.end()
   const sorted = Object.fromEntries(Object.entries(manifest).sort(([a], [b]) => a.localeCompare(b)))
-  writeFileSync(join(ROOT, MANIFEST), JSON.stringify({ collected: new Date().toISOString().slice(0, 10), commits: sorted }, null, 1) + '\n')
+  if (fresh) {
+    writeFileSync(join(ROOT, MANIFEST), JSON.stringify({ collected: new Date().toISOString().slice(0, 10), commits: sorted }, null, 1) + '\n')
+  } else {
+    const off = Object.entries(sorted).filter(([k, v]) => pinned[k] !== v).map(([k]) => k)
+    if (off.length) console.warn(`  ! ${off.length} clones differ from ${MANIFEST}: ${off.slice(0, 5).join(', ')}`)
+  }
   console.log(`\n${total} blocks from ${Object.keys(manifest).length}/${sources.length} sources`)
   console.log(Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}:${v}`).join('  '))
 }
