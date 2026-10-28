@@ -220,7 +220,7 @@ export default function App() {
       block.classList.remove('suggest-flash')
       void block.offsetWidth // restart the animation
       block.classList.add('suggest-flash')
-      window.setTimeout(() => block.classList.remove('suggest-flash'), 2500)
+      window.setTimeout(() => block.classList.remove('suggest-flash'), 2200)
     }
   }, [])
 
