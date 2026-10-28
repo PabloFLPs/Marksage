@@ -127,7 +127,7 @@ flowchart LR
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
 | **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos de sugestão abaixo; a Estrutura e a aba Documento só leem). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
-| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título); um ✦ quer dizer que o modelo local decidiu. |
+| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título); um ✦ quer dizer que o modelo local decidiu. *Mostrar onde* rola até o ponto e o destaca na pré-visualização. |
 | **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Modelo local*) pelo modelo de seções; a aba Documento resume o arquivo inteiro; a aba Sugestões lista cada ponto que dá para corrigir. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão usados para medir cada recurso antes de ele ir ao ar. |
 
@@ -176,7 +176,8 @@ O silêncio é o padrão: uma sugestão perdida não custa nada; uma errada cust
   pré-filtro precisa achar um candidato antes de qualquer chamada ao mecanismo.
 - **Cancelamento.** Cada execução tem seu `AbortController`; novas digitações abortam execuções
   antigas.
-- **Dispensas permanecem** durante a sessão (por hash do conteúdo), para a mesma dica não insistir.
+- **Dispensas permanecem** durante a sessão (por hash do conteúdo), para a mesma dica não insistir. Trocar o
+  modo (ou desligar e ligar o Smart Assist) recomeça do zero: as sugestões dispensadas voltam a aparecer.
 - **Desligado é desligado.** No modo *Desligado*, nenhum handler é ligado ao textarea.
 
 ---
@@ -349,7 +350,7 @@ recalculada 600 ms depois que você para de digitar.
 sem linguagem (mesma pergunta, mesmo filtro e mesma regra das duas opções do editor) e títulos ou listas quase
 certos (mesmas regras das dicas de estrutura). Cada linha tem o ícone da correção, a linha do documento, a
 primeira linha do código ou o que vira o quê, a confiança e um ✦ quando o modelo local decidiu. Colagens não
-entram: elas são oferecidas na hora em que você cola. Sugestões dispensadas (`Esc`) saem da lista na sessão.
+entram: elas são oferecidas na hora em que você cola. Sugestões dispensadas (`Esc`) saem da lista até o modo mudar.
 
 **Ação.** Nenhuma no painel. Um clique abre o editor se preciso, põe o cursor no ponto e mostra aquela
 sugestão na barra de sempre; ela fica ali até você mover o cursor ou digitar. `Tab` aceita, `Esc` dispensa,

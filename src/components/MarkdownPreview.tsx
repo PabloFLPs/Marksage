@@ -1,4 +1,5 @@
 import { Children, isValidElement, useMemo } from 'react'
+import { READABILITY_COLORS } from '../lib/readabilityColors'
 import type { HTMLAttributes, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -19,7 +20,7 @@ interface MarkdownPreviewProps {
   internalLinks?: Record<string, string>
 }
 
-const DOT_COLORS = ['bg-emerald-500/70', 'bg-emerald-500/70', 'bg-amber-500/70', 'bg-orange-500/80', 'bg-red-500/80']
+const DOT_COLORS = READABILITY_COLORS
 
 export function MarkdownPreview({ content, readability, renderBlock, internalLinks }: MarkdownPreviewProps) {
   const { t } = useI18n()

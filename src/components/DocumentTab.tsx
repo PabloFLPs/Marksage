@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
-import type { ReactNode } from 'react'
+import type { ComponentType, ReactNode } from 'react'
+import { ChartNoAxesColumn, Eye, Gauge, MessageSquareQuote, ScanSearch, Shapes } from 'lucide-react'
+import { READABILITY_COLORS } from '../lib/readabilityColors'
 import { computeDocStats, FLAG_ORDER, type DocFlag, type DocStats } from '../assist/docStats'
 import type { OutlineItem } from '../assist/outline'
 import { SECTION_ICONS } from './sectionIcons'
@@ -24,12 +26,12 @@ export function DocumentTab({ text, items, filename, onSelect }: DocumentTabProp
 
   return (
     <div className="scroll-area min-h-0 flex-1 overflow-y-auto px-3 py-3 text-[13px] text-ink dark:text-dark-ink">
-      <Block title={t('doc.kind.title')}>
-        <p className="text-base font-semibold">{stats.kind ? t(`doc.kind.${stats.kind.id}`) : t('doc.kind.none')}</p>
+      <Block icon={ScanSearch} title={t('doc.kind.title')}>
+        <p className={`text-base font-semibold ${stats.kind ? 'text-accent dark:text-dark-accent' : ''}`}>{stats.kind ? t(`doc.kind.${stats.kind.id}`) : t('doc.kind.none')}</p>
         {stats.kind && <Muted>{because(stats.kind, t)}</Muted>}
       </Block>
 
-      <Block title={t('doc.facts')}>
+      <Block icon={ChartNoAxesColumn} title={t('doc.facts')}>
         <dl className="grid grid-cols-2 gap-x-3 gap-y-2">
           <Fact label={t('doc.words')} value={num(stats.words)} />
           <Fact label={t('doc.reading')} value={t('doc.readingValue', { n: stats.readingMinutes })} />
@@ -51,9 +53,10 @@ export function DocumentTab({ text, items, filename, onSelect }: DocumentTabProp
         )}
       </Block>
 
-      <Block title={t('doc.readability')}>
+      <Block icon={Gauge} title={t('doc.readability')}>
         {stats.readability ? (
           <>
+            <Scale steps={READABILITY_COLORS.length} at={stats.readability.value} color={(i) => READABILITY_COLORS[i]} ends={[cap(t('readability.0')), cap(t('readability.4'))]} />
             <p className="font-medium">
               {cap(t(`readability.${stats.readability.value}`))} <span className="font-normal text-ink-muted dark:text-dark-ink-muted">· LIX {stats.readability.lix}</span>
             </p>
@@ -69,9 +72,10 @@ export function DocumentTab({ text, items, filename, onSelect }: DocumentTabProp
         )}
       </Block>
 
-      <Block title={t('doc.tone')}>
+      <Block icon={MessageSquareQuote} title={t('doc.tone')}>
         {stats.tone ? (
           <>
+            <Scale steps={3} at={REGISTERS.indexOf(stats.tone.register)} color={() => 'bg-accent dark:bg-dark-accent'} ends={[t('doc.tone.formal'), t('doc.tone.conversational')]} />
             <p className="font-medium">
               {t(`doc.tone.${stats.tone.register}`)} <span className="font-normal text-ink-muted dark:text-dark-ink-muted">· {t(`doc.voice.${stats.tone.voice}`)}</span>
             </p>
@@ -83,14 +87,14 @@ export function DocumentTab({ text, items, filename, onSelect }: DocumentTabProp
       </Block>
 
       {stats.sectionTypes.length > 0 && (
-        <Block title={t('doc.types')}>
+        <Block icon={Shapes} title={t('doc.types')}>
           <ul className="flex flex-wrap gap-1.5">
             {stats.sectionTypes.map(([type, n]) => {
               const Icon = SECTION_ICONS[type]
               return (
                 <li key={type} className="inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-xs dark:border-dark-line">
                   <Icon className="h-3 w-3 text-accent dark:text-dark-accent" />
-                  {t(`section.${type}`)} <span className="text-ink-muted dark:text-dark-ink-muted">{n}</span>
+                  {t(`section.${type}`)} <span className="font-medium tabular-nums text-accent dark:text-dark-accent">{n}</span>
                 </li>
               )
             })}
@@ -98,7 +102,7 @@ export function DocumentTab({ text, items, filename, onSelect }: DocumentTabProp
         </Block>
       )}
 
-      <Block title={t('doc.flags')}>
+      <Block icon={Eye} title={t('doc.flags')} count={stats.flags.length}>
         {stats.flags.length === 0 ? <Muted>{t('doc.flags.none')}</Muted> : <Flags flags={stats.flags} onSelect={onSelect} />}
       </Block>
 
@@ -134,7 +138,7 @@ function Flags({ flags, onSelect }: { flags: DocFlag[]; onSelect: (line: number)
         <li key={kind}>
           <p className="flex items-baseline gap-1.5">
             <span>{t(`doc.flag.${kind}`)}</span>
-            <span className="text-xs text-ink-muted dark:text-dark-ink-muted">{list.length}</span>
+            <span className="rounded-full bg-accent/10 px-1.5 text-[10.5px] font-semibold tabular-nums text-accent dark:bg-dark-accent/15 dark:text-dark-accent">{list.length}</span>
           </p>
           <div className="mt-1 flex flex-wrap gap-1">
             {list.slice(0, MAX_CHIPS).map((f, i) => (
@@ -156,12 +160,37 @@ function Flags({ flags, onSelect }: { flags: DocFlag[]; onSelect: (line: number)
   )
 }
 
-function Block({ title, children }: { title: string; children: ReactNode }) {
+function Block({ icon: Icon, title, count, children }: { icon: ComponentType<{ className?: string }>; title: string; count?: number; children: ReactNode }) {
   return (
     <section className="mb-4 border-b border-line pb-4 last-of-type:border-0 dark:border-dark-line">
-      <h3 className="mb-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">{title}</h3>
+      <h3 className="mb-2 flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
+        <Icon aria-hidden className="h-3.5 w-3.5 text-accent dark:text-dark-accent" />
+        {title}
+        {!!count && <span className="ml-auto font-semibold tabular-nums text-accent normal-case tracking-normal dark:text-dark-accent">{count}</span>}
+      </h3>
       {children}
     </section>
+  )
+}
+
+const REGISTERS = ['formal', 'neutral', 'conversational'] as const
+
+/** A small segmented scale: where the document sits (e.g. very easy … very hard). Decorative — the text says it. */
+function Scale({ steps, at, color, ends }: { steps: number; at: number; color: (i: number) => string; ends?: [string, string] }) {
+  return (
+    <div aria-hidden className="mb-1.5">
+      <div className="flex gap-1">
+        {Array.from({ length: steps }, (_, i) => (
+          <span key={i} className={`h-1.5 flex-1 rounded-full transition-opacity ${i === at ? color(i) : `${color(i)} opacity-20`}`} />
+        ))}
+      </div>
+      {ends && (
+        <div className="mt-1 flex justify-between text-[10px] text-ink-muted dark:text-dark-ink-muted">
+          <span>{ends[0]}</span>
+          <span>{ends[1]}</span>
+        </div>
+      )}
+    </div>
   )
 }
 

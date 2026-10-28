@@ -46,6 +46,10 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
     setSuggestion(null)
     setReadability([])
     setAll([])
+    // A new mode is a fresh start: what was dismissed (Esc) under the old one is offered again.
+    dismissed.current.clear()
+    pasteSticky.current = false
+    pinnedAt.current = null
     if (mode === 'off') {
       setEngine(null)
       setStatus({ state: 'off' })

@@ -1,4 +1,4 @@
-import { Sparkles, X } from 'lucide-react'
+import { LocateFixed, Sparkles, X } from 'lucide-react'
 import type { Suggestion } from '../assist/types'
 import { useI18n } from '../hooks/useI18n'
 import { useKeyStyle } from '../hooks/useKeyStyle'
@@ -10,18 +10,32 @@ interface SuggestionBarProps {
   /** `index` picks an option of a two-way choice (0 = first). */
   onAccept: (index?: number) => void
   onDismiss: () => void
+  /** Bring the suggestion's spot into view. */
+  onLocate?: (s: Suggestion) => void
 }
 
 const kbd =
   'rounded border border-line px-1 font-mono text-[10px] text-ink-muted dark:border-dark-line dark:text-dark-ink-muted'
 
-export function SuggestionBar({ suggestion, onAccept, onDismiss }: SuggestionBarProps) {
+export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: SuggestionBarProps) {
   const { t } = useI18n()
   const label = suggestion.message ? t(suggestion.message.key, suggestion.message.vars) : suggestion.label
   const detail = suggestion.detailKey ? t(suggestion.detailKey) : suggestion.detail
   const { keyStyle } = useKeyStyle()
   const Icon = suggestionIcon(suggestion)
   const byKey = decidedByKey(suggestion)
+  const locate = onLocate && (
+    <button
+      type="button"
+      onMouseDown={(e) => e.preventDefault()}
+      onClick={() => onLocate(suggestion)}
+      aria-label={t('suggest.locate')}
+      title={t('suggest.locate')}
+      className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-ink-muted transition-colors hover:text-accent pointer-coarse:h-8 pointer-coarse:w-8 dark:text-dark-ink-muted dark:hover:text-dark-accent"
+    >
+      <LocateFixed className="h-3.5 w-3.5" />
+    </button>
+  )
   const icon = <Icon aria-hidden className="anim-pop h-3.5 w-3.5 shrink-0 text-accent dark:text-dark-accent" />
   // ✦ — the local model made (or confirmed) this call, as in the Outline.
   const byModel = byKey && (
@@ -43,6 +57,7 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss }: SuggestionBar
           <span className="truncate">{label}</span>
           {byModel}
         </div>
+        {locate}
         <div className="flex shrink-0 items-center gap-1.5">
           {suggestion.choices.map((c, i) => (
             <button
@@ -95,6 +110,7 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss }: SuggestionBar
           </div>
         )}
       </div>
+      {locate}
       <span
         title={t('suggest.confidence')}
         className="hidden shrink-0 tabular-nums text-ink-muted sm:inline dark:text-dark-ink-muted"

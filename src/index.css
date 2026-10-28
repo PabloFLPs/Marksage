@@ -620,6 +620,26 @@ body {
   .outline-hit-box { transition: none; }
 }
 
+/* "Show where" on the suggestion bar: the block it applies to pulses once in the preview. */
+.markdown-body .suggest-flash {
+  animation: suggest-flash 1.5s ease-out;
+  border-radius: 6px;
+}
+@keyframes suggest-flash {
+  0%, 30% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 45%, transparent); }
+  100% { box-shadow: 0 0 0 3px transparent; }
+}
+.dark .markdown-body .suggest-flash {
+  animation-name: suggest-flash-dark;
+}
+@keyframes suggest-flash-dark {
+  0%, 30% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-dark-accent) 50%, transparent); }
+  100% { box-shadow: 0 0 0 3px transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .markdown-body .suggest-flash { animation-duration: 0.01s; box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 45%, transparent); }
+}
+
 /* Docs diagrams: drawn SVG (themed through its msd-* classes) or Mermaid, with a style switch. */
 .doc-diagram-figure {
   margin: 0 0 1.5em;

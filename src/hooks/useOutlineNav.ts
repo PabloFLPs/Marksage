@@ -4,6 +4,8 @@ import { editorLineTops, previewAnchors } from '../lib/scrollSync'
 
 /** How far below the top edge a section counts as "the one being read". */
 const PROBE_PX = 48
+/** Side padding of the Outline hover tint: the readability dot sits 10–16 px left of a heading. */
+const HOVER_PAD = 26
 const SCROLL_KEYS = new Set(['PageUp', 'PageDown', 'Home', 'End', 'ArrowUp', 'ArrowDown', ' '])
 
 /**
@@ -148,8 +150,10 @@ export function useOutlineNav(
       }
       el.style.top = `${top - 6}px`
       el.style.height = `${Math.max(0, bottom - top + 6)}px`
-      el.style.left = `${h.left - origin.left - 10}px`
-      el.style.width = `${h.width + 20}px`
+      // Wide enough to hold the readability dot left of an ## heading (16 px out), never past the content's padding.
+      const pad = Math.min(HOVER_PAD, h.left - origin.left)
+      el.style.left = `${h.left - origin.left - pad}px`
+      el.style.width = `${h.width + 2 * pad}px`
       el.classList.add('is-shown')
     },
     [preview],
@@ -166,7 +170,7 @@ export function useOutlineNav(
 }
 
 /** The preview block for a source line: the exact block, or the closest one above it. */
-function elementForLine(box: HTMLElement, line: number): HTMLElement | null {
+export function elementForLine(box: HTMLElement, line: number): HTMLElement | null {
   const exact = box.querySelector<HTMLElement>(`[data-line="${line + 1}"]`)
   if (exact) return exact
   let best: HTMLElement | null = null

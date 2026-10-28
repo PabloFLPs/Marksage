@@ -127,7 +127,7 @@ flowchart LR
 | **Confidence gate** | Drops any answer that isn't clearly ahead of the alternatives. |
 | **Features** | Turn a confident decision into a concrete, reversible edit (the four suggestion features below; the Outline and Document tab only read). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
-| **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading); a ✦ means the local model made the call. |
+| **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading); a ✦ means the local model made the call. *Show where* scrolls to the spot and flashes it in the preview. |
 | **Outline panel** | Visual only: sections typed by the heading rule, then (in *Local model* mode) by the section model; its Document tab sums the whole file up; its Suggestions tab lists every fixable spot. |
 | **Evaluation set** | Hand-labelled examples used to measure each feature before it ships. |
 
@@ -175,7 +175,8 @@ Silence is the default: a missed suggestion costs nothing, a wrong one costs tru
 - **Never per keystroke.** Analysis is debounced (400 ms), readability waits for 2 s idle, and
   the pre-filter must find a candidate before any engine call.
 - **Cancellation.** Each run owns an `AbortController`; new input aborts stale runs.
-- **Dismissals stick** for the session (keyed by a content hash), so the same hint never nags.
+- **Dismissals stick** for the session (keyed by a content hash), so the same hint never nags. Changing the
+  mode (or turning Smart Assist off and on) is a fresh start: dismissed suggestions are offered again.
 - **Off means off.** With the mode set to *Off*, no handlers are attached to the textarea.
 
 ---
@@ -345,7 +346,7 @@ after you stop typing.
 without a language (same question, same gate and two-option rule as in the editor) and near-miss headings or
 lists (same rules as the structure hints). Each row has the fix's icon, its line, the code's first line or
 what changes into what, the confidence and a ✦ when the local model decided. Pastes aren't listed: they're
-offered at the moment you paste. Dismissed suggestions (`Esc`) leave the list for the session.
+offered at the moment you paste. Dismissed suggestions (`Esc`) leave the list until the mode changes.
 
 **Action.** None in the panel. A click opens the editor if needed, puts the caret on the spot and shows that
 suggestion in the normal bar; it stays there until you move the caret or type. `Tab` accepts, `Esc`

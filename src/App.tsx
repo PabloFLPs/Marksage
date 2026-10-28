@@ -26,7 +26,7 @@ import { appIconUrl } from './lib/appIcons'
 import { useScrollSync } from './hooks/useScrollSync'
 import { useSmartAssist } from './assist/useSmartAssist'
 import { useOutline } from './assist/useOutline'
-import { useOutlineNav } from './hooks/useOutlineNav'
+import { elementForLine, useOutlineNav } from './hooks/useOutlineNav'
 import { ScrollJump } from './components/ScrollJump'
 import { editorLineTops } from './lib/scrollSync'
 import { OutlinePanel, type PanelTab } from './components/OutlinePanel'
@@ -85,6 +85,7 @@ export default function App() {
   const copiedTimer = useRef<number | null>(null)
   const [assistMode, setAssistMode] = useState<AssistMode>(loadAssistMode)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const previewPaneRef = useRef<HTMLDivElement>(null) // split view: the preview pane (scrolls with the editor)
   // Outline panel: docked on desktop (remembered), a bottom sheet on small screens (never auto-opens).
   const [outlineOpen, setOutlineOpen] = useState(() => isDesktop && loadOutlineOpen())
   const [panelTab, setPanelTab] = useState<PanelTab>('outline') // this session only
@@ -203,6 +204,26 @@ export default function App() {
     saveAssistMode(mode)
   }, [])
 
+  // "Show where" on the suggestion bar: bring its spot into view (the caret stays, so the suggestion does too)
+  // and flash the matching block in the split view's preview.
+  const locateSuggestion = useCallback((s: Suggestion) => {
+    const ta = textareaRef.current
+    if (!ta) return
+    const line = ta.value.slice(0, s.edit.from).split('\n').length - 1
+    const tops = editorLineTops(ta)
+    const y = tops[line] ?? 0
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (y < ta.scrollTop || y > ta.scrollTop + ta.clientHeight - 80)
+      ta.scrollTo({ top: Math.max(0, y - ta.clientHeight / 3), behavior: smooth ? 'smooth' : 'auto' })
+    const block = previewPaneRef.current && elementForLine(previewPaneRef.current, line)
+    if (block) {
+      block.classList.remove('suggest-flash')
+      void block.offsetWidth // restart the animation
+      block.classList.add('suggest-flash')
+      window.setTimeout(() => block.classList.remove('suggest-flash'), 1600)
+    }
+  }, [])
+
   const editor = document && (
     <MarkdownEditor
       value={document.content}
@@ -218,7 +239,7 @@ export default function App() {
         className="pointer-events-none absolute inset-x-3 bottom-3 z-10"
       >
         {assist.enabled && assist.suggestion && (
-          <SuggestionBar key={assist.suggestion.key} suggestion={assist.suggestion} onAccept={assist.accept} onDismiss={assist.dismiss} />
+          <SuggestionBar key={assist.suggestion.key} suggestion={assist.suggestion} onAccept={assist.accept} onDismiss={assist.dismiss} onLocate={locateSuggestion} />
         )}
       </Presence>
     </MarkdownEditor>
@@ -400,7 +421,6 @@ export default function App() {
   const hasDocument = document !== null
   const editing = hasDocument && viewMode === 'edit'
   // Split view: preview and editor scroll together (desktop only).
-  const previewPaneRef = useRef<HTMLDivElement>(null)
   useScrollSync(previewPaneRef, textareaRef, editing && isDesktop && !showAbout)
   const previewScrollRef = useRef<HTMLElement>(null)
   const outlineShown = outlineOpen && hasDocument && !showAbout

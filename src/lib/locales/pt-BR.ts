@@ -98,6 +98,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'assist.status.model': 'Smart Assist: modelo local (linguagens de código) + heurísticas',
   'assist.status.heuristics': 'Smart Assist: heurísticas (sem download)',
   'suggest.accept': 'Aceitar',
+  'suggest.locate': 'Mostrar onde',
   'suggest.dismiss': 'Dispensar ({key})',
   'suggest.confidence': 'Confiança do mecanismo',
   'suggest.byModel': 'Decidido pelo modelo local',

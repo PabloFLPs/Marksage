@@ -384,3 +384,16 @@ There are no cookies, analytics or third-party requests (system fonts only).
   when the rules were confident and the model's top pick agreed — tooltip says which).
 - Pablo declined meeting-notes types: too specific a document to rely on as a pattern. Marksage's assist targets
   technical writing (docs, READMEs, project context); the editor itself is general Markdown.
+
+## 25. Show where, tint vs dot, dismissals reset, livelier Document tab (2026-10-27)
+
+- **Show where** (target icon) on the suggestion bar: scrolls the editor to the spot without moving the caret (so
+  the suggestion stays) and flashes the block in the split view's preview (accent ring, 1.5 s).
+- **Hover tint vs readability dot:** the tint now extends 26 px each side (capped at the content padding), so the
+  dot (10–16 px left of an `##`) sits inside it instead of on its edge.
+- **Bug:** after Esc, turning Smart Assist off and on didn't bring suggestions back — dismissals lived for the whole
+  session. A mode change now clears them (and any pinned/paste suggestion).
+- **Document tab:** an accent icon per block, the "looks like" answer in accent, a 5-step readability scale in the
+  same colors as the preview dots, a formal ↔ conversational scale for tone, accent counts on section types and
+  "worth a look" (total in the block header).
+
