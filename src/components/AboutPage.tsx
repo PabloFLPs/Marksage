@@ -125,12 +125,12 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
               <>
                 Turn it on from the <strong className={strong}>Assist</strong> menu in the editor header. It never
                 changes your text on its own — it only suggests, and only when it's confident.{' '}
-                <Keys k={['tab']} /> accepts, <Keys k={['esc']} /> dismisses, <Keys k={['mod', 'z']} /> undoes.
+                <Keys k={['tab']} /> accepts, <Keys k={['esc']} /> dismisses, <Keys k={['mod', 'z']} /> undoes. The icon on a suggestion says what kind of fix it is; a ✦ means the local model made the call.
               </>,
               <>
                 Ative pelo menu <strong className={strong}>Assist</strong> no cabeçalho do editor. Ele nunca altera o
                 seu texto sozinho — só sugere, e só quando tem confiança. <Keys k={['tab']} /> aceita,{' '}
-                <Keys k={['esc']} /> dispensa, <Keys k={['mod', 'z']} /> desfaz.
+                <Keys k={['esc']} /> dispensa, <Keys k={['mod', 'z']} /> desfaz. O ícone de uma sugestão diz que tipo de correção ela é; um ✦ quer dizer que o modelo local decidiu.
               </>,
             )}
           </p>
@@ -160,8 +160,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<ListTree />} title={x('Outline & document insights', 'Estrutura e análise do documento')}>
             {x(
-              <>The <em>Outline</em> panel lists every section with what it is — setup, reference, security and 13 more — and its key sentence; click one to jump there. Types come from the headings; in <em>Local model</em> mode, Marksage’s section model also reads the text under headings that don’t say. Its <em>Document</em> tab sums the whole file up: what it looks like (README, guide, changelog…), reading time, readability, tone signals and things worth a look, like heading jumps or images without alt text.</>,
-              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, segurança e mais 13 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Modelo local</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, registro de mudanças…), tempo de leitura, legibilidade, sinais de tom e o que vale uma olhada, como saltos de título ou imagens sem texto alternativo.</>,
+              <>The <em>Outline</em> panel lists every section with what it is — setup, reference, security and 13 more — and its key sentence; click one to jump there. Types come from the headings; in <em>Local model</em> mode, Marksage’s section model also reads the text under headings that don’t say. Its <em>Document</em> tab sums the whole file up: what it looks like (README, guide, changelog…), reading time, readability, tone signals and things worth a look, like heading jumps or images without alt text. Its <em>Suggestions</em> tab lists everything Smart Assist could fix in the whole document; click one and the suggestion opens right there in the editor.</>,
+              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, segurança e mais 13 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Modelo local</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, registro de mudanças…), tempo de leitura, legibilidade, sinais de tom e o que vale uma olhada, como saltos de título ou imagens sem texto alternativo. A aba <em>Sugestões</em> lista tudo o que o Smart Assist poderia corrigir no documento inteiro; clique em uma e a sugestão abre ali mesmo no editor.</>,
             )}
           </Feature>
           <p className="mt-4 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">

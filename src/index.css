@@ -607,7 +607,6 @@ body {
   border-radius: 8px;
   pointer-events: none;
   background: color-mix(in srgb, var(--color-accent) 7%, transparent);
-  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--color-accent) 45%, transparent);
   opacity: 0;
   transition: opacity 120ms, top 160ms cubic-bezier(0.22, 1, 0.36, 1), height 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -616,7 +615,6 @@ body {
 }
 .dark .outline-hit-box {
   background: color-mix(in srgb, var(--color-dark-accent) 11%, transparent);
-  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--color-dark-accent) 50%, transparent);
 }
 @media (prefers-reduced-motion: reduce) {
   .outline-hit-box { transition: none; }

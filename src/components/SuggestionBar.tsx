@@ -3,6 +3,7 @@ import type { Suggestion } from '../assist/types'
 import { useI18n } from '../hooks/useI18n'
 import { useKeyStyle } from '../hooks/useKeyStyle'
 import { keyLabel } from '../lib/keyStyle'
+import { decidedByKey, suggestionIcon } from './suggestionIcons'
 
 interface SuggestionBarProps {
   suggestion: Suggestion
@@ -19,6 +20,16 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss }: SuggestionBar
   const label = suggestion.message ? t(suggestion.message.key, suggestion.message.vars) : suggestion.label
   const detail = suggestion.detailKey ? t(suggestion.detailKey) : suggestion.detail
   const { keyStyle } = useKeyStyle()
+  const Icon = suggestionIcon(suggestion)
+  const byKey = decidedByKey(suggestion)
+  const icon = <Icon aria-hidden className="anim-pop h-3.5 w-3.5 shrink-0 text-accent dark:text-dark-accent" />
+  // ✦ — the local model made (or confirmed) this call, as in the Outline.
+  const byModel = byKey && (
+    <span title={t(byKey)} className="inline-flex shrink-0 text-accent dark:text-dark-accent">
+      <Sparkles aria-hidden className="h-3 w-3" />
+      <span className="sr-only">{t(byKey)}</span>
+    </span>
+  )
   if (suggestion.choices?.length) {
     const hints = [keyLabel('tab', keyStyle), `${keyLabel('alt', keyStyle)}${keyStyle === 'mac' ? '' : '+'}2`]
     return (
@@ -27,8 +38,11 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss }: SuggestionBar
         aria-live="polite"
         className="anim-slide-up pointer-events-auto flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-line bg-surface/95 px-3 py-2 text-xs shadow-sm backdrop-blur dark:border-dark-line dark:bg-dark-surface-soft/95"
       >
-        <Sparkles className="anim-pop h-3.5 w-3.5 shrink-0 text-accent dark:text-dark-accent" />
-        <div className="min-w-0 flex-1 truncate font-medium text-ink dark:text-dark-ink">{label}</div>
+        {icon}
+        <div className="flex min-w-0 flex-1 items-center gap-1.5 font-medium text-ink dark:text-dark-ink">
+          <span className="truncate">{label}</span>
+          {byModel}
+        </div>
         <div className="flex shrink-0 items-center gap-1.5">
           {suggestion.choices.map((c, i) => (
             <button
@@ -69,9 +83,12 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss }: SuggestionBar
       aria-live="polite"
       className="anim-slide-up pointer-events-auto flex items-center gap-3 rounded-lg border border-line bg-surface/95 px-3 py-2 text-xs shadow-sm backdrop-blur dark:border-dark-line dark:bg-dark-surface-soft/95"
     >
-      <Sparkles className="anim-pop h-3.5 w-3.5 shrink-0 text-accent dark:text-dark-accent" />
+      {icon}
       <div className="min-w-0 flex-1">
-        <div className="truncate font-medium text-ink dark:text-dark-ink">{label}</div>
+        <div className="flex items-center gap-1.5 font-medium text-ink dark:text-dark-ink">
+          <span className="truncate">{label}</span>
+          {byModel}
+        </div>
         {detail && (
           <div className="truncate font-mono text-[11px] text-ink-muted dark:text-dark-ink-muted">
             {detail}

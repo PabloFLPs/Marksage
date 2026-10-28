@@ -25,6 +25,7 @@ export async function suggestPasteConversion(
   let label = ''
   let msgKey: string = `suggest.paste.${d.choice}`
   let msgVars: Record<string, string> | undefined
+  let by: Suggestion['by']
   switch (d.choice) {
     case 'csv':
       insert = csvToTable(pasted)
@@ -57,6 +58,7 @@ export async function suggestPasteConversion(
       const lang = await engine.choice<Language>(pasted, Q.fenceLanguage, LANGUAGES)
       const ok = passesGate(Object.values(lang.probs) as number[], 0.8, 0.2)
       const tag = ok ? lang.choice : 'plaintext'
+      if (ok) by = lang.by
       insert = toCodeBlock(pasted, tag)
       label = tag === 'plaintext' ? 'Wrap in code block' : `Wrap in \`\`\`${tag} code block`
       if (tag !== 'plaintext') {
@@ -77,6 +79,7 @@ export async function suggestPasteConversion(
     message: { key: msgKey, vars: msgVars },
     detailKey: `paste.kind.${d.choice}`,
     confidence: d.probs[d.choice],
+    by,
     edit: { from, to: from + pasted.length, insert },
     expected: pasted,
   }

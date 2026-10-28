@@ -1,6 +1,6 @@
 import type { DecisionEngine, Suggestion } from '../types.ts'
 import { passesGate } from '../types.ts'
-import { findBareFences } from '../prefilter.ts'
+import { findBareFences, type BareFence } from '../prefilter.ts'
 import { LANGUAGES, Q, type Language } from '../questions.ts'
 
 export const FENCE_THRESHOLD = { threshold: 0.8, margin: 0.2 }
@@ -33,40 +33,69 @@ export async function suggestFenceLanguage(
     .sort((a, b) => distance(a, cursor) - distance(b, cursor))
 
   for (const fence of fences.slice(0, 3)) {
-    const key = `codeFence:${hash(fence.body)}`
-    if (isDismissed(key)) continue
-    const d = await engine.choice<Language>(fence.body, Q.fenceLanguage, LANGUAGES)
+    if (isDismissed(fenceKey(fence))) continue
+    const s = await fenceSuggestion(fence, engine)
     if (signal?.aborted) return null
-    const probs = Object.values(d.probs) as number[]
-    if (d.choice === 'plaintext' || !passesGate(probs, FENCE_THRESHOLD.threshold, FENCE_THRESHOLD.margin)) {
-      // Not sure of one language — but maybe of two. Only the model's probabilities are calibrated
-      // enough for this; heuristic scores aren't.
-      const pair = engine.kind === 'model' ? fencePair(d.probs) : null
-      if (!pair) continue
-      const edit = (lang: string) => ({ from: fence.insertAt, to: fence.insertAt, insert: lang })
-      return {
-        key,
-        feature: 'codeFence',
-        label: 'Which language?',
-        message: { key: 'suggest.fencePair' },
-        confidence: d.probs[pair[0]],
-        edit: edit(pair[0]),
-        expected: '',
-        choices: pair.map((lang) => ({ id: lang, label: LANGUAGES[lang], confidence: d.probs[lang], edit: edit(lang) })),
-      }
-    }
+    if (s) return s
+  }
+  return null
+}
+
+/** Every untagged code block of the document that gets a suggestion — for the panel's Suggestions tab. */
+export async function listFenceSuggestions(
+  text: string,
+  engine: DecisionEngine,
+  isDismissed: (key: string) => boolean,
+  signal?: AbortSignal,
+  limit = 50,
+): Promise<Suggestion[]> {
+  const out: Suggestion[] = []
+  for (const fence of findBareFences(text)) {
+    if (out.length >= limit) break
+    if (fence.body.trim().length < 3 || isDismissed(fenceKey(fence))) continue
+    const s = await fenceSuggestion(fence, engine)
+    if (signal?.aborted) return []
+    if (s) out.push(s)
+  }
+  return out
+}
+
+const fenceKey = (fence: BareFence) => `codeFence:${hash(fence.body)}`
+
+/** The suggestion for one untagged block: one language, two to choose from, or none. */
+async function fenceSuggestion(fence: BareFence, engine: DecisionEngine): Promise<Suggestion | null> {
+  const key = fenceKey(fence)
+  const d = await engine.choice<Language>(fence.body, Q.fenceLanguage, LANGUAGES)
+  const probs = Object.values(d.probs) as number[]
+  if (d.choice === 'plaintext' || !passesGate(probs, FENCE_THRESHOLD.threshold, FENCE_THRESHOLD.margin)) {
+    // Not sure of one language — but maybe of two. Only the model's probabilities are calibrated
+    // enough for this; heuristic scores aren't.
+    const pair = engine.kind === 'model' ? fencePair(d.probs) : null
+    if (!pair) return null
+    const edit = (lang: string) => ({ from: fence.insertAt, to: fence.insertAt, insert: lang })
     return {
       key,
       feature: 'codeFence',
-      label: `Add language “${d.choice}” to code block`,
-      detail: LANGUAGES[d.choice],
-      message: { key: 'suggest.fence', vars: { lang: d.choice } },
-      confidence: d.probs[d.choice],
-      edit: { from: fence.insertAt, to: fence.insertAt, insert: d.choice },
+      label: 'Which language?',
+      message: { key: 'suggest.fencePair' },
+      confidence: d.probs[pair[0]],
+      by: 'model',
+      edit: edit(pair[0]),
       expected: '',
+      choices: pair.map((lang) => ({ id: lang, label: LANGUAGES[lang], confidence: d.probs[lang], edit: edit(lang) })),
     }
   }
-  return null
+  return {
+    key,
+    feature: 'codeFence',
+    label: `Add language “${d.choice}” to code block`,
+    detail: LANGUAGES[d.choice],
+    message: { key: 'suggest.fence', vars: { lang: d.choice } },
+    confidence: d.probs[d.choice],
+    by: d.by,
+    edit: { from: fence.insertAt, to: fence.insertAt, insert: d.choice },
+    expected: '',
+  }
 }
 
 function distance(f: { blockStart: number; blockEnd: number }, cursor: number): number {

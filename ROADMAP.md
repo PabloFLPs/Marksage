@@ -67,8 +67,6 @@ and fix the docs where it's right and the features where it's wrong. Both get be
 - **Section model v3:** "performance" is the weakest v2 type (45/60 on the held-out set) and setup got less
   precise (88/109); deployment had 246 training examples. The test set has now been used for v2, so a v3 needs a
   fresh held-out set (like the code model's second one).
-- **Meeting-notes sections** (decisions, action items, participants, agenda) and a "meeting notes" document kind:
-  heading rule only — the training corpus has no meeting notes. Waiting on Pablo.
 
 ## 5. Showcase
 

@@ -7,8 +7,9 @@ import type { OutlineModelStatus } from '../assist/useOutline'
 import { plainHeading } from '../assist/sections'
 import { useI18n } from '../hooks/useI18n'
 import { DocumentTab } from './DocumentTab'
+import { SuggestionsTab, type SuggestionsTabProps } from './SuggestionsTab'
 
-export type PanelTab = 'outline' | 'document'
+export type PanelTab = 'outline' | 'document' | 'suggestions'
 
 interface OutlinePanelProps {
   items: OutlineItem[]
@@ -26,12 +27,17 @@ interface OutlinePanelProps {
   /** For the Document tab: the text the items were built from, and the file name. */
   text: string
   filename: string | null
+  /** The Suggestions tab (documents only — the read-only docs pages have none). */
+  suggestions?: SuggestionsTabProps
 }
 
-export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onClose, variant, closing = false, tab, onTabChange, text, filename }: OutlinePanelProps) {
+export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onClose, variant, closing = false, tab, onTabChange, text, filename, suggestions }: OutlinePanelProps) {
   const { t } = useI18n()
   const minLevel = items.reduce((m, i) => Math.min(m, i.level), 6)
   const typed = items.filter((i) => i.type).length
+  const tabs: PanelTab[] = suggestions ? ['outline', 'document', 'suggestions'] : ['outline', 'document']
+  const current: PanelTab = tabs.includes(tab) ? tab : 'outline'
+  const pending = suggestions?.enabled ? suggestions.items.length : 0
 
   useEffect(() => {
     if (variant !== 'sheet') return
@@ -43,28 +49,34 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
   const body = (
     <>
       <div className="flex h-11 shrink-0 items-center gap-1 border-b border-line px-2 dark:border-dark-line">
-        <div role="tablist" aria-label={t('outline.toggleTitle')} className="flex items-center gap-0.5">
-          {(['outline', 'document'] as const).map((id) => (
+        <div role="tablist" aria-label={t('outline.toggleTitle')} className="flex shrink-0 items-center">
+          {tabs.map((id) => (
             <button
               key={id}
               type="button"
               role="tab"
               id={`panel-tab-${id}`}
-              aria-selected={tab === id}
+              aria-selected={current === id}
+              title={id === 'outline' && items.length > 0 ? t('outline.count', { n: items.length, typed }) : undefined}
               aria-controls={`panel-${id}`}
               onClick={() => onTabChange(id)}
-              className={`rounded-md px-2 py-1 text-sm transition-colors ${
-                tab === id
+              className={`inline-flex items-center gap-1 rounded-md px-1.5 py-1 text-[13px] transition-colors ${
+                current === id
                   ? 'bg-surface-soft font-semibold text-ink dark:bg-dark-surface-soft dark:text-dark-ink'
                   : 'text-ink-muted hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink'
               }`}
             >
               {t(`panel.tab.${id}`)}
+              {id === 'suggestions' && pending > 0 && (
+                <span className="rounded-full bg-accent/10 px-1.5 text-[10.5px] font-semibold tabular-nums text-accent dark:bg-dark-accent/15 dark:text-dark-accent">
+                  {pending}
+                </span>
+              )}
             </button>
           ))}
         </div>
-        {tab === 'outline' && items.length > 0 && (
-          <span className="ml-1 truncate text-xs text-ink-muted dark:text-dark-ink-muted">
+        {current === 'outline' && items.length > 0 && !suggestions && (
+          <span title={t('outline.count', { n: items.length, typed })} className="ml-1 min-w-0 truncate text-xs text-ink-muted dark:text-dark-ink-muted">
             {t('outline.count', { n: items.length, typed })}
           </span>
         )}
@@ -79,7 +91,11 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
         </button>
       </div>
 
-      {tab === 'document' ? (
+      {current === 'suggestions' && suggestions ? (
+        <div role="tabpanel" id="panel-suggestions" aria-labelledby="panel-tab-suggestions" className="flex min-h-0 flex-1 flex-col">
+          <SuggestionsTab {...suggestions} />
+        </div>
+      ) : current === 'document' ? (
         <div role="tabpanel" id="panel-document" aria-labelledby="panel-tab-document" className="flex min-h-0 flex-1 flex-col">
           <DocumentTab text={text} items={items} filename={filename} onSelect={onSelect} />
         </div>
@@ -114,7 +130,7 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
   if (variant === 'side') {
     return (
       <aside
-        className={`flex w-72 shrink-0 flex-col border-r border-line bg-surface dark:border-dark-line dark:bg-dark-surface ${closing ? 'anim-slide-out-left' : 'anim-slide-in-left'}`}
+        className={`flex w-80 shrink-0 flex-col border-r border-line bg-surface dark:border-dark-line dark:bg-dark-surface ${closing ? 'anim-slide-out-left' : 'anim-slide-in-left'}`}
       >
         {body}
       </aside>

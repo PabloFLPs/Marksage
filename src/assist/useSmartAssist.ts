@@ -3,13 +3,14 @@ import type { ClipboardEvent, KeyboardEvent, RefObject } from 'react'
 import type { AssistMode, DecisionEngine, ReadabilityMark, Suggestion } from './types.ts'
 import { HeuristicEngine } from './heuristicEngine.ts'
 import { ModelEngine } from './modelEngine.ts'
-import { suggestFenceLanguage } from './features/codeFence.ts'
+import { listFenceSuggestions, suggestFenceLanguage } from './features/codeFence.ts'
 import { suggestPasteConversion } from './features/smartPaste.ts'
-import { suggestStructure } from './features/structure.ts'
+import { listStructureSuggestions, suggestStructure } from './features/structure.ts'
 import { scoreReadability } from './features/readability.ts'
 
 const DEBOUNCE_MS = 400
 const IDLE_MS = 2000
+const LIST_MS = 600
 
 export type EngineStatus =
   | { state: 'off' }
@@ -22,9 +23,11 @@ interface Options {
   text: string
   textareaRef: RefObject<HTMLTextAreaElement | null>
   onChange: (value: string) => void
+  /** Also list every suggestion in the document (the panel's Suggestions tab is open). */
+  listAll?: boolean
 }
 
-export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
+export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = false }: Options) {
   const heuristic = useMemo(() => new HeuristicEngine(), [])
   const [engine, setEngine] = useState<DecisionEngine | null>(null)
   const [status, setStatus] = useState<EngineStatus>({ state: 'off' })
@@ -32,12 +35,17 @@ export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
   const [readability, setReadability] = useState<ReadabilityMark[]>([])
   const [cursor, setCursor] = useState(0)
   const dismissed = useRef(new Set<string>())
+  const [dismissedCount, setDismissedCount] = useState(0)
   const pasteSticky = useRef(false)
+  // A suggestion opened from the Suggestions tab stays up while the caret stays where the jump put it.
+  const pinnedAt = useRef<number | null>(null)
+  const [all, setAll] = useState<Suggestion[]>([])
 
   // Engine lifecycle.
   useEffect(() => {
     setSuggestion(null)
     setReadability([])
+    setAll([])
     if (mode === 'off') {
       setEngine(null)
       setStatus({ state: 'off' })
@@ -78,6 +86,10 @@ export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
       if (suggestion && text.slice(suggestion.edit.from, suggestion.edit.to) === suggestion.expected) return
       pasteSticky.current = false
     }
+    if (pinnedAt.current !== null) {
+      if (cursor === pinnedAt.current && suggestion && text.slice(suggestion.edit.from, suggestion.edit.to) === suggestion.expected) return
+      pinnedAt.current = null
+    }
     const ctrl = new AbortController()
     const timer = window.setTimeout(async () => {
       try {
@@ -117,14 +129,49 @@ export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
     }
   }, [engine, text])
 
+  // The Suggestions tab: every fixable spot in the document, in document order.
+  useEffect(() => {
+    if (!engine || !listAll) return
+    const ctrl = new AbortController()
+    const timer = window.setTimeout(async () => {
+      try {
+        const [fences, lines] = await Promise.all([
+          listFenceSuggestions(text, engine, isDismissed, ctrl.signal),
+          listStructureSuggestions(text, engine, isDismissed, ctrl.signal),
+        ])
+        if (!ctrl.signal.aborted) setAll([...fences, ...lines].sort((a, b) => a.edit.from - b.edit.from))
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') console.warn('[smart-assist]', err)
+      }
+    }, LIST_MS)
+    return () => {
+      ctrl.abort()
+      window.clearTimeout(timer)
+    }
+  }, [engine, text, listAll, isDismissed, dismissedCount])
+
+  /** Show a suggestion picked in the Suggestions tab; the caller has put the caret at `caret`. */
+  const show = useCallback((s: Suggestion, caret: number) => {
+    if (dismissed.current.has(s.key) || text.slice(s.edit.from, s.edit.to) !== s.expected) return false
+    pasteSticky.current = false
+    pinnedAt.current = caret
+    setCursor(caret)
+    setSuggestion(s)
+    return true
+  }, [text])
+
   const syncCursor = useCallback(() => {
     const el = textareaRef.current
     if (el) setCursor(el.selectionStart)
   }, [textareaRef])
 
   const dismiss = useCallback(() => {
-    if (suggestion) dismissed.current.add(suggestion.key)
+    if (suggestion) {
+      dismissed.current.add(suggestion.key)
+      setDismissedCount((n) => n + 1)
+    }
     pasteSticky.current = false
+    pinnedAt.current = null
     setSuggestion(null)
   }, [suggestion])
 
@@ -135,6 +182,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
     if (!s || !el) return
     setSuggestion(null)
     pasteSticky.current = false
+    pinnedAt.current = null
     const { from, to, insert } = s.choices?.[index]?.edit ?? s.edit
     if (el.value.slice(from, to) !== s.expected) return // text moved on — stale suggestion
     el.focus({ preventScroll: true })
@@ -184,13 +232,15 @@ export function useSmartAssist({ mode, text, textareaRef, onChange }: Options) {
   )
 
   if (mode === 'off') {
-    return { enabled: false as const, status, suggestion: null, readability: [] as ReadabilityMark[] }
+    return { enabled: false as const, status, suggestion: null, readability: [] as ReadabilityMark[], all: [] as Suggestion[] }
   }
   return {
     enabled: true as const,
     status,
     suggestion,
     readability,
+    all: listAll ? all : [],
+    show,
     accept,
     dismiss,
     handlers: { onKeyDown, onPaste, onSelect: syncCursor },

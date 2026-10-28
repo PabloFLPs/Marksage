@@ -1,5 +1,5 @@
 import type { DecisionEngine, Suggestion } from '../types.ts'
-import { findStructureCandidates, type StructureKind } from '../prefilter.ts'
+import { findStructureCandidates, type StructureCandidate, type StructureKind } from '../prefilter.ts'
 import { hash } from './codeFence.ts'
 
 const KEYS: Record<StructureKind, string> = {
@@ -32,22 +32,48 @@ export async function suggestStructure(
     .sort((a, b) => Math.abs(a.lineStart - cursor) - Math.abs(b.lineStart - cursor))
 
   for (const c of candidates.slice(0, 5)) {
-    const key = `structure:${hash(c.text)}`
-    if (isDismissed(key)) continue
-    const p = await engine.noul(c.context, c.statement)
+    if (isDismissed(structureKey(c))) continue
+    const s = await structureSuggestion(c, engine, threshold)
     if (signal?.aborted) return null
-    // Binary gate: p ≥ threshold implies margin over (1 - p) ≥ 0.6.
-    if (p < threshold) continue
-    return {
-      key,
-      feature: 'structure',
-      label: LABELS[c.kind],
-      message: { key: KEYS[c.kind] },
-      detail: `${c.text.trim()}  →  ${c.replacement.trim()}`,
-      confidence: p,
-      edit: { from: c.lineStart, to: c.lineEnd, insert: c.replacement },
-      expected: c.text,
-    }
+    if (s) return s
   }
   return null
+}
+
+/** Every near-miss line of the document that gets a suggestion — for the panel's Suggestions tab. */
+export async function listStructureSuggestions(
+  text: string,
+  engine: DecisionEngine,
+  isDismissed: (key: string) => boolean,
+  signal?: AbortSignal,
+  limit = 50,
+  threshold = 0.8,
+): Promise<Suggestion[]> {
+  const out: Suggestion[] = []
+  for (const c of findStructureCandidates(text)) {
+    if (out.length >= limit) break
+    if (isDismissed(structureKey(c))) continue
+    const s = await structureSuggestion(c, engine, threshold)
+    if (signal?.aborted) return []
+    if (s) out.push(s)
+  }
+  return out
+}
+
+const structureKey = (c: StructureCandidate) => `structure:${hash(c.text)}`
+
+async function structureSuggestion(c: StructureCandidate, engine: DecisionEngine, threshold: number): Promise<Suggestion | null> {
+  const p = await engine.noul(c.context, c.statement)
+  // Binary gate: p ≥ threshold implies margin over (1 - p) ≥ 0.6.
+  if (p < threshold) return null
+  return {
+    key: structureKey(c),
+    feature: 'structure',
+    label: LABELS[c.kind],
+    message: { key: KEYS[c.kind] },
+    detail: `${c.text.trim()}  →  ${c.replacement.trim()}`,
+    confidence: p,
+    edit: { from: c.lineStart, to: c.lineEnd, insert: c.replacement },
+    expected: c.text,
+  }
 }

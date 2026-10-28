@@ -28,8 +28,9 @@ import { useSmartAssist } from './assist/useSmartAssist'
 import { useOutline } from './assist/useOutline'
 import { useOutlineNav } from './hooks/useOutlineNav'
 import { ScrollJump } from './components/ScrollJump'
+import { editorLineTops } from './lib/scrollSync'
 import { OutlinePanel, type PanelTab } from './components/OutlinePanel'
-import type { AssistMode } from './assist/types'
+import type { AssistMode, Suggestion } from './assist/types'
 import type { ViewMode } from './lib/viewMode'
 
 // The technical docs (Markdown + diagrams, both languages) load only when opened.
@@ -84,11 +85,15 @@ export default function App() {
   const copiedTimer = useRef<number | null>(null)
   const [assistMode, setAssistMode] = useState<AssistMode>(loadAssistMode)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  // Outline panel: docked on desktop (remembered), a bottom sheet on small screens (never auto-opens).
+  const [outlineOpen, setOutlineOpen] = useState(() => isDesktop && loadOutlineOpen())
+  const [panelTab, setPanelTab] = useState<PanelTab>('outline') // this session only
   const assist = useSmartAssist({
     mode: assistMode,
     text: document?.content ?? '',
     textareaRef,
     onChange: updateContent,
+    listAll: outlineOpen, // the Suggestions tab and its count
   })
 
   const { icon: appIcon, setIcon: setAppIcon } = useAppIcon(theme)
@@ -172,10 +177,7 @@ export default function App() {
     [viewMode],
   )
 
-  // Outline panel: docked on desktop (remembered), a bottom sheet on small screens (never auto-opens).
-  const [outlineOpen, setOutlineOpen] = useState(() => isDesktop && loadOutlineOpen())
   const [outlineClosing, setOutlineClosing] = useState(false)
-  const [panelTab, setPanelTab] = useState<PanelTab>('outline') // this session only
   const outlineTimer = useRef<number | null>(null)
   const closeOutline = useCallback(() => {
     if (outlineTimer.current) return
@@ -412,6 +414,36 @@ export default function App() {
     outlineShown,
     `${editing ? 'edit' : 'preview'}|${isDesktop}|${document?.id ?? ''}`,
   )
+  // Suggestions tab → the editor: open it if needed, put the caret on the spot, and show that suggestion there.
+  const pickSuggestion = useCallback(
+    (s: Suggestion) => {
+      if (!isDesktop) closeOutline()
+      if (viewMode !== 'edit') changeViewMode('edit')
+      let tries = 0
+      const go = () => {
+        const ta = textareaRef.current
+        if (!ta) {
+          if (++tries < 30) requestAnimationFrame(go)
+          return
+        }
+        const caret = s.edit.from
+        const line = ta.value.slice(0, caret).split('\n').length - 1
+        const top = editorLineTops(ta)[line] ?? 0
+        ta.scrollTo({ top: Math.max(0, top - ta.clientHeight / 3) })
+        ta.focus({ preventScroll: true })
+        ta.setSelectionRange(caret, caret)
+        if (assist.enabled) assist.show(s, caret)
+      }
+      requestAnimationFrame(go)
+    },
+    [isDesktop, closeOutline, viewMode, changeViewMode, assist],
+  )
+  const suggestionsTab = {
+    items: assist.all,
+    enabled: assist.enabled,
+    text: document?.content ?? '',
+    onPick: pickSuggestion,
+  }
   const selectSection = useCallback(
     (line: number) => {
       outlineNav.goTo(line)
@@ -521,6 +553,7 @@ export default function App() {
               onTabChange={setPanelTab}
               text={outline.text}
               filename={document.filename}
+              suggestions={suggestionsTab}
             />
           )}
           <div className="flex min-h-0 min-w-0 flex-1 flex-col">
@@ -585,6 +618,7 @@ export default function App() {
           onTabChange={setPanelTab}
           text={outline.text}
           filename={document?.filename ?? null}
+          suggestions={suggestionsTab}
         />
       )}
 

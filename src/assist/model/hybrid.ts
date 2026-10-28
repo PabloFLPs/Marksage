@@ -8,8 +8,8 @@ import { passesGate } from '../types.ts'
  */
 export function combineFence<T extends string>(model: Decision<T>, heuristic: () => Promise<Decision<T>>): Promise<Decision<T>> | Decision<T> {
   const confident = (d: Decision<T>) => d.choice !== 'plaintext' && passesGate(Object.values(d.probs) as number[])
-  if (confident(model)) return model
-  return heuristic().then((h) => (confident(h) && h.choice === model.choice ? h : model))
+  if (confident(model)) return { ...model, by: 'model' }
+  return heuristic().then((h) => (confident(h) && h.choice === model.choice ? { ...h, by: 'agreement' } : { ...model, by: 'model' }))
 }
 
 /** Probabilities → a Decision restricted to the asked options (renormalised). */

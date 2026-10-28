@@ -3,7 +3,10 @@
  * The engine only *decides* between options fixed up front; our code acts.
  */
 
-export type Decision<T extends string> = { choice: T; probs: Record<T, number> }
+/** Who made a decision: Marksage's own model, or the rules with the model agreeing. Absent = the rules alone. */
+export type DecidedBy = 'model' | 'agreement'
+
+export type Decision<T extends string> = { choice: T; probs: Record<T, number>; by?: DecidedBy }
 
 export interface DecisionEngine {
   readonly kind: 'heuristic' | 'model'
@@ -38,6 +41,8 @@ export interface Suggestion {
   message?: { key: string; vars?: Record<string, string> }
   detailKey?: string
   confidence: number
+  /** Set when the local model made the call (shown as ✦); absent when the rules decided alone. */
+  by?: DecidedBy
   edit: TextEdit
   /** Guard: the text in [from, to) must still equal this when accepting. */
   expected: string

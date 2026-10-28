@@ -370,3 +370,17 @@ There are no cookies, analytics or third-party requests (system fonts only).
 - **sections-v2.bin** (394,008 bytes), v1 settings re-chosen on dev, test run once: 13.5% typed at 88.9%
   agreement (v1 on the same set: 14.5% / 89.6%); security 34/38, performance 45/60 (weakest), deployment 2/2.
   The model cache replaces v1 by itself (same family). Numbers in training/README.md, MODELS §7–8, SMART-ASSIST §4.4.
+
+## 24. Suggestions tab, icons by kind, ✦ for model calls (2026-10-27)
+
+- Hover tint: the accent bar on its left was removed (Pablo: it also crossed the readability dot).
+- **Suggestions tab** (third panel tab, documents only — not the read-only docs pages): every code block without a
+  language and every near-miss heading/list, computed with the editor's own per-spot functions
+  (`listFenceSuggestions`, `listStructureSuggestions`), 600 ms after typing stops, count on the tab. The panel never
+  edits: a click opens the editor, puts the caret on the spot and shows that suggestion in the bar (pinned while
+  the caret stays there). Pastes aren't listed. Panel width 18 → 20 rem so three tabs fit in Portuguese.
+- **Icons by kind** (`suggestionIcons.ts`): code language → Code2, table → Table, list → List, numbered → ListOrdered,
+  JSON → Braces, heading → Heading. **✦** when the local model decided (`Decision.by`: `model`, or `agreement`
+  when the rules were confident and the model's top pick agreed — tooltip says which).
+- Pablo declined meeting-notes types: too specific a document to rely on as a pattern. Marksage's assist targets
+  technical writing (docs, READMEs, project context); the editor itself is general Markdown.

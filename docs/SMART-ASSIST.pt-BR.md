@@ -127,8 +127,8 @@ flowchart LR
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
 | **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos de sugestão abaixo; a Estrutura e a aba Documento só leem). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
-| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. |
-| **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Modelo local*) pelo modelo de seções; a aba Documento resume o arquivo inteiro. |
+| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título); um ✦ quer dizer que o modelo local decidiu. |
+| **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Modelo local*) pelo modelo de seções; a aba Documento resume o arquivo inteiro; a aba Sugestões lista cada ponto que dá para corrigir. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão usados para medir cada recurso antes de ele ir ao ar. |
 
 ### 2.2 O contrato do mecanismo
@@ -339,6 +339,21 @@ pré-visualização. Nada no documento muda.
   que dizem "aqui", seções muito longas e frases com mais de 40 palavras. Clique para ir até lá. Registros de
   mudanças que dão a cada versão seu próprio título `#` não são marcados por isso.
 
+
+### Aba Sugestões
+
+**Gatilho.** Enquanto o painel está aberto e o Smart Assist está ligado (a contagem aparece na aba);
+recalculada 600 ms depois que você para de digitar.
+
+**O que lista:** cada ponto do documento que receberia uma sugestão, na ordem do documento — blocos de código
+sem linguagem (mesma pergunta, mesmo filtro e mesma regra das duas opções do editor) e títulos ou listas quase
+certos (mesmas regras das dicas de estrutura). Cada linha tem o ícone da correção, a linha do documento, a
+primeira linha do código ou o que vira o quê, a confiança e um ✦ quando o modelo local decidiu. Colagens não
+entram: elas são oferecidas na hora em que você cola. Sugestões dispensadas (`Esc`) saem da lista na sessão.
+
+**Ação.** Nenhuma no painel. Um clique abre o editor se preciso, põe o cursor no ponto e mostra aquela
+sugestão na barra de sempre; ela fica ali até você mover o cursor ou digitar. `Tab` aceita, `Esc` dispensa,
+dá para desfazer — a mesma edição protegida de sempre.
 ---
 
 ## 4. Os modelos próprios do Marksage

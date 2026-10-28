@@ -16,7 +16,8 @@ Everything runs in the browser — files never leave your machine.
   (385 KB each, ~0.1 ms per decision, trained in this repo), downloaded once after a notice.
 - **Outline panel** — every section with its type (setup, reference, explanation…) and key sentence;
   a **Document** tab with what the file looks like, reading time, readability, tone signals and things
-  worth a look (heading jumps, untagged code, images without alt text…)
+  worth a look (heading jumps, untagged code, images without alt text…), and a **Suggestions** tab listing every
+  fix Smart Assist would offer in the document (click → it opens in the editor)
 - **Code blocks** with syntax colors (~30 languages, loaded only when needed) and a copy button
 - **Recent documents** — up to 15, kept in this browser, searchable (`⌘/Ctrl ⇧ H`)
 - **Privacy & storage** — no cookies, accounts or tracking; everything stored is listed on the About page
