@@ -97,7 +97,7 @@ export const en = {
   'assist.status.model': 'Smart Assist: local model (code languages) + heuristics',
   'assist.status.heuristics': 'Smart Assist: heuristics (no download)',
   'suggest.accept': 'Accept',
-  'suggest.locate': 'Show where',
+  'suggest.locate': 'Click to see where it applies',
   'suggest.dismiss': 'Dismiss ({key})',
   'suggest.confidence': 'Engine confidence',
   'suggest.byModel': 'Decided by the local model',

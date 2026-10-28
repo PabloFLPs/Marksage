@@ -127,7 +127,7 @@ flowchart LR
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
 | **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos de sugestão abaixo; a Estrutura e a aba Documento só leem). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
-| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título); um ✦ quer dizer que o modelo local decidiu. *Mostrar onde* rola até o ponto e o destaca na pré-visualização. |
+| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título); um ✦ quer dizer que o modelo local decidiu. Clicar no cartão rola até o ponto e o destaca na pré-visualização. |
 | **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Modelo local*) pelo modelo de seções; a aba Documento resume o arquivo inteiro; a aba Sugestões lista cada ponto que dá para corrigir. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão usados para medir cada recurso antes de ele ir ao ar. |
 

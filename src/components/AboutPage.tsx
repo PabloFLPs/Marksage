@@ -125,12 +125,12 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
               <>
                 Turn it on from the <strong className={strong}>Assist</strong> menu in the editor header. It never
                 changes your text on its own — it only suggests, and only when it's confident.{' '}
-                <Keys k={['tab']} /> accepts, <Keys k={['esc']} /> dismisses, <Keys k={['mod', 'z']} /> undoes. The icon on a suggestion says what kind of fix it is; a ✦ means the local model made the call; the target button shows where it applies.
+                <Keys k={['tab']} /> accepts, <Keys k={['esc']} /> dismisses, <Keys k={['mod', 'z']} /> undoes. The icon on a suggestion says what kind of fix it is; a ✦ means the local model made the call; click the card to see where it applies.
               </>,
               <>
                 Ative pelo menu <strong className={strong}>Assist</strong> no cabeçalho do editor. Ele nunca altera o
                 seu texto sozinho — só sugere, e só quando tem confiança. <Keys k={['tab']} /> aceita,{' '}
-                <Keys k={['esc']} /> dispensa, <Keys k={['mod', 'z']} /> desfaz. O ícone de uma sugestão diz que tipo de correção ela é; um ✦ quer dizer que o modelo local decidiu; o botão de alvo mostra onde ela se aplica.
+                <Keys k={['esc']} /> dispensa, <Keys k={['mod', 'z']} /> desfaz. O ícone de uma sugestão diz que tipo de correção ela é; um ✦ quer dizer que o modelo local decidiu; clique no cartão para ver onde ela se aplica.
               </>,
             )}
           </p>

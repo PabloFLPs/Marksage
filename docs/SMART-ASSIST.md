@@ -127,7 +127,7 @@ flowchart LR
 | **Confidence gate** | Drops any answer that isn't clearly ahead of the alternatives. |
 | **Features** | Turn a confident decision into a concrete, reversible edit (the four suggestion features below; the Outline and Document tab only read). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
-| **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading); a ✦ means the local model made the call. *Show where* scrolls to the spot and flashes it in the preview. |
+| **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading); a ✦ means the local model made the call. Clicking the card scrolls to the spot and flashes it in the preview. |
 | **Outline panel** | Visual only: sections typed by the heading rule, then (in *Local model* mode) by the section model; its Document tab sums the whole file up; its Suggestions tab lists every fixable spot. |
 | **Evaluation set** | Hand-labelled examples used to measure each feature before it ships. |
 

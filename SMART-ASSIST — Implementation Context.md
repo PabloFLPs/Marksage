@@ -397,3 +397,10 @@ There are no cookies, analytics or third-party requests (system fonts only).
   same colors as the preview dots, a formal ↔ conversational scale for tone, accent counts on section types and
   "worth a look" (total in the block header).
 
+## 26. Minimal pass on the Document tab and the suggestion card (2026-10-27)
+
+- Pablo found §25's Document tab too busy: kept the block icons and the accent "looks like" answer; removed the
+  readability and tone scales and the accent counts.
+- "Show where" is no longer a button: the whole suggestion card is the target (accent border on hover, tooltip);
+  Accept, the two choices and dismiss keep their own action.
+
