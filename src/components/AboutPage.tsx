@@ -43,7 +43,7 @@ interface AboutPageProps {
   appIcon: AppIconId
   onAppIconChange: (id: AppIconId) => void
   theme: 'light' | 'dark'
-  /** Delete the cached Local model file (and leave Local model mode). */
+  /** Delete the cached model files (and leave Hybrid mode). */
   onRemoveModel: () => Promise<void>
   /** Wipe every Marksage key and cache in this browser, then reload. */
   onDeleteAllData: () => Promise<void>
@@ -136,8 +136,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </p>
           <Feature icon={<Code2 />} title={x('Code block languages', 'Linguagem dos blocos de código')}>
             {x(
-              <>Leave a <code>```</code> block without a language and it suggests one (TypeScript, Python, Bash, SQL and ~17 more), so your code gets properly labelled. When two languages fit (JavaScript or TypeScript, C or C++), <em>Local model</em> offers both and lets you pick.</>,
-              <>Deixe um bloco <code>```</code> sem linguagem e ele sugere uma (TypeScript, Python, Bash, SQL e mais ~17), para o seu código ficar bem identificado. Quando duas linguagens servem (JavaScript ou TypeScript, C ou C++), o <em>Modelo local</em> oferece as duas para você escolher.</>,
+              <>Leave a <code>```</code> block without a language and it suggests one (TypeScript, Python, Bash, SQL and ~17 more), so your code gets properly labelled. When two languages fit (JavaScript or TypeScript, C or C++), <em>Hybrid</em> offers both and lets you pick.</>,
+              <>Deixe um bloco <code>```</code> sem linguagem e ele sugere uma (TypeScript, Python, Bash, SQL e mais ~17), para o seu código ficar bem identificado. Quando duas linguagens servem (JavaScript ou TypeScript, C ou C++), o modo <em>Híbrido</em> oferece as duas para você escolher.</>,
             )}
           </Feature>
           <Feature icon={<Table />} title={x('Smart paste', 'Colagem inteligente')}>
@@ -148,8 +148,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<Heading />} title={x('Structure hints', 'Dicas de estrutura')}>
             {x(
-              <>Catches the near-misses: <code>**Title**</code> used as a heading, <code>#Heading</code> without a space, <code>-item</code>, <code>1)item</code>, <code>== Title ==</code>.</>,
-              <>Pega os quase-acertos: <code>**Título**</code> usado como título, <code>#Título</code> sem espaço, <code>-item</code>, <code>1)item</code>, <code>== Título ==</code>.</>,
+              <>Catches the near-misses: <code>**Title**</code> used as a heading, <code>#Heading</code> without a space, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> pasted from a document, <code>== Title ==</code>, and links broken by a space, <code>[text] (url)</code>.</>,
+              <>Pega os quase-acertos: <code>**Título**</code> usado como título, <code>#Título</code> sem espaço, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> colado de um documento, <code>== Título ==</code> e links quebrados por um espaço, <code>[texto] (url)</code>.</>,
             )}
           </Feature>
           <Feature icon={<Gauge />} title={x('Readability dots', 'Pontos de legibilidade')}>
@@ -160,16 +160,17 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<ListTree />} title={x('Outline & document insights', 'Estrutura e análise do documento')}>
             {x(
-              <>The <em>Outline</em> panel lists every section with what it is — setup, reference, security and 13 more — and its key sentence; click one to jump there. Types come from the headings; in <em>Local model</em> mode, Marksage’s section model also reads the text under headings that don’t say. Its <em>Document</em> tab sums the whole file up: what it looks like (README, guide, changelog…), reading time, readability, tone signals and things worth a look, like heading jumps or images without alt text. Its <em>Suggestions</em> tab lists everything Smart Assist could fix in the whole document; click one and the suggestion opens right there in the editor.</>,
-              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, segurança e mais 13 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Modelo local</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, registro de mudanças…), tempo de leitura, legibilidade, sinais de tom e o que vale uma olhada, como saltos de título ou imagens sem texto alternativo. A aba <em>Sugestões</em> lista tudo o que o Smart Assist poderia corrigir no documento inteiro; clique em uma e a sugestão abre ali mesmo no editor.</>,
+              <>The <em>Outline</em> panel lists every section with what it is — setup, reference, security and 13 more — and its key sentence; click one to jump there. Types come from the headings; in <em>Hybrid</em> mode, Marksage’s section model also reads the text under headings that don’t say. Its <em>Document</em> tab sums the whole file up: what it looks like (README, guide, changelog…), reading time, readability, tone signals and things worth a look, like heading jumps or images without alt text. Its <em>Suggestions</em> tab lists everything Smart Assist could fix in the whole document; click one and the suggestion opens right there in the editor.</>,
+              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, segurança e mais 13 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Híbrido</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, registro de mudanças…), tempo de leitura, legibilidade, sinais de tom e o que vale uma olhada, como saltos de título ou imagens sem texto alternativo. A aba <em>Sugestões</em> lista tudo o que o Smart Assist poderia corrigir no documento inteiro; clique em uma e a sugestão abre ali mesmo no editor.</>,
             )}
           </Feature>
           <p className="mt-4 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">
             {x(
-              <>Modes: <strong className="font-medium">Heuristics</strong> runs instantly with no download. <strong className="font-medium">Local model</strong> adds Marksage’s own small models: one for code-block languages (385 KB, trained on ~64k real code blocks) and one for section types in the Outline (385 KB, trained on ~27k real doc sections, fetched the first time you open it). They run entirely on your device and are downloaded once, then kept in your browser.</>,
-              <>Modos: <strong className="font-medium">Heurísticas</strong> roda na hora, sem download. <strong className="font-medium">Modelo local</strong> adiciona os modelos pequenos do próprio Marksage: um para as linguagens dos blocos de código (385 KB, treinado com ~64 mil blocos de código reais) e um para os tipos de seção na Estrutura (385 KB, treinado com ~27 mil seções de documentação reais, baixado na primeira vez que você a abre). Eles rodam inteiramente no seu dispositivo e são baixados uma vez, depois ficam guardados no navegador.</>,
+              <>Modes: <strong className="font-medium">Heuristics</strong> runs instantly with no download — rules for every question. <strong className="font-medium">Hybrid</strong> adds Marksage’s own small models where they beat the rules: one for code-block languages (385 KB, trained on ~64k real code blocks) and one for section types in the Outline (385 KB, trained on ~27k real doc sections, fetched the first time you open it). They run entirely on your device and are downloaded once, then kept in your browser. Everything else stays with the rules: models for structure hints and paste types were trained too, but on real text they didn’t do better than the rules, so they aren’t used.</>,
+              <>Modos: <strong className="font-medium">Heurísticas</strong> roda na hora, sem download — regras para todas as perguntas. <strong className="font-medium">Híbrido</strong> adiciona os modelos pequenos do próprio Marksage onde eles superam as regras: um para as linguagens dos blocos de código (385 KB, treinado com ~64 mil blocos de código reais) e um para os tipos de seção na Estrutura (385 KB, treinado com ~27 mil seções de documentação reais, baixado na primeira vez que você a abre). Eles rodam inteiramente no seu dispositivo e são baixados uma vez, depois ficam guardados no navegador. O resto continua com as regras: também treinamos modelos para as dicas de estrutura e os tipos de colagem, mas em textos reais eles não se saíram melhor que as regras, então não são usados.</>,
             )}
           </p>
+          <ModeTable x={x} />
           <button
             type="button"
             onClick={onTrySmartAssist}
@@ -259,8 +260,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<HardDrive />} title={x('What’s kept in this browser', 'O que fica guardado neste navegador')}>
             {x(
-              <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode, whether the Outline is open). If you turn on <span className={strong}>Local model</span>, its files (385 KB for code languages, plus 385 KB for section types once you open the Outline) are kept in the browser cache so they download once. It all stays until you clear it.</>,
-              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist, se a Estrutura está aberta). Se você ativar o <span className={strong}>Modelo local</span>, os arquivos dele (385 KB para linguagens de código, mais 385 KB para tipos de seção quando você abre a Estrutura) ficam no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
+              <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode, whether the Outline is open). If you pick <span className={strong}>Hybrid</span>, its model files (385 KB for code languages, plus 385 KB for section types once you open the Outline) are kept in the browser cache so they download once. It all stays until you clear it.</>,
+              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist, se a Estrutura está aberta). Se você escolher o <span className={strong}>Híbrido</span>, os arquivos dos modelos (385 KB para linguagens de código, mais 385 KB para tipos de seção quando você abre a Estrutura) ficam no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
             )}
           </Feature>
           <Feature icon={<Cookie />} title={x('No cookies, no tracking', 'Sem cookies, sem rastreamento')}>
@@ -287,6 +288,40 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
 }
 
 type Pick2 = <T>(en: T, ptBR: T) => T
+
+/** Which questions a model answers in each mode — the same table as docs/SMART-ASSIST.md §1.3 and the README. */
+function ModeTable({ x }: { x: Pick2 }) {
+  const rules = x('rules', 'regras')
+  const rows: [string, string, string][] = [
+    [x('Code-block language', 'Linguagem do bloco de código'), rules, x('model ✦, or the rules when the model agrees', 'modelo ✦, ou as regras quando o modelo concorda')],
+    [x('Smart paste', 'Colagem inteligente'), rules, x('rules (a pasted code block’s language: as above)', 'regras (linguagem de um bloco de código colado: como acima)')],
+    [x('Structure hints', 'Dicas de estrutura'), rules, rules],
+    [x('Readability', 'Legibilidade'), rules, rules],
+    [x('Outline section types', 'Tipos de seção na Estrutura'), x('heading rule', 'regra dos títulos'), x('heading rule, then the section model ✦', 'regra dos títulos, depois o modelo de seções ✦')],
+  ]
+  return (
+    <div className="mt-3 overflow-x-auto">
+      <table className="w-full text-left text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">
+        <thead>
+          <tr className="border-b border-line dark:border-dark-line">
+            <th className="py-1.5 pr-3 font-medium text-ink dark:text-dark-ink">{x('Question', 'Pergunta')}</th>
+            <th className="py-1.5 pr-3 font-medium text-ink dark:text-dark-ink">{x('Heuristics', 'Heurísticas')}</th>
+            <th className="py-1.5 font-medium text-ink dark:text-dark-ink">{x('Hybrid', 'Híbrido')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([q, h, m]) => (
+            <tr key={q} className="border-b border-line last:border-0 dark:border-dark-line">
+              <td className="py-1.5 pr-3 text-ink dark:text-dark-ink">{q}</td>
+              <td className="py-1.5 pr-3">{h}</td>
+              <td className={`py-1.5 ${m === h ? '' : 'text-accent dark:text-dark-accent'}`}>{m}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
 
 /** Remove the downloaded models / delete everything Marksage keeps in this browser. */
 function StorageControls({ x, onRemoveModel, onDeleteAllData }: { x: Pick2; onRemoveModel: () => Promise<void>; onDeleteAllData: () => Promise<void> }) {

@@ -83,7 +83,7 @@ export function saveAssistMode(mode: StoredAssistMode): void {
   }
 }
 
-// The user has read the Local model notice (download + browser storage) once.
+// The user has read the Hybrid notice (download + browser storage) once.
 const MODEL_NOTICE_KEY = 'marksage:model-notice'
 
 export function loadModelNoticeSeen(): boolean {

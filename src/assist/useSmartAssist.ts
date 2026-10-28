@@ -60,7 +60,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
       setStatus({ state: 'ready', kind: 'heuristic' })
       return
     }
-    // Local model: Marksage's own code-language model (F1) on top of the heuristics.
+    // Hybrid: Marksage's own code-language model (F1) on top of the heuristics.
     // Heuristics serve while it loads — and if it can't.
     let alive = true
     setEngine(heuristic)

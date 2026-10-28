@@ -7,7 +7,7 @@ export type OutlineModelStatus = 'off' | 'loading' | 'ready' | 'failed'
 
 /**
  * Outline of `text`, recomputed as the document changes (deferred, so typing stays smooth).
- * `useModel` (Local model mode) loads the section model the first time the panel is open.
+ * `useModel` (Hybrid mode) loads the section model the first time the panel is open.
  */
 export function useOutline(text: string, enabled: boolean, useModel: boolean) {
   const [model, setModel] = useState<LangModel | null>(null)

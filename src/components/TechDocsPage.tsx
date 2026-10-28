@@ -30,7 +30,7 @@ interface TechDocsPageProps {
   closing?: boolean
   onBack: () => void
   isDesktop: boolean
-  /** Local model mode: the Outline may use the section model, as it does for documents. */
+  /** Hybrid mode: the Outline may use the section model, as it does for documents. */
   useModel: boolean
 }
 

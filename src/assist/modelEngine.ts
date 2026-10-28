@@ -4,7 +4,7 @@ import { loadModel, type LangModel } from './model/model.ts'
 import { combineFence, toChoice } from './model/hybrid.ts'
 
 /**
- * "Local model" mode: Marksage's own code-language model answers code-block languages (and the
+ * Hybrid mode: Marksage's own code-language model answers code-block languages (and the
  * language tag of a code paste) — v2 also accepts a confident heuristic answer when the model's top
  * pick agrees (see model/hybrid.ts); every other question goes to the heuristic engine. The model is ~385 KB and decides
  * in ~0.1 ms, so it runs on the main thread — a worker would cost more than the inference.

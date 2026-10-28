@@ -39,7 +39,7 @@ export function AssistToggle({ mode, status, onChange, compact = false }: Assist
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const [focus, setFocus] = useState(0)
-  // First pick of Local model: say what gets downloaded and stored before doing it.
+  // First pick of Hybrid: say what gets downloaded and stored before doing it.
   const [notice, setNotice] = useState(false)
   const confirmRef = useRef<HTMLButtonElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)

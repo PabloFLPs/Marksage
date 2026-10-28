@@ -10,10 +10,22 @@ Everything runs in the browser — files never leave your machine.
 - **Open** via file picker, drag & drop, or paste; **live split editor** with a resizable divider
   and **synced scrolling** (preview and editor stay on the same passage); start/end buttons on long documents
 - **Smart Assist** (opt-in, local): code-fence language, smart paste (CSV/TSV/aligned text → table,
-  lists, JSON/code → fenced block), structure hints (`**Title**` → heading, `-item` → list…),
-  per-section readability dots. Suggest-only: `Tab` accepts, `Esc` dismisses, undo still works.
-  Two modes: **Heuristics** (instant, no download) and **Local model** — Marksage's own tiny models
-  (385 KB each, ~0.1 ms per decision, trained in this repo), downloaded once after a notice.
+  lists, JSON/code → fenced block), structure hints (`**Title**` → heading, `-item` / `• item` → list,
+  `[text] (url)` → link…), per-section readability dots. Suggest-only: `Tab` accepts, `Esc` dismisses, undo
+  still works. Two modes: **Heuristics** (instant, no download) and **Hybrid** — Marksage's own tiny models
+  where they beat the rules (385 KB each, ~0.1 ms per decision, trained in this repo), downloaded once after
+  a notice:
+
+  | Question | Heuristics | Hybrid |
+  |---|---|---|
+  | Code-block language | rules | model, or the rules when the model agrees |
+  | Smart paste | rules | rules (a pasted code block's language: as above) |
+  | Structure hints | rules | rules |
+  | Readability | rules | rules |
+  | Outline section types | heading rule | heading rule, then the section model |
+
+  Models for structure hints and paste types were trained too and didn't beat the rules on real text
+  (`docs/MODELS.md` §8).
 - **Outline panel** — every section with its type (setup, reference, explanation…) and key sentence;
   a **Document** tab with what the file looks like, reading time, readability, tone signals and things
   worth a look (heading jumps, untagged code, images without alt text…), and a **Suggestions** tab listing every
