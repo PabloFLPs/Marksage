@@ -230,5 +230,1294 @@
     "expect": true,
     "kind": "ordered-nospace",
     "source": "https://github.com/Asabeneh/30-Days-Of-JavaScript/blob/HEAD/05_Day_Arrays/05_day_arrays.md#L768"
+  },
+  {
+    "doc": "Adds the ability to add a video file as album artwork for an album in a Music library. Written based on [Apple's spec](https://help.apple.com/itc/albummotionguide/en.lproj/static.html)\n\n**Changes**\n- Add a new ExtraType - `MotionArtwork`\n- Add a new endpoint for fetching Motion Artwork\n- Have endpoint be able to fetch both the 1:1 aspect ratio as well as the 3:4 aspect ratio, defaulting to 1:1 aspect ratio",
+    "line": 2,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jellyfin/jellyfin/pull/18521#L3"
+  },
+  {
+    "doc": "• Assistência médica;\n• Parceiros para atendimento psicológico, jurídico, financeiro e nutricional (CLUDE, C4LIFE E ASQ);\n• Psicologia Viva;\n• Assistência Odontológica;\n• Auxílio creche;\n• Auxílio para filhos com necessidades especiais;\n• Auxílio fertilização;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/frontendbr/vagas/issues/8559#L69"
+  },
+  {
+    "doc": " ✅ Conhecimento de arquiteturas Event-Driven, como Kafka ou RabbitMQ;\n ✅ Experiência trabalhando com arquivos em alta escala;\n ✅ Prática com testes automatizados, resiliência e idempotência;\n ✅ Inglês C1/C2, com comunicação diária em ambiente internacional.\nSerá um grande diferencial:\n• Experiência com US Healthcare;\n • Conhecimento de FHIR, HL7 e X12 (834/835/837);",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/backend-br/vagas/issues/12413#L24"
+  },
+  {
+    "doc": "●       Experiência com mensageria (SQS, Kafka, RabbitMQ)\n●       Conhecimento em esteiras CI/CD\n●       Prática com testes automatizados (Jest, Supertest, etc.)\n●       Vivência com microsserviços e arquitetura orientada a eventos\n●       Noções de segurança em aplicações web (JWT, OAuth, rate limiting, etc.)\n\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/frontendbr/vagas/issues/8383#L30"
+  },
+  {
+    "doc": "●       Banco de dados relacional (PostgreSQL, MySQL) e não-relacional (MongoDB)\n●       Conhecimento básico de AWS (ECS, S3, RDS, Lambda)\nDiferenciais:\n●       Experiência com mensageria (SQS, Kafka, RabbitMQ)\n●       Conhecimento em esteiras CI/CD\n●       Prática com testes automatizados (Jest, Supertest, etc.)\n●       Vivência com microsserviços e arquitetura orientada a eventos",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/frontendbr/vagas/issues/8383#L27"
+  },
+  {
+    "doc": "\n🤩 Diferenciais:\n\n✔️ Experiência em startups.\n✔️ Conhecimento em infraestrutura como código (Terraform, OpenTofu ou Pulumi).\n✔️ Experiência com Google Cloud Platform (GCP):\n• Pub/Sub",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/backend-br/vagas/issues/12399#L27"
+  },
+  {
+    "doc": "\n**Critical:** `guid` is NOT NULL enforced at the DB level. An `.apkg` with missing guids will fail SQLite constraint on import. When writing notes programmatically, always generate a guid. For the `.apkg` import path, guid is the **sole matching key** — see [§8.2](#82-apkg-import--full-matching-logic).\n\n**flds semantics:**\n\n`flds` stores field **values only** — field names are stored exclusively in the notetype definition (`col.models`). The mapping between values and field names is purely positional:\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ankidroid/Anki-Android/wiki/Database‐Structure‐2026#L205"
+  },
+  {
+    "doc": "**Endpoint: \"/diskspace\"**\n\n## GET ##\n",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Lidarr/Lidarr/wiki/Diskspace#L1",
+    "note": "arguable: a wiki page's title written as bold \"label: value\""
+  },
+  {
+    "doc": "\nA: Yes (within reason)! This year, GSoC is going to be a bit different from previous years. The program has been restructured in a way that allows contributors to take some time off for any other commitments such as exams. ([view timeline here.](https://developers.google.com/open-source/gsoc/timeline)) AnkiDroid will respect the same timelines that are given by GSoC; the main concern is whether you can still get the project done on time. Be upfront about your other commitments and make sure you schedule your time accordingly when creating your proposal. Other commitments you should list include time when you'll be in school and will commit less time to GSoC, time when you'll be travelling and away from GSoC work, any summer jobs you need to commit to, etc. We will try to be flexible around other time commitments, as long as your proposal convinces us that you will have enough time to complete the project by the end of the GSoC coding period. On the other hand, if you do not disclose other commitments, and it turns out that you are unable to commit to what you wrote on your proposal, this is grounds for failing the program.\n\n**Q: Can I submit more than one proposal to AnkiDroid?**\n\nA: Yes, you can. However, we strongly recommend picking one project and writing a solid proposal for it. Splitting attention across multiple projects might not be a great idea. (That said, since this is the first year GSoC is offering full-length and half-length projects, one exception might be if you're interested in doing either the 'full version' or the 'half version' of a project idea that can support both modes. In such a case, you would be welcome to submit both the 'full version' and the 'half version' as separate applications, but, before doing so, please make sure that you'd be happy with either outcome if you are selected.)\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ankidroid/Anki-Android/wiki/Google-Summer-of-Code#L118"
+  },
+  {
+    "doc": "✔️ Node.js\n✔️ REST APIs\n✔️ Integrações de sistemas\n✔️ AI Technologies\n✔️ Desenvolvimento Backend\n✔️ Arquitetura e desenvolvimento de APIs\n✔️ Integração entre diferentes serviços e plataformas",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/backend-br/vagas/issues/12414#L23"
+  },
+  {
+    "doc": "• Extensão Licença Maternidade e Paternidade;\n• Vale transporte ou Auxílio Home Office (para contrato teletrabalho);\n• Gympass (Wellhub) e TotalPass;\n• Horários flexíveis;\n• Seguro de vida;\n• Clube de parcerias;\n• Parceria com Sesc;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/backend-br/vagas/issues/12425#L60"
+  },
+  {
+    "doc": "• Just dress no code (sem código de vestimenta);\n• Day off no aniversário;\n• Beca (programa de incentivo a educação);\n• PPR ou Bônus - conforme atingimento de metas e resultados.\n\n## Contratação\nCLT.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/backend-br/vagas/issues/12417#L74"
+  },
+  {
+    "doc": "• Benefício Flexível (Flash);\n• Assistência médica;\n• Parceiros para atendimento psicológico, jurídico, financeiro e nutricional (CLUDE, C4LIFE E ASQ);\n• Psicologia Viva;\n• Assistência Odontológica;\n• Auxílio creche;\n• Auxílio para filhos com necessidades especiais;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/backend-br/vagas/issues/12427#L51"
+  },
+  {
+    "doc": "\n💡 A chance to work remotely, earn in USD, and code for global impact.\n\n#FullStack #ReactJS #NodeJS #NestJS #RemoteWork #JavaScript #TypeScript #TechCareers #LATAMTalent #RemoteJobs",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8341#L24",
+    "note": "hashtags"
+  },
+  {
+    "doc": "• Vale refeição ou alimentação;\n• Benefício Flexível (Flash);\n• Assistência médica;\n• Parceiros para atendimento psicológico, jurídico, financeiro e nutricional (CLUDE, C4LIFE E ASQ);\n• Psicologia Viva;\n• Assistência Odontológica;\n• Auxílio creche;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/backend-br/vagas/issues/12426#L56"
+  },
+  {
+    "doc": "💼 Experiência: 4+ anos\n\n🔎 Stack principal:\n• React.js\n• Node.js\n• UX Design\n• Desenvolvimento Full-stack",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/backend-br/vagas/issues/12440#L15"
+  },
+  {
+    "doc": "...working remotely🏡, with USD payment💰, long-term relationship🤝, within an international team👩‍💻 👨‍💻, and working on international client projects!🌎\n\n## How to apply🤔\n✔️ Send an email to angela.barboza@jobsity.com with your CV and LinkedIn attached\n\n✔️ Or just send me a DM!\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/frontendbr/vagas/issues/8560#L36",
+    "note": "two options of a list, separated by blank lines"
+  },
+  {
+    "doc": "✈️ Canal Telegram: https://t.me/valoreivagas\n🎁 Conhece alguém ideal? Indique pelo nosso Programa de Indicações e ganhe R$ 200,00 a cada amigo contratado!\n🔗 https://vagas.valorei.tech/referral\n#TechLead #ServiceNow #CSM #VagasAberta #Tecnologia #Remoto #Liderança #DesenvolvimentoTécnico #OportunidadeCarreira #BrasilTech #VagasPJ #RecrutamentoTech\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12380#L47",
+    "note": "hashtags"
+  },
+  {
+    "doc": "**Round 1 - January 2015 **  \n\nThis is for the Work in Progress model of having studios and companies contributing time towards openFrameworks. \nPlease follow the example below for each studio.  List the areas you might be interested in working on or specific github issues. Also include any questions you have.",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/openframeworks/openFrameworks/wiki/OF-PARTNERS-PROJECTS#L1",
+    "note": "bold doesn't even render (space before the closing **)"
+  },
+  {
+    "doc": "Atuar no desenvolvimento de soluções fullstack modernas e escaláveis para grandes clientes do mercado corporativo, com foco principal no frontend utilizando React e Angular, sem deixar de contribuir em integrações e evoluções backend.\nBuscamos uma pessoa desenvolvedora fullstack com forte domínio em frontend, capaz de construir aplicações robustas, performáticas e de alta usabilidade, colaborando com decisões técnicas e atuando de ponta a ponta nas entregas.\nComo:\n-Desenvolver interfaces modernas, responsivas e performáticas utilizando React e Angular;\n-Atuar na construção e evolução de aplicações fullstack;\n-Desenvolver integrações com APIs e microsserviços;\n-Participar da definição de arquitetura frontend e boas práticas de desenvolvimento;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8478#L30"
+  },
+  {
+    "doc": "**Run Termux scripts from Android Debug Bridge**\n\nIf you want to run a Termux script from adb use one of the following methods:\n",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/termux/termux-app/issues/166#L1"
+  },
+  {
+    "doc": "Realizar testes unitários e integrados para garantir a robustez e a confiabilidade do software;\nColabore com outros desenvolvedores, designers e especialistas em UX/UI.\n\n**Requisitos Técnicos — Backend**\nTypeScript sólido.\nNestJS: módulos, injeção de dependência, controladores, serviços, pipes, guards, interceptores e filtros de exceção.\nConstrução de APIs com versionamento, paginação, filtros e validação de DTOs.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/frontendbr/vagas/issues/8416#L14"
+  },
+  {
+    "doc": "- Autonomia e IA: saber gerenciar o estado da aplicação, fazer requisições HTTP e implementar autenticação, e usar IA (Claude Code, Cursor ou similar) para ganhar produtividade sem ficar dependente dela.\n- Investigar um problema de ponta a ponta e explicar com clareza o que encontrou.\n\n**Diferenciais:**\n- Next.js.\n- Integração com APIs fiscais (NF-e, NFC-e, NFS-e), como Brasil NFe ou Focus NFe.\n- Meta for Developers e API oficial do WhatsApp.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/backend-br/vagas/issues/12471#L34"
+  },
+  {
+    "doc": "**Getting Started**\n* [[Installation]]\n* [[Setup Guide]]\n* [[Autostart on Linux]]",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Radarr/Radarr/wiki/_Sidebar#L1"
+  },
+  {
+    "doc": "**Semana de trabalho de 4 dias — 32 horas semanais.**\n**Remuneração mensal: R$ 15.000 a R$ 25.000, conforme experiência.**\n\n**Senior Front-end / Product Engineer (Design-led), reporting to the CTO.**\n\nDesign and build the interfaces through which brokers, insurers and contractors work with an agentic AI platform. Own the product surface, from first sketch to shipped product: agent conversations, policy-structuring workbenches, insurer appetite dashboards, risk dashboards and microsites.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/frontendbr/vagas/issues/8572#L14"
+  },
+  {
+    "doc": "• Experiência com US Healthcare;\n • Conhecimento de FHIR, HL7 e X12 (834/835/837);\n • Conhecimento de HIPAA/PHI;\n • Experiência com arquitetura de integrações na AWS;\n • Conhecimento de Lambda, SQS, SNS e API Gateway.\n⚠️ Antes de se candidatar\nEssa é uma posição realmente Hands-On.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/frontendbr/vagas/issues/8558#L30"
+  },
+  {
+    "doc": "## Benefícios\n\n_Remote\n-Earn in USD \nRange - 3k - 5k USD $\n\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8410#L58",
+    "note": "arguable: one item of a list the author wrote with mixed markers"
+  },
+  {
+    "doc": "Preserve existing sections and prevent cross-user modifications. All changes are transactional.\nValidation: 1,079 tests passed.\n\n**Code assistance**\nUsed Codex for investigation, implementation, and regression tests. I reviewed the changes and test results.\n\n**Issues**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jellyfin/jellyfin/pull/18498#L6"
+  },
+  {
+    "doc": "\n## Responsabilidades:\n•\tResponsável pela análise e desenvolvimento de sistemas utilizando Java (Spring Boot) e Angular\n•\tCriar e manter testes unitários e de integração para backend e frontend\n•\tColaborar com equipes interfuncionais para definir, criar e entregar funcionalidades completas\n•\tGarantir a confiabilidade, robustez e performance do código em ambos os lados (cliente e servidor)\n•\tTestar, solucionar erros e bugs do código para otimizar a performance da aplicação",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/frontendbr/vagas/issues/8366#L23"
+  },
+  {
+    "doc": "**Contratação**\nCLT\n\n**Como se candidatar**\nGostou da vaga? Se candidate no link: [Profissional Mainframe (COBOL) -PAGAMENTO DE FORNECEDORES](https://jobs.quickin.io/sinqia/jobs/6a89a2cd0c3017001311c4fc)\n\nLabels",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/backend-br/vagas/issues/12426#L77"
+  },
+  {
+    "doc": "**Sobre a Beyond**\nA [Beyond ](https://www.imaginebeyond.com.br/)é uma consultoria de tecnologia que conecta pessoas desenvolvedoras a empresas do segmento financeiro ou logístico, cuidando da contratação e do acompanhamento dos profissionais alocados nos clientes. Nesta vaga, a Beyond é a empresa contratante nos primeiros 6 meses.\n\n**Sobre a Protege Cash (onde você vai atuar)**\nA [Protege Cash](https://www.protegecash.com.br/) é uma instituição de pagamento em fase de crescimento, com Internet Banking web e aplicativo mobile. Você vai fazer parte do time responsável pelos canais digitais, desenvolvendo do backend ao frontend e ao app, no dia a dia e nos projetos da Protege.\n\n**Como funciona a contratação**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/backend-br/vagas/issues/12479#L6"
+  },
+  {
+    "doc": "- Experiência sólida com Vue.js compatível com o nível Pleno\n- Boas práticas de engenharia: versionamento, testes e code review\n\n**Desejáveis:**\n- Comunicação clara para trabalho remoto/distribuído\n- Inglês para leitura de documentação\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/frontendbr/vagas/issues/8532#L21"
+  },
+  {
+    "doc": "\n## Requisitos\n\n**Obrigatórios:**\n- Experiência sólida com Kotlin compatível com o nível Pleno\n- Boas práticas de engenharia: versionamento, testes e code review\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/backend-br/vagas/issues/12315#L17"
+  },
+  {
+    "doc": "●       Conhecimento básico de AWS (ECS, S3, RDS, Lambda)\nDiferenciais:\n●       Experiência com mensageria (SQS, Kafka, RabbitMQ)\n●       Conhecimento em esteiras CI/CD\n●       Prática com testes automatizados (Jest, Supertest, etc.)\n●       Vivência com microsserviços e arquitetura orientada a eventos\n●       Noções de segurança em aplicações web (JWT, OAuth, rate limiting, etc.)",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/frontendbr/vagas/issues/8383#L28"
+  },
+  {
+    "doc": "Conhecimento em multi-cloud (Azure e AWS);\nCapacidade de análise e criação de soluções criativas e disruptivas.\n\n**Requisitos Desejáveis:**\nJá ter atuado com projetos voltados ao  meios de pagamentos e PIX\nConhecimento em arquitetura de mensageria.\nInglês Avançado",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/backend-br/vagas/issues/12409#L33"
+  },
+  {
+    "doc": "Introduced by #20232\n\n## Validation Steps Performed\n✅ Profiles > Command Prompt > Name (SettingsCard w/ TextBox) accepts space\n- Profiles > Command Prompt > Appearance > Background Image (SettingsExpander w/ TextBox) ...\n   - ✅ accepts space\n   - ✅ expander can be opened/closed using space when focused",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/microsoft/terminal/pull/20657#L14"
+  },
+  {
+    "doc": "==================================================\n\n\n#Remoto #CLT #Sênior",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8411#L37",
+    "note": "hashtags"
+  },
+  {
+    "doc": "· Capacidade de investigar problemas, deduzir soluções e facilitar a criatividade da equipe.\n· Experiência em negociar com diferentes partes interessadas e garantir que os projetos selecionados estejam alinhados com as metas.\n· Atuação com SLA's visando não apenas atender, mas exceder as expectativas das áreas de negócio dos clientes, fomentando lealdade e oportunidades de upsell.\n· Habilidade em cadastrar parâmetros de dados básicos e configurações mapeadas no sistema.\n\n🎯 DIFERENCIAIS:\n· Conhecimento abrangente da plataforma Microsoft Project, incluindo o PWA;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/frontendbr/vagas/issues/8387#L42"
+  },
+  {
+    "doc": "\nYou can have more experience in AI, fullstack or vibe coding, but you should be comfortable working across the full stack when necessary.\n\n**Responsibilities:**\n- Design, build, and deploy AI/ML models and end-to-end AI agent systems—from concept through production deployment—focused on measurable business impact.\n- Develop multi-agent systems using leading frameworks and orchestration platforms to automate complex, multi-step business workflows.\n- Build and maintain AI agent infrastructure including tool integration, memory management, state persistence, and agent-to-agent communication patterns.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/frontendbr/vagas/issues/8389#L30"
+  },
+  {
+    "doc": "• Conhecimento em práticas de Clean Code, SOLID, Design Patterns e Arquitetura Limpa. \n• Vivência com revisão de código e práticas de engenharia de software. \n\n**Inteligência Artificial Aplicada ao Desenvolvimento** \n• Experiência prática na utilização de ferramentas de IA para apoio ao ciclo de desenvolvimento de software. \n• Capacidade de utilizar IA para: análise e refinamento de requisitos; modelagem de soluções; geração e revisão de código; criação e automação de testes; produção de documentação técnica; análise de impactos e riscos técnicos. \n• Conhecimento sobre integração com APIs e serviços de IA generativa. ",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/backend-br/vagas/issues/12372#L55"
+  },
+  {
+    "doc": "**Nossa empresa**\n\nMuito prazer, Somos a Evertec!\n",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/backend-br/vagas/issues/12424#L1"
+  },
+  {
+    "doc": "\nC# | .NET | Backend | MySQL | REST API | APIs | AWS | Azure | GCP | Software Development | Remote Work | International Contract | AI | Artificial Intelligence\n\n#CSharp #DotNet #BackendDeveloper #NETDeveloper #MySQL #RESTAPI #APIs #Desenvolvedor #DesenvolvimentoDeSoftware #VagaRemota #TrabalhoRemoto #VagaInternacional #TechJobs #RemoteJobs #LATAM",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12404#L44",
+    "note": "hashtags"
+  },
+  {
+    "doc": "**Endpoint: \"/history\"**\n\n## GET ##\n",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Radarr/Radarr/wiki/API:History#L1",
+    "note": "arguable: a wiki page's title written as bold \"label: value\""
+  },
+  {
+    "doc": "- A bracket in a *directory* rather than the file name, such as `/media/[Group]/Series Name - 05.mkv`, still matches as before. Two other rewrites I tried were faster still but broke exactly this case, so I dropped them.\n- `Jellyfin.Naming.Tests`: **703 passed, 0 failed.**\n\n**Tests**\n\n`EpisodePathParserTest_NameWithManyBracketedTags_Terminates` parses two such names and asserts that the parse finishes, rather than asserting a result — the failure mode here is non-termination, not a wrong answer. Both cases fail on master, each hitting the 10 s timeout, and pass with the fix.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jellyfin/jellyfin/pull/18420#L44"
+  },
+  {
+    "doc": "\n## Requisitos\n\n**Responsabilidades**\n- Implementar interfaces responsivas a partir de protótipos (Figma ou similares).\n- Colaborar com o time de design para transformar ideias em experiências interativas.\n- Garantir a boa usabilidade e acessibilidade das aplicações.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/frontendbr/vagas/issues/8350#L15"
+  },
+  {
+    "doc": "**Code assistance**\nImplemented with AI assistance (Claude, via the oh-my-pi agent harness). Code, tests and CI verification were produced by the agent; there was no human review or live testing.\n\n**Issues**\nFixes #18387\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jellyfin/jellyfin/pull/18391#L17"
+  },
+  {
+    "doc": "\nThe output of the failing test is this:\n\n31- zone 2 passed,1 failed.\nWhen the zone() offset is equal to 0, the ISO offset should be positive zero\nfail@http://momentjs.com/js/tests.js?_=120203_183019:1240,ok@http://momentjs.com/js/tests.js?_=120203_183019:1255,@http://momentjs.com/js/tests.js?_=120203_183019:1526,zone@http://momentjs.com/js/tests.js?_=120203_183019:2464,runTest@http://momentjs.com/js/tests.js?_=120203_183019:1702,@http://momentjs.com/js/tests.js?_=120203_183019:1748,@http://momentjs.com/js/tests.js?_=120203_183019:1009,iterate@http://momentjs.com/js/tests.js?_=120203_183019:630,@http://momentjs.com/js/tests.js?_=120203_183019:627,@http://momentjs.com/js/tests.js?_=120203_183019:1008,@http://momentjs.com/js/tests.js?_=120203_183019:1589,[native code]\nmoment.fn.zone should be a multiple of 30 (was 0)",
+    "line": 3,
+    "expect": false,
+    "kind": "ordered-dash",
+    "source": "https://github.com/moment/moment/issues/176#L12",
+    "note": "test output"
+  },
+  {
+    "doc": "**Before**\n<img width=\"378\" height=\"387\" alt=\"image\" src=\"https://github.com/user-attachments/assets/d08a0f5a-5187-456a-9a99-91ee936d32af\" />\n\n**After**\n<img width=\"275\" height=\"220\" alt=\"image\" src=\"https://github.com/user-attachments/assets/77a6e25e-4fc2-4db4-ad39-a726cb3127dd\" />\n\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/zed-industries/zed/pull/66018#L13",
+    "note": "caption for one image"
+  },
+  {
+    "doc": "**Endpoint: \"/wanted/cutoff\"**\n\n## GET ##\n",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Lidarr/Lidarr/wiki/Wanted-Cutoff#L1",
+    "note": "arguable: a wiki page's title written as bold \"label: value\""
+  },
+  {
+    "doc": "Some scrollback commands are conflicting with common editing shortcuts.\nIt would be nice if these could be disabled dynamically / automatically.\n\n**Description:**\nWhen an application activates an alternate buffer the windows terminal should probably not handle scrollback commands.\n\nThere are two good reasons for that:",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/microsoft/terminal/issues/20672#L8"
+  },
+  {
+    "doc": "* [[How to make sure Radarr doesn't snatch full Blu-Rays]]\n---\n\n**Additional Configuration**\n* [[AppData Directory]]\n* [[Custom Post Processing Scripts]]\n* [[Built In Qualities]]",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Radarr/Radarr/wiki/_Sidebar#L20"
+  },
+  {
+    "doc": "A Igma é uma empresa de tecnologia que cria produtos digitais críticos: sites, plataformas e apps que\nfuncionam, crescem e deixam marca. Atuamos onde a entrega não pode falhar, com o cuidado técnico de quem já transformou grandes empresas. Unimos estratégia, engenharia e design para resolver problemas reais com consistência e impacto. Nos orgulhamos de entregar produtos tecnicamente memoráveis.\n\n**Descrição da vaga**\nEstamos em busca de uma Pessoa Desenvolvedora Full-Stack para se juntar ao nosso Chapter de desenvolvimento, fortalecer o time de projetos e criar produtos digitais para as maiores empresas do Brasil.\n\nUnimos tecnologia e design para resolver problemas complexos de empresas. Criamos produtos digitais que revolucionam o relacionamento entre empresas e consumidores.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/frontendbr/vagas/issues/8474#L5"
+  },
+  {
+    "doc": "✈️ Canal Telegram: https://t.me/valoreivagas\n🎁 Conhece alguém ideal? Indique pelo nosso Programa de Indicações e ganhe R$ 200,00 a cada amigo contratado!\n🔗 https://vagas.valorei.tech/referral\n#VagasAbertas #AnalistaMainframe #Mainframe #MercadoFinanceiro #COBOL #SãoPaulo #VagasSP #TecnologiaFinanceira #CarreiraEmTI #HíbridoSP #RecrutamentoTech #OportunidadeDeCarreira\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12385#L50",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\nWhen the custom shader forces continuous redraw, the render loop keeps calling `Present` while the swap chain is occluded (display off). The waitable object's 100 ms timeout lets those presents through instead of blocking, so frames pile up somewhere between DXGI and DWM. After wake the backlog is drained at consumption rate but immediately refilled, so it becomes a permanent fixed latency. Possible fixes: stop the continuous-redraw timer while the window/swap chain is occluded (`DXGI_STATUS_OCCLUDED` from `Present`, or `WM_POWERBROADCAST` / display-off notifications), or recreate/flush the swap chain on wake.\n\n**Workaround**\n\n- Use a shader that does not read `Time` (no animation), or\n- bind `toggleShaderEffects` and toggle twice after every return to the machine.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/microsoft/terminal/issues/20716#L81"
+  },
+  {
+    "doc": "\nResult: Correct response without visible thinking.\n\n**Test 2 — Ollama native API: PASS**\n\nEndpoint: `/api/chat`\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ollama/ollama/issues/19217#L27"
+  },
+  {
+    "doc": "- Pós-graduação concluída ou em andamento em Sistemas de Informação, Ciência da Computação ou áreas afins;\n- Experiência  prévia com AngularJS\n\n**Contratação**\nCooperativa - Koopere \n\nComo se candidatar",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/frontendbr/vagas/issues/8361#L28"
+  },
+  {
+    "doc": "\nSet `multiline = MultilineNone` in the `ErrInterrupt` branch, next to `sb.Reset()`.\n\n**Acceptance criteria**\n\n- After Ctrl+C during multiline prompt or system input, the next single line is sent as a normal user message.\n- A message ending in `\"\"\"` typed after Ctrl+C never changes the system message.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ollama/ollama/issues/19340#L40"
+  },
+  {
+    "doc": "-Curiosidade ativa por Inteligência Artificial e disposição para explorar como a IA pode potencializar seu trabalho\n-Arquitetura / Infra-estrutura, incluindo a análise e escolha de tecnologias adequadas para cada projeto.\n-Micro-serviços\n-Cloud\n-Containerização\n-API\n-Versionamento",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12410#L28"
+  },
+  {
+    "doc": "- Contribuir para decisões técnicas sobre arquitetura, bibliotecas e ferramentas.\n- Participar ativamente de code reviews e discussões técnicas.\n\n**Premissas culturais**\n\n- Coragem para realizar o que acredita\n- Excelência na busca constante por superação",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/frontendbr/vagas/issues/8445#L41"
+  },
+  {
+    "doc": "\nhttps://wa.me/5519978164262?text=Ol%C3%A1%0ASeja%20muito%20bem%20vindo(a)%0AVoc%C3%AA%20entrou%20em%20contato%20para%20conversarmos%20sobre%20oportunidades,%20logo%20mais%20irei%20te%20atender\n\n#React #ReactJS #FrontendEngineer #SeniorFrontendEngineer #FrontendDeveloper #SoftwareEngineer #VagasTI #TechJobs #RemoteJobs #InternationalJobs #HealthcareTech #Healthtech #LATAMTech #SeniorDeveloper #TechCareers #CuritibaTI\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8551#L62",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\n## The warning\n\n**Do not add filters from untrusted sources**\n\nClassic malicious filter can modify the appearance of a website to fool the user.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/gorhill/uBlock/wiki/Dashboard:-My-filters#L17",
+    "note": "arguable: an emphasised warning under its heading"
+  },
+  {
+    "doc": "\n### Check Radarr Status\n    $ sudo systemctl status radarr\n    ● radarr.service - Radarr Service\n       Loaded: loaded (/usr/lib/systemd/system/radarr.service; enabled; vendor preset: disabled)\n       Active: active (running) since Tue 2017-03-07 10:23:44 PST; 5min ago\n     Main PID: 19978 (mono)",
+    "line": 3,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/Radarr/Radarr/wiki/Autostart-on-Linux#L44",
+    "note": "systemd status output"
+  },
+  {
+    "doc": "\nTerminal permission approval dropdowns were failing to detect commands containing shell constructs, such as quoted parentheses (for example `--format='%(committerdate:short)'`) or apostrophes (for example `-m \"don't panic\"`).\n\n**Root Cause**\n\nThe dropdown is built by `extract_all_terminal_patterns` in `crates/agent/src/pattern_extraction.rs`. First it calls `extract_commands`, which removes the quotes from each command part (for permission matching). Then it parses each result again to get the command name.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/zed-industries/zed/pull/66067#L9"
+  },
+  {
+    "doc": "\nA: As early as possible. Make sure to get feedback from mentors before finally submitting the proposal. This will help you to write a better proposal, as you can refine the details based on the feedback you receive. Mentors will need some time to review your proposal, so it's a good idea to begin as early as possible. Make sure to follow all instructions in the [proposal template](https://docs.google.com/document/d/1wfbNhWL-SoDVIzTeJ-QhuCd5yBy4hF-3P6wENOU8a_w/edit) (especially around sharing and access) to reduce delays in reviewing your proposal.\n\n**Q: I do not have any experience in skill XYZ. Is some certification required?**\n\nA: Try to work on [good first issues](https://github.com/ankidroid/Anki-Android/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+First+Issue%21%22) and take courses online. In the field of software development, it is common to develop experience and expertise as you take up and complete projects successfully. We do not require any formal certification of particular skills.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ankidroid/Anki-Android/wiki/Google-Summer-of-Code-2022#L124"
+  },
+  {
+    "doc": "\n**Code-Behind**\n```cs\nvar icon = new PackIcon \n{ ",
+    "line": 1,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/Icons#L38",
+    "note": "caption for one code block"
+  },
+  {
+    "doc": "| Infuse 8.5.6 (iPad) | Multi-clip disc plays; seeking to 35/65 min works |\n| Kodi native mode | Opens real `BDMV/index.bdmv` and plays |\n\n**Limitations**\n\n- Listing Size/ETag may be stale until a stream request revalidates; content changes that keep size and mtime are not detected.\n- If an image cannot be built, the source stays a Blu-ray folder (previous behavior) and a warning is logged.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jellyfin/jellyfin/pull/18386#L18"
+  },
+  {
+    "doc": "✈️ Canal Telegram: https://t.me/valoreivagas\n🎁 Conhece alguém ideal? Indique pelo nosso Programa de Indicações e ganhe R$ 200,00 a cada amigo contratado!\n🔗 https://vagas.valorei.tech/referral\n#DesenvolvimentoDotNet #BackendDeveloper #VagasEmTecnologia #MercadoFinanceiro #SãoPaulo #VagasHíbridas #DotNetCore #CSharp #TechJobs #OportunidadeEmTI #VagasAbertas #RecrutamentoTech\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12384#L54",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\nThe cost roughly triples for every two tags added, so a slightly longer name does not take slightly longer, it stops finishing. 41 characters is already enough, and an ordinary release name carrying quality tags gets there too. `EpisodePathParser.Parse` runs per file during a scan, so a single such file stalls the scan.\n\n**Fix**\n\nMatching the bracket contents with `[^\\]]` makes each group end at its own closing bracket, so a run can only be split one way. The leading `[\\\\\\/]?.*?` was redundant next to the `.*` in front of it, and dropping it removes another ambiguous prefix:\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jellyfin/jellyfin/pull/18420#L25"
+  },
+  {
+    "doc": "when I spwan a new bash process using \n1.require('child_process').spawn(\"C:\\Windows\\System32\\bash.exe\");\n2.require('child_process').spawn(\"C:\\Windows\\System32\\bash.exe\",[\"-c\",\"ls\"]);\nIt will output a \"Error: 0x80070057\" via stdout.\n",
+    "line": 1,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/microsoft/WSL/issues/195#L2"
+  },
+  {
+    "doc": "\n### Current vs. Expected behavior\n\n**Current behavior:**\n\nIn both cases nothing happens. The cursor does not move to the `\"` when the string is the closest pair, nor to the matching `{` / `}` when the object literal is the closest pair.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/zed-industries/zed/issues/66200#L16"
+  },
+  {
+    "doc": "\n### Current Behavior\n\n• On Pascal (Quadro P4000): Initialized successfully in hardware, outputting a flawless 4:4:4 stream at ~530 Mb/s with minimal CPU impact.\n• On Blackwell (RTX 5050 / RTX Pro 2000 series): The exact same command string fails immediately upon recording startup, throwing an initialization validation block (NV_ENC_ERR_INVALID_PARAM or Invalid Level).\n\n### Steps to Reproduce",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/obsproject/obs-studio/issues/14090#L31"
+  },
+  {
+    "doc": "**Endpoint: \"/calendar\"**\n\n## GET ##\n",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Radarr/Radarr/wiki/API:Calendar#L1",
+    "note": "arguable: a wiki page's title written as bold \"label: value\""
+  },
+  {
+    "doc": "\n***\n\n**IIS:** \nThe below rule assume you have a \"virtual directory\" named \"jackett\" under your default website in IIS.  That virtual directory should target a physical directory that resides at `c:\\inetpub\\wwwroot\\jackett`.  Within this directory you would place the below rules in a web.config file. There should be no other files in this directory. **_(This is NOT your Jackett install directory)_**\n\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/Jackett/Jackett/wiki/Reverse-Proxy#L73"
+  },
+  {
+    "doc": "\nIf you have automatic time & timezone enabled and are still getting an error message like \"the time of your device is different than that of the server by xxx sec\", it probably means that the timezone definitions on your device are out of date. Updating your device to the latest available version of Android may fix this issue; if not there are two possible solutions:\n\n**Manually set the time on your device**\n\nIf you are unable to update the timezone definitions on your device, you'll have to manually set the time on your device. To do this, go to the main Android date & time settings, and disable automatic date & time as well as automatic timezone. Now manually change the time by the amount specified in the message (e.g. if the message says 3560 seconds, try changing the time by +/- 1hr) and then try syncing again with this new (but incorrect) time. Once syncing is working again with the incorrect time, you can find a timezone which gives you the correct time while still allowing you to sync.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ankidroid/Anki-Android/wiki/FAQ#L67"
+  },
+  {
+    "doc": "-Conhecimento sobre ferramentas de prototipação (Figma);\n-Conhecimentos sobre CI/CD;\n-Conhecimentos em GO;\n-Conhecimento em Espanhol.\n\n## Benefícios\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8469#L57"
+  },
+  {
+    "doc": "\nBuscamos um(a) Desenvolvedor(a) Mainframe para atuar na evolução e sustentação das aplicações de PAGFOR (Pagamento a Fornecedores), participando do desenvolvimento de soluções relacionadas ao processamento de pagamentos, integrações bancárias e demandas regulatórias do ecossistema financeiro.\n\n**Local**\n\nPosição híbrida, com atuação presencial 2 vezes por semana em Interlagos, São Paulo/SP.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/backend-br/vagas/issues/12426#L15"
+  },
+  {
+    "doc": "**Summary**\n\nCloses https://github.com/zed-industries/zed/issues/56817\n",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/zed-industries/zed/pull/66067#L1"
+  },
+  {
+    "doc": "**Observation with Narrator screen reader:**\nSame issue repro with Narrator screen reader.\n\n**User Experience:**\nScreen reader users may be unable to accurately determine which option currently has keyboard focus because NVDA announces information for a different option. This may cause confusion and could lead users to activate an unintended option.\n\n**WCAG Reference Link:**",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/microsoft/terminal/issues/20742#L30"
+  },
+  {
+    "doc": "Se essa oportunidade faz sentido para você ou para alguém da sua rede, compartilhe ou entre em contato neste link abaixo 👇🏻 \nhttps://wa.me/5519978164262?text=Ol%C3%A1%0ASeja%20muito%20bem%20vindo(a)%0AVoc%C3%AA%20entrou%20em%20contato%20para%20conversarmos%20sobre%20oportunidades,%20logo%20mais%20irei%20te%20atender\n\n#TechJobs #PythonDeveloper #BackendEngineer #SoftwareEngineer #RemoteJobs #InternationalJobs #HiringTech #HealthcareTech #PythonJobs #TechCareers #LATAMTech #TechOpportunities #SeniorDeveloper #TechRecruiter #HiringNow\n\n ",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12303#L51",
+    "note": "hashtags"
+  },
+  {
+    "doc": "-Trabalhar em conjunto com backend, UX/UI e arquitetura para definição das soluções;\n-Garantir qualidade de código através de testes automatizados e code reviews;\n-Identificar oportunidades de melhoria contínua em performance, usabilidade e manutenção das aplicações;\n-Apoiar tech leads e stakeholders técnicos em refinamentos e definições técnicas.\n\n## Local\nRemoto ",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8478#L41"
+  },
+  {
+    "doc": "  --manifestFile=MANIFESTFILE\n                        A JSON file in the form of test_manifest.json (the\n                        default).\n  -b BROWSER, --browser=BROWSER\n                        The path to a single browser (right now, only Firefox\n                        is supported).\n  --browserManifestFile=BROWSERMANIFESTFILE",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/mozilla/pdf.js/pull/65#L14",
+    "note": "CLI help output"
+  },
+  {
+    "doc": "\n**Key architectural fact:** `noteimp.py` (first-field + checksum matching) is the **text/CSV import path only**. It is not involved in `.apkg` import. The guid path in Rust is authoritative for `.apkg`.\n\n**Confirmed by Rust test:**\n```rust\nfn should_ignore_note_if_guid_already_exists_with_different_notetype() {\n    note.notetype_id.0 = 42;  // changed notetype id",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ankidroid/Anki-Android/wiki/Database‐Structure‐2026#L1134"
+  },
+  {
+    "doc": "  narrow, so the tooltip also makes the action clear in that case.\n\n\n**Close button**\n<img width=\"538\" height=\"236\" alt=\"image\" src=\"https://github.com/user-attachments/assets/524103cc-91ba-4357-974e-23c47d681b74\" />\n\n**Commit message disclosure**",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/zed-industries/zed/pull/66016#L13",
+    "note": "caption for one image"
+  },
+  {
+    "doc": "\nControl check: a plain `hello` typed without the Ctrl+C sequence is sent normally.\n\n**Root cause**\n\nIn `cmd/interactive.go` (around lines 156-165), the `readline.ErrInterrupt` branch resets `sb` and `UseAlt` but not `multiline`. The continuation branch (around lines 182-201) still sees `multiline != MultilineNone` on the next line. `multiline` is set around lines 209 and 387. Line numbers are from commit 675150d6 on main.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ollama/ollama/issues/19340#L32"
+  },
+  {
+    "doc": "\nRegarding the handling of keys near the end of animations, this is a minor breaking change where the key was previously processed twice or more in particular case, but will now correctly be processed only once. However, the case extracting root motion via `TimeScale=0` and set `TimeSeek` by script in AnimationTree has been inverted since version 4.3, fixing this is a slightly larger breaking change (although **it doesn't affect general root motion case**, the case using TimeSeek for root motion is only affected). In most cases, since movement is on a single axis, simply inverting sign should suffice. While there is no migration path for cases with non-constant speed or changes across multiple axes, in such cases, root motion via TimeSeek would naturally cause a phenomenon where it completely fails to match the skeleton. Therefore, I assume that no projects with such a configuration actually exist.\n\n**AI disclose:**\n\n@GorgWorgington mentioned in #124719 that the issue was flagged and a fix was suggested by AI. After reviewing the backlog and doing tests, I confirmed the fix was appropriate and made further adjustments manually by human.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/godotengine/godot/pull/124862#L14"
+  },
+  {
+    "doc": "\n🔁 Conhece um Full-stack Engineer com esse perfil? Marque ou compartilhe!\n\n#FullStackDeveloper #ReactJS #NestJS #Kafka #SoftwareEngineer #TechJobs #RemoteJobs #VagasInternacionais #VagasRemotas #LATAM #JobsInUSD",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12439#L23",
+    "note": "hashtags"
+  },
+  {
+    "doc": "-Desenvolver integrações com APIs e microsserviços;\n-Participar da definição de arquitetura frontend e boas práticas de desenvolvimento;\n-Identificar, analisar e atuar na correção de vulnerabilidades e riscos de segurança nas aplicações; \n-Aplicar boas práticas de segurança no desenvolvimento de software;\n-Apoiar o time em dúvidas técnicas e compartilhamento de conhecimento;\n-Participar de cerimônias ágeis e interações frequentes com clientes;\n-Trabalhar em conjunto com backend, UX/UI e arquitetura para definição das soluções;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8478#L35"
+  },
+  {
+    "doc": "\nThe WebSocket connection repeatedly closes when a message exceeds the configured 4 MiB limit.\n\n**Additional context**\n\nA similar error was previously reported in issue #129392, but the problem is still reproducible with the versions listed above.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/home-assistant/core/issues/188835#L41"
+  },
+  {
+    "doc": "### Reproduction steps\n\n1- create a Godot Project with multiple C# Script on it . (or just project I've Sent you)\n2- open folder that project\n3-  give my theme to Zed \"5+7.json\" (or any theme that uses semantic highlights) - I put it here.\n4- give my Settings to Zed. (The important thing is : \"semantic_tokens\": \"combined\")",
+    "line": 2,
+    "expect": true,
+    "kind": "ordered-dash",
+    "source": "https://github.com/zed-industries/zed/issues/66106#L3"
+  },
+  {
+    "doc": "\nA unit or pseudo-terminal test of the interrupt-then-input sequence for both `MultilinePrompt` and `MultilineSystem`.\n\n**Related**\n\nPR #19319 changes how multiline `/set system` combines with the existing system message. It does not touch interrupt handling, so this is a separate bug.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ollama/ollama/issues/19340#L49"
+  },
+  {
+    "doc": "-Cloud\n-Containerização\n-API\n-Versionamento\n-Testes automatizados\n-CI / CD\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12410#L31"
+  },
+  {
+    "doc": "👉 Se inscreva pelo link abaixo \nhttps://jobs.micro1.ai/post/2635948c-eb96-440d-8e4d-b32b8af0a25d?referralCode=4bab295f-cd81-448b-8077-e039a64f9a2c&utm_source=referral&utm_medium=share&utm_campaign=job_referral\n\n#Java #JavaDeveloper #BackendDeveloper #JavaBackend #SpringBoot #Microservices #APIs #RESTAPI #SoftwareDeveloper #SoftwareEngineering #Backend #AWS #Cloud #ArtificialIntelligence #AI #TechJobs #RemoteJobs #RemoteWork #VagasDeTI #VagasTech #Tecnologia #DesenvolvimentoDeSoftware #LATAM",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12408#L40",
+    "note": "hashtags"
+  },
+  {
+    "doc": "-Experiência em Javascript/Typescript;\n-Experiência em CSS e HTML; \n-Experiência em Git; Experiência na escrita de testes unitários;\n-Conhecimentos básicos sobre Swagger.\n\n**Atividades do dia a dia**\n-Implementação de Interfaces: Desenvolver interfaces de usuário complexas e interativas utilizando NextJS, HTML e CSS.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8469#L40"
+  },
+  {
+    "doc": "**Q: How can I increase my chances of getting selected?**\nA: Writing a good project proposal, engaging with the community, helping other contributors, successfully contributing, and demonstrating that you can work independently can all help you. We've also compiled some notes below on the [selection criteria](#selection_criteria) we'll be using this year.\n\n**Q: Can you be flexible around my other commitments in the summer?**\n\nA: Yes (within reason)!  AnkiDroid will respect the same timelines that are given by GSoC; the main concern is whether you can still get the project done on time. Be upfront about your other commitments and make sure you schedule your time accordingly when creating your proposal. Other commitments you should list include time when you'll be in school and will commit less time to GSoC, time when you'll be travelling and away from GSoC work, any summer jobs you need to commit to, etc. We will try to be flexible around other time commitments, as long as your proposal convinces us that you will have enough time to complete the project by the end of the GSoC coding period. On the other hand, if you do not disclose other commitments, and it turns out that you are unable to commit to what you wrote on your proposal, this is grounds for failing the program.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ankidroid/Anki-Android/wiki/Google-Summer-of-Code-2025#L99"
+  },
+  {
+    "doc": "\n        C:\\ProgramData\\Radarr\\bin\n\n        -data=C:\\ProgramData\\Radarr-4K\n\n12.  Go ahead and start one of the services.  (In my case, the 4K one)\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Radarr/Radarr/wiki/Running-Multiple-Instances-on-Windows#L64",
+    "note": "command argument"
+  },
+  {
+    "doc": "-Destreza para falar com o cliente de forma clara e segura;\n-Tomar iniciativa para resolver questões do dia a dia do time;\n-Participação de ritos com nossos clientes;\n-Interação com o time para compreensão da solução de negócio e técnica;\n-Levantamento das atividades técnicas;\n-Implementação de APIs e microsserviços\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8451#L29"
+  },
+  {
+    "doc": "**WCAG Reference Link:**\nhttps://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships\n\n**Attachment:**\nhttps://onedrive.cloud.microsoft/:u:/a@pz6xd287/S/cQr-kXxfWjE5RrqAAqNMbiTUEgUCO0ly5OyGwxsxc6SC4kXonw\n\n### Expected Behavior",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/microsoft/terminal/issues/20742#L36"
+  },
+  {
+    "doc": "\n### Steps to reproduce\n\n-Export an app with Mobile renderer\n-Run on any iOS device with A10 chip\n-Observe the crash on start\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/godotengine/godot/issues/124881#L15"
+  },
+  {
+    "doc": "-Ajudar tech lead com pequenas alterações em documentação e processos;\n-Destreza para falar com o cliente de forma clara e segura;\n-Tomar iniciativa para resolver questões do dia a dia do time;\n-Participação de ritos com nossos clientes;\n-Interação com o time para compreensão da solução de negócio e técnica;\n-Levantamento das atividades técnicas;\n-Implementação de APIs e microsserviços",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8451#L28"
+  },
+  {
+    "doc": "**4. Use `odid or did` for a card's home deck**\n`cards.did` points to the **current** deck, which may be a filtered deck. The card's original deck is `cards.odid` (when non-zero). For deck-based operations, always resolve: `home = card.odid or card.did`.\n\n**5. Cloze `ord` is 0-indexed; cloze syntax is 1-indexed**\n`{{c1::text}}` generates a card with `ord = 0`. `{{c2::text}}` generates `ord = 1`. The offset is always 1.\n\n**6. `col.conf` may have add-on keys**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ankidroid/Anki-Android/wiki/Database‐Structure‐2026#L1056",
+    "note": "arguable: numbered tip titles"
+  },
+  {
+    "doc": "\n### Reproduction steps\n\n• Scenario A: Using \"Custom Ratings\" (Max Age Rating Filter)\n\t1. Set a user account's Max Parental Rating to TV-PG.\n\t2. Take an episode of a TV-14 show and edit its metadata to have a Custom Rating of TV-PG.\n\t3. Log into the child account.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/jellyfin/jellyfin/issues/18341#L19"
+  },
+  {
+    "doc": "## Systemd ##\nModern Linux systems have been updated to use the new systemd standard. The method is very simple and involves creating a service file then enabling it.\n\n**Create the service file**\n\n_Be sure to modify the user, group, mono path and install directory._\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Lidarr/Lidarr/wiki/Autostart-on-Linux#L4"
+  },
+  {
+    "doc": "https://refer.micro1.ai/referral/jobs?referralCode=4bab295f-cd81-448b-8077-e039a64f9a2c&utm_source=referral&utm_medium=share&utm_campaign=job_referral\n\n👉 Confira os requisitos e candidate-se pelo link da oportunidade desejada.\n#VagasInternacionais #VagasRemotas #RemoteJobs #TechJobs #Tecnologia #SoftwareEngineering #DataEngineering #ArtificialIntelligence #Python #FullStack #QA #MarketingDigital #TrabalhoRemoto",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8571#L73",
+    "note": "hashtags"
+  },
+  {
+    "doc": "### Steps to Reproduce\n\n1.install obs via flatpack,  default install, no plugin\n2.launch obs, let the setting wizard run, settings only recording no streaming\n3.click settings button, and it crash every time\n...\n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/obsproject/obs-studio/issues/14096#L38"
+  },
+  {
+    "doc": "<details>\n<summary>Chinese text supplied by the contributor</summary>\n\n**问题背景与日常流程**\n\n我们先通过 NFO 文件将影片信息导入 Jellyfin，然后使用软件工具调用 Jellyfin API，修改特定影片的流派信息和地区信息。修改完成后，Jellyfin 数据库和媒体库页面都显示更新后的信息，但源 NFO 文件仍然保留原来的值。\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jellyfin/jellyfin/pull/18474#L76"
+  },
+  {
+    "doc": ">\n> 那就修复服务端对分段影片共用海报和背景图的识别，让 SW-622-poster.jpg、SW-622-fanart.jpg 正常登记，客户端继续通过标准 Jellyfin API 获取图片。\n\n**Validation**\n\n| Check | Result |\n| --- | --- |",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jellyfin/jellyfin/pull/18411#L15"
+  },
+  {
+    "doc": "\nDeprecated by [`:remove-attr()`](./Static-filter-syntax#subjectremove-attrarg-subjectremove-classarg)\n\n**Filter authors must use the new operator instead of the `+js()` counterpart.**\n\nRemoves attribute(s) from DOM tree node(s). By default will run only once when the initial HTML document has been completely loaded and parsed but sub-resources such as scripts, images, stylesheets and frames are still loading.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/gorhill/uBlock/wiki/Resources-Library#L1167"
+  },
+  {
+    "doc": "\t./configure --no-tests --no-samples --static --omit=Data/MySQL --omit=Data/SQLite --omit=Data/ODBC --omit=NetSSL_OpenSSL --omit=Crypto --config=iPhoneSimulator\n\tmake\n\n**4. Use lipo make a universal lib**\n\nrun the following:\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/openframeworks/openFrameworks/wiki/Building-Libraries-for-OF#L87"
+  },
+  {
+    "doc": "\nhttps://github.com/user-attachments/assets/7df89113-86dd-4185-8abe-4c23b8bea89c\n\n**Expected behavior:**\n\n1. Word completion can fallback.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/zed-industries/zed/issues/66160#L24"
+  },
+  {
+    "doc": "7. Type `hi again`.\n8. (Optional) `/save m3`\n\n**Expected behavior**\n\nA consistent outcome. Either `/load` clears the session system prompt (matching model-switch behavior), or it keeps it and keeps sending it.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ollama/ollama/issues/19341#L21"
+  },
+  {
+    "doc": "Cannot move any file in /tmp to /root, for example.\n\nMy operation log is here.\n=== === === === === ===\nroot@localhost:~# pwd\n/root\nroot@localhost:~# touch /tmp/test",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-wiki",
+    "source": "https://github.com/microsoft/WSL/issues/104#L4"
+  },
+  {
+    "doc": "The recently merged resize overlay (PR #20059) shows terminal dimensions in the center of the window when resizing or changing font size.\n\nWhile this is a nice feature for many users, I find it visually distracting :( \n— I don't need to see the column/row count during resize, and the overlay clutters the experience.\n\nRequest for example: Add a setting (e.g. \"experimental.showResizeOverlay\": true) to settings.json so users can disable this overlay and/or add setting in SUI.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/microsoft/terminal/issues/20694#L6",
+    "note": "dash continues the sentence above"
+  },
+  {
+    "doc": "✈️ Canal Telegram: https://t.me/valoreivagas\n🎁 Conhece alguém ideal? Indique pelo nosso Programa de Indicações e ganhe R$ 200,00 a cada amigo contratado!\n🔗 https://vagas.valorei.tech/referral\n#VagasAbertas #DesenvolvedorBackend #Java #MercadoFinanceiro #SpringBoot #SãoPaulo #VagasHíbrido #TecnologiaFinanceira #RecrutamentoTech #OportunidadeCarreira #DesenvolvimentoSoftware #VagasEmTI\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12383#L49",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\n## Todo\n\n✓ = done\n\n#### Testing\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/openframeworks/openFrameworks/wiki/Sound-programming-notes#L30",
+    "note": "a legend, not an item"
+  },
+  {
+    "doc": "- Lowering `interface/editor/timers/unfocused_low_processor_mode_sleep_usec` (100000 → 6900) does **not** help.\n- In #104246, users reported similar lag with AeroSpace, so the problem doesn't seem limited to one app.\n\n**Suggestion**\n\nHard-coding bundle IDs won't keep up, because any window manager, app switcher or Dock enhancement that uses the Accessibility API can trigger this. Possible options:\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/godotengine/godot/issues/124784#L27"
+  },
+  {
+    "doc": "**Spheres**\n<img width=\"739\" height=\"576\" alt=\"image\" src=\"https://github.com/user-attachments/assets/09228f98-7a34-4310-9366-8aca75200815\" />\n\n**Cylinders**\n<img width=\"772\" height=\"676\" alt=\"image\" src=\"https://github.com/user-attachments/assets/e997d394-e0d0-4898-8a02-a3ff5b8db81d\" />\n\nPotential follow ups / nice to haves:",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/godotengine/godot/pull/124725#L27",
+    "note": "caption for one image"
+  },
+  {
+    "doc": "    at http://momentjs.com/js/tests.js?_=120203_183019:627:25\n    at http://momentjs.com/js/tests.js?_=120203_183019:1008:17\n    at http://momentjs.com/js/tests.js?_=120203_183019:1589:17\n+01:00 ---> Something like \"+07:30\"\n+0100 ---> Something like \"+0700\"\n\nHope it helps.",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/moment/moment/issues/171#L26"
+  },
+  {
+    "doc": "-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.10\n~$ ls -l index.html\\* | tail -3\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.997\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.998\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.999\n$ head -2 index.html.1\n`<!DOCTYPE html>`",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/syncthing/syncthing/issues/181#L9",
+    "note": "ls -l output"
+  },
+  {
+    "doc": "\nResult: Correct response without a reasoning field.\n\n**Test 3 — OpenAI-compatible API: FAIL**\n\nEndpoint: `/v1/chat/completions`\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ollama/ollama/issues/19217#L35"
+  },
+  {
+    "doc": "Here's what's happening, in short :\n\n• If you type exit, all's fine and the command runs.\n• If you type something like screenfetch, it gets replaced by \"screenfetcscreenfetch\" the second you press the enter key\n\nI have autocomplete and autocorrect off at all times, and I use the default keyboard on my Samsung S6 Edge (SM-G925F zerolte).\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/termux/termux-app/issues/176#L4"
+  },
+  {
+    "doc": "### Reproduction steps\n\n1- create a Godot Project with multiple C# Script on it . (or just project I've Sent you)\n2- open folder that project\n3-  give my theme to Zed \"5+7.json\" (or any theme that uses semantic highlights) - I put it here.\n4- give my Settings to Zed. (The important thing is : \"semantic_tokens\": \"combined\")\n5-in project open some of C# files of Project in Tabs.(I opened Player.cs and Sfx.cs)",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-dash",
+    "source": "https://github.com/zed-industries/zed/issues/66106#L4"
+  },
+  {
+    "doc": "\n### Record audio\n\n**android.permission.RECORD_AUDIO**\n\nThis is an optional permission that we request, allowing the \"Check Pronunciation\" and \"Insert Audio\" features to work.\n ",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ankidroid/Anki-Android/wiki/Permissions#L23"
+  },
+  {
+    "doc": "\n\nciao\n-gabriele\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/obsproject/obs-studio/issues/14048#L97",
+    "note": "signature"
+  },
+  {
+    "doc": "\n**or you can use Code-Behind**\n\n```cs\nvar icon = new PackIcon { Kind = PackIconKind.SmileyHappy };",
+    "line": 1,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/Icons#L18",
+    "note": "caption for one code block"
+  },
+  {
+    "doc": "**Endpoint: \"/wanted/missing\"**\n\n## GET ##\n",
+    "line": 0,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Lidarr/Lidarr/wiki/Wanted-Missing#L1",
+    "note": "arguable: a wiki page's title written as bold \"label: value\""
+  },
+  {
+    "doc": "\n# Linux #\n\n**- Mono 5.8 or later is required :**\n\n0. Download and install **mono** here\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/Lidarr/Lidarr/wiki/Installation#L29"
+  },
+  {
+    "doc": "4- give my Settings to Zed. (The important thing is : \"semantic_tokens\": \"combined\")\n5-in project open some of C# files of Project in Tabs.(I opened Player.cs and Sfx.cs)\n6- close Zed\n7- reopen it.\n8- the active Tab correctly load sematic highlights \n9- now open than inactive tab for me Player.cs , it is not loading sematic highlights. \n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-dash",
+    "source": "https://github.com/zed-industries/zed/issues/66106#L9"
+  },
+  {
+    "doc": "\n### Steps to Reproduce\n\n1.install obs via flatpack,  default install, no plugin\n2.launch obs, let the setting wizard run, settings only recording no streaming\n3.click settings button, and it crash every time\n...",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/obsproject/obs-studio/issues/14096#L37"
+  },
+  {
+    "doc": "-Docker\n-AWS/Azure/GCP\n-CI/CD\n-Testes (Unitários, interface, integração)\n-Code Review com boas práticas\n-Principais Tecnologias: Python e .NET\n-Curiosidade ativa por Inteligência Artificial e disposição para explorar como a IA pode potencializar seu trabalho",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/backend-br/vagas/issues/12410#L22"
+  },
+  {
+    "doc": "\n* **[skiptosilence](https://github.com/detuur/mpv-scripts)**  \n  This script skips to the next silence in the file. The intended use for this is to skip until the end of an opening or ending sequence, at which point there's often a short period of silence.\n    *[skiptosilence](https://github.com/dyphire/mpv-scripts/blob/main/skiptosilence.lua): more powerful\n\n* **[SmartSkip](https://github.com/Eisa01/mpv-scripts/#smartskip)**  \nAutomatically or manually skip opening, intro, outro, and preview, like never before. Jump to next file, previous file, and save your chapter changes! Much more explained in the link above.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/mpv-player/mpv/wiki/User-Scripts#L1232",
+    "note": "nested item"
+  },
+  {
+    "doc": "\nThe Modelfile format currently has no escape for `\"`.\n\n**Suggested fix**\n\nEither:\n- choose a delimiter that can represent the value (for example `'''…'''`, once single-quote parsing lands in PR #19088), or add an escape sequence, or",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/ollama/ollama/issues/19342#L45"
+  },
+  {
+    "doc": "\nHappy to open this as a PR instead if that's preferred.\n\n— filed by the Rigger project (an application built on OBS)\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/obsproject/obs-studio/issues/13934#L254",
+    "note": "signature"
+  },
+  {
+    "doc": "\n### Reproduction steps\n\n1.Launch a LiveTV Stream with a client able to directplay the stream\n2.Result is a transcoding of the steam instead of direct playing\n\n### What is the current _bug_ behavior?",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/jellyfin/jellyfin/issues/18339#L11"
+  },
+  {
+    "doc": "\n### Steps to Reproduce\n\n1.Start OBS 33.0.0 with my existing scene collection selected.\n2.OBS crashes during startup.\n3. Start OBS in Safe Mode — the collection loads successfully.\n4. Start OBS normally with an empty collection — OBS works.",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/obsproject/obs-studio/issues/14088#L36"
+  },
+  {
+    "doc": "  * \"How to {do a certain thing}\"\n  * \"The ability of openFrameworks to {feature}\"\n  * Guides the reader to what's important in the code of the App\n*Expected Behavior\n  * \"You should see {description of screen}\"\n  * e.g. \"Try moving your cursor left-right in order to....\", \n  * \"Press <space> to clear...\"",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/openframeworks/openFrameworks/wiki/Examples-README.md-Guide#L18"
+  },
+  {
+    "doc": "\t2. Take an episode of a TV-14 show and edit its metadata to have a Custom Rating of TV-PG.\n\t3. Log into the child account.\n\t4. Result: Global search is broken for the show. If you manage to deep-link directly to the episode, clicking play triggers an infinite spinning wheel because the server blocks the client from reading the parent Series metadata structure.\n• Scenario B: Using \"Allow items with tags\" (The Whitelist Filter)\n\t1. Add a unique tag (e.g., Kids-Approved) to the top-level Series and the specific Episodes.\n\t2. Add Kids-Approved to the user's Allow items with tags field.\n\t3. Log into the child account.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/jellyfin/jellyfin/issues/18341#L24"
+  },
+  {
+    "doc": "Please see the [Contributing to the Documentation] (http://www.openframeworks.cc/tutorials/developers/003_contributing_to_the_documentation.html) tutorial for up-to-date instructions.",
+    "line": 0,
+    "expect": true,
+    "kind": "link-space",
+    "source": "https://github.com/openframeworks/openFrameworks/wiki/Contributing-documentation#L1"
+  },
+  {
+    "doc": "Interesse ou experiência com produtos que envolvam vendas ou integração com áreas comerciais;\nSer (ou querer se tornar) uma pessoa ativa na comunidade, que compartilha conhecimento dentro e fora da empresa através de eventos, artigos, mentorias, iniciativas voluntárias, projetos open source, etc.\n\n#CLT #Remoto #Pleno #React",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8431#L32",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\n## Validation Steps Performed\n✅ ignore \"no results\" placeholder\n✅ fallback to top result if none are selected",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/microsoft/terminal/pull/20658#L8"
+  },
+  {
+    "doc": "Rather than creating a new page to just show the search results, I made it just invoke the currently selected item. Unfortunately, that means that we need to keep track of the selected item ourselves, but aside from that, it's a pretty small PR. I added `_NavigateToSearchResult()` to help deduplicate some code. \n\n## Validation Steps Performed\n✅ ignore \"no results\" placeholder\n✅ fallback to top result if none are selected",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/microsoft/terminal/pull/20658#L7"
+  },
+  {
+    "doc": "\n1.install obs via flatpack,  default install, no plugin\n2.launch obs, let the setting wizard run, settings only recording no streaming\n3.click settings button, and it crash every time\n...\n\n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/obsproject/obs-studio/issues/14096#L39"
+  },
+  {
+    "doc": "4. Build the host (host.c, about 60 lines). It calls libgodot_create_godot_instance, GodotInstance.start(), N × iteration(), then libgodot_destroy_godot_instance.\nG=../godot\ngcc -fsanitize=address -g -O1 -I$G -I$G/core/extension host.c -o host \\\n    -L$G/bin -l:libgodot.linuxbsd.editor.x86_64.san.so -Wl,-rpath,$G/bin\nThe method hashes for start and iteration are hard-coded (2240911060). They come from godot --headless --dump-extension-api, under GodotInstance in extension_api.json. Re-check them if master changes the methods.\n\n5. Run it: iterate 5 frames, then destroy while the level load is still in flight.",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/godotengine/godot/issues/124796#L53",
+    "note": "command continuation"
+  },
+  {
+    "doc": "### Reproduction steps\n\n1.Launch a LiveTV Stream with a client able to directplay the stream\n2.Result is a transcoding of the steam instead of direct playing\n\n### What is the current _bug_ behavior?\n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/jellyfin/jellyfin/issues/18339#L12"
+  },
+  {
+    "doc": "### Tested versions\n\n-Reproducible in: Godot v4.7.2, exporting to iOS in Mobile renderer. Not reproducible in Compatibility renderer\n\n### System information\n",
+    "line": 2,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/godotengine/godot/issues/124881#L3",
+    "note": "arguable: a one-item list (the issue template's \"- Reproducible in:\")"
+  },
+  {
+    "doc": "Here's what's happening, in short :\n\n• If you type exit, all's fine and the command runs.\n• If you type something like screenfetch, it gets replaced by \"screenfetcscreenfetch\" the second you press the enter key\n\nI have autocomplete and autocorrect off at all times, and I use the default keyboard on my Samsung S6 Edge (SM-G925F zerolte).",
+    "line": 2,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/termux/termux-app/issues/176#L3"
+  },
+  {
+    "doc": "    echo \"  ↓ $p\"\n    curl -L --fail -C - --retry 5 --retry-delay 3 --progress-bar \\\n        \"${AUTH[@]+\"${AUTH[@]}\"}\" \\\n        -o \"$out.part\" \"https://huggingface.co/$REPO_ID/resolve/main/$p\"\n    mv \"$out.part\" \"$out\"\n}\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/ollama/ollama/issues/19277#L232",
+    "note": "command continuation"
+  },
+  {
+    "doc": "1426\n~$ ls -l index.html\\* | head -3\n-rw-rw-r-- 1 aquarius aquarius 20965 Apr 21 00:08 index.html\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.1\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.10\n~$ ls -l index.html\\* | tail -3\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.997",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/syncthing/syncthing/issues/181#L5",
+    "note": "ls -l output"
+  },
+  {
+    "doc": "### Steps to reproduce\n\n-Export an app with Mobile renderer\n-Run on any iOS device with A10 chip\n-Observe the crash on start\n\n### Minimal reproduction project (MRP)",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/godotengine/godot/issues/124881#L16"
+  },
+  {
+    "doc": "URL=\"\"; CUSTOM_NAME=\"\"; QUANT=\"\"; GET_MMPROJ=0; KEEP=0\nwhile [ $# -gt 0 ]; do\n    case \"$1\" in\n        -h|--help) usage; exit 0 ;;\n        --token|--name|--quant)\n            [ $# -ge 2 ] || die \"$1 требует значение\"\n            case \"$1\" in",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/ollama/ollama/issues/19277#L28",
+    "note": "shell case pattern"
+  },
+  {
+    "doc": "-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.1\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.10\n~$ ls -l index.html\\* | tail -3\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.997\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.998\n-rw-rw-r-- 1 aquarius aquarius 20976 May  2 13:48 index.html.999\n$ head -2 index.html.1",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/syncthing/syncthing/issues/181#L8",
+    "note": "ls -l output"
+  },
+  {
+    "doc": "Usage: test.py\n\nOptions:\n  -h, --help            show this help message and exit\n  -m, --masterMode      Run the script in master mode.\n  --manifestFile=MANIFESTFILE\n                        A JSON file in the form of test_manifest.json (the",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/mozilla/pdf.js/pull/65#L9",
+    "note": "CLI help output"
+  },
+  {
+    "doc": "\n### Steps to Reproduce\n\n1.set up video capture device as iPad\n2. start using as usual\n3. keep using and the green screen will start flickering\n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/obsproject/obs-studio/issues/13997#L35"
+  },
+  {
+    "doc": "\nE se você conhece aquele Tech Lead que realmente ainda coloca a mão no código, marque ou compartilhe esta oportunidade com ele. 🚀\n\n#TechLead #TechLeadership #SoftwareEngineering #SoftwareDeveloper #BackendDeveloper #Python #Java #Golang #Kafka #RabbitMQ #AWS #APIs #Integration #EventDrivenArchitecture #CleanCode #SOLID #Scrum #Kanban #USHealthcare #HealthcareIT #RemoteJobs #InternationalJobs #TechJobs #VagasDeTI #Curitiba #LATAM\n\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8561#L52",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\n— and restoring the hunks returns 304/304. Short-circuiting the `open_local_buffer` branch fails the\nexternal test on `external tool-call location should resolve`, which is the check its first version\nwas missing.\n",
+    "line": 1,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/zed-industries/zed/pull/66053#L95",
+    "note": "dash continues the text above"
+  },
+  {
+    "doc": "Let me know if it gets merged or what concerns there would be with it.\n\nThanks,\n-Doug\n\nPS: [#7061](http://bugs.jquery.com/ticket/7061)\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/jquery/jquery/pull/104#L7",
+    "note": "signature"
+  },
+  {
+    "doc": "\nOptions:\n  -h, --help            show this help message and exit\n  -m, --masterMode      Run the script in master mode.\n  --manifestFile=MANIFESTFILE\n                        A JSON file in the form of test_manifest.json (the\n                        default).",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/mozilla/pdf.js/pull/65#L10",
+    "note": "CLI help output"
+  },
+  {
+    "doc": "I clone the code of vim, and Makefile,but it doesn't work. This may be because of the \"configure\".The \"configure\" is a shell script,and it begins with:\n#! /bin/sh\nHowever, in my cell phone, it's actually /data/data/com.termux/file/usr/bin/sh.\nSo, How can I get the configure right, and compile vim successfully?\nI want to cmpile vim to add support for python and lua.",
+    "line": 1,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/termux/termux-app/issues/186#L2",
+    "note": "shebang"
+  },
+  {
+    "doc": "\n## References and Relevant Issues\n\n#10187, #4608, #20710\n\n## Detailed Description of the Pull Request / Additional comments\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/microsoft/terminal/pull/20784#L7",
+    "note": "issue references"
+  },
+  {
+    "doc": "    at http://momentjs.com/js/tests.js?_=120203_183019:1008:17\n    at http://momentjs.com/js/tests.js?_=120203_183019:1589:17\n+11:00 ---> Something like \"+07:30\"\n+1100 ---> Something like \"+0700\"\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/moment/moment/issues/185#L27"
+  },
+  {
+    "doc": "when I spwan a new bash process using \n1.require('child_process').spawn(\"C:\\Windows\\System32\\bash.exe\");\n2.require('child_process').spawn(\"C:\\Windows\\System32\\bash.exe\",[\"-c\",\"ls\"]);\nIt will output a \"Error: 0x80070057\" via stdout.\n\nMy windows subsystem for linux however works perfect for standalone usage.I just need to connect nw.js and bash, any idea about this?",
+    "line": 2,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/microsoft/WSL/issues/195#L3"
+  },
+  {
+    "doc": "- https://reddit.com/r/uBlockOrigin/comments/mdh9jz/order_of_complexity_for_network_filters/gsa7gd2/\n- https://reddit.com/r/uBlockOrigin/comments/mdh9jz/order_of_complexity_for_network_filters/gxzxfo0/\n\n3- To prevent a pattern-based filter to be treated as a regex-based filter, you need a trailing wildcard to remove the ambiguity.\n\n```adb\n/path/to/",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-dash",
+    "source": "https://github.com/gorhill/uBlock/wiki/Filter-Performance#L71"
+  },
+  {
+    "doc": "👉 Tem esse perfil? Confira os requisitos e candidate-se!\nConhece um profissional de C#/.NET que está buscando uma oportunidade internacional? Compartilhe. 🌎\nMe siga para mais oportunidades internacionais.\n#VagasInternacionais #VagasRemotas #BackEndDeveloper #BackendEngineer #CSharp #DotNet #SQL #NETDeveloper #TechJobs #RemoteJobs #VagasTI #SoftwareDeveloper #TechRecruiter\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8563#L20",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\n### Steps to Reproduce\n\n1.Force quite\n2. nothing, unusuable \n3.\n...",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/obsproject/obs-studio/issues/14102#L35"
+  },
+  {
+    "doc": "\nLog files are below.\nThanks\n-Bob\n\n### Reproduction steps\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/jellyfin/jellyfin/issues/18360#L11",
+    "note": "signature"
+  },
+  {
+    "doc": "### Steps to Reproduce\n\n1.Profile > profilename\n2.File > Settings\n3. Under settings Select VIDEO and then attempt to type in 1080x1920, and it won't let you type anything.  \n\n<img width=\"968\" height=\"210\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/2c72d4b4-ba13-469d-be80-64c397a59b95\" />",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/obsproject/obs-studio/issues/14047#L36"
+  },
+  {
+    "doc": "🌎 Seu próximo desafio profissional pode estar em uma empresa internacional!\n📢 Compartilhe este post com outros profissionais de tecnologia que estão buscando oportunidades remotas.\nBoa sorte nas candidaturas! 🚀💻\n#TechJobs #VagasTI #Tecnologia #TechRecruitment #RemoteJobs #RemoteWork #LATAMJobs #InternationalJobs #SoftwareEngineer #DeveloperJobs #TechCareers #TrabalhoRemoto #VagasRemotas #RecebaEmDolar #CarreiraInternacional #Hiring #OpenToWork #ITJobs\n\n\nVamos nos conectar? ",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/frontendbr/vagas/issues/8538#L22",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\n### Reproduction steps\n\n1.Sign into Jellyfin any client.\n2. Go to tv episodes\n3. Go to NFL tv series.\n4. Only one episode is shown per week with versions (versions are the different games).",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/jellyfin/jellyfin/issues/18406#L7"
+  },
+  {
+    "doc": "    at http://momentjs.com/js/tests.js?_=120203_183019:627:25\n    at http://momentjs.com/js/tests.js?_=120203_183019:1008:17\n    at http://momentjs.com/js/tests.js?_=120203_183019:1589:17\n+11:00 ---> Something like \"+07:30\"\n+1100 ---> Something like \"+0700\"\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/moment/moment/issues/185#L26"
+  },
+  {
+    "doc": "    at http://momentjs.com/js/tests.js?_=120203_183019:1008:17\n    at http://momentjs.com/js/tests.js?_=120203_183019:1589:17\n+01:00 ---> Something like \"+07:30\"\n+0100 ---> Something like \"+0700\"\n\nHope it helps.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/moment/moment/issues/171#L27"
+  },
+  {
+    "doc": "\nI also had a problem where the language was not English and I had to add: moment.lang('en'); to fix this. The Docs indicate English is sued by default.\n\n-Neville http://www.surfulater.com\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/moment/moment/issues/175#L15",
+    "note": "signature"
+  },
+  {
+    "doc": "Failed tests (# 28):\n**http://pastebin.com/bQsDuxdH**\n\n*Title edited by timrwood\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/moment/moment/issues/162#L12"
+  },
+  {
+    "doc": "A brief for us meatbags. In [far2l](https://github.com/elfmz/far2l/) (and now also in [f4](https://github.com/unxed/f4), [WIP](https://github.com/blue-panels/mcommander/pull/368) in the [M-commander](https://github.com/blue-panels/mcommander) fork of mc), we’re developing the terminal ESC sequence protocol, bringing a ton of capabilities missing from other protocols and providing safer clipboard handling compared to OSC52. Take a look, it’s interesting!\n\n— Ivan\n\nPS: f4's implementation supports Drag and Drop over ssh! AFAIK, the first terminal protocol allowing it :)\nPR for far2l is also ready, WIP in M-commander.",
+    "line": 2,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/microsoft/terminal/issues/20753#L3",
+    "note": "signature"
+  },
+  {
+    "doc": "\n### Steps to Reproduce\n\n1.Profile > profilename\n2.File > Settings\n3. Under settings Select VIDEO and then attempt to type in 1080x1920, and it won't let you type anything.  \n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/obsproject/obs-studio/issues/14047#L35"
+  },
+  {
+    "doc": "-\n***\n\n#Application questions\n\n1. Describe your organization.\n     * openFrameworks is an open source C++ toolkit designed to assist the creative process by providing a simple and intuitive framework for experimentation. The code is written to be massively cross-compatible. Right now we support five operating systems (Windows, OSX, Linux, iOS, Android) and four IDEs (XCode, Code::Blocks, and Visual Studio and Eclipse). The API is designed to be minimal and easy to grasp. We are a diverse community of hackers, artists, designers, students, teachers from all over the world.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-nospace",
+    "source": "https://github.com/openframeworks/openFrameworks/wiki/GSoC-2014-Ideas#L118"
+  },
+  {
+    "doc": "please fix.\nscreenshot can be seen here:\n\n![scrrenshoy] (https://ooo.0o0.ooo/2016/11/27/583af6587f37a.png)",
+    "line": 3,
+    "expect": true,
+    "kind": "link-space",
+    "source": "https://github.com/termux/termux-app/issues/203#L8"
+  },
+  {
+    "doc": "# modified:   init.sh\n# \n# Untracked files:\n#0001-onda.patch\n# init.sh~\n# \n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/termux/termux-app/issues/169#L9",
+    "note": "git status output"
   }
 ]

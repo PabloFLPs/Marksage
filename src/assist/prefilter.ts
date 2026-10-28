@@ -146,7 +146,10 @@ export type StructureKind =
   | 'heading-nospace' // #Title
   | 'heading-wiki' // == Title ==
   | 'list-nospace' // -item / *item / +item
+  | 'list-glyph' // • item / – item / ✔️ item — a typographic bullet, which Markdown doesn't render as a list
   | 'ordered-nospace' // 1)item / 1.item
+  | 'ordered-dash' // 1- item / 1 - item
+  | 'link-space' // [text] (url) — the space breaks the link
 
 export interface StructureCandidate {
   kind: StructureKind
@@ -190,10 +193,29 @@ export function findStructureCandidates(text: string): StructureCandidate[] {
       push('list-nospace', `${m[1]}${m[2]} ${m[3]}`, `The line "${t}" is meant to be a bullet list item.`)
     } else if ((m = /^(\s*)(\d{1,3})([.)])([^\s\d.)].*)$/.exec(t))) {
       push('ordered-nospace', `${m[1]}${m[2]}${m[3]} ${m[4]}`, `The line "${t}" is meant to be a numbered list item.`)
+    } else if ((m = GLYPH_ITEM_RE.exec(t))) {
+      // A check mark is content ("✔️ done"), so it stays after the dash; a plain bullet glyph is replaced.
+      const rest = CHECK_GLYPH.test(m[2]) ? `${m[2]} ${m[3]}` : m[3]
+      push('list-glyph', `${m[1]}- ${rest}`, `The line "${t}" is meant to be a bullet list item.`)
+    } else if ((m = /^(\s*)(\d{1,3}) ?- +([^\s\d].*)$/.exec(t))) {
+      push('ordered-dash', `${m[1]}${m[2]}. ${m[3]}`, `The line "${t}" is meant to be a numbered list item.`)
+    }
+    if (LINK_SPACE_RE.test(withoutCodeSpans(t))) {
+      const fixed = t.replace(/(`+)[\s\S]*?\1|\[([^\]\n]+)\] \(((?:https?:|mailto:|\.{0,2}\/|#)[^)\s]*)\)/g, (s, tick, text, url) =>
+        tick ? s : `[${text}](${url})`,
+      )
+      if (fixed !== t) push('link-space', fixed, `The line "${t}" has a link broken by a space between "]" and "(".`)
     }
   }
   return out
 }
+
+/** Typographic bullets copied from documents, web pages and chat apps: • ◦ ▪ ▸ ► ● ○ ■ □ · ‣ ⁃ – — ✓ ✔ ✔️ ☑ ✅. */
+const GLYPH_ITEM_RE = /^(\s*)([•◦▪▫▸►▹●○■□·‣⁃–—✓✔☑✅]\uFE0F?)\s*([^\s•◦▪▸►●○■□·–—].*)$/u
+const CHECK_GLYPH = /[✓✔☑✅]/u
+/** `[text] (https://…)`: Markdown needs `](` with nothing between, so this renders as plain text. */
+const LINK_SPACE_RE = /\[[^\]\n]+\] \((?:https?:|mailto:|\.{0,2}\/|#)[^)\s]*\)/
+const withoutCodeSpans = (t: string) => t.replace(/(`+)[\s\S]*?\1/g, (s) => ' '.repeat(s.length))
 
 /** `#tag` (single word) or `#fff` colors are not headings. */
 function isLikelyHashtag(hashes: string, rest: string): boolean {

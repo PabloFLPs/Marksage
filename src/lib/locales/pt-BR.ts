@@ -118,6 +118,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'suggest.structure.heading': 'Transformar em título?',
   'suggest.structure.list': 'Transformar em item de lista?',
   'suggest.structure.ordered': 'Transformar em item numerado?',
+  'suggest.structure.link': 'Corrigir este link?',
   'paste.kind.prose': 'Texto corrido',
   'paste.kind.table': 'Tabela alinhada por espaços',
   'paste.kind.csv': 'Valores separados por vírgula',

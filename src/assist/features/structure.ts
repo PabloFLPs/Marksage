@@ -7,7 +7,10 @@ const KEYS: Record<StructureKind, string> = {
   'heading-nospace': 'suggest.structure.heading',
   'heading-wiki': 'suggest.structure.heading',
   'list-nospace': 'suggest.structure.list',
+  'list-glyph': 'suggest.structure.list',
   'ordered-nospace': 'suggest.structure.ordered',
+  'ordered-dash': 'suggest.structure.ordered',
+  'link-space': 'suggest.structure.link',
 }
 
 const LABELS: Record<StructureKind, string> = {
@@ -15,7 +18,10 @@ const LABELS: Record<StructureKind, string> = {
   'heading-nospace': 'Make this a heading?',
   'heading-wiki': 'Make this a heading?',
   'list-nospace': 'Make this a list item?',
+  'list-glyph': 'Make this a list item?',
   'ordered-nospace': 'Make this a numbered item?',
+  'ordered-dash': 'Make this a numbered item?',
+  'link-space': 'Fix this link?',
 }
 
 /** F3 — `noul` per candidate line; skips the line being typed. */

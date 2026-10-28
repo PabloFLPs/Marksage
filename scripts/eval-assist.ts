@@ -9,7 +9,7 @@
  *   authored  — written alongside the heuristics (regression tests; optimistic by construction)
  *   dev       — real-world excerpts to tune against (F1, F3)
  *   real      — real-world excerpts, held out: never tune heuristics against them
- *   real2     — a second, fresh held-out code-block set (model v2), from repos used nowhere else
+ *   real2     — a second, fresh held-out set: code blocks (model v2), unpolished lines (structure, 2026-10-28), pastes
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { HeuristicEngine } from '../src/assist/heuristicEngine.ts'
@@ -59,7 +59,7 @@ function report(name: string, rows: Row[], ms: number) {
 }
 
 for (const set of SETS) {
-  const TITLES = { authored: 'Authored set (written with the rules — optimistic)', dev: 'Dev set (real-world, used for tuning)', real: 'Real-world set (held out)', real2: 'Real-world set 2 (fresh, held out — model v2)' }
+  const TITLES = { authored: 'Authored set (written with the rules — optimistic)', dev: 'Dev set (real-world, used for tuning)', real: 'Real-world set (held out)', real2: 'Real-world set 2 (fresh, held out: code blocks for model v2; issue/wiki lines and real pastes from 2026-10-28)' }
   console.log(`\n# ${TITLES[set]}`)
 
   // F1 — code-fence language
@@ -105,7 +105,9 @@ for (const set of SETS) {
     const t0 = performance.now()
     const rows: Row[] = []
     for (const l of load(file('lines', set))) {
-      const cands = findStructureCandidates(l.doc)
+      // `line` (0-based, newer cases) names the labelled line; older cases hold exactly one candidate.
+      const start = l.line === undefined ? -1 : l.doc.split('\n').slice(0, l.line).join('\n').length + (l.line ? 1 : 0)
+      const cands = findStructureCandidates(l.doc).filter((c) => start < 0 || c.lineStart === start)
       let p = 0
       for (const c of cands) p = Math.max(p, await engine.noul(c.context, c.statement))
       const shown = p >= 0.8

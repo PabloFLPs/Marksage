@@ -24,5 +24,15 @@
   {"doc": "\n**Step 3: Deploy**\n\nPush the image.", "expect": true},
   {"doc": "Intro text.\n\n-this should be a list item\n\nMore text.", "expect": true},
   {"doc": "Output:\n\n-su cd: /opt/app: Permission denied\n", "expect": false},
-  {"doc": "Use the flag\n\n-verbose\n", "expect": false}
+  {"doc": "Use the flag\n\n-verbose\n", "expect": false},
+  {"doc": "Benefícios:\n• Plano de saúde\n• Vale-refeição\n• Home office", "line": 2, "expect": true},
+  {"doc": "Requirements:\n✔️ 3+ years with React\n✔️ English", "line": 1, "expect": true},
+  {"doc": "• [English](README.md) • [Português](README.pt-BR.md) • [日本語](README.ja.md)", "expect": false},
+  {"doc": "> Simplicity is prerequisite for reliability.\n\n— Edsger Dijkstra", "line": 2, "expect": false},
+  {"doc": "Steps:\n1- open the app\n2- click Settings\n3- restart", "line": 2, "expect": true},
+  {"doc": "The range is\n3 - 2\nfor this case.", "line": 1, "expect": false},
+  {"doc": "See the [installation guide] (https://example.com/install) first.", "expect": true},
+  {"doc": "Join us!\n\n#CLT #Remoto #React", "line": 2, "expect": false},
+  {"doc": "$ ls -l\n-rw-r--r-- 1 ana staff 2048 Oct 28 10:00 notes.md\n-rw-r--r-- 1 ana staff 4096 Oct 28 10:01 todo.md", "line": 2, "expect": false},
+  {"doc": "Before and after:\n\n**Before**\n<img src=\"before.png\" alt=\"before\" />", "line": 2, "expect": false}
 ]

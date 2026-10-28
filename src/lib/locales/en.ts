@@ -117,6 +117,7 @@ export const en = {
   'suggest.structure.heading': 'Make this a heading?',
   'suggest.structure.list': 'Make this a list item?',
   'suggest.structure.ordered': 'Make this a numbered item?',
+  'suggest.structure.link': 'Fix this link?',
   'paste.kind.prose': 'Prose / regular text',
   'paste.kind.table': 'Whitespace-aligned table',
   'paste.kind.csv': 'Comma-separated values',

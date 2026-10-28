@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import { Braces, Code2, Heading, List, ListOrdered, Table } from 'lucide-react'
+import { Braces, Code2, Heading, Link, List, ListOrdered, Table } from 'lucide-react'
 import type { Suggestion } from '../assist/types'
 
 type Icon = ComponentType<{ className?: string }>
@@ -20,6 +20,7 @@ const BY_MESSAGE: Record<string, Icon> = {
   'suggest.structure.heading': Heading,
   'suggest.structure.list': List,
   'suggest.structure.ordered': ListOrdered,
+  'suggest.structure.link': Link,
 }
 
 const BY_FEATURE: Record<Suggestion['feature'], Icon> = { codeFence: Code2, smartPaste: Table, structure: Heading }
