@@ -405,3 +405,12 @@ There are no cookies, analytics or third-party requests (system fonts only).
   Accept, the two choices and dismiss keep their own action.
 - Follow-up (2026-10-28): the flash ring is 1 px (75–80% accent so it still reads) and eases in (~0.3 s), holds
   (~0.6 s) and fades out (~1.2 s) — 2.1 s in all, between the first 1.5 s and a too-long 2.4 s try.
+
+## 27. Lone "-item" lines (2026-10-28)
+
+- Pablo: the playground's "-this should be a list item" never got a suggestion. By design a lone `-line` scored
+  0.72 (below the 0.8 gate: "-verbose", "-5", "-su cd: …" are not items), so the playground promised something
+  the rules refused. Now a lone `-` line of plain prose (≥ 3 words, a word of ≥ 2 letters right after the dash,
+  no `/ : = $ \` { } < > |`, not indented as code) scores 0.82. Dev and real sets unchanged (no such lines in
+  them); +3 written cases (structure 26: the playground line, the real "-su cd: …" shell output, "-verbose").
+

@@ -499,7 +499,7 @@ fresh one, built from 72 repositories used nowhere else.
 
 | Set | What it is | Size | Rule |
 |---|---|---|---|
-| Written | examples written alongside the rules | code 42 · paste 15 · structure 23 · headings 65 · documents 4 | catches regressions; scores near 100% by construction |
+| Written | examples written alongside the rules | code 42 · paste 15 · structure 26 · headings 65 · documents 4 | catches regressions; scores near 100% by construction |
 | Dev | real documents, used to make choices | code 280 · paste 27 · structure 36 · sections from 27 repositories | tune here, never on the held-out sets |
 | First held-out (2026-10-24) | real documents, never tuned on | code 314 · paste 31 · structure 30 | run once per version; v1's judge |
 | Fresh held-out (2026-10-24) | code from 72 repositories used nowhere else | code 284 (67 repositories) | built once for v2, then frozen |

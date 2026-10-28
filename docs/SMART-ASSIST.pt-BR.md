@@ -264,7 +264,9 @@ de um valor inicial por tipo e é ajustada pelas evidências:
   (`+SIMD +AVX`), CSS (`-webkit-line-clamp: 2;`) ou números negativos (`-5 graus`) não são itens de
   lista; `*palavra*` é ênfase.
 - **Correções de lista** precisam de companhia: itens de lista vizinhos aumentam a confiança; uma
-  linha `*solta` costuma ser nota de rodapé, não marcador, então fica em silêncio.
+  linha `*solta` costuma ser nota de rodapé, não marcador, então fica em silêncio. Uma linha `-solta` só é
+  sugerida quando parece texto comum (três palavras ou mais, nada com cara de código como `/`, `:` ou `=`):
+  "-isto deveria ser um item de lista" sim; "-verbose" ou "-su cd: /opt/app: Permission denied" não.
 
 ### Legibilidade (`score`)
 

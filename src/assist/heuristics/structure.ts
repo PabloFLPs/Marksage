@@ -32,7 +32,13 @@ export function structureProbability(state: string, statement: string): number {
     if (/^[-+]\S+(\s+[-+]\S+)+/.test(t)) return 0.15 // "+SIMD +AVX", "-Wall -Wextra": flags, not items
     const listNeighbors = others.filter((l) => /^\s*[-+*]\s?\S/.test(l)).length
     // A lone `*`/`+` line is more often a footnote or broken emphasis than a list item.
-    if (listNeighbors === 0) return t.startsWith('-') ? 0.72 : 0.55
+    if (listNeighbors === 0) {
+      if (!t.startsWith('-')) return 0.55
+      // A lone "-word word word" of plain prose reads as an item someone forgot the space in ("-this should be a
+      // list item"); anything code-like ("-su cd: /opt/…: Permission denied") or short stays below the gate.
+      const prose = /^-\p{L}{2,}/u.test(t) && words >= 3 && !/[/:=$`{}<>|\\]/.test(t) && !/^\s{4}/.test(line)
+      return prose ? 0.82 : 0.72
+    }
     return clamp(0.8 + listNeighbors * 0.07)
   }
 

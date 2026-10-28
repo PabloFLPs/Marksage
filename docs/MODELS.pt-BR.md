@@ -503,7 +503,7 @@ conjunto, novo, montado com 72 repositórios que não aparecem em mais nenhum lu
 
 | Conjunto | O que é | Tamanho | Regra |
 |---|---|---|---|
-| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · estrutura 23 · títulos 65 · documentos 4 | pega regressões; dá perto de 100% por construção |
+| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · estrutura 26 · títulos 65 · documentos 4 | pega regressões; dá perto de 100% por construção |
 | Ajuste | documentos reais, usados para tomar decisões | código 280 · colagem 27 · estrutura 36 · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de fora |
 | Primeiro de fora (2026-10-24) | documentos reais, nunca usados para ajustar | código 314 · colagem 31 · estrutura 30 | roda uma vez por versão; julgou a v1 |
 | De fora novo (2026-10-24) | código de 72 repositórios que não aparecem em mais nenhum lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |
