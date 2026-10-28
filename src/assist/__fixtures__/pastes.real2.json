@@ -1,0 +1,286 @@
+[
+  {
+    "label": "csv",
+    "text": "\"total_bill\",\"tip\",\"sex\",\"smoker\",\"day\",\"time\",\"size\"\n16.99,1.01,\"Female\",\"No\",\"Sun\",\"Dinner\",2\n10.34,1.66,\"Male\",\"No\",\"Sun\",\"Dinner\",3\n21.01,3.5,\"Male\",\"No\",\"Sun\",\"Dinner\",3\n23.68,3.31,\"Male\",\"No\",\"Sun\",\"Dinner\",2\n24.59,3.61,\"Female\",\"No\",\"Sun\",\"Dinner\",4\n25.29,4.71,\"Male\",\"No\",\"Sun\",\"Dinner\",4\n8.77,2,\"Male\",\"No\",\"Sun\",\"Dinner\",2",
+    "source": "https://github.com/mwaskom/seaborn-data/blob/master/tips.csv"
+  },
+  {
+    "label": "csv",
+    "text": "species,island,bill_length_mm,bill_depth_mm,flipper_length_mm,body_mass_g,sex\nAdelie,Torgersen,39.1,18.7,181,3750,MALE\nAdelie,Torgersen,39.5,17.4,186,3800,FEMALE\nAdelie,Torgersen,40.3,18,195,3250,FEMALE\nAdelie,Torgersen,,,,,\nAdelie,Torgersen,36.7,19.3,193,3450,FEMALE",
+    "source": "https://github.com/mwaskom/seaborn-data/blob/master/penguins.csv"
+  },
+  {
+    "label": "csv",
+    "text": "year,month,passengers\n1949,January,112\n1949,February,118\n1949,March,132\n1949,April,129\n1949,May,121\n1949,June,135\n1949,July,148\n1949,August,148\n1949,September,136",
+    "source": "https://github.com/mwaskom/seaborn-data/blob/master/flights.csv"
+  },
+  {
+    "label": "csv",
+    "text": "airline,avail_seat_km_per_week,incidents_85_99,fatal_accidents_85_99,fatalities_85_99,incidents_00_14,fatal_accidents_00_14,fatalities_00_14\nAer Lingus,320906734,2,0,0,0,0,0\nAeroflot*,1197672318,76,14,128,6,1,88\nAerolineas Argentinas,385803648,6,0,0,1,0,0\nAeromexico*,596871813,3,1,64,5,0,0\nAir Canada,1865253802,2,0,0,2,0,0",
+    "source": "https://github.com/fivethirtyeight/data/blob/master/airline-safety/airline-safety.csv"
+  },
+  {
+    "label": "csv",
+    "text": "COUNTRY,GDP (BILLIONS),CODE\nAfghanistan,21.71,AFG\nAlbania,13.40,ALB\nAlgeria,227.80,DZA\nAmerican Samoa,0.75,ASM\nAndorra,4.80,AND\nAngola,131.40,AGO",
+    "source": "https://github.com/plotly/datasets/blob/master/2014_world_gdp_with_codes.csv"
+  },
+  {
+    "label": "csv",
+    "text": "stop_id,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url\nFUR_CREEK_RES,Furnace Creek Resort (Demo),,36.425288,-117.133162,,\nBEATTY_AIRPORT,Nye County Airport (Demo),,36.868446,-116.784582,,\nBULLFROG,Bullfrog (Demo),,36.88108,-116.81797,,\nSTAGECOACH,Stagecoach Hotel & Casino (Demo),,36.915682,-116.751677,,\nNADAV,North Ave / D Ave N (Demo),,36.914893,-116.76821,,",
+    "source": "https://github.com/google/transit/blob/master/gtfs/spec/en/examples/sample-feed-1/stops.txt"
+  },
+  {
+    "label": "csv",
+    "text": "URL,Name/Alias,Appearances,Current?,Gender,Probationary Introl,Full/Reserve Avengers Intro,Year,Years since joining,Honorary,Death1,Return1,Death2,Return2,Death3,Return3,Death4,Return4,Death5,Return5,Notes\nhttp://marvel.wikia.com/Henry_Pym_(Earth-616),\"Henry Jonathan \"\"Hank\"\" Pym\",1269,YES,MALE,,Sep-63,1963,52,Full,YES,NO,,,,,,,,,Merged with Ultron in Rage of Ultron Vol. 1. A funeral was held. \nhttp://marvel.wikia.com/Janet_van_Dyne_(Earth-616),Janet van Dyne,1165,YES,FEMALE,,Sep-63,1963,52,Full,YES,YES,,,,,,,,,Dies in Secret Invasion V1:I8. Actually was sent tto Microverse later recovered\nhttp://marvel.wikia.com/Anthony_Stark_(Earth-616),\"Anthony Edward \"\"Tony\"\" Stark\",3068,YES,MALE,,Sep-63,1963,52,Full,YES,YES,,,,,,,,,\"Death: \"\"Later while under the influence of Immortus Stark committed a number of horrible acts and was killed.'  This set up young Tony. Franklin Richards later brought him back\"",
+    "source": "https://github.com/fivethirtyeight/data/blob/master/avengers/avengers.csv",
+    "note": "wordy cells, quoted, long URLs"
+  },
+  {
+    "label": "csv",
+    "text": "mpg,cylinders,displacement,horsepower,weight,acceleration,model_year,origin,name\n18.0,8,307.0,130.0,3504,12.0,70,usa,chevrolet chevelle malibu\n15.0,8,350.0,165.0,3693,11.5,70,usa,buick skylark 320\n18.0,8,318.0,150.0,3436,11.0,70,usa,plymouth satellite\n16.0,8,304.0,150.0,3433,12.0,70,usa,amc rebel sst\n17.0,8,302.0,140.0,3449,10.5,70,usa,ford torino",
+    "source": "https://github.com/mwaskom/seaborn-data/blob/master/mpg.csv"
+  },
+  {
+    "label": "tsv",
+    "text": "id\trate\n1001\t.097\n1003\t.091\n1005\t.134\n1007\t.121\n1009\t.099\n1011\t.164\n1013\t.167",
+    "source": "https://github.com/vega/vega-datasets/blob/main/data/unemployment.tsv"
+  },
+  {
+    "label": "tsv",
+    "text": "16\tarab\tArab\tADJ\tJJ\tDegree=Pos\t17\tamod\t17:amod\t_\n17\tattacks\tattack\tNOUN\tNNS\tNumber=Plur\t13\tnmod\t13:nmod:of\tSpaceAfter=No\n18\t.\t.\tPUNCT\t.\t_\t3\tpunct\t3:punct\t_\n1\tA\ta\tX\tFW\tForeign=Yes\t0\troot\t0:root\t_\n2\tla\tla\tX\tFW\tForeign=Yes\t1\tflat\t1:flat\t_\n3\tguerre\tguerre\tX\tFW\tForeign=Yes\t1\tflat\t1:flat\t_\n4\tc'est\tc'est\tX\tFW\tForeign=Yes\t1\tflat\t1:flat\t_",
+    "source": "https://github.com/UniversalDependencies/UD_English-EWT/blob/master/en_ewt-ud-dev.conllu"
+  },
+  {
+    "label": "tsv",
+    "text": "survived\tpclass\tsex\tage\tsibsp\tparch\tfare\tembarked\tclass\twho\tadult_male\tdeck\tembark_town\talive\talone\n0\t3\tmale\t22.0\t1\t0\t7.25\tS\tThird\tman\tTrue\t\tSouthampton\tno\tFalse\n1\t1\tfemale\t38.0\t1\t0\t71.2833\tC\tFirst\twoman\tFalse\tC\tCherbourg\tyes\tFalse\n1\t3\tfemale\t26.0\t0\t0\t7.925\tS\tThird\twoman\tFalse\t\tSouthampton\tyes\tTrue\n1\t1\tfemale\t35.0\t1\t0\t53.1\tS\tFirst\twoman\tFalse\tC\tSouthampton\tyes\tFalse\n0\t3\tmale\t35.0\t0\t0\t8.05\tS\tThird\tman\tTrue\t\tSouthampton\tno\tTrue",
+    "source": "https://github.com/mwaskom/seaborn-data/blob/master/titanic.csv",
+    "note": "copied from a spreadsheet (cells become tabs)"
+  },
+  {
+    "label": "tsv",
+    "text": "mpg\tcylinders\tdisplacement\thorsepower\tweight\tacceleration\tmodel_year\torigin\tname\n18.0\t8\t307.0\t130.0\t3504\t12.0\t70\tusa\tchevrolet chevelle malibu\n15.0\t8\t350.0\t165.0\t3693\t11.5\t70\tusa\tbuick skylark 320\n18.0\t8\t318.0\t150.0\t3436\t11.0\t70\tusa\tplymouth satellite\n16.0\t8\t304.0\t150.0\t3433\t12.0\t70\tusa\tamc rebel sst",
+    "source": "https://github.com/mwaskom/seaborn-data/blob/master/mpg.csv",
+    "note": "copied from a spreadsheet"
+  },
+  {
+    "label": "tsv",
+    "text": "http://marvel.wikia.com/Henry_Pym_(Earth-616)\tHenry Jonathan \"Hank\" Pym\t1269\tYES\tMALE\t\tSep-63\t1963\t52\tFull\tYES\tNO\t\t\t\t\t\t\t\t\tMerged with Ultron in Rage of Ultron Vol. 1. A funeral was held. \nhttp://marvel.wikia.com/Janet_van_Dyne_(Earth-616)\tJanet van Dyne\t1165\tYES\tFEMALE\t\tSep-63\t1963\t52\tFull\tYES\tYES\t\t\t\t\t\t\t\t\tDies in Secret Invasion V1:I8. Actually was sent tto Microverse later recovered\nhttp://marvel.wikia.com/Anthony_Stark_(Earth-616)\tAnthony Edward \"Tony\" Stark\t3068\tYES\tMALE\t\tSep-63\t1963\t52\tFull\tYES\tYES\t\t\t\t\t\t\t\t\tDeath: \"Later while under the influence of Immortus Stark committed a number of horrible acts and was killed.'  This set up young Tony. Franklin Richards later brought him back",
+    "source": "https://github.com/fivethirtyeight/data/blob/master/avengers/avengers.csv",
+    "note": "copied from a spreadsheet: data rows only, wordy and empty cells"
+  },
+  {
+    "label": "tsv",
+    "text": "Armenia\t10.88\tARM\nAruba\t2.52\tABW\nAustralia\t1483.00\tAUS\nAustria\t436.10\tAUT\nAzerbaijan\t77.91\tAZE\nBahamas, The\t8.65\tBHM",
+    "source": "https://github.com/plotly/datasets/blob/master/2014_world_gdp_with_codes.csv",
+    "note": "copied from a spreadsheet: data rows only"
+  },
+  {
+    "label": "table",
+    "text": "Package Version\n------- -------\ndocopt  0.6.2\nidlex   1.13\njedi    0.9.0",
+    "source": "https://github.com/pypa/pip/blob/main/docs/html/cli/pip_list.rst",
+    "note": "with the ----- rule row"
+  },
+  {
+    "label": "table",
+    "text": "Package    Version Latest Type\n---------- ------- ------ -----\nretry      0.8.1   0.9.1  wheel\nsetuptools 20.6.7  21.0.0 wheel",
+    "source": "https://github.com/pypa/pip/blob/main/docs/html/cli/pip_list.rst"
+  },
+  {
+    "label": "table",
+    "text": "NAME             LABELS                                  STATUS\neu-node-0n61     kubernetes.io/hostname=eu-node-0n61     Ready\neu-node-79ua     kubernetes.io/hostname=eu-node-79ua     Ready\neu-node-7wz7     kubernetes.io/hostname=eu-node-7wz7     Ready\neu-node-loh2     kubernetes.io/hostname=eu-node-loh2     Ready",
+    "source": "https://github.com/kubernetes/examples/blob/master/_archived/sharing-clusters/README.md#L56"
+  },
+  {
+    "label": "table",
+    "text": "NAME                LABELS                                    SELECTOR            IP(S)               PORT(S)\nkubernetes          component=apiserver,provider=kubernetes   <none>              10.254.0.2          443\nzookeeper           name=zookeeper                            name=zookeeper      10.254.139.141      2181\nnimbus              name=nimbus                               name=nimbus         10.254.115.208      6627",
+    "source": "https://github.com/kubernetes/examples/blob/master/_archived/storm/README.md#L97"
+  },
+  {
+    "label": "table",
+    "text": "NAME                   READY     STATUS             RESTARTS   AGE\nmem-besteffort-zpnpm   0/1       CrashLoopBackOff   4          3m\nmem-burstable-n0yz1    1/1       Running            0          4m\nmem-burstable-q3dts    1/1       Running            0          4m\nmem-guaranteed-fqsw8   1/1       Running            0          4m",
+    "source": "https://github.com/kubernetes/examples/blob/master/_archived/runtime-constraints/README.md#L269"
+  },
+  {
+    "label": "table",
+    "text": "NAME          LABELS             STATUS\ndefault       <none>             Active\ndevelopment   name=development   Active\nproduction    name=production    Active",
+    "source": "https://github.com/kubernetes/examples/blob/master/_archived/cluster-dns/README.md#L27"
+  },
+  {
+    "label": "table",
+    "text": "NAME              READY     STATUS    RESTARTS   AGE\nes-client-2ep9o   1/1       Running   0          4m\nes-client-ye5s1   1/1       Running   0          50s\nes-data-8az22     1/1       Running   0          47s\nes-data-r9tgv     1/1       Running   0          3m\nes-master-57h7k   1/1       Running   0          52s",
+    "source": "https://github.com/kubernetes/examples/blob/master/_archived/elasticsearch/production_cluster/README.md#L95"
+  },
+  {
+    "label": "list",
+    "text": "Keep-Alive & Connection Pooling\nInternational Domains and URLs\nSessions with Cookie Persistence\nBrowser-style TLS/SSL Verification\nBasic & Digest Authentication\nFamiliar dict–like Cookies\nAutomatic Content Decompression and Decoding\nMulti-part File Uploads\nSOCKS Proxy Support\nConnection Timeouts\nStreaming Downloads\nAutomatic honoring of .netrc\nChunked HTTP Requests",
+    "source": "https://github.com/psf/requests/blob/main/README.md#L44"
+  },
+  {
+    "label": "list",
+    "text": "Statistical analysis across multiple runs.\nSupport for various performance metrics and hardware counters.\nSupport for arbitrary shell commands.\nConstant feedback about the benchmark progress and current estimates.\nWarmup runs can be executed before the actual benchmark.\nCache-clearing commands can be set up before each benchmark run.\nStatistical outlier detection to detect interference from other programs and caching effects.\nExport results to various formats: CSV, JSON, Markdown, AsciiDoc.\nParameterized benchmarks (e.g. vary the number of threads).\nCross-platform",
+    "source": "https://github.com/sharkdp/hyperfine/blob/master/README.md#L13"
+  },
+  {
+    "label": "list",
+    "text": "Shell and platform agnostic\nEasily configurable\nThe most configurable prompt utility\nFast\nSecondary prompt\nRight prompt\nTransient prompt",
+    "source": "https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/README.md#L67"
+  },
+  {
+    "label": "list",
+    "text": "Portable // Distributed as a single binary for easy installation\nFast // Optimized to process millions of items in milliseconds\nProgrammable // Event-driven architecture for building custom terminal interfaces and workflows\nBatteries-included // Comes with integrations for Bash, Zsh, Fish, Nushell, Vim, and Neovim",
+    "source": "https://github.com/junegunn/fzf/blob/master/README.md#L40"
+  },
+  {
+    "label": "list",
+    "text": "git: cd ~/.fzf && git pull && ./install\nbrew: brew update; brew upgrade fzf\nmacports: sudo port upgrade fzf\nchocolatey: choco upgrade fzf\nvim-plug: :PlugUpdate fzf",
+    "source": "https://github.com/junegunn/fzf/blob/master/README.md#L272"
+  },
+  {
+    "label": "list",
+    "text": "Responsive Web Design\nJavaScript\nFront-End Development Libraries\nPython\nRelational Databases\nBack-End Development and APIs",
+    "source": "https://github.com/freeCodeCamp/freeCodeCamp/blob/main/README.md#L26"
+  },
+  {
+    "label": "list",
+    "text": "• Purpose and learning objectives\n• Prerequisites (including Kubernetes version and hardware if applicable)\n• Step-by-step deployment instructions\n• Verification and cleanup commands\n• Key Kubernetes concepts used",
+    "source": "https://github.com/kubernetes/examples/blob/master/README.md#L24",
+    "note": "copied with its bullets"
+  },
+  {
+    "label": "list",
+    "text": "Chris Benti providing the first influence to start oh-my-posh\nKeith Dahlby for creating posh-git and making life more enjoyable\nRobby Russell for creating oh-my-zsh, without him this would probably not be here\nStarship for doing great things",
+    "source": "https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/README.md#L85",
+    "note": "long items"
+  },
+  {
+    "label": "prose",
+    "text": "Requests allows you to send HTTP/1.1 requests extremely easily. There’s no need to manually add query strings to your URLs, or to form-encode your PUT & POST data — but nowadays, just use the json method!\n\nRequests is one of the most downloaded Python packages today, pulling in around 300M downloads / week — according to GitHub, Requests is currently depended upon by 4,000,000+ repositories.",
+    "source": "https://github.com/psf/requests/blob/main/README.md#L26",
+    "note": "two paragraphs"
+  },
+  {
+    "label": "prose",
+    "text": "The --setup, --prepare, --conclude, and --cleanup commands always run through a shell.\nThey use the shell selected by --shell, or the platform shell (sh on Unix, cmd.exe on Windows)\nwhen --shell is omitted or set to none.\n\nWhen benchmarked commands use a shell, hyperfine corrects for the shell spawning time. It runs the shell with an\nempty command multiple times to measure its startup time, then subtracts this time from each\ntime measurement.",
+    "source": "https://github.com/sharkdp/hyperfine/blob/master/README.md#L133",
+    "note": "hard-wrapped, two paragraphs"
+  },
+  {
+    "label": "prose",
+    "text": "What started as the offspring of oh-my-posh2 for PowerShell\nresulted in a cross platform, highly customizable and extensible prompt theme engine. After 4 years of working\non oh-my-posh, a modern and more efficient tool was needed to suit my personal needs.",
+    "source": "https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/README.md#L46",
+    "note": "hard-wrapped"
+  },
+  {
+    "label": "prose",
+    "text": "Acesso programático de informações é algo fundamental na comunicação entre sistemas, mas, para nossa surpresa, uma informação tão útil e pública quanto um CEP não consegue ser acessada diretamente por um navegador por conta da API dos Correios não possuir CORS habilitado.\n\nDado a isso, este projeto experimental tem como objetivo centralizar e disponibilizar endpoints modernos com baixíssima latência utilizando tecnologias como Vercel Smart CDN responsável por fazer o cache das informações em atualmente 23 regiões distribuídas ao longo do mundo (incluindo Brasil). Então não importa o quão devagar for a fonte dos dados, nós queremos disponibilizá-la da forma mais rápida e moderna possível.",
+    "source": "https://github.com/BrasilAPI/BrasilAPI/blob/main/README.md#L29",
+    "note": "Portuguese, two paragraphs"
+  },
+  {
+    "label": "prose",
+    "text": "Através do Next.js, um framework utilizado por empresas como Marvel, Twitch, Nike, Hulu, TypeForm, Nubank, Ferrari, TikTok, Square Enix, entre outras, estamos construindo a página de apresentação do projeto e, por ser um framework híbrido, ele possibilita a construção e deploy de APIs com o mínimo de configuração possível em uma infraestrutura autoescalável da Vercel, a mesma que conta com recursos sensacionais como a Vercel Smart CDN.\n\nCaso você esteja lendo esta versão de README, você está pegando o projeto num estágio extremamente inicial, porém empolgante, pois há várias coisas a serem definidas. Então caso queira contribuir, utilize as issues para entender quais pontos ainda não foram resolvidos, conversar conosco e contribuir tanto com idéias técnicas, quanto de quais APIs podem ser criadas.",
+    "source": "https://github.com/BrasilAPI/BrasilAPI/blob/main/README.md#L37",
+    "note": "Portuguese, two paragraphs"
+  },
+  {
+    "label": "prose",
+    "text": "Each of these certifications involves completing interactive lessons, workshops, labs, reviews, and quizzes. Throughout the certification, you'll need to complete 5 required projects to qualify for the exam. Once you pass the exam, then you can claim the certification.\n\nOur full-stack web development and machine learning curriculum is completely free and self-paced. We have thousands of interactive coding challenges to help you expand your skills.",
+    "source": "https://github.com/freeCodeCamp/freeCodeCamp/blob/main/README.md#L33"
+  },
+  {
+    "label": "prose",
+    "text": "Welcome to the official Kubernetes Examples repository! This curated collection,\nstewarded by SIG Apps, provides high-quality, educational examples for running a\ndiverse range of applications and workloads on Kubernetes.",
+    "source": "https://github.com/kubernetes/examples/blob/master/README.md#L3",
+    "note": "hard-wrapped"
+  },
+  {
+    "label": "prose",
+    "text": "The name hyperfine was chosen in reference to the hyperfine levels of caesium 133 which play a crucial role in the\ndefinition of our base unit of time\n— the second.",
+    "source": "https://github.com/sharkdp/hyperfine/blob/master/README.md#L484",
+    "note": "hard-wrapped"
+  },
+  {
+    "label": "code",
+    "text": "def get(\n    url: _t.UriType, params: _t.ParamsType = None, **kwargs: Unpack[_t.GetKwargs]\n) -> Response:\n    r\"\"\"Sends a GET request.\n\n    :param url: URL for the new :class:`Request` object.\n    :param params: (optional) Dictionary, list of tuples or bytes to send\n        in the query string for the :class:`Request`.\n    :param \\*\\*kwargs: Optional arguments that ``request`` takes.\n    :return: :class:`Response <Response>` object\n    :rtype: requests.Response\n    \"\"\"\n\n    return request(\"get\", url, params=params, **kwargs)",
+    "source": "https://github.com/psf/requests/blob/main/src/requests/api.py#L74"
+  },
+  {
+    "label": "code",
+    "text": "fn caused_by_broken_console_pipe(error: &anyhow::Error) -> bool {\n    error\n        .downcast_ref::<ConsoleOutputError>()\n        .is_some_and(|e| e.0.kind() == io::ErrorKind::BrokenPipe)\n}\n\nfn main() {\n    match run() {\n        Ok(_) => {}\n        Err(e) => {\n            // Exit quietly when a reader stops consuming console output early.\n            if caused_by_broken_console_pipe(&e) {\n                std::process::exit(0);\n            }\n            // The write to stderr can itself fail if stderr is closed; the\n            // error message cannot be shown in that case anyway.\n            let _ = writeln!(io::stderr(), \"{} {:#}\", \"Error:\".red(), e);\n            std::process::exit(1);\n        }\n    }",
+    "source": "https://github.com/sharkdp/hyperfine/blob/master/src/main.rs#L82"
+  },
+  {
+    "label": "code",
+    "text": "func matchControlSequence(s string) int {\n\t// `\\x1b[\\\\[()][0-9;:?]*[a-zA-Z@]`\n\t//                     ^ match starting here\n\t//\n\ti := 2 // prefix matched in nextAnsiEscapeSequence()\n\tfor ; i < len(s); i++ {\n\t\tc := s[i]\n\t\tswitch c {\n\t\tcase '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ';', ':', '?':\n\t\t\t// ok\n\t\tdefault:\n\t\t\tif 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || c == '@' {\n\t\t\t\treturn i + 1\n\t\t\t}\n\t\t\treturn -1\n\t\t}\n\t}\n\treturn -1\n}\n\nfunc isCtrlSeqStart(c uint8) bool {\n\tswitch c {\n\tcase '\\\\', '[', '(', ')':\n\t\treturn true\n\t}\n\treturn false\n}\n\n// nextAnsiEscapeSequence returns the ANSI escape sequence and is equivalent to\n// calling FindStringIndex() on the below regex (which was originally used):\n//\n// \"(?:\\x1b[\\\\[()][0-9;:?]*[a-zA-Z@]|\\x1b][0-9]+[;:][[:print:]]+(?:\\x1b\\\\\\\\|\\x07)|\\x1b.|[\\x0e\\x0f]|.\\x08|\\n)\"\nfunc nextAnsiEscapeSequence(s string) (int, int) {",
+    "source": "https://github.com/junegunn/fzf/blob/master/src/ansi.go#L158"
+  },
+  {
+    "label": "code",
+    "text": "  function isString(s) {\n    return typeof s === 'string' || s instanceof String;\n  }\n\n  function isOriginAllowed(origin, allowedOrigin) {\n    if (Array.isArray(allowedOrigin)) {\n      for (var i = 0; i < allowedOrigin.length; ++i) {\n        if (isOriginAllowed(origin, allowedOrigin[i])) {\n          return true;\n        }\n      }\n      return false;\n    } else if (isString(allowedOrigin)) {\n      return origin === allowedOrigin;\n    } else if (allowedOrigin instanceof RegExp) {\n      return allowedOrigin.test(origin);\n    } else {\n      return !!allowedOrigin;\n    }\n  }",
+    "source": "https://github.com/expressjs/cors/blob/master/lib/index.js#L15"
+  },
+  {
+    "label": "code",
+    "text": "  public static String padStart(String string, int minLength, char padChar) {\n    checkNotNull(string); // eager for GWT.\n    if (string.length() >= minLength) {\n      return string;\n    }\n    StringBuilder sb = new StringBuilder(minLength);\n    for (int i = string.length(); i < minLength; i++) {\n      sb.append(padChar);\n    }\n    sb.append(string);\n    return sb.toString();\n  }\n\n  /**\n   * Returns a string, of length at least {@code minLength}, consisting of {@code string} appended\n   * with as many copies of {@code padChar} as are necessary to reach that length. For example,\n   *\n   * <ul>\n   *   <li>{@code padEnd(\"4.\", 5, '0')} returns {@code \"4.000\"}\n   *   <li>{@code padEnd(\"2010\", 3, '!')} returns {@code \"2010\"}\n   * </ul>\n   *\n   * <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.\n   *\n   * @param string the string which should appear at the beginning of the result\n   * @param minLength the minimum length the resulting string must have. Can be zero or negative, in\n   *     which case the input string is always returned.\n   * @param padChar the character to append to the end of the result until the minimum length is\n   *     reached\n   * @return the padded string\n   */",
+    "source": "https://github.com/google/guava/blob/master/guava/src/com/google/common/base/Strings.java#L93"
+  },
+  {
+    "label": "code",
+    "text": "        public static string ToString(DateTime value)\n        {\n            return ToString(value, DateFormatHandling.IsoDateFormat, DateTimeZoneHandling.RoundtripKind);\n        }\n\n        /// <summary>\n        /// Converts the <see cref=\"DateTime\"/> to its JSON string representation using the <see cref=\"DateFormatHandling\"/> specified.\n        /// </summary>\n        /// <param name=\"value\">The value to convert.</param>\n        /// <param name=\"format\">The format the date will be converted to.</param>\n        /// <param name=\"timeZoneHandling\">The time zone handling when the date is converted to a string.</param>\n        /// <returns>A JSON string representation of the <see cref=\"DateTime\"/>.</returns>\n        public static string ToString(DateTime value, DateFormatHandling format, DateTimeZoneHandling timeZoneHandling)\n        {\n            DateTime updatedDateTime = DateTimeUtils.EnsureDateTime(value, timeZoneHandling);\n\n            using (StringWriter writer = StringUtils.CreateStringWriter(64))\n            {\n                writer.Write('\"');\n                DateTimeUtils.WriteDateTimeString(writer, updatedDateTime, format, null, CultureInfo.InvariantCulture);\n                writer.Write('\"');\n                return writer.ToString();\n            }\n        }\n\n#if HAVE_DATE_TIME_OFFSET\n        /// <summary>\n        /// Converts the <see cref=\"DateTimeOffset\"/> to its JSON string representation.\n        /// </summary>\n        /// <param name=\"value\">The value to convert.</param>\n        /// <returns>A JSON string representation of the <see cref=\"DateTimeOffset\"/>.</returns>",
+    "source": "https://github.com/JamesNK/Newtonsoft.Json/blob/master/Src/Newtonsoft.Json/JsonConvert.cs#L104"
+  },
+  {
+    "label": "code",
+    "text": "CREATE TABLE actor (\n    actor_id integer DEFAULT nextval('actor_actor_id_seq'::regclass) NOT NULL,\n    first_name character varying(45) NOT NULL,\n    last_name character varying(45) NOT NULL,\n    last_update timestamp without time zone DEFAULT now() NOT NULL\n);\n\n\nALTER TABLE public.actor OWNER TO postgres;\n\n--",
+    "source": "https://github.com/jOOQ/sakila/blob/main/postgres-sakila-db/postgres-sakila-schema.sql#L50"
+  },
+  {
+    "label": "code",
+    "text": "    def initialize(default_app = nil, **options, &block)\n      @use = []\n      @map = nil\n      @run = default_app\n      @warmup = nil\n      @freeze_app = false\n      @options = options\n\n      instance_eval(&block) if block_given?\n    end\n\n    # Any options provided to the Rack::Builder instance at initialization.\n    # These options can be server-specific. Some general options are:\n    #\n    # * +:isolation+: One of +process+, +thread+ or +fiber+. The execution\n    #   isolation model to use.\n    attr :options\n\n    # Create a new Rack::Builder instance and return the Rack application\n    # generated from it.",
+    "source": "https://github.com/rack/rack/blob/main/lib/rack/builder.rb#L116"
+  },
+  {
+    "label": "json",
+    "text": "{\n  \"name\": \"cors\",\n  \"description\": \"Node.js CORS middleware\",\n  \"version\": \"2.8.6\",\n  \"author\": \"Troy Goode <troygoode@gmail.com> (https://github.com/troygoode/)\",\n  \"license\": \"MIT\",\n  \"keywords\": [\n    \"cors\",\n    \"express\",\n    \"connect\",\n    \"middleware\"\n  ],\n  \"repository\": \"expressjs/cors\",\n  \"funding\": {\n    \"type\": \"opencollective\",\n    \"url\": \"https://opencollective.com/express\"\n  },\n  \"main\": \"./lib/index.js\",\n  \"dependencies\": {\n    \"object-assign\": \"^4\",\n    \"vary\": \"^1\"\n  },\n  \"devDependencies\": {\n    \"after\": \"0.8.2\",\n    \"eslint\": \"7.30.0\",\n    \"express\": \"4.21.2\",\n    \"mocha\": \"9.2.2\",\n    \"nyc\": \"15.1.0\",\n    \"supertest\": \"6.1.3\"\n  },\n  \"files\": [\n    \"lib/index.js\"\n  ],\n  \"engines\": {\n    \"node\": \">= 0.10\"\n  },\n  \"scripts\": {\n    \"test\": \"npm run lint && npm run test-ci\",\n    \"test-ci\": \"nyc --reporter=lcov --reporter=text mocha --require test/support/env\",\n    \"lint\": \"eslint lib test\"\n  }\n}",
+    "source": "https://github.com/expressjs/cors/blob/master/package.json"
+  },
+  {
+    "label": "json",
+    "text": "{\n\t// --- Chat ---\n\t\"inlineChat.affordance\": \"editor\",\n\t\"chat.tools.terminal.autoApprove\": {\n\t\t\"scripts/test.bat\": true,\n\t\t\"scripts/test.sh\": true,\n\t\t\"scripts/test-integration.bat\": true,\n\t\t\"scripts/test-integration.sh\": true,\n\t},\n\t\"chat.editing.explainChanges.enabled\": true,\n\t\"chat.artifactIntegrations.githubPullRequests.autoMarkReadyIgnoredChecks\": [\n\t\t\"VS Code PR Check\"\n\t],\n\t// --- Editor ---\n\t\"editor.insertSpaces\": false,\n\t\"editor.experimental.asyncTokenization\": true,\n\t\"editor.experimental.asyncTokenizationVerification\": true,\n\t\"editor.occurrencesHighlightDelay\": 0,\n\t// \"editor.experimental.preferTreeSitter.typescript\": true,\n\t// \"editor.experimental.preferTreeSitter.regex\": true,\n\t// \"editor.experimental.preferTreeSitter.css\": true,\n\t// --- Language Specific ---\n\t\"[plaintext]\": {\n\t\t\"files.insertFinalNewline\": false\n\t},\n\t\"[typescript]\": {\n\t\t\"editor.formatOnSave\": true\n\t},\n\t\"[javascript]\": {\n\t\t\"editor.formatOnSave\": true\n\t},\n\t\"[rust]\": {\n\t\t\"editor.defaultFormatter\": \"rust-lang.rust-analyzer\",\n\t\t\"editor.formatOnSave\": true,\n\t},\n\t\"[github-issues]\": {\n\t\t\"editor.wordWrap\": \"on\"\n\t},\n\t// --- Files ---\n\t\"files.trimTrailingWhitespace\": true,\n\t\"files.insertFinalNewline\": true,\n\t\"files.exclude\": {\n\t\t\".git\": true,\n\t\t\".build\": true,\n\t\t\".profile-oss\": true,\n\t\t\"**/*.tsbuildinfo\": true,\n\t\t\"**/.DS_Store\": true,\n\t\t\".vscode-test\": true,\n\t\t\"cli/target\": true,\n\t\t\"build/**/*.js.map\": true,\n\t\t\"build/**/*.js\": {\n\t\t\t\"when\": \"$(basename).ts\"\n\t\t},\n\t},\n\t\"files.associations\": {\n\t\t\"cglicenses.json\": \"jsonc\",\n\t\t\"*.tst\": \"typescript\"\n\t},\n\t\"files.readonlyInclude\": {\n\t\t\"**/node_modules/**/*.*\": true,\n\t\t\"**/yarn.lock\": true,\n\t\t\"**/package-lock.json\": true,\n\t\t\"**/Cargo.lock\": true,\n\t\t\"out/**\": true,\n\t\t\"out-build/**\": true,\n\t\t\"out-vscode/**\": true,\n\t\t\"out-vscode-reh/**\": true,\n\t\t\"extensions/**/dist/**\": true,\n\t\t\"extensions/**/out/**\": true,\n\t\t\"extensions/terminal-suggest/src/completions/upstream/**\": true,\n\t\t\"test/smoke/out/**\": true,\n\t\t\"test/automation/out/**\": true,\n\t\t\"src/vs/platform/agentHost/common/state/protocol/**\": true,\n\t\t\"src/vs/platform/agentHost/common/meta/copilotd/generated/**\": true,\n\t\t\"src/vs/platform/agentHost/node/codex/protocol/generated/**\": true,\n\t\t\"test/integration/browser/out/**\": true,\n\t\t// \"src/vs/sessions/**\": true\n\t},\n\t// --- Search ---\n\t\"search.exclude\": {\n\t\t\"**/node_modules\": true,\n\t\t\"cli/target/**\": true,\n\t\t\".build/**\": true,\n\t\t\"out/**\": true,\n\t\t\"out-build/**\": true,\n\t\t\"out-vscode/**\": true,\n\t\t\"i18n/**\": true,\n\t\t\"extensions/**/dist/**\": true,\n\t\t\"extensions/**/out/**\": true,\n\t\t\"test/smoke/out/**\": true,\n\t\t\"test/automation/out/**\": true,\n\t\t\"test/integration/browser/out/**\": true,\n\t\t\"src/vs/base/test/common/filters.perf.data.js\": true,\n\t\t\"src/vs/base/test/node/uri.perf.data.txt\": true,\n\t\t\"src/vs/workbench/api/test/browser/extHostDocumentData.test.perf-data.ts\": true,\n\t\t\"src/vs/base/test/node/uri.test.data.txt\": true,\n\t\t\"src/vs/editor/test/node/diffing/fixtures/**\": true,\n\t\t\"build/loader.min\": true,\n\t\t\"**/*.snap\": true,\n\t},\n\t// --- TypeScript ---\n\t\"js/ts.experimental.useTsgo\": true,\n\t\"js/ts.tsdk.path\": \"node_modules/typescript/lib\",\n\t\"js/ts.preferences.importModuleSpecifier\": \"relative\",\n\t\"js/ts.preferences.quoteStyle\": \"single\",\n\t\"js/ts.tsc.autoDetect\": \"off\",\n\t\"js/ts.preferences.autoImportFileExcludePatterns\": [\n\t\t\"@xterm/xterm\",\n\t\t\"@xterm/headless\",\n\t\t\"node-pty\",\n\t\t\"vscode-notebook-renderer\",\n\t\t\"src/vs/workbench/workbench.web.main.internal.ts\"\n\t],\n\t// --- Languages ---\n\t\"json.schemas\": [\n\t\t{\n\t\t\t\"fileMatch\": [\n\t\t\t\t\"cgmanifest.json\"\n\t\t\t],\n\t\t\t\"url\": \"https://www.schemastore.org/component-detection-manifest.json\",\n\t\t},\n\t\t{\n\t\t\t\"fileMatch\": [\n\t\t\t\t\"cglicenses.json\"\n\t\t\t],\n\t\t\t\"url\": \"./.vscode/cglicenses.schema.json\"\n\t\t}\n\t],\n\t\"css.format.spaceAroundSelectorSeparator\": true,\n\t// --- Git ---\n\t\"git.ignoreLimitWarning\": true,\n\t\"git.branchProtection\": [\n\t\t\"main\",\n\t\t\"main-*\",\n\t\t\"distro\",\n\t\t\"release/*\"\n\t],\n\t\"git.branchProtectionPrompt\": \"alwaysCommitToNewBranch\",\n\t\"git.branchRandomName.enable\": true,\n\t\"git.pullBeforeCheckout\": true,\n\t\"git.mergeEditor\": true,\n\t\"git.diagnosticsCommitHook.enabled\": true,\n\t\"git.diagnosticsCommitHook.sources\": {\n\t\t\"*\": \"error\",\n\t\t\"ts\": \"warning\",\n\t\t\"eslint\": \"warning\"\n\t},\n\t\"git.worktreeIncludeFiles\": [\n\t\t\".build/typings/electron.d.ts\",\n\t\t\"product.overrides.json\"\n\t],\n\t\"git.worktreeSymlinkFolders\": [\n\t\t\"node_modules/\"\n\t],\n\t// --- GitHub ---\n\t\"githubPullRequests.experimental.createView\": true,\n\t\"githubPullRequests.assignCreated\": \"${user}\",\n\t\"githubPullRequests.defaultMergeMethod\": \"squash\",\n\t\"githubPullRequests.ignoredPullRequestBranches\": [\n\t\t\"main\"\n\t],\n\t\"githubPullRequests.codingAgent.enabled\": true,\n\t\"githubPullRequests.codingAgent.uiIntegration\": true,\n\t\"githubPullRequests.enableAttestationCommits\": true,\n\t// --- Testing & Debugging ---\n\t\"testing.autoRun.mode\": \"rerun\",\n\t\"debug.javascript.terminalOptions\": {\n\t\t\"outFiles\": [\n\t\t\t\"${workspaceFolder}/out/**/*.js\",\n\t\t\t\"${workspaceFolder}/build/**/*.js\"\n\t\t]\n\t},\n\t\"extension-test-runner.debugOptions\": {\n\t\t\"outFiles\": [\n\t\t\t\"${workspaceFolder}/extensions/*/out/**/*.js\",\n\t\t]\n\t},\n\t// --- Coverage ---\n\t\"lcov.path\": [\n\t\t\"./.build/coverage/lcov.info\",\n\t\t\"./.build/coverage-single/lcov.info\"\n\t],\n\t\"lcov.watch\": [\n\t\t{\n\t\t\t\"pattern\": \"**/*.test.js\",\n\t\t\t\"command\": \"${workspaceFolder}/scripts/test.sh --coverage --run ${file}\",\n\t\t\t\"windows\": {\n\t\t\t\t\"command\": \"${workspaceFolder}\\\\scripts\\\\test.bat --coverage --run ${file}\"\n\t\t\t}\n\t\t}\n\t],\n\t// --- Tools ---\n\t\"npm.exclude\": \"**/extensions/**\",\n\t\"eslint.useFlatConfig\": true,\n\t\"emmet.excludeLanguages\": [],\n\t\"gulp.autoDetect\": \"off\",\n\t\"rust-analyzer.linkedProjects\": [\n\t\t\"cli/Cargo.toml\",\n\t\t\"copilot_shim/Cargo.toml\"\n\t],\n\t\"conventionalCommits.scopes\": [\n\t\t\"tree\",\n\t\t\"scm\",\n\t\t\"grid\",\n\t\t\"splitview\",\n\t\t\"table\",\n\t\t\"list\",\n\t\t\"git\",\n\t\t\"sash\"\n\t],\n\t// --- Workbench ---\n\t\"editor.aiStats.enabled\": true, // Team selfhosting on ai stats\n\t\"multiDiffEditor.experimental.fileList\": true,\n\t\"azureMcp.enabledServices\": [\n\t\t\"kusto\" // Needed for kusto tool in data.prompt.md\n\t],\n\t\"azureMcp.serverMode\": \"all\",\n\t\"azureMcp.readOnly\": true,\n\t\"debug.breakpointsView.presentation\": \"tree\",\n\t\"chat.agentSkillsLocations\": {\n\t\t\".github/skills/.local\": true,\n\t\t\".agents/skills/.local\": true,\n\t\t\".claude/skills/.local\": true,\n\t}\n}",
+    "source": "https://github.com/microsoft/vscode/blob/main/.vscode/settings.json",
+    "note": "JSON with comments"
+  },
+  {
+    "label": "json",
+    "text": "{\n  \"$schema\": \"https://www.schemastore.org/tsconfig\",\n  \"display\": \"Node 20\",\n  \"_version\": \"20.1.0\",\n\n  \"compilerOptions\": {\n    \"lib\": [\"es2023\"],\n    \"module\": \"nodenext\",\n    \"target\": \"es2022\",\n    \"types\": [\"node\"],\n\n    \"strict\": true,\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true,\n    \"moduleResolution\": \"node16\"\n  }\n}",
+    "source": "https://github.com/tsconfig/bases/blob/main/bases/node20.json"
+  },
+  {
+    "label": "json",
+    "text": "{\n  \"$schema\": \"https://docs.renovatebot.com/renovate-schema.json\",\n  \"extends\": [\"github>renovatebot/.github\"],\n  \"assignees\": [\"viceice\", \"secustor\", \"jamietanna\"],\n  \"reviewers\": [\"@renovatebot/maintainers\"],\n  \"semanticCommitScope\": \"deps\",\n  \"automergeType\": \"pr\",\n  \"prCreation\": \"immediate\",\n  \"ignorePresets\": [\":ignoreModulesAndTests\"],\n  \"ignorePaths\": [\"**/node_modules/**\", \"**/__fixtures__/**\", \"test/**\"],\n  \"rebaseWhen\": \"conflicted\",\n  \"baseBranchPatterns\": [\"$default\", \"/^disable-next$/\"],\n  \"dockerfile\": {\n    \"semanticCommitType\": \"build\"\n  },\n  \"packageRules\": [\n    {\n      \"matchPackageNames\": [\"containerbase/node\"],\n      \"versioning\": \"node\"\n    },\n    {\n      \"matchDepTypes\": [\"dependencies\", \"optionalDependencies\"],\n      \"semanticCommitType\": \"build\"\n    },\n    {\n      \"matchPackageNames\": [\"semantic-release\"],\n      \"semanticCommitType\": \"build\"\n    },\n    {\n      \"matchPackageNames\": [\"@types/jest\"],\n      \"groupName\": \"jest monorepo\"\n    },\n    {\n      \"matchFileNames\": [\"**/__fixtures__/**\"],\n      \"enabled\": false\n    },\n    {\n      \"description\": \"group base image docker and npm updates, they must stay on the same version\",\n      \"matchPackageNames\": [\n        \"ghcr.io/renovatebot/base-image\",\n        \"@renovatebot/base-image\"\n      ],\n      \"groupName\": \"renovate-base-image\"\n    },\n    {\n      \"description\": \"set fix scope for base image\",\n      \"matchPackageNames\": [\n        \"ghcr.io/renovatebot/base-image\",\n        \"@renovatebot/base-image\"\n      ],\n      \"semanticCommitType\": \"fix\"\n    },\n    {\n      \"description\": \"set feat scope for base image major and minor\",\n      \"matchPackageNames\": [\n        \"ghcr.io/renovatebot/base-image\",\n        \"@renovatebot/base-image\"\n      ],\n      \"matchUpdateTypes\": [\"major\", \"minor\"],\n      \"semanticCommitType\": \"feat\"\n    },\n    {\n      \"description\": \"use `feat` semantic commit scope with breaking change for for base image major\",\n      \"matchPackageNames\": [\n        \"ghcr.io/renovatebot/base-image\",\n        \"@renovatebot/base-image\"\n      ],\n      \"matchUpdateTypes\": [\"major\"],\n      \"commitMessagePrefix\": \"feat(deps)!:\"\n    },\n    {\n      \"description\": \"allow prereleases for base image on next branch\",\n      \"matchPackageNames\": [\n        \"ghcr.io/renovatebot/base-image\",\n        \"@renovatebot/base-image\"\n      ],\n      \"matchBaseBranches\": [\"next\"],\n      \"ignoreUnstable\": false\n    },\n    {\n      \"description\": \"set build scope for node updates\",\n      \"matchDepNames\": [\"node\"],\n      \"matchFileNames\": [\".nvmrc\", \"tools/docker/Dockerfile\"],\n      \"semanticCommitType\": \"build\"\n    },\n    {\n      \"description\": \"set branch prefix for node major updates to split from minor updates\",\n      \"matchPackageNames\": [\"node\", \"containerbase/node-prebuild\"],\n      \"matchUpdateTypes\": [\"major\"],\n      \"additionalBranchPrefix\": \"major\"\n    },\n    {\n      \"description\": \"disable some invalid deps from docs\",\n      \"matchPackageNames\": [\"my.old.registry/**\", \"my.new.registry/**\"],\n      \"matchFileNames\": [\"docs/**/*.md\"],\n      \"enabled\": false\n    },\n    {\n      \"description\": \"require approval on next branch\",\n      \"matchPackageNames\": [\"*\"],\n      \"matchBaseBranches\": [\"next\"],\n      \"dependencyDashboardApproval\": true\n    },\n    {\n      \"description\": \"require approval on next branch lockfile maintenance\",\n      \"matchBaseBranches\": [\"next\"],\n      \"matchUpdateTypes\": [\"lockFileMaintenance\"],\n      \"dependencyDashboardApproval\": true\n    },\n    {\n      \"description\": \"Mark major version bumps with the breaking label\",\n      \"matchUpdateTypes\": [\"major\"],\n      \"addLabels\": [\"breaking\"]\n    },\n    {\n      \"description\": \"Multiple major updates for got\",\n      \"matchDatasources\": [\"npm\"],\n      \"matchDepNames\": [\"got\"],\n      \"separateMultipleMajor\": true\n    },\n    {\n      \"description\": \"Zizmor's GitHub Action doesn't immediately support the latest Zizmor container image until there's an explicit update\",\n      \"groupName\": \"zizmor\",\n      \"matchPackageNames\": [\n        \"ghcr.io/zizmorcore/zizmor\",\n        \"zizmorcore/zizmor-action\"\n      ],\n      \"minimumGroupSize\": 2\n    },\n    {\n      \"description\": \"Only update the major version constraint for Erlang\",\n      \"matchFileNames\": [\"lib/modules/manager/mix/artifacts.ts\"],\n      \"matchPackageNames\": [\"containerbase/erlang-prebuild\"],\n      \"extractVersion\": \"^(?<version>\\\\d+)\",\n      \"separateMultipleMajor\": true\n    },\n    {\n      \"matchPackageNames\": [\"github/gh-actions-lock\"],\n      \"matchFileNames\": [\"lib/config/options/index.ts\"],\n      \"semanticCommitType\": \"fix\"\n    },\n    {\n      \"description\": \"Do not automerge breaking `gh-actions-lock` updates, which includes every v0.x release, as they can change how the lockfile is generated or verified\",\n      \"matchPackageNames\": [\"github/gh-actions-lock\"],\n      \"matchJsonata\": [\"isBreaking = true\"],\n      \"automerge\": false\n    },\n    {\n      \"description\": \"Group commander major updates, they depend on each other.\",\n      \"matchDatasources\": [\"npm\"],\n      \"matchPackageNames\": [\"@commander-js/extra-typings\", \"commander\"],\n      \"matchUpdateTypes\": [\"major\"],\n      \"groupName\": \"commander\"\n    }\n  ],\n  \"customManagers\": [\n    {\n      \"customType\": \"regex\",\n      \"managerFilePatterns\": [\"lib/config/options/index.ts\"],\n      \"matchStrings\": [\n        \"default: '(?<depName>ghcr.io/renovatebot/base-image):(?<currentValue>.*)'\"\n      ],\n      \"datasourceTemplate\": \"docker\"\n    },\n    {\n      \"customType\": \"regex\",\n      \"managerFilePatterns\": [\"lib/modules/manager/mix/artifacts.ts\"],\n      \"matchStrings\": [\"const erlangVersion = '(?<currentValue>[\\\\^0-9]*)'\"],\n      \"datasourceTemplate\": \"github-releases\",\n      \"packageNameTemplate\": \"containerbase/erlang-prebuild\",\n      \"versioningTemplate\": \"loose\"\n    },\n    {\n      \"customType\": \"regex\",\n      \"managerFilePatterns\": [\n        \"lib/config/options/index.ts\",\n        \"lib/modules/manager/github-actions/readme.md\"\n      ],\n      \"matchStrings\": [\n        \"['\\\"]?ghActionsLock['\\\"]?: ['\\\"](?<currentValue>v[^'\\\"]+)['\\\"]\"\n      ],\n      \"datasourceTemplate\": \"github-releases\",\n      \"packageNameTemplate\": \"github/gh-actions-lock\"\n    },\n    {\n      \"customType\": \"regex\",\n      \"managerFilePatterns\": [\n        \"lib/modules/manager/github-actions/artifacts.spec.ts\"\n      ],\n      \"matchStrings\": [\"actionsLockVersion = '(?<currentValue>.*)'\"],\n      \"datasourceTemplate\": \"github-releases\",\n      \"packageNameTemplate\": \"github/gh-actions-lock\"\n    },\n    {\n      \"description\": \"Update pinned `gh` CLI extensions\",\n      \"customType\": \"regex\",\n      \"managerFilePatterns\": [\"/^\\\\.github/workflows/[^/]+\\\\.ya?ml$/\"],\n      \"matchStrings\": [\n        \"gh extension install (?<depName>[\\\\w.-]+/[\\\\w.-]+) --pin (?<currentValue>\\\\S+)\"\n      ],\n      \"datasourceTemplate\": \"github-releases\"\n    }\n  ]\n}",
+    "source": "https://github.com/renovatebot/renovate/blob/main/renovate.json"
+  },
+  {
+    "label": "json",
+    "text": "{\"url\":\"https://api.github.com/repos/gulpjs/gulp/issues/4\",\"repository_url\":\"https://api.github.com/repos/gulpjs/gulp\",\"labels_url\":\"https://api.github.com/repos/gulpjs/gulp/issues/4/labels{/name}\",\"comments_url\":\"https://api.github.com/repos/gulpjs/gulp/issues/4/comments\",\"events_url\":\"https://api.github.com/repos/gulpjs/gulp/issues/4/events\",\"html_url\":\"https://github.com/gulpjs/gulp/issues/4\",\"id\":16425994,\"node_id\":\"MDU6SXNzdWUxNjQyNTk5NA==\",\"number\":4,\"title\":\"check for gulpfile case insensitive\",\"labels\":[{\"id\":46351218,\"node_id\":\"MDU6TGFiZWw0NjM1MTIxOA==\",\"url\":\"https://api.github.com/repos/gulpjs/gulp/labels/enhancement\",\"name\":\"enhancement\",\"color\":\"84b6eb\",\"default\":true,\"description\":null,\"archived_at\":null,\"archived_by\":null}],\"state\":\"closed\",\"locked\":false,\"assignees\":[],\"milestone\":null,\"comments\":2,\"created_at\":\"2013-07-06T03:06:44Z\",\"updated_at\":\"2013-07-06T04:02:28Z\",\"closed_at\":\"2013-07-06T04:01:29Z\",\"assignee\":null,\"author_association\":\"MEMBER\",\"issue_field_values\":[],\"type\":null,\"active_lock_reason\":null,\"sub_issues_summary\":{\"total\":0,\"completed\":0,\"percent_completed\":0},\"issue_dependencies_summary\":{\"blocked_by\":0,\"total_blocked_by\":0,\"blocking\":0,\"total_blocking\":0},\"state_reason\":\"completed\",\"pinned_comment\":null}",
+    "source": "https://api.github.com/repos/gulpjs/gulp/issues/4",
+    "note": "a minified API response (some fields removed)"
+  },
+  {
+    "label": "json",
+    "text": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"allowUnusedLabels\": false,\n    \"allowUnreachableCode\": false,\n    \"exactOptionalPropertyTypes\": true,\n    \"noFallthroughCasesInSwitch\": true,\n    \"noImplicitOverride\": true,\n    \"noImplicitReturns\": true,\n    \"noPropertyAccessFromIndexSignature\": true,\n    \"noUncheckedIndexedAccess\": true,\n    \"noUnusedLocals\": true,\n    \"noUnusedParameters\": true,\n\n    \"isolatedModules\": true,\n\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true\n  },\n  \"$schema\": \"https://www.schemastore.org/tsconfig\",\n  \"display\": \"Strictest\",\n  \"_version\": \"2.0.0\"\n}",
+    "source": "https://github.com/tsconfig/bases/blob/main/bases/strictest.json"
+  },
+  {
+    "label": "tsv",
+    "text": "Rank\tMajor_code\tMajor\tTotal\tMen\tWomen\tMajor_category\tShareWomen\tSample_size\tEmployed\tFull_time\tPart_time\tFull_time_year_round\tUnemployed\tUnemployment_rate\tMedian\tP25th\tP75th\tCollege_jobs\tNon_college_jobs\tLow_wage_jobs\n1\t2419\tPETROLEUM ENGINEERING\t2339\t2057\t282\tEngineering\t0.120564344\t36\t1976\t1849\t270\t1207\t37\t0.018380527\t110000\t95000\t125000\t1534\t364\t193\n2\t2416\tMINING AND MINERAL ENGINEERING\t756\t679\t77\tEngineering\t0.101851852\t7\t640\t556\t170\t388\t85\t0.117241379\t75000\t55000\t90000\t350\t257\t50\n3\t2415\tMETALLURGICAL ENGINEERING\t856\t725\t131\tEngineering\t0.153037383\t3\t648\t558\t133\t340\t16\t0.024096386\t73000\t50000\t105000\t456\t176\t0\n4\t2417\tNAVAL ARCHITECTURE AND MARINE ENGINEERING\t1258\t1123\t135\tEngineering\t0.107313196\t16\t758\t1069\t150\t692\t40\t0.050125313\t70000\t43000\t80000\t529\t102\t0",
+    "source": "https://github.com/fivethirtyeight/data/blob/master/college-majors/recent-grads.csv",
+    "note": "copied from a spreadsheet"
+  },
+  {
+    "label": "tsv",
+    "text": "2013\ttt1711425\t21 &amp; Over\tnotalk\tnotalk\tFAIL\t13000000\t25682380\t42195766\t2013FAIL\t13000000\t25682380\t42195766\t1\t1\n2012\ttt1343727\tDredd 3D\tok-disagree\tok\tPASS\t45000000\t13414714\t40868994\t2012PASS\t45658735\t13611086\t41467257\t1\t1\n2013\ttt2024544\t12 Years a Slave\tnotalk-disagree\tnotalk\tFAIL\t20000000\t53107035\t158607035\t2013FAIL\t20000000\t53107035\t158607035\t1\t1\n2013\ttt1272878\t2 Guns\tnotalk\tnotalk\tFAIL\t61000000\t75612460\t132493015\t2013FAIL\t61000000\t75612460\t132493015\t1\t1\n2013\ttt0453562\t42\tmen\tmen\tFAIL\t40000000\t95020213\t95020213\t2013FAIL\t40000000\t95020213\t95020213\t1\t1",
+    "source": "https://github.com/fivethirtyeight/data/blob/master/bechdel/movies.csv",
+    "note": "copied from a spreadsheet: data rows only"
+  }
+]

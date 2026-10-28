@@ -1,0 +1,1657 @@
+[
+  {
+    "doc": "• Desenvolver camadas Frontend (React) e backend (.NET Core) conforme demanda, incluindo testes unitários para garantir qualidade e segurança.\n• Garantir configurações adequadas para processos DevOps, planejamento e acompanhamento das implantações em produção.\n• Monitorar o ambiente pós-release para assegurar estabilidade e performance.\n• Aplicar técnicas avançadas de AI, utilizando ferramentas como Python (Langchain, Langgraph), RAG, engenharia de prompt e avaliação de agentes (EVALs).\n• Trabalhar com infraestrutura AWS (DocumentDB, Lambda, ECS, S3, Redis) e ferramentas de CI/CD (Github Actions, Terraform, Docker).\n• Colaborar no desenvolvimento e integração de agentes inteligentes, com conhecimento em MCP e Go Language sendo um diferencial.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/react-brasil/vagas/issues/3010#L12"
+  },
+  {
+    "doc": "\nWould you be open to a **community extension** for hardware-bound image signing?\n\n— Francisco",
+    "line": 3,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/17394#L85",
+    "note": "signature"
+  },
+  {
+    "doc": "\n• Experiência sólida com desenvolvimento iOS utilizando Swift\n• Conhecimento em SDUI\n• Experiência com testes automatizados para iOS\n• Forte compreensão de práticas modernas de desenvolvimento ágil, incluindo CI/CD\n• Excelentes habilidades de comunicação e capacidade de trabalhar de forma colaborativa\n• Formação acadêmica em Ciência da Computação, Engenharia de Software ou área relacionada",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1545#L38"
+  },
+  {
+    "doc": "\n**Environment details**\n```kitty 0.49.2 created by Kovid Goyal\nLinux laptop 7.2.11-arch1-1 #1 SMP PREEMPT_DYNAMIC Fri, 16 Oct 2026 00:28:58 +0000 x86_64\nArch Linux 7.2.11-arch1-1 (/dev/tty)",
+    "line": 1,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/kovidgoyal/kitty/issues/10736#L67"
+  },
+  {
+    "doc": "\nAdds **Browser Use**, an agent skill that drives a real Chromium browser to get things done on websites: searching, clicking through pages, filling in forms and comparing results. It's off by default and an admin turns it on under **Agent Skills > Browser Use**. It's only offered in the Docker image in production, and never on a bare-metal server.\n\n**In the chat**\n- A live session card streams the browser and has a stop button.\n- When the agent hits a sign-in, captcha or \"verify you are human\" check, it pauses and asks for help. The person can click **Take control** to click, scroll and type in the live view, then press **Continue**.\n- If the tab isn't in front when the agent asks for help, a browser notification appears and clicking it returns to the card. Permission is first asked when the first help request arrives, not before.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Mintplex-Labs/anything-llm/pull/6790#L22"
+  },
+  {
+    "doc": "\n·    Feriados - Troca de feriados ou folgas com bases nas horas extraordinárias;\n\n·    Flexibilidade - flexibilidade de horário com apontamento por exceção;\n\n·    Esportes - Acesso a esportes no SESC Nacional, sem custos.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1456#L60"
+  },
+  {
+    "doc": "**Expected behavior**\nThe library loads in the left panel, as it did in 31.1.8 (local library paths in the configuration have been supported since the fix for #1278).\n\n**draw.io version (In the Help->About menu of the draw.io editor):**\n- draw.io version 31.4.5 (last working version: 31.1.8)\n\n**Desktop (please complete the following information):**",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/jgraph/drawio-desktop/issues/2546#L26"
+  },
+  {
+    "doc": "\nRequisitos obrigatórios:\n\n● Mais de 1 ano e meio de experiência.\n\n● Experiência sólida com PHP e o framework Laravel.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/phpdevbr/vagas/issues/1301#L15"
+  },
+  {
+    "doc": "- Related to #5845\n- Related to #4180\n\n**Summary of Changes**\n\n1. **FileSizeCalculator**:\n   - Replaced file handle acquisition (`CreateFileW`) with direct size retrieval from `WIN32_FIND_DATAW` (`nFileSizeLow` / `nFileSizeHigh`).",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/files-community/Files/pull/19039#L12"
+  },
+  {
+    "doc": "**Is your feature request related to a problem? Please describe.**\n\nI find the shader discovery logic to be a bit unintuitive:\n",
+    "line": 0,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/kovidgoyal/kitty/issues/10694#L1",
+    "note": "arguable: an issue template's question, written as a bold sentence"
+  },
+  {
+    "doc": "\n**Security side effect:** because of the fallback, the access and refresh tokens are stored in `data.json` on disk. To avoid typing the master password at every start, the only other option is a persistent PIN (\"Require master password on app restart\" off), which also stores a PIN-protected user key in `data.json`. Users are pushed toward storing more key material on disk, the opposite of what process isolation is meant to achieve.\n\n**Isolation is the cause, not the portal or keyring setup:**\n- Calling the same `desktop_napi.node` from a non-isolated process (`ELECTRON_RUN_AS_NODE=1 electron39 test.js`, calling `passwords.setPassword` / `getPassword` / `deletePassword` on a test service) succeeds and writes to `~/.local/share/keyrings/default.keyring`.\n- `readlink /proc/<bitwarden-pid>/root` fails for the same user (`/proc/<pid>/root` and `/proc/<pid>/environ` are owned by root), while the same read works on any other process.\n- `/proc` is mounted without `hidepid`, the portal config is the standard `kde-portals.conf` (`org.freedesktop.impl.portal.Secret=kwallet`), no `LD_PRELOAD` / Electron variables are set in the environment, and `pacman -Qkk bitwarden` reports no modified files.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/bitwarden/clients/issues/24170#L45"
+  },
+  {
+    "doc": "- Tem capacidade de abstrair arquiteturas modernas, com micro-frontends/module federation; \n- Saúde mental pro papo reto de dev sem rivalidades (o clima aqui não será afetado por ego);\n\n**Completo, do anúncio:**\n🧠 Habilidades Necessárias 🧠 \n\n- Experiência sólida em desenvolvimento web e no ciclo de vida completo de produtos.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/react-brasil/vagas/issues/2999#L35"
+  },
+  {
+    "doc": "> \n> This _might_ be a possible security concern, see issue 41\n\n**Disclaimer:**\nThis issue was migrated on 2013-03-15 from the project's former issue tracker on Google Code, [Issue #83](http://code.google.com/p/phantomjs/issues/detail?id=83).\n:star2: &nbsp; **3** people had starred this issue at the time of migration.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ariya/phantomjs/issues/10083#L11"
+  },
+  {
+    "doc": "\n✔️Descontos em pacotes de tarifas e taxas diferenciadas para Bancos Itaú e Bradesco\n\n✔️Opção de crédito consignado, com desconto diretamente no salário do colaborador\n\n✔️Programa de reembolso de algumas certificações externas\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/phpdevbr/vagas/issues/1257#L86"
+  },
+  {
+    "doc": "Algo que prezamos bastante é qualidade, isso inclui um código limpo e legível (clean code).\nTambém é desejável que o mesmo tenha um perfil intra-empreendedor, onde seus objetivos estejam alinhados com os objetivos da empresa, afinal, temos muito orgulho do que fazemos aqui!\n\n**REQUISITOS E QUALIFICAÇÕES**\nPrincipais Responsabilidades\nAnalista Sênior com experiência em desenvolvimento de sistemas distribuídos com hospedagem na AWS. Buscamos um analista que tenha pensamento crítico, boa comunicação e comprometido com as entregas.\nSomos responsáveis pelo desenvolvimento de um motor de processamento com alta volumetria e que precisa ser bastante resiliente, então é muito importante ter profundidade e experiência nos temas.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/phpdevbr/vagas/issues/1304#L13"
+  },
+  {
+    "doc": "-Life insurance;\n-Meal voucher (1 per business day R$25,00);\n-Bus transportation to band 5s who earn up to R$4500,00\n-Annual bonus to band 4+ (~11% of annual salary). For band 3 it´s 15%. It´s must be eligible according to the guidelines.\n-Monthly variable income compensation (VIC) for band 5s based on the eligibility according to the policy.\n-3 PBD or personal business days per year on top of vacations.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1462#L48"
+  },
+  {
+    "doc": "4. Paste the copied image into another application, or open the exported PNG file.\n5. The Dot shapes appear misaligned or shifted compared with their positions in the draw.io editor.\n\n**Expected behavior**\nThe Dot shapes should appear in the copied/exported image at the same positions as they appear in the draw.io editor.\nThe image produced by Copy as Image or PNG export should preserve the layout shown in the editor.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jgraph/drawio-desktop/issues/2506#L25"
+  },
+  {
+    "doc": "**Describe the bug**\nWhen resizing an interlaced PNG without alpha, `kitten icat` displays a black image instead of the correctly scaled image.\n\n**To Reproduce**\nSteps to reproduce the behavior:\n1. download these two images\n  - name this one `plain.png`: ",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/kovidgoyal/kitty/issues/10686#L4"
+  },
+  {
+    "doc": "\n● Mais de 1 ano e meio de experiência.\n\n● Experiência sólida com PHP e o framework Laravel.\n\n● Habilidade para criar e otimizar queries em SQL puro.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/phpdevbr/vagas/issues/1301#L17"
+  },
+  {
+    "doc": "\nOptions:\n  -n, --new                        Launch new window even if Lapce is already running\n  -w, --wait                       Don't return instantly when opened in a terminal\n      --plugin-path <PLUGIN_PATH>  Path(s) to plugins to load. This is primarily used for plugin development to make it easier to test changes to the plugin without needing to copy the plugin to the plugins directory. This will cause any plugin with the same author & name to not run\n  -h, --help                       Print help\n  -V, --version                    Print version",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/lapce/lapce/issues/3890#L23",
+    "note": "CLI help output"
+  },
+  {
+    "doc": "\nResponsibilities:\n● Convert designs from Figma into pixel-perfect responsive web pages.\n● Work on existing projects and make changes as required.\n● Develop custom Gutenberg blocks using Carbon fields.\n● Maintain sites built with Gutenberg, Piklist or bespoke solutions.\n● Participate in sprint planning discussions.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/phpdevbr/vagas/issues/1283#L35"
+  },
+  {
+    "doc": "· Atuar no segmento financeiro.\n\n## Benefícios\n· Plano de saúde e Assistência Odontológica;\n· Vale Refeição/ Alimentação no cartão Flash, sem descontos;\n· Vale transporte ou auxílio mobilidade (opcional);\n· Auxílio Híbrido mensal, sem descontos;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/react-brasil/vagas/issues/2932#L7"
+  },
+  {
+    "doc": "- Experiência com armazenamento local e bancos de dados embarcados\n- Conhecimento em estratégias de cache e funcionamento offline\n\n**Autenticação e segurança**\n\n- Experiência com OAuth, JWT e login social (Google/Apple)\n- Boas práticas de armazenamento seguro de tokens e credenciais",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/react-brasil/vagas/issues/3011#L42"
+  },
+  {
+    "doc": "Fixes #12362\n\n**What changed:**\nApplied layout and padding fixes for the language select dropdown component when in RTL mode.\n\n**Why it was needed:**",
+    "line": 2,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/excalidraw/excalidraw/pull/12424#L3"
+  },
+  {
+    "doc": "**Describe the solution you'd like**\nA  \"Label Width\" numerical input control added directly to the draw.io User Interface ideally above the Opacity control inside Text panel, this control should natively manipulate the labelWidth property of the mxcell. This way if we select dozens of shapes at once we can apply a uniform label width from the UI in a single click.\n\n**Describe alternatives you've considered**\nI currently rely on two manual workarounds to fix the text label wrap:\n\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jgraph/drawio-desktop/issues/2452#L10"
+  },
+  {
+    "doc": "Você vai precisar de:\n\n-Projetos que demonstrem proficiência em **iOS**;\n-BS/MS em Ciências da Computação ou disciplina relacionada;\n-Experiência com o **UIKit**;\n-Experiência com programação **multithreading**;\n-Experiência em escrever **testes unitários e código testável**;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1536#L16"
+  },
+  {
+    "doc": "\nO tamanho do seu talento_\n\n**REQUISITOS_**\n\n- Swift 4.0+\n- Básico de Objective-C",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1529#L8"
+  },
+  {
+    "doc": "\nIf you are technical, you should report bugs along the lines of https://marker.io/blog/how-to-write-bug-report. If you are not technical, we will make allowances, please try to make an effort to understand the process.\n\n**Describe the bug**\nI have a draw.io document that has multiple pages. When I export the diagram the the first pages seems to be right in size, but the second get smaller, the third even smaller and so on.\n\n**To Reproduce**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jgraph/drawio-desktop/issues/2490#L11"
+  },
+  {
+    "doc": "To prevent extra work, all changes to the Files codebase must link to an approved issue marked as `Ready to build`. Please insert the issue number following the hashtag with the issue number that this Pull Request resolves.\n- Closes #13196\n\n**Steps used to test these changes**\n\nStability is a top priority for Files and all changes are required to go through testing before being merged into the repo. Please include a list of steps that you used to test this PR.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/files-community/Files/pull/19038#L14"
+  },
+  {
+    "doc": "\n• Ter criado e disponibilizado bibliotecas (frameworks) via CocoaPods / Carthage / SPM; \n\n• Ter experiência em gestão de acessos e certificados da App Store; \n\n• Ter experiência com processo de revisão de aplicativos da Apple. \n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1508#L57"
+  },
+  {
+    "doc": "\nHost-certificate support remains a follow-up. ECDSA and certificate rejection are documented in the README and covered by tests.\n\n**Local validation:**\n- 186 Rust unit tests and 30 Unix integration tests passed locally (macOS).\n- 53 scoped SSH-agent Jest tests passed.\n- Rust formatting, Clippy, build, doc tests, sort, udeps, and dependency-policy checks passed.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/bitwarden/clients/pull/24105#L22"
+  },
+  {
+    "doc": "\n· Ventoy Version: 1.1.12（建议填写你实际使用的版本）\n· CPU: 华为麒麟 9000C\n· 硬件型号: 华为 L420x\n· 固件: UEFI（已在 BIOS 中关闭安全启动）\n· 分区类型: GPT\n· 目标镜像: UOS1070（具体版本号）",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/ventoy/Ventoy/issues/3756#L69"
+  },
+  {
+    "doc": "\n• Vale Refeição (R$ 858,65 /mensal) \n• Vale Alimentação (R$ 663,48 /mensal)\n• Assistência Média e Odontológica\n• Seguro de Vida em Grupo\n• Day off de aniversário\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1545#L53"
+  },
+  {
+    "doc": "\n- draw.io (portable) version 31.7.0 (and 30.4.1)\n\n**Desktop (please complete the following information):**\n - OS: Windows 11 Business 25H2 \n\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/jgraph/drawio-desktop/issues/2570#L32"
+  },
+  {
+    "doc": "- Realizar code review;\n- Ter trabalhado com metodologias ágeis de projeto (Scrum, Kanban e etc)\n\n**Obrigatórios (Soft Skills):**\n- Ser participativo do processo criativo e auxiliar na construção dos sistemas;\n- Colaborar na automatização de processos internos (CI e CD);\n- Ótima atenção aos detalhes;",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/phpdevbr/vagas/issues/1244#L25"
+  },
+  {
+    "doc": "- MVVM e Coroutines\n- Retrofit e consumo de APIs\n\n**Diferenciais:**\n- Testes instrumentados\n- CI/CD mobile\n- Kotlin Multiplatform",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/androiddevbr/vagas/issues/2244#L30"
+  },
+  {
+    "doc": "The database collab still loads. Two select fields have a type-option map and no content key:\n\n• SingleSelect, type option \"3\": empty map\n• MultiSelect, type option \"4\": empty map\n\nAnother SingleSelect (Status) still has type_option[\"3\"].content and keeps its options. Row cells still store the option ids. The Board view of the same database still opens. The Grid field order lists only fields that exist.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/AppFlowy-IO/AppFlowy/issues/9083#L8"
+  },
+  {
+    "doc": "• Possuir mínimo de 2 anos de experiência em desenvolvimento Nativo para iOS;\n• Conhecimentos comprovados em: Principais APIs do iOS (UIKit, Foundation),\nSwift, Storyboard, Auto-layout, CoreData;\n• Conhecer a Apple Human Interface Guidelines;\n• Integração via APIs REST;\n• Tenha sólidos conhecimentos e habilidades em algoritmos e estruturas de dados;\n• Gerenciador de dependências/modularização: Carthage, Cocoapods;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1452#L48"
+  },
+  {
+    "doc": "- Experiência sólida com React Native compatível com o nível Sênior\n- Boas práticas de engenharia: versionamento, testes e code review\n\n**Desejáveis:**\n- Comunicação clara para trabalho remoto/distribuído\n- Inglês para leitura de documentação\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/react-brasil/vagas/issues/3020#L22"
+  },
+  {
+    "doc": "**BENEFÍCIOS FLEXÍVEIS** - que é possível direcionar os pontos da maneira que mais fizer sentido, dentre os benefícios:\n\n● Vale-alimentação\n● Vale-refeição\n● Auxílio Combustível\n● Auxílio Home Office\n● Previdência privada",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/androiddevbr/vagas/issues/2150#L35"
+  },
+  {
+    "doc": "- handler-loop forwarded-context propagation\n- Unix/Windows integration tests showing the forwarded ECDSA context reaches the approval layer\n\n**Validation:**\n- Before the split, this branch's code was identical to #24105 commit c5b3760b0, where all required CI checks, Windows Rust tests, and Codecov checks passed. It has since been merged with the updated #24105 branch.\n- Locally: 192 Rust unit tests and 32 Unix integration tests pass; fmt and Clippy are clean.\n- `Rust advisories` fails with the same seven advisories as `main`. It is not a required check.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/bitwarden/clients/pull/24115#L25"
+  },
+  {
+    "doc": "already uses `memmove` for exactly this kind of move, so the `strcpy` looks\nlike an oversight.\n\n**Fixes:**\n\n```c\n// line 1581",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/pbatard/rufus/issues/2992#L55"
+  },
+  {
+    "doc": "2. Lock the screen / let macOS sleep, then unlock\n3. The padding around the (white) terminal content is now black\n\n**Screenshots**\nAttached in a comment below.\n\n**Environment details**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/kovidgoyal/kitty/issues/10708#L13"
+  },
+  {
+    "doc": "Testing & Regression:\n- No new logical tests were added as this is a visual CSS-only change.\n- Ran all existing Vitest suites to ensure no regressions. Screenshots:\n-Before:\n https://github.com/user-attachments/assets/f53f0a51-6df2-46d8-82f6-ce11be2a4cab\n-After:\nhttps://github.com/user-attachments/assets/59ff0198-dbc5-4c2a-9ab4-aa092623dc9a",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/excalidraw/excalidraw/pull/12427#L12"
+  },
+  {
+    "doc": "## Benefícios\n\n• Seguro de vida e de saúde;\n• Plano de Carreira crescente assente em meritocracia;\n• Formação certificada.\n\n## Como aplicar",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1492#L36"
+  },
+  {
+    "doc": "3. Open the Help / Keyboard Shortcuts dialog (`?` key).\n4. Observe the order of keys in any multi-key shortcut (e.g., under the edit section).\n\n**_Expected Behavior_**\nKeyboard shortcut combinations should preserve `LTR` ordering regardless of the UI direction (e.g., `[Ctrl] [X]`).\n\n**_Screenshots_**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/excalidraw/excalidraw/issues/12404#L10"
+  },
+  {
+    "doc": "- Competitive salary in USD + bonuses\n- Fast selection process\n\n**B2B contract - PJ.** \n\nFull-time = 176h per month \nYou manage your time. ",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/react-brasil/vagas/issues/2946#L47"
+  },
+  {
+    "doc": "\n**Partition style:** MBR / NTFS\n\n**Summary:**\n`VTOY_MENU_TIMEOUT` combined with `VTOY_DEFAULT_IMAGE` does not trigger any action after the timeout elapses. Tested with multiple values, including the exact example from the official documentation (plugin_control.html) and the simplest possible special value `VTOY_EXIT`. In every case, the menu simply stays open indefinitely with no countdown action taking place, even though no visible timer/countdown is shown on screen either.\n\n**Steps to reproduce:**",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ventoy/Ventoy/issues/3763#L49"
+  },
+  {
+    "doc": "• Compartilhamento de experiências e conhecimentos entre as áreas;\n• Incentivo à inovação;\n• Horizontalidade e dinamismo;\n• Trilhas de capacitação para aprendizado de novas tecnologias e métodos;\n• Convênio para pós graduação com instituição parceira;\n• Delivery Centers espalhados por diversas cidades do país, que operam como uma referência da nossa cultura e como ponto de apoio para todos os nossos profissionais;\n• Politica de Home Office;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1491#L58"
+  },
+  {
+    "doc": "**Expected behavior**\nThe installer should copy files smoothly without Squashfs I/O read errors from the emulated ISO layer.\n\n**Environment / Hardware:**\n- **Ventoy Version:** 1.1.17\n- **ISO:** Linux Mint Cinnamon 22.3 64-bit (SHA256 verified)\n- **Machine Model:** Dell Latitude E5470",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/ventoy/Ventoy/issues/3740#L60"
+  },
+  {
+    "doc": "\nThe database collab still loads. Two select fields have a type-option map and no content key:\n\n• SingleSelect, type option \"3\": empty map\n• MultiSelect, type option \"4\": empty map\n\nAnother SingleSelect (Status) still has type_option[\"3\"].content and keeps its options. Row cells still store the option ids. The Board view of the same database still opens. The Grid field order lists only fields that exist.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/AppFlowy-IO/AppFlowy/issues/9083#L7"
+  },
+  {
+    "doc": "·      Testes de interface e testes unitários.\n·      Android Jetpack Components (ViewModel, Room, LiveData, Databinding, Navigation);\n·      Experiencia em UI customizada;\n·      Experiencia com arquitetura MVVM;\n·      Capacidade de trabalhar em times multidisciplinares e de se comunicar claramente com times de desenvolvimento, design, marketing e produtos;\n\nEnvie seu CV atualizado para: [sueli.patricio@invillia.com](mailto:sueli.patricio@invillia.com)",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/androiddevbr/vagas/issues/2236#L23"
+  },
+  {
+    "doc": "-Meal voucher (1 per business day R$25,00);\n-Bus transportation to band 5s who earn up to R$4500,00\n-Annual bonus to band 4+ (~11% of annual salary). For band 3 it´s 15%. It´s must be eligible according to the guidelines.\n-Monthly variable income compensation (VIC) for band 5s based on the eligibility according to the policy.\n-3 PBD or personal business days per year on top of vacations.\n\n## Como aplicar",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1462#L49"
+  },
+  {
+    "doc": "\n## Benefícios\n\n• Seguro de vida e de saúde;\n• Plano de Carreira crescente assente em meritocracia;\n• Formação certificada.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1492#L35"
+  },
+  {
+    "doc": "**Desejáveis:**\n- Conhecimento em metodologias ágeis (Scrum/Kanban).\n• Experiência com ferramentas de CI/CD.\n• Familiaridade com sistemas de monitoramento e observabilidade (Prometheus, Grafana, etc.).\n\n## Contratação\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/phpdevbr/vagas/issues/1297#L24"
+  },
+  {
+    "doc": "- Sensibilidade UI/UX (cores, tipografia, espaçamento, responsividade).\n- Vontade de aprender, compartilhar e crescer.\n\n**Diferenciais**\n- Noções de design system e boas práticas de componentização.\n- Conhecimento de acessibilidade web (WCAG, ARIA).\n- Boas práticas de HTML semântico, meta tags, performance e indexação.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/react-brasil/vagas/issues/2983#L29"
+  },
+  {
+    "doc": "\nMuito prazer, somos a Zallpy!\n\n**Somos especialistas em tecnologia**\n\nDesenvolvemos soluções digitais customizadas, com tecnologia de ponta e de alto impacto. Somos parceiros estratégicos de grandes empresas internacionais, entregando inovação e inteligência a multinacionais de diversos segmentos. A gente atua como uma extensão do cliente, com alto grau de envolvimento no negócio e na geração de resultados.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/androiddevbr/vagas/issues/2171#L43",
+    "note": "arguable: a slogan or a section title"
+  },
+  {
+    "doc": "\nWe are hiring a high skilled Laravel backend developer who cares about good and clean code architecture, system's performance and best security practices.\n\n**Required Skills:**\n- Advanced knowledge on Laravel framework (v5.6 and v11.^);\n- Advanced knowledge on automated tests for Laravel applications;\n- Experience building high-performance APIs using Laravel;",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/phpdevbr/vagas/issues/1288#L5"
+  },
+  {
+    "doc": "• Desafie a configuração de aplicativos existentes. processamento e sugerir diferentes maneiras de resolver problemas ou melhorar a estabilidade;\n• Participar ativamente do processo de gerenciamento de mudanças com o objetivo de gerenciar riscos no ambiente de produção;\n• Construir e melhorar run books para generalistas para minimizar erros operacionais e ganhar fungibilidade/eficiência;\n• Desenvolver relatórios que forneçam estatísticas de tendências para rastrear e gerenciar a integridade do aplicativo e dar suporte ao desempenho do serviço;\n• Disposto a aprender e solucionar problemas/apoiar tecnologias proprietárias não disponíveis no mercado. Nenhum conhecimento de tecnologias proprietárias é necessário antes da contratação.\n\n_**Requisitos Obrigatórios:**_",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/androiddevbr/vagas/issues/2189#L28"
+  },
+  {
+    "doc": "🔹 Importante! Para analisarmos seu perfil da melhor forma, inclua todas as informações abaixo no seu cadastro:\n✔ Regime de contratação preferido (CLT, PJ ou Ambos)\n✔ Disponibilidade de atuação (Full-time, Part-time, Freela)\n✔ Pretensão salarial no regime selecionado\n✔ Localidade onde reside\n✔ LinkedIn e CV\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/react-brasil/vagas/issues/2961#L10"
+  },
+  {
+    "doc": "— Domínio de Java 21+ e experiência com Spring Boot, Spring MVC e Spring Security.\n— Experiência com frontend: React e/ou React Native (diferencial / atuação fullstack).\n— SQL avançado (Postgres, MySQL, Oracle) e familiaridade com NoSQL (MongoDB, Redis).\n— Experiência com mensageria (Kafka, RabbitMQ).\n— Testes automatizados: JUnit, Mockito; práticas de TDD.\n— Conhecimento em Docker e Kubernetes; experiência com AWS, Azure ou GCP.\n— Monitoramento/observability: Prometheus, Grafana, ELK (ou similares).",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/react-brasil/vagas/issues/3006#L23"
+  },
+  {
+    "doc": "\n目前思源已经支持通过「使用 AI OCR」识别图片中的文本内容，但尚不支持将图片中的数学公式直接转换为可编辑的原生公式。\n\n**这一功能具有很高的实用价值，尤其适用于科研、学习、文献阅读和笔记整理等场景。**\n\n例如，在阅读 PDF 论文、教材或网页时，经常需要将其中的数学公式摘录到笔记中。目前只能保留公式截图，或者手动编写 LaTeX，不仅操作繁琐，也不方便后续编辑和修改。\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/siyuan-note/siyuan/issues/21022#L5"
+  },
+  {
+    "doc": "\n✔️Descontos e tarifas diferenciadas junto a Universidades (Mackenzie, SENAC, FIA, FIAP e BBS Business School) e escola de idiomas (CNA, Cultura Inglesa, Wizard, CCAA, Indeed).\n\n✔️Descontos em pacotes de tarifas e taxas diferenciadas para Bancos Itaú e Bradesco\n\n✔️Opção de crédito consignado, com desconto diretamente no salário do colaborador\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/phpdevbr/vagas/issues/1258#L89"
+  },
+  {
+    "doc": "\nOnly timing. The first menu request comes before the iframe reports, so no map exists yet. If the iframe reported first, the menu wouldn't show at all.\n\n**Fix**\n\nOnly a `null` entry waits for a rebuild. A missing entry means the frame has no offsets, so the menu is placed right away. That's always correct for the top frame.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/bitwarden/clients/pull/24110#L21"
+  },
+  {
+    "doc": "Requirements:\n● Over 4 years experience as an Wordpress Developer.\n● A sophisticated understanding of HTML semantics and ARIA roles, and knowing their correct application.\n● Proficient in writing maintainable CSS / SCSS with a strong understanding of Flexbox & experience working with responsive web design CSS frameworks, such as Bootstrap / Semantic UI e.t.c.\n● Entry level knowledge of Vanilla JavaScript, ES6, jQuery.\n● Familiar with npm, yarn and build tools such as Parcel, WebPack and Gulp.\n● Knowledge of WordPress custom theme development, template hierarchies, hooks and filters.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/phpdevbr/vagas/issues/1283#L16"
+  },
+  {
+    "doc": "- Motor Reversal.\n- Auto Power (Pull-to-start): Toggle to enable/disable motor auto-start when the curtain is manually pulled.\n\n**LED Backlight Strip (DP 101, 102, 103):**\n\n- State: On/Off.\n- Brightness: 1–100% control.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33447#L191"
+  },
+  {
+    "doc": "- Capaz de executar atividades com senso de urgência .\n- Buscar proativamente novos conhecimentos, tendências e inovações de mercado.\n\n**O que oferecemos:** \n\n- Assistência médica\n- Assistência odontológica",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/phpdevbr/vagas/issues/1305#L44"
+  },
+  {
+    "doc": "\nWe are looking for full-stack developers and accept developers with a stronger focus on either front-end or **back-end.**\n\n**Responsibilities** \n\n- Design, build, and maintain efficient, reusable, and reliable code\n- Ensure the best possible performance, quality, and responsiveness of the applications",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/react-brasil/vagas/issues/2946#L12"
+  },
+  {
+    "doc": "\nGallery cover images should display consistently between Web and Desktop, and images uploaded from Desktop should remain valid and visible from both clients.\n\n**Actual behavior**\n\nWith Desktop v0.14.3:\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/AppFlowy-IO/AppFlowy/issues/9025#L34"
+  },
+  {
+    "doc": "We have connected more than 400 people with international employment. We focus more on quality and long-term partnerships between Jobsity, our candidates (you), and our clients. In fact, we only work with the top 3% of talent in LATAM.\nAs a member of the Jobsity Recruitment team, we are going to work to find you the right position depending on what is important to you.\n\n**Requirements**\n🌟 Conversational English level (B2/C1 level)\n🌟 Must reside in LATAM🌎\n🌟 C# /.NET 8 or 9 for backend development & API integration",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/react-brasil/vagas/issues/2992#L7"
+  },
+  {
+    "doc": "- Startup experience\n- Bachelor's Degree in Computer Engineering, Computer Science, or equivalent\n\n**Contratação**\nPJ\n\n**Como se candidatar**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/react-brasil/vagas/issues/2965#L32"
+  },
+  {
+    "doc": "\n♿ Todas as nossas oportunidades são extensivas à pessoas com deficiência e reabilitadas do INSS. \n\n**RESPONSABILIDADES E ATRIBUIÇÕES**\n💻🩺 **Como será seu dia-dia?**  \nDocumentar, otimizar e manter especificações, componentes, código- fonte, módulos e recursos das funcionalidades desenvolvidas.\nCode Review de demais integrantes da squad, reforçando a importância da qualidade de nossas entregas.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/androiddevbr/vagas/issues/2154#L29"
+  },
+  {
+    "doc": "- Tomar decisões significativas em um contexto ambíguo: Você irá tomar decisões fundamentais para esse novo domínio na empresa\n\n\n**Você vai trazer para a Iglu:**\n\n- Experiência profunda em desenvolvimento de aplicativos mobile. Você tem familiaridade com problemas comuns a desenvolvimento de apps mobile, e tem um bom senso de como balancear engenharia e produto\n- Ótimas habilidades de trabalho em equipe. Você já trabalhou em times multi funcionais. Nossa empresa é pequena, e você terá interface com todas as áreas dela. Você irá colaborar com essas áreas desde o começo, do discovery, ao design e finalmente entrega.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/androiddevbr/vagas/issues/2194#L12"
+  },
+  {
+    "doc": "\n## Requisitos\n\n**O que você precisa ter:**\n\n- Experiência em desenvolvimento de aplicações Android (Java/Kotlin);\n- Desenvolvimento, Entrega e Suporte;",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/androiddevbr/vagas/issues/2172#L16"
+  },
+  {
+    "doc": "\nRunning the same command with `ydotool` instead does not leave fullscreen.\n\n**Evidence (`socat -u` on `.socket2.sock`)**\n\n```\nopenlayer>>voxtype-osd",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/hyprwm/Hyprland/issues/16626#L20"
+  },
+  {
+    "doc": "\n✔️Premiação por tempo de casa: A TCS premia associados por seu comprometimento e lealdade durante o período em que trabalhar na empresa (3, 5 e 10 anos e cada 5 anos posteriormente).\n\n✔️Prêmio de indicação de novos colaboradores - recebendo um bônus para cada nova contratação.\n\n✔️TCS Fit4life - Programa para incentivar a prática de exercício físico junto a seus associados, com agenda de treinamentos funcionais online.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/phpdevbr/vagas/issues/1258#L99"
+  },
+  {
+    "doc": "Você terá a oportunidade de trabalhar com as melhores práticas de desenvolvimento ágil, incluindo padrões de projeto, refatoração, integração contínua e (Test Driven Development) TDD.\n\n\n**Responsabilidades da posição**\n\nConhecimento geral de diversas plataformas e ferramentas para desenvolvimento mobile.\nParticipação no ciclo completo de entrega (criação, desenvolvimento e implementação) de aplicativos móveis.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/androiddevbr/vagas/issues/2197#L8"
+  },
+  {
+    "doc": "Responsabilidades:\n\n— Projetar, desenvolver e manter APIs RESTful utilizando Java e Spring Boot.\n— Implementar soluções escaláveis, seguras e testáveis alinhadas aos requisitos de negócio.\n— Escrever código limpo, eficiente e realizar code reviews.\n— Criar e manter testes automatizados (unitários, de integração e funcionais) com JUnit/Mockito.\n— Modelar e otimizar consultas em bancos relacionais (Postgres, MySQL, Oracle) e NoSQL (MongoDB).",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/react-brasil/vagas/issues/3006#L6"
+  },
+  {
+    "doc": "\n**方式 B：借助同域名的 443 TCP 端口（服务器同时开放了 HTTPS 时）**\n\n如果 Hysteria2 服务器的域名**同时在 TCP 443 端口提供了 HTTPS 服务**，且使用的是**同一张证书**，可以借道 443 获取：\n",
+    "line": 1,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/2dust/v2rayN/issues/10419#L112"
+  },
+  {
+    "doc": "+1.  PS: Is it just me, or is it really hard to test/debug print style sheets?\n",
+    "line": 0,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/hakimel/reveal.js/issues/19#issuecomment-5370599#L1",
+    "note": "a \"+1\" reaction"
+  },
+  {
+    "doc": "\n### Visuals (if applicable)\n\n**Settings > AI Providers > Vector Database**\n\n<!-- drag in shots/topk-settings.png when opening the PR -->\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/Mintplex-Labs/anything-llm/pull/6866#L34",
+    "note": "caption for a screenshot"
+  },
+  {
+    "doc": "\n## Requisitos\n\n**Obrigatórios:**\n- OOP e boas práticas relacionadas como SOLID e Object Callisthenics\n- PHP 7.4+ com algum framework (preferencialmente Zend, symfony)\n- Conhecimento avançado de front-end (JavaScript + ReactJS + SSR + React Query + JSS)",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/phpdevbr/vagas/issues/1272#L34"
+  },
+  {
+    "doc": "\nIn my workflow, I manage a **Projects database** and a **Medical Tracker database**. Complex filtering is a daily necessity.\n\n**Example 1 (Projects):**\n> \"Show me projects where:\n> - (Name contains 'Medical' **AND** Deadline is this week)\n> - **OR**",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/AppFlowy-IO/AppFlowy/issues/9086#L17"
+  },
+  {
+    "doc": "\n• Experiência com desenvolvimento de aplicações utilizando C# (.NET) no Backend e React (Javacript) para Frontend;\n• Familiaridade com banco de dados relacionais e não relacionais;\n• Experiência com metodologias ágeis;\n• Conhecimento em plataforma cloud Azure ou outras (desejável).\n\nBenefícios:",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/react-brasil/vagas/issues/2938#L13"
+  },
+  {
+    "doc": "• Conhecimentos avançados em AWS (domínio do ecossistema, esteiras, CodePipeline).\n• Conhecimento avançado em padrões de projeto.\n• Domínio em técnicas de observability (Splunk, Grafana, Prometheus).\n• Certificações Microsoft/.NET são um diferencial importante.\n• React 18+ com TypeScript — incluindo hooks nativos e patterns de composição (useCallback, useMemo, useReducer).\n• Experiência com Next.js (App Router, SSR/SSG/ISR, bundle otimization).\n• Conhecimento de Web Components e integração com React.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/react-brasil/vagas/issues/3010#L34"
+  },
+  {
+    "doc": "\nConstruir software em uma empresa que diariamente captura e transforma um grande volume de dados em informação e conhecimento para advogados de todo o Brasil.\n\n**Suas principais atividades serão:**\n\n- Realizar reuniões com clientes parar entender as necessidades de negócio;\n- Propor soluções de acordo com as regras de negócio estabelecidas pelo cliente;",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/phpdevbr/vagas/issues/1224#L5"
+  },
+  {
+    "doc": "\nNa Zallpy acreditamos na diversidade, na equidade e na inclusão, e investimos para que nosso espaço de trabalho seja um local de crescimento profissional e pessoal para todos. Em 2021, criamos nossa comunidade de Diversidade, Equidade e Inclusão com o objetivo de realizar uma série de ações e debates sobre as questões de gênero, raça, pessoas com deficiência e LGBTQIAP+.\n\n**Vem ser Zallpy!**\n\nMais do que uma empresa que gera empregos, a Zallpy é uma criadora de oportunidades, descobrindo e formando talentos para o mercado que mais cresce no mundo.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/androiddevbr/vagas/issues/2171#L57"
+  },
+  {
+    "doc": "PESSOAS & TECNOLOGIA!\nNão tem sensação melhor que acordar para trabalhar e ter um ambiente onde as pessoas do time são amigáveis e protagonistas das suas próprias trajetórias! Aqui na Nuvem nós prezamos por uma jornada de trabalho horizontal pensada no bem-estar e no desenvolvimento das nossas pessoas. Somos uma empresa matogrossense de desenvolvimento de soluções tecnológicas com 12 anos de experiência no mercado de softwares e aplicativos, carregamos em nosso DNA uma cultura de inovação, criatividade e cuidado com pessoas, que reflete diretamente no valor que entregamos para nossos parceiros e clientes 💙\n\n**COMO SE CANDIDATAR**\n\nPelo link: https://nuvem.gupy.io/job/eyJzb3VyY2UiOiJndXB5X3B1YmxpY19wYWdlIiwiam9iSWQiOjQ0ODU5MDB9?jobBoardSource=gupy_public_page",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/androiddevbr/vagas/issues/2165#L73"
+  },
+  {
+    "doc": "• Participar ativamente do processo de gerenciamento de mudanças com o objetivo de gerenciar riscos no ambiente de produção;\n• Construir e melhorar run books para generalistas para minimizar erros operacionais e ganhar fungibilidade/eficiência;\n• Desenvolver relatórios que forneçam estatísticas de tendências para rastrear e gerenciar a integridade do aplicativo e dar suporte ao desempenho do serviço;\n• Disposto a aprender e solucionar problemas/apoiar tecnologias proprietárias não disponíveis no mercado. Nenhum conhecimento de tecnologias proprietárias é necessário antes da contratação.\n\n_**Requisitos Obrigatórios:**_\n**• Necessário inglês fluente para conversação com a equipe norte americana;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/androiddevbr/vagas/issues/2189#L29"
+  },
+  {
+    "doc": "\n**Additional context**\nAlso reproduces with `--config=NONE`\n",
+    "line": 1,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/kovidgoyal/kitty/issues/10749#L211"
+  },
+  {
+    "doc": "•\tDomínio de Kotlin e das bibliotecas Android mais utilizadas (Jetpack, Retrofit, Dagger, etc.).\n•\tProfundo entendimento dos princípios de design de interface do usuário (UI) e experiência do usuário (UX).\n•\tExperiência com arquitetura MVVM, MVP ou Clean Architecture.\n•\tFamiliaridade com ferramentas de versionamento de código (Git) e integração contínua (CI/CD).\n•\tCapacidade de escrever testes unitários e de instrumentação.\n•\tHabilidade para resolver problemas e pensar de forma crítica.\n•\tExcelente comunicação e habilidades interpessoais.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/androiddevbr/vagas/issues/2205#L24"
+  },
+  {
+    "doc": "•\tColaborar com equipes multifuncionais para definir, projetar e entregar novas funcionalidades.\n•\tRealizar revisões de código e garantir a aplicação das melhores práticas de desenvolvimento.\n•\tResolver problemas complexos de performance e escalabilidade.\n•\tParticipar ativamente no processo de inovação e melhoria contínua dos produtos.\n•\tMentorizar desenvolvedores juniores e intermediários, promovendo o crescimento técnico da equipe.\n\n**REQUISITOS:**",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/androiddevbr/vagas/issues/2205#L15"
+  },
+  {
+    "doc": "\n**BENEFÍCIOS FLEXÍVEIS** - que é possível direcionar os pontos da maneira que mais fizer sentido, dentre os benefícios:\n\n● Vale-alimentação\n● Vale-refeição\n● Auxílio Combustível\n● Auxílio Home Office",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/androiddevbr/vagas/issues/2150#L34"
+  },
+  {
+    "doc": "* [ X] I agree to follow the [Code of Conduct](https://github.com/jgraph/drawio-desktop/blob/master/CODE_OF_CONDUCT.md) that this project adheres to.\n* [X ] I have searched the issue tracker for a feature request that matches the one I want to file, without success.\n\n**Context**\nThe Diagram Generator function is a key productivity enabler. In many industries, it is not appropriate to use online diagramming services or public LLM inference. \n\n**Is your feature request related to a problem? Please describe.**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/jgraph/drawio-desktop/issues/2460#L4"
+  },
+  {
+    "doc": "- Organizado(a);\n- Capaz de executar atividades com senso de urgência;\n\n**Nossos diferenciais:** \n\n- Assistência médica\n- Assistência odontológica",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/phpdevbr/vagas/issues/1306#L41"
+  },
+  {
+    "doc": "• Garantir configurações adequadas para processos DevOps, planejamento e acompanhamento das implantações em produção.\n• Monitorar o ambiente pós-release para assegurar estabilidade e performance.\n• Aplicar técnicas avançadas de AI, utilizando ferramentas como Python (Langchain, Langgraph), RAG, engenharia de prompt e avaliação de agentes (EVALs).\n• Trabalhar com infraestrutura AWS (DocumentDB, Lambda, ECS, S3, Redis) e ferramentas de CI/CD (Github Actions, Terraform, Docker).\n• Colaborar no desenvolvimento e integração de agentes inteligentes, com conhecimento em MCP e Go Language sendo um diferencial.\n\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/react-brasil/vagas/issues/3010#L13"
+  },
+  {
+    "doc": "\nO tamanho do seu talento_\n\n**REQUISITOS**\nSwift 4.0+\nBásico de objective c\nArquitetura mvvm-c",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1467#L8"
+  },
+  {
+    "doc": "\nThe app should accept any valid certificate for the hostname after the network changes, the same way a browser does.\n\n**Reproduction steps**\n\n1. Set the server URL in the iOS app to the shared hostname.\n2. Connect over cellular (Wi-Fi off). The app works and is served the Cloudflare certificate.",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/immich-app/immich/issues/32777#L24"
+  },
+  {
+    "doc": "## Empresa\nImagine uma empresa focada em reunir talentos para acelerar a transformação digital do mundo em que vivemos.\n\n**Muito prazer, somos a Zallpy!**\n\n**Somos especialistas em tecnologia**\nDesenvolvemos soluções digitais customizadas, com tecnologia de ponta e de alto impacto. Somos parceiros estratégicos de grandes empresas internacionais, entregando inovação e inteligência a multinacionais de diversos segmentos. A gente atua como uma extensão do cliente, com alto grau de envolvimento no negócio e na geração de resultados.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1530#L4"
+  },
+  {
+    "doc": "• Android: - Coroutines - LiveData - Room - Navigation;\n• Arquitetura: - MVVM;\n• Unit Test: - Tests;\n• Dependency Injection: Hilt | Koin, Pipeline, Clean Code, SOLID e Flow;\n\n**Nossa cultura:**\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/androiddevbr/vagas/issues/2196#L16"
+  },
+  {
+    "doc": "**Expected behavior:**\nMoving should run at the same smooth 60 FPS as standing still.\n\n**To Reproduce:**\n1. Boot the game (SLPM-65597).\n2. Load a save / enter any gameplay area.\n3. Stand still — observe a steady 60 FPS.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/PCSX2/pcsx2/issues/15046#L13"
+  },
+  {
+    "doc": "Shared native shell, image, file identity and drive-label helpers between the app and server.\n\n**Resolved / Related Issues**\n\nTo prevent extra work, all changes to the Files codebase must link to an approved issue marked as `Ready to build`. Please insert the issue number following the hashtag with the issue number that this Pull Request resolves.\n- Closes #",
+    "line": 2,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/files-community/Files/pull/19051#L3"
+  },
+  {
+    "doc": "4. Type new characters in\n5. Delete all characters again and go past\n\n**Effect**\nThe placeholder appears as text and the cursor starts deleting it.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/select2/select2/issues/55#L10"
+  },
+  {
+    "doc": "\n### Bug description\n\n**Bug description**\n\nOn a device without Google Play Services, Signal's WebSocket connection dies while the screen is off and is never re-established until the app is manually foregrounded. Messages then arrive in a batch. Notification history confirms the notifications are posted at the moment the app is opened, not when the messages were sent.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/signalapp/Signal-Android/issues/14998#L9",
+    "note": "arguable: repeats the heading right above it"
+  },
+  {
+    "doc": "- Sudo password is not stored\n- Updating core files is not affected\n\n**为 Linux 平台的 TUN 模式添加保留核心权限选项**\n\n- 启用后，向核心可执行文件授予持久的 root 权限（`chown root:root` 与 `chmod u+s`）\n- 在 TUN 模式的 sudo 提示弹窗中增加了启用该功能的选项",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/2dust/v2rayN/pull/10417#L9"
+  },
+  {
+    "doc": "\n<img width=\"1737\" height=\"443\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/1c9356e7-a1ed-4877-8bc6-208cc524a10e\" />\n\n**Curtain Motor:**\n\n- Control: Open, Close, Stop (with correct state feedback: buttons light up only at 0% or 100%, and reset in intermediate positions).\n- Position: Precise 0–100% control.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33447#L184"
+  },
+  {
+    "doc": "\nI was not able to find a fix for those three issues by simply modifying the CSS. I've found [blog post about it](https://allthingssmitty.com/2026/10/05/css-does-your-tooltip-positioning-now/), but I was not able to make it work correctly. So, I went with another solution: set the position to `fixed` and update the position using script. \n\n**New behaviours:**\n- Tooltip position is flipped if the component props `position` cannot be satisfied\n- Tooltip size is bounded to the viewport\n- Tooltip is now above anything else (with z-index < 99). I've tried to take top, bottom and nav bars into account instead of using the whole viewport, but doing so would mean querying them, and `FtTooltip` can be in any page, with any layouts, so I just chose to display them above",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/FreeTubeApp/FreeTube/pull/9944#L30"
+  },
+  {
+    "doc": "4. Wait for restore to process\n5. Error appears at the end of restore, before reaching the main app\n\n**Steps to reproduce the workaround**\n1. After the error appears, tap \"Cancel\" (do NOT uninstall/reinstall)\n2. Go back to phone number entry\n3. Enter the same number, but this time select \"Continue\" / register without restoring a backup",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/signalapp/Signal-Android/issues/15012#L25"
+  },
+  {
+    "doc": "**Posição**\nPleno a Sênior.\n\n**Tipo de contratação**\nRemoto, CLT.\n\n**Requisitos Obrigatórios**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1496#L7"
+  },
+  {
+    "doc": "\n**Diagnostics**\n\nGathered with a small diagnostic script that checks each window one second after the move. The bug itself reproduces with all mods disabled.\n",
+    "line": 1,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/zen-browser/desktop/issues/16174#L32"
+  },
+  {
+    "doc": "\n## Qualificações\n\n**QUALIFICAÇÕES REQUERIDAS**:\n\n- Inglês fluente\n- Mais de 6 anos de experiência em desenvolvimento de software com pelo menos 6+ anos em design/desenvolvimento de aplicativos iOS Mobile.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1537#L20"
+  },
+  {
+    "doc": "Bug Fix:\n#51 event binding does not support multiple events\n#55 Passing null to attr binding cause \"Cannot call method 'toString' of null\"\n",
+    "line": 2,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/knockout/knockout/pull/53#L3",
+    "note": "issue reference"
+  },
+  {
+    "doc": "#10     using (package:ffi/src/arena.dart:127)\n#11     RawSqliteConnectionPool.open (package:sqlite3_connection_pool/src/raw.dart:170)\n#12     SqliteConnectionPool.open (package:sqlite3_connection_pool/src/pool.dart:286)\n#13     SqliteConnectionPool._openAsyncEntrypoint (package:sqlite3_connection_pool/src/pool.dart:333)\n#14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:316)\n#15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192)\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/immich-app/immich/issues/32727#L25",
+    "note": "stack trace"
+  },
+  {
+    "doc": "\n$ pkg-config --libs --cflags glib-2.0\n\n-I/Users/rubenfonseca/luser/homebrew/Cellar/glib/2.20.5/include/glib-2.0 -I/Users/rubenfonseca/luser/homebrew/Cellar/glib/2.20.5/lib/glib-2.0/include  -L/Users/rubenfonseca/luser/homebrew/Cellar/glib/2.20.5/lib -lglib-2.0 -lintl\n\n$ brew install irssi\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Homebrew/legacy-homebrew/issues/60#L13",
+    "note": "command output"
+  },
+  {
+    "doc": "+1\n",
+    "line": 0,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/laravel/framework/issues/5#issuecomment-12168835#L1",
+    "note": "a \"+1\" reaction"
+  },
+  {
+    "doc": "- Mais de 2 anos de experiência em acessibilidade. Experiência em telemetria e observabilidade além do Firebase.\n- Mais de 2 anos demonstrando desejo de construir testes desde o início com experiência em desenvolvimento de TDD. Entrega contínua em mobile, revisão de código, análise estática, integração contínua, automação e testes funcionais (usando XCUI).\n\n**QUALIFICAÇÕES PREFERENCIAIS**:\n\n- Experiência em lidar com múltiplas prioridades concorrentes em um ambiente de ritmo acelerado.\n- BFF (Backend para FrontEnd) e GraphQL.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1537#L30"
+  },
+  {
+    "doc": "\n### Expected Behavior\n\n**Expected**\nConnection works, as it does with the same API URL when not logged in, or with the API field cleared.\n\n### Operating system(s) on local (controlling) side and remote (controlled) side",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/rustdesk/rustdesk/issues/16691#L21",
+    "note": "arguable: repeats the heading right above it"
+  },
+  {
+    "doc": "-Back-end e front-end de aplicações Web e Mobile (Android e IOS) utilizando ReactJS, React Native e NodeJS\n-Suporte ao cliente\n-Consulta em banco de dados MYSQL Server\n-Edição de imagens e layout de apps Mobile e Web\n-Montagem de relatórios personalizados utilizando banco de dados MySQL e DataStudio\n\n## Posição",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1459#L15"
+  },
+  {
+    "doc": "SqliteException(26): while executing, file is not a database, file is not a database (code 26)\n  Causing statement: PRAGMA journal_mode = WAL, parameters: \n\n#0      throwException (package:sqlite3/src/implementation/exception.dart:101)\n#1      DatabaseImplementation.execute (package:sqlite3/src/implementation/database.dart:295)\n#2      NativeSqliteOpenFactory.configureConnection (package:sqlite_async/src/native/native_sqlite_open_factory.dart:62)\n#3      NativeSqliteOpenFactory.openNativeConnection (package:sqlite_async/src/native/native_sqlite_open_factory.dart:46)",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/immich-app/immich/issues/32727#L12",
+    "note": "stack trace"
+  },
+  {
+    "doc": "• Use 'Ace' for local account name\n• QoL: Disable Fast Startup, Copilot, Recommendations, News and Teams by default\n• QoL: More pins for the Start Menu and enable useful shortcuts\n• Use the same regional options as this user's\n• Disable BitLocker\n\nFormat operation started",
+    "line": 3,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/pbatard/rufus/issues/3013#L700",
+    "note": "pasted log output"
+  },
+  {
+    "doc": "\n### 该功能将解决什么问题？\n\n● 基础诉求\n     \n  1. 能区分每个版本改动了什么。\n  2. 针对每个改动点，能简洁明了地知道改之前、改之后分别是什么效果。",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/siyuan-note/siyuan/issues/20974#L10"
+  },
+  {
+    "doc": "-Dar suporte a todo o ciclo de vida de aplicações: concepção, design, teste, release e suporte a novas e existentes funcionalidades;\n-Analisar, compreender e discutir os requisitos funcionais e técnicos, propondo a melhor abordagem para desenvolvimento e testes;\n-Aplicar as boas práticas de qualidade de código, buscando excelência em suas entregas e realizar boas revisões aos códigos de seus pares;\n-Aplicar na prática o processo de desenvolvimento ágil de software e participar das cerimônias de forma ativa do projeto como Grooming, Planning, Daily, Retrospectiva, etc;\n-Desenvolver habilidades técnicas (hard skills) e não técnicas (soft skills) junto e com o pares e lideranças;\n-Analisar tarefas e realizar estimativas de acordo com o contexto, complexidade e conhecimento prévio, buscando precisão e antecipação de riscos;\n-Identificar e propor melhorias para o projeto bem como para os processos, atividades e ferramentas do dia a dia.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2174#L15"
+  },
+  {
+    "doc": "\nThe font menu section headings appear aligned to the left.\n\n**Environment**\n\n- Language: Hebrew\n- Text direction: Right-to-left (RTL)",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/excalidraw/excalidraw/issues/12386#L21"
+  },
+  {
+    "doc": "\nThis is the same class of bug as #14487, which was fixed for group member lists in `3f990327d8`, and for the message details list in `bef261e9dd`. The contact list itself still has it.\n\n**Root cause**\n\n`RecipientTable` orders contact lists by `SORT_NAME` with no `COLLATE` clause, so SQLite falls back to BINARY (code point) ordering, and every accented initial is above `z` in code point order:\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/signalapp/Signal-Android/issues/14984#L13"
+  },
+  {
+    "doc": "\n## Requisitos\n\n**Perfil Comportamental**\nBuscamos alguém que queira participar de todas essas iniciativas e tenha as seguintes características:\n- Senso extremo de dono\n- Trabalho em equipe;",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1520#L30"
+  },
+  {
+    "doc": "**What this PR does:**\nCorrects a minor spelling error (\"verison\" -> \"version\") inside the `console.error` logs in `excalidraw-app/data/tabSync.ts`.\n\n**Why:**",
+    "line": 0,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/excalidraw/excalidraw/pull/12400#L1"
+  },
+  {
+    "doc": "-Gympass\n-Seguro de Vida\n-Férias remuneradas \n-Equipamento\n\n## Como aplicar\nhttps://kobe.gupy.io/jobs/5365701?jobBoardSource=gupy_public_page ou e-mail: eduarda.damiani@kobe.io",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1536#L30"
+  },
+  {
+    "doc": "- Battery voltage reports every 1-6 hours or on a 0.1v change\n\nNot Working:\n-Battery Percentage - sensor only reports voltage\nalarm_2 never turns on, so not needed\n\nShould use occupancy instead of alarm_1 as it's a motion sensor. I'm running two of these. Claude AI helped write the converter.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33448#L50"
+  },
+  {
+    "doc": "1)Delete old Venv: \nrmdir /s /q \"D:\\STABLE INTEL\\stable-diffusion-webui\\venv\"\n\n2)create new venv: \npython -m venv \"D:\\STABLE INTEL\\stable-diffusion-webui\\venv\"\n\n3)Active Venv: ",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/17417#L25"
+  },
+  {
+    "doc": "- **Separate commit:** the TTD chunk-load comments now name Pele's diagram chunks instead of Mermaid's.\n- **CHANGELOG:** folded into the #12480 entry.\n\n**Testing**\n- `yarn test:typecheck` passes.\n- `yarn test:update`: 2632 passed, no snapshot changes.\n- Production build with the service worker active, checked in Chrome:",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/excalidraw/excalidraw/pull/12481#L13"
+  },
+  {
+    "doc": "\nTambém é desejável que o mesmo tenha um perfil intra-empreendedor, onde seus objetivos estejam alinhados com os objetivos da empresa, afinal, temos muito orgulho do que fazemos aqui!\n\n**LOCAL**\nFull remoto\n\n**REGIME**",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1467#L32"
+  },
+  {
+    "doc": "- Identificar oportunidades de melhoria por meio das melhores práticas em desenvolvimento de sistemas;\n- Definir padrões para o desenvolvimento de sistemas/aplicativos/relatórios, avaliando as tecnologias disponíveis e aplicando as melhores práticas em desenvolvimento de sistemas, visando facilitar a manutenção futura dos sistemas em ambiente de produção;\n- Prover suporte às questões técnicas, orientando e auxiliando na execução;\n-Elaborar arquitetura técnica;\n-Coordenar atividades da equipe, participando do planejamento, atribuindo e monitorando as tarefas dos projetos, visando auxiliar na gestão do setor e assegurar que as especificações, requisitos técnicos e a qualidade dos projetos sejam atendidas.\n\nComo será minha jornada de trabalho?",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1471#L12"
+  },
+  {
+    "doc": "### Logs & Dumps\n\nemulog here\n*Not logged crash\n[emulog.txt](https://github.com/user-attachments/files/33898396/emulog.txt)\n\nCrashLog here",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/PCSX2/pcsx2/issues/15115#L48",
+    "note": "a note, not an item"
+  },
+  {
+    "doc": "5. Refresh the demo and repeat steps 1 and 2\n6. Click on the small placeholder/input box on the left FIRST\n\n**Issues:**\nYou will note a few unusual behaviors:\n- The placeholder is the wrong size initially, but corrects itself eventually. However the entire input is the proper size\n- If you click on the blank space initially, the placeholder text is used as the query term",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-bold",
+    "source": "https://github.com/select2/select2/issues/53#L12"
+  },
+  {
+    "doc": "`\nMy suspicion is that the app (or the underlying iOS networking layer) stores the certificate it saw from the Cloudflare connection and then rejects the different, but valid, certificate presented by NPMPlus. I haven’t confirmed this.\n\n**What I expected**\n\nThe app should accept any valid certificate for the hostname after the network changes, the same way a browser does.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/immich-app/immich/issues/32777#L20"
+  },
+  {
+    "doc": "While looking into the cluster configuration, I noticed that a previous contributor already added the absMaxHeatSetpointLimit and MaxHeatSetpointLimit attributes to the Zigbee2MQTT thermostat configuration. However, the corresponding minimum limits were unfortunately forgotten.\nIt would be amazing to include them in this addition as well:\n• MinHeatSetpointLimit: Cluster 0x0201, Attribute 0x0015 (Int16, R/W) — Defines the minimum temperature a user can set.\n• absMinHeatSetpointLimit: Cluster 0x0201, Attribute 0x0003 (Int16, Read Only) — The absolute hardware minimum limit.\n\n\nAttribute Name\t\t\t\t\tCluster\tID (Hex)\tType\tAccess\t\tDescription",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33483#L28"
+  },
+  {
+    "doc": "- corrected the plural form of \"core\" because it's a rain of cores -clarified the \"non-core unit\" (could be misunderstood as \"core\") => I am not completely satisfied with the phrasing but I couldn't figure out how to make it more clear...\n- used more appropriate terminology \"flock\" -> \"swarm\" (better fidelity to the original version) hope I didn't make any mistakes :]\n///////////////////////////////////////////////////////////////////////// \n-correction du pluriel de \"noyau\" -> \"noyaux\" car c'est une pluie de noyaux \n- clarification de \"noyau\" -> \"unité du noyau\" pour \"non-core unit\" => je suis pas complètement satisfait de la tournure de la phrase mais je sais pas comment la rendre plus claire...\n- utilisation de vocabulaire plus approprié \"volée\" -> \"essaim\" (représente mieux la version originale ) j'espère ne pas avoir fait de boulettes :]\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/Anuken/Mindustry/pull/12726#L4"
+  },
+  {
+    "doc": "The lamp was not switched on again and there was no Zigbee2MQTT restart involved. The brightness value changed while the device remained OFF.\nAs a consequence, the next ON command may turn the light on with 1% brightness because the previously stored brightness value has effectively been lost.\n\n**Additional issue observed in recent versions**\n\nSince one of the recent Zigbee2MQTT updates, I noticed another transition-related issue on the following devices:\nPhilips Hue Ensis",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-bold",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33477#L31"
+  },
+  {
+    "doc": "client = new Client(16384, clientReadBufferSize, new PacketSerializer()){ ... }\n16,384 bytes can hold at most ≈ 4,090 unit IDs (each int consumes 4 bytes). When selecting 9,120 units (36,480 bytes), the packet payload easily exceeds 16 KB.\n\n• Location 3: The exception trigger causing the client to self-terminate the socket\n\nLibrary File: arc.net.TcpConnection.java (send method)\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/Anuken/Mindustry/issues/12736#L36"
+  },
+  {
+    "doc": "\nPor favor envie um email para leticia.alessandra@sulamerica.com.br com seu CV anexado - enviar no assunto: Vaga Android & IOs\n\n#android #kmp #remoto #IOs",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2231#L59",
+    "note": "hashtags"
+  },
+  {
+    "doc": "-Básico de CSS e HTML\n-Boa comunicação\n-Vontade de aprender\n-DataStudio básico\n-Visual Studio Code\n\nPra ter aquela vantagem extra",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1459#L33"
+  },
+  {
+    "doc": "Pode se conectar comigo no LinkedIn também:\nhttps://www.linkedin.com/in/mariagabrielacs/ 👩‍💻\n\n#VEMPRARHITMO 🚀",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1540#L37",
+    "note": "hashtag"
+  },
+  {
+    "doc": "Really like this framework and was wondering if there were any plans to style and validate file input buttons\n\n-Jake\n",
+    "line": 2,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Semantic-Org/Semantic-UI/issues/98#L3",
+    "note": "signature"
+  },
+  {
+    "doc": "· CPU: 华为麒麟 9000C\n· 硬件型号: 华为 L420x\n· 固件: UEFI（已在 BIOS 中关闭安全启动）\n· 分区类型: GPT\n· 目标镜像: UOS1070（具体版本号）\n\nAdditional context",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/ventoy/Ventoy/issues/3756#L71"
+  },
+  {
+    "doc": "\nSome notes on the change:\n-It caches the template after the template is rewritten by rewriteTemplate (which is good).\n-It won't update the cache if the template changes (but I don't think rewriteTemplate is called more then once per template anyway).\n-It relies on a property on the templateNode called isTemplateCached (similar to how isRewritten is used). I didn't like polluting the namespace, but I couldn't find a clean way to ask jQuery if the template was already cached.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/knockout/knockout/pull/47#L7"
+  },
+  {
+    "doc": "\n💡 This is your chance to create apps for the global market and take your mobile career to the next level.\n\n#MobileEngineer #Kotlin #Swift #RemoteWork #LATAMTalent #TechCareers #RemoteJobs #MobileDevelopment #iOS #Android",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2237#L23",
+    "note": "hashtags"
+  },
+  {
+    "doc": "💰USD 5k / month\napp.onstrider.com/r/claudiaantunes?job=c2VuaW9yLW1vYmlsZS1lbmdpbmVlci1pb3QtYW5kcm9pZC1pb3MtN2ExZmMxZGQ/cmVmZXJyYWw9Y2xhdWRpYWFudHVuZXM=\n\n#Senior #Front-#end #Developer - #JavaScript (B2)\n💰USD 5k / month\napp.onstrider.com/r/claudiaantunes?job=c2VuaW9yLWZyb250LWVuZC1kZXZlbG9wZXItamF2YXNjcmlwdC00ZDA2ZDY1Nj9yZWZlcnJhbD1jbGF1ZGlhYW50dW5lcw==\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2206#L39",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\n## Change\n\n#1477, startup cleanup: `pidExists(pid, { unsignalableIsGone })` stays strict by default and treats `EPERM` as gone only when asked. The opt-in is deliberate. `cli-e2e/scripts/graph_lifecycle_protocol_test.cjs` pins that `pidExists` throws on `EPERM` (\"PID probes distinguish missing processes from permission and input errors\") and that `deleteGraph` rejects and keeps the worker record when it cannot signal the worker (\"probe permission failure preserves the registered worker and graph\"), so that contract is kept on purpose. `stopOutdatedWorkers` (the startup path) uses a lenient probe, `scan.pidExists`, in `discover`, `pending`, `terminate`, legacy retirement and the publication scan. A worker is always signalable by the user who started it, so on that path an unsignalable PID is a reused one and the record is cleaned up like any other dead worker, together with its `server-list` entry in every root discovery inspected.\n\n#1142: `readServerListLock` returns the raw text and the holder, or `holder: null` for contents that are empty, not JSON, without a valid `pid`, or unreadable. An unusable lock counts as stale once it is at least 500 ms old (a live writer's lock is briefly empty), and a lock whose holder is gone or unsignalable is stale. The release check uses the same tolerant read.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/logseq/logseq/pull/13889#L19",
+    "note": "issue reference"
+  },
+  {
+    "doc": "### Mods used\n\nThere are mods, but none of them interact with serpulo. Specifically not even transportation.\n *AZIMUTH\n*below the surface\n*corpuscle\n*exoprosopa",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/Anuken/Mindustry/issues/12798#L22"
+  },
+  {
+    "doc": "\n-Experiência profissional de pelo menos dois anos com desenvolvimento android, com um bom domínio da linguagem Kotlin;\n-Possuir curso de graduação na área de tecnologia;\n-Experiência nas diferentes etapas do ciclo de desenvolvimento de uma aplicação;\n-Senso analítico e questionador, para buscar sempre o melhor para o produto desenvolvido;\n-Conhecimento e/ou experiência em padrões de projeto, paradigmas de programação, arquitetura de software, design pattern e metodologia ágil;\n-Conhecimento na loja de aplicativos (configuração e lançamento) Google Play;",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2174#L26"
+  },
+  {
+    "doc": "+20K estudantes\n+16K usuários Mês\n+1M e-books​\n+DE 4.700 conteúdos - disponibilizados em mais de 10 formatos diferentes\n+DE 1.200 TEMAS - de mais de 40 especialidades diferentes\n+DE 8.700 QUIZZES E FLASHCARDS - Desafios de memorização e teste de conhecimento​\n+110 PROFESSORES - Médicos especialistas que atuam em hospitais e outros ambientes da saúde​ ​",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2154#L22",
+    "note": "\"+\" means \"more than\" here"
+  },
+  {
+    "doc": "3. Enter a variable name\n4. Click 'Add'\n5. Enter a predefined value in the field\n6.Click 'Apply'\n7. Enter %variable name% on the page\n\nNow I expect the predefined text to appear, just like when I use %pagenumber%",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/jgraph/drawio-desktop/issues/2504#L21"
+  },
+  {
+    "doc": "-Senso analítico e questionador, para buscar sempre o melhor para o produto desenvolvido;\n-Conhecimento e/ou experiência em padrões de projeto, paradigmas de programação, arquitetura de software, design pattern e metodologia ágil;\n-Conhecimento na loja de aplicativos (configuração e lançamento) Google Play;\n-Conhecimento em frameworks e ferramentas de testes unitários utilizando JUnit, Espresso, Robolectric ou similares.\n\nSe cadastre através do link: https://kobe.gupy.io/job/eyJzb3VyY2UiOiJndXB5X3B1YmxpY19wYWdlIiwiam9iSWQiOjQ3NjgzMjF9?jobBoardSource=gupy_public_page \nOu através do email: eduarda.damiani@kobe.io ",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2174#L30"
+  },
+  {
+    "doc": "#1      DatabaseImplementation.execute (package:sqlite3/src/implementation/database.dart:295)\n#2      NativeSqliteOpenFactory.configureConnection (package:sqlite_async/src/native/native_sqlite_open_factory.dart:62)\n#3      NativeSqliteOpenFactory.openNativeConnection (package:sqlite_async/src/native/native_sqlite_open_factory.dart:46)\n#4      NativeSqliteDatabaseImpl._openNativePool.<anonymous closure>.openConnection (package:sqlite_async/src/native/database/native_sqlite_database.dart:263)\n#5      NativeSqliteDatabaseImpl._openNativePool.<anonymous closure> (package:sqlite_async/src/native/database/native_sqlite_database.dart:269)\n#6      RawSqliteConnectionPool.open.<anonymous closure>.<anonymous closure> (package:sqlite3_connection_pool/src/raw.dart:202)\n#7      _FfiIsolateLocalCallback (dart:ffi)",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/immich-app/immich/issues/32727#L16",
+    "note": "stack trace"
+  },
+  {
+    "doc": "\nRequisitos e Qualificações:\n\n-OBRIGATÓRIO EXPERIÊNCIA SÓLIDA COM VUE.JS, PHP E LARAVEL NO BACKEND;\n\n- Mais de 3 anos de experiência; \n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/phpdevbr/vagas/issues/1309#L31"
+  },
+  {
+    "doc": "#32 will fix this. Tracking there.\n",
+    "line": 0,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/square/picasso/issues/16#issuecomment-18256494#L1",
+    "note": "issue reference"
+  },
+  {
+    "doc": "关闭退出软件。右键点击 v2rayN.exe，执行以下任意一个操作：\n    · 创建桌面快捷方式\n    · 固定到任务栏\n    · 固定到开始菜单\n再次回到文件夹中双击运行 v2rayN.exe（或者通过上面提到的三种方式之一启动）。\n就会出现，主界面左上角图标、托盘图标，依然会跟随代理模式的变化而改变颜色。工具栏图标则不会跟随代理模式变化，而是固定显示为默认的蓝色图标。\n当删除桌面快捷方式，或取消固定任务栏，或取消固定开始菜单。再次从文件夹双击启动，工具栏图标变色功能立刻恢复正常。",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/2dust/v2rayN/issues/10421#L25"
+  },
+  {
+    "doc": "\nWe’re most proud of:\n*Offering life-changing career opportunities to talented software professionals across the Americas.\n*Building highly-skilled software development teams for hundreds of the world’s greatest companies.\n*Having delivered hundreds of successful custom software solutions, which have positively impacted the lives and careers of millions of users.\n*Our 4.5-star rating on GlassDoor.\n*Our client Net Promoter Score of 68, twice the industry average.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/phpdevbr/vagas/issues/1232#L32"
+  },
+  {
+    "doc": "\nResponsabilidades\n-Develop native iOS applications and frameworks using Swift.\n-Lead development of world class apps.\n-Define and implement robust app architectures and complex user interfaces.\n-Apply expert knowledge of iOS system frameworks to solve novel problems.\n-Collaborate with designers, engineers, and product managers to build great experiences.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1462#L16"
+  },
+  {
+    "doc": " https://github.com/user-attachments/assets/f53f0a51-6df2-46d8-82f6-ce11be2a4cab\n-After:\nhttps://github.com/user-attachments/assets/59ff0198-dbc5-4c2a-9ab4-aa092623dc9a\n -English:\nhttps://github.com/user-attachments/assets/4eb7731b-b5bd-4291-b30f-eaec925ccd48\n -Tests:\nhttps://github.com/user-attachments/assets/e1896e40-6aa4-4806-bc7a-d8bce4c9697d r",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/excalidraw/excalidraw/pull/12427#L16"
+  },
+  {
+    "doc": "\n\n🌎 **PRESENÇA DE MERCADO:**\n+20K estudantes\n+16K usuários Mês\n+1M e-books​\n+DE 4.700 conteúdos - disponibilizados em mais de 10 formatos diferentes",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2154#L19",
+    "note": "\"+\" means \"more than\" here"
+  },
+  {
+    "doc": "• Bypass SB/TPM/RAM\n• Bypass online account requirement\n• QoL: Disable OneDrive and Outlook by default\n• Disable data collection\n• Use 'Ace' for local account name\n• QoL: Disable Fast Startup, Copilot, Recommendations, News and Teams by default\n• QoL: More pins for the Start Menu and enable useful shortcuts",
+    "line": 3,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/pbatard/rufus/issues/3013#L696",
+    "note": "pasted log output"
+  },
+  {
+    "doc": "5)instal clip\n\"D:\\STABLE INTEL\\stable-diffusion-webui\\venv\\Scripts\\python.exe\" -m pip install git+https://github.com/openai/CLIP.git\n\n6)instal openai_clip: \n\"D:\\STABLE INTEL\\stable-diffusion-webui\\venv\\Scripts\\python.exe\" -m pip install openai-clip\n\n7)instal ftfy: ",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/17417#L37"
+  },
+  {
+    "doc": "Initializing disk...\nPartitioning (GPT)...\n● Creating Main Data Partition (offset: 1048576, size: 14.8 GB)\n● Creating UEFI:NTFS Partition (offset: 15853372416, size: 1 MB)\nWriting UEFI:NTFS data...\nRefreshing drive layout...\nWaiting for logical drive to reappear...",
+    "line": 3,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/pbatard/rufus/issues/3013#L715",
+    "note": "pasted log output"
+  },
+  {
+    "doc": "💰USD 3k /month (B2) \napp.onstrider.com/r/claudiaantunes?job=bWlkLWZ1bGwtc3RhY2stZW5naW5lZXItZWxpeGlyLXJlYWN0LXJ1YnktZmQwY2QwY2U/cmVmZXJyYWw9Y2xhdWRpYWFudHVuZXM=\n\n#Lead #Back-#end/ #Data #Engineer - #Python (C1/C2)\n💰USD 7k\napp.onstrider.com/r/claudiaantunes?job=bGVhZC1iYWNrLWVuZC1kYXRhLWVuZ2luZWVyLXB5dGhvbi1zdHJpZGVyLTJiNjI0MzYzP3JlZmVycmFsPWNsYXVkaWFhbnR1bmVz\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2206#L75",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\nThere are mods, but none of them interact with serpulo. Specifically not even transportation.\n *AZIMUTH\n*below the surface\n*corpuscle\n*exoprosopa\n*forgotten depths(DEMO) ",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/Anuken/Mindustry/issues/12798#L23"
+  },
+  {
+    "doc": "+1 for this.  \n\nCurrently I get around this limitation by destroying elements when I'm done with them, but it would be great to be able to 'destroy' them, returning the HTML elements to their original state.\n",
+    "line": 0,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/select2/select2/issues/18#issuecomment-5048899#L1",
+    "note": "a \"+1\" reaction"
+  },
+  {
+    "doc": "- Participação de lucros (PL).\n\n\n-Contratação PJ.\n- Horário flexível\n- 100% Home Office\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/phpdevbr/vagas/issues/1319#L87"
+  },
+  {
+    "doc": "\nAnyway, love the work you've done, it's very impressive and helpful.\n\n-bobicool\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/hakimel/reveal.js/issues/16#L21",
+    "note": "signature"
+  },
+  {
+    "doc": "+1 for this. Does it support custom events?\n",
+    "line": 0,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/knockout/knockout/pull/43#issuecomment-723656#L1",
+    "note": "a \"+1\" reaction"
+  },
+  {
+    "doc": "  -w, --wait                       Don't return instantly when opened in a terminal\n      --plugin-path <PLUGIN_PATH>  Path(s) to plugins to load. This is primarily used for plugin development to make it easier to test changes to the plugin without needing to copy the plugin to the plugins directory. This will cause any plugin with the same author & name to not run\n  -h, --help                       Print help\n  -V, --version                    Print version\n\n$ Lapce/lapce --new\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/lapce/lapce/issues/3890#L26",
+    "note": "CLI help output"
+  },
+  {
+    "doc": "*Offering life-changing career opportunities to talented software professionals across the Americas.\n*Building highly-skilled software development teams for hundreds of the world’s greatest companies.\n*Having delivered hundreds of successful custom software solutions, which have positively impacted the lives and careers of millions of users.\n*Our 4.5-star rating on GlassDoor.\n*Our client Net Promoter Score of 68, twice the industry average.\n\nCompany is the fastest-growing software consultancy in the Americas. We help organizations like Uber, GoDaddy, MGM, Siemens, Stanford University, and the State of California, build distributed software development teams, and deliver transformational digital solutions. As an employee-first company, we focus on hiring the most talented software designers and developers in the western hemisphere, by creating a positive, respectful, and supportive work environment where they can achieve their greatest potential.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/phpdevbr/vagas/issues/1232#L34"
+  },
+  {
+    "doc": "### How to reproduce it (minimal and precise)\n\n1.- Pair a Beok BOT-R15W (_TZE284_agcxaw3f) with firmware MCU module: 1.0.7.   \n2.- Change target temperature or mode in Zigbee2MQTT \n3.- Exposes tab or Home Assistant UI.The thermostat with MCU 1.0.7 ignores the command and does not update its physical state, whereas units with MCU 1.0.0 and 1.0.5 apply the change properly.\n\n### Zigbee2MQTT version",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33449#L12",
+    "note": "arguable: \"2.- step\" — a numbered step, though the fix keeps the dash"
+  },
+  {
+    "doc": "*Building highly-skilled software development teams for hundreds of the world’s greatest companies.\n*Having delivered hundreds of successful custom software solutions, which have positively impacted the lives and careers of millions of users.\n*Our 4.5-star rating on GlassDoor.\n*Our client Net Promoter Score of 68, twice the industry average.\n\nCompany is the fastest-growing software consultancy in the Americas. We help organizations like Uber, GoDaddy, MGM, Siemens, Stanford University, and the State of California, build distributed software development teams, and deliver transformational digital solutions. As an employee-first company, we focus on hiring the most talented software designers and developers in the western hemisphere, by creating a positive, respectful, and supportive work environment where they can achieve their greatest potential.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/phpdevbr/vagas/issues/1232#L35"
+  },
+  {
+    "doc": "  -n, --new                        Launch new window even if Lapce is already running\n  -w, --wait                       Don't return instantly when opened in a terminal\n      --plugin-path <PLUGIN_PATH>  Path(s) to plugins to load. This is primarily used for plugin development to make it easier to test changes to the plugin without needing to copy the plugin to the plugins directory. This will cause any plugin with the same author & name to not run\n  -h, --help                       Print help\n  -V, --version                    Print version\n\n$ Lapce/lapce --new",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/lapce/lapce/issues/3890#L25",
+    "note": "CLI help output"
+  },
+  {
+    "doc": "## Requisitos\n\n**Obrigatórios:**\n-Boas Práticas de Desenvolvimento: Conhecimento em Clean Code, TDD, Code Review e padrões de codificação.\n• Arquitetura de Software: Experiência com arquitetura limpa (Clean Architecture), orientação a eventos (Event-Driven Architecture) e design orientado a domínio (DDD).\n• Linguagens de Programação: Proficiência em PHP e Node.js.\n• Padrões de Projeto: Sólido entendimento de padrões como Singleton, Factory, Observer, etc.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/phpdevbr/vagas/issues/1297#L12"
+  },
+  {
+    "doc": "\n**Bug**\nSteps to reproduce the behavior:\n1.Click on 'open in Draw.io' button (from Google Drive)\n2. See error\n\nExpected behavior:",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/jgraph/drawio-desktop/issues/2439#L37"
+  },
+  {
+    "doc": "is this: http://www.angularjs.org#xx a valid URI? we should check the RFC before we support it.\n\n+1 on testing the regexp separately \n",
+    "line": 2,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/angular/angular.js/issues/66#issuecomment-476715#L3",
+    "note": "a \"+1\" reaction"
+  },
+  {
+    "doc": "7)instal ftfy: \n\"D:\\STABLE INTEL\\stable-diffusion-webui\\venv\\Scripts\\python.exe\" -m pip install ftfy --timeout 120\n\n8)Delete git pull from webui_user. bat notepad: \n\n9)Run: \n\"D:\\STABLE INTEL\\stable-diffusion-webui\\webui-user.bat\"",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/17417#L43"
+  },
+  {
+    "doc": "\n### Expected Behavior\n\n• The live stream should start loading and playing smoothly.\n\n### Issue Labels\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/FreeTubeApp/FreeTube/issues/9928#L44",
+    "note": "arguable: a one-item list"
+  },
+  {
+    "doc": "Environment\n\n· Ventoy Version: 1.1.12（建议填写你实际使用的版本）\n· CPU: 华为麒麟 9000C\n· 硬件型号: 华为 L420x\n· 固件: UEFI（已在 BIOS 中关闭安全启动）\n· 分区类型: GPT",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/ventoy/Ventoy/issues/3756#L68"
+  },
+  {
+    "doc": " *AZIMUTH\n*below the surface\n*corpuscle\n*exoprosopa\n*forgotten depths(DEMO) \n*gier:revitalized\n*minedustry",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/Anuken/Mindustry/issues/12798#L25"
+  },
+  {
+    "doc": "\n#1477, startup cleanup: `pidExists(pid, { unsignalableIsGone })` stays strict by default and treats `EPERM` as gone only when asked. The opt-in is deliberate. `cli-e2e/scripts/graph_lifecycle_protocol_test.cjs` pins that `pidExists` throws on `EPERM` (\"PID probes distinguish missing processes from permission and input errors\") and that `deleteGraph` rejects and keeps the worker record when it cannot signal the worker (\"probe permission failure preserves the registered worker and graph\"), so that contract is kept on purpose. `stopOutdatedWorkers` (the startup path) uses a lenient probe, `scan.pidExists`, in `discover`, `pending`, `terminate`, legacy retirement and the publication scan. A worker is always signalable by the user who started it, so on that path an unsignalable PID is a reused one and the record is cleaned up like any other dead worker, together with its `server-list` entry in every root discovery inspected.\n\n#1142: `readServerListLock` returns the raw text and the holder, or `holder: null` for contents that are empty, not JSON, without a valid `pid`, or unreadable. An unusable lock counts as stale once it is at least 500 ms old (a live writer's lock is briefly empty), and a lock whose holder is gone or unsignalable is stale. The release check uses the same tolerant read.\n\nReview findings (Devin):\n- Reclamation race: a reclaimer compared lock text, so it could delete a writer's new, still-empty lock. It now renames the lock to a name only it knows, judges that file again and removes it only if it is still stale; a live lock caught by mistake is linked back. The shared writer in `src/main/logseq/db_worker/server_list.cljs` creates its lock empty first too, but it only reclaims a lock whose holder PID is not found, so it never deletes an empty lock and needed no change.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/logseq/logseq/pull/13889#L21",
+    "note": "issue reference"
+  },
+  {
+    "doc": "https://github.com/user-attachments/assets/59ff0198-dbc5-4c2a-9ab4-aa092623dc9a\n -English:\nhttps://github.com/user-attachments/assets/4eb7731b-b5bd-4291-b30f-eaec925ccd48\n -Tests:\nhttps://github.com/user-attachments/assets/e1896e40-6aa4-4806-bc7a-d8bce4c9697d r",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/excalidraw/excalidraw/pull/12427#L18"
+  },
+  {
+    "doc": "### What happened?\n\nZigbee coordinator: Electrolama zig-a-zig-ah! (zzh!), latest 2025 firmware.\nI've tried to add 3 different [Gledopto GL-MC-001] (https://www.zigbee2mqtt.io/devices/GL-MC-001.html#gledopto-gl-mc-001) devides, but I can ONLY control them if the are attatched/1mm from the coordinator stick. If I move them 5cm, it wont work anymore.\nI've used them long time ago (years ago) without any problem - and far away, but now when I started using them again, it just won't work!\nThe coordinator is on an extension cable (usb 2.0) and far away from interference.\nHomeAssistant running on VM Windows machine.",
+    "line": 3,
+    "expect": true,
+    "kind": "link-space",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33460#L4"
+  },
+  {
+    "doc": "1. The Bug Triggering Client Disconnections When Changing Stance with > 4,096 Units\nThis bug stems from an asymmetry between how the client dispatches packets and the TCP write buffer capacity:\n\n• Location 1: The Vanilla Client dispatches Stance commands without any chunking\n\nFile: PlacementFragment.java (Lines 598 & 607)\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/Anuken/Mindustry/issues/12736#L19"
+  },
+  {
+    "doc": "直接在文件夹中双击 v2rayN.exe 打开，此时一切正常，主界面左上角图标、工具栏图标、托盘图标可以正常变色。\n关闭退出软件。右键点击 v2rayN.exe，执行以下任意一个操作：\n    · 创建桌面快捷方式\n    · 固定到任务栏\n    · 固定到开始菜单\n再次回到文件夹中双击运行 v2rayN.exe（或者通过上面提到的三种方式之一启动）。\n就会出现，主界面左上角图标、托盘图标，依然会跟随代理模式的变化而改变颜色。工具栏图标则不会跟随代理模式变化，而是固定显示为默认的蓝色图标。",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/2dust/v2rayN/issues/10421#L24"
+  },
+  {
+    "doc": "When I was profiling the code, I noticed it spent a lot of time in buildTmplFn (in jquery.tmpl.js), which our page was calling into over 1000 times. buildTmplFn builds a reusable template object, but it was being regenerated every time ko.renderTemplate was called. I modified the code to take advantage of jQuery template caching.\n\nSome notes on the change:\n-It caches the template after the template is rewritten by rewriteTemplate (which is good).\n-It won't update the cache if the template changes (but I don't think rewriteTemplate is called more then once per template anyway).\n-It relies on a property on the templateNode called isTemplateCached (similar to how isRewritten is used). I didn't like polluting the namespace, but I couldn't find a clean way to ask jQuery if the template was already cached.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/knockout/knockout/pull/47#L6"
+  },
+  {
+    "doc": "+1 for 755\n\n(mxcl: cheat sheet:\n7: rwx",
+    "line": 0,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Homebrew/legacy-homebrew/issues/27#issuecomment-44689#L1",
+    "note": "a \"+1\" reaction"
+  },
+  {
+    "doc": "\n### How to reproduce it (minimal and precise)\n\n1.- Pair a Beok BOT-R15W (_TZE284_agcxaw3f) with firmware MCU module: 1.0.7.   \n2.- Change target temperature or mode in Zigbee2MQTT \n3.- Exposes tab or Home Assistant UI.The thermostat with MCU 1.0.7 ignores the command and does not update its physical state, whereas units with MCU 1.0.0 and 1.0.5 apply the change properly.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33449#L11",
+    "note": "arguable: \"1.- step\" — a numbered step, though the fix keeps the dash"
+  },
+  {
+    "doc": "\n### 额外信息\n\n#10299、#10310、#10311 症状相近，但均未提供调用栈，其中 #10299 为 7.24.9、有回复\"最新版本应该已经解决了\"，本 issue 在 7.25.6 上仍可复现。\n\n### 定位信息（dotnet-stack）\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/2dust/v2rayN/issues/10378#L89",
+    "note": "issue references"
+  },
+  {
+    "doc": "Ficou curioso (a) para conhecer mais sobre a #FB e como é trabalhar por aqui?\nFique ligado (a) em nossas redes sociais e acompanhe as novidades por lá!          \n \n#VemPraFB  #EducaçãoParaTransformar\n \nNa Fundação Bradesco, proporcionamos oportunidades iguais para todos os indivíduos qualificados, independentemente de raça, gênero, deficiência ou qualquer outra característica.\nOs nossos princípios consideram o respeito mútuo, a diversidade, a equidade e a proteção dos direitos humanos e trabalhistas dentro de um ambiente saudável e motivador.",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/CocoaHeadsBrasil/vagas/issues/1471#L48",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\nHi\n\n-I'd like an apk with server to be able to use Gemini API key really to evade the Gemini ban in some countries. \n\n- Also the web downloads Gemma, etc, in litertlm by default\nExample APK:",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/open-webui/open-webui/issues/33293#L12"
+  },
+  {
+    "doc": "\n USER_OPTION=\"\"\n-if test -w / -o \"$USER\" = \"root\"\n+if test -w /sbin -o \"$USER\" = \"root\"\n then\n   if test \"$user\" != \"root\" -o $SET_USER = 1\n   then",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Homebrew/legacy-homebrew/issues/65#L10",
+    "note": "diff line"
+  },
+  {
+    "doc": "\ncheers,\n\n-mark\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/jashkenas/underscore/pull/41#L24",
+    "note": "signature"
+  },
+  {
+    "doc": "\n### Steps to reproduce\n\n1.create a new space or folder \n2. listen(?)\n\n### Screenshots and videos",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/zen-browser/desktop/issues/16096#L23"
+  },
+  {
+    "doc": "To solve this, Danfoss implemented the Boiler Heating System Mode (Attribute 0x4059).\n\nI generated a custom converter via AI and have been testing this Boiler Mode for about 3 weeks now across 15 thermostats throughout my entire house. The improvement in control behavior is substantial:\n• The TRVs react much faster and more cleanly when adjusting toward the Target Setpoint.\n• They close significantly faster as soon as the target temperature is reached, preventing overshooting and saving energy.\n\nAdding this mode would help a massive amount of users facing control/regulation issues with their Danfoss 0103, Hive, and Popp thermostats in standalone heating setups.",
+    "line": 3,
+    "expect": true,
+    "kind": "list-glyph",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33483#L10"
+  },
+  {
+    "doc": "slide index: 1 -> 2 -> 3 -> 2 -> 1\nprev. slide:          1      2     3      1*\n\n*: which must be 2\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/hakimel/reveal.js/issues/81#L15",
+    "note": "footnote"
+  },
+  {
+    "doc": "- New: 9 lines (optimized)\n\n### Backwards Compatibility\n✅ **Fully compatible** - This is a pure performance optimization with identical behavior. The function signature and return value are unchanged.",
+    "line": 3,
+    "expect": false,
+    "kind": "list-glyph",
+    "source": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/17487#L52",
+    "note": "a status line, not an item"
+  },
+  {
+    "doc": "Anuken/Mindustry-Suggestions/issues/6567\nAnuken/Mindustry-Suggestions/issues/6577\n\n-xnuui, not in development btw\n\n<img width=\"800\" height=\"296\" alt=\"pbridge1\" src=\"https://github.com/user-attachments/assets/18e2ad59-711f-46d2-84d0-7d8531a14cc0\" />\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Anuken/Mindustry/pull/12796#L5",
+    "note": "arguable: a remark after a list of links"
+  },
+  {
+    "doc": "it's not completely clear because it doesn't say ~ \"Operation completed successfully.\" And if you come back to it hours/days later (like I often do), the above log snippet will be buried under a bunch of device scan information and may not be easy to find.\nThank you for your consideration on this request and a huge thank you for such an excellent, robust and extremely useful tool!\n\n-vin\n\n\nLog",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/pbatard/rufus/issues/3022#L51",
+    "note": "signature"
+  },
+  {
+    "doc": "https://github.com/user-attachments/assets/f89f6dfd-1af7-450c-910d-cf3a7a4f5d28\n\n\n1.如上视频前半段所示，智能体、全局关系图和关系图这三个图标展开的侧栏，都能折叠到最小宽度，但这个反向链接的侧栏就调整不了。\n\n2.如上视频后半段所示,当我切换到反向链接的时候，再切换回上面那三个图标，最小宽度又发生变化了，然后我又把所有侧栏都关闭，然后又新打开智能体、全局关系图和关系图这三个图标，侧栏又恢复最小宽度了。\n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/siyuan-note/siyuan/issues/21043#L21"
+  },
+  {
+    "doc": "  ────────────────────────────────────────\n  Where: sys_raw_spu_load\n  Bug: It used img.segs/img.nsegs, which load() sets to null/0, so nothing was deployed and\n  *entry got the image ID. free() then always failed its ensure(vm::dealloc(0, vm::main)),\n  and the image and its memory leaked\n  Fix: Withdraw the lv2_spu_image, deploy its segments, free them and return e_entry. Set\n  cpu_flag::wait around the allocation and return CELL_ENOEXEC if load() fails. Remove the",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/RPCS3/rpcs3/pull/19971#L10",
+    "note": "wrapped text (\"*entry\" is a C pointer)"
+  },
+  {
+    "doc": "\n1.- Pair a Beok BOT-R15W (_TZE284_agcxaw3f) with firmware MCU module: 1.0.7.   \n2.- Change target temperature or mode in Zigbee2MQTT \n3.- Exposes tab or Home Assistant UI.The thermostat with MCU 1.0.7 ignores the command and does not update its physical state, whereas units with MCU 1.0.0 and 1.0.5 apply the change properly.\n\n### Zigbee2MQTT version\n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33449#L13",
+    "note": "arguable: \"3.- step\" — a numbered step, though the fix keeps the dash"
+  },
+  {
+    "doc": "\n⚠️ Aplique apenas se o seu perfil estiver aderente à vaga.\n\n#ReactNative #MobileEngineer #LATAMJobs #RemoteJobs #TechJobs #Hiring #VagasTI #Developers #TechCareers",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2240#L26",
+    "note": "hashtags"
+  },
+  {
+    "doc": "+1 for this idea. Something like \"php artisan cc\"\n",
+    "line": 0,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/laravel/framework/issues/31#issuecomment-12204985#L1",
+    "note": "a \"+1\" reaction"
+  },
+  {
+    "doc": "\n## Not a duplicate of the earlier clipboard fixes\n\n#11411, #13122, and #13125 cover the `onWrite` CPU spin and INCR chunk handling. Those landed in January 2026, so they are in this 0.56.2 build, and the leak is still there. The retained allocation is the property reply inside `getIncomingSelectionProp`, not a stuck poll.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/hyprwm/Hyprland/issues/16534#L87",
+    "note": "issue references"
+  },
+  {
+    "doc": "+1. Thanks for the response.\n",
+    "line": 0,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/hakimel/reveal.js/issues/19#issuecomment-5234366#L1",
+    "note": "a \"+1\" reaction"
+  },
+  {
+    "doc": "#76 has a failing test `install --save should add missing deps to fbkpm and mirror (PR import scenario)`\n\nThe scenario is:\n- A PR is imported with a change to package.json",
+    "line": 0,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/yarnpkg/yarn/issues/77#L1",
+    "note": "issue reference"
+  },
+  {
+    "doc": "\n### Result\n\n+992, +1003, +1010 on three runs. `wl-copy` and `wl-paste` add 0.\n\nAbout 48k of the leaked fds point to only 368 distinct inodes, so they are duplicates. Most are 35,667 bytes (looks like the keymap uploaded by the virtual keyboard) and 1,540 bytes.\n",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/hyprwm/Hyprland/issues/16613#L13",
+    "note": "numbers"
+  },
+  {
+    "doc": "\n❤️Respeito - Praticamos o absoluto respeito ao próximo, aceitamos todas as diferenças e promovemos a inclusão.\n\n#VemPraCode 💙\n\n## Como se candidatar\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/phpdevbr/vagas/issues/1220#L72",
+    "note": "hashtag"
+  },
+  {
+    "doc": "iOS renders input type submit to look to their native style only allowing a background color and probably text size and color options. To get the styled buttons to render as defined by Foundation you'll need to add the following to your app.css.\n\ninput[type=submit].button {\n    -webkit-appearance: none;\n}\n\nMaybe this could be added to the FAQ or something.",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/foundation/yeti/issues/89#L4",
+    "note": "CSS"
+  },
+  {
+    "doc": "Hm, should be possible to avoid the !important by adding being more specific with the selector, something like \n\n#reveal.overview .slides section .fragment { opacity: 1; }\n",
+    "line": 2,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/hakimel/reveal.js/issues/30#issuecomment-5182096#L3",
+    "note": "CSS selector"
+  },
+  {
+    "doc": "-removed-\n",
+    "line": 0,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/jashkenas/backbone/issues/17#L1"
+  },
+  {
+    "doc": "Bug Fix:\n#51 event binding does not support multiple events\n#55 Passing null to attr binding cause \"Cannot call method 'toString' of null\"\n",
+    "line": 1,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/knockout/knockout/pull/53#L2",
+    "note": "issue reference"
+  },
+  {
+    "doc": "\n1.如上视频前半段所示，智能体、全局关系图和关系图这三个图标展开的侧栏，都能折叠到最小宽度，但这个反向链接的侧栏就调整不了。\n\n2.如上视频后半段所示,当我切换到反向链接的时候，再切换回上面那三个图标，最小宽度又发生变化了，然后我又把所有侧栏都关闭，然后又新打开智能体、全局关系图和关系图这三个图标，侧栏又恢复最小宽度了。\n\n### 重现步骤\n",
+    "line": 3,
+    "expect": true,
+    "kind": "ordered-nospace",
+    "source": "https://github.com/siyuan-note/siyuan/issues/21043#L23"
+  },
+  {
+    "doc": "Some notes on the change:\n-It caches the template after the template is rewritten by rewriteTemplate (which is good).\n-It won't update the cache if the template changes (but I don't think rewriteTemplate is called more then once per template anyway).\n-It relies on a property on the templateNode called isTemplateCached (similar to how isRewritten is used). I didn't like polluting the namespace, but I couldn't find a clean way to ask jQuery if the template was already cached.\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/knockout/knockout/pull/47#L8"
+  },
+  {
+    "doc": "\n<!-- Escolha abaixo, apague as que não fizerem sentido: -->\n### Alocação:\n-Hibrido ( Segunda; Quarta e Sexta - no escritorio ) \n\n### Contratação:\n- PJ",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/phpdevbr/vagas/issues/1297#L42"
+  },
+  {
+    "doc": "\n#### Description of the changes in your PR\n<!-- While bullet points are the norm in this section, feel free to write free-form text instead of a list -->\n-Migrate the settings debug screen \n\n#### Before/After Screenshots/Screen Record\n<!-- If your PR changes the app's UI in any way, please include screenshots or a video showing exactly what changed, so that developers and users can pinpoint it easily. Delete this if it doesn't apply to your PR.-->",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/TeamNewPipe/NewPipe/pull/13893#L11"
+  },
+  {
+    "doc": "💰 USD 4K–6K/month | 5+ years | B2+ English\nhttps://app.onstrider.com/r/claudiaantunes?job=bW9iaWxlLWVuZ2luZWVyLWEyYmI1OTQzP3JlZmVycmFsPWNsYXVkaWFhbnR1bmVz\n\n#MobileEngineer #iOSDeveloper #Swift #Kotlin #KMP #KotlinMultiplatform #TypeScript #AI #SoftwareEngineer #RemoteJobs #InternationalJobs #TechJobs #VagasTI #VagasRemotas #TechRecruiter",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2248#L49",
+    "note": "hashtags"
+  },
+  {
+    "doc": "4k-6k USD/month | 5+ years of exp. | B2 English\nhttps://app.onstrider.com/r/claudiaantunes?job=bW9iaWxlLWVuZ2luZWVyLWEyYmI1OTQzP3JlZmVycmFsPWNsYXVkaWFhbnR1bmVz \n\n#VagasInternacionais #VagasRemotas #MobileEngineer #iOSDeveloper #Swift #Kotlin #KMP #KotlinMultiplatform #TypeScript #AI #SoftwareEngineer #TechJobs #RemoteJobs #VagasTI #TechRecruiter",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2247#L30",
+    "note": "hashtags"
+  },
+  {
+    "doc": "\n### What does/doesn't work with the external definition?\n\n-Door/window inclination angle measurement not working\n- llumination measurement not working\n- open/close status not working\n",
+    "line": 3,
+    "expect": true,
+    "kind": "list-nospace",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33501#L29"
+  },
+  {
+    "doc": " fi\n\n USER_OPTION=\"\"\n-if test -w / -o \"$USER\" = \"root\"\n+if test -w /sbin -o \"$USER\" = \"root\"\n then\n   if test \"$user\" != \"root\" -o $SET_USER = 1",
+    "line": 3,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/Homebrew/legacy-homebrew/issues/65#L9",
+    "note": "diff line"
+  },
+  {
+    "doc": "I would love to see a **show/hide-mobile-landscape - show/hide-mobile-portrait**  etc, feature added for media rich content especially htm5 ebooks. Great work guys.\n\n-shawn\n",
+    "line": 2,
+    "expect": false,
+    "kind": "list-nospace",
+    "source": "https://github.com/foundation/yeti/issues/61#L3",
+    "note": "signature"
+  },
+  {
+    "doc": "### Setup\n\nRun on a Raspberry Pi4\n#1 SMP PREEMPT Fri Sep 18 04:18:28 UTC 2026 - 6.18.39-haos-raspi - arm64\nCPU: Cortex-A72 (x4)\nRAM: 3793 MB\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/Koenkk/zigbee2mqtt/issues/33428#L35",
+    "note": "uname output"
+  },
+  {
+    "doc": "- Backup type: on-device (V1, local), database version 323\n\n**Possibly related issues**\n#13506, #13485, #12992, #11489, bepaald/signalbackup-tools#124 — several of these involve crashes within the same `runPostBackupRestoreTasks` function at different sub-steps, suggesting a recurring ordering-bug pattern as new steps get added to it.\n\n### Screenshots\n",
+    "line": 3,
+    "expect": false,
+    "kind": "heading-nospace",
+    "source": "https://github.com/signalapp/Signal-Android/issues/15012#L66",
+    "note": "issue references"
+  },
+  {
+    "doc": "💰USD 5k / month (B2)\nhttps://app.onstrider.com/r/claudiaantunes?job=c2VuaW9yLWJhY2stZW5kLWVuZ2luZWVyLXB5dGhvbi0yNzM2ODNjMT9yZWZlcnJhbD1jbGF1ZGlhYW50dW5lcw==\n\n#Mid Full-stack Engineer - .NET, React.js\n💰USD 3.5k /month (B2) \napp.onstrider.com/r/claudiaantunes?job=dy5vbnN0cmlkZXIuY29tL2pvcy9zZW5pb3ItYmFjay1lbmQtZW5naW5lZXItcGVybC1mMzcwZGMxMz9yZWZlcnJhbD1jbGF1ZGlhYW50dW5lcw==5k / month (B2)\n",
+    "line": 3,
+    "expect": true,
+    "kind": "heading-nospace",
+    "source": "https://github.com/androiddevbr/vagas/issues/2206#L63",
+    "note": "arguable: a job title written as \"#Title\" between hashtag lines"
+  }
+]
