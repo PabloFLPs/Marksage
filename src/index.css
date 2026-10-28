@@ -620,24 +620,25 @@ body {
   .outline-hit-box { transition: none; }
 }
 
-/* "Show where" on the suggestion bar: the block it applies to pulses once in the preview. */
+/* "Show where" on the suggestion bar: the block it applies to pulses once in the preview — a thin ring that
+   holds for about a second, then fades. */
 .markdown-body .suggest-flash {
-  animation: suggest-flash 1.5s ease-out;
+  animation: suggest-flash 2.4s ease-out;
   border-radius: 6px;
 }
 @keyframes suggest-flash {
-  0%, 30% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 45%, transparent); }
-  100% { box-shadow: 0 0 0 3px transparent; }
+  0%, 45% { box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-accent) 60%, transparent); }
+  100% { box-shadow: 0 0 0 1.5px transparent; }
 }
 .dark .markdown-body .suggest-flash {
   animation-name: suggest-flash-dark;
 }
 @keyframes suggest-flash-dark {
-  0%, 30% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-dark-accent) 50%, transparent); }
-  100% { box-shadow: 0 0 0 3px transparent; }
+  0%, 45% { box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-dark-accent) 65%, transparent); }
+  100% { box-shadow: 0 0 0 1.5px transparent; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .markdown-body .suggest-flash { animation-duration: 0.01s; box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 45%, transparent); }
+  .markdown-body .suggest-flash { animation-duration: 0.01s; box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-accent) 60%, transparent); }
 }
 
 /* Docs diagrams: drawn SVG (themed through its msd-* classes) or Mermaid, with a style switch. */

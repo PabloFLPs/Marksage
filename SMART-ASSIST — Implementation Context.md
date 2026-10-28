@@ -403,4 +403,5 @@ There are no cookies, analytics or third-party requests (system fonts only).
   readability and tone scales and the accent counts.
 - "Show where" is no longer a button: the whole suggestion card is the target (accent border on hover, tooltip);
   Accept, the two choices and dismiss keep their own action.
-
+- Follow-up (2026-10-28): the flash ring is thinner (3 → 1.5 px, a bit more opaque so it still reads) and holds
+  about a second before fading (1.5 s → 2.4 s in all).
