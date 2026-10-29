@@ -52,6 +52,30 @@ export function useMarkdownFile() {
     return () => window.clearTimeout(timer)
   }, [document])
 
+  // Leaving the page (reload, closing the tab, switching apps on a phone) skips the debounce above, so save
+  // right away — otherwise the last ~300 ms of typing, or a document created just before, would be lost.
+  const historyRef = useRef(history)
+  historyRef.current = history
+  useEffect(() => {
+    const flushNow = () => {
+      const cur = docRef.current
+      if (!cur) return
+      saveDocument(cur)
+      const existing = historyRef.current.find((e) => e.id === cur.id)
+      if (!existing || existing.content !== cur.content || existing.filename !== cur.filename)
+        historyRef.current = upsertHistory(historyRef.current, { ...cur, updatedAt: Date.now() })
+    }
+    const onHidden = () => {
+      if (window.document.visibilityState === 'hidden') flushNow()
+    }
+    window.addEventListener('pagehide', flushNow)
+    window.document.addEventListener('visibilitychange', onHidden)
+    return () => {
+      window.removeEventListener('pagehide', flushNow)
+      window.document.removeEventListener('visibilitychange', onHidden)
+    }
+  }, [])
+
   const isDirty = useMemo(
     () => (document ? document.content !== document.savedContent : false),
     [document],
@@ -98,7 +122,9 @@ export function useMarkdownFile() {
 
   const newDocument = useCallback(() => {
     flushCurrent()
-    setDocument({ id: newDocId(), filename: null, content: '', savedContent: '' })
+    const fresh = { id: newDocId(), filename: null, content: '', savedContent: '' }
+    saveDocument(fresh) // stored at once, so a reload right after New doesn't bring the previous document back
+    setDocument(fresh)
     setError(null)
   }, [flushCurrent])
 

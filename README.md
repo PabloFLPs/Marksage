@@ -34,7 +34,7 @@ Everything runs in the browser — files never leave your machine.
 - **Recent documents** — up to 15, kept in this browser, searchable (`⌘/Ctrl ⇧ H`)
 - **Privacy & storage** — no cookies, accounts or tracking; everything stored is listed on the About page
   and removable with one click
-- **Autosave**, export `.md`, copy Markdown, word/char counts
+- **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown, word/char counts
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
 - **Appearance** — app icon + accent palette (Classic, Mono, Outline, Sunset), light/dark theme,
   macOS or Windows keyboard-shortcut labels

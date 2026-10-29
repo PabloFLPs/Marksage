@@ -39,6 +39,8 @@ training/                 Own models' pipeline (collect → split → train; bui
 - **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests). Any new key or download must be listed in About → Privacy & storage (EN + PT-BR) and be removed by "Delete all Marksage data" (`deleteAllLocalData`). (Renamed from `markdown-preview:*`; `index.html` migrates old keys once on load.)
 - **Scroll sync:** preview blocks carry `data-line` (rehype plugin in `lib/scrollSync.ts`); the editor side is measured with a hidden mirror. Keep `rehypeSourceLines` on the preview.
 - **Focus:** call `focus({ preventScroll: true })` — plain focus during slide animations shifts the layout.
+- **Saving:** `useMarkdownFile` debounces saves (300 ms) and also flushes on `pagehide` / `visibilitychange`; New
+  saves the empty document at once. Don't remove either — a reload right after typing used to lose text.
 - **Imports inside `src/assist/`** use explicit `.ts` extensions so `node --experimental-strip-types` can run the eval.
 
 ## Smart Assist
