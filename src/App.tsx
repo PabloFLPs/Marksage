@@ -537,6 +537,7 @@ export default function App() {
   )
   const suggestionsTab = {
     items: assist.all,
+    capped: assist.allCapped,
     enabled: assist.enabled,
     text: document?.content ?? '',
     onPick: pickSuggestion,
@@ -670,7 +671,7 @@ export default function App() {
                   onRatioChange={handleChangeSplitRatio}
                   left={
                     <main>
-                      <MarkdownPreview content={previewContent} readability={assist.readability} />
+                      <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={t('preview.empty')} />
                       <ScrollJump />
                     </main>
                   }

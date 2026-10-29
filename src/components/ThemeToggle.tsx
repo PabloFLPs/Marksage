@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Moon, Sun } from 'lucide-react'
 import type { Theme } from '../hooks/useTheme'
 import { useI18n } from '../hooks/useI18n'
@@ -9,8 +10,21 @@ interface ThemeToggleProps {
 
 export function ThemeToggle({ theme, onToggle }: ThemeToggleProps) {
   const { t } = useI18n()
+  const ref = useRef<HTMLButtonElement>(null)
+  // During the theme cross-fade the browser hit-tests the page root instead of this button, so a quick second
+  // click (a double-click) would be lost: count clicks on the root that land where the button is.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (e.target !== document.documentElement) return
+      const r = ref.current?.getBoundingClientRect()
+      if (r && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) onToggle()
+    }
+    document.addEventListener('click', onClick)
+    return () => document.removeEventListener('click', onClick)
+  }, [onToggle])
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onToggle}
       aria-label={theme === 'dark' ? t('theme.toLight') : t('theme.toDark')}

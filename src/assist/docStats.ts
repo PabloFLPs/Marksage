@@ -46,7 +46,8 @@ export interface DocStats {
   tables: number
   links: number
   images: number
-  language: 'en' | 'pt' | 'mixed' | null
+  /** null: too little prose to tell; 'unknown': enough prose, but not English or Portuguese. */
+  language: 'en' | 'pt' | 'mixed' | 'unknown' | null
   /** Whole document (prose only); null when there's too little text to judge. */
   readability: { lix: number; value: number } | null
   hardestSection: { heading: string; line: number; value: number } | null
@@ -132,7 +133,13 @@ export function computeDocStats(text: string, outline: OutlineItem[], filename?:
   const lower = proseWordList.map((w) => w.toLowerCase())
   const en = lower.filter((w) => EN_STOP.has(w)).length
   const pt = lower.filter((w) => PT_STOP.has(w)).length
-  const language = en + pt < 15 ? null : en / (en + pt) > 0.7 ? 'en' : en / (en + pt) < 0.3 ? 'pt' : 'mixed'
+  // English and Portuguese prose is ~20–35% stopwords; another language (Spanish shares a few) or filler text
+  // scores far less (~1–12% on samples) — then it says "not detected" instead of guessing.
+  const coverage = (en + pt) / Math.max(1, lower.length)
+  const language =
+    en + pt < 15 ? (lower.length >= 120 && coverage < 0.14 ? 'unknown' : null)
+    : coverage < 0.14 ? 'unknown'
+    : en / (en + pt) > 0.7 ? 'en' : en / (en + pt) < 0.3 ? 'pt' : 'mixed'
   const sentences = sentencesOf(prose).filter((s) => words(s).length >= 3)
   const avgSentenceWords = sentences.length ? Math.round(sentences.reduce((a, s) => a + words(s).length, 0) / sentences.length) : 0
 

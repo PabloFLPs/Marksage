@@ -49,9 +49,28 @@
     <meta name="twitter:title" content="Marksage — the Markdown editor that notices" />
     <meta name="twitter:description" content="Local-first Markdown editor with an on-device assistant. Your files never leave the browser." />
     <meta name="twitter:image" content="%SITE_URL%/og-image.png" />
+    <!-- Boot screen: shown inside #root until React replaces it — on a slow connection the page isn't blank.
+         It fades in only after 400 ms, so a fast load never flashes it. -->
+    <style>
+      .boot { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; gap: 10px;
+        font: 500 15px/1 system-ui, -apple-system, "Segoe UI", sans-serif; color: #6b7280; background: #fff;
+        animation: boot-in 300ms ease 400ms both; }
+      .boot-mark { width: 22px; height: 22px; border-radius: 6px; background: #2563eb; }
+      html.boot-dark .boot { background: #0d1117; color: #8b949e; }
+      html.boot-dark .boot-mark { background: #58a6ff; }
+      @keyframes boot-in { from { opacity: 0; } to { opacity: 1; } }
+      @media (prefers-reduced-motion: reduce) { .boot { animation: none; } }
+    </style>
+    <script>
+      try {
+        var t = localStorage.getItem("marksage:theme");
+        if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches))
+          document.documentElement.classList.add("boot-dark");
+      } catch (e) {}
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><div class="boot" aria-hidden="true"><span class="boot-mark"></span>Marksage</div></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

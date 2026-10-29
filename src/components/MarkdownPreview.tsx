@@ -18,6 +18,8 @@ interface MarkdownPreviewProps {
   renderBlock?: (lang: string, code: string) => ReactNode | null
   /** Relative links that stay in the app: href → in-app hash (the docs link to each other this way). */
   internalLinks?: Record<string, string>
+  /** Shown in place of an empty document (the split view's preview pane). */
+  emptyHint?: string
 }
 
 const DOT_COLORS = ['bg-emerald-500/70', 'bg-emerald-500/70', 'bg-amber-500/70', 'bg-orange-500/80', 'bg-red-500/80']
@@ -36,7 +38,7 @@ const Piece = memo(function Piece({ text, index, components }: { text: string; i
 })
 
 /** Memoized: it re-renders only when the (deferred) content or its options change — not on every App render. */
-export const MarkdownPreview = memo(function MarkdownPreview({ content, readability, renderBlock, internalLinks }: MarkdownPreviewProps) {
+export const MarkdownPreview = memo(function MarkdownPreview({ content, readability, renderBlock, internalLinks, emptyHint }: MarkdownPreviewProps) {
   const { t } = useI18n()
   const components = useMemo<Components>(() => {
     const base: Components = {
@@ -94,7 +96,9 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
 
   return (
     <div ref={rootRef} className="markdown-body mx-auto w-full max-w-[900px] px-4 py-8 sm:px-6 sm:py-10">
-      {chunks ? (
+      {emptyHint && !content.trim() ? (
+        <p className="anim-fade text-sm text-ink-muted dark:text-dark-ink-muted">{emptyHint}</p>
+      ) : chunks ? (
         chunks.map((c, i) => <Piece key={i} index={i} text={c.text} components={components} />)
       ) : (
         <ReactMarkdown remarkPlugins={REMARK} rehypePlugins={REHYPE} components={components}>

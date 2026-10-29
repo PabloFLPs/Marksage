@@ -258,6 +258,11 @@ body {
   .markdown-body .code-copy {
     opacity: 0.8;
   }
+  /* Touch: the button is always shown, so the code starts below it instead of under it (long lines
+     scroll sideways and would otherwise slide beneath the button). */
+  .markdown-body .code-block > pre {
+    padding-top: 2.75rem;
+  }
 }
 
 /* Syntax colors (Prism token classes). Keywords follow the app accent; the rest are fixed hues

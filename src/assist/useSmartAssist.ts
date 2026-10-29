@@ -30,6 +30,8 @@ interface Options {
 // Shared empty arrays: a new [] on every render would make the preview re-render (it's memoized on these).
 const NO_MARKS: ReadabilityMark[] = []
 const NO_SUGGESTIONS: Suggestion[] = []
+/** The Suggestions tab lists at most this many of each kind (code languages, structure). */
+const LIST_LIMIT = 50
 
 export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = false }: Options) {
   const heuristic = useMemo(() => new HeuristicEngine(), [])
@@ -44,6 +46,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
   // A suggestion opened from the Suggestions tab stays up while the caret stays where the jump put it.
   const pinnedAt = useRef<number | null>(null)
   const [all, setAll] = useState<Suggestion[]>([])
+  const [allCapped, setAllCapped] = useState(false) // a kind hit LIST_LIMIT: the tab shows "50+"
 
   // Engine lifecycle.
   useEffect(() => {
@@ -144,10 +147,13 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
     const timer = window.setTimeout(async () => {
       try {
         const [fences, lines] = await Promise.all([
-          listFenceSuggestions(text, engine, isDismissed, ctrl.signal),
-          listStructureSuggestions(text, engine, isDismissed, ctrl.signal),
+          listFenceSuggestions(text, engine, isDismissed, ctrl.signal, LIST_LIMIT),
+          listStructureSuggestions(text, engine, isDismissed, ctrl.signal, LIST_LIMIT),
         ])
-        if (!ctrl.signal.aborted) setAll([...fences, ...lines].sort((a, b) => a.edit.from - b.edit.from))
+        if (!ctrl.signal.aborted) {
+          setAll([...fences, ...lines].sort((a, b) => a.edit.from - b.edit.from))
+          setAllCapped(fences.length >= LIST_LIMIT || lines.length >= LIST_LIMIT)
+        }
       } catch (err) {
         if ((err as Error).name !== 'AbortError') console.warn('[smart-assist]', err)
       }
@@ -240,7 +246,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
   )
 
   if (mode === 'off') {
-    return { enabled: false as const, status, suggestion: null, readability: NO_MARKS, all: NO_SUGGESTIONS }
+    return { enabled: false as const, status, suggestion: null, readability: NO_MARKS, all: NO_SUGGESTIONS, allCapped: false }
   }
   return {
     enabled: true as const,
@@ -248,6 +254,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
     suggestion,
     readability,
     all: listAll ? all : NO_SUGGESTIONS,
+    allCapped: listAll && allCapped,
     show,
     accept,
     dismiss,

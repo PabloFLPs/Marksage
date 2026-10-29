@@ -24,6 +24,8 @@ function saveTheme(theme: Theme) {
   }
 }
 
+let transitioning = false
+
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme)
 
@@ -40,9 +42,13 @@ export function useTheme() {
       })
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     // View Transitions: one GPU cross-fade of two snapshots — cheap even for huge documents.
-    const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown }
-    if (doc.startViewTransition && !reduced) {
-      doc.startViewTransition(() => flushSync(flip))
+    const doc = document as Document & { startViewTransition?: (cb: () => void) => { finished: Promise<unknown> } }
+    // A click while one is still running flips at once (no second transition), so a quick double-click
+    // toggles twice instead of losing a click.
+    if (doc.startViewTransition && !reduced && !transitioning) {
+      transitioning = true
+      const vt = doc.startViewTransition(() => flushSync(flip))
+      vt.finished.finally(() => (transitioning = false))
       return
     }
     const root = document.documentElement

@@ -70,6 +70,7 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
               {id === 'suggestions' && pending > 0 && (
                 <span className="rounded-full bg-accent/10 px-1.5 text-[10.5px] font-semibold tabular-nums text-accent dark:bg-dark-accent/15 dark:text-dark-accent">
                   {pending}
+                  {suggestions?.capped && '+'}
                 </span>
               )}
             </button>

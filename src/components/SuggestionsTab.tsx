@@ -6,6 +6,8 @@ import { decidedByKey, suggestionIcon } from './suggestionIcons'
 
 export interface SuggestionsTabProps {
   items: Suggestion[]
+  /** More were found than listed (each kind stops at 50): the count shows as "N+". */
+  capped?: boolean
   /** Smart Assist is on (Rules or Rules + AI). */
   enabled: boolean
   /** The document the items were computed on — for line numbers and snippets. */
