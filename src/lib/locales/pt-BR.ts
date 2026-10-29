@@ -237,6 +237,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'about.back': 'Voltar',
   'docs.backToAbout': 'Sobre',
   'docs.backToDocs': 'Docs do Smart Assist',
+  'docs.backToModels': 'Como os modelos funcionam',
   'docs.outlineDemo': 'A Estrutura, nesta página — o mesmo painel dos seus documentos',
   'docs.badge': 'Documentação técnica',
   'diagram.view': 'Estilo do diagrama',

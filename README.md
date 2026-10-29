@@ -39,7 +39,8 @@ Everything runs in the browser — files never leave your machine.
 - **Appearance** — app icon + accent palette (Classic, Mono, Outline, Sunset), light/dark theme,
   macOS or Windows keyboard-shortcut labels
 - **About page** (`#about`) documenting every feature, with a Smart Assist playground, and two technical
-  pages: how Smart Assist works (`#smart-assist`) and how the two models work (`#models`)
+  pages: how Smart Assist works (`#smart-assist`) and how the two models work (`#models`) — Back always
+  returns to the page you came from
 - Fluid, fast animations; all disabled under `prefers-reduced-motion`
 
 ## Shortcuts

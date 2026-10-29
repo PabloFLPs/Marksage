@@ -29,6 +29,8 @@ interface TechDocsPageProps {
   page: DocsPageId
   closing?: boolean
   onBack: () => void
+  /** Where Back goes — the page this one was opened from. */
+  backLabel: string
   isDesktop: boolean
   /** Hybrid mode: the Outline may use the section model, as it does for documents. */
   useModel: boolean
@@ -91,7 +93,7 @@ function parseDoc(source: string) {
 }
 
 /** Technical docs pages: "How Smart Assist works" (#smart-assist) and "How the two models work" (#models). */
-export function TechDocsPage({ page, closing = false, onBack, isDesktop, useModel }: TechDocsPageProps) {
+export function TechDocsPage({ page, closing = false, onBack, backLabel, isDesktop, useModel }: TechDocsPageProps) {
   const { t, lang } = useI18n()
   const bodyRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLElement>(null)
@@ -151,7 +153,7 @@ export function TechDocsPage({ page, closing = false, onBack, isDesktop, useMode
             onClick={onBack}
             className="-ml-2 inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
           >
-            <ArrowLeft className="h-4 w-4" /> {page === 'models' ? t('docs.backToDocs') : t('docs.backToAbout')}
+            <ArrowLeft className="h-4 w-4" /> {backLabel}
           </button>
           <span className="flex items-center gap-3">
             <span className="hidden items-center gap-1.5 text-xs uppercase tracking-wider text-ink-muted sm:inline-flex dark:text-dark-ink-muted">

@@ -43,6 +43,21 @@ function pageFromHash(): InfoPage | null {
   const h = window.location.hash
   return h === '#about' ? 'about' : h === '#smart-assist' ? 'docs' : h === '#models' ? 'models' : null
 }
+
+/**
+ * Each history entry Marksage has seen carries `{ ms: 1, from }`: the screen it was opened from ('app', a page),
+ * or null when it was the first one (a direct link). The in-app Back goes back in history when there is an
+ * in-app previous screen — so it always agrees with the browser's Back — and otherwise to the parent page.
+ */
+type CameFrom = InfoPage | 'app' | null
+interface NavState {
+  ms: 1
+  from: CameFrom
+}
+function navState(): NavState | null {
+  const s = window.history.state as Partial<NavState> | null
+  return s?.ms === 1 ? (s as NavState) : null
+}
 const DESKTOP_QUERY = '(min-width: 768px)'
 const nullRef = { current: null }
 const COPIED_RESET_MS = 1600
@@ -100,6 +115,12 @@ export default function App() {
   const { icon: appIcon, setIcon: setAppIcon } = useAppIcon(theme)
   // Info pages: About (#about) and the Smart Assist technical docs (#smart-assist).
   const [infoPage, setInfoPage] = useState<InfoPage | null>(pageFromHash)
+  const [cameFrom, setCameFrom] = useState<CameFrom>(() => {
+    const st = navState()
+    if (st) return st.from // a reload keeps history.state, so Back still knows where it goes
+    window.history.replaceState({ ms: 1, from: null } satisfies NavState, '')
+    return null
+  })
   const [aboutClosing, setAboutClosing] = useState(false)
   const infoRef = useRef(infoPage)
   infoRef.current = infoPage
@@ -121,7 +142,12 @@ export default function App() {
     }, EXIT_MS)
   }, [])
   useEffect(() => {
-    const onHash = () => goToInfo(pageFromHash())
+    const onHash = () => {
+      // A new entry (a button, a link between the docs, the address bar): remember where it was opened from.
+      if (!navState()) window.history.replaceState({ ms: 1, from: infoRef.current ?? 'app' } satisfies NavState, '')
+      setCameFrom(navState()?.from ?? null)
+      goToInfo(pageFromHash())
+    }
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [goToInfo])
@@ -135,23 +161,26 @@ export default function App() {
     window.location.hash = 'models'
   }, [])
   const closeAbout = useCallback(() => {
-    // Models → back to the Smart Assist docs; docs → back to About; About → back to the app.
-    if (infoRef.current === 'models') {
-      window.location.hash = 'smart-assist'
+    // Opened from inside the app → the previous screen, exactly like the browser's Back.
+    if (navState()?.from) {
+      window.history.back()
       return
     }
-    if (infoRef.current === 'docs') {
-      window.location.hash = 'about'
-      return
-    }
-    window.history.replaceState(null, '', window.location.pathname + window.location.search)
-    goToInfo(null)
+    // A direct link: the docs pages → About, About → the app (replacing this entry, not adding one).
+    const parent: InfoPage | null = infoRef.current === 'about' ? null : 'about'
+    const url = window.location.pathname + window.location.search + (parent ? '#about' : '')
+    window.history.replaceState({ ms: 1, from: null } satisfies NavState, '', url)
+    setCameFrom(null)
+    goToInfo(parent)
   }, [goToInfo])
+  // The Back label names where Back goes.
+  const backLabel =
+    cameFrom === 'docs' ? t('docs.backToDocs') : cameFrom === 'models' ? t('docs.backToModels') : cameFrom === 'app' && infoPage !== 'about' ? t('app.name') : t('docs.backToAbout')
   // Logo / app name: leave About or the docs straight back to the app — the open document,
   // or the start screen when there is none. Already there → nothing to do.
   const goHome = useCallback(() => {
     if (infoRef.current === null) return
-    window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    window.history.replaceState({ ms: 1, from: null } satisfies NavState, '', window.location.pathname + window.location.search)
     goToInfo(null)
   }, [goToInfo])
 
@@ -529,6 +558,7 @@ export default function App() {
             page={infoPage === 'models' ? 'models' : 'smart-assist'}
             closing={aboutClosing}
             onBack={closeAbout}
+            backLabel={backLabel}
             isDesktop={isDesktop}
             useModel={assistMode === 'model'}
           />

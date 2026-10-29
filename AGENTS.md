@@ -72,6 +72,13 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
 - Adding a feature: pre-filter candidates → feature in `assist/features/` returning a `Suggestion` with an
   `expected` guard → fixtures in `assist/__fixtures__/` → extend `scripts/eval-assist.ts` → document it on the About page.
 
+## Navigation (info pages)
+- Hashes: `#about`, `#smart-assist`, `#models`. Open them by setting
+  `location.hash` — never `pushState` directly. Each history entry gets `{ ms: 1, from }` (`App.tsx`, `navState`):
+  the screen it was opened from. The in-app Back (`closeAbout`) calls `history.back()` when `from` is set, so it
+  always matches the browser's Back; a direct link (`from: null`) goes to the parent (docs → About → app) with
+  `replaceState`. The Back label names the target (`backLabel`).
+
 ## Preview rendering
 - Fenced code: `components/CodeBlock.tsx` (Prism via refractor, `lib/highlight.ts`, lazy-loaded by `hooks/useHighlighter.ts` the
   first time a tagged block shows; ~30 KB gzip). Token colors are `.token.*` rules in `index.css` — keywords follow the accent.

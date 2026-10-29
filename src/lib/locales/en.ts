@@ -236,6 +236,7 @@ export const en = {
   'about.back': 'Back',
   'docs.backToAbout': 'About',
   'docs.backToDocs': 'Smart Assist docs',
+  'docs.backToModels': 'How the models work',
   'docs.outlineDemo': 'The Outline, on this page — the same panel your documents get',
   'docs.badge': 'Technical docs',
   'diagram.view': 'Diagram style',
