@@ -17,7 +17,7 @@ interface ExportMenuProps {
 
 /**
  * Export with a name: the button (or ⌘/Ctrl + S) opens a small "Export as" panel with the name selected;
- * Enter, Download or ⌘/Ctrl + S again downloads. One deliberate step, so a reflexive ⌘S doesn't pile up
+ * Enter, Download, the Export button again or ⌘/Ctrl + S again downloads (and closes it). One deliberate step, so a reflexive ⌘S doesn't pile up
  * "document (3).md" files in Downloads.
  */
 export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact = false }: ExportMenuProps) {
@@ -69,7 +69,8 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
     <div ref={rootRef} className="relative">
       <button
         type="button"
-        onClick={() => onOpenChange(!open)}
+        // Open → a second click is "yes, export": download under the name in the panel.
+        onClick={() => (open ? submit() : onOpenChange(true))}
         title={t('action.exportTitle', { keys: 'Ctrl/Cmd + S' })}
         aria-label={t('action.exportMarkdown')}
         aria-expanded={open}

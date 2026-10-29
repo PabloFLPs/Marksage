@@ -41,7 +41,8 @@ export function DocName({ filename, isDirty, onRename }: DocNameProps) {
           placeholder={t('doc.untitled')}
           aria-label={t('doc.nameLabel')}
           spellCheck={false}
-          size={Math.max(10, value.length + 1)}
+          // Monospace: one `ch` per character, so the box ends right after the text (+ room for the caret).
+          style={{ width: `calc(${Math.max(value.length, t('doc.untitled').length)}ch + 0.5rem + 4px)` }}
           onFocus={(e) => e.currentTarget.setSelectionRange(0, baseNameLength(e.currentTarget.value))}
           onChange={(e) => setValue(e.target.value)}
           onBlur={finish}
@@ -52,7 +53,7 @@ export function DocName({ filename, isDirty, onRename }: DocNameProps) {
               e.currentTarget.blur()
             }
           }}
-          className="anim-pop min-w-0 max-w-[40vw] rounded border border-accent bg-surface px-1 font-mono text-sm text-ink outline-none dark:border-dark-accent dark:bg-dark-surface-soft dark:text-dark-ink"
+          className="anim-pop min-w-0 max-w-[40vw] box-border rounded border border-accent bg-surface px-1 font-mono text-sm text-ink outline-none dark:border-dark-accent dark:bg-dark-surface-soft dark:text-dark-ink"
         />
       ) : (
         <button
