@@ -134,7 +134,7 @@ gates; more CSS/diff/Markdown in training.
 
 `sections-v1.bin` (385 KB, in git history since v2; dim 8, 32,768 buckets, featurizer 2 = `src/assist/model/sectionFeatures.ts`)
 types sections for the Outline panel when the heading rule (`src/assist/sections.ts`) can't. Fetched only while
-the Outline is open in Hybrid mode (then called "Local model").
+the Outline is open in Rules + AI mode (then called "Local model", later "Hybrid").
 
 **Data** (`build-sections.ts`): every Markdown file of the clones, split into sections by the app's own splitter.
 A section is labelled only when the *strict* heading rule names exactly one of the 10 types (phrase covers ≥ half

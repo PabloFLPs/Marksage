@@ -1,6 +1,7 @@
 # Smart Assist — Technical Documentation
 
-Smart Assist is the optional, local "writing radar" of Marksage. It watches the
+Smart Assist is the local "writing radar" of Marksage — on by default in its *Rules* mode, and one click to
+turn off. It watches the
 editor, detects a small set of fixable situations, and **suggests** an edit the user can accept
 (`Tab`) or dismiss (`Esc`). Nothing is sent over the network and nothing is ever applied
 automatically.
@@ -81,11 +82,11 @@ Every Smart Assist question climbs the same ladder, and stops at the first step 
 
 ### 1.3 Two modes
 
-Smart Assist has two modes besides *Off*. **Heuristics** answers every question with rules: instant, nothing
-to download. **Hybrid** uses Marksage's own models where they beat the rules on real text, and the rules
+Smart Assist has two modes besides *Off*. **Rules** answers every question with rules: instant, nothing
+to download. **Rules + AI** uses Marksage's own models where they beat the rules on real text, and the rules
 everywhere else:
 
-| Question | Heuristics | Hybrid |
+| Question | Rules | Rules + AI |
 |---|---|---|
 | Code-block language | rules | model ✦ — or the rules when the model's first pick agrees |
 | Smart paste (what kind of text) | rules | rules — a pasted code block's language as above |
@@ -96,7 +97,13 @@ everywhere else:
 A third mode where *only* models decide was considered and dropped: readability and the heading rule have no
 labels a model could learn from but their own output (a model trained on LIX scores would just copy LIX), and
 the structure and paste models didn't do better than the rules (section 4.6). Such a mode would have been
-weaker than Hybrid without being any more honest.
+weaker than Rules + AI without being any more honest.
+
+**Rules is the default.** A first visit starts in *Rules*: it runs on your device, downloads nothing and only
+suggests, so being on costs nothing — and the start screen says what it does. Choosing *Off* (or *Rules + AI*)
+is remembered. "AI" in *Rules + AI* means Marksage's two small trained models (section 4), not a chatbot or
+anything hosted. (Until 2026-10-28 the modes were called *Heuristics* and *Hybrid*, and Smart Assist started
+off; the stored values — `heuristics`, `model` — didn't change, so nobody's choice was reset.)
 
 ---
 
@@ -115,8 +122,8 @@ flowchart LR
   subgraph S ["Suggestions"]
     direction TB
     E["Editor<br/>typing pause 400 ms · paste · 2 s idle"] --> P["Pre-filter<br/>finds a candidate — none: stop here"]
-    P --> H["Heuristics<br/>always ready"]
-    P --> M["Hybrid<br/>own models + heuristics"]
+    P --> H["Rules<br/>always ready"]
+    P --> M["Rules + AI<br/>own models + heuristics"]
     H --> G["Confidence gate<br/>top ≥ 0.8 and ahead by ≥ 0.2"]
     M --> G
     G --> F["Feature + converter<br/>builds the edit: table, list, fence"]
@@ -126,7 +133,7 @@ flowchart LR
     direction TB
     D["Document"] --> X["Sections<br/>split at headings, code skipped"]
     X --> R["Heading rule<br/>“Installation” → Setup"]
-    R -- "heading says nothing" --> SM["Section model<br/>Hybrid mode · reads the text"]
+    R -- "heading says nothing" --> SM["Section model<br/>Rules + AI mode · reads the text"]
     R -- "typed" --> T1["Outline tab<br/>type + key sentence"]
     R -- "typed" --> T2["Document tab<br/>facts · tone · flags"]
     SM --> T1
@@ -144,12 +151,12 @@ flowchart LR
 | Piece | What it does |
 |---|---|
 | **Pre-filter** | Cheap, deterministic checks that find *candidates* (an untagged code block, a multi-line paste, a near-miss heading). No candidate → nothing else runs. |
-| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Hybrid* (Marksage's own models for code-block languages and Outline section types + heuristics for the rest). |
+| **Decision engine** | Answers the typed question for a candidate. Two interchangeable engines: *heuristics* and *Rules + AI* (Marksage's own models for code-block languages and Outline section types + heuristics for the rest). |
 | **Confidence gate** | Drops any answer that isn't clearly ahead of the alternatives. |
 | **Features** | Turn a confident decision into a concrete, reversible edit (the four suggestion features below; the Outline and Document tab only read). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
 | **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading, link); a ✦ means the local model made the call. Clicking the card scrolls to the spot and flashes it in the preview. |
-| **Outline panel** | Visual only: sections typed by the heading rule, then (in *Hybrid* mode) by the section model; its Document tab sums the whole file up; its Suggestions tab lists every fixable spot. |
+| **Outline panel** | Visual only: sections typed by the heading rule, then (in *Rules + AI* mode) by the section model; its Document tab sums the whole file up; its Suggestions tab lists every fixable spot. |
 | **Evaluation set** | Hand-labelled examples used to measure each feature before it ships. |
 
 ### 2.2 The engine contract
@@ -166,7 +173,7 @@ interface DecisionEngine {
 
 Both engines implement the same interface, so features never know which one answered.
 `q` is a stable id (e.g. `fence.language`): the heuristic engine uses it to pick a scorer, and the
-*Hybrid* engine uses it to decide which questions its own models answer.
+*Rules + AI* engine uses it to decide which questions its own models answer.
 
 ### 2.3 The confidence gate
 
@@ -229,7 +236,7 @@ logits — each matching rule adds its weight once:
 Scores go through `softmax` → probabilities → gate. **Action:** insert the language id right after
 the opening fence marker.
 
-**Two options.** With *Hybrid*, when no language passes the gate but the top two together hold
+**Two options.** With *Rules + AI*, when no language passes the gate but the top two together hold
 ≥ 85 % (the second ≥ 20 %), the bar offers both — `Tab` (or a click) takes the first, `Alt+2` the second.
 Typical pairs: JavaScript/TypeScript, JSON/YAML, C/C++. The rule was set on the dev set; on the two
 held-out sets it made 15 and 17 offers, and the right language was one of the two every time. (Only the
@@ -337,7 +344,7 @@ roadmap, "Future plans", "Planos futuros":
 - navigation ("See also", "Next steps", "Veja também") is never typed;
 - broad words ("Features", "Background", "Production", "Todo") only count when they are the whole heading.
 
-With *Hybrid*, sections the heading rule leaves untyped are read by the section model
+With *Rules + AI*, sections the heading rule leaves untyped are read by the section model
 (section 4.4).
 
 **Key sentence.** Picked from the section, not written: the sentence that shares the most words with
@@ -395,7 +402,7 @@ dismisses, undo works — the same guarded edit as everywhere else.
 
 ### 4.1 What it is
 
-*Hybrid* mode adds a small language classifier trained for exactly one job: naming the
+*Rules + AI* mode adds a small language classifier trained for exactly one job: naming the
 language of an untagged code block (and of a pasted block of code). Everything else keeps
 using the heuristics. It isn't a chatbot or an LLM — it reads a snippet and picks one of the 21
 answers, like the rest of Smart Assist.
@@ -435,7 +442,7 @@ model, nor any tuning, had ever touched (up to 15 per language):
 
 | Engine | Accuracy | Suggestions shown | Right when shown | Right / wrong suggestions |
 |---|---|---|---|---|
-| Heuristics | 59 % | 70 (25 %) | 93 % | 65 / 5 |
+| Rules | 59 % | 70 (25 %) | 93 % | 65 / 5 |
 | Model v1 | 72 % | 151 (53 %) | 88 % | 133 / 18 |
 | **Model v2 (current)** | **74 %** | **158 (56 %)** | **92 %** | **145 / 13** |
 
@@ -449,7 +456,7 @@ C#), the rest are one-liners that fit several languages (`void main() { … }` i
 
 ### 4.4 The section model
 
-With *Hybrid*, the Outline also types sections whose heading doesn't say — "Before you begin",
+With *Rules + AI*, the Outline also types sections whose heading doesn't say — "Before you begin",
 "Bug fixes", "Theming" — by reading the text under the heading.
 
 - **Same recipe, other clues:** the same kind of model and file format (385 KB, ~0.1 ms per section),
@@ -580,7 +587,7 @@ held-out 89 % is the honest number.
 
 Read it like this: when a suggestion appears it's almost always right; the cost of that caution
 is that many real code blocks get no language suggestion at all. Heuristic decisions take well under
-a millisecond. With *Hybrid*, code-block language on the same 314 blocks reaches **77 % accuracy, 164 shown, 96 %
+a millisecond. With *Rules + AI*, code-block language on the same 314 blocks reaches **77 % accuracy, 164 shown, 96 %
 precision**, and 74 % / 158 / 92 % on a second, fresh set (section 4.3).
 
 ---

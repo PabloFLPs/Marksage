@@ -69,9 +69,10 @@ const ASSIST_KEY = 'marksage:assist'
 export function loadAssistMode(): StoredAssistMode {
   try {
     const raw = localStorage.getItem(ASSIST_KEY)
-    return raw === 'heuristics' || raw === 'model' ? raw : 'off'
+    // Nothing stored yet → Rules: instant, local, nothing to download, suggest-only. A stored 'off' stays off.
+    return raw === 'off' || raw === 'model' ? raw : 'heuristics'
   } catch {
-    return 'off'
+    return 'heuristics'
   }
 }
 
@@ -83,7 +84,7 @@ export function saveAssistMode(mode: StoredAssistMode): void {
   }
 }
 
-// The user has read the Hybrid notice (download + browser storage) once.
+// The user has read the Rules + AI notice (download + browser storage) once.
 const MODEL_NOTICE_KEY = 'marksage:model-notice'
 
 export function loadModelNoticeSeen(): boolean {

@@ -36,7 +36,7 @@ training/                 Own models' pipeline (collect → split → train; bui
   because the animated wrapper becomes the containing block. Everything must respect `prefers-reduced-motion`.
 - **Buttons:** header buttons lift on hover automatically (`header button:hover`); non-button controls use `.press`.
 - **i18n:** every user-facing string goes through `useI18n().t(key)`; add keys to `src/lib/locales/en.ts` (source) and `pt-BR.ts`. Long-form copy (About page) uses the `x(en, pt)` helper; the Smart Assist docs exist as `docs/SMART-ASSIST.md` + `.pt-BR.md`.
-- **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice,outline}`, plus the Cache API store `marksage-models-v1` (Hybrid mode's model files: `lang-v2.bin`, and `sections-v2.bin` once the Outline is opened in that mode) — wrap every access in try/catch.
+- **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice,outline}`, plus the Cache API store `marksage-models-v1` (Rules + AI mode's model files: `lang-v2.bin`, and `sections-v2.bin` once the Outline is opened in that mode) — wrap every access in try/catch.
 - **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests). Any new key or download must be listed in About → Privacy & storage (EN + PT-BR) and be removed by "Delete all Marksage data" (`deleteAllLocalData`). (Renamed from `markdown-preview:*`; `index.html` migrates old keys once on load.)
 - **Scroll sync:** preview blocks carry `data-line` (rehype plugin in `lib/scrollSync.ts`); the editor side is measured with a hidden mirror. Keep `rehypeSourceLines` on the preview.
 - **Focus:** call `focus({ preventScroll: true })` — plain focus during slide animations shifts the layout.
@@ -52,20 +52,22 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
 `examples/marksage-models.mjs` is the standalone runner documented there; keep it in step with `src/assist/model/`
 (the eval fails parity otherwise).
 - Contract: `DecisionEngine` (`choice` / `score` / `noul`) in `assist/types.ts`. The engine decides; our code edits.
-- Modes: Off / Heuristics / Hybrid (PT: Desligado / Heurísticas / Híbrido; stored as `off` / `heuristics` / `model`).
+- Modes: Off / Rules / Rules + AI (PT: Desligado / Regras / Regras + IA; stored as `off` / `heuristics` / `model` —
+  renamed on 2026-10-28 from Heuristics / Hybrid, stored values unchanged). A first visit (nothing stored) starts in
+  Rules (`loadAssistMode`); a stored `off` stays off. "AI" = Marksage's own small models, nothing hosted.
   Which question uses a model in each mode is a table in three places — SMART-ASSIST §1.3 (EN + PT), the About
-  page (`ModeTable`) and the README — keep them in sync. A model is used in Hybrid only where it matches or beats
+  page (`ModeTable`) and the README — keep them in sync. A model is used in Rules + AI only where it matches or beats
   the rules on a fresh held-out set (precision *and* right answers); structure and paste models were tried on
   2026-10-28 and didn't (training/README.md).
 - `HeuristicEngine` (always available) routes by question id (`assist/questions.ts`) to `assist/heuristics/*`.
-- `ModelEngine` (Hybrid mode; stored value `model`): Marksage's own code-language model (`assist/model/`, weights in `public/models/lang-v2.bin`)
+- `ModelEngine` (Rules + AI mode; stored value `model`): Marksage's own code-language model (`assist/model/`, weights in `public/models/lang-v2.bin`)
   answers `fence.language` — plus confident heuristic answers the model agrees with (`assist/model/hybrid.ts`); everything else falls back to `HeuristicEngine`. Lazy fetch + Cache API, main thread
   (~0.1 ms/decision). Retrain with `training/` (see its README); a new model must beat the current one on dev,
   then on a held-out set. (The earlier `LayaEngine` worker scaffold was removed on 2026-10-24 — it's in git history.)
 - Flow: deterministic pre-filter (`prefilter.ts`) → engine → confidence gate (`passesGate`, 0.8 / 0.2 margin) → suggestion.
 - Outline panel (`components/OutlinePanel.tsx`, `assist/useOutline.ts`, `hooks/useOutlineNav.ts`): sections from `assist/sections.ts`
   (shared with `training/build-sections.ts` — change the splitter or heading rules there and rebuild the section data);
-  type = heading rule, else (Hybrid mode) `sections-v2.bin` reading the text, gate 0.8 (badge) / 0.6 ("probably").
+  type = heading rule, else (Rules + AI mode) `sections-v2.bin` reading the text, gate 0.8 (badge) / 0.6 ("probably").
   Visual only — it never edits. Heading lines are 0-based; the preview's `data-line` is 1-based.
   `explanation`, `glossary`, `roadmap` are heading-only (`HEADING_ONLY_TYPES`; `SECTION_TYPES` vs `MODEL_SECTION_TYPES`,
   see training/README.md). A new type needs: phrases in `sections.ts`, an icon (`sectionIcons.ts`), EN + PT labels,

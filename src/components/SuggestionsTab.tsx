@@ -6,7 +6,7 @@ import { decidedByKey, suggestionIcon } from './suggestionIcons'
 
 export interface SuggestionsTabProps {
   items: Suggestion[]
-  /** Smart Assist is on (Heuristics or Hybrid). */
+  /** Smart Assist is on (Rules or Rules + AI). */
   enabled: boolean
   /** The document the items were computed on — for line numbers and snippets. */
   text: string

@@ -21,7 +21,7 @@ export interface TechDocsPageProps {
   /** Where Back goes — the page this one was opened from. */
   backLabel: string
   isDesktop: boolean
-  /** Hybrid mode: the Outline may use the section model, as it does for documents. */
+  /** Rules + AI mode: the Outline may use the section model, as it does for documents. */
   useModel: boolean
 }
 

@@ -1,7 +1,7 @@
 /**
  * The Outline panel's data: every heading of the document with its section type and key sentence.
  *
- * Type, in order: the heading rule (sections.ts — "Installation" → setup), then, in Hybrid mode,
+ * Type, in order: the heading rule (sections.ts — "Installation" → setup), then, in Rules + AI mode,
  * the section model reading the text under the heading (never the heading itself; it was trained that
  * way, see training/train-sections.ts). The model's answer is used only when it isn't "other" and
  * passes LABEL_GATE (below the usual gate it's marked tentative); otherwise the section stays untyped.

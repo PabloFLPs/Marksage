@@ -373,7 +373,7 @@ The file (394,280 bytes) is laid out like this:
 | Weights and biases of the 21 answers | ~0.7 KB |
 
 A third of the file is scales — one of the next things to shrink. The app downloads it once (only after you
-pick *Hybrid* and confirm), keeps it in the browser's cache, and runs everything in plain JavaScript: no
+pick *Rules + AI* and confirm), keeps it in the browser's cache, and runs everything in plain JavaScript: no
 machine-learning library, no GPU, no background worker. Each decision is a few thousand multiplications.
 
 ## 6. Limits, honestly

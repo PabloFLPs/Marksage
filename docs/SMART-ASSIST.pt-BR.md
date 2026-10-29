@@ -1,6 +1,7 @@
 # Smart Assist — Documentação técnica
 
-O Smart Assist é o "radar de escrita" opcional e local do Marksage. Ele observa o
+O Smart Assist é o "radar de escrita" local do Marksage — ligado por padrão no modo *Regras*, e a um clique
+de ser desligado. Ele observa o
 editor, detecta um pequeno conjunto de situações corrigíveis e **sugere** uma edição que você pode
 aceitar (`Tab`) ou dispensar (`Esc`). Nada é enviado pela rede e nada é aplicado automaticamente.
 
@@ -81,11 +82,11 @@ Toda pergunta do Smart Assist sobe a mesma escada e para no primeiro degrau que 
 
 ### 1.3 Dois modos
 
-Além de *Desligado*, o Smart Assist tem dois modos. **Heurísticas** responde todas as perguntas com regras:
-instantâneo, nada para baixar. **Híbrido** usa os modelos próprios do Marksage onde eles superam as regras em
+Além de *Desligado*, o Smart Assist tem dois modos. **Regras** responde todas as perguntas com regras:
+instantâneo, nada para baixar. **Regras + IA** usa os modelos próprios do Marksage onde eles superam as regras em
 textos reais, e as regras no resto:
 
-| Pergunta | Heurísticas | Híbrido |
+| Pergunta | Regras | Regras + IA |
 |---|---|---|
 | Linguagem do bloco de código | regras | modelo ✦ — ou as regras quando a primeira escolha do modelo concorda |
 | Colagem inteligente (que tipo de texto) | regras | regras — a linguagem de um bloco de código colado, como acima |
@@ -96,7 +97,14 @@ textos reais, e as regras no resto:
 Um terceiro modo em que *só* modelos decidem foi considerado e descartado: a legibilidade e a regra dos títulos
 não têm rótulos de onde um modelo possa aprender além da própria saída delas (um modelo treinado com notas do
 LIX só copiaria o LIX), e os modelos de estrutura e de colagem não se saíram melhor que as regras (seção 4.6).
-Um modo assim seria mais fraco que o Híbrido sem ser mais honesto.
+Um modo assim seria mais fraco que o modo Regras + IA sem ser mais honesto.
+
+**Regras é o padrão.** A primeira visita começa em *Regras*: roda no seu dispositivo, não baixa nada e só
+sugere, então ficar ligado não custa nada — e a tela inicial diz o que ele faz. Escolher *Desligado* (ou
+*Regras + IA*) fica lembrado. "IA" em *Regras + IA* são os dois modelos pequenos treinados pelo Marksage
+(seção 4), não um chatbot nem nada hospedado. (Até 2026-10-28 os modos se chamavam *Heurísticas* e *Híbrido*,
+e o Smart Assist começava desligado; os valores guardados — `heuristics`, `model` — não mudaram, então a escolha
+de ninguém foi perdida.)
 
 ---
 
@@ -115,8 +123,8 @@ flowchart LR
   subgraph S ["Sugestões"]
     direction TB
     E["Editor<br/>pausa de 400 ms · colagem · 2 s parado"] --> P["Pré-filtro<br/>acha um candidato — sem ele, para aqui"]
-    P --> H["Heurísticas<br/>sempre prontas"]
-    P --> M["Híbrido<br/>modelos + heurísticas"]
+    P --> H["Regras<br/>sempre prontas"]
+    P --> M["Regras + IA<br/>modelos + heurísticas"]
     H --> G["Filtro de confiança<br/>topo ≥ 0,8 e à frente por ≥ 0,2"]
     M --> G
     G --> F["Recurso + conversor<br/>monta a edição: tabela, lista, bloco"]
@@ -126,7 +134,7 @@ flowchart LR
     direction TB
     D["Documento"] --> X["Seções<br/>divididas nos títulos, sem código"]
     X --> R["Regra dos títulos<br/>“Como instalar” → Instalação"]
-    R -- "o título não diz" --> SM["Modelo de seções<br/>modo Híbrido · lê o texto"]
+    R -- "o título não diz" --> SM["Modelo de seções<br/>modo Regras + IA · lê o texto"]
     R -- "com tipo" --> T1["Aba Estrutura<br/>tipo + frase-chave"]
     R -- "com tipo" --> T2["Aba Documento<br/>fatos · tom · alertas"]
     SM --> T1
@@ -144,12 +152,12 @@ flowchart LR
 | Peça | O que faz |
 |---|---|
 | **Pré-filtro** | Verificações baratas e determinísticas que encontram *candidatos* (um bloco de código sem linguagem, uma colagem de várias linhas, um título quase certo). Sem candidato → nada mais roda. |
-| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Híbrido* (os modelos próprios do Marksage na linguagem dos blocos de código e nos tipos de seção da Estrutura + heurísticas no resto). |
+| **Mecanismo de decisão** | Responde a pergunta tipada sobre o candidato. Dois mecanismos intercambiáveis: *heurísticas* e *Regras + IA* (os modelos próprios do Marksage na linguagem dos blocos de código e nos tipos de seção da Estrutura + heurísticas no resto). |
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
 | **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos de sugestão abaixo; a Estrutura e a aba Documento só leem). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
 | **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título, link); um ✦ quer dizer que o modelo local decidiu. Clicar no cartão rola até o ponto e o destaca na pré-visualização. |
-| **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Híbrido*) pelo modelo de seções; a aba Documento resume o arquivo inteiro; a aba Sugestões lista cada ponto que dá para corrigir. |
+| **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Regras + IA*) pelo modelo de seções; a aba Documento resume o arquivo inteiro; a aba Sugestões lista cada ponto que dá para corrigir. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão usados para medir cada recurso antes de ele ir ao ar. |
 
 ### 2.2 O contrato do mecanismo
@@ -166,7 +174,7 @@ interface DecisionEngine {
 
 Os dois mecanismos implementam a mesma interface, então os recursos nunca sabem quem respondeu.
 `q` é um id estável (ex.: `fence.language`): o mecanismo heurístico usa o id para escolher o
-pontuador, e o mecanismo do *Híbrido* usa para decidir quais perguntas os seus modelos respondem.
+pontuador, e o mecanismo do modo *Regras + IA* usa para decidir quais perguntas os seus modelos respondem.
 
 ### 2.3 O filtro de confiança
 
@@ -230,7 +238,7 @@ como logits — cada regra que casa soma seu peso uma vez:
 As pontuações passam por `softmax` → probabilidades → filtro. **Ação:** inserir o id da linguagem
 logo após o marcador de abertura.
 
-**Duas opções.** Com o *Híbrido*, quando nenhuma linguagem passa no filtro mas as duas primeiras
+**Duas opções.** Com o modo *Regras + IA*, quando nenhuma linguagem passa no filtro mas as duas primeiras
 somam ≥ 85 % (a segunda ≥ 20 %), a barra oferece as duas — `Tab` (ou um clique) escolhe a primeira,
 `Alt+2` a segunda. Pares típicos: JavaScript/TypeScript, JSON/YAML, C/C++. A regra foi definida no
 conjunto dev; nos dois conjuntos separados ela fez 15 e 17 ofertas, e a linguagem certa estava entre as
@@ -341,7 +349,7 @@ vulnerability"; desempenho, "Desempenho", "Benchmarks"; implantação, "Implanta
 - navegação ("Veja também", "Próximos passos", "See also") nunca recebe tipo;
 - palavras amplas ("Recursos", "Background", "Produção", "Todo") só contam quando são o título inteiro.
 
-Com o *Híbrido*, as seções que a regra dos títulos deixa sem tipo são lidas pelo modelo de seções
+Com o modo *Regras + IA*, as seções que a regra dos títulos deixa sem tipo são lidas pelo modelo de seções
 (seção 4.4).
 
 **Frase-chave.** Escolhida da própria seção, não escrita: a frase que mais compartilha palavras com o
@@ -400,7 +408,7 @@ dá para desfazer — a mesma edição protegida de sempre.
 
 ### 4.1 O que é
 
-O modo *Híbrido* adiciona um pequeno classificador treinado para uma única tarefa: dizer a
+O modo *Regras + IA* adiciona um pequeno classificador treinado para uma única tarefa: dizer a
 linguagem de um bloco de código sem linguagem (e de um bloco de código colado). O
 resto continua com as heurísticas. Não é um chatbot nem um LLM — ele lê um trecho e escolhe uma das
 21 respostas, como todo o Smart Assist.
@@ -440,7 +448,7 @@ do modelo, nem nenhum ajuste, tinha tocado (até 15 por linguagem):
 
 | Mecanismo | Acurácia | Sugestões exibidas | Certas quando exibidas | Sugestões certas / erradas |
 |---|---|---|---|---|
-| Heurísticas | 59 % | 70 (25 %) | 93 % | 65 / 5 |
+| Regras | 59 % | 70 (25 %) | 93 % | 65 / 5 |
 | Modelo v1 | 72 % | 151 (53 %) | 88 % | 133 / 18 |
 | **Modelo v2 (atual)** | **74 %** | **158 (56 %)** | **92 %** | **145 / 13** |
 
@@ -455,7 +463,7 @@ linguagens (`void main() { … }` é Java *e* C++ válidos).
 
 ### 4.4 O modelo de seções
 
-Com o *Híbrido*, a Estrutura também identifica seções cujo título não diz — "Before you begin",
+Com o modo *Regras + IA*, a Estrutura também identifica seções cujo título não diz — "Before you begin",
 "Bug fixes", "Tema" — lendo o texto sob o título.
 
 - **Mesma receita, outras pistas:** o mesmo tipo de modelo e formato de arquivo (385 KB, ~0,1 ms por
@@ -594,7 +602,7 @@ estrutura chegam a 97 %; os 89 % do conjunto separado são o número honesto.
 
 Leia assim: quando uma sugestão aparece, ela quase sempre está certa; o preço dessa cautela é que
 muitos blocos de código reais ficam sem sugestão de linguagem. As decisões heurísticas levam bem menos de um
-milissegundo. Com o *Híbrido*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **77 % de
+milissegundo. Com o modo *Regras + IA*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **77 % de
 acurácia, 164 exibidas e 96 % de precisão**, e 74 % / 158 / 92 % num segundo conjunto novo (seção 4.3).
 
 ---

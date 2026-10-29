@@ -375,7 +375,7 @@ O arquivo (394.280 bytes) é organizado assim:
 | Pesos e vieses das 21 respostas | ~0,7 KB |
 
 Um terço do arquivo são escalas — uma das próximas coisas a encolher. O app baixa o arquivo uma vez (só depois
-que você escolhe o *Híbrido* e confirma) e o guarda no cache do navegador. Tudo roda em JavaScript puro:
+que você escolhe o modo *Regras + IA* e confirma) e o guarda no cache do navegador. Tudo roda em JavaScript puro:
 sem biblioteca de aprendizado de máquina, sem GPU, sem worker em segundo plano. Cada decisão são alguns milhares de
 multiplicações.
 

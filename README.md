@@ -11,14 +11,14 @@ Everything runs in the browser — files never leave your machine.
   won't let "Paste Markdown" read the clipboard, a new document opens ready to paste into. **Live split
   editor** with a resizable divider and **synced scrolling** (preview and editor stay on the same passage);
   start/end buttons on long documents
-- **Smart Assist** (opt-in, local): code-fence language, smart paste (CSV/TSV/aligned text → table,
+- **Smart Assist** (local, on by default in Rules mode; one click to turn off): code-fence language, smart paste (CSV/TSV/aligned text → table,
   lists, JSON/code → fenced block), structure hints (`**Title**` → heading, `-item` / `• item` → list,
   `[text] (url)` → link…), per-section readability dots. Suggest-only: `Tab` accepts, `Esc` dismisses, undo
-  still works. Two modes: **Heuristics** (instant, no download) and **Hybrid** — Marksage's own tiny models
+  still works. Two modes: **Rules** (instant, no download) and **Rules + AI** — Marksage's own tiny models
   where they beat the rules (385 KB each, ~0.1 ms per decision, trained in this repo), downloaded once after
   a notice:
 
-  | Question | Heuristics | Hybrid |
+  | Question | Rules | Rules + AI |
   |---|---|---|
   | Code-block language | rules | model, or the rules when the model agrees |
   | Smart paste | rules | rules (a pasted code block's language: as above) |

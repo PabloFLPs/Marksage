@@ -43,7 +43,7 @@ interface AboutPageProps {
   appIcon: AppIconId
   onAppIconChange: (id: AppIconId) => void
   theme: 'light' | 'dark'
-  /** Delete the cached model files (and leave Hybrid mode). */
+  /** Delete the cached model files (and leave Rules + AI mode). */
   onRemoveModel: () => Promise<void>
   /** Wipe every Marksage key and cache in this browser, then reload. */
   onDeleteAllData: () => Promise<void>
@@ -131,16 +131,18 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </div>
         </Section>
 
-        <Section title="Smart Assist" badge={x('local · opt-in', 'local · opcional')}>
+        <Section title="Smart Assist" badge={x('local · on by default', 'local · ligado por padrão')}>
           <p className="mb-4 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">
             {x(
               <>
-                Turn it on from the <strong className={strong}>Assist</strong> menu in the editor header. It never
+                It’s on from the start in <strong className={strong}>Rules</strong> mode; switch modes or turn it off from the{' '}
+                <strong className={strong}>Assist</strong> menu in the editor header (the sparkle button on phones). It never
                 changes your text on its own — it only suggests, and only when it's confident.{' '}
                 <Keys k={['tab']} /> accepts, <Keys k={['esc']} /> dismisses, <Keys k={['mod', 'z']} /> undoes. The icon on a suggestion says what kind of fix it is; a ✦ means the local model made the call; click the card to see where it applies.
               </>,
               <>
-                Ative pelo menu <strong className={strong}>Assist</strong> no cabeçalho do editor. Ele nunca altera o
+                Ele já vem ligado no modo <strong className={strong}>Regras</strong>; troque de modo ou desligue pelo menu{' '}
+                <strong className={strong}>Assist</strong> no cabeçalho do editor (o botão de brilho no celular). Ele nunca altera o
                 seu texto sozinho — só sugere, e só quando tem confiança. <Keys k={['tab']} /> aceita,{' '}
                 <Keys k={['esc']} /> dispensa, <Keys k={['mod', 'z']} /> desfaz. O ícone de uma sugestão diz que tipo de correção ela é; um ✦ quer dizer que o modelo local decidiu; clique no cartão para ver onde ela se aplica.
               </>,
@@ -148,8 +150,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </p>
           <Feature icon={<Code2 />} title={x('Code block languages', 'Linguagem dos blocos de código')}>
             {x(
-              <>Leave a <code>```</code> block without a language and it suggests one (TypeScript, Python, Bash, SQL and ~17 more), so your code gets properly labelled. When two languages fit (JavaScript or TypeScript, C or C++), <em>Hybrid</em> offers both and lets you pick.</>,
-              <>Deixe um bloco <code>```</code> sem linguagem e ele sugere uma (TypeScript, Python, Bash, SQL e mais ~17), para o seu código ficar bem identificado. Quando duas linguagens servem (JavaScript ou TypeScript, C ou C++), o modo <em>Híbrido</em> oferece as duas para você escolher.</>,
+              <>Leave a <code>```</code> block without a language and it suggests one (TypeScript, Python, Bash, SQL and ~17 more), so your code gets properly labelled. When two languages fit (JavaScript or TypeScript, C or C++), <em>Rules + AI</em> offers both and lets you pick.</>,
+              <>Deixe um bloco <code>```</code> sem linguagem e ele sugere uma (TypeScript, Python, Bash, SQL e mais ~17), para o seu código ficar bem identificado. Quando duas linguagens servem (JavaScript ou TypeScript, C ou C++), o modo <em>Regras + IA</em> oferece as duas para você escolher.</>,
             )}
           </Feature>
           <Feature icon={<Table />} title={x('Smart paste', 'Colagem inteligente')}>
@@ -172,14 +174,14 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<ListTree />} title={x('Outline & document insights', 'Estrutura e análise do documento')}>
             {x(
-              <>The <em>Outline</em> panel lists every section with what it is — setup, reference, security and 13 more — and its key sentence; click one to jump there. Types come from the headings; in <em>Hybrid</em> mode, Marksage’s section model also reads the text under headings that don’t say. Its <em>Document</em> tab sums the whole file up: what it looks like (README, guide, changelog…), reading time, readability, tone signals and things worth a look, like heading jumps or images without alt text. Its <em>Suggestions</em> tab lists everything Smart Assist could fix in the whole document; click one and the suggestion opens right there in the editor.</>,
-              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, segurança e mais 13 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Híbrido</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, registro de mudanças…), tempo de leitura, legibilidade, sinais de tom e o que vale uma olhada, como saltos de título ou imagens sem texto alternativo. A aba <em>Sugestões</em> lista tudo o que o Smart Assist poderia corrigir no documento inteiro; clique em uma e a sugestão abre ali mesmo no editor.</>,
+              <>The <em>Outline</em> panel lists every section with what it is — setup, reference, security and 13 more — and its key sentence; click one to jump there. Types come from the headings; in <em>Rules + AI</em> mode, Marksage’s section model also reads the text under headings that don’t say. Its <em>Document</em> tab sums the whole file up: what it looks like (README, guide, changelog…), reading time, readability, tone signals and things worth a look, like heading jumps or images without alt text. Its <em>Suggestions</em> tab lists everything Smart Assist could fix in the whole document; click one and the suggestion opens right there in the editor.</>,
+              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, segurança e mais 13 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Regras + IA</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, registro de mudanças…), tempo de leitura, legibilidade, sinais de tom e o que vale uma olhada, como saltos de título ou imagens sem texto alternativo. A aba <em>Sugestões</em> lista tudo o que o Smart Assist poderia corrigir no documento inteiro; clique em uma e a sugestão abre ali mesmo no editor.</>,
             )}
           </Feature>
           <p className="mt-4 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">
             {x(
-              <>Modes: <strong className="font-medium">Heuristics</strong> runs instantly with no download — rules for every question. <strong className="font-medium">Hybrid</strong> adds Marksage’s own small models where they beat the rules: one for code-block languages (385 KB, trained on ~64k real code blocks) and one for section types in the Outline (385 KB, trained on ~27k real doc sections, fetched the first time you open it). They run entirely on your device and are downloaded once, then kept in your browser. Everything else stays with the rules: models for structure hints and paste types were trained too, but on real text they didn’t do better than the rules, so they aren’t used.</>,
-              <>Modos: <strong className="font-medium">Heurísticas</strong> roda na hora, sem download — regras para todas as perguntas. <strong className="font-medium">Híbrido</strong> adiciona os modelos pequenos do próprio Marksage onde eles superam as regras: um para as linguagens dos blocos de código (385 KB, treinado com ~64 mil blocos de código reais) e um para os tipos de seção na Estrutura (385 KB, treinado com ~27 mil seções de documentação reais, baixado na primeira vez que você a abre). Eles rodam inteiramente no seu dispositivo e são baixados uma vez, depois ficam guardados no navegador. O resto continua com as regras: também treinamos modelos para as dicas de estrutura e os tipos de colagem, mas em textos reais eles não se saíram melhor que as regras, então não são usados.</>,
+              <>Modes: <strong className="font-medium">Rules</strong> runs instantly with no download — rules for every question. <strong className="font-medium">Rules + AI</strong> adds Marksage’s own small models where they beat the rules: one for code-block languages (385 KB, trained on ~64k real code blocks) and one for section types in the Outline (385 KB, trained on ~27k real doc sections, fetched the first time you open it). They run entirely on your device and are downloaded once, then kept in your browser. Everything else stays with the rules: models for structure hints and paste types were trained too, but on real text they didn’t do better than the rules, so they aren’t used.</>,
+              <>Modos: <strong className="font-medium">Regras</strong> roda na hora, sem download — regras para todas as perguntas. <strong className="font-medium">Regras + IA</strong> adiciona os modelos pequenos do próprio Marksage onde eles superam as regras: um para as linguagens dos blocos de código (385 KB, treinado com ~64 mil blocos de código reais) e um para os tipos de seção na Estrutura (385 KB, treinado com ~27 mil seções de documentação reais, baixado na primeira vez que você a abre). Eles rodam inteiramente no seu dispositivo e são baixados uma vez, depois ficam guardados no navegador. O resto continua com as regras: também treinamos modelos para as dicas de estrutura e os tipos de colagem, mas em textos reais eles não se saíram melhor que as regras, então não são usados.</>,
             )}
           </p>
           <ModeTable x={x} />
@@ -272,8 +274,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<HardDrive />} title={x('What’s kept in this browser', 'O que fica guardado neste navegador')}>
             {x(
-              <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode, whether the Outline is open). If you pick <span className={strong}>Hybrid</span>, its model files (385 KB for code languages, plus 385 KB for section types once you open the Outline) are kept in the browser cache so they download once. It all stays until you clear it.</>,
-              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist, se a Estrutura está aberta). Se você escolher o <span className={strong}>Híbrido</span>, os arquivos dos modelos (385 KB para linguagens de código, mais 385 KB para tipos de seção quando você abre a Estrutura) ficam no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
+              <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode, whether the Outline is open). If you pick <span className={strong}>Rules + AI</span>, its model files (385 KB for code languages, plus 385 KB for section types once you open the Outline) are kept in the browser cache so they download once. It all stays until you clear it.</>,
+              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist, se a Estrutura está aberta). Se você escolher o <span className={strong}>Regras + IA</span>, os arquivos dos modelos (385 KB para linguagens de código, mais 385 KB para tipos de seção quando você abre a Estrutura) ficam no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
             )}
           </Feature>
           <Feature icon={<Cookie />} title={x('No cookies, no tracking', 'Sem cookies, sem rastreamento')}>
@@ -317,8 +319,8 @@ function ModeTable({ x }: { x: Pick2 }) {
         <thead>
           <tr className="border-b border-line dark:border-dark-line">
             <th className="py-1.5 pr-3 font-medium text-ink dark:text-dark-ink">{x('Question', 'Pergunta')}</th>
-            <th className="py-1.5 pr-3 font-medium text-ink dark:text-dark-ink">{x('Heuristics', 'Heurísticas')}</th>
-            <th className="py-1.5 font-medium text-ink dark:text-dark-ink">{x('Hybrid', 'Híbrido')}</th>
+            <th className="py-1.5 pr-3 font-medium text-ink dark:text-dark-ink">{x('Rules', 'Regras')}</th>
+            <th className="py-1.5 font-medium text-ink dark:text-dark-ink">{x('Rules + AI', 'Regras + IA')}</th>
           </tr>
         </thead>
         <tbody>
