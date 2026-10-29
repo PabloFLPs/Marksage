@@ -92,6 +92,10 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
 - The docs pages load lazily per language: `loadDocsPage(lang)` = `TechDocsPage` chunk + `lib/docsContent.<lang>.ts`
   (Markdown + SVGs). Prefetched while About is open (skipped on Save-Data). A failed chunk shows
   `PageLoadBoundary` (Back / Try again → reload: browsers cache a failed module import, so re-importing fails).
+- On About and the docs pages the header hides the open document's controls (name, Assist, Edit/Preview, Copy,
+  Export; ⌘S and ⌘⇧C do nothing) — they'd act on a document that isn't on screen. The docs pages show a disabled
+  "Read-only" in place of Edit (desktop; phones say it in the page bar) and a **Copy Markdown** button that copies
+  the page source as in the repo. Docs stay read-only: no "open in editor" (Pablo's call).
 
 ## Preview rendering
 - Performance contract: `MarkdownPreview` is `memo`ized and gets `useDeferredValue` text from `App.tsx` — keep its

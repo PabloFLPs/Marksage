@@ -49,7 +49,8 @@ Everything runs in the browser — files never leave your machine.
 - **About page** (`#about`) documenting every feature, with a Smart Assist playground, and two technical
   pages: how Smart Assist works (`#smart-assist`) and how the two models work (`#models`) — loaded on demand,
   only in the current language, prefetched while About is open; a failed download shows *Try again* instead of
-  a blank page. Back always returns to the page you came from
+  a blank page. Back always returns to the page you came from. The docs are read-only (the header says so instead
+  of offering Edit) and have a **Copy Markdown** button; About and the docs hide the open document's actions
 - Fluid, fast animations; all disabled under `prefers-reduced-motion`
 
 ## Shortcuts

@@ -431,12 +431,12 @@ export default function App() {
         handleImport()
       } else if (key === 's') {
         e.preventDefault()
-        // Opens the Export panel; inside it, ⌘/Ctrl + S again downloads (ExportMenu).
-        if (document && !exportOpen) setExportOpen(true)
+        // Opens the Export panel; inside it, ⌘/Ctrl + S again downloads (ExportMenu). Not on About / the docs.
+        if (document && !exportOpen && !showAbout) setExportOpen(true)
       } else if (key === 'n' && !e.shiftKey) {
         e.preventDefault()
         handleNew()
-      } else if (key === 'c' && e.shiftKey) {
+      } else if (key === 'c' && e.shiftKey && !showAbout) {
         e.preventDefault()
         handleCopy()
       }
@@ -444,7 +444,7 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [handleImport, document, exportOpen, handleNew, handleCopy])
+  }, [handleImport, document, exportOpen, showAbout, handleNew, handleCopy])
 
   useEffect(() => {
     const hasFiles = (e: DragEvent) => e.dataTransfer?.types.includes('Files')
@@ -601,6 +601,7 @@ export default function App() {
         onRemoveHistory={removeFromHistory}
         onClearHistory={clearHistory}
         showingAbout={showAbout}
+        docsPage={infoPage === 'docs' || infoPage === 'models'}
         outlineOpen={outlineShown && !outlineClosing}
         onToggleOutline={toggleOutline}
       />

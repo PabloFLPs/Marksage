@@ -9,6 +9,7 @@ import {
   Info,
   Eye,
   ListTree,
+  Lock,
 } from 'lucide-react'
 import type { ViewMode } from '../lib/viewMode'
 import { ThemeToggle } from './ThemeToggle'
@@ -55,6 +56,8 @@ interface HeaderProps {
   onRemoveHistory: (id: string) => void
   onClearHistory: () => void
   showingAbout?: boolean
+  /** On a technical docs page (read-only): the header says so instead of offering Edit. */
+  docsPage?: boolean
   outlineOpen: boolean
   onToggleOutline: () => void
 }
@@ -96,6 +99,7 @@ export function Header({
   onRemoveHistory,
   onClearHistory,
   showingAbout = false,
+  docsPage = false,
   outlineOpen,
   onToggleOutline,
 }: HeaderProps) {
@@ -132,13 +136,14 @@ export function Header({
                 {t('app.name')}
               </span>
             </button>
-            {hasDocument && <DocName filename={filename} isDirty={isDirty} onRename={onRename} />}
+            {/* About and the docs pages hide the document's controls: they'd act on a document that isn't on screen. */}
+            {hasDocument && !showingAbout && <DocName filename={filename} isDirty={isDirty} onRename={onRename} />}
           </>
         )}
       </div>
 
       <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
-        <CollapseX show={hasDocument && editing} gap={compact ? 6 : 8}>
+        <CollapseX show={hasDocument && editing && !showingAbout} gap={compact ? 6 : 8}>
           <AssistToggle mode={assistMode} status={assistStatus} onChange={onAssistModeChange} compact={compact} />
         </CollapseX>
 
@@ -155,7 +160,20 @@ export function Header({
           </button>
         </CollapseX>
 
-        <CollapseX show={hasDocument && isDesktop}>
+        {/* The docs pages: a disabled "Read-only" in place of Edit — Marksage's docs aren't editable here. */}
+        <CollapseX show={docsPage && isDesktop}>
+          <span
+            role="note"
+            aria-disabled="true"
+            title={t('docs.readOnlyTitle')}
+            className="inline-flex h-8 cursor-not-allowed select-none items-center gap-1.5 rounded-md border border-dashed border-line px-2.5 text-xs font-medium text-ink-muted dark:border-dark-line dark:text-dark-ink-muted"
+          >
+            <Lock className="h-3.5 w-3.5" />
+            {t('docs.readOnly')}
+          </span>
+        </CollapseX>
+
+        <CollapseX show={hasDocument && isDesktop && !showingAbout}>
           <button
             type="button"
             onClick={() => onViewModeChange(editing ? 'preview' : 'edit')}
@@ -169,7 +187,7 @@ export function Header({
           </button>
         </CollapseX>
 
-        <CollapseX show={hasDocument && !compact}>
+        <CollapseX show={hasDocument && !compact && !showingAbout}>
           <button
             type="button"
             onClick={onCopy}
@@ -195,7 +213,7 @@ export function Header({
           </>
         )}
 
-        <CollapseX show={hasDocument} gap={compact ? 6 : 8}>
+        <CollapseX show={hasDocument && !showingAbout} gap={compact ? 6 : 8}>
           <ExportMenu open={exportOpen} onOpenChange={onExportOpenChange} defaultName={exportName} onExport={onExport} compact={compact} />
         </CollapseX>
 
@@ -210,7 +228,7 @@ export function Header({
 
         {compact ? (
           <MoreMenu
-            hasDocument={hasDocument}
+            hasDocument={hasDocument && !showingAbout}
             copied={copied}
             theme={theme}
             onNew={onNew}

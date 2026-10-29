@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, BookOpen, ListTree } from 'lucide-react'
+import { ArrowLeft, BookOpen, Check, Clipboard, ListTree, Lock } from 'lucide-react'
+import { copyTextToClipboard } from '../lib/file'
 import { ScrollJump } from './ScrollJump'
 import { MarkdownPreview } from './MarkdownPreview'
 // Single source of truth: the repo docs are rendered in-app with our own renderer (content: lib/docsContent.*).
@@ -111,6 +112,14 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
     [doc],
   )
 
+  // Copy this page's Markdown exactly as in the repo (the GitHub version: SVG image + Mermaid under <details>).
+  const [copied, setCopied] = useState(false)
+  const copyPage = useCallback(async () => {
+    if (!(await copyTextToClipboard(content.pages[page]))) return
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 1600)
+  }, [content, page])
+
   const jumpTo = (i: number) => {
     const h = bodyRef.current?.querySelectorAll('.markdown-body h2')[i]
     h?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -129,10 +138,31 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
           >
             <ArrowLeft className="h-4 w-4" /> {backLabel}
           </button>
-          <span className="flex items-center gap-3">
+          <span className="flex items-center gap-2 sm:gap-3">
             <span className="hidden items-center gap-1.5 text-xs uppercase tracking-wider text-ink-muted sm:inline-flex dark:text-dark-ink-muted">
               <BookOpen className="h-3.5 w-3.5" /> {t('docs.badge')}
             </span>
+            {/* Phones: the header has no room for "Read-only", so the page says it. */}
+            <span title={t('docs.readOnlyTitle')} className="inline-flex items-center gap-1 whitespace-nowrap text-xs text-ink-muted sm:hidden dark:text-dark-ink-muted">
+              <Lock className="h-3 w-3" /> {t('docs.readOnly')}
+            </span>
+            {/* Read-only by design (no "open in editor"); copying the Markdown is the way to take it with you. */}
+            <button
+              type="button"
+              onClick={copyPage}
+              title={t('docs.copyTitle')}
+              aria-label={copied ? t('action.copied') : t('action.copyMarkdown')}
+              className={`inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 text-xs font-medium transition-colors ${
+                copied
+                  ? 'border-accent text-accent dark:border-dark-accent dark:text-dark-accent'
+                  : 'border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
+              }`}
+            >
+              {copied ? <Check className="anim-pop h-3.5 w-3.5" /> : <Clipboard className="h-3.5 w-3.5" />}
+              <span key={copied ? 'c' : 'n'} className="anim-rise">
+                {copied ? t('action.copied') : <><span className="sm:hidden">{t('action.copy')}</span><span className="hidden sm:inline">{t('action.copyMarkdown')}</span></>}
+              </span>
+            </button>
             <button
               type="button"
               onClick={() => setPanelOpen((o) => !o)}
