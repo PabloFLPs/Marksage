@@ -487,3 +487,16 @@ There are no cookies, analytics or third-party requests (system fonts only).
 - Open idea for later (not decided): with the File System Access API (Chrome / Edge), a file opened from disk
   could be saved back in place on ⌘S.
 
+## 31. Export button, rename box, read-only docs, Mermaid errors (2026-10-29)
+
+- Export: with the panel open, clicking Export again downloads and closes it (like ⌘S twice). The header rename box
+  is sized in `ch` (monospace), so it ends right after the name instead of leaving a gap.
+- Docs pages read-only (Pablo): the header shows a disabled "Read-only" where Edit was; About and the docs hide
+  the open document's controls (name, Assist, Edit/Preview, Copy, Export, ⌘S, ⌘⇧C). A **Copy Markdown** button
+  copies the page source — Pablo suggested it; it keeps the earlier "no open in editor" decision.
+- Mermaid "stopped working" (Pablo): not reproduced — Chromium renders every docs diagram (production and dev,
+  EN and PT, desktop and 375 px, light and dark). The failure path switched back to "Drawn" silently, which
+  looks exactly like a dead button when the ~650 KB download fails (phone network, an old tab after a deploy) or
+  a browser can't draw it. Now it says so, offers Try again and logs the error; pending Pablo's browser/device to
+  find the root cause.
+
