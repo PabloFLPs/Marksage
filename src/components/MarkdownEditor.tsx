@@ -9,6 +9,8 @@ interface MarkdownEditorProps {
   onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>
   onPaste?: ClipboardEventHandler<HTMLTextAreaElement>
   onSelect?: ReactEventHandler<HTMLTextAreaElement>
+  /** Overrides the default placeholder (e.g. how to paste, when the clipboard couldn't be read). */
+  placeholder?: string
   /** Overlay UI rendered over the editor (e.g. Smart Assist suggestion bar). */
   children?: ReactNode
 }
@@ -20,6 +22,7 @@ export function MarkdownEditor({
   onKeyDown,
   onPaste,
   onSelect,
+  placeholder,
   children,
 }: MarkdownEditorProps) {
   const { t } = useI18n()
@@ -41,7 +44,7 @@ export function MarkdownEditor({
         onPaste={onPaste}
         onSelect={onSelect}
         spellCheck={false}
-        placeholder={t('editor.placeholder')}
+        placeholder={placeholder ?? t('editor.placeholder')}
         className="h-full w-full resize-none bg-surface px-4 py-6 sm:px-6 sm:py-8 font-mono text-base leading-7 sm:text-sm text-ink caret-accent outline-none placeholder:text-ink-muted dark:bg-dark-surface dark:text-dark-ink dark:caret-dark-accent dark:placeholder:text-dark-ink-muted"
       />
       {children}

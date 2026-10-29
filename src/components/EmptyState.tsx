@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ClipboardPaste, FileText, FolderOpen } from 'lucide-react'
+import { ClipboardPaste, FilePlus2, FileText, FolderOpen, Sparkles } from 'lucide-react'
 import { searchHistory, type HistoryEntry } from '../lib/history'
 import { HistoryList } from './HistoryList'
 import { ClearHistory, HistorySearch } from './HistoryTools'
@@ -8,14 +8,19 @@ import { useI18n } from '../hooks/useI18n'
 interface EmptyStateProps {
   isDragging: boolean
   onOpenFile: () => void
-  onPaste: () => Promise<boolean>
+  /** Read the clipboard: 'empty' shows a hint here; 'blocked' is handled by the app (opens the editor to paste into). */
+  onPaste: () => Promise<'ok' | 'empty' | 'blocked'>
+  onNew: () => void
+  /** Phones and tablets: no drag & drop, no Ctrl/Cmd + V — the copy says so. */
+  isTouch: boolean
+  onPrivacy: () => void
   history: HistoryEntry[]
   onOpenHistory: (entry: HistoryEntry) => void
   onRemoveHistory: (id: string) => void
   onClearHistory: () => void
 }
 
-export function EmptyState({ isDragging, onOpenFile, onPaste, history, onOpenHistory, onRemoveHistory, onClearHistory }: EmptyStateProps) {
+export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, onPrivacy, history, onOpenHistory, onRemoveHistory, onClearHistory }: EmptyStateProps) {
   const { t } = useI18n()
   const [hint, setHint] = useState<string | null>(null)
   const [query, setQuery] = useState('')
@@ -28,8 +33,7 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, history, onOpenHis
   }, [hint])
 
   const handlePaste = async () => {
-    const ok = await onPaste()
-    if (!ok) setHint(t('empty.clipboardUnavailable', { keys: 'Ctrl/Cmd + V' }))
+    if ((await onPaste()) === 'empty') setHint(t('empty.clipboardEmpty'))
   }
 
   return (
@@ -45,33 +49,37 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, history, onOpenHis
           className={`mb-4 h-10 w-10 transition-transform duration-300 ${isDragging ? '-translate-y-1 scale-110 ' : ''}${isDragging ? 'text-accent dark:text-dark-accent' : 'text-ink-muted dark:text-dark-ink-muted'}`}
         />
         <p className="text-sm font-medium text-ink dark:text-dark-ink">
-          {isDragging ? t('empty.dropHere') : t('empty.drop')}
+          {isDragging ? t('empty.dropHere') : isTouch ? t('empty.titleTouch') : t('empty.drop')}
         </p>
-        <p className="mt-1 text-xs text-ink-muted dark:text-dark-ink-muted">{t('empty.or')}</p>
-        <button
-          type="button"
-          onClick={onOpenFile}
-          className="press mt-4 inline-flex items-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent"
-        >
-          <FolderOpen className="h-4 w-4" />
-          {t('empty.open')}
-        </button>
-        <p className="mt-1 text-xs text-ink-muted dark:text-dark-ink-muted">{t('empty.or')}</p>
-        <button
-          type="button"
-          onClick={handlePaste}
-          className="press mt-4 inline-flex items-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent"
-        >
-          <ClipboardPaste className="h-4 w-4" />
-          {t('empty.paste')}
-        </button>
+        {!isTouch && <p className="mt-1 text-xs text-ink-muted dark:text-dark-ink-muted">{t('empty.or')}</p>}
+        <div className="mt-4 flex w-full max-w-[220px] flex-col gap-2">
+          <button type="button" onClick={onOpenFile} className="press inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
+            <FolderOpen className="h-4 w-4" />
+            {t('empty.open')}
+          </button>
+          <button type="button" onClick={handlePaste} className="press inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
+            <ClipboardPaste className="h-4 w-4" />
+            {t('empty.paste')}
+          </button>
+          <button type="button" onClick={onNew} className="press inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
+            <FilePlus2 className="h-4 w-4" />
+            {t('empty.new')}
+          </button>
+        </div>
         {hint && (
           <p role="status" className="anim-rise mt-3 text-xs text-accent dark:text-dark-accent">
             {hint}
           </p>
         )}
-        <p className="mt-6 text-xs text-ink-muted dark:text-dark-ink-muted">
-          {t('empty.supports')}
+        <p className="mt-6 inline-flex items-start gap-1.5 text-left text-xs text-ink-muted dark:text-dark-ink-muted">
+          <Sparkles className="mt-0.5 h-3 w-3 shrink-0 text-accent dark:text-dark-accent" />
+          <span>{t('empty.assist')}</span>
+        </p>
+        <p className="mt-3 text-xs text-ink-muted dark:text-dark-ink-muted">
+          {t('empty.supports')}{' '}
+          <button type="button" onClick={onPrivacy} className="underline decoration-line underline-offset-2 transition-colors hover:text-accent dark:decoration-dark-line dark:hover:text-dark-accent">
+            {t('empty.privacy')}
+          </button>
         </p>
       </div>
       {history.length > 0 && (

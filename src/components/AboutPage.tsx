@@ -66,6 +66,18 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
   /** Pick the copy for the current language. */
   const x = <T,>(en: T, ptBR: T): T => (pt ? ptBR : en)
   const strong = 'font-medium text-ink dark:text-dark-ink'
+  // #privacy (the start screen's "Privacy & storage" link) opens About scrolled to that section.
+  useEffect(() => {
+    const go = () => {
+      if (window.location.hash === '#privacy') window.document.getElementById('privacy')?.closest('section')?.scrollIntoView({ block: 'start' })
+    }
+    const timer = window.setTimeout(go, 60) // after the page's enter animation has laid it out
+    window.addEventListener('hashchange', go)
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('hashchange', go)
+    }
+  }, [])
 
   return (
     <KeyStyleContext.Provider value={keyStyle}>
@@ -198,8 +210,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
         <Section title={x('Reading & writing', 'Leitura e escrita')}>
           <Feature icon={<FileText />} title={x('Open anything Markdown', 'Abra qualquer Markdown')}>
             {x(
-              <>Drag a <code>.md</code> file anywhere onto the window, use Open, or paste text straight onto the empty page.</>,
-              <>Arraste um arquivo <code>.md</code> para qualquer lugar da janela, use Abrir, ou cole o texto direto na página vazia.</>,
+              <>Drag a <code>.md</code> file anywhere onto the window, use Open, paste text straight onto the empty page, or start writing. If the browser won’t let Paste read your clipboard, a new document opens for you to paste into.</>,
+              <>Arraste um arquivo <code>.md</code> para qualquer lugar da janela, use Abrir, cole o texto direto na página vazia, ou comece a escrever. Se o navegador não deixar o Colar ler a área de transferência, abre um documento novo para você colar nele.</>,
             )}
           </Feature>
           <Feature icon={<Columns2 />} title={x('Live split editor', 'Editor dividido ao vivo')}>
@@ -251,7 +263,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
         </Section>
 
         <Section title={x('Privacy & storage', 'Privacidade e armazenamento')}>
-          <div id="privacy" className="scroll-mt-6" />
+          <div id="privacy" />
           <Feature icon={<Lock />} title={x('Local-first, always', 'Local em primeiro lugar, sempre')}>
             {x(
               'No accounts, no server, no uploads. Files are read by your browser and Smart Assist runs on your device — nothing you open or write is sent anywhere.',
@@ -380,7 +392,7 @@ function StorageControls({ x, onRemoveModel, onDeleteAllData }: { x: Pick2; onRe
 
 function Section({ title, badge, children }: { title: string; badge?: string; children: ReactNode }) {
   return (
-    <section className="mt-12 anim-rise">
+    <section className="mt-12 scroll-mt-6 anim-rise">
       <h2 className="mb-5 flex items-baseline gap-2 border-b border-line pb-2 text-xs font-semibold uppercase tracking-wider text-ink-muted dark:border-dark-line dark:text-dark-ink-muted">
         {title}
         {badge && <span className="font-normal normal-case tracking-normal text-accent dark:text-dark-accent">{badge}</span>}

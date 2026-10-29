@@ -42,7 +42,7 @@ const EXIT_MS = 220
 type InfoPage = 'about' | 'docs' | 'models'
 function pageFromHash(): InfoPage | null {
   const h = window.location.hash
-  return h === '#about' ? 'about' : h === '#smart-assist' ? 'docs' : h === '#models' ? 'models' : null
+  return h === '#about' || h === '#privacy' ? 'about' : h === '#smart-assist' ? 'docs' : h === '#models' ? 'models' : null
 }
 
 /**
@@ -94,6 +94,10 @@ export default function App() {
   } = useMarkdownFile()
   const { theme, toggleTheme } = useTheme()
   const isDesktop = useMediaQuery(DESKTOP_QUERY)
+  const isTouch = useMediaQuery('(pointer: coarse)')
+  // "Paste Markdown" when the browser won't let us read the clipboard: a new document whose placeholder
+  // says how to paste into it (works everywhere, iOS included). Cleared once there's text, or on a plain New.
+  const [pasteHint, setPasteHint] = useState(false)
   const [viewMode, setViewMode] = useState<ViewMode>('preview')
   const [isDragging, setIsDragging] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -154,6 +158,9 @@ export default function App() {
   }, [goToInfo])
   const openAbout = useCallback(() => {
     window.location.hash = 'about'
+  }, [])
+  const openPrivacy = useCallback(() => {
+    window.location.hash = 'privacy' // About, scrolled to "Privacy & storage"
   }, [])
   const openDocs = useCallback(() => {
     window.location.hash = 'smart-assist'
@@ -284,6 +291,7 @@ export default function App() {
       value={document.content}
       onChange={updateContent}
       textareaRef={textareaRef}
+      placeholder={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: 'Ctrl/Cmd + V' }) : undefined}
       {...(assist.enabled ? assist.handlers : {})}
     >
       <Presence
@@ -316,17 +324,32 @@ export default function App() {
     })
   }, [openFile, showResult])
 
-  const handlePasteFromClipboard = useCallback(async (): Promise<boolean> => {
+  const handleNew = useCallback(() => {
+    newDocument()
+    goHome()
+    setViewMode('edit')
+    setPasteHint(false)
+  }, [newDocument, goHome])
+
+  // Empty clipboard → the start screen says so. Clipboard not readable (permission, Firefox, some phones) →
+  // a new document to paste into, instead of a dead end.
+  const handlePasteFromClipboard = useCallback(async (): Promise<'ok' | 'empty' | 'blocked'> => {
+    let text: string
     try {
-      const text = await navigator.clipboard.readText()
-      if (!text.trim()) return false
-      pasteText(text)
-      showResult(true)
-      return true
+      text = await navigator.clipboard.readText()
     } catch {
-      return false
+      handleNew()
+      setPasteHint(true)
+      return 'blocked'
     }
-  }, [pasteText, showResult])
+    if (!text.trim()) return 'empty'
+    pasteText(text)
+    showResult(true)
+    return 'ok'
+  }, [pasteText, showResult, handleNew])
+  useEffect(() => {
+    if (pasteHint && document?.content) setPasteHint(false)
+  }, [pasteHint, document?.content])
 
   // No "discard?" prompts: the current document is kept in Recent before switching.
   const handleOpenHistory = useCallback(
@@ -337,12 +360,6 @@ export default function App() {
     },
     [openFromHistory, goHome, isDesktop],
   )
-
-  const handleNew = useCallback(() => {
-    newDocument()
-    goHome()
-    setViewMode('edit')
-  }, [newDocument, goHome])
 
   const handleRemoveModel = useCallback(async () => {
     await deleteDownloadedModel()
@@ -610,6 +627,9 @@ export default function App() {
           isDragging={isDragging}
           onOpenFile={handleImport}
           onPaste={handlePasteFromClipboard}
+          onNew={handleNew}
+          isTouch={isTouch}
+          onPrivacy={openPrivacy}
           history={recent}
           onOpenHistory={handleOpenHistory}
           onRemoveHistory={removeFromHistory}
