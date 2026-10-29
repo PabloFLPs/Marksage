@@ -13,6 +13,19 @@ structure model, a paste-type model and a URL link-text rule were measured on fr
 Numbers and reasons: `SMART-ASSIST — Implementation Context.md` §28, `training/README.md`, `docs/MODELS.md` §8.3–8.5.
 Follow-ups are in §4.
 
+## 0.1 Done (2026-10-28): launch QA fixes
+
+A five-persona launch QA pass (impatient, skeptic, mobile on slow 3G, non-native English, "breaker") and Pablo's
+own testing found 15 issues; all fixed: docs pages that went blank on a failed download (now Try again), Back
+from "How the models work" going to the wrong page, text lost on a fast reload, the empty-clipboard message,
+no "start writing" on the start screen, Smart Assist starting off (now **Rules** by default; modes renamed
+**Rules** / **Rules + AI**), typing lag on long documents (~400 ms → ~20 ms per key on a 270 KB file), the
+privacy section's reach and "who runs it", Markdown extensions (`.mdx` & co. accepted, `.txt` refused), and
+smaller polish. Details: `SMART-ASSIST — Implementation Context.md` §29.
+
+Idea left open (Pablo, not decided): readability **icons** instead of dots, as an option — only if it stays
+minimal.
+
 ## 1. BYOK — bring your own key (next)
 
 **Status:** idea owned by Pablo, not yet shared in detail ("I have a really cool idea for this"). Start the

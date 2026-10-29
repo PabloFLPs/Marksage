@@ -445,3 +445,33 @@ There are no cookies, analytics or third-party requests (system fonts only).
   page title, which needs the network).
 - Docs: SMART-ASSIST §1.2–1.3 (modes table), §3 (new kinds and rules), §4.6 (tried, not used), §5 (fresh sets);
   MODELS §8.3–8.5; About (modes table, structure hints text); README table; training/README.md; AGENTS.md.
+
+## 29. Launch QA pass and fixes (2026-10-28)
+
+- **QA:** one scripted Chromium pass playing five first-time users (impatient, skeptic, mobile 375 px on slow 3G,
+  non-native English, breaker) over a production build, plus Pablo's own finds on his phone. Merged list ranked by
+  how many personas hit each issue. Pablo kept icon-only header buttons as they are.
+- **Docs pages (Pablo, phone, production):** "How it works" didn't open on slow 3G — a failed lazy chunk unmounted
+  the whole app (no error boundary) and stayed failed until reload. Now `PageLoadBoundary` (Back / Try again →
+  reload), a visible loading state, prefetch while About is open, and one chunk per language (70 → ~38 KB gzip).
+- **Back (Pablo):** About → "How the models work" → Back went to "How it works" (hard-coded parent, and Back pushed
+  new entries). Now history-aware (`{ ms, from }` in `history.state`): Back = browser Back when opened in-app.
+- **Lost text:** the 300 ms save debounce had no flush on unload → saves on `pagehide` / `visibilitychange`; New
+  saves at once.
+- **First run:** empty clipboard says so; an unreadable clipboard opens a new document with a paste placeholder;
+  "Start writing" on the start screen; touch copy ("Open or write Markdown", no drag & drop, no Ctrl+V); a Smart
+  Assist line and a Privacy & storage link (`#privacy`). Smart Assist now starts in **Rules**; modes renamed
+  Off / **Rules** / **Rules + AI** (Pablo wanted "AI" in the name; stored values unchanged); docs, README, About,
+  diagrams (`scripts/diagrams.py`) updated EN + PT.
+- **Typing lag:** 270 KB / 400 sections, extra ms per key (2-vCPU container): before 378–587; after 19–44. Causes:
+  the whole preview re-parsed per key, a new `[]` from `useSmartAssist` (Off) defeating memo, word count and the
+  Outline re-reading every section. Fixes: deferred + memoized preview rendered in pieces at headings
+  (`lib/chunks.ts`, identical HTML), `CodeBlock` memo + highlight cache, per-section Outline cache, deferred count.
+- **Polish:** Markdown extensions (`.mdx` — Pablo: allow; `.mdown .mkd .mkdn .mdwn`), `.txt` refused (Pablo),
+  renamed binaries refused; copy button no longer covers code on touch; boot screen in `index.html`; empty preview
+  placeholder; Suggestions badge "50+" when capped; theme double-click no longer loses a click (the second click
+  hits the root during the view transition); Document tab says "Not detected" for languages other than EN/PT
+  (stopword coverage < 14%); privacy text names who runs the site and drops the "no server" contradiction.
+- Checks: `tsc`, lint (no new warnings), `eval:assist` identical apart from timings, scripted browser checks for
+  every fix.
+
