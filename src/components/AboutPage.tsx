@@ -21,6 +21,7 @@ import {
   History,
   Sparkles,
   Table,
+  UserRound,
 } from 'lucide-react'
 import { useEffect, useState, type ReactNode } from 'react'
 import { hasDownloadedModel } from '../assist/modelEngine'
@@ -268,8 +269,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           <div id="privacy" />
           <Feature icon={<Lock />} title={x('Local-first, always', 'Local em primeiro lugar, sempre')}>
             {x(
-              'No accounts, no server, no uploads. Files are read by your browser and Smart Assist runs on your device — nothing you open or write is sent anywhere.',
-              'Sem contas, sem servidor, sem uploads. Os arquivos são lidos pelo seu navegador e o Smart Assist roda no seu dispositivo — nada do que você abre ou escreve é enviado.',
+              'No accounts and no uploads: the website only delivers the app’s files. Files are read by your browser and Smart Assist runs on your device — nothing you open or write is sent anywhere.',
+              'Sem contas e sem uploads: o site só entrega os arquivos do app. Os arquivos são lidos pelo seu navegador e o Smart Assist roda no seu dispositivo — nada do que você abre ou escreve é enviado.',
             )}
           </Feature>
           <Feature icon={<HardDrive />} title={x('What’s kept in this browser', 'O que fica guardado neste navegador')}>
@@ -282,6 +283,12 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
             {x(
               'No cookies, analytics, ads or third-party services — even the fonts are your system’s. Everything above is stored only because a feature you use needs it, which is why there’s no cookie banner. The server that hosts this site may keep standard technical logs (such as IP address and time) to deliver it.',
               'Sem cookies, análises, anúncios ou serviços de terceiros — até as fontes são as do seu sistema. Tudo acima é guardado só porque um recurso que você usa precisa disso, e por isso não há banner de cookies. O servidor que hospeda este site pode manter registros técnicos padrão (como endereço IP e horário) para entregá-lo.',
+            )}
+          </Feature>
+          <Feature icon={<UserRound />} title={x('Who runs Marksage', 'Quem mantém o Marksage')}>
+            {x(
+              <>Marksage is made and published by <a href="https://github.com/PabloFLPs" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">PabloFLPs</a>. Questions about privacy or your data: open an issue on <a href="https://github.com/PabloFLPs/Marksage/issues" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>. Nothing you write ever reaches us; the button below clears what this browser keeps.</>,
+              <>O Marksage é feito e publicado por <a href="https://github.com/PabloFLPs" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">PabloFLPs</a>. Dúvidas sobre privacidade ou seus dados: abra uma issue no <a href="https://github.com/PabloFLPs/Marksage/issues" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>. Nada do que você escreve chega até nós; o botão abaixo limpa o que este navegador guarda.</>,
             )}
           </Feature>
           <StorageControls x={x} onRemoveModel={onRemoveModel} onDeleteAllData={onDeleteAllData} />

@@ -39,7 +39,7 @@ Everything runs in the browser — files never leave your machine.
 - **Code blocks** with syntax colors (~30 languages, loaded only when needed) and a copy button
 - **Recent documents** — up to 15, kept in this browser, searchable (`⌘/Ctrl ⇧ H`)
 - **Privacy & storage** — no cookies, accounts or tracking; everything stored is listed on the About page
-  (linked from the start screen, `#privacy`), and removable with one click
+  (linked from the start screen, `#privacy`), who runs the site, and removable with one click
 - **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown, word/char counts
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
 - **Appearance** — app icon + accent palette (Classic, Mono, Outline, Sunset), light/dark theme,
