@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AlertCircle, Eye, X } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
@@ -33,8 +33,9 @@ import { OutlinePanel, type PanelTab } from './components/OutlinePanel'
 import type { AssistMode, Suggestion } from './assist/types'
 import type { ViewMode } from './lib/viewMode'
 
-// The technical docs (Markdown + diagrams, both languages) load only when opened.
-const TechDocsPage = lazy(() => import('./components/TechDocsPage').then((m) => ({ default: m.TechDocsPage })))
+import { loadDocsPage } from './lib/docsContent'
+import type { TechDocsPageProps } from './components/TechDocsPage'
+import { PageLoadBoundary, PageLoading } from './components/PageLoad'
 
 const EXIT_MS = 220
 
@@ -176,6 +177,31 @@ export default function App() {
   // The Back label names where Back goes.
   const backLabel =
     cameFrom === 'docs' ? t('docs.backToDocs') : cameFrom === 'models' ? t('docs.backToModels') : cameFrom === 'app' && infoPage !== 'about' ? t('app.name') : t('docs.backToAbout')
+
+  // The docs page + its language's content, lazily. A failed download (slow or dropped connection, an old tab
+  // after a deploy) shows Try again, which reloads the page: browsers remember a failed module download, so
+  // importing it again in place would fail again. Nothing is lost — the document is saved on the way out.
+  const TechDocs = useMemo(
+    () =>
+      lazy(async () => {
+        const [{ TechDocsPage }, content] = await loadDocsPage(lang)
+        const Page = (props: Omit<TechDocsPageProps, 'content'>) => <TechDocsPage {...props} content={content.default} />
+        return { default: Page }
+      }),
+    [lang],
+  )
+  const retryDocs = useCallback(() => window.location.reload(), [])
+  // While About is open, fetch the docs page in the background (unless the user asked to save data), so
+  // "How it works" is usually ready before the click.
+  useEffect(() => {
+    if (infoPage !== 'about') return
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    if (conn?.saveData) return
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1200))
+    const cancel = window.cancelIdleCallback ?? window.clearTimeout
+    const id = idle(() => void loadDocsPage(lang).catch(() => {}))
+    return () => cancel(id)
+  }, [infoPage, lang])
   // Logo / app name: leave About or the docs straight back to the app — the open document,
   // or the start screen when there is none. Already there → nothing to do.
   const goHome = useCallback(() => {
@@ -552,17 +578,19 @@ export default function App() {
       </Presence>
 
       {infoPage === 'docs' || infoPage === 'models' ? (
-        <Suspense fallback={<main className="min-h-0 flex-1" />}>
-          <TechDocsPage
-            key={infoPage}
-            page={infoPage === 'models' ? 'models' : 'smart-assist'}
-            closing={aboutClosing}
-            onBack={closeAbout}
-            backLabel={backLabel}
-            isDesktop={isDesktop}
-            useModel={assistMode === 'model'}
-          />
-        </Suspense>
+        <PageLoadBoundary key={infoPage} onRetry={retryDocs} onBack={closeAbout} backLabel={backLabel}>
+          <Suspense fallback={<PageLoading />}>
+            <TechDocs
+              key={infoPage}
+              page={infoPage === 'models' ? 'models' : 'smart-assist'}
+              closing={aboutClosing}
+              onBack={closeAbout}
+              backLabel={backLabel}
+              isDesktop={isDesktop}
+              useModel={assistMode === 'model'}
+            />
+          </Suspense>
+        </PageLoadBoundary>
       ) : showAbout ? (
         <AboutPage
           key="about"

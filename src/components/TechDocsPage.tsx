@@ -2,19 +2,8 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, BookOpen, ListTree } from 'lucide-react'
 import { ScrollJump } from './ScrollJump'
 import { MarkdownPreview } from './MarkdownPreview'
-// Single source of truth: the repo docs are rendered in-app with our own renderer.
-import techDocsEn from '../../docs/SMART-ASSIST.md?raw'
-import techDocsPt from '../../docs/SMART-ASSIST.pt-BR.md?raw'
-import modelsEn from '../../docs/MODELS.md?raw'
-import modelsPt from '../../docs/MODELS.pt-BR.md?raw'
-import inferEn from '../../docs/models-inference.svg?raw'
-import inferPt from '../../docs/models-inference.pt-BR.svg?raw'
-import trainEn from '../../docs/models-training.svg?raw'
-import trainPt from '../../docs/models-training.pt-BR.svg?raw'
-import archEn from '../../docs/architecture.svg?raw'
-import archPt from '../../docs/architecture.pt-BR.svg?raw'
-import archNarrowEn from '../../docs/architecture.narrow.svg?raw'
-import archNarrowPt from '../../docs/architecture.narrow.pt-BR.svg?raw'
+// Single source of truth: the repo docs are rendered in-app with our own renderer (content: lib/docsContent.*).
+import type { DocsContent, DocsPageId } from '../lib/docsContent'
 import { DocDiagram } from './DocDiagram'
 import { useI18n } from '../hooks/useI18n'
 import { useOutline } from '../assist/useOutline'
@@ -23,10 +12,10 @@ import { OutlinePanel, type PanelTab } from './OutlinePanel'
 
 const noEditor = { current: null }
 
-export type DocsPageId = 'smart-assist' | 'models'
-
-interface TechDocsPageProps {
+export interface TechDocsPageProps {
   page: DocsPageId
+  /** This language's docs (loaded with the page, see `loadDocsPage`). */
+  content: DocsContent
   closing?: boolean
   onBack: () => void
   /** Where Back goes — the page this one was opened from. */
@@ -36,27 +25,12 @@ interface TechDocsPageProps {
   useModel: boolean
 }
 
-const DOCS: Record<DocsPageId, { en: string; pt: string }> = {
-  'smart-assist': { en: techDocsEn, pt: techDocsPt },
-  models: { en: modelsEn, pt: modelsPt },
-}
-
 /** Links between the doc files (they work on GitHub) become in-app pages. */
 const INTERNAL_LINKS: Record<string, string> = {
   'SMART-ASSIST.md': '#smart-assist',
   'SMART-ASSIST.pt-BR.md': '#smart-assist',
   'MODELS.md': '#models',
   'MODELS.pt-BR.md': '#models',
-}
-
-/** The SVG each Markdown image points to, plus a stacked version for narrow screens (app only). */
-const SVGS: Record<string, { svg: string; narrow?: string }> = {
-  'architecture.svg': { svg: archEn, narrow: archNarrowEn },
-  'architecture.pt-BR.svg': { svg: archPt, narrow: archNarrowPt },
-  'models-inference.svg': { svg: inferEn },
-  'models-inference.pt-BR.svg': { svg: inferPt },
-  'models-training.svg': { svg: trainEn },
-  'models-training.pt-BR.svg': { svg: trainPt },
 }
 
 interface Diagram {
@@ -70,11 +44,11 @@ interface Diagram {
  * In the Markdown (for GitHub): `<!-- diagram: x -->`, the SVG image, then the Mermaid version inside
  * <details>. In the app the whole group becomes one ```marksage-diagram block, rendered as a DocDiagram.
  */
-function extractDiagrams(md: string): { md: string; diagrams: Map<string, Diagram> } {
+function extractDiagrams(md: string, svgsByFile: DocsContent['svgs']): { md: string; diagrams: Map<string, Diagram> } {
   const diagrams = new Map<string, Diagram>()
   const re = /<!-- diagram: ([\w-]+) -->\n!\[([^\]]*)\]\(([^)]+)\)\n+<details>[\s\S]*?```mermaid\n([\s\S]*?)```\s*<\/details>/g
   const out = md.replace(re, (all, name: string, alt: string, file: string, mermaid: string) => {
-    const svgs = SVGS[file]
+    const svgs = svgsByFile[file]
     if (!svgs) return all
     diagrams.set(name, { alt, ...svgs, mermaid })
     return '```marksage-diagram\n' + name + '\n```'
@@ -83,8 +57,8 @@ function extractDiagrams(md: string): { md: string; diagrams: Map<string, Diagra
 }
 
 /** Split the doc into its H1 title, intro (before the first `##`) and body, plus `##` titles for the TOC. */
-function parseDoc(source: string) {
-  const { md, diagrams } = extractDiagrams(source)
+function parseDoc(source: string, svgs: DocsContent['svgs']) {
+  const { md, diagrams } = extractDiagrams(source, svgs)
   const lines = md.split('\n')
   const title = (lines.find((l) => l.startsWith('# ')) ?? '').replace(/^#\s+/, '')
   const rest = lines.filter((l) => !l.startsWith('# ')).join('\n')
@@ -93,11 +67,11 @@ function parseDoc(source: string) {
 }
 
 /** Technical docs pages: "How Smart Assist works" (#smart-assist) and "How the two models work" (#models). */
-export function TechDocsPage({ page, closing = false, onBack, backLabel, isDesktop, useModel }: TechDocsPageProps) {
+export function TechDocsPage({ page, content, closing = false, onBack, backLabel, isDesktop, useModel }: TechDocsPageProps) {
   const { t, lang } = useI18n()
   const bodyRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLElement>(null)
-  const doc = useMemo(() => parseDoc(lang === 'pt-BR' ? DOCS[page].pt : DOCS[page].en), [lang, page])
+  const doc = useMemo(() => parseDoc(content.pages[page], content.svgs), [content, page])
 
   // The docs double as a demo of the Outline: same panel, reading this page (read-only, it only scrolls).
   const [panelOpen, setPanelOpen] = useState(isDesktop)

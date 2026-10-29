@@ -14,12 +14,14 @@ src/
   App.tsx                 screen state (about / empty / edit / preview), shortcuts, drag & drop, paste
   components/
     Header.tsx            toolbar; conditional items wrapped in <CollapseX>
+    PageLoad.tsx          <PageLoading> + <PageLoadBoundary> (Try again / Back) for lazily loaded pages
     motion.tsx            <Presence> (exit animations) and <CollapseX> (toolbar width collapse)
     AboutPage.tsx         feature docs + Appearance (app icon, key style) — keep in sync with features
     HistoryMenu/HistoryList, SuggestionBar, AssistToggle, AppIconPicker, SplitPanes, Markdown*
   assist/                 Smart Assist — see "Smart Assist" below (model/ = own models: features + inference; sections.ts / outline.ts = Outline)
   hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery
-  lib/                    storage, history, appIcons (icons + accent), keyStyle, file, sampleDocument
+  lib/                    storage, history, appIcons (icons + accent), keyStyle, file, sampleDocument,
+                          docsContent(.en/.pt-BR) (docs pages per language)
   index.css               theme tokens, accent palettes ([data-accent]), markdown styles, motion keyframes
 scripts/eval-assist.ts    fixture evaluation for Smart Assist
 training/                 Own models' pipeline (collect → split → train; build-sections → train-sections; tried, not shipped: structure, pastes, link text); clones/train data gitignored
@@ -78,6 +80,9 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   the screen it was opened from. The in-app Back (`closeAbout`) calls `history.back()` when `from` is set, so it
   always matches the browser's Back; a direct link (`from: null`) goes to the parent (docs → About → app) with
   `replaceState`. The Back label names the target (`backLabel`).
+- The docs pages load lazily per language: `loadDocsPage(lang)` = `TechDocsPage` chunk + `lib/docsContent.<lang>.ts`
+  (Markdown + SVGs). Prefetched while About is open (skipped on Save-Data). A failed chunk shows
+  `PageLoadBoundary` (Back / Try again → reload: browsers cache a failed module import, so re-importing fails).
 
 ## Preview rendering
 - Fenced code: `components/CodeBlock.tsx` (Prism via refractor, `lib/highlight.ts`, lazy-loaded by `hooks/useHighlighter.ts` the
