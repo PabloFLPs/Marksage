@@ -3,7 +3,6 @@ import {
   ArrowLeft,
   Check,
   Clipboard,
-  Download,
   FilePlus2,
   FolderOpen,
   PenLine,
@@ -13,6 +12,8 @@ import {
 } from 'lucide-react'
 import type { ViewMode } from '../lib/viewMode'
 import { ThemeToggle } from './ThemeToggle'
+import { DocName } from './DocName'
+import { ExportMenu } from './ExportMenu'
 import type { Theme } from '../hooks/useTheme'
 import { AssistToggle } from './AssistToggle'
 import { CollapseX } from './motion'
@@ -32,7 +33,12 @@ interface HeaderProps {
   onOpen: () => void
   onCopy: () => void
   copied: boolean
-  onExport: () => void
+  /** The Export panel (also opened by ⌘/Ctrl + S, so its state lives in App). */
+  exportOpen: boolean
+  onExportOpenChange: (open: boolean) => void
+  exportName: string
+  onExport: (name: string) => void
+  onRename: (name: string) => void
   theme: Theme
   onToggleTheme: () => void
   isDesktop: boolean
@@ -70,7 +76,11 @@ export function Header({
   onOpen,
   onCopy,
   copied,
+  exportOpen,
+  onExportOpenChange,
+  exportName,
   onExport,
+  onRename,
   theme,
   onToggleTheme,
   isDesktop,
@@ -122,21 +132,7 @@ export function Header({
                 {t('app.name')}
               </span>
             </button>
-            {hasDocument && (
-              <span className="anim-rise hidden min-w-0 items-baseline gap-1 truncate text-sm text-ink-muted sm:flex dark:text-dark-ink-muted">
-                <span className="text-line dark:text-dark-line">/</span>
-                <span className="truncate font-mono">{filename ?? t('doc.untitled')}</span>
-                {isDirty && (
-                  <span
-                    aria-label={t('doc.unsaved')}
-                    title={t('doc.unsaved')}
-                    className="anim-pop text-accent dark:text-dark-accent"
-                  >
-                    *
-                  </span>
-                )}
-              </span>
-            )}
+            {hasDocument && <DocName filename={filename} isDirty={isDirty} onRename={onRename} />}
           </>
         )}
       </div>
@@ -200,16 +196,7 @@ export function Header({
         )}
 
         <CollapseX show={hasDocument} gap={compact ? 6 : 8}>
-          <button
-            type="button"
-            onClick={onExport}
-            title={t('action.exportTitle', { keys: 'Ctrl/Cmd + S' })}
-            aria-label={t('action.exportMarkdown')}
-            className="inline-flex h-9 min-w-9 items-center justify-center md:h-8 md:min-w-0 gap-1.5 rounded-md bg-accent px-2.5 text-xs font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
-          >
-            <Download className="h-3.5 w-3.5" />
-            <span className="hidden md:inline">{t('action.export')}</span>
-          </button>
+          <ExportMenu open={exportOpen} onOpenChange={onExportOpenChange} defaultName={exportName} onExport={onExport} compact={compact} />
         </CollapseX>
 
         <HistoryMenu

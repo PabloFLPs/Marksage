@@ -40,6 +40,8 @@ Everything runs in the browser — files never leave your machine.
 - **Recent documents** — up to 15, kept in this browser, searchable (`⌘/Ctrl ⇧ H`)
 - **Privacy & storage** — no cookies, accounts or tracking; everything stored is listed on the About page
   (linked from the start screen, `#privacy`), who runs the site, and removable with one click
+- **Rename** by clicking the name in the header; **Export** asks for the file name first (the document's name, or
+  one from its first heading) and keeps it
 - **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown, word/char counts
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
 - **Appearance** — app icon + accent palette (Classic, Mono, Outline, Sunset), light/dark theme,
@@ -56,7 +58,7 @@ Everything runs in the browser — files never leave your machine.
 |---|---|
 | `⌘/Ctrl O` | Open file |
 | `⌘/Ctrl N` | New document |
-| `⌘/Ctrl S` | Export |
+| `⌘/Ctrl S` | Export — opens the name field; again (or `Enter`) downloads |
 | `⌘/Ctrl ⇧ C` | Copy Markdown |
 | `⌘/Ctrl ⇧ H` | Recent documents |
 | `Tab` / `Esc` | Accept / dismiss a suggestion |

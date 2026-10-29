@@ -124,6 +124,11 @@ export function useMarkdownFile() {
     [idFor, flushCurrent],
   )
 
+  /** A new name (already normalized, see lib/file.ts) — the text is untouched. */
+  const renameDocument = useCallback((filename: string) => {
+    setDocument((d) => (d ? { ...d, filename } : d))
+  }, [])
+
   const newDocument = useCallback(() => {
     flushCurrent()
     const fresh = { id: newDocId(), filename: null, content: '', savedContent: '' }
@@ -164,6 +169,7 @@ export function useMarkdownFile() {
     openFile,
     pasteText,
     newDocument,
+    renameDocument,
     updateContent,
     markSaved,
     error,

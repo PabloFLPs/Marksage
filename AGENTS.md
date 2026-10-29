@@ -14,6 +14,8 @@ src/
   App.tsx                 screen state (about / empty / edit / preview), shortcuts, drag & drop, paste
   components/
     Header.tsx            toolbar; conditional items wrapped in <CollapseX>
+    DocName.tsx           the document name in the header — click to rename (lib/file.ts `normalizeFilename`)
+    ExportMenu.tsx        Export button + "Export as" panel; ⌘/Ctrl S opens it (state in App), again downloads
     EmptyState.tsx        start screen: Open / Paste / Start writing, Smart Assist line, Privacy link (#privacy)
     PageLoad.tsx          <PageLoading> + <PageLoadBoundary> (Try again / Back) for lazily loaded pages
     motion.tsx            <Presence> (exit animations) and <CollapseX> (toolbar width collapse)

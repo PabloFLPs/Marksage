@@ -11,8 +11,8 @@ import { useMediaQuery } from './hooks/useMediaQuery'
 import {
   copyTextToClipboard,
   downloadMarkdown,
-  fallbackFilename,
   openFilePicker,
+  suggestFilename,
 } from './lib/file'
 import { deleteAllLocalData, loadAssistMode, loadOutlineOpen, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveSplitRatio } from './lib/storage'
 import { deleteDownloadedModel } from './assist/modelEngine'
@@ -82,6 +82,7 @@ export default function App() {
     openFile,
     pasteText,
     newDocument,
+    renameDocument,
     updateContent,
     markSaved,
     error,
@@ -379,11 +380,18 @@ export default function App() {
     setViewMode('edit')
   }, [lang, pasteText, handleAssistModeChange, assistMode, goHome])
 
-  const handleExport = useCallback(() => {
-    if (!document) return
-    downloadMarkdown(fallbackFilename(document.filename), document.content)
-    markSaved()
-  }, [document, markSaved])
+  // Export: a named download (the Export panel, or ⌘/Ctrl + S); the name also becomes the document's name.
+  const [exportOpen, setExportOpen] = useState(false)
+  const handleExport = useCallback(
+    (name: string) => {
+      if (!document) return
+      if (name !== document.filename) renameDocument(name)
+      downloadMarkdown(name, document.content)
+      markSaved()
+    },
+    [document, renameDocument, markSaved],
+  )
+  const exportName = document ? (document.filename ?? suggestFilename(document.content)) : 'document.md'
 
   const handleCopy = useCallback(async () => {
     if (!document) return
@@ -423,7 +431,8 @@ export default function App() {
         handleImport()
       } else if (key === 's') {
         e.preventDefault()
-        handleExport()
+        // Opens the Export panel; inside it, ⌘/Ctrl + S again downloads (ExportMenu).
+        if (document && !exportOpen) setExportOpen(true)
       } else if (key === 'n' && !e.shiftKey) {
         e.preventDefault()
         handleNew()
@@ -435,7 +444,7 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [handleImport, handleExport, handleNew, handleCopy])
+  }, [handleImport, document, exportOpen, handleNew, handleCopy])
 
   useEffect(() => {
     const hasFiles = (e: DragEvent) => e.dataTransfer?.types.includes('Files')
@@ -572,7 +581,11 @@ export default function App() {
         onOpen={handleImport}
         onCopy={handleCopy}
         copied={copied}
+        exportOpen={exportOpen && hasDocument}
+        onExportOpenChange={setExportOpen}
+        exportName={exportName}
         onExport={handleExport}
+        onRename={renameDocument}
         theme={theme}
         onToggleTheme={toggleTheme}
         isDesktop={isDesktop}

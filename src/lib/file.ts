@@ -43,6 +43,43 @@ export function openFilePicker(onFile: (file: File) => void): void {
   input.click()
 }
 
+/**
+ * A name the user typed → a safe Markdown file name: characters file systems refuse become "-", no leading dots,
+ * at most 120 characters, and `.md` added unless it already ends in a Markdown extension. null when empty.
+ */
+export function normalizeFilename(input: string): string | null {
+  // eslint-disable-next-line no-control-regex
+  let name = input.trim().replace(/[\\/:*?"<>|\u0000-\u001f]/g, '-').replace(/\s+/g, ' ').replace(/^\.+/, '').trim()
+  if (!name) return null
+  if (!isMarkdownFile(name)) name = name.replace(/\.+$/, '') + '.md'
+  if (name.length > 120) {
+    const ext = name.slice(name.lastIndexOf('.'))
+    name = name.slice(0, 120 - ext.length).trimEnd() + ext
+  }
+  return name
+}
+
+/** A starting name for an untitled document: its first heading as kebab-case, else document.md. */
+export function suggestFilename(content: string): string {
+  const heading = content.match(/^ {0,3}#{1,6}[ \t]+(.+?)[ \t#]*$/m)?.[1] ?? ''
+  const slug = heading
+    .replace(/[*_`~[\]()]/g, '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60)
+    .replace(/-+$/, '')
+  return slug ? `${slug}.md` : 'document.md'
+}
+
+/** The part of a file name before its extension (what a rename field selects). */
+export function baseNameLength(name: string): number {
+  const dot = name.lastIndexOf('.')
+  return dot > 0 ? dot : name.length
+}
+
 export function fallbackFilename(filename: string | null): string {
   return filename && filename.trim() !== '' ? filename : 'document.md'
 }

@@ -53,7 +53,7 @@ interface AboutPageProps {
 const SHORTCUTS: [KeyToken[], string, string][] = [
   [['mod', 'o'], 'Open a file', 'Abrir um arquivo'],
   [['mod', 'n'], 'New document', 'Novo documento'],
-  [['mod', 's'], 'Export (.md download)', 'Exportar (download .md)'],
+  [['mod', 's'], 'Export (press again to download)', 'Exportar (aperte de novo para baixar)'],
   [['mod', 'shift', 'c'], 'Copy Markdown', 'Copiar Markdown'],
   [['mod', 'shift', 'h'], 'Recent documents', 'Documentos recentes'],
   [['tab'], 'Accept a Smart Assist suggestion', 'Aceitar uma sugestão do Smart Assist'],
@@ -235,10 +235,10 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
               <>Todo documento que você abre, cola ou escreve fica em Recentes (ícone de relógio, ou <Keys k={['mod', 'shift', 'h']} />) — alterne entre eles à vontade, nada se perde. Até 15, guardados só neste navegador.</>,
             )}
           </Feature>
-          <Feature icon={<Download />} title={x('Export & copy', 'Exportar e copiar')}>
+          <Feature icon={<Download />} title={x('Name, export & copy', 'Nome, exportar e copiar')}>
             {x(
-              <>Download the current text as a <code>.md</code> file, or copy the raw Markdown in one click.</>,
-              <>Baixe o texto atual como arquivo <code>.md</code>, ou copie o Markdown bruto com um clique.</>,
+              <>Click the document’s name in the header to rename it. Export asks for the file name first — your document’s name, or one taken from its first heading — and that name sticks; <Keys k={['mod', 's']} /> opens it and pressing it again downloads. Or copy the raw Markdown in one click.</>,
+              <>Clique no nome do documento no cabeçalho para renomear. Exportar pede primeiro o nome do arquivo — o nome do documento, ou um tirado do primeiro título — e esse nome fica; <Keys k={['mod', 's']} /> abre e, apertando de novo, baixa. Ou copie o Markdown bruto com um clique.</>,
             )}
           </Feature>
           <Feature icon={<ClipboardPaste />} title={x('GitHub-flavoured Markdown', 'Markdown no estilo GitHub')}>
