@@ -497,6 +497,6 @@ There are no cookies, analytics or third-party requests (system fonts only).
 - Mermaid "stopped working" (Pablo): not reproduced — Chromium renders every docs diagram (production and dev,
   EN and PT, desktop and 375 px, light and dark). The failure path switched back to "Drawn" silently, which
   looks exactly like a dead button when the ~650 KB download fails (phone network, an old tab after a deploy) or
-  a browser can't draw it. Now it says so, offers Try again and logs the error; pending Pablo's browser/device to
-  find the root cause.
+  a browser can't draw it. Cause found: Pablo's local server had stopped, so the Mermaid chunk couldn't load —
+  no bug in Mermaid itself. The visible message (Try again + console log) stays: it's what makes that case obvious.
 
