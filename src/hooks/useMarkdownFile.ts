@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { isMarkdownFile, readFileAsText } from '../lib/file'
+import { isMarkdownFile, looksBinary, readFileAsText } from '../lib/file'
 import { loadDocument, saveDocument } from '../lib/storage'
 import {
   clearHistory as clearAll,
@@ -95,6 +95,10 @@ export function useMarkdownFile() {
       }
       try {
         const content = await readFileAsText(file)
+        if (looksBinary(content)) {
+          setError('error.notText')
+          return false
+        }
         flushCurrent()
         setDocument({ id: idFor(file.name, content), filename: file.name, content, savedContent: content })
         setError(null)

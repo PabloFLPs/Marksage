@@ -1,4 +1,10 @@
-export const ACCEPTED_EXTENSIONS = ['.md', '.markdown']
+// Markdown only (plain .txt is refused on purpose). .mdx is Markdown + JSX: it opens as Markdown, the JSX shows as text.
+export const ACCEPTED_EXTENSIONS = ['.md', '.markdown', '.mdx', '.mdown', '.mkd', '.mkdn', '.mdwn']
+
+/** A NUL character never appears in a text file — it's a binary file renamed (an image, a PDF…). */
+export function looksBinary(text: string): boolean {
+  return text.slice(0, 8000).includes('\u0000')
+}
 
 export function isMarkdownFile(filename: string): boolean {
   const lower = filename.toLowerCase()

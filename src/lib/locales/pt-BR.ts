@@ -40,7 +40,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'empty.clipboardEmpty': 'Sua área de transferência está vazia — copie algum Markdown primeiro.',
   'empty.assist': 'O Smart Assist sugere correções enquanto você escreve — títulos, listas, tabelas, linguagens de código — no seu próprio dispositivo.',
   'empty.privacy': 'Privacidade e armazenamento',
-  'empty.supports': 'Aceita arquivos .md e .markdown — tudo fica no seu navegador.',
+  'empty.supports': 'Arquivos Markdown (.md, .markdown, .mdx…) — tudo fica no seu navegador.',
   'shell.dropToOpen': 'Solte para abrir',
   'shell.dismissError': 'Fechar erro',
   'shell.words': '{n} palavras',
@@ -55,7 +55,8 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'scroll.toEnd': 'Ir para o fim',
   'split.resizeTitle': 'Arraste para redimensionar — clique duplo para redefinir',
 
-  'error.notMarkdown': 'Selecione um arquivo Markdown (.md).',
+  'error.notMarkdown': 'O Marksage abre só arquivos Markdown (.md, .markdown, .mdx, .mdown, .mkd, .mkdn, .mdwn).',
+  'error.notText': 'Este arquivo não parece ser texto — é mesmo Markdown?',
   'error.readFailed': 'Não foi possível ler o arquivo.',
   'error.copyFailed': 'Não foi possível copiar para a área de transferência.',
 

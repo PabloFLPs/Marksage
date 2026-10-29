@@ -7,10 +7,11 @@ Everything runs in the browser — files never leave your machine.
 ## Features
 
 - **Preview-first** rendering with GFM (tables, task lists, strikethrough, autolinks)
-- **Open** via file picker, drag & drop, or paste, or **start writing** from the start screen. If the browser
-  won't let "Paste Markdown" read the clipboard, a new document opens ready to paste into. **Live split
-  editor** with a resizable divider and **synced scrolling** (preview and editor stay on the same passage);
-  start/end buttons on long documents
+- **Open** via file picker, drag & drop, or paste, or **start writing** from the start screen — Markdown files
+  only: `.md`, `.markdown`, `.mdx` (JSX shows as text), `.mdown`, `.mkd`, `.mkdn`, `.mdwn`; plain `.txt` and
+  binary files are refused. If the browser won't let "Paste Markdown" read the clipboard, a new document opens
+  ready to paste into. **Live split editor** with a resizable divider and **synced scrolling** (preview and
+  editor stay on the same passage); start/end buttons on long documents
 - **Fast on long documents** — the preview follows the text at low priority and renders in pieces split at
   headings, so a keystroke re-renders only the piece it's in (same HTML as one parse); highlighted code blocks
   and Outline answers are cached. On a 270 KB, 400-section file typing went from ~400 ms to ~20 ms extra per key

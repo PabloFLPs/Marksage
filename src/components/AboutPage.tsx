@@ -212,8 +212,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
         <Section title={x('Reading & writing', 'Leitura e escrita')}>
           <Feature icon={<FileText />} title={x('Open anything Markdown', 'Abra qualquer Markdown')}>
             {x(
-              <>Drag a <code>.md</code> file anywhere onto the window, use Open, paste text straight onto the empty page, or start writing. If the browser won’t let Paste read your clipboard, a new document opens for you to paste into.</>,
-              <>Arraste um arquivo <code>.md</code> para qualquer lugar da janela, use Abrir, cole o texto direto na página vazia, ou comece a escrever. Se o navegador não deixar o Colar ler a área de transferência, abre um documento novo para você colar nele.</>,
+              <>Drag a Markdown file anywhere onto the window, use Open, paste text straight onto the empty page, or start writing. <code>.md</code>, <code>.markdown</code> and <code>.mdx</code> open (MDX’s JSX shows as plain text), as do <code>.mdown</code>, <code>.mkd</code>, <code>.mkdn</code> and <code>.mdwn</code>; plain <code>.txt</code> doesn’t. If the browser won’t let Paste read your clipboard, a new document opens for you to paste into.</>,
+              <>Arraste um arquivo Markdown para qualquer lugar da janela, use Abrir, cole o texto direto na página vazia, ou comece a escrever. Abrem <code>.md</code>, <code>.markdown</code> e <code>.mdx</code> (o JSX do MDX aparece como texto), além de <code>.mdown</code>, <code>.mkd</code>, <code>.mkdn</code> e <code>.mdwn</code>; <code>.txt</code> simples não. Se o navegador não deixar o Colar ler a área de transferência, abre um documento novo para você colar nele.</>,
             )}
           </Feature>
           <Feature icon={<Columns2 />} title={x('Live split editor', 'Editor dividido ao vivo')}>

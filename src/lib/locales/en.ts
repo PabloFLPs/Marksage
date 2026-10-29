@@ -39,7 +39,7 @@ export const en = {
   'empty.clipboardEmpty': 'Your clipboard is empty — copy some Markdown first.',
   'empty.assist': 'Smart Assist suggests fixes as you write — headings, lists, tables, code languages — right on your device.',
   'empty.privacy': 'Privacy & storage',
-  'empty.supports': 'Supports .md and .markdown files — everything stays in your browser.',
+  'empty.supports': 'Markdown files (.md, .markdown, .mdx…) — everything stays in your browser.',
   'shell.dropToOpen': 'Drop to open',
   'shell.dismissError': 'Dismiss error',
   'shell.words': '{n} words',
@@ -54,7 +54,8 @@ export const en = {
   'scroll.toEnd': 'Jump to the end',
   'split.resizeTitle': 'Drag to resize — double-click to reset',
 
-  'error.notMarkdown': 'Please select a Markdown file (.md).',
+  'error.notMarkdown': 'Marksage opens Markdown files only (.md, .markdown, .mdx, .mdown, .mkd, .mkdn, .mdwn).',
+  'error.notText': 'This file doesn’t look like text — is it really Markdown?',
   'error.readFailed': 'Failed to read the file.',
   'error.copyFailed': 'Failed to copy to clipboard.',
 
