@@ -475,3 +475,15 @@ There are no cookies, analytics or third-party requests (system fonts only).
 - Checks: `tsc`, lint (no new warnings), `eval:assist` identical apart from timings, scripted browser checks for
   every fix.
 
+## 30. Rename, and Export asks for a name (2026-10-29)
+
+- Pablo asked for renaming (clicking "/ Untitled" in the header, or when exporting) and whether ⌘S → export is
+  right. ⌘S is a save reflex; Marksage already autosaves in the browser, so mapping it to an instant download
+  piled up `document (3).md` files. Now ⌘S (or the Export button) opens an "Export as" panel with the name
+  selected; ⌘S again or Enter downloads. The name — the document's, or kebab-case from its first heading — also
+  becomes the document's name (Recent follows). Header name: click to rename, Enter keeps, Esc cancels; the
+  name part is selected, `.md` is added unless a Markdown extension is there; unsafe characters become `-`.
+- Phones have no name in the header (no room), so the Export panel is where they rename.
+- Open idea for later (not decided): with the File System Access API (Chrome / Edge), a file opened from disk
+  could be saved back in place on ⌘S.
+
