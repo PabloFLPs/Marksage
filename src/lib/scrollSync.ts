@@ -15,12 +15,19 @@ type HastNode = {
   children?: HastNode[]
 }
 
-/** rehype plugin: tag top-level blocks with their source line (`data-line`). */
-export function rehypeSourceLines() {
+/**
+ * rehype plugin: tag top-level blocks with their source line (`data-line`). A piece of a long document
+ * (`chunk` set, see lib/chunks.ts) tags its line inside the piece instead (`data-chunk` + `data-rel-line`);
+ * the preview turns those into the document's `data-line` after rendering.
+ */
+export function rehypeSourceLines(options?: { chunk?: number }) {
+  const chunk = options?.chunk
   return (tree: HastNode) => {
     for (const node of tree.children ?? []) {
       if (node.type === 'element' && node.position) {
-        node.properties = { ...node.properties, dataLine: node.position.start.line }
+        const line = node.position.start.line
+        node.properties =
+          chunk === undefined ? { ...node.properties, dataLine: line } : { ...node.properties, dataChunk: chunk, dataRelLine: line }
       }
     }
   }

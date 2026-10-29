@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import type { HTMLAttributes, ReactNode } from 'react'
 import { Check, Clipboard } from 'lucide-react'
 import { copyTextToClipboard } from '../lib/file'
@@ -12,10 +12,23 @@ interface CodeBlockProps extends HTMLAttributes<HTMLDivElement> {
   fallback: ReactNode
 }
 
+// Highlighting is the costly part of a code block: keep recent results (same code + language → same nodes).
+const highlighted = new Map<string, ReactNode>()
+const HIGHLIGHT_CACHE = 400
+
 /** A fenced code block: Prism colors when it has a language tag we know, and a copy button. */
-export function CodeBlock({ lang, code, fallback, ...rest }: CodeBlockProps) {
+function CodeBlockImpl({ lang, code, fallback, ...rest }: CodeBlockProps) {
   const hl = useHighlighter(!!lang)
-  const nodes = lang && hl ? hl.highlight(code, lang) : null
+  let nodes: ReactNode = null
+  if (lang && hl) {
+    const key = `${lang}\u0000${code}`
+    nodes = highlighted.get(key)
+    if (nodes === undefined) {
+      nodes = hl.highlight(code, lang)
+      if (highlighted.size >= HIGHLIGHT_CACHE) highlighted.delete(highlighted.keys().next().value!)
+      highlighted.set(key, nodes)
+    }
+  }
   return (
     <div {...rest} className="code-block">
       <pre>{nodes ? <code className={`language-${lang}`}>{nodes}</code> : fallback}</pre>
@@ -23,6 +36,13 @@ export function CodeBlock({ lang, code, fallback, ...rest }: CodeBlockProps) {
     </div>
   )
 }
+
+/** Re-renders only when its code, language or line changes (`fallback` is derived from the code). */
+export const CodeBlock = memo(CodeBlockImpl, (a, b) => {
+  const keys = (p: CodeBlockProps) => Object.keys(p).filter((k) => k !== 'fallback') as (keyof CodeBlockProps)[]
+  const ka = keys(a)
+  return ka.length === keys(b).length && ka.every((k) => a[k] === b[k])
+})
 
 function CopyButton({ code }: { code: string }) {
   const { t } = useI18n()

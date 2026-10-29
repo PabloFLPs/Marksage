@@ -27,6 +27,10 @@ interface Options {
   listAll?: boolean
 }
 
+// Shared empty arrays: a new [] on every render would make the preview re-render (it's memoized on these).
+const NO_MARKS: ReadabilityMark[] = []
+const NO_SUGGESTIONS: Suggestion[] = []
+
 export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = false }: Options) {
   const heuristic = useMemo(() => new HeuristicEngine(), [])
   const [engine, setEngine] = useState<DecisionEngine | null>(null)
@@ -44,7 +48,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
   // Engine lifecycle.
   useEffect(() => {
     setSuggestion(null)
-    setReadability([])
+    setReadability(NO_MARKS)
     setAll([])
     // A new mode is a fresh start: what was dismissed (Esc) under the old one is offered again.
     dismissed.current.clear()
@@ -236,14 +240,14 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
   )
 
   if (mode === 'off') {
-    return { enabled: false as const, status, suggestion: null, readability: [] as ReadabilityMark[], all: [] as Suggestion[] }
+    return { enabled: false as const, status, suggestion: null, readability: NO_MARKS, all: NO_SUGGESTIONS }
   }
   return {
     enabled: true as const,
     status,
     suggestion,
     readability,
-    all: listAll ? all : [],
+    all: listAll ? all : NO_SUGGESTIONS,
     show,
     accept,
     dismiss,

@@ -54,12 +54,33 @@ export function sectionTypeByModel(model: LangModel, text: string): { type: Sect
   return { type: top, confidence: conf, tentative: !passesGate(probs) }
 }
 
+/**
+ * Results per heading / section text, kept between rebuilds: typing changes one section, so the others are
+ * looked up instead of re-read (a long document re-read every keystroke made typing lag). Pure functions of
+ * their input, so the cache never changes an answer; it's cleared when it grows past CACHE_MAX.
+ */
+const CACHE_MAX = 4000
+function cached<V>(cache: Map<string, V>, key: string, compute: () => V): V {
+  const hit = cache.get(key)
+  if (hit !== undefined || cache.has(key)) return hit as V
+  if (cache.size >= CACHE_MAX) cache.clear()
+  const v = compute()
+  cache.set(key, v)
+  return v
+}
+const keyCache = new Map<string, string | null>()
+const headingCache = new Map<string, SectionType | null>()
+const modelCache = new WeakMap<LangModel, Map<string, ReturnType<typeof sectionTypeByModel>>>()
+
 export function buildOutline(text: string, model?: LangModel | null): OutlineItem[] {
+  let byModelCache = model ? modelCache.get(model) : undefined
+  if (model && !byModelCache) modelCache.set(model, (byModelCache = new Map()))
   return splitDocSections(text).map((s) => {
-    const base = { heading: s.heading, level: s.level, line: s.line, key: keySentence(s.own) ?? keySentence(s.body) }
-    const byHeading = headingType(s.heading)
+    const key = cached(keyCache, s.own, () => keySentence(s.own)) ?? cached(keyCache, s.body, () => keySentence(s.body))
+    const base = { heading: s.heading, level: s.level, line: s.line, key }
+    const byHeading = cached(headingCache, s.heading, () => headingType(s.heading))
     if (byHeading) return { ...base, type: byHeading, source: 'heading' }
-    const byModel = model && !isNavigationHeading(s.heading) ? sectionTypeByModel(model, s.own) : null
+    const byModel = model && byModelCache && !isNavigationHeading(s.heading) ? cached(byModelCache, s.own, () => sectionTypeByModel(model, s.own)) : null
     if (byModel) return { ...base, type: byModel.type, source: 'model', confidence: byModel.confidence, tentative: byModel.tentative }
     return { ...base, type: null, source: null }
   })

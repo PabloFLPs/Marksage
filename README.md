@@ -11,6 +11,9 @@ Everything runs in the browser — files never leave your machine.
   won't let "Paste Markdown" read the clipboard, a new document opens ready to paste into. **Live split
   editor** with a resizable divider and **synced scrolling** (preview and editor stay on the same passage);
   start/end buttons on long documents
+- **Fast on long documents** — the preview follows the text at low priority and renders in pieces split at
+  headings, so a keystroke re-renders only the piece it's in (same HTML as one parse); highlighted code blocks
+  and Outline answers are cached. On a 270 KB, 400-section file typing went from ~400 ms to ~20 ms extra per key
 - **Smart Assist** (local, on by default in Rules mode; one click to turn off): code-fence language, smart paste (CSV/TSV/aligned text → table,
   lists, JSON/code → fenced block), structure hints (`**Title**` → heading, `-item` / `• item` → list,
   `[text] (url)` → link…), per-section readability dots. Suggest-only: `Tab` accepts, `Esc` dismisses, undo

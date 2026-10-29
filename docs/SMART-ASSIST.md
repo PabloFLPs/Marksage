@@ -201,7 +201,9 @@ Silence is the default: a missed suggestion costs nothing, a wrong one costs tru
 - **Undo works.** Edits are applied with `document.execCommand('insertText')`, so they enter the
   browser's native undo stack (`⌘/Ctrl Z`); a controlled `onChange` is the fallback.
 - **Never per keystroke.** Analysis is debounced (400 ms), readability waits for 2 s idle, and
-  the pre-filter must find a candidate before any engine call.
+  the pre-filter must find a candidate before any engine call. The Outline rebuilds on the deferred text and
+  keeps each section's answers (type, key sentence) between rebuilds, so a keystroke re-reads only the section
+  it changed.
 - **Cancellation.** Each run owns an `AbortController`; new input aborts stale runs.
 - **Dismissals stick** for the session (keyed by a content hash), so the same hint never nags. Changing the
   mode (or turning Smart Assist off and on) is a fresh start: dismissed suggestions are offered again.

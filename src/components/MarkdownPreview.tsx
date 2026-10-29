@@ -1,13 +1,14 @@
-import { Children, isValidElement, useMemo } from 'react'
+import { Children, isValidElement, memo, useLayoutEffect, useMemo, useRef } from 'react'
 import type { HTMLAttributes, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import type { Components } from 'react-markdown'
+import type { Components, Options } from 'react-markdown'
 import type { ReadabilityMark } from '../assist/types'
 import { rehypeSourceLines } from '../lib/scrollSync'
 import { useI18n } from '../hooks/useI18n'
 import { CodeBlock } from './CodeBlock'
 import { codeOf } from '../lib/codeOf'
+import { splitMarkdown } from '../lib/chunks'
 
 interface MarkdownPreviewProps {
   content: string
@@ -21,7 +22,21 @@ interface MarkdownPreviewProps {
 
 const DOT_COLORS = ['bg-emerald-500/70', 'bg-emerald-500/70', 'bg-amber-500/70', 'bg-orange-500/80', 'bg-red-500/80']
 
-export function MarkdownPreview({ content, readability, renderBlock, internalLinks }: MarkdownPreviewProps) {
+const REMARK = [remarkGfm]
+const REHYPE = [rehypeSourceLines]
+
+/** One piece of a long document; re-renders only when its own text (or the renderers) change. */
+const Piece = memo(function Piece({ text, index, components }: { text: string; index: number; components: Components }) {
+  const rehype = useMemo<Options['rehypePlugins']>(() => [[rehypeSourceLines, { chunk: index }]], [index])
+  return (
+    <ReactMarkdown remarkPlugins={REMARK} rehypePlugins={rehype} components={components}>
+      {text}
+    </ReactMarkdown>
+  )
+})
+
+/** Memoized: it re-renders only when the (deferred) content or its options change — not on every App render. */
+export const MarkdownPreview = memo(function MarkdownPreview({ content, readability, renderBlock, internalLinks }: MarkdownPreviewProps) {
   const { t } = useI18n()
   const components = useMemo<Components>(() => {
     const base: Components = {
@@ -66,14 +81,29 @@ export function MarkdownPreview({ content, readability, renderBlock, internalLin
     }
   }, [readability, t, renderBlock, internalLinks])
 
+  // Long documents render in pieces (lib/chunks.ts); afterwards each block gets the document's line back.
+  const chunks = useMemo(() => splitMarkdown(content), [content])
+  const rootRef = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    if (!chunks || !rootRef.current) return
+    rootRef.current.querySelectorAll<HTMLElement>('[data-rel-line]').forEach((el) => {
+      const start = chunks[Number(el.dataset.chunk)]?.line ?? 0
+      el.dataset.line = String(start + Number(el.dataset.relLine))
+    })
+  })
+
   return (
-    <div className="markdown-body mx-auto w-full max-w-[900px] px-4 py-8 sm:px-6 sm:py-10">
-      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSourceLines]} components={components}>
-        {content}
-      </ReactMarkdown>
+    <div ref={rootRef} className="markdown-body mx-auto w-full max-w-[900px] px-4 py-8 sm:px-6 sm:py-10">
+      {chunks ? (
+        chunks.map((c, i) => <Piece key={i} index={i} text={c.text} components={components} />)
+      ) : (
+        <ReactMarkdown remarkPlugins={REMARK} rehypePlugins={REHYPE} components={components}>
+          {content}
+        </ReactMarkdown>
+      )}
     </div>
   )
-}
+})
 
 
 function textOf(node: ReactNode): string {

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import { AlertCircle, Eye, X } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
@@ -490,6 +490,11 @@ export default function App() {
     saveSplitRatio(ratio)
   }, [])
 
+  // The preview follows the text at low priority: keystrokes paint first, the preview catches up when idle
+  // (long documents render in pieces React can pause between — see lib/chunks.ts).
+  const previewContent = useDeferredValue(document?.content ?? '')
+  // Counted on the deferred text too: on a long document a full count every keystroke is noticeable.
+  const wordCount = useMemo(() => countWords(previewContent), [previewContent])
   const hasDocument = document !== null
   const editing = hasDocument && viewMode === 'edit'
   // Split view: preview and editor scroll together (desktop only).
@@ -665,7 +670,7 @@ export default function App() {
                   onRatioChange={handleChangeSplitRatio}
                   left={
                     <main>
-                      <MarkdownPreview content={document.content} readability={assist.readability} />
+                      <MarkdownPreview content={previewContent} readability={assist.readability} />
                       <ScrollJump />
                     </main>
                   }
@@ -694,7 +699,7 @@ export default function App() {
               )
             ) : (
               <main ref={previewScrollRef} key="preview" className={`scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto ${prevView.current === 'edit' ? '' : 'anim-fade'}`}>
-                <MarkdownPreview content={document.content} readability={assist.readability} />
+                <MarkdownPreview content={previewContent} readability={assist.readability} />
                 <ScrollJump />
               </main>
             )}
@@ -722,7 +727,7 @@ export default function App() {
 
       {document && !showAbout && (
         <footer className="anim-fade flex min-h-8 shrink-0 pb-[env(safe-area-inset-bottom)] items-center justify-center gap-4 border-t border-line bg-surface text-xs text-ink-muted dark:border-dark-line dark:bg-dark-surface dark:text-dark-ink-muted">
-          <span>{t('shell.words', { n: countWords(document.content).toLocaleString(lang) })}</span>
+          <span>{t('shell.words', { n: wordCount.toLocaleString(lang) })}</span>
           <span>{t('shell.characters', { n: document.content.length.toLocaleString(lang) })}</span>
         </footer>
       )}

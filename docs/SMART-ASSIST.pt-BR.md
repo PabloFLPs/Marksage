@@ -202,7 +202,9 @@ O silêncio é o padrão: uma sugestão perdida não custa nada; uma errada cust
 - **Desfazer funciona.** As edições usam `document.execCommand('insertText')`, então entram na
   pilha nativa de desfazer (`⌘/Ctrl Z`); um `onChange` controlado é o plano B.
 - **Nunca a cada tecla.** A análise tem debounce (400 ms), a legibilidade espera 2 s ociosos e o
-  pré-filtro precisa achar um candidato antes de qualquer chamada ao mecanismo.
+  pré-filtro precisa achar um candidato antes de qualquer chamada ao mecanismo. A Estrutura se refaz sobre o
+  texto adiado e guarda as respostas de cada seção (tipo, frase-chave) entre uma vez e outra, então uma tecla
+  só faz reler a seção que ela mudou.
 - **Cancelamento.** Cada execução tem seu `AbortController`; novas digitações abortam execuções
   antigas.
 - **Dispensas permanecem** durante a sessão (por hash do conteúdo), para a mesma dica não insistir. Trocar o
