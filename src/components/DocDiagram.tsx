@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { useI18n } from '../hooks/useI18n'
 
@@ -18,7 +18,6 @@ type View = 'drawn' | 'mermaid'
 export function DocDiagram({ svg, narrowSvg, mermaid, alt }: DocDiagramProps) {
   const { t } = useI18n()
   const [view, setView] = useState<View>('drawn')
-  const fallBack = useCallback(() => setView('drawn'), [])
   // Never wider than the drawing itself (the single-column diagrams are 440 px wide).
   const width = Number(/<svg[^>]*\swidth="(\d+)"/.exec(svg)?.[1]) || 720
   return (
@@ -43,7 +42,7 @@ export function DocDiagram({ svg, narrowSvg, mermaid, alt }: DocDiagramProps) {
           {narrowSvg && <div className="doc-diagram doc-diagram-narrow" role="img" aria-label={alt} dangerouslySetInnerHTML={{ __html: narrowSvg }} />}
         </>
       ) : (
-        <MermaidView source={mermaid} alt={alt} onFail={fallBack} />
+        <MermaidView source={mermaid} alt={alt} />
       )}
     </figure>
   )
@@ -73,11 +72,18 @@ function themeVariables() {
   }
 }
 
-function MermaidView({ source, alt, onFail }: { source: string; alt: string; onFail: () => void }) {
+/**
+ * Mermaid's rendering. A failure (the ~650 KB download dropped, an old tab after a deploy, a browser Mermaid
+ * can't draw in) says so and offers Try again — it used to switch back to "Drawn" silently, which looked
+ * like a dead button.
+ */
+function MermaidView({ source, alt }: { source: string; alt: string }) {
   const { t } = useI18n()
   const id = 'mmd-' + useId().replace(/[^a-zA-Z0-9]/g, '')
   const [svg, setSvg] = useState<string | null>(null)
   const [themeKey, setThemeKey] = useState(0)
+  const [failed, setFailed] = useState(false)
+  const [attempt, setAttempt] = useState(0)
 
   // Re-render when the theme or accent changes.
   useEffect(() => {
@@ -88,18 +94,31 @@ function MermaidView({ source, alt, onFail }: { source: string; alt: string; onF
 
   useEffect(() => {
     let alive = true
+    setFailed(false)
     import('mermaid')
       .then(async ({ default: mm }) => {
         mm.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'base', themeVariables: themeVariables(), flowchart: { curve: 'basis', wrappingWidth: 280, nodeSpacing: 28, rankSpacing: 36 } })
         const out = await mm.render(`${id}-${themeKey}`, source)
         if (alive) setSvg(out.svg)
       })
-      .catch(() => alive && onFail())
+      .catch((err) => {
+        console.error('[diagram] Mermaid failed:', err)
+        if (alive) setFailed(true)
+      })
     return () => {
       alive = false
     }
-  }, [source, id, themeKey, onFail])
+  }, [source, id, themeKey, attempt])
 
+  if (failed)
+    return (
+      <p role="alert" className="doc-diagram-loading">
+        {t('diagram.failed')}{' '}
+        <button type="button" onClick={() => setAttempt((n) => n + 1)} className="font-medium text-accent hover:underline dark:text-dark-accent">
+          {t('diagram.retry')}
+        </button>
+      </p>
+    )
   if (!svg) return <p className="doc-diagram-loading">{t('diagram.loading')}</p>
   // Mermaid's own output in strict mode (sanitized), from our docs source.
   return <div className="doc-diagram doc-diagram-mermaid" role="img" aria-label={alt} dangerouslySetInnerHTML={{ __html: svg }} />

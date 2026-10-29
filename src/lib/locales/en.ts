@@ -259,6 +259,8 @@ export const en = {
   'docs.readOnly': 'Read-only',
   'docs.readOnlyTitle': 'Marksage’s docs can’t be edited here — copy the Markdown to use it in your own document',
   'docs.copyTitle': 'Copy this page’s Markdown',
+  'diagram.failed': 'Mermaid couldn’t load this diagram (see the browser console).',
+  'diagram.retry': 'Try again',
   'diagram.view': 'Diagram style',
   'diagram.drawn': 'Drawn',
   'diagram.mermaid': 'Mermaid',

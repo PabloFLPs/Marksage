@@ -260,6 +260,8 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'docs.readOnly': 'Somente leitura',
   'docs.readOnlyTitle': 'A documentação do Marksage não pode ser editada aqui — copie o Markdown para usar no seu documento',
   'docs.copyTitle': 'Copiar o Markdown desta página',
+  'diagram.failed': 'O Mermaid não conseguiu carregar este diagrama (veja o console do navegador).',
+  'diagram.retry': 'Tentar de novo',
   'diagram.view': 'Estilo do diagrama',
   'diagram.drawn': 'Desenho',
   'diagram.mermaid': 'Mermaid',
