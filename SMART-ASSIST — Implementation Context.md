@@ -679,3 +679,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   measurements to take — next to the preview-layout follow-up from #15.
 
 That closes the launch QA report: 36 findings — 35 fixed in their own commits (#16 in two), #35 planned.
+- **`npm audit` (after the QA fixes).** 4 advisories, none in code users run: Vite 8.2.x (dev server — cross-origin
+  script via custom middleware, files outside `server.fs.allow`, `launch-editor` on Windows) and `source-map-js`
+  (build-time DoS) were high; KaTeX < 0.18.2 via Mermaid (prototype pollution bypassing its trust option) low —
+  Mermaid only draws Marksage's own docs, in strict mode. `npm audit fix` (lockfile only): Vite 8.3.5, source-map-js
+  1.2.2, Mermaid 12.2.0, KaTeX 0.18.10 — 0 advisories; build, eval and the docs' Mermaid diagrams checked.
