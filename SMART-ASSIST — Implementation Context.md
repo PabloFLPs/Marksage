@@ -666,3 +666,7 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
 
 - **"The button below" (#33).** Privacy & storage said "the button below clears what this browser keeps", but once
   models are downloaded two buttons sit below it. It names the button now: "Delete all Marksage data".
+
+- **Link previews (#34).** `og:image` / `og:url` come out relative when `VITE_SITE_URL` isn't set at build time
+  (the QA build didn't set it), so shared links show no image. The build now warns when it's missing; the value
+  itself is a deploy setting (`.env.example`).
