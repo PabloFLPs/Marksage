@@ -691,9 +691,14 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   in the app at `#story`, linked from About ("The story: the decisions and models behind Marksage"). His choices:
   neutral voice ("Marksage…"), strict date order, only the main architecture decisions and the AI models — no
   rename, translation or UI polish entries — and the launch QA's simulated users named as AI agents, explicitly.
-- Eleven entries: local-first (Aug 14), the engine contract + gate (Sep 26), decision vs generative models and the
-  smallest-tool ladder (Sep), the code model v1 and v2 (Oct 24), the section model, AGPL + storage page (Oct 25),
-  the models that didn't ship (Oct 28), chunked preview (Oct 29), the five-agent launch QA (Oct 28–30), next.
+- Eleven entries: local-first (Aug 14), decision vs generative models and the smallest-tool ladder (Sep 25, the
+  case study), the engine contract + gate (Sep 26), the code model v1 and v2 (Oct 24), the section model, AGPL + storage page (Oct 25),
+  the models that didn't ship (Oct 28), chunked preview (Oct 29), the five-agent launch QA (Oct 29–30), next.
   Numbers from MODELS.md / training/README.md; each entry links to the docs section with the detail.
 - `StoryPage.tsx` + `lib/storyContent.{en,pt-BR}.ts`, lazy like the docs (~3 KB gzip per language), same Back /
   Esc / Try again behaviour; a docs page opened from the story says "← The story".
+- Pablo's review: the timeline shows month and year, the exact day(s) on hover (`<time title>`, Intl `formatRange`
+  for ranges); dates are ISO in the content, so the order is checkable — it caught two slips (the decision-models
+  entry is Sep 25, the case study, so it now comes before Smart Assist; the five-agent QA ran Oct 29–30). The rail
+  is one segment per entry and the dots are centred on it (line 7–8 px, 11 px dot from 2 px) with a ring of the
+  page colour, so the line no longer shows past their edge.

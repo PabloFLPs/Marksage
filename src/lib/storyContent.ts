@@ -6,8 +6,11 @@ import type { Lang } from './i18n'
  * must match docs/MODELS.md and training/README.md. Each language is its own chunk, loaded with the page.
  */
 export interface StoryEntry {
-  /** Shown as written ("Aug 14, 2026", "Oct 28–30"). */
-  date: string
+  /**
+   * ISO day ("2026-08-14") or a range ["2026-10-24", "2026-10-27"]: the timeline shows the month and year, the
+   * exact day(s) on hover. Absent for "what's next".
+   */
+  date?: string | [string, string]
   title: string
   /** Paragraphs; `inline code` in backticks. */
   body: string[]
@@ -20,6 +23,8 @@ export interface StoryEntry {
 export interface StoryContent {
   title: string
   intro: string
+  /** Shown in place of a date for the entry without one ("Next"). */
+  upcoming: string
   entries: StoryEntry[]
 }
 

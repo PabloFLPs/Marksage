@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import type { StoryContent } from '../lib/storyContent'
+import type { StoryContent, StoryEntry } from '../lib/storyContent'
+import { useI18n } from '../hooks/useI18n'
 
 export interface StoryPageProps {
   content: StoryContent
@@ -16,11 +17,37 @@ function inline(text: string): ReactNode {
   )
 }
 
+const day = (iso: string) => {
+  const [y, m, d] = iso.split('-').map(Number)
+  return new Date(Date.UTC(y, m - 1, d))
+}
+
+/** "Oct 2026" / "out 2026" on the timeline; the exact day(s) — "October 24 – 27, 2026" — on hover. */
+function EntryDate({ date, upcoming, lang }: { date: StoryEntry['date']; upcoming: string; lang: string }) {
+  const cls = 'font-mono text-xs text-accent dark:text-dark-accent'
+  if (!date) return <p className={cls}>{upcoming}</p>
+  const [from, to] = Array.isArray(date) ? date : [date, date]
+  // Month + year from the parts, so PT reads "ago 2026" rather than "ago. de 2026".
+  const parts = new Intl.DateTimeFormat(lang, { month: 'short', year: 'numeric', timeZone: 'UTC' }).formatToParts(day(from))
+  const label = ['month', 'year'].map((t) => parts.find((p) => p.type === t)?.value.replace('.', '') ?? '').join(' ')
+  const full = new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+  const exact = from === to ? full.format(day(from)) : full.formatRange(day(from), day(to))
+  return (
+    <p className={cls}>
+      <time dateTime={from} title={exact} className="cursor-default">
+        {label}
+      </time>
+    </p>
+  )
+}
+
 /**
  * The story page (#story): Marksage's architecture decisions and models as a timeline — minimal and fast, for
  * people deciding whether the engineering behind it is sound. Detail lives in the docs pages the entries link to.
  */
 export function StoryPage({ content, closing = false, onBack, backLabel }: StoryPageProps) {
+  const { lang } = useI18n()
+  const last = content.entries.length - 1
   return (
     <main className={`scroll-area min-h-0 flex-1 overflow-y-auto ${closing ? 'anim-fade-out' : 'anim-fade'}`}>
       <div className={`mx-auto w-full max-w-[760px] px-4 py-8 sm:px-6 sm:py-10 ${closing ? 'anim-stagger-out' : 'anim-stagger'}`}>
@@ -37,14 +64,17 @@ export function StoryPage({ content, closing = false, onBack, backLabel }: Story
           <p className="mt-3 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">{content.intro}</p>
         </header>
 
-        <ol className="story-timeline anim-stagger relative mt-10 border-l border-line pl-6 dark:border-dark-line">
+        {/* The rail is one segment per entry, from its dot to the next; each dot sits on it, centred (line at 7–8 px,
+            dot 11 px wide from 2 px), with a ring of the page colour so the line never shows through its edge. */}
+        <ol className="story-timeline anim-stagger mt-10">
           {content.entries.map((e, i) => (
-            <li key={i} className="group relative pb-10 last:pb-2">
+            <li key={i} className="group relative pb-10 pl-8 last:pb-2">
+              {i < last && <span aria-hidden className="absolute bottom-0 left-[7px] top-2 w-px bg-line dark:bg-dark-line" />}
               <span
                 aria-hidden
-                className="absolute -left-[31px] top-1 h-2.5 w-2.5 rounded-full border-2 border-accent bg-surface transition-transform duration-200 group-hover:scale-125 dark:border-dark-accent dark:bg-dark-surface"
+                className="absolute left-[2px] top-[2.5px] h-[11px] w-[11px] rounded-full border-2 border-accent bg-surface ring-4 ring-surface transition-transform duration-200 group-hover:scale-125 dark:border-dark-accent dark:bg-dark-surface dark:ring-dark-surface"
               />
-              <p className="font-mono text-xs text-accent dark:text-dark-accent">{e.date}</p>
+              <EntryDate date={e.date} upcoming={content.upcoming} lang={lang} />
               <h2 className="mt-1 text-base font-semibold tracking-tight text-ink dark:text-dark-ink">{e.title}</h2>
               <div className="story-body">
                 {e.body.map((p, j) => (
