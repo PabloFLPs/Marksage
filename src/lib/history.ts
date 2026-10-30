@@ -3,6 +3,8 @@
  * Capped by count and size so it never crowds out the current document.
  */
 
+import { isWiped } from './storage'
+
 export interface HistoryEntry {
   id: string
   filename: string | null
@@ -39,6 +41,7 @@ export function loadHistory(): HistoryEntry[] {
 function persist(entries: HistoryEntry[]): HistoryEntry[] {
   // Trim to limits (newest first), then retry smaller if the quota is hit.
   let list = entries.slice(0, HISTORY_LIMIT)
+  if (isWiped()) return list // "Delete all" ran: write nothing until the reload
   let total = 0
   list = list.filter((e) => (total += e.content.length + e.savedContent.length) <= MAX_TOTAL_CHARS)
   while (list.length) {

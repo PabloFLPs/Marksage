@@ -47,6 +47,8 @@ training/                 Own models' pipeline (collect → split → train; bui
   `.txt` is refused on purpose; `looksBinary` refuses renamed binaries. Keep `error.notMarkdown` listing the same set.
 - **Saving:** `useMarkdownFile` debounces saves (300 ms) and also flushes on `pagehide` / `visibilitychange`; New
   saves the empty document at once. Don't remove either — a reload right after typing used to lose text.
+  "Delete all Marksage data" sets `wiped` (`lib/storage.ts`, `isWiped()`) so that flush and any pending save write
+  nothing until the reload — any new writer of user content must check it too.
 - **Imports inside `src/assist/`** use explicit `.ts` extensions so `node --experimental-strip-types` can run the eval.
 
 ## Smart Assist

@@ -553,3 +553,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
 - **"Heuristics" left in the UI (#9).** The modes were renamed Rules / Rules + AI on 2026-10-28, but three tooltips
   and the "Models removed" message still said "heuristics" (EN + PT). All say "Rules" now; code and docs keep
   "heuristics" where they mean the implementation (`HeuristicEngine`, stored value `heuristics`).
+- **"Delete all Marksage data" kept the document (#10).** It cleared storage and reloaded, and the reload's own
+  `pagehide` flush (the one that stops a reload from losing typing) wrote the open document and Recent straight
+  back — after the page promised to clear what the browser keeps. `deleteAllLocalData` now sets a `wiped` flag that
+  `saveDocument` and Recent's `persist` honour until the reload; verified: only the start screen and an empty
+  Recent come back, and saving works again after it.

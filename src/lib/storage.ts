@@ -29,7 +29,15 @@ export function loadDocument(): StoredDocument | null {
   }
 }
 
+/**
+ * Set by "Delete all Marksage data" until the page reloads: the reload's own `pagehide` flush (useMarkdownFile)
+ * and any pending debounced save would otherwise write the open document and Recent straight back.
+ */
+let wiped = false
+export const isWiped = (): boolean => wiped
+
 export function saveDocument(doc: StoredDocument): void {
+  if (wiped) return
   try {
     localStorage.setItem(DOC_KEY, JSON.stringify(doc))
   } catch {
@@ -126,6 +134,7 @@ export function saveOutlineOpen(open: boolean): void {
 
 /** Everything Marksage keeps in this browser: every `marksage:*` key, plus the downloaded model. */
 export async function deleteAllLocalData(): Promise<void> {
+  wiped = true
   try {
     for (const key of Object.keys(localStorage)) if (key.startsWith('marksage:')) localStorage.removeItem(key)
   } catch {
