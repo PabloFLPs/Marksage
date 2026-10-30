@@ -47,6 +47,20 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
   const components = useMemo<Components>(() => {
     const base: Components = {
       a: ({ href, children }) => {
+        // In-document links (`[x](#install)`, footnotes) scroll the preview — never a new tab, and never the
+        // page's hash, which is the app's own navigation (#about…).
+        if (href?.startsWith('#'))
+          return (
+            <a
+              href={href}
+              onClick={(e) => {
+                e.preventDefault()
+                scrollToAnchor(e.currentTarget, href.slice(1))
+              }}
+            >
+              {children}
+            </a>
+          )
         const internal = href ? internalLinks?.[href.replace(/^\.\//, '')] : undefined
         return internal ? (
           <a href={internal}>{children}</a>
@@ -143,4 +157,40 @@ function normalize(s: string): string {
     .replace(/\s+/g, ' ')
     .trim()
     .toLowerCase()
+}
+
+/** GitHub-style heading anchor: lowercase, punctuation dropped, spaces → "-". */
+function slugOf(text: string): string {
+  return text.trim().toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, '').replace(/\s/g, '-')
+}
+
+/**
+ * Scroll the preview to `#id`: an element with that id (footnotes), else the heading whose GitHub-style slug
+ * matches — repeated headings get `-1`, `-2`… as on GitHub.
+ */
+function scrollToAnchor(from: HTMLElement, raw: string) {
+  const root = from.closest('.markdown-body')
+  if (!root || !raw) return
+  let id = raw
+  try {
+    id = decodeURIComponent(raw)
+  } catch {
+    // Keep it as written.
+  }
+  let target: Element | null = root.querySelector(`[id="${CSS.escape(id)}"]`)
+  if (!target) {
+    const seen = new Map<string, number>()
+    const want = id.toLowerCase()
+    for (const h of root.querySelectorAll('h1, h2, h3, h4, h5, h6')) {
+      const base = slugOf(h.textContent ?? '')
+      const n = seen.get(base) ?? 0
+      seen.set(base, n + 1)
+      if ((n ? `${base}-${n}` : base) === want) {
+        target = h
+        break
+      }
+    }
+  }
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  target?.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' })
 }

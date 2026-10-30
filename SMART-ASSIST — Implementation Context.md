@@ -565,3 +565,7 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   images from other websites — not loaded, to keep your reading private" — linking to it. Blocked images show a
   dashed placeholder with their alt text and host; allowed ones load with `referrerpolicy="no-referrer"`. Images
   inside code, relative paths and `data:` URLs are untouched. Verified: no request leaves the app with it off.
+- **`#anchor` links (#12).** Every preview link had `target="_blank"`, so `[x](#install)` opened a new tab — and
+  `[x](#about)` opened the app's own About in it. In-document links now scroll the preview: an element with that id
+  (footnotes), else the heading with that GitHub-style slug (repeats get `-1`, `-2`…). The page's hash is never
+  touched (it's the app's navigation); `#` alone does nothing. Smooth unless reduced motion.
