@@ -39,7 +39,7 @@ Switch to the preview (or look at the left pane): each long \`##\` section gets 
 export const SAMPLE_DOCUMENT_PT_BR = `# Playground do Smart Assist
 
 Mova o cursor pelo documento — as sugestões aparecem na parte de baixo do editor.
-Pressione **Tab** para aceitar e **Esc** para dispensar.
+Aperte **Tab** para aceitar e **Esc** para ignorar.
 
 ## 1. Blocos de código sem linguagem
 
@@ -52,7 +52,7 @@ interface Usuario {
 }
 \`\`\`
 
-## 2. Estrutura que quase deu certo
+## 2. Formatação que quase deu certo
 
 **Instalação**
 

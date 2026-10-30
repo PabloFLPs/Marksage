@@ -61,7 +61,7 @@ const SHORTCUTS: [KeyToken[], string, string][] = [
   [['mod', 'shift', 'c'], 'Copy Markdown', 'Copiar Markdown'],
   [['mod', 'shift', 'h'], 'Recent documents', 'Documentos recentes'],
   [['tab'], 'Accept a Smart Assist suggestion', 'Aceitar uma sugestão do Smart Assist'],
-  [['esc'], 'Dismiss a suggestion', 'Dispensar uma sugestão'],
+  [['esc'], 'Dismiss a suggestion', 'Ignorar uma sugestão'],
 ]
 
 export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDocs, onTrySmartAssist, appIcon, onAppIconChange, theme, onRemoveModel, onDeleteAllData, remoteImages, onRemoteImagesChange }: AboutPageProps) {
@@ -147,9 +147,9 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
               </>,
               <>
                 Ele já vem ligado no modo <strong className={strong}>Regras</strong>; troque de modo ou desligue pelo menu{' '}
-                <strong className={strong}>Assist</strong> no cabeçalho do editor (o botão de brilho no celular). Ele nunca altera o
+                <strong className={strong}>Assist</strong> no cabeçalho do editor (o botão ✦ no celular). Ele nunca altera o
                 seu texto sozinho — só sugere, e só quando tem confiança. <Keys k={['tab']} /> aceita,{' '}
-                <Keys k={['esc']} /> dispensa, <Keys k={['mod', 'z']} /> desfaz. O ícone de uma sugestão diz que tipo de correção ela é; um ✦ quer dizer que o modelo local decidiu; clique no cartão para ver onde ela se aplica.
+                <Keys k={['esc']} /> ignora, <Keys k={['mod', 'z']} /> desfaz. O ícone de uma sugestão diz que tipo de correção ela é; um ✦ quer dizer que o modelo local decidiu; clique no cartão para ver onde ela se aplica.
               </>,
             )}
           </p>
@@ -165,7 +165,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
               'Cole CSV, células de planilha, saída de terminal, listas ou JSON — a colagem entra intacta e depois você recebe a oferta de uma tabela, lista ou bloco de código em Markdown.',
             )}
           </Feature>
-          <Feature icon={<Heading />} title={x('Structure hints', 'Dicas de estrutura')}>
+          <Feature icon={<Heading />} title={x('Structure hints', 'Dicas de formatação')}>
             {x(
               <>Catches the near-misses: <code>**Title**</code> used as a heading, <code>#Heading</code> without a space, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> pasted from a document, <code>== Title ==</code>, and links broken by a space, <code>[text] (url)</code>.</>,
               <>Pega os quase-acertos: <code>**Título**</code> usado como título, <code>#Título</code> sem espaço, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> colado de um documento, <code>== Título ==</code> e links quebrados por um espaço, <code>[texto] (url)</code>.</>,
@@ -338,7 +338,7 @@ function ModeTable({ x }: { x: Pick2 }) {
   const rows: [string, string, string][] = [
     [x('Code-block language', 'Linguagem do bloco de código'), rules, x('model ✦, or the rules when the model agrees or they’re 99% sure', 'modelo ✦, ou as regras quando o modelo concorda ou elas têm 99% de certeza')],
     [x('Smart paste', 'Colagem inteligente'), rules, x('rules (a pasted code block’s language: as above)', 'regras (linguagem de um bloco de código colado: como acima)')],
-    [x('Structure hints', 'Dicas de estrutura'), rules, rules],
+    [x('Structure hints', 'Dicas de formatação'), rules, rules],
     [x('Readability', 'Legibilidade'), rules, rules],
     [x('Outline section types', 'Tipos de seção na Estrutura'), x('heading rule', 'regra dos títulos'), x('heading rule, then the section model ✦', 'regra dos títulos, depois o modelo de seções ✦')],
   ]

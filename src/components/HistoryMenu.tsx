@@ -4,6 +4,8 @@ import { searchHistory, type HistoryEntry } from '../lib/history'
 import { HistoryList } from './HistoryList'
 import { ClearHistory, HistorySearch } from './HistoryTools'
 import { Presence } from './motion'
+import { useKeyStyle } from '../hooks/useKeyStyle'
+import { shortcut } from '../lib/keyStyle'
 import { useI18n } from '../hooks/useI18n'
 
 interface HistoryMenuProps {
@@ -18,6 +20,7 @@ interface HistoryMenuProps {
 
 export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, compact = false }: HistoryMenuProps) {
   const { t } = useI18n()
+  const { keyStyle } = useKeyStyle()
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const rootRef = useRef<HTMLDivElement>(null)
@@ -61,7 +64,7 @@ export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, com
         onClick={() => setOpen((o) => !o)}
         aria-label={t('history.button')}
         aria-expanded={open}
-        title={t('history.buttonTitle', { keys: 'Ctrl/Cmd + Shift + H' })}
+        title={t('history.buttonTitle', { keys: shortcut(['mod', 'shift', 'h'], keyStyle) })}
         className={`group inline-flex items-center ${compact ? 'h-9 w-9' : 'h-8 w-8'} justify-center rounded-md border bg-surface transition-colors dark:bg-dark-surface-soft ${
           open
             ? 'border-accent text-accent dark:border-dark-accent dark:text-dark-accent'

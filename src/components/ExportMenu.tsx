@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Check, Download, X } from 'lucide-react'
 import { Presence } from './motion'
 import { baseNameLength, normalizeFilename } from '../lib/file'
+import { useKeyStyle } from '../hooks/useKeyStyle'
+import { shortcut } from '../lib/keyStyle'
 import { useI18n } from '../hooks/useI18n'
 
 interface ExportMenuProps {
@@ -25,6 +27,7 @@ interface ExportMenuProps {
 const DONE_MS = 1600
 export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact = false }: ExportMenuProps) {
   const { t } = useI18n()
+  const { keyStyle } = useKeyStyle()
   const rootRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const [value, setValue] = useState(defaultName)
@@ -83,7 +86,7 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
         type="button"
         // Open → a second click is "yes, export": download under the name in the panel.
         onClick={() => (open ? submit() : onOpenChange(true))}
-        title={t('action.exportTitle', { keys: 'Ctrl/Cmd + S' })}
+        title={t('action.exportTitle', { keys: shortcut(['mod', 's'], keyStyle) })}
         aria-label={t('action.exportMarkdown')}
         aria-expanded={open}
         className="inline-flex h-9 min-w-9 items-center justify-center md:h-8 md:min-w-0 gap-1.5 rounded-md bg-accent px-2.5 text-xs font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"

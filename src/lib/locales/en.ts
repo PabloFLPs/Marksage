@@ -30,6 +30,7 @@ export const en = {
   'icon.mono': 'Mono',
   'icon.outline': 'Line',
   'icon.sunset': 'Sunset',
+  'app.title': 'Marksage — Markdown editor',
   'export.title': 'Export as',
   'export.download': 'Download',
   'export.hint': 'Downloads a Markdown file — the name also renames this document.',

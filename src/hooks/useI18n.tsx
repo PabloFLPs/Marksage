@@ -14,6 +14,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(loadLang)
   useEffect(() => {
     document.documentElement.lang = lang
+    document.title = translate(lang, 'app.title') // the tab's name follows the language too (launch QA #26)
   }, [lang])
   const setLang = useCallback((l: Lang) => {
     setLangState(l)

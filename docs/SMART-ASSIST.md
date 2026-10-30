@@ -88,7 +88,7 @@ everywhere else:
 
 | Question | Rules | Rules + AI |
 |---|---|---|
-| Code-block language | rules | model ✦ — or the rules when the model's first pick agrees, or when they're ≥ 99 % sure |
+| Code-block language | rules | model ✦ — or the rules when the model's first pick agrees, or when they're ≥ 99% sure |
 | Smart paste (what kind of text) | rules | rules — a pasted code block's language as above |
 | Structure hints | rules | rules |
 | Readability | rules (LIX) | rules (LIX) |
@@ -239,7 +239,7 @@ Scores go through `softmax` → probabilities → gate. **Action:** insert the l
 the opening fence marker.
 
 **Two options.** With *Rules + AI*, when no language passes the gate but the top two together hold
-≥ 85 % (the second ≥ 20 %), the bar offers both — `Tab` (or a click) takes the first, `Alt+2` the second.
+≥ 85% (the second ≥ 20%), the bar offers both — `Tab` (or a click) takes the first, `Alt+2` the second.
 Typical pairs: JavaScript/TypeScript, JSON/YAML, C/C++. The rule was set on the dev set; on the two
 held-out sets it made 15 and 17 offers, and the right language was one of the two every time. (Only the
 model's probabilities are calibrated well enough for this, so heuristics mode doesn't offer pairs.)
@@ -395,8 +395,8 @@ what changes into what, the confidence and a ✦ when the local model decided. A
 the gate for is listed too, muted and marked *not sure* — the tab never hides an untagged block the Document tab
 counts. Its click opens a pick instead of one fix: the engine's two most likely languages, then *Plain text*
 (tags the block `text`); `Tab` takes the first, `Alt+2` and `Alt+3` the others. Two, not three: on the 920
-fixture blocks, a third language would add the right answer for only 4–6 % more of the unsure ones — fewer than
-*Plain text* (7–13 %). These picks only appear from the tab,
+fixture blocks, a third language would add the right answer for only 4–6% more of the unsure ones — fewer than
+*Plain text* (7–13%). These picks only appear from the tab,
 never while you type. Pastes aren't listed: they're offered at the moment you paste. Dismissed suggestions (`Esc`) leave the list until the mode changes.
 
 **Action.** None in the panel. A click opens the editor if needed, puts the caret on the spot and shows that
@@ -429,10 +429,10 @@ answers, like the rest of Smart Assist.
   longer words. Each clue has a learned 8-number vector; the model averages them and turns the
   average into one probability per language.
 - **Careful on purpose:** its confidence is tuned on predictions for repositories it never saw in
-  training (short snippets separately — they're easier to over-trust), aiming at about 95 % right
+  training (short snippets separately — they're easier to over-trust), aiming at about 95% right
   when it speaks. The same confidence gate as the heuristics (0.8 / 0.2) decides whether you see anything.
 - **Two opinions:** when the model isn't sure but the heuristics are, the suggestion still appears —
-  if the model's own first guess agrees, or if the heuristics are at least 99 % sure (short snippets can drown
+  if the model's own first guess agrees, or if the heuristics are at least 99% sure (short snippets can drown
   the model's few decisive clues — see How the models work, §2.7).
 
 ### 4.2 How it was trained
@@ -455,12 +455,12 @@ model, nor any tuning, had ever touched (up to 15 per language):
 
 | Engine | Accuracy | Suggestions shown | Right when shown | Right / wrong suggestions |
 |---|---|---|---|---|
-| Rules | 59 % | 70 (25 %) | 93 % | 65 / 5 |
-| Model v1 | 72 % | 151 (53 %) | 88 % | 133 / 18 |
-| **Model v2 (current)** | **74 %** | **158 (56 %)** | **92 %** | **145 / 13** |
+| Rules | 59% | 70 (25%) | 93% | 65 / 5 |
+| Model v1 | 72% | 151 (53%) | 88% | 133 / 18 |
+| **Model v2 (current)** | **74%** | **158 (56%)** | **92%** | **145 / 13** |
 
-On the first set (314 blocks, the one v1 was measured on) v2 reaches 77 % accuracy, 164 shown and
-96 % right when shown (v1: 76 %, 141, 94 %; heuristics: 57 %, 76, 97 %).
+On the first set (314 blocks, the one v1 was measured on) v2 reaches 77% accuracy, 164 shown and
+96% right when shown (v1: 76%, 141, 94%; heuristics: 57%, 76, 97%).
 
 So: more than twice the useful suggestions of the heuristics, and better than v1 on every count — but
 still about a point less precise than the heuristics on unfamiliar repositories, which is why it stays an
@@ -496,10 +496,10 @@ Held-out results — 6,339 typed sections from 134 repositories. The labels come
 
 | Confidence | Sections typed | Agrees with the heading | "Other" sections given a type |
 |---|---|---|---|
-| ≥ 0.8 — badge with ✦ | 858 (14 %) | 88.9 % | 4.2 % |
-| ≥ 0.6 — includes "probably" | 1,588 (25 %) | 85.6 % | 10.4 % |
+| ≥ 0.8 — badge with ✦ | 858 (14%) | 88.9% | 4.2% |
+| ≥ 0.6 — includes "probably" | 1,588 (25%) | 85.6% | 10.4% |
 
-Changelog sections are the easy, common case; without them, agreement at ≥ 0.8 is about 85 %. The last
+Changelog sections are the easy, common case; without them, agreement at ≥ 0.8 is about 85%. The last
 column is an upper bound on mistakes — some "other" sections really are a setup or a reference. A hand
 check of its confident answers on sections whose heading names no type came out the same, roughly
 9 in 10 right. A type badge changes nothing in your document, so the Outline uses the model from 0.6:
@@ -507,8 +507,8 @@ between 0.6 and 0.8 it shows a muted "Configuration?" badge with the confidence 
 
 **Version 2 (2026-10-27)** added security, performance and deployment. On the held-out set, 34 of the 38
 security answers shown agree with the heading, 45 of 60 for performance (the weakest type) and 2 of 2 for
-deployment (it had only 246 training examples). Against version 1 on the same set: v1 types 14.5 % at
-89.6 %, v2 13.5 % at 88.9 % — about level overall; v2 shows fewer changelog sections and adds the three new
+deployment (it had only 246 training examples). Against version 1 on the same set: v1 types 14.5% at
+89.6%, v2 13.5% at 88.9% — about level overall; v2 shows fewer changelog sections and adds the three new
 types. Every version is listed in [How the two models work](MODELS.md), section 8.
 
 ### 4.5 And Jev and Laya?
@@ -535,9 +535,9 @@ repositories it never saw — unpolished text, where these near-misses really ha
 
 | Held-out (227 lines, run once) | Shown | Right when shown | True lines found (of 132) |
 |---|---|---|---|
-| Rules | 140 | 88.6 % | 124 |
-| Model alone | 76 | 90.8 % | 69 |
-| Rules + the model's ≥ 95 % answers where the rules stay quiet | 141 | 88.7 % | 125 |
+| Rules | 140 | 88.6% | 124 |
+| Model alone | 76 | 90.8% | 69 |
+| Rules + the model's ≥ 95% answers where the rules stay quiet | 141 | 88.7% | 125 |
 
 The combination met the bar set beforehand — the rules' precision, at least as many true lines — by one line
 in 227: not worth a download. The two make different mistakes: the rules wrongly flag hashtag lines,
@@ -554,15 +554,15 @@ files, configs, READMEs in English and Portuguese):
 
 | Held-out (53 pastes, run once) | Shown | Right when shown |
 |---|---|---|
-| Rules | 41 | 97.6 % |
-| Model | 44 | 90.9 % |
+| Rules | 41 | 97.6% |
+| Model | 44 | 90.9% |
 
 It took `kubectl` output, a list of commands and two JSON files for code.
 
 **Link text for a pasted URL** — offline, the text can only come from the URL itself. Measured against 2,842
 links that stand alone on their line in the dev repositories, what authors write is a title or a name: the URL's
-last segment matches it 10 % of the time, the domain never, `owner/repo` 28 %. Only GitHub issue and pull
-request links (`owner/repo#123`) matched often on dev (90 %) — and 32 % on the held-out repositories, where each
+last segment matches it 10% of the time, the domain never, `owner/repo` 28%. Only GitHub issue and pull
+request links (`owner/repo#123`) matched often on dev (90%) — and 32% on the held-out repositories, where each
 project has its own habit ("BUG #523", "Pull Request", a title). Without fetching the page there's no good text
 to offer, so a pasted URL stays as it is (GitHub-flavoured Markdown shows it as a link anyway).
 
@@ -577,31 +577,31 @@ including Portuguese prose and mixed-language text. For each feature we track:
 - **Accuracy** — how often the top answer is right;
 - **Shown** — how many suggestions pass the confidence gate;
 - **Precision when shown** — how often a suggestion you actually *see* is right (the number that matters most);
-- **Calibration** — whether "90 % confident" really means ~90 % correct;
+- **Calibration** — whether "90% confident" really means ~90% correct;
 - **Latency** per decision.
 
 There are two kinds of examples. The **written** set was made alongside the rules — it catches
-regressions, but scores near 100 % by construction. The **real-world** set is taken from real
+regressions, but scores near 100% by construction. The **real-world** set is taken from real
 documentation, GitHub wikis, community translations, data files and terminal output (Portuguese
 included), and the rules are never tuned against it — so it's the honest number:
 
 | Feature | Real-world examples | Accuracy | Shown | Precision when shown |
 |---|---|---|---|---|
-| Code-block language | 314 | 57 % | 76 | 97 % |
-| Smart paste | 31 | 94 % | 23 | 100 % |
-| Smart paste, fresh set (2026-10-28) | 53 | 94 % | 41 | 98 % |
-| Structure hints | 30 | 93 % | 14 | 86 % |
-| Structure hints, fresh set (2026-10-28) | 227 | 89 % | 140 | 89 % |
+| Code-block language | 314 | 57% | 76 | 97% |
+| Smart paste | 31 | 94% | 23 | 100% |
+| Smart paste, fresh set (2026-10-28) | 53 | 94% | 41 | 98% |
+| Structure hints | 30 | 93% | 14 | 86% |
+| Structure hints, fresh set (2026-10-28) | 227 | 89% | 140 | 89% |
 
 The fresh sets were built for the models of section 4.6 and run once: 53 pastes from real files, and 227 lines
 from GitHub issues, pull requests and comments — unpolished text, where the near-misses really happen. On the
-dev set they were tuned against (212 lines from other repositories), the structure rules reach 97 %; the
-held-out 89 % is the honest number.
+dev set they were tuned against (212 lines from other repositories), the structure rules reach 97%; the
+held-out 89% is the honest number.
 
 Read it like this: when a suggestion appears it's almost always right; the cost of that caution
 is that many real code blocks get no language suggestion at all. Heuristic decisions take well under
-a millisecond. With *Rules + AI*, code-block language on the same 314 blocks reaches **77 % accuracy, 164 shown, 96 %
-precision**, and 74 % / 158 / 92 % on a second, fresh set (section 4.3).
+a millisecond. With *Rules + AI*, code-block language on the same 314 blocks reaches **77% accuracy, 164 shown, 96%
+precision**, and 74% / 158 / 92% on a second, fresh set (section 4.3).
 
 ---
 

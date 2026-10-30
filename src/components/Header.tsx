@@ -1,3 +1,5 @@
+import { useKeyStyle } from '../hooks/useKeyStyle'
+import { shortcut } from '../lib/keyStyle'
 import { useI18n } from '../hooks/useI18n'
 import {
   ArrowLeft,
@@ -110,6 +112,7 @@ export function Header({
   onToggleOutline,
 }: HeaderProps) {
   const { t } = useI18n()
+  const { keyStyle } = useKeyStyle()
   const compact = !isDesktop
   const showBackToEditor = compact && hasDocument && viewMode === 'preview' && !showingAbout && !readOnly
   const editing = viewMode === 'edit'
@@ -206,7 +209,7 @@ export function Header({
           <button
             type="button"
             onClick={onCopy}
-            title={t('action.copyTitle', { keys: 'Ctrl/Cmd + Shift + C' })}
+            title={t('action.copyTitle', { keys: shortcut(['mod', 'shift', 'c'], keyStyle) })}
             className={copied ? actionButtonOn : actionButton}
           >
             {copied ? <Check className="anim-pop h-3.5 w-3.5" /> : <Clipboard className="h-3.5 w-3.5" />}
@@ -216,12 +219,12 @@ export function Header({
 
         {!compact && (
           <>
-            <button type="button" onClick={onNew} title={t('action.newTitle', { keys: 'Ctrl/Cmd + N' })} className={actionButton}>
+            <button type="button" onClick={onNew} title={t('action.newTitle', { keys: shortcut(['mod', 'n'], keyStyle) })} className={actionButton}>
               <FilePlus2 className="h-3.5 w-3.5" />
               <span className="hidden xl:inline">{t('action.new')}</span>
             </button>
 
-            <button type="button" onClick={onOpen} title={t('action.openTitle', { keys: 'Ctrl/Cmd + O' })} className={actionButton}>
+            <button type="button" onClick={onOpen} title={t('action.openTitle', { keys: shortcut(['mod', 'o'], keyStyle) })} className={actionButton}>
               <FolderOpen className="h-3.5 w-3.5" />
               <span className="hidden xl:inline">{t('action.open')}</span>
             </button>

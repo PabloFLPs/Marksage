@@ -3,7 +3,7 @@
 O Smart Assist é o "radar de escrita" local do Marksage — ligado por padrão no modo *Regras*, e a um clique
 de ser desligado. Ele observa o
 editor, detecta um pequeno conjunto de situações corrigíveis e **sugere** uma edição que você pode
-aceitar (`Tab`) ou dispensar (`Esc`). Nada é enviado pela rede e nada é aplicado automaticamente.
+aceitar (`Tab`) ou ignorar (`Esc`). Nada é enviado pela rede e nada é aplicado automaticamente.
 
 > Esta página é para os curiosos: como o assistente decide, por que ele fica em silêncio e como
 > os pequenos modelos próprios do Marksage foram treinados. Alguma familiaridade com programação ajuda, mas você não precisa do código-fonte —
@@ -71,7 +71,7 @@ Toda pergunta do Smart Assist sobe a mesma escada e para no primeiro degrau que 
    rotulados reais. Os dois modelos do Marksage estão aqui. Cada um precisou provar, em repositórios que nunca
    tinha visto, que traz respostas que as regras não dão. O modelo de código mostra mais que o dobro de
    sugestões com quase a mesma precisão; o modelo de seções identifica seções cujo título não diz nada. Mais
-   dois foram treinados e medidos do mesmo jeito — dicas de estrutura e tipos de colagem — e não se saíram
+   dois foram treinados e medidos do mesmo jeito — dicas de formatação e tipos de colagem — e não se saíram
    melhor que as regras em textos reais, então não são usados (seção 4.6).
 3. **Um modelo de decisão geral** — de preferência o Laya, porque roda no seu dispositivo. Reservado para
    perguntas sem dados de treino para aprender; nenhum recurso precisa dele ainda.
@@ -88,9 +88,9 @@ textos reais, e as regras no resto:
 
 | Pergunta | Regras | Regras + IA |
 |---|---|---|
-| Linguagem do bloco de código | regras | modelo ✦ — ou as regras quando a primeira escolha do modelo concorda, ou quando elas têm ≥ 99 % de certeza |
+| Linguagem do bloco de código | regras | modelo ✦ — ou as regras quando a primeira escolha do modelo concorda, ou quando elas têm ≥ 99% de certeza |
 | Colagem inteligente (que tipo de texto) | regras | regras — a linguagem de um bloco de código colado, como acima |
-| Dicas de estrutura | regras | regras |
+| Dicas de formatação | regras | regras |
 | Legibilidade | regras (LIX) | regras (LIX) |
 | Tipos de seção na Estrutura | regra dos títulos | regra dos títulos, depois o modelo de seções ✦ para títulos que não dizem |
 
@@ -128,7 +128,7 @@ flowchart LR
     H --> G["Filtro de confiança<br/>topo ≥ 0,8 e à frente por ≥ 0,2"]
     M --> G
     G --> F["Recurso + conversor<br/>monta a edição: tabela, lista, bloco"]
-    F --> B["Barra de sugestão<br/>Tab aceita · Esc dispensa · dá para desfazer"]
+    F --> B["Barra de sugestão<br/>Tab aceita · Esc ignora · dá para desfazer"]
   end
   subgraph O ["Estrutura e documento"]
     direction TB
@@ -156,7 +156,7 @@ flowchart LR
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das alternativas. |
 | **Recursos** | Transformam uma decisão confiante numa edição concreta e reversível (os quatro recursos de sugestão abaixo; a Estrutura e a aba Documento só leem). |
 | **Conversores** | Código comum que faz a edição — monta a tabela, a lista, o bloco de código. O mecanismo nunca escreve texto. |
-| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou dispensa. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título, link); um ✦ quer dizer que o modelo local decidiu. Clicar no cartão rola até o ponto e o destaca na pré-visualização. |
+| **Barra de sugestão** | Mostra uma sugestão por vez; você aceita ou ignora. O ícone diz que tipo de correção é (linguagem do bloco de código, tabela, lista, JSON, título, link); um ✦ quer dizer que o modelo local decidiu. Clicar no cartão rola até o ponto e o destaca na pré-visualização. |
 | **Painel Estrutura** | Só visual: seções identificadas pela regra dos títulos e depois (no modo *Regras + IA*) pelo modelo de seções; a aba Documento resume o arquivo inteiro; a aba Sugestões lista cada ponto que dá para corrigir. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão usados para medir cada recurso antes de ele ir ao ar. |
 
@@ -188,7 +188,7 @@ passesGate(probs, threshold = 0.8, minMargin = 0.2)
 | Recurso | Filtro |
 |---|---|
 | Linguagem do bloco de código, colagem inteligente | 0,8 / 0,2 |
-| Dicas de estrutura (`noul`) | p ≥ 0,8 (implica margem de 0,6 sobre "falso") |
+| Dicas de formatação (`noul`) | p ≥ 0,8 (implica margem de 0,6 sobre "falso") |
 | Legibilidade | 0,5 / 0,15 (é uma dica passiva, não uma edição) |
 | Tipos de seção da Estrutura (modelo de seções) | 0,8 / 0,2 para o selo; a partir de 0,6 como "provável" (um rótulo, não uma edição) |
 
@@ -196,7 +196,7 @@ O silêncio é o padrão: uma sugestão perdida não custa nada; uma errada cust
 
 ### 2.4 Garantias de segurança
 
-- **Só sugere.** Toda `Suggestion` carrega uma `edit` (`from`, `to`, `insert`) e uma string
+- **Só sugere.** Toda sugestão (`Suggestion`) carrega uma edição (`edit`: `from`, `to`, `insert`) e uma string
   `expected`. Ao aceitar, o hook confere se `text.slice(from, to) === expected`; se você digitou
   algo depois, a sugestão velha é descartada.
 - **Desfazer funciona.** As edições usam `document.execCommand('insertText')`, então entram na
@@ -207,8 +207,8 @@ O silêncio é o padrão: uma sugestão perdida não custa nada; uma errada cust
   só faz reler a seção que ela mudou.
 - **Cancelamento.** Cada execução tem seu `AbortController`; novas digitações abortam execuções
   antigas.
-- **Dispensas permanecem** durante a sessão (por hash do conteúdo), para a mesma dica não insistir. Trocar o
-  modo (ou desligar e ligar o Smart Assist) recomeça do zero: as sugestões dispensadas voltam a aparecer.
+- **O que você ignora fica ignorado** durante a sessão (por hash do conteúdo), para a mesma dica não insistir. Trocar o
+  modo (ou desligar e ligar o Smart Assist) recomeça do zero: as sugestões ignoradas voltam a aparecer.
 - **Desligado é desligado.** No modo *Desligado*, nenhum handler é ligado ao textarea.
 
 ---
@@ -241,7 +241,7 @@ As pontuações passam por `softmax` → probabilidades → filtro. **Ação:** 
 logo após o marcador de abertura.
 
 **Duas opções.** Com o modo *Regras + IA*, quando nenhuma linguagem passa no filtro mas as duas primeiras
-somam ≥ 85 % (a segunda ≥ 20 %), a barra oferece as duas — `Tab` (ou um clique) escolhe a primeira,
+somam ≥ 85% (a segunda ≥ 20%), a barra oferece as duas — `Tab` (ou um clique) escolhe a primeira,
 `Alt+2` a segunda. Pares típicos: JavaScript/TypeScript, JSON/YAML, C/C++. A regra foi definida no
 conjunto dev; nos dois conjuntos separados ela fez 15 e 17 ofertas, e a linguagem certa estava entre as
 duas em todas. (Só as probabilidades do modelo são calibradas o bastante para isso, então o modo
@@ -249,7 +249,7 @@ heurístico não oferece pares.)
 
 ### Colagem inteligente (`choice`)
 
-**Gatilho.** Um `paste` no editor com ≥ 2 linhas não vazias, ou uma única linha de JSON (≤ 50 mil caracteres), que ainda não
+**Gatilho.** Uma colagem (`paste`) no editor com ≥ 2 linhas não vazias, ou uma única linha de JSON (≤ 50 mil caracteres), que ainda não
 comece como estrutura Markdown (tabelas, blocos, títulos, listas). **A colagem sempre entra
 intacta**; a sugestão oferece converter o trecho colado depois.
 
@@ -271,7 +271,7 @@ intacta**; a sugestão oferece converter o trecho colado depois.
 lista → `- item` (marcadores existentes normalizados); JSON → ```` ```json ```` (JSON minificado é formatado antes; JSON com comentários vira ```` ```jsonc ````); código → bloco,
 com a linguagem detectada apenas se *essa* decisão também passar no filtro. `prose` nunca sugere nada.
 
-### Dicas de estrutura (`noul`)
+### Dicas de formatação (`noul`)
 
 **Gatilho.** Markdown "quase certo" numa linha que **não** é a que está sendo digitada — ou, depois de uma pausa
 de 2 s sem outra sugestão, a própria linha do cursor (assim um `#Título` sozinho recebe a dica) — fora de código:
@@ -383,7 +383,7 @@ pré-visualização. Nada no documento muda.
 - **Tom** — formal, neutro ou conversacional, a partir de sinais contados e mostrados: contrações (valem
   metade — guias de estilo modernos as recomendam), pontos de exclamação, emoji, palavras informais e com
   quem o texto fala ("você", "nós", "eu" ou ninguém). Sinais, não um veredito.
-- **Vale uma olhada** — saltos de nível de título (H2 → H4), títulos principais a mais, seções vazias,
+- **Vale conferir** — saltos de nível de título (H2 → H4), títulos principais a mais, seções vazias,
   títulos repetidos sob o mesmo pai, blocos de código sem linguagem, imagens sem texto alternativo, links
   que dizem "aqui", seções muito longas e frases com mais de 40 palavras. Clique para ir até lá. Registros de
   mudanças que dão a cada versão seu próprio título `#` não são marcados por isso.
@@ -396,17 +396,17 @@ recalculada 600 ms depois que você para de digitar.
 
 **O que lista:** cada ponto do documento que receberia uma sugestão, na ordem do documento — blocos de código
 sem linguagem (mesma pergunta, mesmo filtro e mesma regra das duas opções do editor) e títulos, listas e links
-quase certos (mesmas regras das dicas de estrutura). Cada linha tem o ícone da correção, a linha do documento, a
+quase certos (mesmas regras das dicas de formatação). Cada linha tem o ícone da correção, a linha do documento, a
 primeira linha do código ou o que vira o quê, a confiança e um ✦ quando o modelo local decidiu. Um bloco de
 código para o qual nenhuma linguagem passa no filtro também entra, apagado e marcado *sem certeza* — a aba nunca
 esconde um bloco sem linguagem que a aba Documento conta. O clique nele abre uma escolha em vez de uma correção: as
 duas linguagens mais prováveis do mecanismo e depois *Texto simples* (marca o bloco como `text`); `Tab` fica com a
 primeira, `Alt+2` e `Alt+3` com as outras. Duas, não três: nos 920 blocos das fixtures, uma terceira linguagem
-acertaria só 4–6 % a mais dos blocos sem certeza — menos que *Texto simples* (7–13 %). Essas escolhas só aparecem pela aba, nunca enquanto você digita. Colagens não
-entram: elas são oferecidas na hora em que você cola. Sugestões dispensadas (`Esc`) saem da lista até o modo mudar.
+acertaria só 4–6% a mais dos blocos sem certeza — menos que *Texto simples* (7–13%). Essas escolhas só aparecem pela aba, nunca enquanto você digita. Colagens não
+entram: elas são oferecidas na hora em que você cola. Sugestões ignoradas (`Esc`) saem da lista até o modo mudar.
 
 **Ação.** Nenhuma no painel. Um clique abre o editor se preciso, põe o cursor no ponto e mostra aquela
-sugestão na barra de sempre; ela fica ali até você mover o cursor ou digitar. `Tab` aceita, `Esc` dispensa,
+sugestão na barra de sempre; ela fica ali até você mover o cursor ou digitar. `Tab` aceita, `Esc` ignora,
 dá para desfazer — a mesma edição protegida de sempre.
 ---
 
@@ -435,10 +435,10 @@ resto continua com as heurísticas. Não é um chatbot nem um LLM — ele lê um
   palavras mais longas. Cada pista tem um vetor aprendido de 8 números; o modelo tira a média e
   transforma essa média numa probabilidade por linguagem.
 - **Cuidadoso de propósito:** a confiança é ajustada com previsões para repositórios que ele nunca viu
-  no treino (trechos curtos à parte — é mais fácil confiar demais neles), mirando cerca de 95 % de acerto
+  no treino (trechos curtos à parte — é mais fácil confiar demais neles), mirando cerca de 95% de acerto
   quando ele sugere. O mesmo filtro de confiança das heurísticas (0,8 / 0,2) decide se você vê alguma coisa.
 - **Duas opiniões:** quando o modelo não tem certeza mas as heurísticas têm, a sugestão aparece mesmo
-  assim — se o primeiro palpite do próprio modelo concordar, ou se as heurísticas tiverem pelo menos 99 % de
+  assim — se o primeiro palpite do próprio modelo concordar, ou se as heurísticas tiverem pelo menos 99% de
   certeza (trechos curtos podem afogar as poucas pistas decisivas do modelo — veja Como os modelos funcionam, §2.7).
 
 ### 4.2 Como foi treinado
@@ -461,12 +461,12 @@ do modelo, nem nenhum ajuste, tinha tocado (até 15 por linguagem):
 
 | Mecanismo | Acurácia | Sugestões exibidas | Certas quando exibidas | Sugestões certas / erradas |
 |---|---|---|---|---|
-| Regras | 59 % | 70 (25 %) | 93 % | 65 / 5 |
-| Modelo v1 | 72 % | 151 (53 %) | 88 % | 133 / 18 |
-| **Modelo v2 (atual)** | **74 %** | **158 (56 %)** | **92 %** | **145 / 13** |
+| Regras | 59% | 70 (25%) | 93% | 65 / 5 |
+| Modelo v1 | 72% | 151 (53%) | 88% | 133 / 18 |
+| **Modelo v2 (atual)** | **74%** | **158 (56%)** | **92%** | **145 / 13** |
 
-No primeiro conjunto (314 blocos, onde a v1 foi medida) a v2 chega a 77 % de acurácia, 164 exibidas e
-96 % de acerto quando exibe (v1: 76 %, 141, 94 %; heurísticas: 57 %, 76, 97 %).
+No primeiro conjunto (314 blocos, onde a v1 foi medida) a v2 chega a 77% de acurácia, 164 exibidas e
+96% de acerto quando exibe (v1: 76%, 141, 94%; heurísticas: 57%, 76, 97%).
 
 Ou seja: mais que o dobro de sugestões úteis das heurísticas, e melhor que a v1 em todos os números —
 mas ainda cerca de um ponto menos precisa que as heurísticas em repositórios desconhecidos, por isso
@@ -504,10 +504,10 @@ títulos, então "concorda" quer dizer que o modelo, lendo só o texto, chegou a
 
 | Confiança | Seções com tipo | Concorda com o título | Seções "outro" que receberam tipo |
 |---|---|---|---|
-| ≥ 0,8 — selo com ✦ | 858 (14 %) | 88,9 % | 4,2 % |
-| ≥ 0,6 — inclui "provável" | 1.588 (25 %) | 85,6 % | 10,4 % |
+| ≥ 0,8 — selo com ✦ | 858 (14%) | 88,9% | 4,2% |
+| ≥ 0,6 — inclui "provável" | 1.588 (25%) | 85,6% | 10,4% |
 
-Seções de mudanças são o caso fácil e comum; sem elas, a concordância em ≥ 0,8 fica em cerca de 85 %. A
+Seções de mudanças são o caso fácil e comum; sem elas, a concordância em ≥ 0,8 fica em cerca de 85%. A
 última coluna é um limite superior de erros — algumas seções "outro" são mesmo uma instalação ou uma
 referência. Uma checagem à mão das respostas confiantes em seções cujo título não nomeia tipo deu o
 mesmo resultado, umas 9 em 10 certas. Um selo de tipo não muda nada no documento, então a Estrutura usa
@@ -517,7 +517,7 @@ passar o mouse.
 **Versão 2 (2026-10-27)** acrescentou segurança, desempenho e implantação. Nos repositórios de fora, 34 das
 38 respostas de segurança mostradas concordam com o título, 45 de 60 em desempenho (o tipo mais fraco) e 2 de
 2 em implantação (que teve só 246 exemplos de treino). Contra a versão 1 no mesmo conjunto: a v1 dá tipo a
-14,5 % com 89,6 %, a v2 a 13,5 % com 88,9 % — praticamente empatadas no geral; a v2 mostra menos seções de
+14,5% com 89,6%, a v2 a 13,5% com 88,9% — praticamente empatadas no geral; a v2 mostra menos seções de
 mudanças e acrescenta os três tipos novos. Todas as versões estão em
 [Como os dois modelos funcionam](MODELS.pt-BR.md), seção 8.
 
@@ -531,7 +531,7 @@ mensurável em dados reais. O modelo de seções seguiu o mesmo caminho. O Laya 
 dados de treino assim. Por padrão, o que rodar, roda no seu dispositivo;
 qualquer coisa hospedada, como o modo BYOK planejado, será opcional e bem sinalizada.
 
-### 4.6 Testados, não usados: dicas de estrutura, tipos de colagem, texto de links
+### 4.6 Testados, não usados: dicas de formatação, tipos de colagem, texto de links
 
 Mais três perguntas passaram pelo mesmo processo em outubro de 2026 — treinadas (ou escritas) com os
 repositórios públicos, toda escolha feita num conjunto dev, depois medidas uma vez em textos reais separados — e
@@ -547,9 +547,9 @@ acontecem de verdade:
 
 | Separado (227 linhas, rodado uma vez) | Exibidas | Certas quando exibidas | Linhas verdadeiras achadas (de 132) |
 |---|---|---|---|
-| Regras | 140 | 88,6 % | 124 |
-| Só o modelo | 76 | 90,8 % | 69 |
-| Regras + respostas do modelo com ≥ 95 % onde as regras ficam quietas | 141 | 88,7 % | 125 |
+| Regras | 140 | 88,6% | 124 |
+| Só o modelo | 76 | 90,8% | 69 |
+| Regras + respostas do modelo com ≥ 95% onde as regras ficam quietas | 141 | 88,7% | 125 |
 
 A combinação passou na régua definida antes — a precisão das regras, pelo menos tantas linhas verdadeiras —
 por uma linha em 227: não vale um download. Os dois erram em coisas diferentes: as regras marcam errado linhas
@@ -568,15 +568,15 @@ inglês e português):
 
 | Separado (53 colagens, rodado uma vez) | Exibidas | Certas quando exibidas |
 |---|---|---|
-| Regras | 41 | 97,6 % |
-| Modelo | 44 | 90,9 % |
+| Regras | 41 | 97,6% |
+| Modelo | 44 | 90,9% |
 
 Ele confundiu saída do `kubectl`, uma lista de comandos e dois arquivos JSON com código.
 
 **Texto do link para uma URL colada** — sem internet, o texto só pode vir da própria URL. Medido contra 2.842
 links que ficam sozinhos na linha nos repositórios dev, o que os autores escrevem é um título ou um nome: o
-último trecho da URL bate 10 % das vezes, o domínio nunca, `dono/repo` 28 %. Só links de issues e pull requests
-do GitHub (`dono/repo#123`) bateram com frequência no dev (90 %) — e 32 % nos repositórios separados, onde cada
+último trecho da URL bate 10% das vezes, o domínio nunca, `dono/repo` 28%. Só links de issues e pull requests
+do GitHub (`dono/repo#123`) bateram com frequência no dev (90%) — e 32% nos repositórios separados, onde cada
 projeto tem seu costume ("BUG #523", "Pull Request", um título). Sem buscar a página não há um bom texto a
 oferecer, então uma URL colada fica como está (o Markdown do GitHub já a mostra como link).
 
@@ -592,31 +592,31 @@ acompanhamos:
 - **Acurácia** — com que frequência a primeira resposta está certa;
 - **Exibidas** — quantas sugestões passam pelo filtro de confiança;
 - **Precisão quando exibida** — com que frequência uma sugestão que você *vê* está certa (o número que mais importa);
-- **Calibração** — se "90 % de confiança" significa mesmo ~90 % de acerto;
+- **Calibração** — se "90% de confiança" significa mesmo ~90% de acerto;
 - **Latência** por decisão.
 
 Há dois tipos de exemplo. O conjunto **escrito** foi feito junto com as regras — pega regressões,
-mas fica perto de 100 % por construção. O conjunto **do mundo real** vem de documentação real,
+mas fica perto de 100% por construção. O conjunto **do mundo real** vem de documentação real,
 wikis do GitHub, traduções da comunidade, arquivos de dados e saída de terminal (português
 incluído), e as regras nunca são ajustadas contra ele — então é o número honesto:
 
 | Recurso | Exemplos reais | Acurácia | Exibidas | Precisão quando exibida |
 |---|---|---|---|---|
-| Linguagem do bloco de código | 314 | 57 % | 76 | 97 % |
-| Colagem inteligente | 31 | 94 % | 23 | 100 % |
-| Colagem inteligente, conjunto novo (2026-10-28) | 53 | 94 % | 41 | 98 % |
-| Dicas de estrutura | 30 | 93 % | 14 | 86 % |
-| Dicas de estrutura, conjunto novo (2026-10-28) | 227 | 89 % | 140 | 89 % |
+| Linguagem do bloco de código | 314 | 57% | 76 | 97% |
+| Colagem inteligente | 31 | 94% | 23 | 100% |
+| Colagem inteligente, conjunto novo (2026-10-28) | 53 | 94% | 41 | 98% |
+| Dicas de formatação | 30 | 93% | 14 | 86% |
+| Dicas de formatação, conjunto novo (2026-10-28) | 227 | 89% | 140 | 89% |
 
 Os conjuntos novos foram montados para os modelos da seção 4.6 e rodados uma vez: 53 colagens de arquivos reais
 e 227 linhas de issues, pull requests e comentários do GitHub — texto sem revisão, onde os quase-acertos
 acontecem de verdade. No conjunto dev em que foram ajustadas (212 linhas de outros repositórios), as regras de
-estrutura chegam a 97 %; os 89 % do conjunto separado são o número honesto.
+estrutura chegam a 97%; os 89% do conjunto separado são o número honesto.
 
 Leia assim: quando uma sugestão aparece, ela quase sempre está certa; o preço dessa cautela é que
 muitos blocos de código reais ficam sem sugestão de linguagem. As decisões heurísticas levam bem menos de um
-milissegundo. Com o modo *Regras + IA*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **77 % de
-acurácia, 164 exibidas e 96 % de precisão**, e 74 % / 158 / 92 % num segundo conjunto novo (seção 4.3).
+milissegundo. Com o modo *Regras + IA*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **77% de
+acurácia, 164 exibidas e 96% de precisão**, e 74% / 158 / 92% num segundo conjunto novo (seção 4.3).
 
 ---
 

@@ -3,7 +3,7 @@
 O Marksage traz dois modelos minúsculos próprios. Um identifica a **linguagem de um bloco de código** (21
 respostas, de TypeScript a "não é código"); o outro identifica o **tipo de uma seção** do documento para a
 Estrutura (13 tipos, mais "outro"). Os dois compartilham o mesmo desenho, o mesmo formato de arquivo e a mesma
-receita de treino. Mais dois foram treinados do mesmo jeito — para as dicas de estrutura e os tipos de colagem — e
+receita de treino. Mais dois foram treinados do mesmo jeito — para as dicas de formatação e os tipos de colagem — e
 não são usados, porque não se saíram melhor que as regras em textos reais (seção 8).
 
 > Esta página não pressupõe nenhum conhecimento de aprendizado de máquina. Cada termo é explicado na primeira

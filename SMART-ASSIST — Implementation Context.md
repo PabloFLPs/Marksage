@@ -633,3 +633,10 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
 - **Paste without clipboard access (#25).** When the browser won't let Paste read the clipboard, the new document's
   editor placeholder already said "press Ctrl/Cmd + V to paste here", but on desktop the eye lands on the preview
   pane, which said "The preview shows up here as you type." The preview pane now shows the same hint.
+- **PT-BR and shortcut hints (#26).** Tooltips said "Ctrl/Cmd + S" whatever key style was picked in About; they now
+  follow it (`shortcut()` in `lib/keyStyle.ts`: "⌘S" or "Ctrl + S"). The browser tab's title follows the language
+  ("Marksage — editor de Markdown"). PT wording: "Dispensar" → "Ignorar" everywhere (UI, About, docs, sample);
+  "Dicas de estrutura" → "Dicas de formatação", since "Estrutura" is the Outline panel's name; "prévia" →
+  "pré-visualização"; "pressione" → "aperte"; "botão de brilho" → "botão ✦"; "Vale uma olhada" → "Vale conferir";
+  "um `paste`" / "uma `edit`" explained in Portuguese; percentages written "97%" (no space) in all four docs, as
+  in the UI. "Assist" and "Smart Assist" stay — product names.

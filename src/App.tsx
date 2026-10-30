@@ -21,6 +21,8 @@ import { deleteDownloadedModel } from './assist/modelEngine'
 import { AboutPage } from './components/AboutPage'
 import { getSampleDocument, getSampleFilename } from './lib/sampleDocument'
 import { useI18n } from './hooks/useI18n'
+import { useKeyStyle } from './hooks/useKeyStyle'
+import { shortcut } from './lib/keyStyle'
 import { Presence } from './components/motion'
 import { SuggestionBar } from './components/SuggestionBar'
 import { useAppIcon } from './hooks/useAppIcon'
@@ -78,6 +80,7 @@ function isEditableTarget(target: EventTarget | null): boolean {
 
 export default function App() {
   const { t, lang } = useI18n()
+  const { keyStyle } = useKeyStyle()
   const {
     document,
     isDirty,
@@ -304,7 +307,7 @@ export default function App() {
       value={document.content}
       onChange={updateContent}
       textareaRef={textareaRef}
-      placeholder={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: 'Ctrl/Cmd + V' }) : undefined}
+      placeholder={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: shortcut(['mod', 'v'], keyStyle) }) : undefined}
       {...(assist.enabled ? assist.handlers : {})}
       overlayActive={assist.enabled && !!assist.suggestion}
     >
@@ -801,7 +804,7 @@ export default function App() {
                     <main>
                       {sizeBar}
                       {remoteBar}
-                      <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: 'Ctrl/Cmd + V' }) : t('preview.empty')} remoteImages={remoteImages} />
+                      <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: shortcut(['mod', 'v'], keyStyle) }) : t('preview.empty')} remoteImages={remoteImages} />
                       <ScrollJump />
                     </main>
                   }
