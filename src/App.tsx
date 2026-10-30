@@ -90,6 +90,8 @@ export default function App() {
     clearError,
     setError,
     history: recent,
+    conflict,
+    resolveConflict,
     openFromHistory,
     removeFromHistory,
     clearHistory,
@@ -830,6 +832,22 @@ export default function App() {
           <span>{t('shell.characters', { n: document.content.length.toLocaleString(lang) })}</span>
         </footer>
       )}
+
+      {/* Another tab saved this document while this one had its own changes (launch QA #14). */}
+      <Presence show={conflict && !showAbout} enter="anim-menu-in" exit="anim-menu-out" duration={140} className="fixed inset-x-3 top-[3.75rem] z-40 mx-auto max-w-md origin-top">
+        <div role="alert" className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-amber-500/50 bg-surface px-3 py-2.5 text-sm shadow-lg dark:bg-dark-surface-soft">
+          <AlertCircle className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+          <span className="min-w-0 flex-1 text-ink dark:text-dark-ink">{t('conflict.text')}</span>
+          <span className="flex shrink-0 gap-2">
+            <button type="button" onClick={() => resolveConflict(false)} className="press inline-flex min-h-9 items-center rounded-md bg-accent px-3 text-xs font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong">
+              {t('conflict.useOther')}
+            </button>
+            <button type="button" onClick={() => resolveConflict(true)} className="inline-flex min-h-9 items-center rounded-md border border-line px-3 text-xs font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
+              {t('conflict.keepMine')}
+            </button>
+          </span>
+        </div>
+      </Presence>
 
       <Presence show={!!error} enter="" exit="anim-slide-down" duration={160} className="fixed bottom-4 right-4 z-50">
         {error && (

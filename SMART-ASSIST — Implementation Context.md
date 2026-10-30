@@ -574,3 +574,9 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   couldn't be kept in the browser — export it" once, until a save works again. And an opened, unchanged file no
   longer stores its text twice (`savedContent` is left out when equal — `loadDocument` already fell back to
   `content`): the 2.7 M-char case from the QA now survives a reload; 6 M chars shows the warning.
+- **Two tabs (#14).** Reloading a stale tab wrote its old copy over another tab's newer save: the leave-the-page
+  flush saved even when that tab had changed nothing. A tab now writes only when its document differs from what it
+  last wrote or read. Pablo chose sync + conflict on top: a tab with no changes of its own follows another tab's
+  save live (`storage` event); when both changed the same document, a bar says "This document changed in another
+  Marksage tab" — **Use that version** (this tab's text stays in Recent as its own entry) or **Keep mine** (saved
+  over it; the other tab, if idle, follows). Saves pause while the bar is up.

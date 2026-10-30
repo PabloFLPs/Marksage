@@ -51,6 +51,8 @@ training/                 Own models' pipeline (collect → split → train; bui
   saves the empty document at once. Don't remove either — a reload right after typing used to lose text.
   "Delete all Marksage data" sets `wiped` (`lib/storage.ts`, `isWiped()`) so that flush and any pending save write
   nothing until the reload — any new writer of user content must check it too.
+  Tabs: a tab writes the document only when it differs from what it last wrote or read (`persisted`), follows
+  another tab's save (`storage` event) when it has no changes of its own, and asks (conflict bar) when both do.
 - **Imports inside `src/assist/`** use explicit `.ts` extensions so `node --experimental-strip-types` can run the eval.
 
 ## Smart Assist
