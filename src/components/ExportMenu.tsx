@@ -89,7 +89,7 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
         className="inline-flex h-9 min-w-9 items-center justify-center md:h-8 md:min-w-0 gap-1.5 rounded-md bg-accent px-2.5 text-xs font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
       >
         {done ? <Check className="anim-pop h-3.5 w-3.5" /> : <Download className="h-3.5 w-3.5" />}
-        <span key={done ? 'd' : 'e'} className={`hidden md:inline ${done ? 'anim-rise' : ''}`}>{done ? t('export.done') : t('action.export')}</span>
+        <span key={done ? 'd' : 'e'} className={`hidden lg:inline ${done ? 'anim-rise' : ''}`}>{done ? t('export.done') : t('action.export')}</span>
       </button>
       <span role="status" aria-live="polite" className="sr-only">{done ? t('export.doneLive', { name: done }) : ''}</span>
 

@@ -237,8 +237,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<Download />} title={x('Name, export & copy', 'Nome, exportar e copiar')}>
             {x(
-              <>Click the document’s name in the header to rename it. Export asks for the file name first — your document’s name, or one taken from its first heading — and that name sticks; <Keys k={['mod', 's']} /> opens it and pressing it again downloads. Or copy the raw Markdown in one click.</>,
-              <>Clique no nome do documento no cabeçalho para renomear. Exportar pede primeiro o nome do arquivo — o nome do documento, ou um tirado do primeiro título — e esse nome fica; <Keys k={['mod', 's']} /> abre e, apertando de novo, baixa. Ou copie o Markdown bruto com um clique.</>,
+              <>Click the document’s name in the header to rename it (on a phone: ⋯ → Rename…). Export asks for the file name first — your document’s name, or one taken from its first heading — and that name sticks; <Keys k={['mod', 's']} /> opens it and pressing it again downloads. Or copy the raw Markdown in one click.</>,
+              <>Clique no nome do documento no cabeçalho para renomear (no celular: ⋯ → Renomear…). Exportar pede primeiro o nome do arquivo — o nome do documento, ou um tirado do primeiro título — e esse nome fica; <Keys k={['mod', 's']} /> abre e, apertando de novo, baixa. Ou copie o Markdown bruto com um clique.</>,
             )}
           </Feature>
           <Feature icon={<ClipboardPaste />} title={x('GitHub-flavoured Markdown', 'Markdown no estilo GitHub')}>

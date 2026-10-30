@@ -183,7 +183,7 @@ export function Header({
             <span key={editing ? 'p' : 'e'} className="anim-spin-in inline-flex">
               {editing ? <Eye className="h-3.5 w-3.5" /> : <PenLine className="h-3.5 w-3.5" />}
             </span>
-            <span key={editing ? 'pt' : 'et'} className="anim-rise">{editing ? t('action.preview') : t('action.edit')}</span>
+            <span key={editing ? 'pt' : 'et'} className="anim-rise hidden lg:inline">{editing ? t('action.preview') : t('action.edit')}</span>
           </button>
         </CollapseX>
 
@@ -195,7 +195,7 @@ export function Header({
             className={copied ? actionButtonOn : actionButton}
           >
             {copied ? <Check className="anim-pop h-3.5 w-3.5" /> : <Clipboard className="h-3.5 w-3.5" />}
-            <span key={copied ? 'c' : 'n'} className={copied ? 'anim-rise' : 'hidden md:inline'}>{copied ? t('action.copied') : t('action.copy')}</span>
+            <span key={copied ? 'c' : 'n'} className={copied ? 'anim-rise' : 'hidden xl:inline'}>{copied ? t('action.copied') : t('action.copy')}</span>
           </button>
         </CollapseX>
 
@@ -203,12 +203,12 @@ export function Header({
           <>
             <button type="button" onClick={onNew} title={t('action.newTitle', { keys: 'Ctrl/Cmd + N' })} className={actionButton}>
               <FilePlus2 className="h-3.5 w-3.5" />
-              <span className="hidden md:inline">{t('action.new')}</span>
+              <span className="hidden xl:inline">{t('action.new')}</span>
             </button>
 
             <button type="button" onClick={onOpen} title={t('action.openTitle', { keys: 'Ctrl/Cmd + O' })} className={actionButton}>
               <FolderOpen className="h-3.5 w-3.5" />
-              <span className="hidden md:inline">{t('action.open')}</span>
+              <span className="hidden xl:inline">{t('action.open')}</span>
             </button>
           </>
         )}
@@ -237,6 +237,9 @@ export function Header({
             onAbout={onAbout}
             onToggleTheme={onToggleTheme}
             onOutline={showingAbout ? undefined : onToggleOutline}
+            filename={filename}
+            isDirty={isDirty}
+            onRename={onRename}
           />
         ) : (
           <>

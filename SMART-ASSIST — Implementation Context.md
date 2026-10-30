@@ -526,3 +526,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   capitalised word (`#Installation`) is a candidate, judged 0.85 when it stands alone (blank line before, no
   hashtags around) and 0.55 otherwise. No change on any F3 set (authored, dev, real, real2 — same numbers);
   five authored cases added for both rules.
+- **Name on phones and narrow desktops (#4).** Phones still have no name in the header (§30), but the ⋯ menu now
+  starts with "Rename…" showing the name (and `*`); it opens a panel under the header, same rules as the header
+  box (Pablo picked this over a name in the bottom bar). On desktops the toolbar crowded the name out — at 768–900 px
+  in PT-BR it got 4 px. Copy / New / Open now show their labels from 1280 px, Preview/Edit and Export from 1024 px
+  (icons + tooltips below), so "Sem título" keeps 80–88 px from 768 px up.
