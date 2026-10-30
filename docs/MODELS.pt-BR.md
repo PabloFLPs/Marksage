@@ -198,7 +198,10 @@ não tem certeza, três regras extras ainda podem ajudar:
   para TypeScript (+192), seguido de `) :` e `number`, mas são 5 de 70 pistas; as outras 65 são comuns ao
   JavaScript e puxam para ele (`+`, `function`, `;`, nomes curtos), e o modelo já começa 1,95 ponto a favor do
   JavaScript (muito código sem tipos vem marcado como `ts`). Resultado: js 63% — enquanto as regras diziam ts
-  99%. Nos conjuntos de teste, essa regra somou uma sugestão certa (dev) e nenhuma errada.
+  99%. Nos conjuntos de teste, essa regra somou uma sugestão certa (dev) e nenhuma errada; no terceiro conjunto de
+  fora, 3 certas e nenhuma errada. Um modelo que guarda também a pista mais forte de cada dimensão (média + máximo)
+  foi testado como solução geral e não ajudou TypeScript / JavaScript — a maior parte do código marcado `ts` não
+  tem nenhuma sintaxe só de TypeScript (seção 8.1).
 - **Duas opções:** se as duas primeiras respostas juntas têm pelo menos 85% (e a segunda pelo menos 20%), você
   recebe as duas — JavaScript ou TypeScript, C ou C++.
 
@@ -489,14 +492,32 @@ Cada versão de modelo e cada experimento, com os números em que foi medido. As
 
 ### 8.1 Modelo de linguagens de código
 
-| Versão | Data | Dados de treino | O que mudou | Primeiro conjunto de fora (314 blocos) | Conjunto de fora novo (284 blocos) | Situação |
-|---|---|---|---|---|---|---|
-| Só heurísticas | — | — | regras, sem modelo | 57,3% · 76 mostradas · 97,4% certas | 58,5% · 70 mostradas · 92,9% certas | referência |
-| **v1** | 2026-10-24 | ~55 mil blocos, 264 repositórios | primeiro modelo: 8 números por pista, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no conjunto de ajuste | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | substituído pela v2 |
-| **v2** | 2026-10-24 | 63.751 blocos, 309 repositórios | +45 repositórios; temperatura em repositórios nunca vistos (1,85; trechos curtos 2,55; meta de 95%); no app, concordância com as heurísticas e, desde 2026-10-30, regras quase certas (≥ 99%) — sem mudança nos dois conjuntos de teste | 77,4% · 164 · 95,7% | 74,3% · 158 · 91,8% (só o modelo: 74,3% · 146 · 92,5%) | **em uso** |
+| Versão | Data | Dados de treino | O que mudou | Primeiro conjunto de fora (314 blocos) | Conjunto de fora novo (284 blocos) | Terceiro conjunto de fora (842 blocos) | Situação |
+|---|---|---|---|---|---|---|---|
+| Só heurísticas | — | — | regras, sem modelo | 57,3% · 76 mostradas · 97,4% certas | 58,5% · 70 mostradas · 92,9% certas | 53,9% · 239 · 92,1% | referência |
+| **v1** | 2026-10-24 | ~55 mil blocos, 264 repositórios | primeiro modelo: 8 números por pista, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no conjunto de ajuste | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | — | substituído pela v2 |
+| **v2** | 2026-10-24 | 63.751 blocos, 309 repositórios | +45 repositórios; temperatura em repositórios nunca vistos (1,85; trechos curtos 2,55; meta de 95%); no app, concordância com as heurísticas e, desde 2026-10-30, regras quase certas (≥ 99%) — sem mudança nos dois primeiros conjuntos de teste, +3 certas no terceiro | 77,4% · 164 · 95,7% | 74,3% · 158 · 91,8% (só o modelo: 74,3% · 146 · 92,5%) | 72,7% · 408 · 93,1% (só o modelo: 72,3% · 326 · 92,6%) | **em uso** |
+| Experimento v3: média + máximo | 2026-10-30 | 64.288 blocos (as mesmas fontes, coletadas de novo) | cada dimensão guarda também a sua pista mais forte (média + máximo), para uma pista decisiva não sumir na média; números das pistas limitados (±2), 4 épocas, taxa de aprendizado 0,2; 395 KB, mesma velocidade | — | — | 74,6% · 417 · 93,8% (só o modelo: 74,2% · 371 · 93,8%) — seis linguagens dos pares: 103 certas · 88,0% contra 106 · 89,8% da v2 | **não usado** |
 
 A v1 foi medida uma vez no primeiro conjunto de fora. Como ele já tinha sido visto, a v2 foi julgada num segundo
 conjunto, novo, montado com 72 repositórios que não aparecem em mais nenhum lugar.
+
+**O experimento v3 (2026-10-30, não usado).** O alvo eram as linguagens quase gêmeas, em que a média afoga poucas
+pistas decisivas: TypeScript / JavaScript, C++ / C, C# / Java, JSON com comentários. A régua foi escrita antes
+de rodar o terceiro conjunto de fora (uma vez): nessas seis linguagens juntas, mais sugestões certas *e* precisão
+no mínimo igual à da v2, mais precisão geral no mínimo igual à da v2 — para o modelo sozinho e para a combinação
+com as regras usada no app. Média + máximo cumpriu a parte geral (mais sugestões certas, precisão maior) e foi
+claramente melhor em C# / Java (44 certas · 3 erradas contra 28 · 1), JSON com comentários (26 · 0 contra 8 · 0) e
+código C++ com sintaxe só de C++ (81% contra 67% de acerto) — mas nas seis linguagens juntas ficou menos preciso,
+e em TypeScript / JavaScript pior (22 certas · 5 erradas contra 33 · 4). Por isso não passou na régua.
+
+O motivo está nos rótulos, não no modelo: só **42% do código marcado `ts` no treino tem alguma sintaxe só de
+TypeScript** (anotações de tipo, `interface`, genéricos, `as`…); o resto é código sem tipos, que também é
+JavaScript válido, e a marcação diz de que projeto ele veio. Nenhum jeito de juntar pistas separa esses casos.
+As escolhas foram feitas no conjunto de ajuste mais as previsões fora do repositório de cinco divisões dos dados de
+treino por repositório (64.288 blocos), com a média ajustada do mesmo jeito como controle com os mesmos dados. O
+máximo também precisou de duas mudanças no treino para funcionar — sem elas, os números cresciam sem limite.
+Detalhes: `training/README.md`.
 
 ### 8.2 Modelo de seções
 
@@ -547,7 +568,7 @@ temperatura 1,05.
 | Ajuste | documentos reais, usados para tomar decisões | código 280 · colagem 27 · estrutura 212 (36, mais 176 linhas de issues e wikis em 2026-10-28) · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de fora |
 | Primeiro de fora (2026-10-24) | documentos reais, nunca usados para ajustar | código 314 · colagem 31 · estrutura 30 | roda uma vez por versão; julgou a v1 |
 | De fora novo (2026-10-24) | código de 72 repositórios que não aparecem em mais nenhum lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |
-| Terceiro de fora (2026-10-30) | código de 158 repositórios que não aparecem em mais nenhum lugar, montado antes de qualquer treino da v3 | código 842: ≤ 30 por linguagem, até 60 para TypeScript, JavaScript, C, C++, C# e Java, mais 40 blocos JSON com comentários | montado uma vez para a v3, depois congelado; roda uma vez, no fim |
+| Terceiro de fora (2026-10-30) | código de 158 repositórios que não aparecem em mais nenhum lugar, montado antes de qualquer treino da v3 | código 842: ≤ 30 por linguagem, até 60 para TypeScript, JavaScript, C, C++, C# e Java, mais 40 blocos JSON com comentários | montado uma vez para a v3, depois congelado; rodou uma vez em 2026-10-30 (experimento v3, v2, heurísticas) |
 | Seções de fora (2026-10-24) | seções dos repositórios de teste do modelo de código mais os novos | 133 repositórios (134 a partir da v2: os tipos novos rotulam seções em mais um) | roda uma vez por modelo de seções |
 | Estrutura de fora (2026-10-28) | linhas quase certas de issues, pull requests e comentários do GitHub de 43 repositórios que não aparecem em mais nenhum lugar, rotuladas à mão | 227 linhas | montado uma vez para o modelo de estrutura, depois congelado |
 | Colagens de fora (2026-10-28) | colagens reais de 19 fontes fora do corpus: arquivos de dados, células de planilha, saída de comandos, código-fonte, configurações, READMEs | 53 colagens | montado uma vez para o modelo de colagem, depois congelado |

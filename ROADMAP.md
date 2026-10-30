@@ -110,14 +110,23 @@ and fix the docs where it's right and the features where it's wrong. Both get be
   precise (88/109); deployment had 246 training examples. The test set has now been used for v2, so a v3 needs a
   fresh held-out set (like the code model's second one).
 
-## 4.1 Code-language model v3: pooling that keeps decisive clues (idea, 2026-10-30)
+## 4.1 Done (2026-10-30): code-language model v3, mean + max pooling — tried, not used
 
-A per-clue attribution of a TS → JS miss (launch QA #17; MODELS §2.7) showed the v2 model's mean pooling
-drowning a few decisive clues (`: number`, `) :`) in many shared ones, plus a learned lean toward JavaScript.
-It hits languages that are near-supersets of each other most: TS/JS, C++/C, JSONC/JSON, partly C#/Java.
-Try mean + max pooling (concatenated), so one strong clue can't be averaged away — tune on dev, report per
-pair, then a fresh held-out set. If it wins, the ≥ 99% rules override (`RULES_OVERRIDE`) may no longer be
-needed; re-measure before removing it.
+A per-clue attribution of a TS → JS miss (launch QA #17; MODELS §2.7) showed v2's mean pooling drowning a few
+decisive clues. Mean + max pooling was tuned on dev + repo-fold CV and judged once on a third, fresh held-out set
+(842 blocks, 158 repos) against a bar fixed beforehand. **It failed on the pairs** (six pair languages: 103 right ·
+88.0% vs v2's 106 · 89.8% in the app's hybrid; TS/JS worse) while being better overall (391 right · 93.8% vs
+380 · 93.1%) — training/README.md, MODELS §8.1. `RULES_OVERRIDE` re-measured: +3 right, 0 wrong on the new set, so
+it stays. Learned on the way: only 42% of `ts`-tagged training code has TypeScript-only syntax, and today's data
+can't rebuild v2 exactly (77% vs 81.8% dev accuracy).
+
+Follow-ups, not started:
+- **TS/JS labels:** treat `ts` blocks without TypeScript-only syntax as "either" (or don't score them for that pair)
+  — the gap is in the labels, not the model.
+- **Mean + max for overall coverage** (+11 right, −2 wrong in the hybrid on the third set; much more on CV) is a
+  different claim from the one tested; it would need its own bar and a new fresh held-out set.
+- **Reproducibility:** find why the pinned rebuild gives 64,288 training blocks instead of v2's 63,751 (keep a
+  checksum of `train.jsonl` with every shipped model from now on).
 
 ## 5. Showcase
 

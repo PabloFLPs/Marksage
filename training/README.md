@@ -3,7 +3,8 @@
 Two models ship from here: the **code-language model** (`lang-v2.bin`, below) and the **section model**
 (`sections-v2.bin`, for the Outline panel). Two more were trained and measured on 2026-10-28 and are **not
 used** — a structure model and a paste-type model — and a rule for the link text of pasted URLs was measured and
-dropped (see the last sections). All models use `fasttext.ts`.
+dropped (see the last sections); a code-language v3 with mean + max pooling followed on 2026-10-30, also not used.
+All models use `fasttext.ts`.
 
 Smart Assist's code-block language detection (F1) is precise but quiet: on real documents the
 heuristics speak on about a quarter of blocks. The plan is a small, purpose-trained classifier
@@ -40,6 +41,7 @@ node --experimental-strip-types training/eval-links.ts
 | `build-sections.ts`, `train-sections.ts` | ✓ | Section model: dataset from the cloned Markdown, trainer (see the last section). |
 | `sources-test2.json`, `manifest-test2.json`, `build-test2.ts` | ✓ | The second, fresh held-out set (`fences.real2.json`): 72 repos used nowhere else, built once and frozen. |
 | `sources-test3.json`, `manifest-test3.json`, `build-test3.ts`, `jsonComments.ts` | ✓ | The third held-out set (`fences.real3.json`, 2026-10-30, for v3): 221 repos used nowhere else (158 in the sample), built before any v3 training and frozen. |
+| `eval-test3.ts`, `pairSyntax.ts` | ✓ | The v3 experiment's one held-out run (v2, v3, same-data control; alone, hybrid, hybrid without `RULES_OVERRIDE`; the bar) and the decisive-syntax markers for its report. |
 | `build-structure.ts`, `train-structure.ts`, `structureFeatures.ts` | ✓ | Structure model (tried, not used): dataset, trainer, clue reader 3. |
 | `build-pastes.ts`, `train-pastes.ts`, `pasteFeatures.ts` | ✓ | Paste-type model (tried, not used): dataset, trainer, clue reader 4. |
 | `eval-links.ts`, `linkText.ts` | ✓ | Link text for a pasted URL (rule measured, not used). |
@@ -144,7 +146,79 @@ anywhere in the collection or the fixtures. Sampled: ≤ 30 per language, ≤ 3 
 language; the pairs v3 is about — ts, js, c, cpp, csharp, java — topped up to 60 (C reached 52); plus 40 `json`
 blocks with comments (`subset: "json-comments"`, `jsonComments.ts`: `//` or `/*` outside strings), since `jsonc`
 and `json5` share the `json` label and "JSONC vs JSON" can't be a pair otherwise. **842 blocks from 158 repos.**
-It stays out of `npm run eval:assist` until its single run at the end of the v3 work.
+Run once on 2026-10-30 (`eval-test3.ts`, below); in `npm run eval:assist` since.
+
+## Tried: code-language model v3 — mean + max pooling (2026-10-30) — not used
+
+**Question:** v2 averages its clues, so a few decisive ones (`: number`, `) :`) drown among many shared ones
+(launch QA #17; docs/MODELS.md §2.7). Hardest hit: languages that are near-supersets of each other — TS/JS,
+C++/C, partly C#/Java, and JSONC/JSON (which shares the `json` label, so it's measured as `json` blocks with
+comments). **Idea (ROADMAP §4.1):** concatenate the mean with a per-dimension max, so one strong clue can't be
+averaged away (`--pooling mean+max`; the header's `pooling` field, read by the app and the standalone runner).
+
+```bash
+node --experimental-strip-types training/train.ts --dim 8 --buckets 32768 --cv-temp --short-t --target-precision 0.95 \
+  --pooling mean+max --emb-clip 2 --pool-lr 0.3 --epochs 4 --lr 0.2 --cv-report --save /tmp/lang-v3.bin   # the candidate
+node --experimental-strip-types training/train.ts --dim 8 --buckets 32768 --cv-temp --short-t --target-precision 0.95 \
+  --epochs 8 --lr 0.2 --cv-report --save /tmp/control.bin                                                  # same-data control
+node --experimental-strip-types training/eval-test3.ts /tmp/lang-v3.bin /tmp/control.bin                     # the one held-out run
+```
+
+**Data.** Collected again from the pinned manifest: 272,506 blocks from 309 sources → train 64,288. *v2 can't be
+rebuilt exactly:* its file says 63,751, and a retrain with v2's exact recipe on today's data scores 77.1% dev
+accuracy (76–77% across seeds) against the shipped file's 81.8% — code, settings, manifest and splits unchanged
+since v2; a case-insensitive file system was ruled out (16 files, no effect); the original blocks are gone. So
+every comparison carries a **same-data control** (mean pooling, retrained today), and the shipped v2 decides
+shipping.
+
+**Choosing (Pablo: dev + repo-fold CV).** Dev has only 30 TS/JS, 21 C++/C and 23 C#/Java blocks, so choices used
+`--cv-report`: every out-of-repo prediction of the 5 repo folds (64,288 blocks, 192 repos) — overall, per pair,
+JSON with comments, and *decisive-syntax* subsets (`pairSyntax.ts`: `ts` blocks with TypeScript-only syntax, `cpp`
+blocks with C++-only syntax).
+- At v2's settings max pooling diverged: the max part sends a whole update to one clue (mean spreads it over ~70),
+  clue numbers grew ~170× and raw scores reached 10⁵ — overconfident even at temperature 40 (the search now goes
+  that far); mean + max + min went to NaN. Fixed with `--emb-clip` (clue numbers bounded) and `--pool-lr` (a smaller
+  step for the max part).
+- **Label finding:** only 42% of `ts`-tagged training blocks have any TypeScript-only syntax (dev: 2 of 15). The
+  rest is untyped code, valid JavaScript — most TS/JS mistakes can't be decided from the text.
+- Grid, both poolings tuned the same way (4 / 8 / 12 epochs × lr 0.2 / 0.4; mean + max at clip 2, pool-lr 0.3).
+  Right / wrong shown out-of-repo, calibrated to ~95%:
+
+| Out-of-repo (64,288) | Overall | TS/JS | C++/C | C#/Java | JSON w/ comments | `cpp` w/ C++ syntax |
+|---|---|---|---|---|---|---|
+| v2 recipe (mean, 8 ep, lr 0.4) | 19,776 / 1,061 (94.9%) | 2,173 / 340 | 266 / 60 | 723 / 27 | 113 / 4 | 157 / 7 |
+| best mean (8 ep, lr 0.2) — control | 21,561 / 1,080 (95.2%) | 2,191 / 374 | 266 / 64 | 905 / 25 | 124 / 5 | 184 / 14 |
+| **best mean + max (4 ep, lr 0.2)** — candidate | 26,081 / 1,214 (95.6%) | 2,287 / 472 | 510 / 56 | 1,383 / 55 | 207 / 4 | 403 / 17 |
+
+  Mean + max + min was worse at every setting tried. The candidate: 394,972 bytes (+688 for the bigger output
+  layer), 0.106 ms per decision (v2: 0.105); training is deterministic (same file twice).
+
+**The bar** (fixed before the run, Implementation Context §35), against the shipped `lang-v2.bin`, behind the
+0.80 / 0.20 gate, for the model alone and the app hybrid: (1) the six pair languages together — more right *and*
+precision ≥ v2's; (2) overall precision ≥ v2's; (3) ≤ 400 KB, ~0.1 ms.
+
+| `fences.real3.json` (842 blocks / 158 repos, run once) | Overall | 6 pair languages | TS/JS | C++/C | C#/Java | JSON w/ comments |
+|---|---|---|---|---|---|---|
+| Heuristics | 220 / 19 (92.1%) | 56 / 11 | 14 / 3 | 15 / 2 | 27 / 6 | 29 / 0 |
+| v2 shipped, alone | 302 / 24 (92.6%) | 80 / 9 (89.9%) | 33 / 4 | 19 / 4 | 28 / 1 | 8 / 0 |
+| v2 shipped, hybrid | 380 / 28 (93.1%) | 106 / 12 (89.8%) | 37 / 5 | 25 / 4 | 44 / 3 | 32 / 0 |
+| **v3 mean + max, alone** | 348 / 23 (93.8%) | 88 / 12 (88.0%) | 22 / 5 | 22 / 4 | 44 / 3 | 26 / 0 |
+| **v3 mean + max, hybrid** | 391 / 26 (93.8%) | 103 / 14 (88.0%) | 30 / 6 | 26 / 5 | 47 / 3 | 35 / 0 |
+| control (mean, today), alone | 279 / 21 (93.0%) | 70 / 8 (89.7%) | 20 / 2 | 19 / 5 | 31 / 1 | 9 / 0 |
+| control (mean, today), hybrid | 363 / 25 (93.6%) | 95 / 10 (90.5%) | 26 / 3 | 25 / 5 | 44 / 2 | 31 / 0 |
+
+Accuracy: heuristics 53.9%, v2 72.3% (hybrid 72.7%), v3 74.2% (74.6%), control 73.0% (73.5%). `cpp` blocks with
+C++-only syntax: v3 81.0% accuracy, v2 66.7%, control 73.8%. `ts` blocks with TypeScript-only syntax (20): v2 9 /
+1 shown in the hybrid, v3 8 / 0.
+
+**Outcome: not used.** (1) fails in both modes (alone: more right, 88.0% vs 89.9% precision; hybrid: 103 vs 106
+right); (2) and (3) pass. Mean + max is a *general* gain — more right suggestions overall at higher precision
+than both v2 and the control, clearly better on C#/Java, JSON with comments and real C++ — but not on the
+near-superset pairs it was for: TS/JS got worse. The model file isn't committed (the commands above rebuild it).
+**`RULES_OVERRIDE`, re-measured:** on the shipped v2 it adds 3 right and no wrong suggestion on this set
+(377 → 380) — it stays. **Ideas, not tried:** TS/JS needs labels that say what the code is, e.g. relabel `ts`
+blocks without TypeScript-only syntax as "either", or score only decisive-syntax blocks for that pair; mean + max
+for overall coverage would be its own change, judged on a new fresh set (this one is now used).
 
 ## Section model v1 (sections-v1, 2026-10-24) — replaced by v2
 

@@ -197,7 +197,9 @@ rules can still help:
   toward TypeScript (+192), `) :` and `number` follow, but they are 5 of 70 clues; the other 65 are shared with
   JavaScript and lean that way (`+`, `function`, `;`, short names), and the model starts 1.95 points in favour of
   JavaScript (much untyped code is tagged `ts`). Result: js 63% — while the rules said ts 99%. On the fixture
-  sets this rule added one right suggestion (dev) and no wrong one.
+  sets this rule added one right suggestion (dev) and no wrong one; on the third held-out set, 3 right and none
+  wrong. A model that keeps each dimension's strongest clue (mean + max pooling) was tried as the general fix and
+  didn't help TypeScript / JavaScript — most `ts`-tagged code has no TypeScript-only syntax at all (section 8.1).
 - **Two options:** if the top two answers together hold at least 85% (and the second at least 20%), you're
   offered both — JavaScript or TypeScript, C or C++.
 
@@ -486,14 +488,31 @@ committed. "Shown" is how many answers pass the 0.8 / 0.2 gate; "right" is preci
 
 ### 8.1 Code-language model
 
-| Version | Date | Training data | What changed | First held-out set (314 blocks) | Fresh held-out set (284 blocks) | Status |
-|---|---|---|---|---|---|---|
-| Heuristics only | — | — | rules, no model | 57.3% · 76 shown · 97.4% right | 58.5% · 70 shown · 92.9% right | reference |
-| **v1** | 2026-10-24 | ~55,000 blocks, 264 repositories | first model: 8 numbers per clue, 32,768 slots, 8 epochs, temperature 1.85 fitted on dev | 75.8% · 141 · 94.3% | 71.5% · 151 · 88.1% | replaced by v2 |
-| **v2** | 2026-10-24 | 63,751 blocks, 309 repositories | +45 repositories; temperature from repositories it never saw (1.85, short snippets 2.55, 95% target); in the app, agreement with the heuristics, and since 2026-10-30 nearly certain rules (≥ 99%) — no change on either held-out set | 77.4% · 164 · 95.7% | 74.3% · 158 · 91.8% (model alone: 74.3% · 146 · 92.5%) | **in use** |
+| Version | Date | Training data | What changed | First held-out set (314 blocks) | Fresh held-out set (284 blocks) | Third held-out set (842 blocks) | Status |
+|---|---|---|---|---|---|---|---|
+| Heuristics only | — | — | rules, no model | 57.3% · 76 shown · 97.4% right | 58.5% · 70 shown · 92.9% right | 53.9% · 239 · 92.1% | reference |
+| **v1** | 2026-10-24 | ~55,000 blocks, 264 repositories | first model: 8 numbers per clue, 32,768 slots, 8 epochs, temperature 1.85 fitted on dev | 75.8% · 141 · 94.3% | 71.5% · 151 · 88.1% | — | replaced by v2 |
+| **v2** | 2026-10-24 | 63,751 blocks, 309 repositories | +45 repositories; temperature from repositories it never saw (1.85, short snippets 2.55, 95% target); in the app, agreement with the heuristics, and since 2026-10-30 nearly certain rules (≥ 99%) — no change on the first two held-out sets, +3 right on the third | 77.4% · 164 · 95.7% | 74.3% · 158 · 91.8% (model alone: 74.3% · 146 · 92.5%) | 72.7% · 408 · 93.1% (model alone: 72.3% · 326 · 92.6%) | **in use** |
+| v3 experiment: mean + max | 2026-10-30 | 64,288 blocks (the same sources, collected again) | each dimension also keeps its strongest clue (mean + max pooling), so one decisive clue can't be averaged away; clue numbers bounded (±2), 4 epochs, learning rate 0.2; 395 KB, same speed | — | — | 74.6% · 417 · 93.8% (model alone: 74.2% · 371 · 93.8%) — six pair languages 103 right · 88.0% vs v2's 106 · 89.8% | **not used** |
 
 v1 was measured once on the first held-out set. Because that set had then been seen, v2 was judged on a second,
 fresh one, built from 72 repositories used nowhere else.
+
+**The v3 experiment (2026-10-30, not used).** The goal was the near-twin languages, where the average drowns a
+few decisive clues: TypeScript / JavaScript, C++ / C, C# / Java, JSON with comments. The bar was written down
+before the third held-out set was run (once): on those six languages together, more right suggestions *and*
+precision at least v2's, plus overall precision at least v2's — for the model alone and for the app's
+combination with the rules. Mean + max met the overall part (more right suggestions, higher precision) and was
+clearly better on C# / Java (44 right · 3 wrong vs 28 · 1), JSON with comments (26 · 0 vs 8 · 0) and C++ code
+with C++-only syntax (81% vs 67% accuracy) — but on the six languages together it was less precise, and on
+TypeScript / JavaScript worse (22 right · 5 wrong vs 33 · 4). So it failed the bar.
+
+The reason is in the labels, not the model: only **42% of the code tagged `ts` in training has any
+TypeScript-only syntax** (type annotations, `interface`, generics, `as`…); the rest is untyped code that is
+also valid JavaScript, and its tag says which project it came from. No way of pooling clues can tell those apart.
+Choices were made on dev plus out-of-repo predictions from five repository folds of the training data (64,288
+blocks), with mean pooling tuned the same way as a same-data control. Max pooling also needed two training
+changes to work at all — without them its numbers grew without bound. Details: `training/README.md`.
 
 ### 8.2 Section model
 
@@ -542,7 +561,7 @@ models; 5 epochs (chosen on dev), learning rate 0.3, class weighting 0.5, temper
 | Dev | real documents, used to make choices | code 280 · paste 27 · structure 212 (36, plus 176 lines from issues and wikis on 2026-10-28) · sections from 27 repositories | tune here, never on the held-out sets |
 | First held-out (2026-10-24) | real documents, never tuned on | code 314 · paste 31 · structure 30 | run once per version; v1's judge |
 | Fresh held-out (2026-10-24) | code from 72 repositories used nowhere else | code 284 (67 repositories) | built once for v2, then frozen |
-| Third held-out (2026-10-30) | code from 158 repositories used nowhere else, built before any v3 training | code 842: ≤ 30 per language, up to 60 for TypeScript, JavaScript, C, C++, C# and Java, plus 40 JSON blocks with comments | built once for v3, then frozen; run once at the end |
+| Third held-out (2026-10-30) | code from 158 repositories used nowhere else, built before any v3 training | code 842: ≤ 30 per language, up to 60 for TypeScript, JavaScript, C, C++, C# and Java, plus 40 JSON blocks with comments | built once for v3, then frozen; run once on 2026-10-30 (v3 experiment, v2, heuristics) |
 | Sections held-out (2026-10-24) | sections from the code model's test repositories plus the fresh ones | 133 repositories (134 from v2: new types label sections in one more) | run once per section model |
 | Structure held-out (2026-10-28) | near-miss lines from GitHub issues, pull requests and comments of 43 repositories used nowhere else, labelled by hand | 227 lines | built once for the structure model, then frozen |
 | Paste held-out (2026-10-28) | real pastes from 19 sources outside the corpus: data files, spreadsheet copies, command output, source files, configs, READMEs | 53 pastes | built once for the paste model, then frozen |

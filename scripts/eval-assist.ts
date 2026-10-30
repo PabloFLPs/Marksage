@@ -10,6 +10,7 @@
  *   dev       — real-world excerpts to tune against (F1, F3)
  *   real      — real-world excerpts, held out: never tune heuristics against them
  *   real2     — a second, fresh held-out set: code blocks (model v2), unpolished lines (structure, 2026-10-28), pastes
+ *   real3     — a third, fresh held-out code set (model v3 experiment, 2026-10-30; run once by training/eval-test3.ts first)
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { HeuristicEngine } from '../src/assist/heuristicEngine.ts'
@@ -30,8 +31,8 @@ const realOnly = process.argv.includes('--real')
 const brief = process.argv.includes('--brief')
 const MODEL_FILE = ['lang-v2.bin', 'lang-v1.bin'].map((f) => new URL(`../public/models/${f}`, import.meta.url)).find((u) => existsSync(u)) ?? new URL('../public/models/none.bin', import.meta.url)
 const model = existsSync(MODEL_FILE) ? loadModel(new Uint8Array(readFileSync(MODEL_FILE)).buffer) : null
-type Set = 'authored' | 'dev' | 'real' | 'real2'
-const SETS: Set[] = realOnly ? ['real', 'real2'] : ['authored', 'dev', 'real', 'real2']
+type Set = 'authored' | 'dev' | 'real' | 'real2' | 'real3'
+const SETS: Set[] = realOnly ? ['real', 'real2', 'real3'] : ['authored', 'dev', 'real', 'real2', 'real3']
 const file = (base: string, set: Set) => (set === 'authored' ? `${base}.json` : `${base}.${set}.json`)
 const has = (base: string, set: Set) => existsSync(fixture(file(base, set)))
 
@@ -59,7 +60,7 @@ function report(name: string, rows: Row[], ms: number) {
 }
 
 for (const set of SETS) {
-  const TITLES = { authored: 'Authored set (written with the rules — optimistic)', dev: 'Dev set (real-world, used for tuning)', real: 'Real-world set (held out)', real2: 'Real-world set 2 (fresh, held out: code blocks for model v2; issue/wiki lines and real pastes from 2026-10-28)' }
+  const TITLES = { authored: 'Authored set (written with the rules — optimistic)', dev: 'Dev set (real-world, used for tuning)', real: 'Real-world set (held out)', real2: 'Real-world set 2 (fresh, held out: code blocks for model v2; issue/wiki lines and real pastes from 2026-10-28)', real3: 'Real-world set 3 (fresh, held out: code blocks for the model v3 experiment, 2026-10-30)' }
   console.log(`\n# ${TITLES[set]}`)
 
   // F1 — code-fence language
@@ -149,7 +150,7 @@ if (!realOnly) {
   const { splitDocSections } = await import('../src/assist/sections.ts')
   const docs = ['SMART-ASSIST.md', 'MODELS.md', 'SMART-ASSIST.pt-BR.md', 'MODELS.pt-BR.md'].map((f) => readFileSync(new URL(`../docs/${f}`, import.meta.url), 'utf8'))
   const cases: [string, string[]][] = [
-    ['lang-v2.bin', ['fences.json', 'fences.dev.json', 'fences.real.json', 'fences.real2.json'].filter((f) => existsSync(fixture(f))).flatMap((f) => (load(f) as { code: string }[]).map((x) => x.code))],
+    ['lang-v2.bin', ['fences.json', 'fences.dev.json', 'fences.real.json', 'fences.real2.json', 'fences.real3.json'].filter((f) => existsSync(fixture(f))).flatMap((f) => (load(f) as { code: string }[]).map((x) => x.code))],
     ['sections-v2.bin', docs.flatMap((d) => splitDocSections(d).map((s) => s.own))],
   ]
   console.log('\n## Standalone runner parity')

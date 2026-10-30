@@ -735,7 +735,7 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   held-out set (labels could come free from repo paths: README, CHANGELOG, docs/…).
 - **Outline hover in split view**: square, edge to edge across the preview pane (`.outline-hit-box.is-flush`).
 
-## 35. Code-language model v3: mean + max pooling (2026-10-30, in progress)
+## 35. Code-language model v3: mean + max pooling (2026-10-30) — tried, not used
 
 - Brief: ROADMAP §4.1. Pablo's decisions (asked first): choose on **dev + repo-fold CV** (out-of-repo predictions
   of 5 repo folds of train — dev has only 30 TS/JS, 21 C++/C, 23 C#/Java blocks); a **third held-out set**,
@@ -770,3 +770,15 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   3. file ≤ 400 KB, ~0.1 ms per decision.
   Reported, not gating: each pair, JSON with comments, the decisive-syntax subsets, accuracy, the heuristics, the
   same-data control (mean, 8 epochs, lr 0.2), and the hybrid with and without `RULES_OVERRIDE`.
+- **The held-out run (once, `training/eval-test3.ts`):** v3 hybrid 391 right / 26 wrong (93.8%) vs shipped v2 380 / 28
+  (93.1%); alone 348 / 23 (93.8%) vs 302 / 24 (92.6%) — overall ✓. Six pair languages: alone 88 / 12 (88.0%) vs
+  80 / 9 (89.9%), hybrid 103 / 14 (88.0%) vs 106 / 12 (89.8%) — ✗ in both modes. TS/JS alone 22 / 5 vs 33 / 4; C#/Java
+  44 / 3 vs 28 / 1; JSON with comments 26 / 0 vs 8 / 0; `cpp` with C++ syntax 81.0% vs 66.7% accuracy. Size 385.7 KB,
+  same speed. **Verdict: does not meet the bar → not used** (Pablo's rule: the shipped v2 decides). Same-data control
+  hybrid 363 / 25 (93.6%), so on identical data mean + max is the better pooling overall — not on the pairs.
+- `RULES_OVERRIDE` re-measured on the new set: v2 hybrid 377 → 380 right, 0 more wrong — it stays.
+- `fences.real3.json` joined `npm run eval:assist` after its run: the ✗ baseline goes 597 → 1,215 (+388 heuristics,
+  +230 v2 on the 842 new blocks; nothing else changed).
+- Documented: MODELS §2.7 + §8.1 + §8.5 (EN + PT-BR), training/README (full tables and commands), ROADMAP §4.1
+  (follow-ups: TS/JS labels, mean + max for coverage as its own claim, rebuild reproducibility). No model file
+  committed; Privacy & storage and #story unchanged (nothing shipped).
