@@ -1,4 +1,4 @@
-import { Children, isValidElement, memo, useLayoutEffect, useMemo, useRef } from 'react'
+import { Children, cloneElement, isValidElement, memo, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { HTMLAttributes, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -85,6 +85,7 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
         }
         return <img src={url} alt={alt ?? ''} referrerPolicy="no-referrer" loading="lazy" {...rest} />
       },
+      table: ({ node: _node, children, ...rest }) => <BigTable {...rest}>{children}</BigTable>,
       // Fenced blocks: highlighted when tagged, always with a copy button. Props (data-line) stay on the
       // outer element, so scroll sync and the Outline still find the block.
       pre: ({ node, children, ref: _ref, ...rest }) => {
@@ -193,4 +194,36 @@ function scrollToAnchor(from: HTMLElement, raw: string) {
   }
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   target?.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' })
+}
+
+/** Big tables show this many body rows until "Show all" (launch QA #16: 20 × 2,000 froze the page ~25 s). */
+const TABLE_ROWS_SHOWN = 200
+
+/** A table; past TABLE_ROWS_SHOWN body rows, the first ones plus "Show all N rows" and a note that it may be slow. */
+function BigTable({ children, ...rest }: HTMLAttributes<HTMLTableElement>) {
+  const { t, lang } = useI18n()
+  const [all, setAll] = useState(false)
+  let total = 0
+  const shown = Children.map(children, (c) => {
+    if (!isValidElement<{ children?: ReactNode }>(c) || c.type !== 'tbody') return c
+    const rows = Children.toArray(c.props.children).filter(isValidElement)
+    total = rows.length
+    return all || total <= TABLE_ROWS_SHOWN ? c : cloneElement(c, undefined, rows.slice(0, TABLE_ROWS_SHOWN))
+  })
+  if (total <= TABLE_ROWS_SHOWN) return <table {...rest}>{children}</table>
+  const n = total.toLocaleString(lang)
+  return (
+    <>
+      <table {...rest}>{shown}</table>
+      {!all && (
+        <div className="not-prose -mt-2 mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-muted dark:text-dark-ink-muted">
+          <span>{t('table.showing', { shown: TABLE_ROWS_SHOWN.toLocaleString(lang), total: n })}</span>
+          <button type="button" onClick={() => setAll(true)} className="font-medium text-accent hover:underline dark:text-dark-accent">
+            {t('table.showAll', { total: n })}
+          </button>
+          <span>{t('table.slowNote')}</span>
+        </div>
+      )}
+    </>
+  )
 }

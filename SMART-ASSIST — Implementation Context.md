@@ -590,3 +590,6 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
 - **Big tables froze the page (#16).** A 20 × 2,000 table blocked ~25 s, but not in rendering: profiling put ~6 s of a
   20 × 1,000 case in the Markdown parser — `micromark-extension-gfm-table` 2.1.1 searched its edit list linearly
   for every cell (quadratic). 2.1.2 (2026-09-11) indexes it: 20 × 1,000 now blocks ~0.8 s, 20 × 2,000 ~1.7 s.
+  On top (Pablo's option B): a table with more than 200 body rows shows the first 200, then "Showing 200 of N rows ·
+  Show all N rows · A table this big can make the page slow." (`BigTable` in MarkdownPreview). Show all on 2,000
+  rows takes ~1 s.
