@@ -630,3 +630,6 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   style named "Outline" collided with the Outline panel: it's "Line" now, and icon names are translated (PT
   Clássico, Mono, Linha, Pôr do sol). The docs' technical terms (noul, LIX, held-out sets) stay — they're explained
   where they appear, for curious readers.
+- **Paste without clipboard access (#25).** When the browser won't let Paste read the clipboard, the new document's
+  editor placeholder already said "press Ctrl/Cmd + V to paste here", but on desktop the eye lands on the preview
+  pane, which said "The preview shows up here as you type." The preview pane now shows the same hint.

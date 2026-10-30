@@ -801,7 +801,7 @@ export default function App() {
                     <main>
                       {sizeBar}
                       {remoteBar}
-                      <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={t('preview.empty')} remoteImages={remoteImages} />
+                      <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: 'Ctrl/Cmd + V' }) : t('preview.empty')} remoteImages={remoteImages} />
                       <ScrollJump />
                     </main>
                   }
