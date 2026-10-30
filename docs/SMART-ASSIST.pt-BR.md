@@ -371,7 +371,7 @@ pré-visualização. Nada no documento muda.
 
 **O que mostra**, tudo calculado a partir do texto, no seu dispositivo:
 
-- **Parece** — README, registro de mudanças, guia ou tutorial, referência, artigo ou anotações. O nome do
+- **Tipo de documento** — README, registro de mudanças, guia ou tutorial, referência, artigo ou anotações. O nome do
   arquivo decide quando diz (`README.md`, `CHANGELOG.md`, `guide.md`); senão, decidem os tipos de seção da
   Estrutura (Instalação + Uso + Licença → README; quase tudo Referência/Configuração → referência), com as
   seções que levaram até ali mostradas como motivo. Com pouca evidência (menos de três seções com tipo, ou

@@ -1,6 +1,6 @@
 import { Check } from 'lucide-react'
 import { useI18n } from '../hooks/useI18n'
-import { APP_ICON_IDS, appIconLabel, appIconUrl, type AppIconId } from '../lib/appIcons'
+import { APP_ICON_IDS, appIconLabelKey, appIconUrl, type AppIconId } from '../lib/appIcons'
 
 interface AppIconPickerProps {
   value: AppIconId
@@ -32,7 +32,7 @@ export function AppIconPicker({ value, onChange, theme }: AppIconPickerProps) {
               alt=""
               className="h-10 w-10 transition-transform duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-110 group-hover:-rotate-3"
             />
-            {appIconLabel(id)}
+            {t(appIconLabelKey(id))}
             {selected && (
               <span className="anim-pop absolute right-1.5 top-1.5 rounded-full bg-accent p-0.5 text-white dark:bg-dark-accent dark:text-dark-surface">
                 <Check className="h-2.5 w-2.5" />

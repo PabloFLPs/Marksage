@@ -16,7 +16,7 @@ const THEMED: Record<'mono' | 'outline', { label: string; svg: Record<IconTheme,
     },
   },
   outline: {
-    label: 'Outline',
+    label: 'Line',
     svg: {
       light: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#ffffff" stroke="#0d9488" stroke-width="2"/><path d="${M}" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
       dark: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#0d1117" stroke="#2dd4bf" stroke-width="2"/><path d="${M}" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
@@ -36,7 +36,9 @@ const ICONS: Record<'classic' | 'sunset', { label: string; svg: string }> = {
 }
 
 export const APP_ICON_IDS: AppIconId[] = ['classic', 'mono', 'outline', 'sunset']
-export const appIconLabel = (id: AppIconId) => (id === 'mono' || id === 'outline' ? THEMED[id].label : ICONS[id].label)
+/** i18n key of an icon style's name (`label` above is its English name). The `outline` style shows as "Line":
+ * "Outline" is the panel's name (launch QA #24). */
+export const appIconLabelKey = (id: AppIconId) => `icon.${id}` as const
 export function appIconUrl(id: AppIconId, theme: IconTheme = 'light'): string {
   const svg = id === 'mono' || id === 'outline' ? THEMED[id].svg[theme] : ICONS[id].svg
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`

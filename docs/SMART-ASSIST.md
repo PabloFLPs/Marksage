@@ -366,7 +366,7 @@ Nothing in the document changes.
 
 **What it shows**, all worked out from the text on your device:
 
-- **Looks like** — README, changelog, guide or tutorial, reference, article or notes. The file name decides
+- **Document type** — README, changelog, guide or tutorial, reference, article or notes. The file name decides
   when it says so (`README.md`, `CHANGELOG.md`, `guide.md`); otherwise the Outline's section types do
   (Installation + Usage + License → README; mostly Reference/Configuration → reference), with the sections
   that led there shown as the reason. With too little evidence (fewer than three typed sections, or under a

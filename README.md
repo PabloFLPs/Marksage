@@ -44,7 +44,7 @@ Everything runs in the browser — files never leave your machine.
   one from its first heading) and keeps it
 - **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown, word/char counts
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
-- **Appearance** — app icon + accent palette (Classic, Mono, Outline, Sunset), light/dark theme,
+- **Appearance** — app icon + accent palette (Classic, Mono, Line, Sunset), light/dark theme,
   macOS or Windows keyboard-shortcut labels
 - **About page** (`#about`) documenting every feature, with a Smart Assist playground, and two technical
   pages: how Smart Assist works (`#smart-assist`) and how the two models work (`#models`) — loaded on demand,

@@ -623,3 +623,10 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   line — or the line you just finished, caret still on it — never got a hint, and the first try read as "Smart Assist
   is broken". After a 2 s pause with nothing else to suggest, the caret's own line is now eligible (structure only;
   never inside a code block). Typing continuously still shows nothing.
+- **Wording a newcomer can follow (#23, #24).** The `*` said "Unsaved changes" while About says the text is
+  autosaved and `*` means not exported — now "Not exported yet — your text is kept in this browser". The Document
+  tab's "Looks like" (PT "Parece") is "Document type"; the Outline footer's "types sections from their text" reads
+  "reads the text to tell what a section is"; About says "a code block (```)" instead of "a ``` block". The icon
+  style named "Outline" collided with the Outline panel: it's "Line" now, and icon names are translated (PT
+  Clássico, Mono, Linha, Pôr do sol). The docs' technical terms (noul, LIX, held-out sets) stay — they're explained
+  where they appear, for curious readers.
