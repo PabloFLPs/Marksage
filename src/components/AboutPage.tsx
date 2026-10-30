@@ -219,8 +219,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<Columns2 />} title={x('Live split editor', 'Editor dividido ao vivo')}>
             {x(
-              'Edit on the right, watch the preview update on the left. Drag the divider to resize; double-click it to reset. On phones the editor comes first. On long documents, two small buttons in the corner of the preview take you to the start or the end — and typing stays smooth: the preview catches up a moment later, re-rendering only the section you changed.',
-              'Edite à direita e veja a pré-visualização atualizar à esquerda. Arraste o divisor para redimensionar; clique duas vezes para redefinir. No celular, o editor vem primeiro. Em documentos longos, dois botõezinhos no canto da pré-visualização levam ao início ou ao fim — e a digitação continua fluida: a pré-visualização acompanha um instante depois, refazendo só a seção que você mudou.',
+              'Opened and pasted files show the preview first, for reading — start typing and the editor opens right there, with your keystroke in it. Edit on the right, watch the preview update on the left. Drag the divider to resize; double-click it to reset. On phones the editor comes first. On long documents, two small buttons in the corner of the preview take you to the start or the end — and typing stays smooth: the preview catches up a moment later, re-rendering only the section you changed.',
+              'Arquivos abertos e colados aparecem primeiro na pré-visualização, para leitura — comece a digitar e o editor abre ali mesmo, com a sua tecla nele. Edite à direita e veja a pré-visualização atualizar à esquerda. Arraste o divisor para redimensionar; clique duas vezes para redefinir. No celular, o editor vem primeiro. Em documentos longos, dois botõezinhos no canto da pré-visualização levam ao início ou ao fim — e a digitação continua fluida: a pré-visualização acompanha um instante depois, refazendo só a seção que você mudou.',
             )}
           </Feature>
           <Feature icon={<Save />} title={x('Autosave', 'Salvamento automático')}>

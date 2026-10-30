@@ -546,3 +546,7 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   bottom edge (phones too, where it's icon-only); on failure it reads "Assist: Rules" in amber with a warning icon,
   and its menu opens with "Rules + AI couldn't download — using Rules for now" and **Try again**
   (`useSmartAssist` → `retry()`, which re-runs the engine lifecycle).
+- **Typing in the preview (#8).** Opened and pasted files stay read-first (Pablo's call), but typing into the
+  preview did nothing. Now a printable key there switches to the editor and keeps the keystroke — at the end of the
+  block last clicked in the preview, else of the first block in view — through `execCommand('insertText')`, so ⌘Z
+  takes it back. Space still scrolls; ⌘/Ctrl/Alt shortcuts, inputs and the docs pages (read-only) are untouched.
