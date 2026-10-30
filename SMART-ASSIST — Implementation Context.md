@@ -640,3 +640,6 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   "pré-visualização"; "pressione" → "aperte"; "botão de brilho" → "botão ✦"; "Vale uma olhada" → "Vale conferir";
   "um `paste`" / "uma `edit`" explained in Portuguese; percentages written "97%" (no space) in all four docs, as
   in the UI. "Assist" and "Smart Assist" stay — product names.
+- **Language count (#27).** The code model answers 21 ways: 20 languages + "plain text / not code". About said
+  "TypeScript, Python, Bash, SQL and ~17 more" (21) and MODELS "21 languages" / "outside the 21"; all now say 20
+  languages ("and 16 more"), matching "20 languages + plaintext" in How it works. "21 answers" stays — it's right.

@@ -155,8 +155,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </p>
           <Feature icon={<Code2 />} title={x('Code block languages', 'Linguagem dos blocos de código')}>
             {x(
-              <>Leave a code block (<code>```</code>) without a language and it suggests one (TypeScript, Python, Bash, SQL and ~17 more), so your code gets properly labelled. When two languages fit (JavaScript or TypeScript, C or C++), <em>Rules + AI</em> offers both and lets you pick.</>,
-              <>Deixe um bloco de código (<code>```</code>) sem linguagem e ele sugere uma (TypeScript, Python, Bash, SQL e mais ~17), para o seu código ficar bem identificado. Quando duas linguagens servem (JavaScript ou TypeScript, C ou C++), o modo <em>Regras + IA</em> oferece as duas para você escolher.</>,
+              <>Leave a code block (<code>```</code>) without a language and it suggests one (TypeScript, Python, Bash, SQL and 16 more), so your code gets properly labelled. When two languages fit (JavaScript or TypeScript, C or C++), <em>Rules + AI</em> offers both and lets you pick.</>,
+              <>Deixe um bloco de código (<code>```</code>) sem linguagem e ele sugere uma (TypeScript, Python, Bash, SQL e mais 16), para o seu código ficar bem identificado. Quando duas linguagens servem (JavaScript ou TypeScript, C ou C++), o modo <em>Regras + IA</em> oferece as duas para você escolher.</>,
             )}
           </Feature>
           <Feature icon={<Table />} title={x('Smart paste', 'Colagem inteligente')}>

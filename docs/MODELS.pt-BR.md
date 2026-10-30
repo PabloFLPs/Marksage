@@ -31,7 +31,7 @@ regras — "uma linha terminando em `:` depois de `def` é Python" é algo que o
 dos dados.
 
 Por que não escrever regras? O Marksage escreve, e as regras (as *heurísticas*) são precisas — mas ficam em
-silêncio em cerca de três blocos a cada quatro, porque escrever uma regra para cada padrão de 21 linguagens não
+silêncio em cerca de três blocos a cada quatro, porque escrever uma regra para cada padrão de 20 linguagens não
 tem fim. Por que não um grande modelo de linguagem? Teria centenas de megabytes, seria lento num notebook, e um
 hospedado significaria mandar seu texto para fora. Um classificador feito para a tarefa tem cerca de **385 KB**,
 decide em cerca de **0,1 ms** e nunca sai da página.
@@ -423,7 +423,7 @@ quão bem funciona e onde falha. Tudo o que é preciso para usar os arquivos for
 | **Resultados de fora** (284 blocos, 67 repositórios nunca vistos) | A primeira resposta acerta 74,3% das vezes; com o filtro 0,8 / 0,2 ele responde 51% dos blocos e acerta 92,5% das vezes |
 | **Velocidade** | Cerca de 0,1 ms por trecho em JavaScript puro |
 | **Use para** | Adivinhar a linguagem de um trecho curto de código, principalmente em documentação |
-| **Não use para** | Linguagens fora das 21 (ele diz a mais parecida, nunca "não sei"); linhas únicas (`x = 1` sai Python com 97%); nada em que um palpite errado importe |
+| **Não use para** | Linguagens fora das 20 (ele diz a mais parecida, nunca "não sei"); linhas únicas (`x = 1` sai Python com 97%); nada em que um palpite errado importe |
 | **Licença** | GNU AGPL-3.0, como o resto do Marksage |
 
 ### 7.2 Modelo de seções

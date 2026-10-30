@@ -46,7 +46,7 @@ node --experimental-strip-types training/eval-links.ts
 
 - **Labels** are the info strings the original authors wrote (` ```python `), normalised by `labels.ts`.
   They carry a little real-world noise (a `go`-tagged debugger session, `html`-tagged Blade templates) —
-  that's what the app will see too. Tags outside the 21 app languages are dropped; blocks are 1–40 lines.
+  that's what the app will see too. Tags outside the app's 20 languages (+ plain text) are dropped; blocks are 1–40 lines.
 - **Split by repository**, never by block, so a project's style can't leak from train into evaluation.
   The 25 repos behind the original 64-block held-out set are pinned to test; then every language gets
   ≥ 6 test repos and ≥ 4 dev repos (smallest qualifying repos first, so training loses little).

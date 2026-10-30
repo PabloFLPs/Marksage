@@ -30,7 +30,7 @@ They learn by **supervised learning**: you show them many examples whose answer 
 rules — "a line ending in `:` after `def` means Python" is something the model works out from the data.
 
 Why not just write rules? Marksage does, and the rules (the *heuristics*) are precise — but they stay quiet
-on about three blocks in four, because writing a rule for every pattern of 21 languages is endless. Why not
+on about three blocks in four, because writing a rule for every pattern of 20 languages is endless. Why not
 a large language model? It would be hundreds of megabytes, slow on a laptop, and a hosted one would mean
 sending your text away. A purpose-built classifier is about **385 KB**, decides in about **0.1 ms**, and
 never leaves the page.
@@ -420,7 +420,7 @@ where it fails. Everything needed to use the files outside Marksage is here.
 | **Held-out results** (284 blocks, 67 repositories never seen) | Top answer right 74.3% of the time; with the 0.8 / 0.2 gate it answers 51% of blocks and is right 92.5% of the time |
 | **Speed** | About 0.1 ms per snippet in plain JavaScript |
 | **Use it for** | Guessing the language of a short code snippet, especially in documentation |
-| **Not for** | Languages outside the 21 (it will name the closest one, never "unknown"); one-liners (`x = 1` comes out Python at 97%); anything where a wrong guess matters |
+| **Not for** | Languages outside the 20 (it will name the closest one, never "unknown"); one-liners (`x = 1` comes out Python at 97%); anything where a wrong guess matters |
 | **License** | GNU AGPL-3.0, like the rest of Marksage |
 
 ### 7.2 Section model
