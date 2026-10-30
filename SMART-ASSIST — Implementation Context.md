@@ -520,3 +520,9 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   before the same event reached `window`, and that listener opened it again. Fixed with `stopPropagation()` on that
   ⌘S. The panel has a visible close (×, "Cancel (Esc)"), and after a download the Export button says
   "Downloaded" for 1.6 s (like Copy's "Copied"), with a polite live region for screen readers.
+- **`#Heading` hints (#3).** About promises "`#Heading` without a space", but two rules hid the obvious cases. The
+  colour check (`#fff`) matched any 3–8 hex letters, so `#Bad heading` — "Bad" is hex — counted as a colour;
+  now a colour needs a digit or a lowercase 3/6-letter hex word. And every one-word `#X` was a hashtag; now a
+  capitalised word (`#Installation`) is a candidate, judged 0.85 when it stands alone (blank line before, no
+  hashtags around) and 0.55 otherwise. No change on any F3 set (authored, dev, real, real2 — same numbers);
+  five authored cases added for both rules.

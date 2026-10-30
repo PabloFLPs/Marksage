@@ -279,7 +279,7 @@ blocos cercados, blocos de código indentados e HTML bruto (`<pre>`, `<style>`, 
 | Candidato | Correção |
 |---|---|
 | `**Título**` sozinho numa linha após uma linha em branco | `## Título` |
-| `#Título` (sem espaço) — mas não `#tag` de uma palavra nem cores `#fff` | `# Título` |
+| `#Título` (sem espaço) — mas não `#tag` em minúsculas nem cores `#fff` | `# Título` |
 | `== Título ==` (estilo wiki) | título, nível pela quantidade de `=` |
 | `-item`, `*item`, `+item` | `- item` |
 | `• item`, `– item`, `✔️ item` — um marcador tipográfico, colado de um documento, de uma página ou de um chat | `- item` (um ✔️ fica: `- ✔️ item`) |
@@ -298,6 +298,8 @@ de um valor inicial por tipo e é ajustada pelas evidências:
   em negrito (`**android.permission.CAMERA**`).
 - **Linhas com `#`** feitas só de hashtags (`#CLT #Remoto #React`), referências a issues (`#123 corrigido …`)
   ou código (`#include`, `#!/bin/sh`, `#[derive]`) não são títulos; um separador como `=== === ===` também não.
+  Uma palavra com maiúscula (`#Instalação`) só é título quando está sozinha — linha em branco antes e nenhuma
+  hashtag em volta; um `#Remoto` solto no fim de uma vaga continua sendo tag.
 - **Linhas com traço** que parecem flags de linha de comando (`-s, --search`), conjuntos de flags
   (`+SIMD +AVX`), CSS (`-webkit-line-clamp: 2;`), números negativos (`-5 graus`) ou saída do `ls -l`
   (`-rw-r--r-- 1 …`) não são itens de lista; `*palavra*` é ênfase.

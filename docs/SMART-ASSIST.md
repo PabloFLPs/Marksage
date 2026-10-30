@@ -276,7 +276,7 @@ fenced blocks, indented code blocks and raw HTML (`<pre>`, `<style>`, …) are s
 | Candidate | Fix |
 |---|---|
 | `**Title**` alone on a line after a blank line | `## Title` |
-| `#Heading` (no space) — but not `#tag` single words or `#fff` colours | `# Heading` |
+| `#Heading` (no space) — but not lowercase `#tag` words or `#fff` colours | `# Heading` |
 | `== Title ==` (wiki style) | heading, level from the `=` count |
 | `-item`, `*item`, `+item` | `- item` |
 | `• item`, `– item`, `✔️ item` — a typographic bullet, as pasted from a document, a web page or a chat | `- item` (a check mark stays: `- ✔️ item`) |
@@ -293,7 +293,9 @@ from a per-kind prior and is adjusted by evidence:
   `Nota`, `Atenção`, `Dica`, …) or are just a link are labels or emphasis, not headings. So are bold lines
   right above an image (a caption: `**Before**`) and bold identifiers (`**android.permission.CAMERA**`).
 - **`#` lines** made only of hashtags (`#CLT #Remoto #React`), issue references (`#123 fixed …`) or code
-  (`#include`, `#!/bin/sh`, `#[derive]`) aren't headings; neither is a separator like `=== === ===`.
+  (`#include`, `#!/bin/sh`, `#[derive]`) aren't headings; neither is a separator like `=== === ===`. One
+  capitalised word (`#Installation`) is a heading only when it stands alone — a blank line before it and no
+  hashtags around it; a lone `#Remoto` under a job post stays a tag.
 - **Dash lines** that look like CLI flags (`-s, --search`), flag sets (`+SIMD +AVX`), CSS
   (`-webkit-line-clamp: 2;`), negative numbers (`-5 degrees`) or `ls -l` output (`-rw-r--r-- 1 …`) aren't
   list items; `*word*` is emphasis.

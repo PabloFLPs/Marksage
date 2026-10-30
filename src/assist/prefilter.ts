@@ -217,11 +217,16 @@ const CHECK_GLYPH = /[✓✔☑✅]/u
 const LINK_SPACE_RE = /\[[^\]\n]+\] \((?:https?:|mailto:|\.{0,2}\/|#)[^)\s]*\)/
 const withoutCodeSpans = (t: string) => t.replace(/(`+)[\s\S]*?\1/g, (s) => ' '.repeat(s.length))
 
-/** `#tag` (single word) or `#fff` colors are not headings. */
+/**
+ * `#tag` and `#fff` colors are not headings. A colour has a digit or is a lowercase 3/6-letter hex word (`#fff`,
+ * `#facade`) — not "Bad" or "Add" in `#Bad heading`. One word is a hashtag unless it starts with a capital and has
+ * 3+ characters (`#Installation`), which the heuristic then judges by its surroundings.
+ */
 function isLikelyHashtag(hashes: string, rest: string): boolean {
   if (hashes.length > 1) return false
   const first = rest.split(/\s/)[0]
-  return /^[0-9a-f]{3,8}$/i.test(first) || /^[\p{L}\p{N}_-]+$/u.test(rest)
+  if (/^[0-9a-f]{3,8}$/i.test(first) && (/\d/.test(first) || (/^[a-f]+$/.test(first) && (first.length === 3 || first.length === 6)))) return true
+  return /^[\p{L}\p{N}_-]+$/u.test(rest) && !/^\p{Lu}[\p{L}\p{N}]{2,}$/u.test(rest)
 }
 
 /* ---------------- F4: sections ---------------- */

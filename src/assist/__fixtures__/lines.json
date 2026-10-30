@@ -34,5 +34,10 @@
   {"doc": "See the [installation guide] (https://example.com/install) first.", "expect": true},
   {"doc": "Join us!\n\n#CLT #Remoto #React", "line": 2, "expect": false},
   {"doc": "$ ls -l\n-rw-r--r-- 1 ana staff 2048 Oct 28 10:00 notes.md\n-rw-r--r-- 1 ana staff 4096 Oct 28 10:01 todo.md", "line": 2, "expect": false},
-  {"doc": "Before and after:\n\n**Before**\n<img src=\"before.png\" alt=\"before\" />", "line": 2, "expect": false}
+  {"doc": "Before and after:\n\n**Before**\n<img src=\"before.png\" alt=\"before\" />", "line": 2, "expect": false},
+  {"doc": "Intro\n\n#Installation\n\nRun npm install.", "expect": true},
+  {"doc": "\n#Bad heading\n\ntext", "expect": true},
+  {"doc": "Posted in\n\n#javascript\n\nthanks", "expect": false},
+  {"doc": "#c0ffee is the accent", "expect": false},
+  {"doc": "Vaga remota, salário em USD.\n#Remoto\n#CLT", "line": 1, "expect": false}
 ]

@@ -23,7 +23,16 @@ export function structureProbability(state: string, statement: string): number {
     if (/^={2,}/.test(line)) return /[\p{L}\p{N}]/u.test(line) ? 0.9 : 0.05 // "=== === ===" is a separator
     if (HASH_NOT_HEADING.test(line) || /^#\S+(\s+#\S+)+\s*$/.test(line.trim())) return 0.1 // "#include …", "#123 …", "#CLT #Remoto"
     if (/^#{2,}/.test(line)) return 0.93
-    if (line.startsWith('#')) return words >= 2 ? 0.88 : 0.55
+    if (line.startsWith('#')) {
+      if (words >= 2) return 0.88
+      // One word ("#Installation"): a title when it stands alone — a blank line (or nothing) before it, and no
+      // hashtags around it ("#Remoto" under a job post is a tag).
+      const lines = state.split('\n')
+      const i = lines.indexOf(line)
+      const blankBefore = i <= 0 || lines[i - 1].trim() === ''
+      const tagsAround = others.some((l) => /(^|\s)#[\p{L}\p{N}_]/u.test(l) && !/^#{1,6}\s/.test(l))
+      return blankBefore && !tagsAround ? 0.85 : 0.55
+    }
   }
 
   if (/bullet list/.test(statement) && GLYPH.test(line.trim())) {
