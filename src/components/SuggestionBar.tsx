@@ -44,7 +44,8 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
     </span>
   )
   if (suggestion.choices?.length) {
-    const hints = [keyLabel('tab', keyStyle), `${keyLabel('alt', keyStyle)}${keyStyle === 'mac' ? '' : '+'}2`]
+    // Tab = the first option, Alt+2… the others.
+    const hint = (i: number) => (i === 0 ? keyLabel('tab', keyStyle) : `${keyLabel('alt', keyStyle)}${keyStyle === 'mac' ? '' : '+'}${i + 1}`)
     return (
       <div
         role="status"
@@ -57,8 +58,10 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
           <span className="truncate">{label}</span>
           {byModel}
         </div>
-        <div className="flex shrink-0 items-center gap-1.5">
-          {suggestion.choices.map((c, i) => (
+        <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+          {suggestion.choices.map((c, i) => {
+            const name = c.labelKey ? t(c.labelKey) : c.label
+            return (
             <button
               key={c.id}
               type="button"
@@ -67,18 +70,19 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
                 stop(e)
                 onAccept(i)
               }}
-              aria-label={t('suggest.choose', { name: c.label })}
+              aria-label={t('suggest.choose', { name })}
               className={`inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-medium transition-colors ${
                 i === 0
                   ? 'bg-accent text-white hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong'
                   : 'border border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
               }`}
             >
-              {c.label}
+              {name}
               <span className="tabular-nums opacity-75">{Math.round(c.confidence * 100)}%</span>
-              <span className={`hidden rounded px-1 font-mono text-[10px] sm:inline ${i === 0 ? 'bg-white/20' : 'border border-line dark:border-dark-line'}`}>{hints[i]}</span>
+              <span className={`hidden rounded px-1 font-mono text-[10px] sm:inline ${i === 0 ? 'bg-white/20' : 'border border-line dark:border-dark-line'}`}>{hint(i)}</span>
             </button>
-          ))}
+            )
+          })}
         </div>
         <button
           type="button"

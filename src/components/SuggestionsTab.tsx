@@ -17,7 +17,8 @@ export interface SuggestionsTabProps {
 
 /**
  * Every fixable spot of the document — untagged code blocks and near-miss headings or lists — with the same
- * suggestion the editor would show there. The panel never edits: a click jumps the editor to the spot and opens
+ * suggestion the editor would show there. An untagged block no language passed the gate for is listed as
+ * "not sure" and opens as a pick of languages. The panel never edits: a click jumps the editor to the spot and opens
  * the normal suggestion bar, where Tab accepts.
  */
 export function SuggestionsTab({ items, enabled, text, onPick }: SuggestionsTabProps) {
@@ -46,7 +47,8 @@ export function SuggestionsTab({ items, enabled, text, onPick }: SuggestionsTabP
         <ol className="scroll-area flex min-h-0 flex-1 flex-col gap-px overflow-y-auto p-1.5">
           {rows.map(({ s, line, snippet }) => {
             const Icon = suggestionIcon(s)
-            const label = s.message ? t(s.message.key, s.message.vars) : s.label
+            // Unsure: a code block Smart Assist can't name — the click opens a pick of languages.
+            const label = s.unsure ? t('suggestions.unsureFence') : s.message ? t(s.message.key, s.message.vars) : s.label
             const byKey = decidedByKey(s)
             return (
               <li key={s.key + s.edit.from}>
@@ -55,7 +57,7 @@ export function SuggestionsTab({ items, enabled, text, onPick }: SuggestionsTabP
                   onClick={() => onPick(s)}
                   className="flex w-full gap-2 rounded-md px-2 py-1.5 text-left transition-colors hover:bg-surface-soft dark:hover:bg-dark-surface-soft"
                 >
-                  <Icon aria-hidden className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent dark:text-dark-accent" />
+                  <Icon aria-hidden className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${s.unsure ? 'text-ink-muted dark:text-dark-ink-muted' : 'text-accent dark:text-dark-accent'}`} />
                   <span className="min-w-0 flex-1">
                     <span className="block text-[13px] font-medium leading-snug text-ink dark:text-dark-ink">
                       {label}
@@ -71,9 +73,13 @@ export function SuggestionsTab({ items, enabled, text, onPick }: SuggestionsTabP
                       {snippet && <span className="truncate font-mono text-[11px]">{snippet}</span>}
                     </span>
                   </span>
-                  <span title={t('suggest.confidence')} className="mt-0.5 shrink-0 text-[11px] tabular-nums text-ink-muted dark:text-dark-ink-muted">
-                    {Math.round(s.confidence * 100)}%
-                  </span>
+                  {s.unsure ? (
+                    <span className="mt-0.5 shrink-0 text-[11px] italic text-ink-muted dark:text-dark-ink-muted">{t('suggestions.notSure')}</span>
+                  ) : (
+                    <span title={t('suggest.confidence')} className="mt-0.5 shrink-0 text-[11px] tabular-nums text-ink-muted dark:text-dark-ink-muted">
+                      {Math.round(s.confidence * 100)}%
+                    </span>
+                  )}
                 </button>
               </li>
             )

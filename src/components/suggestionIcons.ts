@@ -8,6 +8,7 @@ type Icon = ComponentType<{ className?: string }>
 const BY_MESSAGE: Record<string, Icon> = {
   'suggest.fence': Code2,
   'suggest.fencePair': Code2,
+  'suggest.fencePick': Code2,
   'suggest.paste.csv': Table,
   'suggest.paste.tsv': Table,
   'suggest.paste.table': Table,

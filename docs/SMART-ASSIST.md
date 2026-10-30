@@ -388,8 +388,13 @@ after you stop typing.
 **What it lists:** every spot of the document that would get a suggestion, in document order — code blocks
 without a language (same question, same gate and two-option rule as in the editor) and near-miss headings,
 lists and links (same rules as the structure hints). Each row has the fix's icon, its line, the code's first line or
-what changes into what, the confidence and a ✦ when the local model decided. Pastes aren't listed: they're
-offered at the moment you paste. Dismissed suggestions (`Esc`) leave the list until the mode changes.
+what changes into what, the confidence and a ✦ when the local model decided. A code block no language passes
+the gate for is listed too, muted and marked *not sure* — the tab never hides an untagged block the Document tab
+counts. Its click opens a pick instead of one fix: the engine's two most likely languages, then *Plain text*
+(tags the block `text`); `Tab` takes the first, `Alt+2` and `Alt+3` the others. Two, not three: on the 920
+fixture blocks, a third language would add the right answer for only 4–6 % more of the unsure ones — fewer than
+*Plain text* (7–13 %). These picks only appear from the tab,
+never while you type. Pastes aren't listed: they're offered at the moment you paste. Dismissed suggestions (`Esc`) leave the list until the mode changes.
 
 **Action.** None in the panel. A click opens the editor if needed, puts the caret on the spot and shows that
 suggestion in the normal bar; it stays there until you move the caret or type. `Tab` accepts, `Esc`

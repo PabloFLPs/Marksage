@@ -394,7 +394,12 @@ recalculada 600 ms depois que você para de digitar.
 **O que lista:** cada ponto do documento que receberia uma sugestão, na ordem do documento — blocos de código
 sem linguagem (mesma pergunta, mesmo filtro e mesma regra das duas opções do editor) e títulos, listas e links
 quase certos (mesmas regras das dicas de estrutura). Cada linha tem o ícone da correção, a linha do documento, a
-primeira linha do código ou o que vira o quê, a confiança e um ✦ quando o modelo local decidiu. Colagens não
+primeira linha do código ou o que vira o quê, a confiança e um ✦ quando o modelo local decidiu. Um bloco de
+código para o qual nenhuma linguagem passa no filtro também entra, apagado e marcado *sem certeza* — a aba nunca
+esconde um bloco sem linguagem que a aba Documento conta. O clique nele abre uma escolha em vez de uma correção: as
+duas linguagens mais prováveis do mecanismo e depois *Texto simples* (marca o bloco como `text`); `Tab` fica com a
+primeira, `Alt+2` e `Alt+3` com as outras. Duas, não três: nos 920 blocos das fixtures, uma terceira linguagem
+acertaria só 4–6 % a mais dos blocos sem certeza — menos que *Texto simples* (7–13 %). Essas escolhas só aparecem pela aba, nunca enquanto você digita. Colagens não
 entram: elas são oferecidas na hora em que você cola. Sugestões dispensadas (`Esc`) saem da lista até o modo mudar.
 
 **Ação.** Nenhuma no painel. Um clique abre o editor se preciso, põe o cursor no ponto e mostra aquela

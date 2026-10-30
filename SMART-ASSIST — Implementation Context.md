@@ -500,3 +500,17 @@ There are no cookies, analytics or third-party requests (system fonts only).
   a browser can't draw it. Cause found: Pablo's local server had stopped, so the Mermaid chunk couldn't load —
   no bug in Mermaid itself. The visible message (Try again + console log) stays: it's what makes that case obvious.
 
+## 32. Launch QA fixes (2026-10-30)
+
+Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-native + PT-BR, breaker), one commit each.
+
+- **Suggestions tab hid untagged blocks (#1).** It listed only blocks that passed the gate, but its empty message
+  said "no code blocks without a language" while the Document tab counted one (`SELECT * FROM t;` scores SQL 75 %,
+  under the 0.8 gate). Pablo chose a pick over a plain wording fix: blocks no language passes the gate for are now
+  listed as *not sure* and open the bar with the engine's top two languages + *Plain text* (`text`). Tab only —
+  never offered while typing, so the gate keeps its meaning in the editor. Two, not three (Pablo felt four buttons
+  were too many; measured on the 920 fixture blocks): the right language is in the top 1 / 2 / 3 for 49 / 58 / 62 %
+  of unsure blocks in Rules and 61 / 77 / 83 % in Rules + AI, while 7–13 % of unsure blocks are plain text. The
+  bar's choices wrap on narrow screens and `Alt+2` / `Alt+3` pick the others. Empty message reworded to what it can
+  honestly claim. Same block, different modes: `SELECT * FROM t;` is SQL 75 % in Rules (unsure) but 100 % ✦ in
+  Rules + AI, where the model is sure.

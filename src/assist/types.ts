@@ -51,11 +51,18 @@ export interface Suggestion {
    * `edit` above is the first choice's edit.
    */
   choices?: SuggestionChoice[]
+  /**
+   * Smart Assist couldn't pick: an untagged code block no language passed the gate for. Listed in the
+   * Suggestions tab only (never offered while typing), where it opens as a pick of the engine's top languages.
+   */
+  unsure?: boolean
 }
 
 export interface SuggestionChoice {
   id: string
   label: string
+  /** i18n key for the label (UI translates; `label` stays as English fallback). */
+  labelKey?: string
   confidence: number
   edit: TextEdit
 }

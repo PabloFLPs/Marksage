@@ -147,7 +147,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
     const timer = window.setTimeout(async () => {
       try {
         const [fences, lines] = await Promise.all([
-          listFenceSuggestions(text, engine, isDismissed, ctrl.signal, LIST_LIMIT),
+          listFenceSuggestions(text, engine, isDismissed, ctrl.signal, LIST_LIMIT, true),
           listStructureSuggestions(text, engine, isDismissed, ctrl.signal, LIST_LIMIT),
         ])
         if (!ctrl.signal.aborted) {
@@ -216,10 +216,10 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
       if (e.key === 'Tab' && !e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault()
         accept()
-      } else if (e.altKey && !e.metaKey && !e.ctrlKey && e.code === 'Digit2' && (suggestion.choices?.length ?? 0) > 1) {
-        // Alt+2 picks the second option (e.code: on macOS ⌥2 would otherwise type "™").
+      } else if (e.altKey && !e.metaKey && !e.ctrlKey && /^Digit[2-9]$/.test(e.code) && Number(e.code.slice(5)) <= (suggestion.choices?.length ?? 0)) {
+        // Alt+2… picks the second… option (e.code: on macOS ⌥2 would otherwise type "™").
         e.preventDefault()
-        accept(1)
+        accept(Number(e.code.slice(5)) - 1)
       } else if (e.key === 'Escape') {
         e.preventDefault()
         dismiss()
