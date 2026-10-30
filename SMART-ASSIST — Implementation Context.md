@@ -734,3 +734,15 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   the product spec (notes) unchanged. Tuned only on these files — a trained document-type model needs a real
   held-out set (labels could come free from repo paths: README, CHANGELOG, docs/…).
 - **Outline hover in split view**: square, edge to edge across the preview pane (`.outline-hit-box.is-flush`).
+
+## 35. Code-language model v3: mean + max pooling (2026-10-30, in progress)
+
+- Brief: ROADMAP §4.1. Pablo's decisions (asked first): choose on **dev + repo-fold CV** (out-of-repo predictions
+  of 5 repo folds of train — dev has only 30 TS/JS, 21 C++/C, 23 C#/Java blocks); a **third held-out set**,
+  bigger and weighted toward the pairs; pooling variants and the bar explained to him before he decides.
+- Data rebuilt in a cloud workspace from the manifest: 272,506 blocks from 309/310 sources (gitpod-io/website was
+  already missing at v2 time — not in the manifest), train 64,288 (v2's file says 63,751; to check against a
+  retrain of the v2 recipe).
+- `fences.real3.json` built and frozen before any training: 842 blocks from 158 repos (training/README.md,
+  "Third held-out set"). `jsonc` / `json5` are labelled `json`, so "JSONC vs JSON" is measured as the
+  `json-comments` subset. Not in `npm run eval:assist` until its one run at the end.

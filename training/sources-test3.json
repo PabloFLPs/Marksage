@@ -1,0 +1,889 @@
+{
+ "note": "Third held-out sources for code-language model v3 (2026-10-30): none of these repos are used by sources.json, sources-test2.json, any fixture or the issue pools. Collected with collect.ts --sources sources-test3.json --fresh; sampled by build-test3.ts into fences.real3.json.",
+ "sources": [
+  {
+   "repo": "tanstack/router",
+   "split": "test3"
+  },
+  {
+   "repo": "tanstack/table",
+   "split": "test3"
+  },
+  {
+   "repo": "tanstack/form",
+   "split": "test3"
+  },
+  {
+   "repo": "pmndrs/valtio",
+   "split": "test3"
+  },
+  {
+   "repo": "pmndrs/react-three-fiber",
+   "split": "test3"
+  },
+  {
+   "repo": "statelyai/xstate",
+   "split": "test3"
+  },
+  {
+   "repo": "effect-ts/effect",
+   "split": "test3"
+  },
+  {
+   "repo": "fabian-hiller/valibot",
+   "split": "test3"
+  },
+  {
+   "repo": "sinclairzx81/typebox",
+   "split": "test3"
+  },
+  {
+   "repo": "kysely-org/kysely",
+   "split": "test3"
+  },
+  {
+   "repo": "mikro-orm/mikro-orm",
+   "split": "test3"
+  },
+  {
+   "repo": "typestack/class-validator",
+   "split": "test3"
+  },
+  {
+   "repo": "nrwl/nx",
+   "split": "test3"
+  },
+  {
+   "repo": "pnpm/pnpm.io",
+   "split": "test3"
+  },
+  {
+   "repo": "yarnpkg/berry",
+   "split": "test3"
+  },
+  {
+   "repo": "rollup/rollup",
+   "split": "test3"
+  },
+  {
+   "repo": "evanw/esbuild",
+   "split": "test3"
+  },
+  {
+   "repo": "denoland/docs",
+   "split": "test3"
+  },
+  {
+   "repo": "oven-sh/bun",
+   "split": "test3"
+  },
+  {
+   "repo": "elysiajs/documentation",
+   "split": "test3"
+  },
+  {
+   "repo": "vuejs/pinia",
+   "split": "test3"
+  },
+  {
+   "repo": "vuejs/router",
+   "split": "test3"
+  },
+  {
+   "repo": "nuxt/content",
+   "split": "test3"
+  },
+  {
+   "repo": "remix-run/remix",
+   "split": "test3"
+  },
+  {
+   "repo": "qwikdev/qwik",
+   "split": "test3"
+  },
+  {
+   "repo": "iamkun/dayjs",
+   "split": "test3"
+  },
+  {
+   "repo": "moment/luxon",
+   "split": "test3"
+  },
+  {
+   "repo": "ramda/ramda",
+   "split": "test3"
+  },
+  {
+   "repo": "immutable-js/immutable-js",
+   "split": "test3"
+  },
+  {
+   "repo": "automattic/mongoose",
+   "split": "test3"
+  },
+  {
+   "repo": "koajs/koa",
+   "split": "test3"
+  },
+  {
+   "repo": "sindresorhus/execa",
+   "split": "test3"
+  },
+  {
+   "repo": "sindresorhus/type-fest",
+   "split": "test3"
+  },
+  {
+   "repo": "type-challenges/type-challenges",
+   "split": "test3"
+  },
+  {
+   "repo": "basarat/typescript-book",
+   "split": "test3"
+  },
+  {
+   "repo": "gibbok/typescript-book",
+   "split": "test3"
+  },
+  {
+   "repo": "labs42io/clean-code-typescript",
+   "split": "test3"
+  },
+  {
+   "repo": "denysdovhan/wtfjs",
+   "split": "test3"
+  },
+  {
+   "repo": "lydiahallie/javascript-questions",
+   "split": "test3"
+  },
+  {
+   "repo": "sudheerj/javascript-interview-questions",
+   "split": "test3"
+  },
+  {
+   "repo": "node-fetch/node-fetch",
+   "split": "test3"
+  },
+  {
+   "repo": "chaijs/chai",
+   "split": "test3"
+  },
+  {
+   "repo": "sinonjs/sinon",
+   "split": "test3"
+  },
+  {
+   "repo": "testing-library/testing-library-docs",
+   "split": "test3"
+  },
+  {
+   "repo": "cypress-io/cypress-documentation",
+   "split": "test3"
+  },
+  {
+   "repo": "webdriverio/webdriverio",
+   "split": "test3"
+  },
+  {
+   "repo": "avajs/ava",
+   "split": "test3"
+  },
+  {
+   "repo": "jsdoc/jsdoc.github.io",
+   "split": "test3"
+  },
+  {
+   "repo": "markedjs/marked",
+   "split": "test3"
+  },
+  {
+   "repo": "vuejs/vitepress",
+   "split": "test3"
+  },
+  {
+   "repo": "slidevjs/slidev",
+   "split": "test3"
+  },
+  {
+   "repo": "docsifyjs/docsify",
+   "split": "test3"
+  },
+  {
+   "repo": "jackyzha0/quartz",
+   "split": "test3"
+  },
+  {
+   "repo": "facebook/react-native-website",
+   "split": "test3"
+  },
+  {
+   "repo": "expo/expo",
+   "split": "test3"
+  },
+  {
+   "repo": "facebook/zstd",
+   "split": "test3"
+  },
+  {
+   "repo": "madler/zlib",
+   "split": "test3"
+  },
+  {
+   "repo": "lz4/lz4",
+   "split": "test3"
+  },
+  {
+   "repo": "throwtheswitch/unity",
+   "split": "test3"
+  },
+  {
+   "repo": "throwtheswitch/cmock",
+   "split": "test3"
+  },
+  {
+   "repo": "mity/md4c",
+   "split": "test3"
+  },
+  {
+   "repo": "littlefs-project/littlefs",
+   "split": "test3"
+  },
+  {
+   "repo": "microsoft/mimalloc",
+   "split": "test3"
+  },
+  {
+   "repo": "jemalloc/jemalloc",
+   "split": "test3"
+  },
+  {
+   "repo": "kgabis/parson",
+   "split": "test3"
+  },
+  {
+   "repo": "sheredom/utf8.h",
+   "split": "test3"
+  },
+  {
+   "repo": "clibs/clib",
+   "split": "test3"
+  },
+  {
+   "repo": "raspberrypi/pico-sdk",
+   "split": "test3"
+  },
+  {
+   "repo": "freertos/freertos-kernel",
+   "split": "test3"
+  },
+  {
+   "repo": "libevent/libevent",
+   "split": "test3"
+  },
+  {
+   "repo": "json-c/json-c",
+   "split": "test3"
+  },
+  {
+   "repo": "openssl/openssl",
+   "split": "test3"
+  },
+  {
+   "repo": "tsoding/nob.h",
+   "split": "test3"
+  },
+  {
+   "repo": "jarun/nnn",
+   "split": "test3"
+  },
+  {
+   "repo": "systemd/systemd",
+   "split": "test3"
+  },
+  {
+   "repo": "abseil/abseil-cpp",
+   "split": "test3"
+  },
+  {
+   "repo": "google/benchmark",
+   "split": "test3"
+  },
+  {
+   "repo": "facebook/folly",
+   "split": "test3"
+  },
+  {
+   "repo": "microsoft/gsl",
+   "split": "test3"
+  },
+  {
+   "repo": "tencent/rapidjson",
+   "split": "test3"
+  },
+  {
+   "repo": "jbeder/yaml-cpp",
+   "split": "test3"
+  },
+  {
+   "repo": "taskflow/taskflow",
+   "split": "test3"
+  },
+  {
+   "repo": "fffaraz/awesome-cpp",
+   "split": "test3"
+  },
+  {
+   "repo": "doctest/doctest",
+   "split": "test3"
+  },
+  {
+   "repo": "ericniebler/range-v3",
+   "split": "test3"
+  },
+  {
+   "repo": "simdjson/simdjson",
+   "split": "test3"
+  },
+  {
+   "repo": "ggml-org/llama.cpp",
+   "split": "test3"
+  },
+  {
+   "repo": "ggml-org/whisper.cpp",
+   "split": "test3"
+  },
+  {
+   "repo": "crowcpp/crow",
+   "split": "test3"
+  },
+  {
+   "repo": "unetworking/uwebsockets",
+   "split": "test3"
+  },
+  {
+   "repo": "boost-ext/sml",
+   "split": "test3"
+  },
+  {
+   "repo": "boost-ext/di",
+   "split": "test3"
+  },
+  {
+   "repo": "oatpp/oatpp",
+   "split": "test3"
+  },
+  {
+   "repo": "drogonframework/drogon",
+   "split": "test3"
+  },
+  {
+   "repo": "banach-space/cpp-tutor",
+   "split": "test3"
+  },
+  {
+   "repo": "sfml/sfml",
+   "split": "test3"
+  },
+  {
+   "repo": "electronicarts/eastl",
+   "split": "test3"
+  },
+  {
+   "repo": "microsoft/cppwinrt",
+   "split": "test3"
+  },
+  {
+   "repo": "dotnet/csharplang",
+   "split": "test3"
+  },
+  {
+   "repo": "dotnet/roslyn",
+   "split": "test3"
+  },
+  {
+   "repo": "dotnet/runtime",
+   "split": "test3"
+  },
+  {
+   "repo": "dotnet/efcore",
+   "split": "test3"
+  },
+  {
+   "repo": "dotnet/benchmarkdotnet",
+   "split": "test3"
+  },
+  {
+   "repo": "nunit/docs",
+   "split": "test3"
+  },
+  {
+   "repo": "devlooped/moq",
+   "split": "test3"
+  },
+  {
+   "repo": "autofixture/autofixture",
+   "split": "test3"
+  },
+  {
+   "repo": "fluentvalidation/fluentvalidation",
+   "split": "test3"
+  },
+  {
+   "repo": "humanizr/humanizer",
+   "split": "test3"
+  },
+  {
+   "repo": "dapperlib/dapper",
+   "split": "test3"
+  },
+  {
+   "repo": "stackexchange/stackexchange.redis",
+   "split": "test3"
+  },
+  {
+   "repo": "louthy/language-ext",
+   "split": "test3"
+  },
+  {
+   "repo": "abpframework/abp",
+   "split": "test3"
+  },
+  {
+   "repo": "orchardcms/orchardcore",
+   "split": "test3"
+  },
+  {
+   "repo": "ardalis/cleanarchitecture",
+   "split": "test3"
+  },
+  {
+   "repo": "jasontaylordev/cleanarchitecture",
+   "split": "test3"
+  },
+  {
+   "repo": "dotnet/dotnext",
+   "split": "test3"
+  },
+  {
+   "repo": "cysharp/unitask",
+   "split": "test3"
+  },
+  {
+   "repo": "cysharp/memorypack",
+   "split": "test3"
+  },
+  {
+   "repo": "xunit/xunit",
+   "split": "test3"
+  },
+  {
+   "repo": "dotnet/command-line-api",
+   "split": "test3"
+  },
+  {
+   "repo": "jhipster/jhipster.github.io",
+   "split": "test3"
+  },
+  {
+   "repo": "javalin/javalin.github.io",
+   "split": "test3"
+  },
+  {
+   "repo": "apache/dubbo-website",
+   "split": "test3"
+  },
+  {
+   "repo": "apache/shardingsphere",
+   "split": "test3"
+  },
+  {
+   "repo": "crossoverjie/jcsprout",
+   "split": "test3"
+  },
+  {
+   "repo": "giantray/stackoverflow-java-top-qa",
+   "split": "test3"
+  },
+  {
+   "repo": "google/dagger",
+   "split": "test3"
+  },
+  {
+   "repo": "mapstruct/mapstruct",
+   "split": "test3"
+  },
+  {
+   "repo": "akullpp/awesome-java",
+   "split": "test3"
+  },
+  {
+   "repo": "eugenp/tutorials",
+   "split": "test3"
+  },
+  {
+   "repo": "rest-assured/rest-assured",
+   "split": "test3"
+  },
+  {
+   "repo": "awsdocs/aws-doc-sdk-examples",
+   "split": "test3"
+  },
+  {
+   "repo": "apache/rocketmq-site",
+   "split": "test3"
+  },
+  {
+   "repo": "spring-projects/spring-ai",
+   "split": "test3"
+  },
+  {
+   "repo": "javaparser/javaparser",
+   "split": "test3"
+  },
+  {
+   "repo": "jooq/jooq",
+   "split": "test3"
+  },
+  {
+   "repo": "cbeust/testng",
+   "split": "test3"
+  },
+  {
+   "repo": "alibaba/nacos",
+   "split": "test3"
+  },
+  {
+   "repo": "alibaba/sentinel",
+   "split": "test3"
+  },
+  {
+   "repo": "netflix/hystrix",
+   "split": "test3"
+  },
+  {
+   "repo": "jlowin/fastmcp",
+   "split": "test3"
+  },
+  {
+   "repo": "modelcontextprotocol/python-sdk",
+   "split": "test3"
+  },
+  {
+   "repo": "modelcontextprotocol/typescript-sdk",
+   "split": "test3"
+  },
+  {
+   "repo": "berriai/litellm",
+   "split": "test3"
+  },
+  {
+   "repo": "run-llama/llama_index",
+   "split": "test3"
+  },
+  {
+   "repo": "pola-rs/polars",
+   "split": "test3"
+  },
+  {
+   "repo": "marimo-team/marimo",
+   "split": "test3"
+  },
+  {
+   "repo": "openai/openai-agents-python",
+   "split": "test3"
+  },
+  {
+   "repo": "instructor-ai/instructor",
+   "split": "test3"
+  },
+  {
+   "repo": "pydantic/pydantic-ai",
+   "split": "test3"
+  },
+  {
+   "repo": "ollama/ollama-python",
+   "split": "test3"
+  },
+  {
+   "repo": "zauberzeug/nicegui",
+   "split": "test3"
+  },
+  {
+   "repo": "mitmproxy/mitmproxy",
+   "split": "test3"
+  },
+  {
+   "repo": "gofiber/docs",
+   "split": "test3"
+  },
+  {
+   "repo": "go-resty/resty",
+   "split": "test3"
+  },
+  {
+   "repo": "rs/zerolog",
+   "split": "test3"
+  },
+  {
+   "repo": "sirupsen/logrus",
+   "split": "test3"
+  },
+  {
+   "repo": "kubernetes-sigs/kubebuilder",
+   "split": "test3"
+  },
+  {
+   "repo": "kubernetes-sigs/kind",
+   "split": "test3"
+  },
+  {
+   "repo": "cert-manager/website",
+   "split": "test3"
+  },
+  {
+   "repo": "etcd-io/website",
+   "split": "test3"
+  },
+  {
+   "repo": "ent/ent",
+   "split": "test3"
+  },
+  {
+   "repo": "go-playground/validator",
+   "split": "test3"
+  },
+  {
+   "repo": "jesseduffield/lazygit",
+   "split": "test3"
+  },
+  {
+   "repo": "charmbracelet/gum",
+   "split": "test3"
+  },
+  {
+   "repo": "nats-io/nats.docs",
+   "split": "test3"
+  },
+  {
+   "repo": "grafana/loki",
+   "split": "test3"
+  },
+  {
+   "repo": "open-policy-agent/opa",
+   "split": "test3"
+  },
+  {
+   "repo": "containerd/containerd",
+   "split": "test3"
+  },
+  {
+   "repo": "pretzelhammer/rust-blog",
+   "split": "test3"
+  },
+  {
+   "repo": "rust-lang/rfcs",
+   "split": "test3"
+  },
+  {
+   "repo": "rust-embedded/book",
+   "split": "test3"
+  },
+  {
+   "repo": "rustwasm/book",
+   "split": "test3"
+  },
+  {
+   "repo": "sunface/rust-course",
+   "split": "test3"
+  },
+  {
+   "repo": "yewstack/yew",
+   "split": "test3"
+  },
+  {
+   "repo": "ratatui/ratatui-website",
+   "split": "test3"
+  },
+  {
+   "repo": "pyo3/pyo3",
+   "split": "test3"
+  },
+  {
+   "repo": "seaql/sea-orm",
+   "split": "test3"
+  },
+  {
+   "repo": "fastlane/docs",
+   "split": "test3"
+  },
+  {
+   "repo": "ankane/pghero",
+   "split": "test3"
+  },
+  {
+   "repo": "ankane/searchkick",
+   "split": "test3"
+  },
+  {
+   "repo": "ankane/strong_migrations",
+   "split": "test3"
+  },
+  {
+   "repo": "ankane/blazer",
+   "split": "test3"
+  },
+  {
+   "repo": "github/scientist",
+   "split": "test3"
+  },
+  {
+   "repo": "ruby/rbs",
+   "split": "test3"
+  },
+  {
+   "repo": "rspec/rspec-rails",
+   "split": "test3"
+  },
+  {
+   "repo": "sidekiq/sidekiq",
+   "split": "test3"
+  },
+  {
+   "repo": "rubocop/rubocop",
+   "split": "test3"
+  },
+  {
+   "repo": "spatie/laravel-backup",
+   "split": "test3"
+  },
+  {
+   "repo": "spatie/laravel-query-builder",
+   "split": "test3"
+  },
+  {
+   "repo": "spatie/laravel-data",
+   "split": "test3"
+  },
+  {
+   "repo": "php-fig/fig-standards",
+   "split": "test3"
+  },
+  {
+   "repo": "thephpleague/oauth2-server",
+   "split": "test3"
+  },
+  {
+   "repo": "barryvdh/laravel-debugbar",
+   "split": "test3"
+  },
+  {
+   "repo": "nunomaduro/larastan",
+   "split": "test3"
+  },
+  {
+   "repo": "actions/setup-node",
+   "split": "test3"
+  },
+  {
+   "repo": "actions/cache",
+   "split": "test3"
+  },
+  {
+   "repo": "docker/build-push-action",
+   "split": "test3"
+  },
+  {
+   "repo": "kubernetes-sigs/kustomize",
+   "split": "test3"
+  },
+  {
+   "repo": "kyverno/website",
+   "split": "test3"
+  },
+  {
+   "repo": "microsoft/vscode-docs",
+   "split": "test3"
+  },
+  {
+   "repo": "devcontainers/spec",
+   "split": "test3"
+  },
+  {
+   "repo": "stylelint/stylelint",
+   "split": "test3"
+  },
+  {
+   "repo": "postcss/postcss",
+   "split": "test3"
+  },
+  {
+   "repo": "allthingssmitty/css-protips",
+   "split": "test3"
+  },
+  {
+   "repo": "fechin/reference",
+   "split": "test3"
+  },
+  {
+   "repo": "rstacruz/cheatsheets",
+   "split": "test3"
+  },
+  {
+   "repo": "yugabyte/yugabyte-db",
+   "split": "test3"
+  },
+  {
+   "repo": "apache/doris-website",
+   "split": "test3"
+  },
+  {
+   "repo": "starrocks/starrocks",
+   "split": "test3"
+  },
+  {
+   "repo": "tursodatabase/turso",
+   "split": "test3"
+  },
+  {
+   "repo": "electric-sql/electric",
+   "split": "test3"
+  },
+  {
+   "repo": "prql/prql",
+   "split": "test3"
+  },
+  {
+   "repo": "influxdata/docs-v2",
+   "split": "test3"
+  },
+  {
+   "repo": "docker/getting-started",
+   "split": "test3"
+  },
+  {
+   "repo": "bretfisher/docker-mastery-for-nodejs",
+   "split": "test3"
+  },
+  {
+   "repo": "superfly/docs",
+   "split": "test3"
+  },
+  {
+   "repo": "coollabsio/coolify-docs",
+   "split": "test3"
+  },
+  {
+   "repo": "railwayapp/docs",
+   "split": "test3"
+  },
+  {
+   "repo": "nixos/nix.dev",
+   "split": "test3"
+  },
+  {
+   "repo": "biomejs/website",
+   "split": "test3"
+  }
+ ]
+}

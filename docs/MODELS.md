@@ -542,6 +542,7 @@ models; 5 epochs (chosen on dev), learning rate 0.3, class weighting 0.5, temper
 | Dev | real documents, used to make choices | code 280 · paste 27 · structure 212 (36, plus 176 lines from issues and wikis on 2026-10-28) · sections from 27 repositories | tune here, never on the held-out sets |
 | First held-out (2026-10-24) | real documents, never tuned on | code 314 · paste 31 · structure 30 | run once per version; v1's judge |
 | Fresh held-out (2026-10-24) | code from 72 repositories used nowhere else | code 284 (67 repositories) | built once for v2, then frozen |
+| Third held-out (2026-10-30) | code from 158 repositories used nowhere else, built before any v3 training | code 842: ≤ 30 per language, up to 60 for TypeScript, JavaScript, C, C++, C# and Java, plus 40 JSON blocks with comments | built once for v3, then frozen; run once at the end |
 | Sections held-out (2026-10-24) | sections from the code model's test repositories plus the fresh ones | 133 repositories (134 from v2: new types label sections in one more) | run once per section model |
 | Structure held-out (2026-10-28) | near-miss lines from GitHub issues, pull requests and comments of 43 repositories used nowhere else, labelled by hand | 227 lines | built once for the structure model, then frozen |
 | Paste held-out (2026-10-28) | real pastes from 19 sources outside the corpus: data files, spreadsheet copies, command output, source files, configs, READMEs | 53 pastes | built once for the paste model, then frozen |

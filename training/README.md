@@ -13,6 +13,8 @@ heuristics on held-out data before it ships.
 ```bash
 node --experimental-strip-types training/collect.ts     # clone sources at their manifest commits, extract labelled blocks (~10 min)
 node --experimental-strip-types training/collect.ts --sources sources-test2.json --out blocks-test2.jsonl --manifest manifest-test2.json
+node --experimental-strip-types training/collect.ts --sources sources-test3.json --out blocks-test3.jsonl --manifest manifest-test3.json
+node --experimental-strip-types training/build-test3.ts   # frozen: fences.real3.json exists, so this does nothing without --force
 node --experimental-strip-types training/build-sets.ts  # split by repo → train / dev / test
 node --experimental-strip-types training/train.ts --dim 8 --buckets 32768 --cv-temp --short-t --target-precision 0.95 --save public/models/lang-v2.bin
 npm run eval:assist                                     # heuristics + model on every set
@@ -37,6 +39,7 @@ node --experimental-strip-types training/eval-links.ts
 | `train.ts` | ✓ | Code-language trainer: temperature calibration, int8 export. Deterministic (same data + seed → identical file). |
 | `build-sections.ts`, `train-sections.ts` | ✓ | Section model: dataset from the cloned Markdown, trainer (see the last section). |
 | `sources-test2.json`, `manifest-test2.json`, `build-test2.ts` | ✓ | The second, fresh held-out set (`fences.real2.json`): 72 repos used nowhere else, built once and frozen. |
+| `sources-test3.json`, `manifest-test3.json`, `build-test3.ts`, `jsonComments.ts` | ✓ | The third held-out set (`fences.real3.json`, 2026-10-30, for v3): 221 repos used nowhere else (158 in the sample), built before any v3 training and frozen. |
 | `build-structure.ts`, `train-structure.ts`, `structureFeatures.ts` | ✓ | Structure model (tried, not used): dataset, trainer, clue reader 3. |
 | `build-pastes.ts`, `train-pastes.ts`, `pasteFeatures.ts` | ✓ | Paste-type model (tried, not used): dataset, trainer, clue reader 4. |
 | `eval-links.ts`, `linkText.ts` | ✓ | Link text for a pasted URL (rule measured, not used). |
@@ -131,6 +134,17 @@ heuristics' precision" goal is not met yet. ~5 of the 13 wrong suggestions are l
 one-liners valid in several languages (`void main() { … }`, `print page.html`, `foo.doSomething();`) and a
 few genuine misses (`a {}` → js). v3 ideas: a "too short to tell" abstain rule for one-liners; per-language
 gates; more CSS/diff/Markdown in training.
+
+## Third held-out set (2026-10-30) — for v3
+
+Both earlier held-out sets had been run, so v3 is judged on a fresh one, built **before any v3 training** and frozen
+(`fences.real3.json`, `build-test3.ts`). 225 repos picked to be in no other source list, fixture or issue pool
+(4 failed to clone: 221 collected, pinned in `manifest-test3.json`); 436,541 blocks, 16,773 dropped as already seen
+anywhere in the collection or the fixtures. Sampled: ≤ 30 per language, ≤ 3 per repo per language, 1 per file per
+language; the pairs v3 is about — ts, js, c, cpp, csharp, java — topped up to 60 (C reached 52); plus 40 `json`
+blocks with comments (`subset: "json-comments"`, `jsonComments.ts`: `//` or `/*` outside strings), since `jsonc`
+and `json5` share the `json` label and "JSONC vs JSON" can't be a pair otherwise. **842 blocks from 158 repos.**
+It stays out of `npm run eval:assist` until its single run at the end of the v3 work.
 
 ## Section model v1 (sections-v1, 2026-10-24) — replaced by v2
 
