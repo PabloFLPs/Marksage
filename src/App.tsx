@@ -35,6 +35,8 @@ import { elementForLine, useOutlineNav } from './hooks/useOutlineNav'
 import { ScrollJump } from './components/ScrollJump'
 import { editorLineTops } from './lib/scrollSync'
 import { OutlinePanel, type PanelTab } from './components/OutlinePanel'
+import { DocBar } from './components/DocBar'
+import { useDocKind } from './hooks/useDocKind'
 import type { AssistMode, Suggestion } from './assist/types'
 import type { ViewMode } from './lib/viewMode'
 
@@ -642,7 +644,10 @@ export default function App() {
   useScrollSync(previewPaneRef, textareaRef, editing && isDesktop && !showAbout)
   const previewScrollRef = useRef<HTMLElement>(null)
   const outlineShown = outlineOpen && hasDocument && !showAbout
-  const outline = useOutline(document?.content ?? '', outlineShown, assistMode === 'model')
+  // Built with the panel closed too — the document bar shows the type the Document tab gives. The section model is
+  // still fetched only once the panel opens.
+  const outline = useOutline(document?.content ?? '', hasDocument && !showAbout, assistMode === 'model', outlineShown)
+  const docKind = useDocKind(outline.text, outline.items, document?.filename ?? null, document?.id ?? '')
   // The preview on screen: the left pane in split view, the page in preview mode, none in the mobile editor.
   const visiblePreview = editing ? (isDesktop ? previewPaneRef : nullRef) : previewScrollRef
   const outlineNav = useOutlineNav(
@@ -750,6 +755,24 @@ export default function App() {
       if (!isDesktop) closeOutline()
     },
     [outlineNav, isDesktop, closeOutline],
+  )
+  // The type in the document bar → the panel's Document tab, which says why.
+  const showDocumentTab = useCallback(() => {
+    setPanelTab('document')
+    if (!outlineOpen || outlineClosing) toggleOutline()
+  }, [outlineOpen, outlineClosing, toggleOutline])
+  const docBar = document && (
+    <DocBar
+      className="pt-5 sm:pt-6"
+      kind={docKind}
+      name={document.filename ?? t('doc.untitled')}
+      onShowDocument={showDocumentTab}
+      copied={copied}
+      onCopy={handleCopy}
+      copyTitle={t('action.copyTitle', { keys: shortcut(['mod', 'shift', 'c'], keyStyle) })}
+      outlineOpen={outlineShown && !outlineClosing}
+      onToggleOutline={toggleOutline}
+    />
   )
   // Previous screen — lets the preview skip its fade when it's revealed by the editor closing.
   const view = showAbout ? 'about' : !hasDocument ? 'empty' : editing ? 'edit' : 'preview'
@@ -889,6 +912,7 @@ export default function App() {
                   onRatioChange={handleChangeSplitRatio}
                   left={
                     <main>
+                      {docBar}
                       {sizeBar}
                       {remoteBar}
                       <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: shortcut(['mod', 'v'], keyStyle) }) : t('preview.empty')} remoteImages={remoteImages} />
@@ -920,6 +944,7 @@ export default function App() {
               )
             ) : (
               <main ref={previewScrollRef} key="preview" className={`scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto ${prevView.current === 'edit' ? '' : 'anim-fade'}`}>
+                {docBar}
                 {sizeBar}
                 {remoteBar}
                 <MarkdownPreview content={previewContent} readability={assist.readability} remoteImages={remoteImages} emptyHint={readOnly ? undefined : t('preview.emptyDoc')} />

@@ -42,6 +42,8 @@ Everything runs in the browser — files never leave your machine.
   (linked from the start screen, `#privacy`), who runs the site, and removable with one click
 - **Rename** by clicking the name in the header; **Export** asks for the file name first (the document's name, or
   one from its first heading) and keeps it
+- **Document bar** above every rendered document — its type (README, technical docs…, from the Document tab) or
+  its name, **Copy Markdown** and the **Outline**
 - **Line numbers** in the editor (they follow wrapped lines; the caret's line is brighter)
 - **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown;
   the footer shows lines, words, characters and file size

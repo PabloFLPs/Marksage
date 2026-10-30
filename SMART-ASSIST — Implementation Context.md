@@ -718,3 +718,18 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   effect in an earlier sibling sees `textareaRef.current === null`.
   The caret's line number is brighter (selectionchange + input events).
 - **Footer**: lines · words · characters (hidden on phones) · UTF-8 size (what Export saves), all on the deferred text.
+- **Document bar** (`DocBar.tsx`): the docs pages' bar (type, Copy Markdown, Outline) on every rendered document
+  (preview mode and the split view's preview pane). The type is the Document tab's `computeDocStats().kind`
+  (`useDocKind`, recomputed 400 ms after typing stops, off past 400k chars); no type → the file name. Click → the
+  panel's Document tab. `useOutline` builds items with the panel closed too (fourth arg `panelOpen` gates the
+  section-model download, so Privacy & storage stays true). Header Copy / Outline kept for now — open question
+  whether to drop them on desktop.
+- **Why the docs said "No clear pattern yet"**: the document type is a rule over the Outline's section types, not a
+  model. SMART-ASSIST.md had 1 typed section of 27 and MODELS.md 1 of 31 — their headings name their own topics
+  ("The confidence gate"), the section model abstains on them (explanation is heading-only), and there was no
+  "technical docs" kind at all. Added `docs` (`DocKind`): by file name (architecture, design, internals, docs,
+  spec, adr), by section types (≥ half explanation/reference/config/performance/security), or by shape (≥ 800
+  prose words, ≥ 8 sections over ≥ 2 levels, tables + code blocks ≥ 3, lists < 50 %). Checked on the repo's own
+  Markdown: both docs pages (EN + PT), training/README and this file → docs; README (by name), ROADMAP (article),
+  the product spec (notes) unchanged. Tuned only on these files — a trained document-type model needs a real
+  held-out set (labels could come free from repo paths: README, CHANGELOG, docs/…).

@@ -7,12 +7,13 @@ export type OutlineModelStatus = 'off' | 'loading' | 'ready' | 'failed'
 
 /**
  * Outline of `text`, recomputed as the document changes (deferred, so typing stays smooth).
- * `useModel` (Rules + AI mode) loads the section model the first time the panel is open.
+ * `useModel` (Rules + AI mode) loads the section model the first time the panel is open (`panelOpen`) — the
+ * document bar's type also reads the outline with the panel closed, but never triggers that download.
  */
-export function useOutline(text: string, enabled: boolean, useModel: boolean) {
+export function useOutline(text: string, enabled: boolean, useModel: boolean, panelOpen = enabled) {
   const [model, setModel] = useState<LangModel | null>(null)
   const [failed, setFailed] = useState(false)
-  const wantModel = enabled && useModel
+  const wantModel = enabled && panelOpen && useModel
 
   useEffect(() => {
     if (!wantModel || model) return

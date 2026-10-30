@@ -371,11 +371,17 @@ pré-visualização. Nada no documento muda.
 
 **O que mostra**, tudo calculado a partir do texto, no seu dispositivo:
 
-- **Tipo de documento** — README, registro de mudanças, guia ou tutorial, referência, artigo ou anotações. O nome do
-  arquivo decide quando diz (`README.md`, `CHANGELOG.md`, `guide.md`); senão, decidem os tipos de seção da
-  Estrutura (Instalação + Uso + Licença → README; quase tudo Referência/Configuração → referência), com as
-  seções que levaram até ali mostradas como motivo. Com pouca evidência (menos de três seções com tipo, ou
-  menos de um quarto delas), diz que não há um padrão claro em vez de chutar.
+- **Tipo de documento** — README, registro de mudanças, guia ou tutorial, referência, documentação técnica,
+  artigo ou anotações. O nome do arquivo decide quando diz (`README.md`, `CHANGELOG.md`, `guide.md`,
+  `ARCHITECTURE.md`); senão, decidem os tipos de seção da Estrutura (Instalação + Uso + Licença → README; quase
+  tudo Referência/Configuração → referência; quase tudo Explicação, Referência, Configuração, Desempenho ou
+  Segurança → documentação técnica), com as seções que levaram até ali mostradas como motivo. Documentação
+  técnica costuma dar às seções o nome dos próprios assuntos ("O limiar de confiança"), que nenhuma regra ou
+  modelo consegue tipar, então ela também é reconhecida pelo formato: 800+ palavras de texto, 8+ seções em pelo
+  menos dois níveis de título e três ou mais tabelas ou blocos de código apoiando o texto. Com pouca evidência
+  (menos de três seções com tipo, ou menos de um quarto delas, e nenhum formato claro), diz que não há um padrão
+  claro em vez de chutar. O mesmo tipo aparece na barra acima de todo documento renderizado (clique nele para
+  abrir esta aba); sem tipo, a barra mostra o nome do arquivo.
 - **Resumo** — palavras, tempo de leitura (230 palavras por minuto, sem contar código), seções, blocos de
   código por linguagem, tabelas, links, imagens e o idioma do texto (inglês, português ou misto).
 - **Legibilidade** — a mesma escala LIX dos pontinhos de legibilidade, para o documento inteiro, mais a seção

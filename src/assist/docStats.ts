@@ -11,7 +11,9 @@ import type { OutlineItem } from './outline.ts'
 import { splitLines } from './prefilter.ts'
 import { plainHeading, proseOf, SECTION_TYPES, sentencesOf, splitDocSections, type SectionType } from './sections.ts'
 
-export type DocKind = 'readme' | 'changelog' | 'guide' | 'reference' | 'article' | 'notes'
+export type DocKind = 'readme' | 'changelog' | 'guide' | 'reference' | 'docs' | 'article' | 'notes'
+/** Display order of the kinds (labels, docs). */
+export const DOC_KINDS: DocKind[] = ['readme', 'changelog', 'guide', 'reference', 'docs', 'article', 'notes']
 export type FlagKind =
   | 'untaggedCode'
   | 'headingJump'
@@ -194,7 +196,7 @@ export function computeDocStats(text: string, outline: OutlineItem[], filename?:
   const sectionTypes = SECTION_TYPES.filter((t) => typeCounts.has(t)).map((t) => [t, typeCounts.get(t)!] as [SectionType, number]).sort((a, b) => b[1] - a[1])
   const listLines = lines.filter((l) => !l.inCode && /^\s*([-*+]|\d+[.)])\s/.test(l.text)).length
   const contentLines = lines.filter((l) => !l.inCode && l.text.trim()).length
-  const kind = kindFromFilename(filename) ?? guessKind({ typeCounts, outline, words: proseWordList.length, codeBlocks, tables, listShare: contentLines ? listLines / contentLines : 0, avgSentenceWords })
+  const kind = kindFromFilename(filename) ?? guessKind({ typeCounts, outline, sections: sections.length, words: proseWordList.length, codeBlocks, tables, listShare: contentLines ? listLines / contentLines : 0, avgSentenceWords })
   // Changelogs often give every release its own H1 under a bare "# Changelog" title — the convention there, not a mistake.
   const finalFlags =
     kind?.id === 'changelog' ? flags.filter((f) => f.kind !== 'multipleH1' && !(f.kind === 'emptySection' && f.line === sections[0]?.line)) : flags
@@ -254,7 +256,9 @@ function kindFromFilename(filename?: string | null): DocStats['kind'] {
         ? 'guide'
         : /^(api|reference|cli|options|config(uration)?)\b/.test(base)
           ? 'reference'
-          : null
+          : /^(architecture|design|internals|docs?|documentation|spec(ification)?|adr)\b/.test(base)
+            ? 'docs'
+            : null
   return id && { id, because: [`file:${filename!.split(/[\\/]/).pop()}`] }
 }
 
@@ -265,6 +269,7 @@ function kindFromFilename(filename?: string | null): DocStats['kind'] {
 function guessKind(d: {
   typeCounts: Map<SectionType, number>
   outline: OutlineItem[]
+  sections: number
   words: number
   codeBlocks: number
   tables: number
@@ -292,6 +297,14 @@ function guessKind(d: {
   const steps = d.outline.filter((i) => /^(step|passo|etapa)\s*\d+/i.test(plainHeading(i.heading))).length
   if (steps >= 3) return { id: 'guide', because: [`steps:${steps}`] }
   if (enough && n('setup') + n('guide') + n('example') + n('troubleshooting') >= typed * 0.6) return { id: 'guide', because: named('setup', 'guide', 'example', 'troubleshooting') }
+  // Technical documentation (design docs, "how it works", model cards…): mostly explanation, reference or config
+  // sections — or, since such headings are usually the doc's own topics ("The confidence gate") and name no type,
+  // its shape: long, nested sections, and tables or code to back the prose.
+  if (enough && n('explanation') + n('reference') + n('config') + n('performance') + n('security') >= typed * 0.5)
+    return { id: 'docs', because: named('explanation', 'reference', 'config', 'performance', 'security') }
+  const levels = new Set(d.outline.map((i) => i.level)).size
+  if (d.words >= 800 && d.sections >= 8 && levels >= 2 && d.tables + d.codeBlocks >= 3 && d.listShare < 0.5 && d.avgSentenceWords >= 10)
+    return { id: 'docs', because: [`shape:${d.sections},${d.tables},${d.codeBlocks}`] }
   if (d.listShare >= 0.5 && d.words >= 40) return { id: 'notes', because: ['lists'] }
   if (d.words >= 120 && d.codeBlocks <= 1 && d.tables === 0 && d.listShare < 0.3 && d.avgSentenceWords >= 12) return { id: 'article', because: ['prose'] }
   return null

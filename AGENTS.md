@@ -17,6 +17,8 @@ src/
     DocName.tsx           the document name in the header — click to rename (lib/file.ts `normalizeFilename`);
                           `RenameSheet` = the phone version, from MoreMenu's "Rename…" (the header has no room for the name)
     ExportMenu.tsx        Export button + "Export as" panel; ⌘/Ctrl S opens it (state in App), again downloads
+    DocBar.tsx            the bar above every rendered document and the docs pages: type (useDocKind → Document tab's
+                          `computeDocStats().kind`, after typing settles) or name, Copy Markdown, Outline; container queries
     MarkdownEditor.tsx    textarea + line numbers (a hidden mirror wraps like the textarea; numbers in the gutter; pieces of
                           200 lines memoized) — keep the mirror's text classes = the textarea's. The mirror scrolls by a
                           scroll-driven animation (`.editor-lines`, `--scroll-max`; compositor, same frame as the text) —
@@ -88,6 +90,8 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   (shared with `training/build-sections.ts` — change the splitter or heading rules there and rebuild the section data);
   type = heading rule, else (Rules + AI mode) `sections-v2.bin` reading the text, gate 0.8 (badge) / 0.6 ("probably").
   Visual only — it never edits. Heading lines are 0-based; the preview's `data-line` is 1-based.
+  `useOutline(text, enabled, useModel, panelOpen)`: items are built whenever a document is on screen (the document
+  bar's type needs them), but the section model is fetched only once the panel opens (Privacy text depends on it).
   `explanation`, `glossary`, `roadmap` are heading-only (`HEADING_ONLY_TYPES`; `SECTION_TYPES` vs `MODEL_SECTION_TYPES`,
   see training/README.md). A new type needs: phrases in `sections.ts`, an icon (`sectionIcons.ts`), EN + PT labels,
   fixtures, the About count, and docs §3/§4.4 + MODELS §7/§8; a model type also a rebuild + retrain + new file version. The docs pages
@@ -109,8 +113,9 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   `PageLoadBoundary` (Back / Try again → reload: browsers cache a failed module import, so re-importing fails).
 - On About and the docs pages the header hides the open document's controls (name, Assist, Edit/Preview, Copy,
   Export; ⌘S and ⌘⇧C do nothing) — they'd act on a document that isn't on screen. The docs pages show a disabled
-  "Read-only" in place of Edit (desktop; phones say it in the page bar) and a **Copy Markdown** button that copies
-  the page source as in the repo. Docs stay read-only: no "open in editor" (Pablo's call).
+  "Read-only" in place of Edit (desktop; phones say it in the page bar). Their page bar is the same `DocBar` every
+  document gets (type, **Copy Markdown** — here the page source as in the repo — and Outline). Docs stay
+  read-only: no "open in editor" (Pablo's call).
 
 ## Preview rendering
 - Performance contract: `MarkdownPreview` is `memo`ized and gets `useDeferredValue` text from `App.tsx` — keep its

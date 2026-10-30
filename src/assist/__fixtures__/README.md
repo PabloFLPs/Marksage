@@ -58,6 +58,6 @@ data); the notes below describe the original hand-built sets.
 
 ## Document tab
 
-`docstats.json` (authored): small documents with the expected kind (README, changelog, article, or none) and the
+`docstats.json` (authored): small documents with the expected kind (README, changelog, technical docs, article, or none) and the
 exact flags (`kind:line`) `computeDocStats` should report — one document triggers every flag type. Heading rule
 only (no model), so it's deterministic.

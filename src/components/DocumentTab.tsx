@@ -5,6 +5,7 @@ import { computeDocStats, FLAG_ORDER, type DocFlag, type DocStats } from '../ass
 import type { OutlineItem } from '../assist/outline'
 import { SECTION_ICONS } from './sectionIcons'
 import { useI18n } from '../hooks/useI18n'
+import { kindReason } from '../lib/docKind'
 
 interface DocumentTabProps {
   /** The text the outline was built from (deferred while typing). */
@@ -27,7 +28,7 @@ export function DocumentTab({ text, items, filename, onSelect }: DocumentTabProp
     <div className="scroll-area min-h-0 flex-1 overflow-y-auto px-3 py-3 text-[13px] text-ink dark:text-dark-ink">
       <Block icon={ScanSearch} title={t('doc.kind.title')}>
         <p className={`text-base font-semibold ${stats.kind ? 'text-accent dark:text-dark-accent' : ''}`}>{stats.kind ? t(`doc.kind.${stats.kind.id}`) : t('doc.kind.none')}</p>
-        {stats.kind && <Muted>{because(stats.kind, t)}</Muted>}
+        {stats.kind && <Muted>{kindReason(stats.kind, t)}</Muted>}
       </Block>
 
       <Block icon={ChartNoAxesColumn} title={t('doc.facts')}>
@@ -109,15 +110,6 @@ export function DocumentTab({ text, items, filename, onSelect }: DocumentTabProp
 }
 
 type T = ReturnType<typeof useI18n>['t']
-
-function because(kind: NonNullable<DocStats['kind']>, t: T): string {
-  const [first] = kind.because
-  if (first?.startsWith('file:')) return t('doc.because.file', { name: first.slice(5) })
-  if (first?.startsWith('steps:')) return t('doc.because.steps', { n: first.slice(6) })
-  if (first === 'lists') return t('doc.because.lists')
-  if (first === 'prose') return t('doc.because.prose')
-  return t('doc.because.sections', { list: kind.because.join(', ') })
-}
 
 function signals(s: NonNullable<DocStats['tone']>['signals'], t: T): string {
   return (Object.entries(s) as [keyof typeof s, number][])

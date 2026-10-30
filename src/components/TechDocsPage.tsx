@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, BookOpen, Check, Clipboard, ListTree, Lock } from 'lucide-react'
+import { ArrowLeft, Lock } from 'lucide-react'
 import { copyTextToClipboard } from '../lib/file'
 import { ScrollJump } from './ScrollJump'
 import { MarkdownPreview } from './MarkdownPreview'
@@ -10,6 +10,8 @@ import { useI18n } from '../hooks/useI18n'
 import { useOutline } from '../assist/useOutline'
 import { useOutlineNav } from '../hooks/useOutlineNav'
 import { OutlinePanel, type PanelTab } from './OutlinePanel'
+import { DocBar } from './DocBar'
+import { useDocKind } from '../hooks/useDocKind'
 
 const noEditor = { current: null }
 
@@ -77,7 +79,15 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
   // The docs double as a demo of the Outline: same panel, reading this page (read-only, it only scrolls).
   const [panelOpen, setPanelOpen] = useState(isDesktop)
   const [tab, setTab] = useState<PanelTab>('outline')
-  const outline = useOutline(doc.body, panelOpen, useModel)
+  // Built with the panel closed too: the bar shows the document type the Document tab gives (no model download).
+  const outline = useOutline(doc.body, true, useModel, panelOpen)
+  const filename = page === 'models' ? 'MODELS.md' : 'SMART-ASSIST.md'
+  // Without the file name — the type comes from the text, as for any pasted document.
+  const kind = useDocKind(outline.text, outline.items, null, `${page}|${lang}`)
+  const showDocument = useCallback(() => {
+    setTab('document')
+    setPanelOpen(true)
+  }, [])
   const nav = useOutlineNav(scrollRef, noEditor, outline.items.map((i) => i.line), panelOpen, `${page}|${lang}`)
   const closePanel = useCallback(() => setPanelOpen(false), [])
   const select = useCallback(
@@ -99,7 +109,7 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
       tab={tab}
       onTabChange={setTab}
       text={outline.text}
-      filename={page === 'models' ? 'MODELS.md' : 'SMART-ASSIST.md'}
+      filename={filename}
     />
   )
 
@@ -130,54 +140,35 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
     {panelOpen && isDesktop && panel('side')}
     <main ref={scrollRef} className="scroll-area min-h-0 min-w-0 flex-1 overflow-y-auto">
       <div className={`mx-auto w-full max-w-[900px] ${closing ? 'anim-stagger-out' : 'anim-stagger'}`}>
-        <div className="flex items-center justify-between px-4 pt-8 sm:px-6 sm:pt-10">
-          <button
-            type="button"
-            onClick={onBack}
-            className="tap -ml-2 inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
-          >
-            <ArrowLeft className="h-4 w-4" /> {backLabel}
-          </button>
-          <span className="flex items-center gap-2 sm:gap-3">
-            <span className="hidden items-center gap-1.5 text-xs uppercase tracking-wider text-ink-muted sm:inline-flex dark:text-dark-ink-muted">
-              <BookOpen className="h-3.5 w-3.5" /> {t('docs.badge')}
-            </span>
-            {/* Phones: the header has no room for "Read-only", so the page says it. */}
+        {/* The same bar every document gets: the type, Copy Markdown (the page as in the repo) and the Outline. */}
+        <DocBar
+          className="pt-8 sm:pt-10"
+          kind={kind}
+          name={filename}
+          fallbackLabel={t('docs.badge')}
+          onShowDocument={showDocument}
+          copied={copied}
+          onCopy={copyPage}
+          copyTitle={t('docs.copyTitle')}
+          outlineOpen={panelOpen}
+          onToggleOutline={() => setPanelOpen((o) => !o)}
+          leading={
+            <button
+              type="button"
+              onClick={onBack}
+              className="tap -ml-2 inline-flex shrink-0 items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
+            >
+              <ArrowLeft className="h-4 w-4" /> {backLabel}
+            </button>
+          }
+          extra={
+            /* Phones: the header has no room for "Read-only", so the page says it. Read-only by design (no "open in
+               editor"); copying the Markdown is the way to take it with you. */
             <span title={t('docs.readOnlyTitle')} className="inline-flex items-center gap-1 whitespace-nowrap text-xs text-ink-muted sm:hidden dark:text-dark-ink-muted">
               <Lock className="h-3 w-3" /> {t('docs.readOnly')}
             </span>
-            {/* Read-only by design (no "open in editor"); copying the Markdown is the way to take it with you. */}
-            <button
-              type="button"
-              onClick={copyPage}
-              title={t('docs.copyTitle')}
-              aria-label={copied ? t('action.copied') : t('action.copyMarkdown')}
-              className={`tap inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 text-xs font-medium transition-colors ${
-                copied
-                  ? 'border-accent text-accent dark:border-dark-accent dark:text-dark-accent'
-                  : 'border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
-              }`}
-            >
-              {copied ? <Check className="anim-pop h-3.5 w-3.5" /> : <Clipboard className="h-3.5 w-3.5" />}
-              <span key={copied ? 'c' : 'n'} className="anim-rise">
-                {copied ? t('action.copied') : <><span className="sm:hidden">{t('action.copy')}</span><span className="hidden sm:inline">{t('action.copyMarkdown')}</span></>}
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setPanelOpen((o) => !o)}
-              aria-pressed={panelOpen}
-              title={t('docs.outlineDemo')}
-              className={`tap inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 text-xs font-medium transition-colors ${
-                panelOpen
-                  ? 'border-accent text-accent dark:border-dark-accent dark:text-dark-accent'
-                  : 'border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
-              }`}
-            >
-              <ListTree className="h-3.5 w-3.5" /> {t('outline.toggle')}
-            </button>
-          </span>
-        </div>
+          }
+        />
 
         {/* Title block — same restraint as the About page: plain title, accent tagline, quiet contents list. */}
         <header className="px-4 pt-8 sm:px-6">

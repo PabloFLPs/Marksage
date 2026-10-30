@@ -366,11 +366,17 @@ Nothing in the document changes.
 
 **What it shows**, all worked out from the text on your device:
 
-- **Document type** — README, changelog, guide or tutorial, reference, article or notes. The file name decides
-  when it says so (`README.md`, `CHANGELOG.md`, `guide.md`); otherwise the Outline's section types do
-  (Installation + Usage + License → README; mostly Reference/Configuration → reference), with the sections
-  that led there shown as the reason. With too little evidence (fewer than three typed sections, or under a
-  quarter of them), it says there's no clear pattern rather than guess.
+- **Document type** — README, changelog, guide or tutorial, reference, technical documentation, article or
+  notes. The file name decides when it says so (`README.md`, `CHANGELOG.md`, `guide.md`, `ARCHITECTURE.md`);
+  otherwise the Outline's section types do (Installation + Usage + License → README; mostly
+  Reference/Configuration → reference; mostly Explanation, Reference, Configuration, Performance or Security →
+  technical documentation), with the sections that led there shown as the reason. Technical docs often name
+  their sections after their own topics ("The confidence gate"), which no rule or model can type, so they are
+  also recognised by their shape: 800+ words of prose, 8+ sections over at least two heading levels, and three
+  or more tables or code blocks backing the prose. With too little evidence (fewer than three typed sections,
+  or under a quarter of them, and no clear shape), it says there's no clear pattern rather than guess. The same
+  type labels the bar above every rendered document (click it for this tab); without one, the bar shows the
+  file name.
 - **At a glance** — words, reading time (230 words a minute, code not counted), sections, code blocks by
   language, tables, links, images and the language of the text (English, Portuguese or mixed).
 - **Readability** — the same LIX scale as the readability dots, for the whole document, plus the hardest section.
