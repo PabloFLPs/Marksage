@@ -8,9 +8,10 @@ export const READ_ONLY_DOC_CHARS = 5_000_000
 
 export const ACCEPTED_EXTENSIONS = ['.md', '.markdown', '.mdx', '.mdown', '.mkd', '.mkdn', '.mdwn']
 
-/** A NUL character never appears in a text file — it's a binary file renamed (an image, a PDF…). */
+/** A NUL character never appears in a text file — it's a binary file renamed (an image, a PDF…). Checked over the
+ * whole file: a NUL after the first 8 KB slipped through before (launch QA #29). */
 export function looksBinary(text: string): boolean {
-  return text.slice(0, 8000).includes('\u0000')
+  return text.includes('\u0000')
 }
 
 export function isMarkdownFile(filename: string): boolean {
@@ -18,13 +19,25 @@ export function isMarkdownFile(filename: string): boolean {
   return ACCEPTED_EXTENSIONS.some((ext) => lower.endsWith(ext))
 }
 
-export function readFileAsText(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(String(reader.result ?? ''))
-    reader.onerror = () => reject(new Error(`Failed to read "${file.name}"`))
-    reader.readAsText(file)
-  })
+/**
+ * The file's text: UTF-16 when it starts with that byte-order mark, else UTF-8 — and when the bytes aren't valid
+ * UTF-8, Windows-1252 (Latin-1's superset), the usual encoding of older Western files. Reading those as UTF-8
+ * turned "Título" into "T�tulo", and Export then saved the damage (launch QA #29).
+ */
+export async function readFileAsText(file: File): Promise<string> {
+  let bytes: Uint8Array
+  try {
+    bytes = new Uint8Array(await file.arrayBuffer())
+  } catch {
+    throw new Error(`Failed to read "${file.name}"`)
+  }
+  if (bytes[0] === 0xff && bytes[1] === 0xfe) return new TextDecoder('utf-16le').decode(bytes)
+  if (bytes[0] === 0xfe && bytes[1] === 0xff) return new TextDecoder('utf-16be').decode(bytes)
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+  } catch {
+    return new TextDecoder('windows-1252').decode(bytes)
+  }
 }
 
 export function downloadMarkdown(filename: string, content: string): void {

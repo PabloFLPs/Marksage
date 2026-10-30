@@ -648,3 +648,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   and About links the commit the build came from (`git rev-parse HEAD` at build time → `VITE_SOURCE_COMMIT`;
   without git, the repository) and says SPDX `AGPL-3.0-only` — AGPL §13 asks for the source of the version people
   use over a network. Build from a clean, pushed commit so the link resolves.
+- **Encodings and hidden binaries (#29).** A Latin-1 file opened as "T�tulo" and Export saved the damage; a file
+  whose first NUL came after 8 KB passed as text. Files are now decoded from their bytes: UTF-16 with its byte-order
+  mark, else UTF-8, and when the bytes aren't valid UTF-8, Windows-1252 (Latin-1's superset) — "Título" stays
+  "Título" and exports as UTF-8. The NUL check covers the whole file. Verified on the QA fixtures: Latin-1, UTF-16
+  and UTF-8 BOM open correctly; NUL-after-8 KB, PNG, random bytes and BOM-less UTF-16 are refused.
