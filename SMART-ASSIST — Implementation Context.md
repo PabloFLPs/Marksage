@@ -673,3 +673,9 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
 - **Hash and Esc (#36).** `#ABOUT` in capitals was ignored, and Esc didn't leave About. Hashes are read
   case-insensitively, and Esc on About or a docs page does what their Back does — unless a menu, panel or field has
   it. An unknown `#junk` still lands on the app, as before.
+- **Slow first load (#35) — not fixed, planned.** On slow 3G the start screen took ~8 s: one 590 KB script (~180 KB
+  gzip) with everything, though the start screen needs little of it. Splitting the editor, preview and Smart Assist
+  into their own chunk changes how a stored document opens for returning visitors, so it's ROADMAP §4 with the
+  measurements to take — next to the preview-layout follow-up from #15.
+
+That closes the launch QA report: 36 findings — 35 fixed in their own commits (#16 in two), #35 planned.

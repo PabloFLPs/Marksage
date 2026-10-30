@@ -82,6 +82,16 @@ and fix the docs where it's right and the features where it's wrong. Both get be
 
 ## 4. Smaller items
 
+- **Faster first load on slow networks** (launch QA #35, 2026-10-30): on slow 3G (2 s latency, 50 KB/s) the start
+  screen took ~8 s — one 590 KB script (~180 KB gzip) holding React, the Markdown pipeline, the editor and Smart
+  Assist, which the start screen doesn't need. Try loading the editor + preview + Smart Assist as their own chunk
+  (prefetched once the start screen is up), keep `index.html`'s boot screen meaningful, and check the host serves
+  Brotli. Measure first-usable time and the cost for returning visitors (a stored document opens straight into the
+  editor) before and after.
+- **Preview layout on big documents** (launch QA #15): switching a 3 MB document to the split editor spends ~7 s
+  laying out the whole preview again. `content-visibility: auto` on the preview's pieces would skip off-screen ones,
+  but scroll sync and the Outline measure those blocks — needs their positions to stay right.
+
 - **Structure model v2:** the rules and v1 miss *different* lines on the held-out set (rules: hashtag lines with an
   emoji, `+20K` stat lines, unfenced diff lines, pasted logs; model: `-Name` signatures, `#123 …` references), so
   a version where both must agree (or the model can veto) is the next try. `lines.real2.json` has been seen: it
