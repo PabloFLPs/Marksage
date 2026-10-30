@@ -550,3 +550,6 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   preview did nothing. Now a printable key there switches to the editor and keeps the keystroke — at the end of the
   block last clicked in the preview, else of the first block in view — through `execCommand('insertText')`, so ⌘Z
   takes it back. Space still scrolls; ⌘/Ctrl/Alt shortcuts, inputs and the docs pages (read-only) are untouched.
+- **"Heuristics" left in the UI (#9).** The modes were renamed Rules / Rules + AI on 2026-10-28, but three tooltips
+  and the "Models removed" message still said "heuristics" (EN + PT). All say "Rules" now; code and docs keep
+  "heuristics" where they mean the implementation (`HeuristicEngine`, stored value `heuristics`).

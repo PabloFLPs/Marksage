@@ -375,7 +375,7 @@ function StorageControls({ x, onRemoveModel, onDeleteAllData }: { x: Pick2; onRe
       )}
       {removed && (
         <span role="status" className="anim-rise text-xs text-ink-muted dark:text-dark-ink-muted">
-          {x('Models removed — Smart Assist is back on heuristics.', 'Modelos removidos — o Smart Assist voltou para as heurísticas.')}
+          {x('Models removed — Smart Assist is back on Rules.', 'Modelos removidos — o Smart Assist voltou para Regras.')}
         </span>
       )}
       {confirmAll ? (
