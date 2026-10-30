@@ -746,3 +746,27 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
 - `fences.real3.json` built and frozen before any training: 842 blocks from 158 repos (training/README.md,
   "Third held-out set"). `jsonc` / `json5` are labelled `json`, so "JSONC vs JSON" is measured as the
   `json-comments` subset. Not in `npm run eval:assist` until its one run at the end.
+- **Training max pooling** (tuning data only): at v2's settings the clue numbers grew ~170× and raw scores reached 10⁵
+  (overconfident even at T = 40); mean + max + min went to NaN. Two training knobs fixed it: `--emb-clip` (clue
+  numbers bounded) and `--pool-lr` (smaller step for the max part, which sends a whole update to one clue).
+- **Label finding:** only 42% of `ts`-tagged training blocks have any TypeScript-only syntax (2 of 15 on dev) — the
+  rest is untyped code, valid JavaScript. TS/JS mistakes are mostly undecidable from the text (`training/pairSyntax.ts`
+  marks the decisive-syntax blocks for the report).
+- **v2 can't be rebuilt exactly:** today's pinned collection gives 64,288 training blocks (v2's file: 63,751) and a
+  v2-recipe retrain scores 77.1% dev accuracy (seeds: 76–77%) against the shipped file's 81.8%. Code, settings and
+  manifest are unchanged since v2; the case-insensitive file system was ruled out (16 files, no effect). Hence a
+  same-data control in every comparison.
+- **Grid (out-of-repo, 64,288 blocks / 192 repos; both sides tuned over 4/8/12 epochs × lr 0.2/0.4):** best mean (8
+  epochs, lr 0.2) 21,561 right / 1,080 wrong shown (95.2%); best mean + max (clip 2, pool-lr 0.3, 4 epochs, lr 0.2)
+  26,081 / 1,214 (95.6%) — +21% right at equal precision; C++/C 510 / 56 vs 266 / 64; TS/JS 2,287 / 472 vs 2,191 / 374;
+  C#/Java 1,383 / 55 vs 905 / 25; dev hybrid 152 / 12 (92.7%) vs 145 / 7 (95.4%). Mean + max + min: worse everywhere.
+- **Pablo's decisions (before the test run):** one candidate, mean + max at the best config; the bar below; the shipped
+  v2 decides shipping (the same-data control explains pooling vs data).
+- **The bar, fixed before running `fences.real3.json`** (once), behind the 0.80 / 0.20 gate, against the shipped
+  `lang-v2.bin`, for the model alone *and* the app hybrid:
+  1. the six pair languages together (ts, js, c, cpp, csharp, java): more right suggestions shown, and precision
+     when shown ≥ v2's;
+  2. overall precision when shown ≥ v2's (point estimate);
+  3. file ≤ 400 KB, ~0.1 ms per decision.
+  Reported, not gating: each pair, JSON with comments, the decisive-syntax subsets, accuracy, the heuristics, the
+  same-data control (mean, 8 epochs, lr 0.2), and the hybrid with and without `RULES_OVERRIDE`.

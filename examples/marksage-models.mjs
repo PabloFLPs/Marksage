@@ -36,8 +36,12 @@ export function loadModel(buf) {
   off = (off + buckets * dim + 3) & ~3
   const scales = new Float32Array(buf, off, buckets) // one scale per slot
   off += buckets * 4
-  const W = new Float32Array(buf, off, dim * K) // weights, dim × answers (row-major by dimension)
-  off += dim * K * 4
+  // Pooling (header.pooling, missing = "mean"): "mean+max" adds, per dimension, the largest value any clue has;
+  // "mean+max+min" also the smallest. The parts are concatenated, so the weights are (dim × parts) × answers.
+  const parts = header.pooling === 'mean+max' ? 2 : header.pooling === 'mean+max+min' ? 3 : 1
+  const H = dim * parts
+  const W = new Float32Array(buf, off, H * K) // weights, (dim × parts) × answers (row-major by dimension)
+  off += H * K * 4
   const b = new Float32Array(buf, off, K) // one bias per answer
 
   const clues = header.featurizer === 1 ? codeClues : header.featurizer === 2 ? sectionClues : null
@@ -46,19 +50,27 @@ export function loadModel(buf) {
   function logits(text) {
     const ids = new Set()
     for (const c of clues(text)) ids.add(hash(c) % buckets)
-    // Average the 8 numbers of every clue's slot (8-bit value × slot scale).
-    const h = new Float32Array(dim)
+    // Average the 8 numbers of every clue's slot (8-bit value × slot scale) — and, with max / min pooling, keep the
+    // largest / smallest value per dimension too (an empty slot counts as 8 zeros).
+    const h = new Float32Array(H)
+    for (let d = dim; d < H; d++) h[d] = d < 2 * dim ? -Infinity : Infinity
     for (const id of ids) {
       const s = scales[id]
-      if (s === 0) continue
-      for (let d = 0; d < dim; d++) h[d] += emb[id * dim + d] * s
+      for (let d = 0; d < dim; d++) {
+        const raw = s === 0 ? 0 : emb[id * dim + d] * s
+        const x = parts > 1 ? Math.fround(raw) : raw // the app stores each clue's numbers as 32-bit floats first
+        h[d] += x
+        if (parts > 1 && x > h[dim + d]) h[dim + d] = x
+        if (parts > 2 && x < h[2 * dim + d]) h[2 * dim + d] = x
+      }
     }
     if (ids.size) for (let d = 0; d < dim; d++) h[d] /= ids.size
-    // One score per answer: bias + weights · average.
+    else h.fill(0)
+    // One score per answer: bias + weights · pooled numbers.
     const out = new Float32Array(K)
     for (let k = 0; k < K; k++) {
       let v = b[k]
-      for (let d = 0; d < dim; d++) v += W[d * K + k] * h[d]
+      for (let d = 0; d < H; d++) v += W[d * K + k] * h[d]
       out[k] = v
     }
     return out

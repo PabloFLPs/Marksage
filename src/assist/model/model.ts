@@ -7,8 +7,13 @@
  *   magic "MSLM" · u32 version · u32 headerBytes · header JSON (utf-8, padded to 4 bytes)
  *   · int8[buckets × dim] embeddings · f32[buckets] per-row scales
  *   · f32[dim × classes] output weights · f32[classes] bias
- * header = { labels, buckets, dim, temperature, temperatureShort?, featurizer, trainedOn }
+ *   (the output weights are f32[(dim × parts) × classes] when `pooling` concatenates parts, see below)
+ * header = { labels, buckets, dim, temperature, temperatureShort?, featurizer, trainedOn, pooling? }
  * The same format carries the section-type model (training/train-sections.ts, featurizer 2).
+ *
+ * Pooling (v3 experiment, 2026-10-30): how the clue vectors become one vector. "mean" (v1/v2, the default when the
+ * header has none) averages them; "mean+max" also keeps, per dimension, the largest value any clue has — so one
+ * decisive clue can't be averaged away — and "mean+max+min" the smallest too. Parts are concatenated.
  */
 import { featureIds } from './features.ts'
 import { sectionFeatureIds } from './sectionFeatures.ts'
@@ -26,7 +31,13 @@ export interface ModelHeader {
   temperatureShort?: number
   featurizer: number
   trainedOn: string
+  /** Missing = "mean" (v1, v2). */
+  pooling?: Pooling
 }
+
+export type Pooling = 'mean' | 'mean+max' | 'mean+max+min'
+/** Number of dim-sized parts the pooled vector has. */
+export const poolParts = (p: Pooling = 'mean') => (p === 'mean' ? 1 : p === 'mean+max' ? 2 : 3)
 
 export interface LangModel {
   header: ModelHeader
@@ -61,7 +72,11 @@ export function softmaxT(logits: Float32Array, temperature: number): Float32Arra
   return out
 }
 
-/** Shared forward pass over float weights (trainer) or dequantized rows (app). */
+/**
+ * Shared forward pass over float weights (trainer) or dequantized rows (app). `row(id, h)` adds clue `id`'s vector
+ * into `h`. With max / min pooling, `arg` (if given, length dim × parts) receives the clue that won each max / min
+ * slot — the trainer sends that slot's gradient to it.
+ */
 export function forward(
   ids: Uint32Array,
   dim: number,
@@ -69,14 +84,39 @@ export function forward(
   row: (id: number, h: Float32Array) => void,
   W: Float32Array,
   b: Float32Array,
+  pooling: Pooling = 'mean',
+  arg?: Int32Array,
 ): { h: Float32Array; logits: Float32Array } {
-  const h = new Float32Array(dim)
-  for (const id of ids) row(id, h)
+  const parts = poolParts(pooling)
+  const H = dim * parts
+  const h = new Float32Array(H)
+  if (parts === 1) {
+    for (const id of ids) row(id, h)
+  } else if (ids.length) {
+    const v = new Float32Array(dim)
+    for (let d = dim; d < H; d++) h[d] = d < 2 * dim ? -Infinity : Infinity
+    for (const id of ids) {
+      v.fill(0)
+      row(id, v)
+      for (let d = 0; d < dim; d++) {
+        const x = v[d]
+        h[d] += x
+        if (x > h[dim + d]) {
+          h[dim + d] = x
+          if (arg) arg[dim + d] = id
+        }
+        if (parts === 3 && x < h[2 * dim + d]) {
+          h[2 * dim + d] = x
+          if (arg) arg[2 * dim + d] = id
+        }
+      }
+    }
+  }
   if (ids.length) for (let d = 0; d < dim; d++) h[d] /= ids.length
   const logits = new Float32Array(classes)
   for (let k = 0; k < classes; k++) {
     let s = b[k]
-    for (let d = 0; d < dim; d++) s += W[d * classes + k] * h[d]
+    for (let d = 0; d < H; d++) s += W[d * classes + k] * h[d]
     logits[k] = s
   }
   return { h, logits }
@@ -97,8 +137,9 @@ export function loadModel(buf: ArrayBuffer): LangModel {
   off = (off + 3) & ~3
   const scales = new Float32Array(buf, off, buckets)
   off += buckets * 4
-  const W = new Float32Array(buf, off, dim * K)
-  off += dim * K * 4
+  const H = dim * poolParts(header.pooling)
+  const W = new Float32Array(buf, off, H * K)
+  off += H * K * 4
   const b = new Float32Array(buf, off, K)
 
   const row = (id: number, h: Float32Array) => {
@@ -109,7 +150,7 @@ export function loadModel(buf: ArrayBuffer): LangModel {
   }
   const featurize = FEATURIZERS[header.featurizer]
   if (!featurize) throw new Error(`Unknown featurizer ${header.featurizer}`)
-  const logits = (code: string) => forward(featurize(code, buckets), dim, K, row, W, b).logits
+  const logits = (code: string) => forward(featurize(code, buckets), dim, K, row, W, b, header.pooling).logits
   return {
     header,
     logits,
