@@ -702,3 +702,18 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   entry is Sep 25, the case study, so it now comes before Smart Assist; the five-agent QA ran Oct 29–30). The rail
   is one segment per entry and the dots are centred on it (line 7–8 px, 11 px dot from 2 px) with a ring of the
   page colour, so the line no longer shows past their edge.
+
+## 34. Line numbers, footer facts, the document bar, "Technical docs" (2026-10-30)
+
+- **Line numbers** (`MarkdownEditor.tsx`): a hidden mirror of the text, laid out at the textarea's `clientWidth` with
+  the same font/padding classes (`TEXT`), puts each number at the first row of its line, so wrapped lines get one
+  number. Numbers are `::before` content in the gutter (`.line-mirror` in `index.css`); lines are rendered in
+  memoized pieces of 200, so typing re-renders one piece. Scrolling: first a scroll listener set the transform, and
+  the numbers visibly trailed the text (Pablo: "they move independently") — the textarea scrolls on the compositor,
+  the listener's transform lands a frame later. Now a scroll-driven animation (`animation-timeline` on the
+  textarea's `scroll-timeline`, `0 → -max px`, `--scroll-max` kept current by a layout effect / ResizeObserver /
+  input) moves the mirror in the same frame; the listener is the fallback (Firefox without the flag). The textarea
+  doesn't rubber-band (`overscroll-none`): the macOS bounce moved the text but not its scroll position.
+  Gotcha: the mirror must come after the textarea in the tree — React attaches refs in tree order, so a layout
+  effect in an earlier sibling sees `textareaRef.current === null`.
+  The caret's line number is brighter (selectionchange + input events).

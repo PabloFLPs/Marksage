@@ -782,3 +782,62 @@ body {
 .dark .story-timeline code {
   background: var(--color-dark-surface-raised);
 }
+
+/* ---------- Editor line numbers ----------
+   The mirror (MarkdownEditor's LineNumbers) wraps exactly like the textarea; its text stays invisible and each line
+   shows its number in the gutter to the left. The number's line box is the text's (leading-7), so they align. */
+.line-mirror {
+  visibility: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+  will-change: transform;
+}
+.line-mirror > div {
+  position: relative;
+}
+.line-mirror > div::before {
+  content: attr(data-n);
+  visibility: visible;
+  position: absolute;
+  top: 0;
+  right: 100%;
+  width: var(--gutter);
+  padding-right: 0.9em;
+  text-align: right;
+  font-size: 0.8em;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--color-ink-muted) 55%, transparent);
+  transition: color 120ms;
+}
+.line-mirror > div[data-caret]::before {
+  color: var(--color-ink-muted);
+}
+.dark .line-mirror > div::before {
+  color: color-mix(in srgb, var(--color-dark-ink-muted) 55%, transparent);
+}
+.dark .line-mirror > div[data-caret]::before {
+  color: var(--color-dark-ink-muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .line-mirror > div::before { transition: none; }
+}
+/* The numbers scroll with the text on the compositor: the textarea's scroll drives the mirror's transform
+   (0 → -max px, max = scrollHeight − clientHeight, set by MarkdownEditor). Not motion of its own — it's the scroll —
+   so reduced motion keeps it (the 1 ms duration there spans the whole timeline anyway). */
+@supports (animation-timeline: scroll()) {
+  .editor-lines {
+    timeline-scope: --editor-scroll;
+  }
+  .editor-lines textarea {
+    scroll-timeline: --editor-scroll block;
+  }
+  .editor-lines .line-mirror {
+    animation: line-mirror-scroll linear both;
+    animation-timeline: --editor-scroll;
+  }
+}
+@keyframes line-mirror-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, calc(var(--scroll-max, 0) * -1px), 0); }
+}

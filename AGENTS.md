@@ -17,6 +17,10 @@ src/
     DocName.tsx           the document name in the header — click to rename (lib/file.ts `normalizeFilename`);
                           `RenameSheet` = the phone version, from MoreMenu's "Rename…" (the header has no room for the name)
     ExportMenu.tsx        Export button + "Export as" panel; ⌘/Ctrl S opens it (state in App), again downloads
+    MarkdownEditor.tsx    textarea + line numbers (a hidden mirror wraps like the textarea; numbers in the gutter; pieces of
+                          200 lines memoized) — keep the mirror's text classes = the textarea's. The mirror scrolls by a
+                          scroll-driven animation (`.editor-lines`, `--scroll-max`; compositor, same frame as the text) —
+                          a scroll listener only where unsupported (it trails a frame). Textarea: `overscroll-none`.
     EmptyState.tsx        start screen: Open / Paste / Start writing, Smart Assist line, Privacy link (#privacy)
     PageLoad.tsx          <PageLoading> + <PageLoadBoundary> (Try again / Back) for lazily loaded pages
     motion.tsx            <Presence> (exit animations) and <CollapseX> (toolbar width collapse)
