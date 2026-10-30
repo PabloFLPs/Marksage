@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Download } from 'lucide-react'
+import { Check, Download, X } from 'lucide-react'
 import { Presence } from './motion'
 import { baseNameLength, normalizeFilename } from '../lib/file'
 import { useI18n } from '../hooks/useI18n'
@@ -18,13 +18,22 @@ interface ExportMenuProps {
 /**
  * Export with a name: the button (or ⌘/Ctrl + S) opens a small "Export as" panel with the name selected;
  * Enter, Download, the Export button again or ⌘/Ctrl + S again downloads (and closes it). One deliberate step, so a reflexive ⌘S doesn't pile up
- * "document (3).md" files in Downloads.
+ * "document (3).md" files in Downloads. After a download the button shows "Downloaded" for a moment (like Copy).
  */
+
+/** How long the button says "Downloaded" (same as Copy's "Copied"). */
+const DONE_MS = 1600
 export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact = false }: ExportMenuProps) {
   const { t } = useI18n()
   const rootRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const [value, setValue] = useState(defaultName)
+  // The name just downloaded — the button says so for DONE_MS, and screen readers hear it.
+  const [done, setDone] = useState<string | null>(null)
+  const doneTimer = useRef<number | null>(null)
+  useEffect(() => () => {
+    if (doneTimer.current) window.clearTimeout(doneTimer.current)
+  }, [])
 
   // A fresh, selected name every time it opens.
   useEffect(() => {
@@ -63,6 +72,9 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
     }
     onExport(name)
     onOpenChange(false)
+    setDone(name)
+    if (doneTimer.current) window.clearTimeout(doneTimer.current)
+    doneTimer.current = window.setTimeout(() => setDone(null), DONE_MS)
   }
 
   return (
@@ -76,9 +88,10 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
         aria-expanded={open}
         className="inline-flex h-9 min-w-9 items-center justify-center md:h-8 md:min-w-0 gap-1.5 rounded-md bg-accent px-2.5 text-xs font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
       >
-        <Download className="h-3.5 w-3.5" />
-        <span className="hidden md:inline">{t('action.export')}</span>
+        {done ? <Check className="anim-pop h-3.5 w-3.5" /> : <Download className="h-3.5 w-3.5" />}
+        <span key={done ? 'd' : 'e'} className={`hidden md:inline ${done ? 'anim-rise' : ''}`}>{done ? t('export.done') : t('action.export')}</span>
       </button>
+      <span role="status" aria-live="polite" className="sr-only">{done ? t('export.doneLive', { name: done }) : ''}</span>
 
       <Presence
         show={open}
@@ -94,9 +107,20 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
           }}
           className="whitespace-normal rounded-lg border border-line bg-surface p-3 shadow-lg dark:border-dark-line dark:bg-dark-surface-soft"
         >
-          <label htmlFor="export-name" className="text-xs font-semibold uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
-            {t('export.title')}
-          </label>
+          <div className="flex items-center justify-between gap-2">
+            <label htmlFor="export-name" className="text-xs font-semibold uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
+              {t('export.title')}
+            </label>
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              aria-label={t('export.cancel')}
+              title={t('export.cancel')}
+              className="-m-1.5 inline-flex h-7 w-7 items-center justify-center rounded-md text-ink-muted transition-colors hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
           <div className="mt-2 flex items-center gap-2">
             <input
               ref={inputRef}
@@ -108,6 +132,9 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
                 // ⌘/Ctrl + S again: download, like confirming a save.
                 if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
                   e.preventDefault()
+                  // Stop here: App's window shortcut would see the panel just closed and open it again,
+                  // so every ⌘S after the first downloaded another copy (launch QA #2).
+                  e.stopPropagation()
                   submit()
                 }
               }}

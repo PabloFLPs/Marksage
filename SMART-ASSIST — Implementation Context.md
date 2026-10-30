@@ -514,3 +514,9 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   bar's choices wrap on narrow screens and `Alt+2` / `Alt+3` pick the others. Empty message reworded to what it can
   honestly claim. Same block, different modes: `SELECT * FROM t;` is SQL 75 % in Rules (unsure) but 100 % ✦ in
   Rules + AI, where the model is sure.
+- **Export (#2).** The two-step panel stays (Pablo's §30 call), but it now behaves: ⌘S inside the panel downloaded
+  and the panel opened again at once, so every ⌘S after the first downloaded another copy. The input's handler
+  closed the panel, React flushed the update and re-subscribed App's window listener with `exportOpen = false`
+  before the same event reached `window`, and that listener opened it again. Fixed with `stopPropagation()` on that
+  ⌘S. The panel has a visible close (×, "Cancel (Esc)"), and after a download the Export button says
+  "Downloaded" for 1.6 s (like Copy's "Copied"), with a polite live region for screen readers.
