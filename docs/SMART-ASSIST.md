@@ -357,8 +357,8 @@ the rest of its section (stop-words removed, in both languages), nudged towards 
 from a paragraph wins over a list item.
 
 **Action.** Visual only: a panel with every section, its type and key sentence. Click to jump there (the
-clicked section stays highlighted until you scroll yourself), hover to tint the whole section in the preview.
-Nothing in the document changes.
+clicked section stays highlighted until you scroll yourself), hover to tint the whole section in the preview
+(edge to edge, square corners, when the editor is open beside it). Nothing in the document changes.
 
 ### Document tab
 

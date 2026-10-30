@@ -150,10 +150,19 @@ export function useOutlineNav(
       }
       el.style.top = `${top - 6}px`
       el.style.height = `${Math.max(0, bottom - top + 6)}px`
-      // Wide enough to hold the readability dot left of an ## heading (16 px out), never past the content's padding.
-      const pad = Math.min(HOVER_PAD, h.left - origin.left)
-      el.style.left = `${h.left - origin.left - pad}px`
-      el.style.width = `${h.width + 2 * pad}px`
+      // Split view (editor open): the preview pane sits between the Outline and the editor, so the tint runs edge to
+      // edge with square corners — a rounded box there met both borders at its corners.
+      const flush = box.hasAttribute('data-split-pane')
+      el.classList.toggle('is-flush', flush)
+      if (flush) {
+        el.style.left = `${box.getBoundingClientRect().left + box.clientLeft - origin.left}px`
+        el.style.width = `${box.clientWidth}px`
+      } else {
+        // Wide enough to hold the readability dot left of an ## heading (16 px out), never past the content's padding.
+        const pad = Math.min(HOVER_PAD, h.left - origin.left)
+        el.style.left = `${h.left - origin.left - pad}px`
+        el.style.width = `${h.width + 2 * pad}px`
+      }
       el.classList.add('is-shown')
     },
     [preview],

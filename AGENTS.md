@@ -92,6 +92,7 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   Visual only — it never edits. Heading lines are 0-based; the preview's `data-line` is 1-based.
   `useOutline(text, enabled, useModel, panelOpen)`: items are built whenever a document is on screen (the document
   bar's type needs them), but the section model is fetched only once the panel opens (Privacy text depends on it).
+  The hover tint is square and spans the pane in split view (`data-split-pane` on SplitPanes' left pane).
   `explanation`, `glossary`, `roadmap` are heading-only (`HEADING_ONLY_TYPES`; `SECTION_TYPES` vs `MODEL_SECTION_TYPES`,
   see training/README.md). A new type needs: phrases in `sections.ts`, an icon (`sectionIcons.ts`), EN + PT labels,
   fixtures, the About count, and docs §3/§4.4 + MODELS §7/§8; a model type also a rebuild + retrain + new file version. The docs pages

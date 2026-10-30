@@ -363,7 +363,8 @@ parágrafo vence um item de lista.
 
 **Ação.** Só visual: um painel com cada seção, seu tipo e sua frase-chave. Clique para ir até ela (a seção
 clicada fica destacada até você rolar por conta própria), passe o mouse para destacar a seção inteira na
-pré-visualização. Nada no documento muda.
+pré-visualização (de ponta a ponta, sem cantos arredondados, quando o editor está aberto ao lado). Nada no
+documento muda.
 
 ### Aba Documento
 

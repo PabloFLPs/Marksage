@@ -65,6 +65,7 @@ export function SplitPanes({ ratio, onRatioChange, left, right, closing = false,
     <div ref={containerRef} className="flex min-h-0 min-w-0 flex-1">
       <div
         ref={leftRef}
+        data-split-pane=""
         style={{
           width: `${width}%`,
           transition: dragging || !animateWidth ? 'none' : 'width 260ms cubic-bezier(0.22, 1, 0.36, 1)',

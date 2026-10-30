@@ -733,3 +733,4 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   Markdown: both docs pages (EN + PT), training/README and this file → docs; README (by name), ROADMAP (article),
   the product spec (notes) unchanged. Tuned only on these files — a trained document-type model needs a real
   held-out set (labels could come free from repo paths: README, CHANGELOG, docs/…).
+- **Outline hover in split view**: square, edge to edge across the preview pane (`.outline-hit-box.is-flush`).

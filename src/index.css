@@ -618,6 +618,10 @@ body {
 .outline-hit-box.is-shown {
   opacity: 1;
 }
+/* Split view: edge to edge across the preview pane, so no rounded corners against the Outline and the editor. */
+.outline-hit-box.is-flush {
+  border-radius: 0;
+}
 .dark .outline-hit-box {
   background: color-mix(in srgb, var(--color-dark-accent) 11%, transparent);
 }
