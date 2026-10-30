@@ -580,3 +580,10 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   save live (`storage` event); when both changed the same document, a bar says "This document changed in another
   Marksage tab" — **Use that version** (this tab's text stays in Recent as its own entry) or **Keep mine** (saved
   over it; the other tab, if idle, follows). Saves pause while the bar is up.
+- **Big files (#15).** A 20 MB file took ~9 s to show and crashed the tab on Edit; 3 MB froze ~10 s on Edit. Pablo
+  chose: over 5 M characters a document opens read-only — preview only, no Edit (a "Read-only" mark in the header),
+  Smart Assist off, not kept in the browser or Recent, Export still works — with a note above the preview; from 1 M
+  a dismissible "editing may be slow" note (`lib/file.ts` `LARGE_DOC_CHARS` / `READ_ONLY_DOC_CHARS`). Profiled the
+  3 MB freeze: ~7 s is layout forced by the editor's focus — the split view re-renders and lays out the whole 3 MB
+  preview a second time (a plain 3 MB textarea focuses in ~0.6 s). The cheap fix would be `content-visibility:
+  auto` on the preview's pieces, but scroll sync and the Outline measure those blocks, so it's left as a follow-up.

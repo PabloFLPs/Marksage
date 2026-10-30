@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
-import { AlertCircle, Eye, ImageOff, X } from 'lucide-react'
+import { AlertCircle, Eye, Gauge, ImageOff, Lock, X } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
 import { MarkdownPreview } from './components/MarkdownPreview'
@@ -10,6 +10,7 @@ import { useMarkdownFile } from './hooks/useMarkdownFile'
 import { useTheme } from './hooks/useTheme'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import {
+  LARGE_DOC_CHARS,
   copyTextToClipboard,
   downloadMarkdown,
   openFilePicker,
@@ -114,7 +115,7 @@ export default function App() {
   const [outlineOpen, setOutlineOpen] = useState(() => isDesktop && loadOutlineOpen())
   const [panelTab, setPanelTab] = useState<PanelTab>('outline') // this session only
   const assist = useSmartAssist({
-    mode: assistMode,
+    mode: document?.readOnly ? 'off' : assistMode, // a read-only giant isn't scanned
     text: document?.content ?? '',
     textareaRef,
     onChange: updateContent,
@@ -224,9 +225,17 @@ export default function App() {
   // Editor enter/exit: the pane slides in from the right, and back out on close.
   const [editorClosing, setEditorClosing] = useState(false)
   const editorTimer = useRef<number | null>(null)
+  const readOnly = !!document?.readOnly
+  const readOnlyRef = useRef(readOnly)
+  readOnlyRef.current = readOnly
+  // A read-only document never shows the editor — not even on phones, where opened files start in it.
+  useEffect(() => {
+    if (readOnly && viewMode === 'edit') setViewMode('preview')
+  }, [readOnly, viewMode])
   const changeViewMode = useCallback(
     (mode: ViewMode) => {
       if (mode === 'edit') {
+        if (readOnlyRef.current) return // over 5 MB: the preview only (launch QA #15)
         if (editorTimer.current) window.clearTimeout(editorTimer.current)
         editorTimer.current = null
         setEditorClosing(false)
@@ -524,6 +533,25 @@ export default function App() {
         </button>
       </div>
     ) : null
+  // Big documents: over 5 M characters read-only, from 1 M a note that editing may be slow (dismissible per document).
+  const [slowNoteHidden, setSlowNoteHidden] = useState<string | null>(null)
+  const docChars = document?.content.length ?? 0
+  const sizeLabel = `${(docChars / 1_000_000).toLocaleString(lang, { maximumFractionDigits: 1 })} MB`
+  const sizeName = document?.filename ?? t('doc.untitled')
+  const sizeBar = !document ? null : readOnly ? (
+    <div role="note" className="anim-fade mx-auto mt-4 flex w-[calc(100%-2rem)] max-w-[868px] items-center gap-2 rounded-md border border-line bg-surface-soft px-3 py-2 text-xs text-ink-muted sm:w-[calc(100%-3rem)] dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink-muted">
+      <Lock aria-hidden className="h-3.5 w-3.5 shrink-0" />
+      <span className="min-w-0 flex-1">{t('large.readOnly', { name: sizeName, size: sizeLabel })}</span>
+    </div>
+  ) : docChars > LARGE_DOC_CHARS && slowNoteHidden !== document.id ? (
+    <div role="note" className="anim-fade mx-auto mt-4 flex w-[calc(100%-2rem)] max-w-[868px] items-center gap-2 rounded-md border border-line bg-surface-soft px-3 py-2 text-xs text-ink-muted sm:w-[calc(100%-3rem)] dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink-muted">
+      <Gauge aria-hidden className="h-3.5 w-3.5 shrink-0" />
+      <span className="min-w-0 flex-1">{t('large.slow', { name: sizeName, size: sizeLabel })}</span>
+      <button type="button" onClick={() => setSlowNoteHidden(document.id)} aria-label={t('large.dismiss')} title={t('large.dismiss')} className="-m-1 inline-flex h-7 w-7 items-center justify-center rounded text-ink-muted hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink">
+        <X className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  ) : null
   const hasDocument = document !== null
   const editing = hasDocument && viewMode === 'edit'
   // Split view: preview and editor scroll together (desktop only).
@@ -570,7 +598,7 @@ export default function App() {
   // #8: testers typed into the preview and nothing happened). Space still scrolls; shortcuts and menus are untouched.
   const lastPreviewLine = useRef<number | null>(null)
   useEffect(() => {
-    if (!document || viewMode !== 'preview' || showAbout) return
+    if (!document || document.readOnly || viewMode !== 'preview' || showAbout) return
     lastPreviewLine.current = null
     const main = previewScrollRef.current
     const onClick = (e: MouseEvent) => {
@@ -684,6 +712,7 @@ export default function App() {
         onClearHistory={clearHistory}
         showingAbout={showAbout}
         docsPage={infoPage === 'docs' || infoPage === 'models'}
+        readOnly={readOnly}
         outlineOpen={outlineShown && !outlineClosing}
         onToggleOutline={toggleOutline}
       />
@@ -769,6 +798,7 @@ export default function App() {
                   onRatioChange={handleChangeSplitRatio}
                   left={
                     <main>
+                      {sizeBar}
                       {remoteBar}
                       <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={t('preview.empty')} remoteImages={remoteImages} />
                       <ScrollJump />
@@ -799,6 +829,7 @@ export default function App() {
               )
             ) : (
               <main ref={previewScrollRef} key="preview" className={`scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto ${prevView.current === 'edit' ? '' : 'anim-fade'}`}>
+                {sizeBar}
                 {remoteBar}
                 <MarkdownPreview content={previewContent} readability={assist.readability} remoteImages={remoteImages} />
                 <ScrollJump />

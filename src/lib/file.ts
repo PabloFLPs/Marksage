@@ -1,4 +1,11 @@
 // Markdown only (plain .txt is refused on purpose). .mdx is Markdown + JSX: it opens as Markdown, the JSX shows as text.
+/**
+ * Big documents (launch QA #15): from 1 M characters editing gets slow, so Marksage says so; over 5 M it opens
+ * read-only — the browser can't keep it (#13) and the editor froze or crashed the tab on such files.
+ */
+export const LARGE_DOC_CHARS = 1_000_000
+export const READ_ONLY_DOC_CHARS = 5_000_000
+
 export const ACCEPTED_EXTENSIONS = ['.md', '.markdown', '.mdx', '.mdown', '.mkd', '.mkdn', '.mdwn']
 
 /** A NUL character never appears in a text file — it's a binary file renamed (an image, a PDF…). */

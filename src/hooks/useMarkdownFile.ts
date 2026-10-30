@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { isMarkdownFile, looksBinary, readFileAsText } from '../lib/file'
+import { READ_ONLY_DOC_CHARS, isMarkdownFile, looksBinary, readFileAsText } from '../lib/file'
 import { loadDocument, saveDocument } from '../lib/storage'
 import {
   clearHistory as clearAll,
@@ -16,6 +16,8 @@ export interface MarkdownDocument {
   filename: string | null
   content: string
   savedContent: string
+  /** Over READ_ONLY_DOC_CHARS: shown in the preview only, never edited, kept in the browser or put in Recent. */
+  readOnly?: boolean
 }
 
 const PERSIST_DELAY = 300
@@ -58,12 +60,12 @@ export function useMarkdownFile() {
   /** Write the current doc into history now — called before switching documents. */
   const flushCurrent = useCallback(() => {
     const cur = docRef.current
-    if (cur) setHistory((prev) => upsertHistory(prev, { ...cur, updatedAt: Date.now() }))
+    if (cur && !cur.readOnly) setHistory((prev) => upsertHistory(prev, { ...cur, updatedAt: Date.now() }))
   }, [])
 
   // Persist the current doc and mirror it into history (debounced).
   useEffect(() => {
-    if (!document || sig(document) === persisted.current || conflict) return
+    if (!document || document.readOnly || sig(document) === persisted.current || conflict) return
     const timer = window.setTimeout(() => {
       save(document)
       setHistory((prev) => {
@@ -82,7 +84,7 @@ export function useMarkdownFile() {
   useEffect(() => {
     const flushNow = () => {
       const cur = docRef.current
-      if (!cur) return
+      if (!cur || cur.readOnly) return
       // Only this tab's own changes, and not over another tab's version while the user hasn't picked (this one
       // still lands in Recent just below).
       if (sig(cur) !== persisted.current && !conflictRef.current && saveDocument(cur)) persisted.current = sig(cur)
@@ -107,7 +109,7 @@ export function useMarkdownFile() {
       if (e.key !== DOC_KEY || !e.newValue) return
       const stored = loadDocument()
       const cur = docRef.current
-      if (!stored?.id || !cur || stored.id !== cur.id) return // another document there: ours stays (and is in Recent)
+      if (!stored?.id || !cur || cur.readOnly || stored.id !== cur.id) return // another document there: ours stays (and is in Recent)
       const theirs: MarkdownDocument = { ...stored, id: stored.id }
       if (sig(theirs) === sig(cur)) {
         persisted.current = sig(theirs)
@@ -165,7 +167,8 @@ export function useMarkdownFile() {
           return false
         }
         flushCurrent()
-        setDocument({ id: idFor(file.name, content), filename: file.name, content, savedContent: content })
+        const readOnly = content.length > READ_ONLY_DOC_CHARS
+        setDocument({ id: idFor(file.name, content), filename: file.name, content, savedContent: content, ...(readOnly && { readOnly }) })
         setError(null)
         return true
       } catch (err) {
@@ -183,7 +186,8 @@ export function useMarkdownFile() {
   const pasteText = useCallback(
     (text: string, filename: string | null = null) => {
       flushCurrent()
-      setDocument({ id: idFor(filename, text), filename, content: text, savedContent: filename ? text : '' })
+      const readOnly = text.length > READ_ONLY_DOC_CHARS
+      setDocument({ id: idFor(filename, text), filename, content: text, savedContent: readOnly || filename ? text : '', ...(readOnly && { readOnly }) })
       setError(null)
     },
     [idFor, flushCurrent],
@@ -217,7 +221,7 @@ export function useMarkdownFile() {
   const clearHistory = useCallback(() => setHistory(clearAll()), [])
 
   const updateContent = useCallback((content: string) => {
-    setDocument((prev) => (prev ? { ...prev, content } : prev))
+    setDocument((prev) => (prev && !prev.readOnly ? { ...prev, content } : prev))
   }, [])
 
   const markSaved = useCallback(() => {

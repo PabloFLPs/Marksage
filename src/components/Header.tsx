@@ -60,6 +60,8 @@ interface HeaderProps {
   showingAbout?: boolean
   /** On a technical docs page (read-only): the header says so instead of offering Edit. */
   docsPage?: boolean
+  /** The open document is read-only (over 5 MB): no Edit, a "Read-only" mark instead. */
+  readOnly?: boolean
   outlineOpen: boolean
   onToggleOutline: () => void
 }
@@ -103,12 +105,13 @@ export function Header({
   onClearHistory,
   showingAbout = false,
   docsPage = false,
+  readOnly = false,
   outlineOpen,
   onToggleOutline,
 }: HeaderProps) {
   const { t } = useI18n()
   const compact = !isDesktop
-  const showBackToEditor = compact && hasDocument && viewMode === 'preview' && !showingAbout
+  const showBackToEditor = compact && hasDocument && viewMode === 'preview' && !showingAbout && !readOnly
   const editing = viewMode === 'edit'
 
   return (
@@ -173,11 +176,11 @@ export function Header({
         </CollapseX>
 
         {/* The docs pages: a disabled "Read-only" in place of Edit — Marksage's docs aren't editable here. */}
-        <CollapseX show={docsPage && isDesktop}>
+        <CollapseX show={(docsPage || (readOnly && hasDocument && !showingAbout)) && isDesktop}>
           <span
             role="note"
             aria-disabled="true"
-            title={t('docs.readOnlyTitle')}
+            title={docsPage ? t('docs.readOnlyTitle') : t('large.readOnlyTitle')}
             className="inline-flex h-8 cursor-not-allowed select-none items-center gap-1.5 rounded-md border border-dashed border-line px-2.5 text-xs font-medium text-ink-muted dark:border-dark-line dark:text-dark-ink-muted"
           >
             <Lock className="h-3.5 w-3.5" />
@@ -185,7 +188,7 @@ export function Header({
           </span>
         </CollapseX>
 
-        <CollapseX show={hasDocument && isDesktop && !showingAbout}>
+        <CollapseX show={hasDocument && isDesktop && !showingAbout && !readOnly}>
           <button
             type="button"
             onClick={() => onViewModeChange(editing ? 'preview' : 'edit')}
