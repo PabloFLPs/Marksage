@@ -587,3 +587,6 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   3 MB freeze: ~7 s is layout forced by the editor's focus — the split view re-renders and lays out the whole 3 MB
   preview a second time (a plain 3 MB textarea focuses in ~0.6 s). The cheap fix would be `content-visibility:
   auto` on the preview's pieces, but scroll sync and the Outline measure those blocks, so it's left as a follow-up.
+- **Big tables froze the page (#16).** A 20 × 2,000 table blocked ~25 s, but not in rendering: profiling put ~6 s of a
+  20 × 1,000 case in the Markdown parser — `micromark-extension-gfm-table` 2.1.1 searched its edit list linearly
+  for every cell (quadratic). 2.1.2 (2026-09-11) indexes it: 20 × 1,000 now blocks ~0.8 s, 20 × 2,000 ~1.7 s.
