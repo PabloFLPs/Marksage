@@ -105,12 +105,24 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
       pinnedAt.current = null
     }
     const ctrl = new AbortController()
+    let idleTimer = 0
     const timer = window.setTimeout(async () => {
       try {
         const next =
           (await suggestFenceLanguage(text, cursor, engine, isDismissed, ctrl.signal)) ??
           (await suggestStructure(text, cursor, engine, isDismissed, ctrl.signal))
-        if (!ctrl.signal.aborted) setSuggestion(next)
+        if (ctrl.signal.aborted) return
+        setSuggestion(next)
+        // Nothing elsewhere: after a longer pause, the line under the caret may get its hint too.
+        if (!next)
+          idleTimer = window.setTimeout(async () => {
+            try {
+              const onLine = await suggestStructure(text, cursor, engine, isDismissed, ctrl.signal, 0.8, true)
+              if (!ctrl.signal.aborted && onLine) setSuggestion(onLine)
+            } catch (err) {
+              if ((err as Error).name !== 'AbortError') console.warn('[smart-assist]', err)
+            }
+          }, IDLE_MS - DEBOUNCE_MS)
       } catch (err) {
         if ((err as Error).name !== 'AbortError') console.warn('[smart-assist]', err)
       }
@@ -118,6 +130,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
     return () => {
       ctrl.abort()
       window.clearTimeout(timer)
+      window.clearTimeout(idleTimer)
     }
     // `suggestion` intentionally omitted: only input changes should re-run analysis.
     // eslint-disable-next-line react-hooks/exhaustive-deps

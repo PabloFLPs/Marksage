@@ -24,7 +24,10 @@ const LABELS: Record<StructureKind, string> = {
   'link-space': 'Fix this link?',
 }
 
-/** F3 — `noul` per candidate line; skips the line being typed. */
+/**
+ * F3 — `noul` per candidate line; skips the line being typed unless `onLine` (after a longer pause, so a lone
+ * `#Title` or the line you just finished still gets its hint — launch QA #22).
+ */
 export async function suggestStructure(
   text: string,
   cursor: number,
@@ -32,9 +35,10 @@ export async function suggestStructure(
   isDismissed: (key: string) => boolean,
   signal?: AbortSignal,
   threshold = 0.8,
+  onLine = false,
 ): Promise<Suggestion | null> {
   const candidates = findStructureCandidates(text)
-    .filter((c) => cursor < c.lineStart || cursor > c.lineEnd)
+    .filter((c) => onLine || cursor < c.lineStart || cursor > c.lineEnd)
     .sort((a, b) => Math.abs(a.lineStart - cursor) - Math.abs(b.lineStart - cursor))
 
   for (const c of candidates.slice(0, 5)) {

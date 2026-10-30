@@ -273,7 +273,8 @@ com a linguagem detectada apenas se *essa* decisão também passar no filtro. `p
 
 ### Dicas de estrutura (`noul`)
 
-**Gatilho.** Markdown "quase certo" numa linha que **não** é a que está sendo digitada, fora de código —
+**Gatilho.** Markdown "quase certo" numa linha que **não** é a que está sendo digitada — ou, depois de uma pausa
+de 2 s sem outra sugestão, a própria linha do cursor (assim um `#Título` sozinho recebe a dica) — fora de código:
 blocos cercados, blocos de código indentados e HTML bruto (`<pre>`, `<style>`, …) são ignorados:
 
 | Candidato | Correção |

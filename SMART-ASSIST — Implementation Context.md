@@ -619,3 +619,7 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   600 px the Mermaid figure now keeps a 640 px drawing (≈ 15 px labels) and scrolls sideways; the drawn SVGs already
   had narrow versions. On slow connections the loading line now says what's coming: "Loading Mermaid (about
   650 KB, once)…" — the tooltip that said so never reaches a phone.
+- **Silent on a lone line (#22).** Structure hints skip the line being typed, so a document of one `#Meeting notes`
+  line — or the line you just finished, caret still on it — never got a hint, and the first try read as "Smart Assist
+  is broken". After a 2 s pause with nothing else to suggest, the caret's own line is now eligible (structure only;
+  never inside a code block). Typing continuously still shows nothing.

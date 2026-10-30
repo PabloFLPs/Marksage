@@ -270,8 +270,9 @@ the detected language only if *that* decision also passes the gate. `prose` neve
 
 ### Structure hints (`noul`)
 
-**Trigger.** Near-miss Markdown on a line that is **not** the one being typed, outside code —
-fenced blocks, indented code blocks and raw HTML (`<pre>`, `<style>`, …) are skipped:
+**Trigger.** Near-miss Markdown on a line that is **not** the one being typed — or, after a 2 s pause with
+nothing else to suggest, the caret's own line (so a lone `#Title` gets its hint) — outside code: fenced blocks,
+indented code blocks and raw HTML (`<pre>`, `<style>`, …) are skipped:
 
 | Candidate | Fix |
 |---|---|
