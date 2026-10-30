@@ -46,7 +46,7 @@ const EXIT_MS = 220
 
 type InfoPage = 'about' | 'docs' | 'models'
 function pageFromHash(): InfoPage | null {
-  const h = window.location.hash
+  const h = window.location.hash.toLowerCase() // "#ABOUT" works too (launch QA #36)
   return h === '#about' || h === '#privacy' ? 'about' : h === '#smart-assist' ? 'docs' : h === '#models' ? 'models' : null
 }
 
@@ -518,6 +518,18 @@ export default function App() {
       window.removeEventListener('drop', handleDrop)
     }
   }, [openFile, showResult, pasteText, showNotice, t])
+
+  // Esc leaves About and the docs pages, like their Back — unless a menu, panel or field has it (launch QA #36).
+  useEffect(() => {
+    if (!showAbout) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || e.defaultPrevented || isEditableTarget(e.target)) return
+      if (window.document.querySelector('[role="menu"], [role="dialog"], [aria-expanded="true"]')) return
+      closeAbout()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [showAbout, closeAbout])
 
   // Paste Markdown anywhere outside the editor.
   useEffect(() => {

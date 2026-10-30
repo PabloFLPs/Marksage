@@ -670,3 +670,6 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
 - **Link previews (#34).** `og:image` / `og:url` come out relative when `VITE_SITE_URL` isn't set at build time
   (the QA build didn't set it), so shared links show no image. The build now warns when it's missing; the value
   itself is a deploy setting (`.env.example`).
+- **Hash and Esc (#36).** `#ABOUT` in capitals was ignored, and Esc didn't leave About. Hashes are read
+  case-insensitively, and Esc on About or a docs page does what their Back does — unless a menu, panel or field has
+  it. An unknown `#junk` still lands on the app, as before.
