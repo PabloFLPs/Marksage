@@ -123,19 +123,28 @@ export function Header({
           </button>
         ) : (
           <>
-            <button
-              type="button"
-              data-brand
-              onClick={onHome}
-              aria-label={t('app.home')}
-              title={showingAbout ? t('app.home') : undefined}
-              className="group -ml-1 inline-flex min-w-0 shrink-0 cursor-pointer items-center gap-2.5 rounded-md px-1 py-0.5"
-            >
-              <img src={appIconSrc} alt="" className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110 group-active:scale-95 motion-reduce:transition-none motion-reduce:group-hover:scale-100" />
-              <span className="min-w-0 truncate text-sm font-semibold tracking-tight text-ink transition-colors group-hover:text-accent dark:text-dark-ink dark:group-hover:text-dark-accent">
-                {t('app.name')}
+            {/* On About and the docs pages the logo leaves them, and says where to. Elsewhere it would do nothing, so it
+                isn't a button there (launch QA #6: "Back to Marksage" on the editor read as a broken Back). */}
+            {showingAbout ? (
+              <button
+                type="button"
+                data-brand
+                onClick={onHome}
+                aria-label={hasDocument ? t('app.backToDocument') : t('app.backToStart')}
+                title={hasDocument ? t('app.backToDocument') : t('app.backToStart')}
+                className="group -ml-1 inline-flex min-w-0 shrink-0 cursor-pointer items-center gap-2.5 rounded-md px-1 py-0.5"
+              >
+                <img src={appIconSrc} alt="" className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110 group-active:scale-95 motion-reduce:transition-none motion-reduce:group-hover:scale-100" />
+                <span className="min-w-0 truncate text-sm font-semibold tracking-tight text-ink transition-colors group-hover:text-accent dark:text-dark-ink dark:group-hover:text-dark-accent">
+                  {t('app.name')}
+                </span>
+              </button>
+            ) : (
+              <span data-brand className="-ml-1 inline-flex min-w-0 shrink-0 select-none items-center gap-2.5 px-1 py-0.5">
+                <img src={appIconSrc} alt="" className="h-5 w-5 shrink-0" />
+                <span className="min-w-0 truncate text-sm font-semibold tracking-tight text-ink dark:text-dark-ink">{t('app.name')}</span>
               </span>
-            </button>
+            )}
             {/* About and the docs pages hide the document's controls: they'd act on a document that isn't on screen. */}
             {hasDocument && !showingAbout && <DocName filename={filename} isDirty={isDirty} onRename={onRename} />}
           </>

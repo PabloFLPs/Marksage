@@ -17,7 +17,8 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'export.done': 'Baixado',
   'export.doneLive': 'Baixado: {name}',
   'export.cancel': 'Cancelar (Esc)',
-  'app.home': 'Voltar ao Marksage',
+  'app.backToDocument': 'Voltar ao seu documento',
+  'app.backToStart': 'Voltar à tela inicial',
   'action.edit': 'Editar',
   'action.preview': 'Visualizar',
   'action.editTitle': 'Editor ao vivo',
@@ -64,7 +65,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'editor.pasteHereTouch': 'Não deu para ler a área de transferência — toque aqui e escolha Colar.',
   'preview.empty': 'A prévia aparece aqui enquanto você escreve.',
   'split.resize': 'Redimensionar pré-visualização e editor',
-  'scroll.toStart': 'Voltar ao início',
+  'scroll.toStart': 'Ir para o topo',
   'scroll.toEnd': 'Ir para o fim',
   'split.resizeTitle': 'Arraste para redimensionar — clique duplo para redefinir',
 

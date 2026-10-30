@@ -1,7 +1,8 @@
 /** English — source of truth for message keys. */
 export const en = {
   'app.name': 'Marksage',
-  'app.home': 'Back to Marksage',
+  'app.backToDocument': 'Back to your document',
+  'app.backToStart': 'Back to the start screen',
   'app.tagline': 'The Markdown editor that notices.',
   'doc.untitled': 'Untitled',
   'doc.unsaved': 'Unsaved changes',
@@ -63,8 +64,8 @@ export const en = {
   'editor.pasteHereTouch': 'Couldn’t read the clipboard — tap here and choose Paste.',
   'preview.empty': 'The preview shows up here as you type.',
   'split.resize': 'Resize preview and editor',
-  'scroll.toStart': 'Back to the start',
-  'scroll.toEnd': 'Jump to the end',
+  'scroll.toStart': 'Scroll to the top',
+  'scroll.toEnd': 'Scroll to the end',
   'split.resizeTitle': 'Drag to resize — double-click to reset',
 
   'error.notMarkdown': 'Marksage opens Markdown files only (.md, .markdown, .mdx, .mdown, .mkd, .mkdn, .mdwn).',

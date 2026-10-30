@@ -535,3 +535,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   tooltip, and phones have no Esc key. Desktop now reads "Dismiss `Esc`", like "Accept `Tab`"; phones get a
   36 × 36 px × and a 36 px-high Accept (choices too). The percentage's tooltip says "How sure Smart Assist is"
   instead of "Engine confidence".
+- **Logo and scroll labels (#6).** The logo said "Back to Marksage" everywhere, but it only does something on About
+  and the docs pages — on the editor a "Back" that does nothing read as broken, and on the docs it was taken for
+  the page's Back (which goes to About). It's now a button only there, labelled "Back to your document" or "Back to
+  the start screen"; elsewhere it's just the brand. The preview's "Back to the start" (scrolls to the top) read
+  like "go to the start screen": now "Scroll to the top" / "Scroll to the end" (PT "Ir para o topo" / "Ir para o fim").

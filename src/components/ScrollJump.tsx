@@ -6,7 +6,7 @@ import { useI18n } from '../hooks/useI18n'
 const MIN_SCREENS = 1.8
 
 /**
- * "Back to the start" / "jump to the end" for the scroll area this sits in. Place it as the last child of the
+ * "Scroll to the top" / "Scroll to the end" for the scroll area this sits in. Place it as the last child of the
  * scrolling element (or of its content): it sticks to the bottom-right corner of the visible area and finds the
  * scroller by itself. Each button hides at its own end.
  */
