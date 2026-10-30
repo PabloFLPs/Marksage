@@ -16,6 +16,7 @@ import {
   ListTree,
   ImageOff,
   Lock,
+  Milestone,
   Moon,
   Save,
   Scale,
@@ -40,6 +41,8 @@ interface AboutPageProps {
   onBack: () => void
   onOpenDocs: () => void
   onOpenModelsDocs: () => void
+  /** The story page (#story): the decisions and models behind Marksage. */
+  onOpenStory: () => void
   closing?: boolean
   onTrySmartAssist: () => void
   appIcon: AppIconId
@@ -68,7 +71,7 @@ const SHORTCUTS: [KeyToken[], string, string][] = [
   [['esc'], 'Dismiss a suggestion', 'Ignorar uma sugestão'],
 ]
 
-export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDocs, onTrySmartAssist, appIcon, onAppIconChange, theme, onRemoveModel, onDeleteAllData, remoteImages, onRemoteImagesChange }: AboutPageProps) {
+export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDocs, onOpenStory, onTrySmartAssist, appIcon, onAppIconChange, theme, onRemoveModel, onDeleteAllData, remoteImages, onRemoteImagesChange }: AboutPageProps) {
   const { keyStyle, setKeyStyle } = useKeyStyle()
   const { t, lang, setLang } = useI18n()
   const pt = lang === 'pt-BR'
@@ -108,6 +111,15 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
             'Um lugar tranquilo para ler e escrever Markdown — com um pequeno assistente local que percebe o que você quis escrever e oferece a correção. Nada do que você abre aqui sai do seu navegador.',
           )}
         </p>
+        <button
+          type="button"
+          onClick={onOpenStory}
+          className="tap group mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline dark:text-dark-accent"
+        >
+          <Milestone className="h-4 w-4" />
+          {x('The story: the decisions and models behind Marksage', 'A história: as decisões e os modelos por trás do Marksage')}
+          <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </button>
 
         <Section title={x('Appearance', 'Aparência')}>
           <p className="mb-4 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">

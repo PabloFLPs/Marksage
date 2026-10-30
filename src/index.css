@@ -770,3 +770,15 @@ body {
     min-width: 40px;
   }
 }
+
+/* Story page (#story): inline code in the timeline, like About's. */
+.story-timeline code {
+  border-radius: 0.25rem;
+  background: var(--color-surface-soft);
+  padding: 0 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+.dark .story-timeline code {
+  background: var(--color-dark-surface-raised);
+}

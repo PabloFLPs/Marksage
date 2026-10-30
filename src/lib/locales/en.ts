@@ -35,6 +35,7 @@ export const en = {
   'drop.oneAtATime.many': 'Opened {name} — Marksage opens one file at a time, so the other {n} weren’t opened.',
   'shell.dismiss': 'Dismiss',
   'preview.emptyDoc': 'This document is empty — start typing to write in it.',
+  'story.back': 'The story',
   'export.title': 'Export as',
   'export.download': 'Download',
   'export.hint': 'Downloads a Markdown file — the name also renames this document.',

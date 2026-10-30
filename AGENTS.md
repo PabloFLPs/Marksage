@@ -21,6 +21,8 @@ src/
     PageLoad.tsx          <PageLoading> + <PageLoadBoundary> (Try again / Back) for lazily loaded pages
     motion.tsx            <Presence> (exit animations) and <CollapseX> (toolbar width collapse)
     AboutPage.tsx         feature docs + Appearance (app icon, key style) — keep in sync with features
+    StoryPage.tsx         #story: the architecture decisions and models as a timeline (showcase, not docs); content in
+                          lib/storyContent.<lang>.ts, lazily loaded — neutral voice, date order, numbers = MODELS / training
     HistoryMenu/HistoryList, SuggestionBar, AssistToggle, AppIconPicker, SplitPanes, Markdown*
   assist/                 Smart Assist — see "Smart Assist" below (model/ = own models: features + inference; sections.ts / outline.ts = Outline)
   hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery
@@ -93,7 +95,7 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   `expected` guard → fixtures in `assist/__fixtures__/` → extend `scripts/eval-assist.ts` → document it on the About page.
 
 ## Navigation (info pages)
-- Hashes: `#about`, `#privacy` (About scrolled to Privacy & storage), `#smart-assist`, `#models`. Open them by setting
+- Hashes: `#about`, `#privacy` (About scrolled to Privacy & storage), `#smart-assist`, `#models`, `#story`. Open them by setting
   `location.hash` — never `pushState` directly. Each history entry gets `{ ms: 1, from }` (`App.tsx`, `navState`):
   the screen it was opened from. The in-app Back (`closeAbout`) calls `history.back()` when `from` is set, so it
   always matches the browser's Back; a direct link (`from: null`) goes to the parent (docs → About → app) with

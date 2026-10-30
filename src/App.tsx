@@ -39,15 +39,17 @@ import type { AssistMode, Suggestion } from './assist/types'
 import type { ViewMode } from './lib/viewMode'
 
 import { loadDocsPage } from './lib/docsContent'
+import { loadStoryPage } from './lib/storyContent'
 import type { TechDocsPageProps } from './components/TechDocsPage'
+import type { StoryPageProps } from './components/StoryPage'
 import { PageLoadBoundary, PageLoading } from './components/PageLoad'
 
 const EXIT_MS = 220
 
-type InfoPage = 'about' | 'docs' | 'models'
+type InfoPage = 'about' | 'docs' | 'models' | 'story'
 function pageFromHash(): InfoPage | null {
   const h = window.location.hash.toLowerCase() // "#ABOUT" works too (launch QA #36)
-  return h === '#about' || h === '#privacy' ? 'about' : h === '#smart-assist' ? 'docs' : h === '#models' ? 'models' : null
+  return h === '#about' || h === '#privacy' ? 'about' : h === '#smart-assist' ? 'docs' : h === '#models' ? 'models' : h === '#story' ? 'story' : null
 }
 
 /**
@@ -185,6 +187,9 @@ export default function App() {
   const openModelsDocs = useCallback(() => {
     window.location.hash = 'models'
   }, [])
+  const openStory = useCallback(() => {
+    window.location.hash = 'story'
+  }, [])
   const closeAbout = useCallback(() => {
     // Opened from inside the app → the previous screen, exactly like the browser's Back.
     if (navState()?.from) {
@@ -200,7 +205,7 @@ export default function App() {
   }, [goToInfo])
   // The Back label names where Back goes.
   const backLabel =
-    cameFrom === 'docs' ? t('docs.backToDocs') : cameFrom === 'models' ? t('docs.backToModels') : cameFrom === 'app' && infoPage !== 'about' ? t('app.name') : t('docs.backToAbout')
+    cameFrom === 'docs' ? t('docs.backToDocs') : cameFrom === 'models' ? t('docs.backToModels') : cameFrom === 'story' ? t('story.back') : cameFrom === 'app' && infoPage !== 'about' ? t('app.name') : t('docs.backToAbout')
 
   // The docs page + its language's content, lazily. A failed download (slow or dropped connection, an old tab
   // after a deploy) shows Try again, which reloads the page: browsers remember a failed module download, so
@@ -215,6 +220,16 @@ export default function App() {
     [lang],
   )
   const retryDocs = useCallback(() => window.location.reload(), [])
+  // The story page (#story) + its language's content, lazily, the same way.
+  const Story = useMemo(
+    () =>
+      lazy(async () => {
+        const [{ StoryPage }, content] = await loadStoryPage(lang)
+        const Page = (props: Omit<StoryPageProps, 'content'>) => <StoryPage {...props} content={content.default} />
+        return { default: Page }
+      }),
+    [lang],
+  )
   // While About is open, fetch the docs page in the background (unless the user asked to save data), so
   // "How it works" is usually ready before the click.
   useEffect(() => {
@@ -779,11 +794,18 @@ export default function App() {
             />
           </Suspense>
         </PageLoadBoundary>
+      ) : infoPage === 'story' ? (
+        <PageLoadBoundary key="story" onRetry={retryDocs} onBack={closeAbout} backLabel={backLabel}>
+          <Suspense fallback={<PageLoading />}>
+            <Story closing={aboutClosing} onBack={closeAbout} backLabel={backLabel} />
+          </Suspense>
+        </PageLoadBoundary>
       ) : showAbout ? (
         <AboutPage
           key="about"
           onOpenDocs={openDocs}
           onOpenModelsDocs={openModelsDocs}
+          onOpenStory={openStory}
           closing={aboutClosing}
           onBack={closeAbout}
           onTrySmartAssist={handleTrySmartAssist}

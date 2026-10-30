@@ -34,6 +34,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'drop.oneAtATime.many': '{name} aberto — o Marksage abre um arquivo por vez, então os outros {n} não foram abertos.',
   'shell.dismiss': 'Fechar',
   'preview.emptyDoc': 'Este documento está vazio — comece a digitar para escrever nele.',
+  'story.back': 'A história',
   'export.title': 'Exportar como',
   'export.download': 'Baixar',
   'export.hint': 'Baixa um arquivo Markdown — o nome também renomeia este documento.',

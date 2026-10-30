@@ -684,3 +684,16 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   (build-time DoS) were high; KaTeX < 0.18.2 via Mermaid (prototype pollution bypassing its trust option) low —
   Mermaid only draws Marksage's own docs, in strict mode. `npm audit fix` (lockfile only): Vite 8.3.5, source-map-js
   1.2.2, Mermaid 12.2.0, KaTeX 0.18.10 — 0 advisories; build, eval and the docs' Mermaid diagrams checked.
+
+## 33. The story page (2026-10-30)
+
+- Pablo asked for the project timeline planned "after the model work" as a showcase for engineers and tech recruiters,
+  in the app at `#story`, linked from About ("The story: the decisions and models behind Marksage"). His choices:
+  neutral voice ("Marksage…"), strict date order, only the main architecture decisions and the AI models — no
+  rename, translation or UI polish entries — and the launch QA's simulated users named as AI agents, explicitly.
+- Eleven entries: local-first (Aug 14), the engine contract + gate (Sep 26), decision vs generative models and the
+  smallest-tool ladder (Sep), the code model v1 and v2 (Oct 24), the section model, AGPL + storage page (Oct 25),
+  the models that didn't ship (Oct 28), chunked preview (Oct 29), the five-agent launch QA (Oct 28–30), next.
+  Numbers from MODELS.md / training/README.md; each entry links to the docs section with the detail.
+- `StoryPage.tsx` + `lib/storyContent.{en,pt-BR}.ts`, lazy like the docs (~3 KB gzip per language), same Back /
+  Esc / Try again behaviour; a docs page opened from the story says "← The story".
