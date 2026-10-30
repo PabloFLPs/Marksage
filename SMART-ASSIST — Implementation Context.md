@@ -658,3 +658,6 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   the dropped ones opens, with a short note when others were left out ("Marksage opens one file at a time…" — a new
   neutral, self-dismissing notice, not the red error), and text dropped outside the editor opens like a paste
   (on the editor the browser inserts it, as before).
+- **Paste conversions keep their line break (#31).** The converters return trimmed blocks, so after accepting a
+  pasted list, table or code block the next thing typed landed on its last row or the closing fence. The paste's
+  own trailing line break(s) are now kept.

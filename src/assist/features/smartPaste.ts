@@ -71,6 +71,10 @@ export async function suggestPasteConversion(
       return null
   }
   if (!insert || insert === pasted) return null
+  // Keep the paste's own line break(s) at the end: the converters return trimmed blocks, so the next thing typed
+  // landed on the table's last row or the closing fence (launch QA #31).
+  const trailing = /\n+$/.exec(pasted)?.[0] ?? ''
+  if (trailing && !insert.endsWith('\n')) insert += trailing
   return {
     key: `smartPaste:${hash(pasted)}`,
     feature: 'smartPaste',
