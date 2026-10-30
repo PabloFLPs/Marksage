@@ -88,7 +88,7 @@ everywhere else:
 
 | Question | Rules | Rules + AI |
 |---|---|---|
-| Code-block language | rules | model ✦ — or the rules when the model's first pick agrees |
+| Code-block language | rules | model ✦ — or the rules when the model's first pick agrees, or when they're ≥ 99 % sure |
 | Smart paste (what kind of text) | rules | rules — a pasted code block's language as above |
 | Structure hints | rules | rules |
 | Readability | rules (LIX) | rules (LIX) |
@@ -431,7 +431,8 @@ answers, like the rest of Smart Assist.
   training (short snippets separately — they're easier to over-trust), aiming at about 95 % right
   when it speaks. The same confidence gate as the heuristics (0.8 / 0.2) decides whether you see anything.
 - **Two opinions:** when the model isn't sure but the heuristics are, the suggestion still appears —
-  only if the model's own first guess agrees.
+  if the model's own first guess agrees, or if the heuristics are at least 99 % sure (short snippets can drown
+  the model's few decisive clues — see How the models work, §2.7).
 
 ### 4.2 How it was trained
 

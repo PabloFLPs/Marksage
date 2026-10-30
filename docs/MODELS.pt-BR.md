@@ -188,10 +188,17 @@ vezes em 10 (a seção 4.3 explica como). O modelo de código tem duas temperatu
 Por fim, a mesma regra de toda sugestão do Smart Assist: só mostra se a primeira resposta tiver pelo menos
 **80%** e estiver pelo menos **20 pontos** à frente da segunda. Python com 82,7% contra YAML com 7,4% passa, então
 o editor oferece "Adicionar a linguagem `python`". A resposta "não é código" nunca é sugerida, e quando o modelo
-não tem certeza, duas regras extras ainda podem ajudar:
+não tem certeza, três regras extras ainda podem ajudar:
 
 - **Concordância:** se as heurísticas estão confiantes *e* a resposta delas é o primeiro palpite do próprio
   modelo, a sugestão aparece. Dois métodos independentes concordando somam sugestões sem somar erros.
+- **Regras quase certas (2026-10-30):** se as heurísticas têm pelo menos 99% de certeza, a resposta delas vale
+  mesmo quando o modelo discorda. Em trechos curtos, a média do modelo pode afogar poucas pistas decisivas: em
+  `const x: number = 1;` + `function add(a: number, b: number): number { … }`, o par `: number` é o que mais puxa
+  para TypeScript (+192), seguido de `) :` e `number`, mas são 5 de 70 pistas; as outras 65 são comuns ao
+  JavaScript e puxam para ele (`+`, `function`, `;`, nomes curtos), e o modelo já começa 1,95 ponto a favor do
+  JavaScript (muito código sem tipos vem marcado como `ts`). Resultado: js 63% — enquanto as regras diziam ts
+  99%. Nos conjuntos de teste, essa regra somou uma sugestão certa (dev) e nenhuma errada.
 - **Duas opções:** se as duas primeiras respostas juntas têm pelo menos 85% (e a segunda pelo menos 20%), você
   recebe as duas — JavaScript ou TypeScript, C ou C++.
 
@@ -486,7 +493,7 @@ Cada versão de modelo e cada experimento, com os números em que foi medido. As
 |---|---|---|---|---|---|---|
 | Só heurísticas | — | — | regras, sem modelo | 57,3% · 76 mostradas · 97,4% certas | 58,5% · 70 mostradas · 92,9% certas | referência |
 | **v1** | 2026-10-24 | ~55 mil blocos, 264 repositórios | primeiro modelo: 8 números por pista, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no conjunto de ajuste | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | substituído pela v2 |
-| **v2** | 2026-10-24 | 63.751 blocos, 309 repositórios | +45 repositórios; temperatura em repositórios nunca vistos (1,85; trechos curtos 2,55; meta de 95%); no app, concordância com as heurísticas | 77,4% · 164 · 95,7% | 74,3% · 158 · 91,8% (só o modelo: 74,3% · 146 · 92,5%) | **em uso** |
+| **v2** | 2026-10-24 | 63.751 blocos, 309 repositórios | +45 repositórios; temperatura em repositórios nunca vistos (1,85; trechos curtos 2,55; meta de 95%); no app, concordância com as heurísticas e, desde 2026-10-30, regras quase certas (≥ 99%) — sem mudança nos dois conjuntos de teste | 77,4% · 164 · 95,7% | 74,3% · 158 · 91,8% (só o modelo: 74,3% · 146 · 92,5%) | **em uso** |
 
 A v1 foi medida uma vez no primeiro conjunto de fora. Como ele já tinha sido visto, a v2 foi julgada num segundo
 conjunto, novo, montado com 72 repositórios que não aparecem em mais nenhum lugar.

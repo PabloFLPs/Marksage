@@ -24,7 +24,7 @@ Everything runs in the browser — files never leave your machine.
 
   | Question | Rules | Rules + AI |
   |---|---|---|
-  | Code-block language | rules | model, or the rules when the model agrees |
+  | Code-block language | rules | model, or the rules when the model agrees or they're ≥ 99% sure |
   | Smart paste | rules | rules (a pasted code block's language: as above) |
   | Structure hints | rules | rules |
   | Readability | rules | rules |

@@ -336,7 +336,7 @@ type Pick2 = <T>(en: T, ptBR: T) => T
 function ModeTable({ x }: { x: Pick2 }) {
   const rules = x('rules', 'regras')
   const rows: [string, string, string][] = [
-    [x('Code-block language', 'Linguagem do bloco de código'), rules, x('model ✦, or the rules when the model agrees', 'modelo ✦, ou as regras quando o modelo concorda')],
+    [x('Code-block language', 'Linguagem do bloco de código'), rules, x('model ✦, or the rules when the model agrees or they’re 99% sure', 'modelo ✦, ou as regras quando o modelo concorda ou elas têm 99% de certeza')],
     [x('Smart paste', 'Colagem inteligente'), rules, x('rules (a pasted code block’s language: as above)', 'regras (linguagem de um bloco de código colado: como acima)')],
     [x('Structure hints', 'Dicas de estrutura'), rules, rules],
     [x('Readability', 'Legibilidade'), rules, rules],

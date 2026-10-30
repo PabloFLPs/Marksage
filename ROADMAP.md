@@ -100,6 +100,15 @@ and fix the docs where it's right and the features where it's wrong. Both get be
   precise (88/109); deployment had 246 training examples. The test set has now been used for v2, so a v3 needs a
   fresh held-out set (like the code model's second one).
 
+## 4.1 Code-language model v3: pooling that keeps decisive clues (idea, 2026-10-30)
+
+A per-clue attribution of a TS → JS miss (launch QA #17; MODELS §2.7) showed the v2 model's mean pooling
+drowning a few decisive clues (`: number`, `) :`) in many shared ones, plus a learned lean toward JavaScript.
+It hits languages that are near-supersets of each other most: TS/JS, C++/C, JSONC/JSON, partly C#/Java.
+Try mean + max pooling (concatenated), so one strong clue can't be averaged away — tune on dev, report per
+pair, then a fresh held-out set. If it wins, the ≥ 99% rules override (`RULES_OVERRIDE`) may no longer be
+needed; re-measure before removing it.
+
 ## 5. Showcase
 
 - **Timeline / story page** (`#story`, linked from About and the ••• menu) — the project's history for the

@@ -88,7 +88,7 @@ textos reais, e as regras no resto:
 
 | Pergunta | Regras | Regras + IA |
 |---|---|---|
-| Linguagem do bloco de código | regras | modelo ✦ — ou as regras quando a primeira escolha do modelo concorda |
+| Linguagem do bloco de código | regras | modelo ✦ — ou as regras quando a primeira escolha do modelo concorda, ou quando elas têm ≥ 99 % de certeza |
 | Colagem inteligente (que tipo de texto) | regras | regras — a linguagem de um bloco de código colado, como acima |
 | Dicas de estrutura | regras | regras |
 | Legibilidade | regras (LIX) | regras (LIX) |
@@ -437,7 +437,8 @@ resto continua com as heurísticas. Não é um chatbot nem um LLM — ele lê um
   no treino (trechos curtos à parte — é mais fácil confiar demais neles), mirando cerca de 95 % de acerto
   quando ele sugere. O mesmo filtro de confiança das heurísticas (0,8 / 0,2) decide se você vê alguma coisa.
 - **Duas opiniões:** quando o modelo não tem certeza mas as heurísticas têm, a sugestão aparece mesmo
-  assim — só se o primeiro palpite do próprio modelo concordar.
+  assim — se o primeiro palpite do próprio modelo concordar, ou se as heurísticas tiverem pelo menos 99 % de
+  certeza (trechos curtos podem afogar as poucas pistas decisivas do modelo — veja Como os modelos funcionam, §2.7).
 
 ### 4.2 Como foi treinado
 

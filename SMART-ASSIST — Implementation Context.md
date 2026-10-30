@@ -593,3 +593,12 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   On top (Pablo's option B): a table with more than 200 body rows shows the first 200, then "Showing 200 of N rows ·
   Show all N rows · A table this big can make the page slow." (`BigTable` in MarkdownPreview). Show all on 2,000
   rows takes ~1 s.
+- **Rules + AI weaker than Rules on clear short code (#17).** `const x: number = 1; function add(a: number…)`:
+  rules ts 99 %, model js 63 % → nothing shown. Per-clue attribution on `lang-v2.bin` (Pablo asked why before
+  any change): `: number` +192 toward TS, `) :` +188, `number` +100 — 5 of 70 clues; the other 65 lean JS
+  (`+` −108, `function` −80, `;`, short names), and the bias starts JS +1.95; short snippets use T = 2.55. Mean
+  pooling dilutes the decisive clues. Of the 13 fixture TS blocks with clear type syntax the model gets 12; the
+  weak spot is short snippets. Shipped: a rules answer ≥ 99 % stands when the model is unsure and disagrees
+  (`RULES_OVERRIDE` in hybrid.ts; no ✦) — dev 157 → 158 shown at 94.9 %, held-out sets unchanged. The general
+  fix — mean + max pooling for near-superset pairs (TS/JS, C++/C…) — is ROADMAP §4.1, framed generally on
+  Pablo's question of how a TS-only tweak would read to engineers.

@@ -186,11 +186,18 @@ short ones (3 lines or fewer), because short snippets are easier to over-trust. 
 
 Last, the same rule as every Smart Assist suggestion: show it only if the top answer is at least **80%** and
 at least **20 points** ahead of the second. Python at 82.7% against YAML at 7.4% passes, so the editor offers
-"Add language `python`". The answer "not code" is never suggested, and when the model isn't sure, two extra
+"Add language `python`". The answer "not code" is never suggested, and when the model isn't sure, three extra
 rules can still help:
 
 - **Agreement:** if the heuristics are confident *and* their answer is the model's own first pick, the
   suggestion is shown. Two independent methods agreeing adds suggestions without adding mistakes.
+- **Nearly certain rules (2026-10-30):** if the heuristics are at least 99% sure, their answer stands even when
+  the model disagrees. On short snippets the model's average can drown a few decisive clues: in
+  `const x: number = 1;` + `function add(a: number, b: number): number { … }`, the pair `: number` pushes hardest
+  toward TypeScript (+192), `) :` and `number` follow, but they are 5 of 70 clues; the other 65 are shared with
+  JavaScript and lean that way (`+`, `function`, `;`, short names), and the model starts 1.95 points in favour of
+  JavaScript (much untyped code is tagged `ts`). Result: js 63% — while the rules said ts 99%. On the fixture
+  sets this rule added one right suggestion (dev) and no wrong one.
 - **Two options:** if the top two answers together hold at least 85% (and the second at least 20%), you're
   offered both — JavaScript or TypeScript, C or C++.
 
@@ -483,7 +490,7 @@ committed. "Shown" is how many answers pass the 0.8 / 0.2 gate; "right" is preci
 |---|---|---|---|---|---|---|
 | Heuristics only | — | — | rules, no model | 57.3% · 76 shown · 97.4% right | 58.5% · 70 shown · 92.9% right | reference |
 | **v1** | 2026-10-24 | ~55,000 blocks, 264 repositories | first model: 8 numbers per clue, 32,768 slots, 8 epochs, temperature 1.85 fitted on dev | 75.8% · 141 · 94.3% | 71.5% · 151 · 88.1% | replaced by v2 |
-| **v2** | 2026-10-24 | 63,751 blocks, 309 repositories | +45 repositories; temperature from repositories it never saw (1.85, short snippets 2.55, 95% target); in the app, agreement with the heuristics | 77.4% · 164 · 95.7% | 74.3% · 158 · 91.8% (model alone: 74.3% · 146 · 92.5%) | **in use** |
+| **v2** | 2026-10-24 | 63,751 blocks, 309 repositories | +45 repositories; temperature from repositories it never saw (1.85, short snippets 2.55, 95% target); in the app, agreement with the heuristics, and since 2026-10-30 nearly certain rules (≥ 99%) — no change on either held-out set | 77.4% · 164 · 95.7% | 74.3% · 158 · 91.8% (model alone: 74.3% · 146 · 92.5%) | **in use** |
 
 v1 was measured once on the first held-out set. Because that set had then been seen, v2 was judged on a second,
 fresh one, built from 72 repositories used nowhere else.

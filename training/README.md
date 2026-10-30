@@ -105,6 +105,8 @@ training; TS-vs-JS cues (type annotations, `interface`, generics).
   then raises each temperature until out-of-repo precision at the app's gate reaches 95%.
 - **Agreement hybrid** (`src/assist/model/hybrid.ts`): if the model isn't confident, a confident heuristic
   answer is used only when the model's top pick agrees. +~20 suggestions on dev at equal precision.
+  Since 2026-10-30 also when the heuristics are ≥ 99% sure (`RULES_OVERRIDE`, launch QA #17): dev 157 → 158
+  shown at the same 94.9% precision, accuracy 81.8% → 82.1%; held-out sets unchanged.
 - **Tried and dropped:** training on 1–3 line slices of longer blocks (−2 to −5 points accuracy on dev);
   bigger models (12–16 dims, 64k buckets: more coverage, ~3 points less precision).
 - Seed 1 (the default) was kept — not the best-looking seed.
@@ -112,7 +114,7 @@ training; TS-vs-JS cues (type annotations, `interface`, generics).
 | Dev (280) | Accuracy | Shown | Precision |
 |---|---|---|---|
 | v1 | 78.9% | 148 (53%) | 92.6% |
-| **v2** | **81.8%** | **157 (56%)** | **94.9%** |
+| **v2** | **82.1%** | **158 (56%)** | **94.9%** |
 
 | Fresh held-out (`fences.real2.json`, 284 blocks / 67 repos, run once) | Accuracy | Shown | Precision | Right / wrong |
 |---|---|---|---|---|
