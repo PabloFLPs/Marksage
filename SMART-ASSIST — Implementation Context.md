@@ -661,3 +661,5 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
 - **Paste conversions keep their line break (#31).** The converters return trimmed blocks, so after accepting a
   pasted list, table or code block the next thing typed landed on its last row or the closing fence. The paste's
   own trailing line break(s) are now kept.
+- **Empty files (#32).** An empty `.md` opened to a blank page in the read-first preview. It now says "This document
+  is empty — start typing to write in it." (typing there opens the editor, #8).

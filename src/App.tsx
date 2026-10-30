@@ -859,7 +859,7 @@ export default function App() {
               <main ref={previewScrollRef} key="preview" className={`scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto ${prevView.current === 'edit' ? '' : 'anim-fade'}`}>
                 {sizeBar}
                 {remoteBar}
-                <MarkdownPreview content={previewContent} readability={assist.readability} remoteImages={remoteImages} />
+                <MarkdownPreview content={previewContent} readability={assist.readability} remoteImages={remoteImages} emptyHint={readOnly ? undefined : t('preview.emptyDoc')} />
                 <ScrollJump />
               </main>
             )}
