@@ -43,7 +43,8 @@ Everything runs in the browser — files never leave your machine.
 - **Rename** by clicking the name in the header; **Export** asks for the file name first (the document's name, or
   one from its first heading) and keeps it
 - **Line numbers** in the editor (they follow wrapped lines; the caret's line is brighter)
-- **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown, word/char counts
+- **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown;
+  the footer shows lines, words, characters and file size
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
 - **Appearance** — app icon + accent palette (Classic, Mono, Line, Sunset), light/dark theme,
   macOS or Windows keyboard-shortcut labels

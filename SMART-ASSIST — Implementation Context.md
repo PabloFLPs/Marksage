@@ -717,3 +717,4 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   Gotcha: the mirror must come after the textarea in the tree — React attaches refs in tree order, so a layout
   effect in an earlier sibling sees `textareaRef.current === null`.
   The caret's line number is brighter (selectionchange + input events).
+- **Footer**: lines · words · characters (hidden on phones) · UTF-8 size (what Export saves), all on the deferred text.
