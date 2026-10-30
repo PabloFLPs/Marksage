@@ -653,3 +653,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   mark, else UTF-8, and when the bytes aren't valid UTF-8, Windows-1252 (Latin-1's superset) — "Título" stays
   "Título" and exports as UTF-8. The NUL check covers the whole file. Verified on the QA fixtures: Latin-1, UTF-16
   and UTF-8 BOM open correctly; NUL-after-8 KB, PNG, random bytes and BOM-less UTF-16 are refused.
+- **Dropping several files, or text (#30).** A drop opened `files[0]` and said nothing: `.txt` + `.md` was refused
+  outright, three `.md` files opened one silently, and dropped text did nothing. Now the first Markdown file among
+  the dropped ones opens, with a short note when others were left out ("Marksage opens one file at a time…" — a new
+  neutral, self-dismissing notice, not the red error), and text dropped outside the editor opens like a paste
+  (on the editor the browser inserts it, as before).

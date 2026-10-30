@@ -12,6 +12,7 @@ import { useMediaQuery } from './hooks/useMediaQuery'
 import {
   LARGE_DOC_CHARS,
   copyTextToClipboard,
+  isMarkdownFile,
   downloadMarkdown,
   openFilePicker,
   suggestFilename,
@@ -109,6 +110,14 @@ export default function App() {
   const [viewMode, setViewMode] = useState<ViewMode>('preview')
   const [isDragging, setIsDragging] = useState(false)
   const [copied, setCopied] = useState(false)
+  // A short, neutral message (not an error) that goes away by itself.
+  const [notice, setNotice] = useState<string | null>(null)
+  const noticeTimer = useRef<number | null>(null)
+  const showNotice = useCallback((text: string) => {
+    setNotice(text)
+    if (noticeTimer.current) window.clearTimeout(noticeTimer.current)
+    noticeTimer.current = window.setTimeout(() => setNotice(null), 5000)
+  }, [])
   const [splitRatio, setSplitRatio] = useState(loadSplitRatio)
   const copiedTimer = useRef<number | null>(null)
   const [assistMode, setAssistMode] = useState<AssistMode>(loadAssistMode)
@@ -476,13 +485,28 @@ export default function App() {
       if (!e.relatedTarget) setIsDragging(false)
     }
 
+    // One file at a time: the first Markdown file among those dropped (else the first, which gets the usual
+    // refusal), and a note when others were left out. Dropped text (no files) outside the editor opens like a
+    // paste; on the editor the browser inserts it as usual (launch QA #30).
     const handleDrop = (e: DragEvent) => {
-      e.preventDefault()
       setIsDragging(false)
-      const file = e.dataTransfer?.files?.[0]
-      if (file) {
-        openFile(file).then(showResult)
+      const files = Array.from(e.dataTransfer?.files ?? [])
+      if (!files.length) {
+        if (isEditableTarget(e.target)) return
+        e.preventDefault()
+        const text = e.dataTransfer?.getData('text/plain')
+        if (text?.trim()) {
+          pasteText(text)
+          showResult(true)
+        }
+        return
       }
+      e.preventDefault()
+      const file = files.find((f) => isMarkdownFile(f.name)) ?? files[0]
+      openFile(file).then((ok) => {
+        showResult(ok)
+        if (ok && files.length > 1) showNotice(t(files.length === 2 ? 'drop.oneAtATime.one' : 'drop.oneAtATime.many', { name: file.name, n: files.length - 1 }))
+      })
     }
 
     window.addEventListener('dragover', handleDragOver)
@@ -493,7 +517,7 @@ export default function App() {
       window.removeEventListener('dragleave', handleDragLeave)
       window.removeEventListener('drop', handleDrop)
     }
-  }, [openFile, showResult])
+  }, [openFile, showResult, pasteText, showNotice, t])
 
   // Paste Markdown anywhere outside the editor.
   useEffect(() => {
@@ -882,6 +906,17 @@ export default function App() {
             </button>
           </span>
         </div>
+      </Presence>
+
+      <Presence show={!!notice && !error} enter="" exit="anim-slide-down" duration={160} className="fixed bottom-4 right-4 z-50">
+        {notice && (
+          <div role="status" className="anim-slide-up flex max-w-sm items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3 text-sm text-ink shadow-lg dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink">
+            <span>{notice}</span>
+            <button type="button" onClick={() => setNotice(null)} aria-label={t('shell.dismiss')} className="text-ink-muted transition-colors hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        )}
       </Presence>
 
       <Presence show={!!error} enter="" exit="anim-slide-down" duration={160} className="fixed bottom-4 right-4 z-50">
