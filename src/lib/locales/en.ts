@@ -297,7 +297,7 @@ export const en = {
   'diagram.drawn': 'Drawn',
   'diagram.mermaid': 'Mermaid',
   'diagram.mermaidHint': 'The same diagram rendered with Mermaid — downloads about 650 KB the first time',
-  'diagram.loading': 'Loading Mermaid…',
+  'diagram.loading': 'Loading Mermaid (about 650 KB, once)…',
   'docs.contents': 'Contents',
   'appearance.iconLabel': 'App icon',
   'appearance.keyStyle': 'Keyboard shortcut style',

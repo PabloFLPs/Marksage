@@ -615,3 +615,7 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   now at least 40 px — header buttons, tabs, Copy code, the diagram switch, and controls marked `.tap` (About/docs
   Back, docs Copy/Outline and contents, Outline close, Export Download, the start screen's three buttons, Mermaid's
   retry). Desktop is unchanged; the 375 px header still fits.
+- **Mermaid on phones (#21).** At 375 px Mermaid fitted both flowcharts side by side with 5–6 px labels. Below
+  600 px the Mermaid figure now keeps a 640 px drawing (≈ 15 px labels) and scrolls sideways; the drawn SVGs already
+  had narrow versions. On slow connections the loading line now says what's coming: "Loading Mermaid (about
+  650 KB, once)…" — the tooltip that said so never reaches a phone.

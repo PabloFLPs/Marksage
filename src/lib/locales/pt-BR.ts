@@ -298,7 +298,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'diagram.drawn': 'Desenho',
   'diagram.mermaid': 'Mermaid',
   'diagram.mermaidHint': 'O mesmo diagrama desenhado pelo Mermaid — baixa cerca de 650 KB na primeira vez',
-  'diagram.loading': 'Carregando o Mermaid…',
+  'diagram.loading': 'Carregando o Mermaid (cerca de 650 KB, uma vez)…',
   'docs.contents': 'Conteúdo',
   'appearance.iconLabel': 'Ícone do app',
   'appearance.keyStyle': 'Estilo dos atalhos de teclado',

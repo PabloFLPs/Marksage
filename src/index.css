@@ -698,6 +698,20 @@ body {
 .doc-diagram-mermaid svg {
   max-width: 720px;
 }
+/* Phones (launch QA #21): Mermaid's side-by-side charts shrank to 5–6 px labels. Below 600 px it keeps a readable
+   width and the figure scrolls sideways instead. */
+@media (max-width: 599px) {
+  .doc-diagram-mermaid {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .doc-diagram-mermaid svg {
+    width: 640px !important;
+    min-width: 640px;
+    max-width: none !important;
+    margin: 0;
+  }
+}
 .doc-diagram-narrow {
   display: none;
 }
