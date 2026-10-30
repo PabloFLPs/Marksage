@@ -643,3 +643,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
 - **Language count (#27).** The code model answers 21 ways: 20 languages + "plain text / not code". About said
   "TypeScript, Python, Bash, SQL and ~17 more" (21) and MODELS "21 languages" / "outside the 21"; all now say 20
   languages ("and 16 more"), matching "20 languages + plaintext" in How it works. "21 answers" stays — it's right.
+- **License, served and linked to its exact source (#28).** About summarised AGPL-3.0 and linked the repository's
+  default branch; `/LICENSE` returned the app's page. The build now serves the license text at `/LICENSE.txt`,
+  and About links the commit the build came from (`git rev-parse HEAD` at build time → `VITE_SOURCE_COMMIT`;
+  without git, the repository) and says SPDX `AGPL-3.0-only` — AGPL §13 asks for the source of the version people
+  use over a network. Build from a clean, pushed commit so the link resolves.
