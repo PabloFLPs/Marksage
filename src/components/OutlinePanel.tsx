@@ -86,7 +86,7 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
           onClick={onClose}
           aria-label={t('outline.close')}
           title={t('outline.close')}
-          className="ml-auto inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
+          className="tap ml-auto inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
         >
           <X className="h-4 w-4" />
         </button>

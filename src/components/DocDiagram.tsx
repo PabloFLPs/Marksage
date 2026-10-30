@@ -120,7 +120,7 @@ function MermaidView({ source, alt }: { source: string; alt: string }) {
         <button
           type="button"
           onClick={() => (failed === 'download' ? window.location.reload() : setAttempt((n) => n + 1))}
-          className="font-medium text-accent hover:underline dark:text-dark-accent"
+          className="tap font-medium text-accent hover:underline dark:text-dark-accent"
         >
           {failed === 'download' ? t('diagram.reload') : t('diagram.retry')}
         </button>

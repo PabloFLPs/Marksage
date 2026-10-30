@@ -740,3 +740,19 @@ body {
 .dark .doc-diagram .msd-note { fill: var(--color-dark-ink-muted); }
 .dark .doc-diagram .msd-line { stroke: var(--color-dark-ink-muted); }
 .dark .doc-diagram .msd-head { fill: var(--color-dark-ink-muted); }
+
+/* Touch screens: thumb-sized targets (launch QA #20). WCAG 2.5.8 asks ≥ 24 px; we aim for 40 px on what people tap
+   often — header buttons, panel tabs, copy buttons, the diagram switch, and anything marked `.tap`. */
+@media (pointer: coarse) {
+  header button,
+  [role='tab'],
+  .code-copy,
+  .doc-diagram-switch button,
+  .tap {
+    min-height: 40px;
+  }
+  header button:not([data-brand]),
+  .code-copy {
+    min-width: 40px;
+  }
+}

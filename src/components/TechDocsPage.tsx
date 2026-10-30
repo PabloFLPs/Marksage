@@ -134,7 +134,7 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
           <button
             type="button"
             onClick={onBack}
-            className="-ml-2 inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
+            className="tap -ml-2 inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
           >
             <ArrowLeft className="h-4 w-4" /> {backLabel}
           </button>
@@ -152,7 +152,7 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
               onClick={copyPage}
               title={t('docs.copyTitle')}
               aria-label={copied ? t('action.copied') : t('action.copyMarkdown')}
-              className={`inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 text-xs font-medium transition-colors ${
+              className={`tap inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 text-xs font-medium transition-colors ${
                 copied
                   ? 'border-accent text-accent dark:border-dark-accent dark:text-dark-accent'
                   : 'border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
@@ -168,7 +168,7 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
               onClick={() => setPanelOpen((o) => !o)}
               aria-pressed={panelOpen}
               title={t('docs.outlineDemo')}
-              className={`inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 text-xs font-medium transition-colors ${
+              className={`tap inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 text-xs font-medium transition-colors ${
                 panelOpen
                   ? 'border-accent text-accent dark:border-dark-accent dark:text-dark-accent'
                   : 'border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
@@ -194,7 +194,7 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
                     <button
                       type="button"
                       onClick={() => jumpTo(i)}
-                      className="group inline-flex items-baseline gap-2 text-left text-ink-muted transition-colors hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink"
+                      className="tap group inline-flex items-baseline gap-2 text-left text-ink-muted transition-colors hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink"
                     >
                       <span className="font-mono text-xs text-accent dark:text-dark-accent">{i + 1}</span>
                       <span className="transition-transform duration-200 group-hover:translate-x-0.5">{s}</span>

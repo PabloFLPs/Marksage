@@ -38,6 +38,8 @@ training/                 Own models' pipeline (collect → split → train; bui
   `<CollapseX>` in the header). Presence wrappers must carry the positioning classes (`fixed`/`absolute`)
   because the animated wrapper becomes the containing block. Everything must respect `prefers-reduced-motion`.
 - **Buttons:** header buttons lift on hover automatically (`header button:hover`); non-button controls use `.press`.
+  Touch screens get ≥ 40 px targets (`@media (pointer: coarse)` in `index.css`): header buttons, tabs, `.code-copy`,
+  the diagram switch and anything with `.tap` — add `.tap` to small tappable controls.
 - **i18n:** every user-facing string goes through `useI18n().t(key)`; add keys to `src/lib/locales/en.ts` (source) and `pt-BR.ts`. Long-form copy (About page) uses the `x(en, pt)` helper; the Smart Assist docs exist as `docs/SMART-ASSIST.md` + `.pt-BR.md`.
 - **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice,outline,remote-images}`, plus the Cache API store `marksage-models-v1` (Rules + AI mode's model files: `lang-v2.bin`, and `sections-v2.bin` once the Outline is opened in that mode) — wrap every access in try/catch.
 - **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests).

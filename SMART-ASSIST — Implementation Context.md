@@ -610,3 +610,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
 - **Suggestion bar over the last lines (#19).** On a phone the bar sat over the editor's last lines and took their
   taps. While it shows, the editor gets 112 px of room at the bottom, and if the caret's line would sit under the
   bar it scrolls up (skipped past 200k characters, where measuring wrapped lines would stall typing).
+- **Tap targets (#20).** On phones many controls were 17–36 px (header icons 36, Outline tabs and close 28, docs
+  table of contents 20, Copy code 28, Drawn/Mermaid 25, Try again 22). On touch screens (`pointer: coarse`) they're
+  now at least 40 px — header buttons, tabs, Copy code, the diagram switch, and controls marked `.tap` (About/docs
+  Back, docs Copy/Outline and contents, Outline close, Export Download, the start screen's three buttons, Mermaid's
+  retry). Desktop is unchanged; the 375 px header still fits.

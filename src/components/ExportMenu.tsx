@@ -142,7 +142,7 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
             />
             <button
               type="submit"
-              className="press inline-flex shrink-0 items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
+              className="tap press inline-flex shrink-0 items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
             >
               <Download className="h-3.5 w-3.5" />
               {t('export.download')}

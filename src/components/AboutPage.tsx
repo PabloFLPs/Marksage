@@ -91,7 +91,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
         <button
           type="button"
           onClick={onBack}
-          className="-ml-2 mb-8 inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
+          className="tap -ml-2 mb-8 inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
         >
           <ArrowLeft className="h-4 w-4" /> {t('about.back')}
         </button>

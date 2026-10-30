@@ -53,15 +53,15 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, on
         </p>
         {!isTouch && <p className="mt-1 text-xs text-ink-muted dark:text-dark-ink-muted">{t('empty.or')}</p>}
         <div className="mt-4 flex w-full max-w-[220px] flex-col gap-2">
-          <button type="button" onClick={onOpenFile} className="press inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
+          <button type="button" onClick={onOpenFile} className="tap press inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
             <FolderOpen className="h-4 w-4" />
             {t('empty.open')}
           </button>
-          <button type="button" onClick={handlePaste} className="press inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
+          <button type="button" onClick={handlePaste} className="tap press inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
             <ClipboardPaste className="h-4 w-4" />
             {t('empty.paste')}
           </button>
-          <button type="button" onClick={onNew} className="press inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
+          <button type="button" onClick={onNew} className="tap press inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent">
             <FilePlus2 className="h-4 w-4" />
             {t('empty.new')}
           </button>
