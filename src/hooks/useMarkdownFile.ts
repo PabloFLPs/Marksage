@@ -31,6 +31,16 @@ export function useMarkdownFile() {
   const [error, setError] = useState<string | null>(null)
   const docRef = useRef(document)
   docRef.current = document
+  // The browser refused to keep the document (too large, or storage full): say so once, until a save works again.
+  const saveFailed = useRef(false)
+  const save = useCallback((doc: MarkdownDocument) => {
+    const ok = saveDocument(doc)
+    if (ok) saveFailed.current = false
+    else if (!saveFailed.current) {
+      saveFailed.current = true
+      setError('error.notSaved')
+    }
+  }, [])
 
   /** Write the current doc into history now — called before switching documents. */
   const flushCurrent = useCallback(() => {
@@ -42,7 +52,7 @@ export function useMarkdownFile() {
   useEffect(() => {
     if (!document) return
     const timer = window.setTimeout(() => {
-      saveDocument(document)
+      save(document)
       setHistory((prev) => {
         const existing = prev.find((e) => e.id === document.id)
         if (existing && existing.content === document.content && existing.filename === document.filename) return prev
@@ -50,7 +60,7 @@ export function useMarkdownFile() {
       })
     }, PERSIST_DELAY)
     return () => window.clearTimeout(timer)
-  }, [document])
+  }, [document, save])
 
   // Leaving the page (reload, closing the tab, switching apps on a phone) skips the debounce above, so save
   // right away — otherwise the last ~300 ms of typing, or a document created just before, would be lost.
@@ -132,10 +142,10 @@ export function useMarkdownFile() {
   const newDocument = useCallback(() => {
     flushCurrent()
     const fresh = { id: newDocId(), filename: null, content: '', savedContent: '' }
-    saveDocument(fresh) // stored at once, so a reload right after New doesn't bring the previous document back
+    save(fresh) // stored at once, so a reload right after New doesn't bring the previous document back
     setDocument(fresh)
     setError(null)
-  }, [flushCurrent])
+  }, [flushCurrent, save])
 
   const openFromHistory = useCallback((entry: HistoryEntry) => {
     flushCurrent()

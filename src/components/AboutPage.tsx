@@ -229,8 +229,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<Save />} title={x('Autosave', 'Salvamento automático')}>
             {x(
-              'Your current document is kept in this browser — saved as you type and again the moment you reload, close the tab or switch apps — so a refresh never loses work. An asterisk next to the filename means there are changes you haven’t exported.',
-              'O documento atual fica guardado neste navegador — salvo enquanto você digita e de novo no instante em que você recarrega, fecha a aba ou troca de app — então recarregar a página nunca perde trabalho. Um asterisco ao lado do nome indica alterações ainda não exportadas.',
+              'Your current document is kept in this browser — saved as you type and again the moment you reload, close the tab or switch apps — so a refresh never loses work. If a document is too large for the browser to keep (several MB), Marksage tells you to export it. An asterisk next to the filename means there are changes you haven’t exported.',
+              'O documento atual fica guardado neste navegador — salvo enquanto você digita e de novo no instante em que você recarrega, fecha a aba ou troca de app — então recarregar a página nunca perde trabalho. Se um documento for grande demais para o navegador guardar (vários MB), o Marksage avisa para exportar. Um asterisco ao lado do nome indica alterações ainda não exportadas.',
             )}
           </Feature>
           <Feature icon={<History />} title={x('Recent documents', 'Documentos recentes')}>

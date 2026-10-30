@@ -36,12 +36,19 @@ export function loadDocument(): StoredDocument | null {
 let wiped = false
 export const isWiped = (): boolean => wiped
 
-export function saveDocument(doc: StoredDocument): void {
-  if (wiped) return
+/**
+ * Keep the open document. `savedContent` is left out when it equals `content` (`loadDocument` falls back to it), so
+ * an opened, unchanged file takes half the room. Returns false when the browser refused it (full or too large) —
+ * the caller tells the user, so work isn't lost silently.
+ */
+export function saveDocument(doc: StoredDocument): boolean {
+  if (wiped) return true
   try {
-    localStorage.setItem(DOC_KEY, JSON.stringify(doc))
+    const { savedContent, ...rest } = doc
+    localStorage.setItem(DOC_KEY, JSON.stringify(savedContent === doc.content ? rest : doc))
+    return true
   } catch {
-    // Storage unavailable or full — persistence is best-effort.
+    return false
   }
 }
 

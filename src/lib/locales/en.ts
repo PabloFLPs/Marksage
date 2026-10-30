@@ -76,6 +76,7 @@ export const en = {
   'error.notText': 'This file doesn’t look like text — is it really Markdown?',
   'error.readFailed': 'Failed to read the file.',
   'error.copyFailed': 'Failed to copy to clipboard.',
+  'error.notSaved': 'This document couldn’t be kept in the browser — it’s too large, or storage is full. Export it to keep your work.',
 
   'history.title': 'Recent',
   'history.button': 'Recent documents',

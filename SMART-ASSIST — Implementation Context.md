@@ -569,3 +569,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   `[x](#about)` opened the app's own About in it. In-document links now scroll the preview: an element with that id
   (footnotes), else the heading with that GitHub-style slug (repeats get `-1`, `-2`…). The page's hash is never
   touched (it's the app's navigation); `#` alone does nothing. Smooth unless reduced motion.
+- **Silent save failures (#13).** `saveDocument` swallowed a refused write, so a file of ~2.5 M chars or more, or a
+  full storage, lost work on reload with no word. It now returns false and `useMarkdownFile` shows "This document
+  couldn't be kept in the browser — export it" once, until a save works again. And an opened, unchanged file no
+  longer stores its text twice (`savedContent` is left out when equal — `loadDocument` already fell back to
+  `content`): the 2.7 M-char case from the QA now survives a reload; 6 M chars shows the warning.

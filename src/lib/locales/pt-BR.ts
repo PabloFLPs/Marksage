@@ -77,6 +77,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'error.notText': 'Este arquivo não parece ser texto — é mesmo Markdown?',
   'error.readFailed': 'Não foi possível ler o arquivo.',
   'error.copyFailed': 'Não foi possível copiar para a área de transferência.',
+  'error.notSaved': 'Não deu para guardar este documento no navegador — ele é grande demais ou o armazenamento está cheio. Exporte para não perder o trabalho.',
 
   'history.title': 'Recentes',
   'history.button': 'Documentos recentes',
