@@ -146,3 +146,23 @@ export async function deleteAllLocalData(): Promise<void> {
     // Cache API unavailable — nothing was stored there.
   }
 }
+
+const REMOTE_IMAGES_KEY = 'marksage:remote-images'
+
+/** "Load images from the web" — off unless the reader turned it on (lib/remoteImages.ts). */
+export function loadRemoteImages(): boolean {
+  try {
+    return localStorage.getItem(REMOTE_IMAGES_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+export function saveRemoteImages(on: boolean): void {
+  try {
+    if (on) localStorage.setItem(REMOTE_IMAGES_KEY, '1')
+    else localStorage.removeItem(REMOTE_IMAGES_KEY)
+  } catch {
+    // Ignore.
+  }
+}

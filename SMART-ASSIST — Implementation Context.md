@@ -558,3 +558,10 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   back — after the page promised to clear what the browser keeps. `deleteAllLocalData` now sets a `wiped` flag that
   `saveDocument` and Recent's `persist` honour until the reload; verified: only the start screen and an empty
   Recent come back, and saving works again after it.
+- **Images from the web (#11).** `![](https://…)` was fetched as soon as the preview rendered, sending the reader's
+  IP, browser and Marksage's address (Referer) — a downloaded `.md` could carry a tracking pixel, against "nothing
+  you open or write is sent anywhere". Pablo chose: off by default, with a setting in About → Privacy & storage
+  ("Load images from the web", `marksage:remote-images`), and a bar above the preview — "This document loads N
+  images from other websites — not loaded, to keep your reading private" — linking to it. Blocked images show a
+  dashed placeholder with their alt text and host; allowed ones load with `referrerpolicy="no-referrer"`. Images
+  inside code, relative paths and `data:` URLs are untouched. Verified: no request leaves the app with it off.

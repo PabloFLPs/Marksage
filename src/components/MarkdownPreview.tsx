@@ -9,6 +9,8 @@ import { useI18n } from '../hooks/useI18n'
 import { CodeBlock } from './CodeBlock'
 import { codeOf } from '../lib/codeOf'
 import { splitMarkdown } from '../lib/chunks'
+import { remoteHost } from '../lib/remoteImages'
+import { ImageOff } from 'lucide-react'
 
 interface MarkdownPreviewProps {
   content: string
@@ -20,6 +22,8 @@ interface MarkdownPreviewProps {
   internalLinks?: Record<string, string>
   /** Shown in place of an empty document (the split view's preview pane). */
   emptyHint?: string
+  /** Load images from other websites (About → Privacy & storage); off shows a placeholder instead. */
+  remoteImages?: boolean
 }
 
 const DOT_COLORS = ['bg-emerald-500/70', 'bg-emerald-500/70', 'bg-amber-500/70', 'bg-orange-500/80', 'bg-red-500/80']
@@ -38,7 +42,7 @@ const Piece = memo(function Piece({ text, index, components }: { text: string; i
 })
 
 /** Memoized: it re-renders only when the (deferred) content or its options change — not on every App render. */
-export const MarkdownPreview = memo(function MarkdownPreview({ content, readability, renderBlock, internalLinks, emptyHint }: MarkdownPreviewProps) {
+export const MarkdownPreview = memo(function MarkdownPreview({ content, readability, renderBlock, internalLinks, emptyHint, remoteImages = false }: MarkdownPreviewProps) {
   const { t } = useI18n()
   const components = useMemo<Components>(() => {
     const base: Components = {
@@ -51,6 +55,21 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
             {children}
           </a>
         )
+      },
+      // Images from other websites load only when the reader allows it; a referrer is never sent.
+      img: ({ node: _node, src, alt, ...rest }) => {
+        const url = typeof src === 'string' ? src : undefined
+        const host = remoteHost(url)
+        if (host && !remoteImages) {
+          const label = t('remote.placeholder', { host })
+          return (
+            <span title={url} className="inline-flex max-w-full items-center gap-1.5 rounded-md border border-dashed border-line px-2 py-1 align-middle text-xs text-ink-muted dark:border-dark-line dark:text-dark-ink-muted">
+              <ImageOff aria-hidden className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">{alt ? `${alt} — ${label}` : label}</span>
+            </span>
+          )
+        }
+        return <img src={url} alt={alt ?? ''} referrerPolicy="no-referrer" loading="lazy" {...rest} />
       },
       // Fenced blocks: highlighted when tagged, always with a copy button. Props (data-line) stay on the
       // outer element, so scroll sync and the Outline still find the block.
@@ -81,7 +100,7 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
         )
       },
     }
-  }, [readability, t, renderBlock, internalLinks])
+  }, [readability, t, renderBlock, internalLinks, remoteImages])
 
   // Long documents render in pieces (lib/chunks.ts); afterwards each block gets the document's line back.
   const chunks = useMemo(() => splitMarkdown(content), [content])

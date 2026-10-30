@@ -1,8 +1,9 @@
 import { lazy, Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
-import { AlertCircle, Eye, X } from 'lucide-react'
+import { AlertCircle, Eye, ImageOff, X } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
 import { MarkdownPreview } from './components/MarkdownPreview'
+import { countRemoteImages } from './lib/remoteImages'
 import { MarkdownEditor } from './components/MarkdownEditor'
 import { SplitPanes } from './components/SplitPanes'
 import { useMarkdownFile } from './hooks/useMarkdownFile'
@@ -14,7 +15,7 @@ import {
   openFilePicker,
   suggestFilename,
 } from './lib/file'
-import { deleteAllLocalData, loadAssistMode, loadOutlineOpen, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveSplitRatio } from './lib/storage'
+import { deleteAllLocalData, loadAssistMode, loadOutlineOpen, loadRemoteImages, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveRemoteImages, saveSplitRatio } from './lib/storage'
 import { deleteDownloadedModel } from './assist/modelEngine'
 import { AboutPage } from './components/AboutPage'
 import { getSampleDocument, getSampleFilename } from './lib/sampleDocument'
@@ -504,6 +505,23 @@ export default function App() {
   const previewContent = useDeferredValue(document?.content ?? '')
   // Counted on the deferred text too: on a long document a full count every keystroke is noticeable.
   const wordCount = useMemo(() => countWords(previewContent), [previewContent])
+  // Images from other websites: not loaded unless the reader allows it (About → Privacy & storage, launch QA #11).
+  const [remoteImages, setRemoteImages] = useState(loadRemoteImages)
+  const changeRemoteImages = useCallback((on: boolean) => {
+    setRemoteImages(on)
+    saveRemoteImages(on)
+  }, [])
+  const blockedImages = useMemo(() => (remoteImages ? 0 : countRemoteImages(previewContent)), [remoteImages, previewContent])
+  const remoteBar =
+    blockedImages > 0 ? (
+      <div role="note" className="anim-fade mx-auto mt-4 flex w-[calc(100%-2rem)] max-w-[868px] flex-wrap items-center gap-x-2 gap-y-1 rounded-md border border-line bg-surface-soft px-3 py-2 text-xs text-ink-muted sm:w-[calc(100%-3rem)] dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink-muted">
+        <ImageOff aria-hidden className="h-3.5 w-3.5 shrink-0" />
+        <span className="min-w-0 flex-1">{blockedImages === 1 ? t('remote.bar.one') : t('remote.bar.many', { n: blockedImages })}</span>
+        <button type="button" onClick={openPrivacy} className="font-medium text-accent hover:underline dark:text-dark-accent">
+          {t('remote.bar.settings')}
+        </button>
+      </div>
+    ) : null
   const hasDocument = document !== null
   const editing = hasDocument && viewMode === 'edit'
   // Split view: preview and editor scroll together (desktop only).
@@ -702,6 +720,8 @@ export default function App() {
           onAppIconChange={setAppIcon}
           onRemoveModel={handleRemoveModel}
           onDeleteAllData={handleDeleteAllData}
+          remoteImages={remoteImages}
+          onRemoteImagesChange={changeRemoteImages}
           theme={theme}
         />
       ) : !document ? (
@@ -747,7 +767,8 @@ export default function App() {
                   onRatioChange={handleChangeSplitRatio}
                   left={
                     <main>
-                      <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={t('preview.empty')} />
+                      {remoteBar}
+                      <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={t('preview.empty')} remoteImages={remoteImages} />
                       <ScrollJump />
                     </main>
                   }
@@ -776,7 +797,8 @@ export default function App() {
               )
             ) : (
               <main ref={previewScrollRef} key="preview" className={`scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto ${prevView.current === 'edit' ? '' : 'anim-fade'}`}>
-                <MarkdownPreview content={previewContent} readability={assist.readability} />
+                {remoteBar}
+                <MarkdownPreview content={previewContent} readability={assist.readability} remoteImages={remoteImages} />
                 <ScrollJump />
               </main>
             )}

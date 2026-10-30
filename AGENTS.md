@@ -39,8 +39,10 @@ training/                 Own models' pipeline (collect → split → train; bui
   because the animated wrapper becomes the containing block. Everything must respect `prefers-reduced-motion`.
 - **Buttons:** header buttons lift on hover automatically (`header button:hover`); non-button controls use `.press`.
 - **i18n:** every user-facing string goes through `useI18n().t(key)`; add keys to `src/lib/locales/en.ts` (source) and `pt-BR.ts`. Long-form copy (About page) uses the `x(en, pt)` helper; the Smart Assist docs exist as `docs/SMART-ASSIST.md` + `.pt-BR.md`.
-- **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice,outline}`, plus the Cache API store `marksage-models-v1` (Rules + AI mode's model files: `lang-v2.bin`, and `sections-v2.bin` once the Outline is opened in that mode) — wrap every access in try/catch.
-- **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests). Any new key or download must be listed in About → Privacy & storage (EN + PT-BR) and be removed by "Delete all Marksage data" (`deleteAllLocalData`). (Renamed from `markdown-preview:*`; `index.html` migrates old keys once on load.)
+- **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice,outline,remote-images}`, plus the Cache API store `marksage-models-v1` (Rules + AI mode's model files: `lang-v2.bin`, and `sections-v2.bin` once the Outline is opened in that mode) — wrap every access in try/catch.
+- **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests).
+  Images from other websites load only with "Load images from the web" on (`lib/remoteImages.ts`, About → Privacy;
+  off shows a placeholder + a bar linking there) and never send a referrer. Any new key or download must be listed in About → Privacy & storage (EN + PT-BR) and be removed by "Delete all Marksage data" (`deleteAllLocalData`). (Renamed from `markdown-preview:*`; `index.html` migrates old keys once on load.)
 - **Scroll sync:** preview blocks carry `data-line` (rehype plugin in `lib/scrollSync.ts`); the editor side is measured with a hidden mirror. Keep `rehypeSourceLines` on the preview.
 - **Focus:** call `focus({ preventScroll: true })` — plain focus during slide animations shifts the layout.
 - **Files:** `lib/file.ts` `ACCEPTED_EXTENSIONS` — Markdown only (`.md .markdown .mdx .mdown .mkd .mkdn .mdwn`);

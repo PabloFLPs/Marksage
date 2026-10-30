@@ -14,6 +14,7 @@ import {
   Gauge,
   Heading,
   ListTree,
+  ImageOff,
   Lock,
   Moon,
   Save,
@@ -48,6 +49,9 @@ interface AboutPageProps {
   onRemoveModel: () => Promise<void>
   /** Wipe every Marksage key and cache in this browser, then reload. */
   onDeleteAllData: () => Promise<void>
+  /** "Load images from the web" (lib/remoteImages.ts). */
+  remoteImages: boolean
+  onRemoteImagesChange: (on: boolean) => void
 }
 
 const SHORTCUTS: [KeyToken[], string, string][] = [
@@ -60,7 +64,7 @@ const SHORTCUTS: [KeyToken[], string, string][] = [
   [['esc'], 'Dismiss a suggestion', 'Dispensar uma sugestão'],
 ]
 
-export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDocs, onTrySmartAssist, appIcon, onAppIconChange, theme, onRemoveModel, onDeleteAllData }: AboutPageProps) {
+export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDocs, onTrySmartAssist, appIcon, onAppIconChange, theme, onRemoveModel, onDeleteAllData, remoteImages, onRemoteImagesChange }: AboutPageProps) {
   const { keyStyle, setKeyStyle } = useKeyStyle()
   const { t, lang, setLang } = useI18n()
   const pt = lang === 'pt-BR'
@@ -273,10 +277,28 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
               'Sem contas e sem uploads: o site só entrega os arquivos do app. Os arquivos são lidos pelo seu navegador e o Smart Assist roda no seu dispositivo — nada do que você abre ou escreve é enviado.',
             )}
           </Feature>
+          <Feature icon={<ImageOff />} title={x('Images from the web', 'Imagens da web')}>
+            {x(
+              'An image in a document that points to another website isn’t loaded unless you turn this on: loading it tells that site your IP address and browser — a downloaded file could use it as a tracking pixel. Turned on, images load without saying where you read them (no referrer).',
+              'Uma imagem de um documento que aponta para outro site não é carregada a menos que você ative isto: carregá-la conta àquele site seu endereço IP e navegador — um arquivo baixado poderia usar isso como pixel de rastreamento. Ativado, as imagens carregam sem dizer onde você as lê (sem referrer).',
+            )}
+            <label className="mt-2 flex w-fit cursor-pointer items-center gap-2 text-xs font-medium text-ink dark:text-dark-ink">
+              <button
+                type="button"
+                role="switch"
+                aria-checked={remoteImages}
+                onClick={() => onRemoteImagesChange(!remoteImages)}
+                className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors ${remoteImages ? 'bg-accent dark:bg-dark-accent' : 'bg-line dark:bg-dark-line'}`}
+              >
+                <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform duration-200 ${remoteImages ? 'translate-x-[18px]' : 'translate-x-0.5'}`} />
+              </button>
+              {x('Load images from the web', 'Carregar imagens da web')}
+            </label>
+          </Feature>
           <Feature icon={<HardDrive />} title={x('What’s kept in this browser', 'O que fica guardado neste navegador')}>
             {x(
-              <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode, whether the Outline is open). If you pick <span className={strong}>Rules + AI</span>, its model files (385 KB for code languages, plus 385 KB for section types once you open the Outline) are kept in the browser cache so they download once. It all stays until you clear it.</>,
-              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist, se a Estrutura está aberta). Se você escolher o <span className={strong}>Regras + IA</span>, os arquivos dos modelos (385 KB para linguagens de código, mais 385 KB para tipos de seção quando você abre a Estrutura) ficam no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
+              <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode, whether the Outline is open, whether images from the web load). If you pick <span className={strong}>Rules + AI</span>, its model files (385 KB for code languages, plus 385 KB for section types once you open the Outline) are kept in the browser cache so they download once. It all stays until you clear it.</>,
+              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist, se a Estrutura está aberta, se imagens da web carregam). Se você escolher o <span className={strong}>Regras + IA</span>, os arquivos dos modelos (385 KB para linguagens de código, mais 385 KB para tipos de seção quando você abre a Estrutura) ficam no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
             )}
           </Feature>
           <Feature icon={<Cookie />} title={x('No cookies, no tracking', 'Sem cookies, sem rastreamento')}>
