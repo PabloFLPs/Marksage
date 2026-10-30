@@ -47,6 +47,9 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
   const pinnedAt = useRef<number | null>(null)
   const [all, setAll] = useState<Suggestion[]>([])
   const [allCapped, setAllCapped] = useState(false) // a kind hit LIST_LIMIT: the tab shows "50+"
+  // Bumped by `retry()` after a failed model download: runs the engine lifecycle again.
+  const [attempt, setAttempt] = useState(0)
+  const retry = useCallback(() => setAttempt((n) => n + 1), [])
 
   // Engine lifecycle.
   useEffect(() => {
@@ -85,7 +88,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
     return () => {
       alive = false
     }
-  }, [mode, heuristic])
+  }, [mode, heuristic, attempt])
 
   const isDismissed = useCallback((key: string) => dismissed.current.has(key), [])
 
@@ -246,7 +249,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
   )
 
   if (mode === 'off') {
-    return { enabled: false as const, status, suggestion: null, readability: NO_MARKS, all: NO_SUGGESTIONS, allCapped: false }
+    return { enabled: false as const, status, suggestion: null, readability: NO_MARKS, all: NO_SUGGESTIONS, allCapped: false, retry }
   }
   return {
     enabled: true as const,
@@ -255,6 +258,7 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
     readability,
     all: listAll ? all : NO_SUGGESTIONS,
     allCapped: listAll && allCapped,
+    retry,
     show,
     accept,
     dismiss,

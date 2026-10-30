@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, ChevronDown, Cpu, Download, PowerOff, Sparkles, Zap } from 'lucide-react'
+import { AlertTriangle, Check, ChevronDown, Cpu, Download, PowerOff, RotateCw, Sparkles, Zap } from 'lucide-react'
 import { Presence } from './motion'
 import type { AssistMode } from '../assist/types'
 import type { EngineStatus } from '../assist/useSmartAssist'
@@ -11,6 +11,8 @@ interface AssistToggleProps {
   mode: AssistMode
   status: EngineStatus
   onChange: (mode: AssistMode) => void
+  /** Try the model download again (after `fallback`). */
+  onRetry?: () => void
   /** Icon-only (mobile): the native select sits invisibly on top. */
   compact?: boolean
 }
@@ -35,7 +37,7 @@ const OPTIONS: { id: AssistMode; icon: typeof Sparkles; disabled?: boolean }[] =
   { id: 'model', icon: Cpu },
 ]
 
-export function AssistToggle({ mode, status, onChange, compact = false }: AssistToggleProps) {
+export function AssistToggle({ mode, status, onChange, onRetry, compact = false }: AssistToggleProps) {
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const [focus, setFocus] = useState(0)
@@ -45,7 +47,11 @@ export function AssistToggle({ mode, status, onChange, compact = false }: Assist
   const rootRef = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([])
   const active = mode !== 'off'
-  const warn = status.state === 'fallback'
+  // Rules + AI's model: progress and failure show on the button itself (a tooltip never reaches a phone).
+  const warn = mode === 'model' && status.state === 'fallback'
+  const loading = mode === 'model' && status.state === 'loading'
+  const pct = loading && status.progress != null ? Math.round(status.progress * 100) : null
+  const shortLabel = loading ? (pct != null ? `${pct}%` : '…') : warn ? t('assist.short.heuristics') : t(`assist.short.${mode}`)
 
   // Close on outside click / Escape.
   useEffect(() => {
@@ -114,16 +120,30 @@ export function AssistToggle({ mode, status, onChange, compact = false }: Assist
           }
         }}
         className={`press group relative inline-flex items-center gap-1.5 rounded-md border ${compact ? 'h-9 w-9 justify-center' : 'h-8 px-2'} text-xs font-medium transition-colors ${
-          active || open
+          warn
+            ? 'border-amber-500 text-amber-700 hover:bg-amber-500/5 dark:border-amber-400 dark:text-amber-300'
+            : active || open
             ? 'border-accent text-accent hover:bg-accent/5 dark:border-dark-accent dark:text-dark-accent dark:hover:bg-dark-accent/10'
             : 'border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
         } bg-surface dark:bg-dark-surface-soft`}
       >
-        <Sparkles className={`hover-sparkle h-3.5 w-3.5 ${status.state === 'loading' ? 'animate-pulse' : ''}`} />
-        {warn && <span className="anim-pop absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-amber-500" />}
+        {warn ? (
+          <AlertTriangle className="anim-pop h-3.5 w-3.5" />
+        ) : (
+          <Sparkles className={`hover-sparkle h-3.5 w-3.5 ${loading ? 'animate-pulse' : ''}`} />
+        )}
+        {loading && (
+          // Download progress along the bottom edge — on phones too, where the button is icon-only.
+          <span aria-hidden className="pointer-events-none absolute inset-x-1 bottom-0.5 h-0.5 overflow-hidden rounded-full bg-accent/15 dark:bg-dark-accent/20">
+            <span
+              className="block h-full origin-left rounded-full bg-accent transition-transform duration-200 dark:bg-dark-accent"
+              style={{ transform: `scaleX(${pct != null ? pct / 100 : 0.15})` }}
+            />
+          </span>
+        )}
         {!compact && (
           <>
-            <span>Assist: {t(`assist.short.${mode}`)}</span>
+            <span className="tabular-nums">Assist: {shortLabel}</span>
             <ChevronDown className={`h-3 w-3 opacity-60 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
           </>
         )}
@@ -149,6 +169,30 @@ export function AssistToggle({ mode, status, onChange, compact = false }: Assist
           <p className="px-2.5 pb-1.5 pt-1 text-xs font-semibold uppercase tracking-wider text-ink-muted dark:text-dark-ink-muted">
             Smart Assist
           </p>
+          {!notice && warn && (
+            <div className="anim-rise mx-1 mb-1.5 rounded-md border border-amber-500/40 bg-amber-500/5 px-2.5 py-2">
+              <p className="flex items-center gap-2 text-sm font-medium text-amber-700 dark:text-amber-300">
+                <AlertTriangle className="h-4 w-4 shrink-0" />
+                {t('assist.failed.title')}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">{t('assist.failed.body')}</p>
+              {onRetry && (
+                <button
+                  type="button"
+                  onClick={onRetry}
+                  className="press mt-2 inline-flex min-h-9 items-center gap-1.5 rounded-md border border-line px-3 text-xs font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent"
+                >
+                  <RotateCw className="h-3.5 w-3.5" />
+                  {t('assist.failed.retry')}
+                </button>
+              )}
+            </div>
+          )}
+          {!notice && loading && (
+            <p className="mx-2.5 mb-1.5 text-xs text-ink-muted dark:text-dark-ink-muted">
+              {pct != null ? t('assist.status.loadingPct', { pct }) : t('assist.status.loading')}
+            </p>
+          )}
           {notice ? (
             <div className="anim-rise px-2.5 pb-1.5 pt-0.5">
               <p className="flex items-center gap-2 text-sm font-medium text-ink dark:text-dark-ink">

@@ -540,3 +540,9 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   the page's Back (which goes to About). It's now a button only there, labelled "Back to your document" or "Back to
   the start screen"; elsewhere it's just the brand. The preview's "Back to the start" (scrolls to the top) read
   like "go to the start screen": now "Scroll to the top" / "Scroll to the end" (PT "Ir para o topo" / "Ir para o fim").
+- **Model download status (#7).** Progress ("Loading local model… 42 %") and failure lived in the Assist button's
+  tooltip — on failure the button still said "Rules + AI", with a 6 px orange dot; phones never see a tooltip.
+  Pablo chose the button itself: while loading it reads "Assist: 42 %" with a thin progress line along its
+  bottom edge (phones too, where it's icon-only); on failure it reads "Assist: Rules" in amber with a warning icon,
+  and its menu opens with "Rules + AI couldn't download — using Rules for now" and **Try again**
+  (`useSmartAssist` → `retry()`, which re-runs the engine lifecycle).

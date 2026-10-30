@@ -591,6 +591,7 @@ export default function App() {
         isDesktop={isDesktop}
         assistMode={assistMode}
         assistStatus={assist.status}
+        onAssistRetry={assist.retry}
         onAssistModeChange={handleAssistModeChange}
         onAbout={openAbout}
         onHome={goHome}

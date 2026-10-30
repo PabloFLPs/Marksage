@@ -420,7 +420,9 @@ answers, like the rest of Smart Assist.
   no WebGPU, no worker needed.
 - **Private:** downloaded once from the same site as the app — only after you pick the mode and
   confirm a short notice — then kept in your browser's cache (removable any time in About → Privacy
-  & storage). Your text never leaves the page.
+  & storage). Your text never leaves the page. While it downloads, the Assist button shows the percentage
+  and a thin progress line; the rules answer meanwhile. If the download fails, the button says
+  *Assist: Rules* in amber, and its menu says why, with **Try again**.
 - **How it reads code:** the snippet becomes a set of small clues — words and symbols, pairs of
   neighbouring tokens, how lines start and end, the indentation style, and three-letter pieces of
   longer words. Each clue has a learned 8-number vector; the model averages them and turns the

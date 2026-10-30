@@ -426,7 +426,9 @@ resto continua com as heurísticas. Não é um chatbot nem um LLM — ele lê um
   runtime de ML, sem WebGPU, sem worker.
 - **Privado:** baixado uma vez do mesmo site do app — só depois de você escolher o modo e confirmar
   um aviso curto — e guardado no cache do navegador (removível a qualquer momento em Sobre →
-  Privacidade e armazenamento). Seu texto nunca sai da página.
+  Privacidade e armazenamento). Seu texto nunca sai da página. Enquanto ele baixa, o botão Assist mostra
+  a porcentagem e uma linha fina de progresso; as regras respondem nesse meio-tempo. Se o download falhar, o
+  botão diz *Assist: Regras* em âmbar, e o menu dele explica, com **Tentar de novo**.
 - **Como ele lê código:** o trecho vira um conjunto de pistas — palavras e símbolos, pares de tokens
   vizinhos, como as linhas começam e terminam, o estilo de indentação e pedaços de três letras das
   palavras mais longas. Cada pista tem um vetor aprendido de 8 números; o modelo tira a média e

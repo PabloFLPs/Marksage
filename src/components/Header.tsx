@@ -45,6 +45,8 @@ interface HeaderProps {
   isDesktop: boolean
   assistMode: AssistMode
   assistStatus: EngineStatus
+  /** Try the Rules + AI model download again after it failed. */
+  onAssistRetry: () => void
   onAssistModeChange: (mode: AssistMode) => void
   onAbout: () => void
   /** Logo / app name → back to the app (open document or start screen). */
@@ -89,6 +91,7 @@ export function Header({
   isDesktop,
   assistMode,
   assistStatus,
+  onAssistRetry,
   onAssistModeChange,
   onAbout,
   onHome,
@@ -153,7 +156,7 @@ export function Header({
 
       <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
         <CollapseX show={hasDocument && editing && !showingAbout} gap={compact ? 6 : 8}>
-          <AssistToggle mode={assistMode} status={assistStatus} onChange={onAssistModeChange} compact={compact} />
+          <AssistToggle mode={assistMode} status={assistStatus} onChange={onAssistModeChange} onRetry={onAssistRetry} compact={compact} />
         </CollapseX>
 
         <CollapseX show={hasDocument && !compact && !showingAbout}>
