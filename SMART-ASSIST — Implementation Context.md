@@ -607,3 +607,6 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   even back online. A download failure now offers "Reload the page to try again" (the docs pages already reload
   for the same reason); a drawing failure keeps the plain Try again. Verified: blocked → message → reload → the
   diagram renders.
+- **Suggestion bar over the last lines (#19).** On a phone the bar sat over the editor's last lines and took their
+  taps. While it shows, the editor gets 112 px of room at the bottom, and if the caret's line would sit under the
+  bar it scrolls up (skipped past 200k characters, where measuring wrapped lines would stall typing).

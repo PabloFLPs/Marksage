@@ -306,6 +306,7 @@ export default function App() {
       textareaRef={textareaRef}
       placeholder={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: 'Ctrl/Cmd + V' }) : undefined}
       {...(assist.enabled ? assist.handlers : {})}
+      overlayActive={assist.enabled && !!assist.suggestion}
     >
       <Presence
         show={assist.enabled && !!assist.suggestion}
