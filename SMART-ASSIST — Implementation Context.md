@@ -663,3 +663,6 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   own trailing line break(s) are now kept.
 - **Empty files (#32).** An empty `.md` opened to a blank page in the read-first preview. It now says "This document
   is empty — start typing to write in it." (typing there opens the editor, #8).
+
+- **"The button below" (#33).** Privacy & storage said "the button below clears what this browser keeps", but once
+  models are downloaded two buttons sit below it. It names the button now: "Delete all Marksage data".
