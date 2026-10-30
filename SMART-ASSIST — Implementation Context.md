@@ -602,3 +602,8 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   (`RULES_OVERRIDE` in hybrid.ts; no ✦) — dev 157 → 158 shown at 94.9 %, held-out sets unchanged. The general
   fix — mean + max pooling for near-superset pairs (TS/JS, C++/C…) — is ROADMAP §4.1, framed generally on
   Pablo's question of how a TS-only tweak would read to engineers.
+- **Mermaid "Try again" (#18).** After the ~650 KB download failed (offline, a dropped phone connection), Try again
+  re-ran `import('mermaid')`, which the browser answers from its memory of the failed import — it never recovered,
+  even back online. A download failure now offers "Reload the page to try again" (the docs pages already reload
+  for the same reason); a drawing failure keeps the plain Try again. Verified: blocked → message → reload → the
+  diagram renders.

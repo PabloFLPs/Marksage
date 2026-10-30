@@ -82,7 +82,9 @@ function MermaidView({ source, alt }: { source: string; alt: string }) {
   const id = 'mmd-' + useId().replace(/[^a-zA-Z0-9]/g, '')
   const [svg, setSvg] = useState<string | null>(null)
   const [themeKey, setThemeKey] = useState(0)
-  const [failed, setFailed] = useState(false)
+  // 'download': Mermaid's code didn't arrive — the browser remembers a failed module import for this page, so
+  // only a reload can fetch it again (launch QA #18: Try again never recovered). 'render': it arrived but couldn't draw.
+  const [failed, setFailed] = useState<false | 'download' | 'render'>(false)
   const [attempt, setAttempt] = useState(0)
 
   // Re-render when the theme or accent changes.
@@ -103,7 +105,8 @@ function MermaidView({ source, alt }: { source: string; alt: string }) {
       })
       .catch((err) => {
         console.error('[diagram] Mermaid failed:', err)
-        if (alive) setFailed(true)
+        const download = /dynamically imported module|importing a module script failed|failed to fetch|error loading dynamically/i.test(String(err))
+        if (alive) setFailed(download ? 'download' : 'render')
       })
     return () => {
       alive = false
@@ -114,8 +117,12 @@ function MermaidView({ source, alt }: { source: string; alt: string }) {
     return (
       <p role="alert" className="doc-diagram-loading">
         {t('diagram.failed')}{' '}
-        <button type="button" onClick={() => setAttempt((n) => n + 1)} className="font-medium text-accent hover:underline dark:text-dark-accent">
-          {t('diagram.retry')}
+        <button
+          type="button"
+          onClick={() => (failed === 'download' ? window.location.reload() : setAttempt((n) => n + 1))}
+          className="font-medium text-accent hover:underline dark:text-dark-accent"
+        >
+          {failed === 'download' ? t('diagram.reload') : t('diagram.retry')}
         </button>
       </p>
     )

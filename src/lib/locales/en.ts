@@ -292,6 +292,7 @@ export const en = {
   'docs.copyTitle': 'Copy this page’s Markdown',
   'diagram.failed': 'Mermaid couldn’t load this diagram (see the browser console).',
   'diagram.retry': 'Try again',
+  'diagram.reload': 'Reload the page to try again',
   'diagram.view': 'Diagram style',
   'diagram.drawn': 'Drawn',
   'diagram.mermaid': 'Mermaid',

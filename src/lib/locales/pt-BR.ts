@@ -293,6 +293,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'docs.copyTitle': 'Copiar o Markdown desta página',
   'diagram.failed': 'O Mermaid não conseguiu carregar este diagrama (veja o console do navegador).',
   'diagram.retry': 'Tentar de novo',
+  'diagram.reload': 'Recarregue a página para tentar de novo',
   'diagram.view': 'Estilo do diagrama',
   'diagram.drawn': 'Desenho',
   'diagram.mermaid': 'Mermaid',

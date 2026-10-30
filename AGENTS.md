@@ -119,6 +119,7 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   same diagram in Mermaid under `<details>` (GitHub renders both). In the app, `TechDocsPage` turns that group into a
   `DocDiagram` with a Drawn / Mermaid switch (Mermaid lazy-loads, ~650 KB gzip, only on that click). A Mermaid
   failure shows a message + Try again and logs `[diagram] Mermaid failed:` to the console — never a silent switch back.
+  A failed *download* offers "Reload the page to try again" instead (a re-import of a failed module fails again).
 
 ## Roadmap and timeline
 - `ROADMAP.md` — what's next (BYOK, Laya as a general decision model, dogfooding, small items, showcase).
