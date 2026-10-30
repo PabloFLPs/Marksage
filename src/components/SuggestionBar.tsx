@@ -71,7 +71,7 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
                 onAccept(i)
               }}
               aria-label={t('suggest.choose', { name })}
-              className={`inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-medium transition-colors ${
+              className={`inline-flex min-h-9 items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-colors sm:min-h-0 sm:px-2 ${
                 i === 0
                   ? 'bg-accent text-white hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong'
                   : 'border border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
@@ -84,20 +84,7 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
             )
           })}
         </div>
-        <button
-          type="button"
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={(e) => {
-          stop(e)
-          onDismiss()
-        }}
-          aria-label={t('suggest.dismiss', { key: 'Esc' })}
-          title={t('suggest.dismiss', { key: 'Esc' })}
-          className="inline-flex shrink-0 items-center gap-1 text-ink-muted transition-colors hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink"
-        >
-          <span className={`hidden sm:inline ${kbd}`}>Esc</span>
-          <X className="h-3.5 w-3.5" />
-        </button>
+        <DismissButton onDismiss={onDismiss} />
       </div>
     )
   }
@@ -133,24 +120,36 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
           stop(e)
           onAccept()
         }}
-        className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-accent px-2 py-1 font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
+        className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md bg-accent px-3 font-medium sm:h-auto sm:px-2 sm:py-1 text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
       >
         {t('suggest.accept')} <span className="hidden rounded bg-white/20 px-1 font-mono text-[10px] sm:inline">Tab</span>
       </button>
-      <button
-        type="button"
-        onMouseDown={(e) => e.preventDefault()}
-        onClick={(e) => {
-          stop(e)
-          onDismiss()
-        }}
-        aria-label={t('suggest.dismiss', { key: 'Esc' })}
-        title={t('suggest.dismiss', { key: 'Esc' })}
-        className="inline-flex shrink-0 items-center gap-1 text-ink-muted transition-colors hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink"
-      >
-        <span className={`hidden sm:inline ${kbd}`}>Esc</span>
-        <X className="h-3.5 w-3.5" />
-      </button>
+      <DismissButton onDismiss={onDismiss} />
     </div>
+  )
+}
+
+/**
+ * Dismiss, said in words: "Dismiss" + the Esc key on desktop; on phones (no Esc key) a 36 px × that a thumb can hit.
+ * `onMouseDown` keeps the caret (and the suggestion) in the editor; the click doesn't reach the card's "show where".
+ */
+function DismissButton({ onDismiss }: { onDismiss: () => void }) {
+  const { t } = useI18n()
+  return (
+    <button
+      type="button"
+      onMouseDown={(e) => e.preventDefault()}
+      onClick={(e) => {
+        e.stopPropagation()
+        onDismiss()
+      }}
+      aria-label={t('suggest.dismiss', { key: 'Esc' })}
+      title={t('suggest.dismiss', { key: 'Esc' })}
+      className="-mr-1.5 inline-flex h-9 w-9 shrink-0 items-center justify-center gap-1.5 rounded-md text-ink-muted transition-colors hover:text-ink sm:mr-0 sm:h-auto sm:w-auto dark:text-dark-ink-muted dark:hover:text-dark-ink"
+    >
+      <X className="h-4 w-4 sm:hidden" />
+      <span className="hidden sm:inline">{t('suggest.dismissShort')}</span>
+      <span className={`hidden sm:inline ${kbd}`}>Esc</span>
+    </button>
   )
 }

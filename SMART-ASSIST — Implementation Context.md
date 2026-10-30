@@ -531,3 +531,7 @@ Fixes from the five-persona launch QA report (impatient, skeptic, mobile, non-na
   box (Pablo picked this over a name in the bottom bar). On desktops the toolbar crowded the name out — at 768–900 px
   in PT-BR it got 4 px. Copy / New / Open now show their labels from 1280 px, Preview/Edit and Export from 1024 px
   (icons + tooltips below), so "Sem título" keeps 80–88 px from 768 px up.
+- **Suggestion card's dismiss (#5).** It was a bare `Esc` key cap plus a 14 × 14 px ×, with "Dismiss" only in the
+  tooltip, and phones have no Esc key. Desktop now reads "Dismiss `Esc`", like "Accept `Tab`"; phones get a
+  36 × 36 px × and a 36 px-high Accept (choices too). The percentage's tooltip says "How sure Smart Assist is"
+  instead of "Engine confidence".
