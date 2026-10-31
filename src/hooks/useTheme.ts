@@ -1,21 +1,22 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useLayoutEffect, useState } from 'react'
 import { flushSync } from 'react-dom'
 
 export type Theme = 'light' | 'dark'
 
 const STORAGE_KEY = 'marksage:theme'
 
+/** A first visit is light (Pablo's call, 2026-10-31); dark only once the user picks it. index.html applies the
+ *  same rule before first paint, so the page never flashes the other theme. */
 function getInitialTheme(): Theme {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored === 'light' || stored === 'dark') return stored
+    if (localStorage.getItem(STORAGE_KEY) === 'dark') return 'dark'
   } catch {
-    // Storage unavailable — follow the system.
+    // Storage unavailable — light.
   }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  return 'light'
 }
 
-/** Saved only when the user picks a theme; until then the system setting is followed (nothing stored). */
+/** Saved only when the user picks a theme; until then, light (nothing stored). */
 function saveTheme(theme: Theme) {
   try {
     localStorage.setItem(STORAGE_KEY, theme)
@@ -29,7 +30,8 @@ let transitioning = false
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme)
 
-  useEffect(() => {
+  // Before paint, so a change never shows a frame of the old theme.
+  useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 

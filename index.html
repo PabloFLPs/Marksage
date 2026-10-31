@@ -56,16 +56,17 @@
         font: 500 15px/1 system-ui, -apple-system, "Segoe UI", sans-serif; color: #6b7280; background: #fff;
         animation: boot-in 300ms ease 400ms both; }
       .boot-mark { width: 22px; height: 22px; border-radius: 6px; background: #2563eb; }
-      html.boot-dark .boot { background: #0d1117; color: #8b949e; }
-      html.boot-dark .boot-mark { background: #58a6ff; }
+      /* Dark (chosen by the user — a first visit is light): dark from the first paint, before the CSS and the app. */
+      html.dark { background: #0d1117; color-scheme: dark; }
+      html.dark .boot { background: #0d1117; color: #8b949e; }
+      html.dark .boot-mark { background: #58a6ff; }
       @keyframes boot-in { from { opacity: 0; } to { opacity: 1; } }
       @media (prefers-reduced-motion: reduce) { .boot { animation: none; } }
     </style>
     <script>
       try {
-        var t = localStorage.getItem("marksage:theme");
-        if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches))
-          document.documentElement.classList.add("boot-dark");
+        // The theme before first paint — the same "dark" class the app uses, so nothing flips when it starts.
+        if (localStorage.getItem("marksage:theme") === "dark") document.documentElement.classList.add("dark");
       } catch (e) {}
     </script>
   </head>

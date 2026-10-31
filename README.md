@@ -48,7 +48,8 @@ Everything runs in the browser — files never leave your machine.
 - **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown;
   the footer shows lines, words, characters and file size
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
-- **Appearance** — app icon + accent palette (Classic, Mono, Line, Sunset), light/dark theme,
+- **Appearance** — app icon + accent palette (Classic, Mono, Line, Sunset), light/dark theme (a first visit is
+  light with Classic; a chosen dark theme shows from the first paint, no flash),
   macOS or Windows keyboard-shortcut labels
 - **Sample document** — a small made-up README with slips left in on purpose: a one-minute tour of every
   Smart Assist feature (code languages, structure hints, smart paste, readability, the Outline's three tabs,

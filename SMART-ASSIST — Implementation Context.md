@@ -873,4 +873,12 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   "Read-only" shows as a lock until the bar has room for the word (title + screen-reader text keep it). Checked:
   320 / 360 / 375 / 390 / 430 px, EN / PT-BR, opened from About and from the other docs page — page width = viewport,
   Outline button in view and opens the panel.
+- **No light flash in dark mode; a first visit is light** (agent C: ~100 ms of white, then the light-themed app,
+  then dark, on every load — 4.7 s of white on slow 3G): the app added `dark` in a `useEffect`, after the first
+  paint, and the page had no dark background before the CSS. Now the pre-paint script adds the same `dark` class
+  and `index.html` gives `html.dark` its background, so the boot screen and the app are dark from the first frame;
+  `useTheme` toggles the class in a layout effect. Pablo's call in the same fix: a first visit (nothing stored) is
+  light whatever the system says, with the Classic accent (already the default). Checked with the main script
+  held back 2 s: dark at 100 / 300 / 900 / 1,800 ms and after; first visit light with the OS in dark mode;
+  toggling still saves and applies.
 

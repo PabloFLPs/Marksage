@@ -44,6 +44,9 @@ training/                 Own models' pipeline (collect → split → train; bui
 ## Conventions
 - **Colours:** use theme tokens (`accent`, `accent-strong`, `dark-accent`, …), never raw Tailwind hues —
   accents are re-themed per app icon via `:root[data-accent=…]` in `index.css` (+ the pre-paint script in `index.html`).
+  Theme: a first visit is light (not the system setting — Pablo's call); `marksage:theme` = `dark` makes the pre-paint
+  script add the app's own `dark` class (and a dark page background) before anything renders — keep `useTheme` and
+  that script on the same rule.
 - **Motion:** use the `anim-*` classes in `index.css`; wrap anything that unmounts in `<Presence>` (or
   `<CollapseX>` in the header). Presence wrappers must carry the positioning classes (`fixed`/`absolute`)
   because the animated wrapper becomes the containing block. Everything must respect `prefers-reduced-motion`.
