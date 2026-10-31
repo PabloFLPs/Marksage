@@ -5,6 +5,7 @@ import { baseNameLength, normalizeFilename } from '../lib/file'
 import { useKeyStyle } from '../hooks/useKeyStyle'
 import { shortcut } from '../lib/keyStyle'
 import { useI18n } from '../hooks/useI18n'
+import { useReturnFocus } from '../hooks/useReturnFocus'
 
 interface ExportMenuProps {
   open: boolean
@@ -29,6 +30,7 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
   const { t } = useI18n()
   const { keyStyle } = useKeyStyle()
   const rootRef = useRef<HTMLDivElement>(null)
+  useReturnFocus(open, rootRef)
   const inputRef = useRef<HTMLInputElement>(null)
   const [value, setValue] = useState(defaultName)
   // The name just downloaded — the button says so for DONE_MS, and screen readers hear it.

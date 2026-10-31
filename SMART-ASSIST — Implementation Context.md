@@ -891,4 +891,11 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   still empty, and nothing re-ran it. `useScrollSync` now re-syncs when the preview's content changes size while
   the editor is the driver. Checked: after the paste the preview is at 9,567 / 9,603; scrolling either pane still
   moves the other, with no snap-back.
+- **Closing a menu lost focus** (type "abc", ⌘S, Esc, type "def": the text stayed "abc" — focus was on `<body>`
+  after Esc on Export, a download, Esc on the Assist menu). Pablo's rule: back to the editor when it's on screen,
+  else to the button that opened it. `hooks/useReturnFocus.ts`, used by Export, Assist and Recent; a frame after
+  closing, so a click elsewhere keeps its focus; on touch screens always the button (the editor would pop up the
+  keyboard); Tab in the Assist menu closes it onto its button. Checked: ⌘S + Esc, ⌘S + Enter, Assist Esc / choose,
+  Recent ⌘⇧H + Esc → editor (typing continues); preview only: Export Esc / click outside → Export button; Assist
+  Tab → Assist button.
 

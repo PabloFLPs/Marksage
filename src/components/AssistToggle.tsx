@@ -6,6 +6,7 @@ import type { EngineStatus } from '../assist/useSmartAssist'
 import { useI18n } from '../hooks/useI18n'
 import type { MessageKey, Vars } from '../lib/i18n'
 import { loadModelNoticeSeen, saveModelNoticeSeen } from '../lib/storage'
+import { useReturnFocus } from '../hooks/useReturnFocus'
 
 interface AssistToggleProps {
   mode: AssistMode
@@ -45,6 +46,7 @@ export function AssistToggle({ mode, status, onChange, onRetry, compact = false 
   const [notice, setNotice] = useState(false)
   const confirmRef = useRef<HTMLButtonElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
+  useReturnFocus(open, rootRef)
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([])
   const active = mode !== 'off'
   // Rules + AI's model: progress and failure show on the button itself (a tooltip never reaches a phone).
@@ -99,7 +101,12 @@ export function AssistToggle({ mode, status, onChange, onRetry, compact = false 
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
       setFocus(enabledIdx[(pos - 1 + enabledIdx.length) % enabledIdx.length])
-    } else if (e.key === 'Escape' || e.key === 'Tab') {
+    } else if (e.key === 'Escape') {
+      setOpen(false)
+    } else if (e.key === 'Tab') {
+      // Tab closes the menu onto its button; the next Tab moves on (not into the menu while it fades out).
+      e.preventDefault()
+      rootRef.current?.querySelector<HTMLElement>('button')?.focus({ preventScroll: true })
       setOpen(false)
     }
   }

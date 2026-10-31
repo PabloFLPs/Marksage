@@ -80,6 +80,7 @@ export function MarkdownEditor({
       <div className="relative min-w-0 flex-1">
         <textarea
           ref={ref}
+          data-editor=""
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={onKeyDown}

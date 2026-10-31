@@ -62,6 +62,9 @@ training/                 Own models' pipeline (collect → split → train; bui
   The preview renders after the editor (deferred): `useScrollSync` re-syncs when the preview's content resizes while
   the editor is the driver (a paste, typing at the end).
 - **Focus:** call `focus({ preventScroll: true })` — plain focus during slide animations shifts the layout.
+  Header menus and panels (Export, Assist, Recent) use `useReturnFocus(open, rootRef)`: closing with focus inside (Esc,
+  a choice, a download) returns it to the editor when it's on screen, else to the menu's button (always the button on
+  touch screens — the editor would pop up the keyboard). The editor textarea carries `data-editor`.
 - **Files:** `lib/file.ts` `ACCEPTED_EXTENSIONS` — Markdown only (`.md .markdown .mdx .mdown .mkd .mkdn .mdwn`);
   `.txt` is refused on purpose; `looksBinary` refuses renamed binaries. Keep `error.notMarkdown` listing the same set.
 - **Saving:** `useMarkdownFile` debounces saves (300 ms) and also flushes on `pagehide` / `visibilitychange`; New

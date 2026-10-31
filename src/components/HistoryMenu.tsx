@@ -7,6 +7,7 @@ import { Presence } from './motion'
 import { useKeyStyle } from '../hooks/useKeyStyle'
 import { shortcut } from '../lib/keyStyle'
 import { useI18n } from '../hooks/useI18n'
+import { useReturnFocus } from '../hooks/useReturnFocus'
 
 interface HistoryMenuProps {
   entries: HistoryEntry[]
@@ -24,6 +25,7 @@ export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, com
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const rootRef = useRef<HTMLDivElement>(null)
+  useReturnFocus(open, rootRef)
   const shown = searchHistory(entries, query, t('doc.untitled'))
 
   // A fresh search every time the menu opens.
