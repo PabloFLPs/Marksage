@@ -104,11 +104,13 @@ const content: StoryContent = {
       body: [
         'The next code model kept each dimension’s strongest clue next to the average (mean + max pooling), so one decisive clue like `: number` couldn’t be averaged away. It was tuned on predictions for repositories it never trained on, then judged once on a third fresh test set — 842 blocks from 158 repositories — against a bar written down before the run: more right suggestions on the near-twin languages (TypeScript/JavaScript, C++/C, C#/Java) without losing precision.',
         'Overall it beat the model in use. On the near-twin languages it didn’t: less precise, and worse on TypeScript/JavaScript. The cause was in the labels, not the model — only 42% of the code tagged TypeScript in training has any TypeScript-only syntax; the rest is valid JavaScript. It didn’t ship, and the result is documented next to the ones that did.',
+        'Rebuilding the training data also showed that the model in use couldn’t be reproduced exactly from its recorded sources. So the shipped file became the fixed baseline every new model is compared with, and each model now ships with a fingerprint of the data it learned from.',
       ],
       facts: [
         '842 held-out blocks · near-twin languages: 103 right, 88.0% vs 106, 89.8% for the model in use',
         'Overall: 391 right, 93.8% vs 380, 93.1%',
         'Rules fallback re-measured: +3 right, 0 new mistakes — it stays',
+        'Every shipped model: a fingerprint of its training data, checked on each rebuild',
       ],
       link: { label: 'Tried, not used', hash: 'models' },
     },

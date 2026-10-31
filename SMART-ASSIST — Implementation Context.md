@@ -808,3 +808,6 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
 - **Back label flash:** Back from a docs page to About showed "Marksage" for the 220 ms exit — the hash change set
   the *next* page's `cameFrom` (About, opened from the app) while the old page was still leaving. `goToInfo(next,
   from)` now sets both together, after the exit. Checked: "About" until the page switches.
+- **#story:** the 2026-10-30 v3 entry gains the rebuild finding, framed as the practice it led to (Pablo agreed it
+  belongs there, briefly): the shipped file is the fixed baseline, every shipped model carries a fingerprint of its
+  training data. No new entry.

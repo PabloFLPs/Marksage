@@ -104,11 +104,13 @@ const content: StoryContent = {
       body: [
         'O modelo de código seguinte guardou, em cada dimensão, a pista mais forte ao lado da média (média + máximo), para uma pista decisiva como `: number` não sumir na média. Ele foi ajustado com previsões para repositórios em que não treinou e julgado uma única vez num terceiro conjunto de teste novo — 842 blocos de 158 repositórios — contra uma régua escrita antes de rodar: mais sugestões certas nas linguagens quase gêmeas (TypeScript/JavaScript, C++/C, C#/Java) sem perder precisão.',
         'No geral, superou o modelo em uso. Nas linguagens quase gêmeas, não: ficou menos preciso, e pior em TypeScript/JavaScript. A causa estava nos rótulos, não no modelo — só 42% do código marcado como TypeScript no treino tem alguma sintaxe só de TypeScript; o resto é JavaScript válido. Ele não entrou, e o resultado está documentado ao lado dos que entraram.',
+        'Refazer os dados de treino também mostrou que o modelo em uso não podia ser reproduzido exatamente a partir das fontes registradas. Por isso o arquivo publicado virou a referência fixa com que todo modelo novo é comparado, e cada modelo agora sai com uma impressão digital dos dados com que aprendeu.',
       ],
       facts: [
         '842 blocos de teste · linguagens quase gêmeas: 103 certas, 88,0% contra 106, 89,8% do modelo em uso',
         'No geral: 391 certas, 93,8% contra 380, 93,1%',
         'Alternativa das regras medida de novo: +3 certas, 0 erros novos — continua',
+        'Todo modelo publicado: uma impressão digital dos dados de treino, conferida a cada reconstrução',
       ],
       link: { label: 'Testado, não usado', hash: 'models' },
     },
