@@ -811,3 +811,9 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
 - **#story:** the 2026-10-30 v3 entry gains the rebuild finding, framed as the practice it led to (Pablo agreed it
   belongs there, briefly): the shipped file is the fixed baseline, every shipped model carries a fingerprint of its
   training data. No new entry.
+- **`collect.ts` fixes** (Pablo's go): (1) every run re-applies the file selection and the pinned commit on existing
+  clones and restores missing files (`git reset --hard`; `checkout -- .` failed on selections matching nothing, like
+  jq's docs) — tested by deleting 20 files from a clone: all back, 625 blocks as before; (2) found while testing: the
+  code-file windows were seeded by the file's absolute path, so data depended on the clone folder — now repo +
+  relative path; two collections from different folders are identical. `locks/rebuild-2026-10-30.json` rewritten
+  after both (train 64,287); v3 trained on the pre-fix collection (64,288; three code-file repos off by one block).

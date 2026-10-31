@@ -64,16 +64,22 @@ async function clone(s: Source, pin?: string): Promise<string | null> {
   try {
     if (!existsSync(join(dir, '.git'))) {
       await run('git', ['clone', '-q', '--depth', '1', '--filter=blob:none', '--sparse', url, dir], { timeout: 240_000 })
-      await run('git', ['-C', dir, 'sparse-checkout', 'set', '--no-cone', ...sparsePatterns(s)], { timeout: 240_000 })
-      if (pin) {
-        // Rebuild exactly: move to the commit recorded in the manifest (GitHub serves any commit by its hash).
-        const { stdout: head } = await run('git', ['-C', dir, 'rev-parse', 'HEAD'])
-        if (head.trim() !== pin) {
-          await run('git', ['-C', dir, 'fetch', '-q', '--depth', '1', '--filter=blob:none', 'origin', pin], { timeout: 240_000 })
-          await run('git', ['-C', dir, 'checkout', '-q', pin], { timeout: 240_000 })
-        }
+    }
+    // Every run — also on a clone that already exists — re-applies the file selection and the pinned commit, then
+    // restores any selected file that's missing. A clone an earlier run left half-done (a timeout, a dropped
+    // connection) used to be trusted as it was and silently gave fewer blocks; now it's completed. (2026-10-30: the
+    // likely cause of the v2 rebuild gap — training/README.md, "Reproducibility".)
+    await run('git', ['-C', dir, 'sparse-checkout', 'set', '--no-cone', ...sparsePatterns(s)], { timeout: 240_000 })
+    if (pin) {
+      // Rebuild exactly: move to the commit recorded in the manifest (GitHub serves any commit by its hash).
+      const { stdout: head } = await run('git', ['-C', dir, 'rev-parse', 'HEAD'])
+      if (head.trim() !== pin) {
+        await run('git', ['-C', dir, 'fetch', '-q', '--depth', '1', '--filter=blob:none', 'origin', pin], { timeout: 240_000 })
+        await run('git', ['-C', dir, 'checkout', '-q', pin], { timeout: 240_000 })
       }
     }
+    // `reset --hard` rather than `checkout -- .`: the latter fails when the selection matches no file (jq's docs).
+    await run('git', ['-C', dir, 'reset', '-q', '--hard'], { timeout: 240_000 })
     const { stdout } = await run('git', ['-C', dir, 'rev-parse', 'HEAD'])
     return stdout.trim()
   } catch (e) {
@@ -150,7 +156,9 @@ function fileBlocks(s: Source, dir: string): Block[] {
       const name = p.split('/').pop()!
       if (![...exts].some((e) => name.endsWith(e) || name === e)) continue
       const lines = readFileSync(p, 'utf8').replace(/\r\n?/g, '\n').split('\n')
-      const rand = rng(p)
+      // Seeded by the repo and the file's path inside it — not the absolute path, which made the windows (and so
+      // the training data) depend on where the clones live (found 2026-10-30, rebuilding in another folder).
+      const rand = rng(`${s.repo}/${relative(dir, p)}`)
       const windows = Math.min(4, Math.max(1, Math.floor(lines.length / 40)))
       for (let w = 0; w < windows; w++) {
         const len = 3 + Math.floor(rand() * 23)

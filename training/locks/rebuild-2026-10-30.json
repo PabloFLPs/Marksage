@@ -11,11 +11,11 @@
   "manifest.json": "69231100a20a1f5d052cfdb4cf65b38fa018399c70968d112502600dcd2afab0",
   "splits.json": "702f9ec99430b1f5b7b4e5f3130aaae4982d95a9e3ae87cbbfd10e737e6946c9",
   "labels.ts": "0d324a164c53315846807fd640aafe45628cdda66b9041d117e2e9cbde12d1ad",
-  "collect.ts": "8e38009a9c4cce7ecdb67593305a601f6f45b77163cdf5d4fcbff2a85212b399",
+  "collect.ts": "f74d4843cb579a09e40208d55538e3632608a3dbfc4c2b882e2d70f768ea8b66",
   "build-sets.ts": "f7d39a8e43b8d85177016c4d8d4f57bcf80bfb72ead9848c54311de5ccc4c97c"
  },
  "collected": {
-  "sha256": "9ebb777e898791fc62505dddce05818e79eaeb3738b17911adcd1494e13538c7",
+  "sha256": "80126463636c7a49bebd7c7396a813d5dac70c35dd3694797ebd4cb447a998d3",
   "blocks": 272506,
   "perLabel": {
    "bash": 42370,
@@ -2184,8 +2184,8 @@
   }
  },
  "train": {
-  "sha256": "bb849043524b98e29629b50b77e69df9f7293261e48656d2c266f256645f405c",
-  "blocks": 64288,
+  "sha256": "884f64762a84cc3904834ed81286831c78f0c7be53f9a6174e467f2a1e80056a",
+  "blocks": 64287,
   "perLabel": {
    "bash": 6000,
    "c": 2176,
@@ -2193,7 +2193,7 @@
    "csharp": 2070,
    "css": 1363,
    "diff": 1103,
-   "dockerfile": 567,
+   "dockerfile": 566,
    "go": 2747,
    "html": 2874,
    "java": 2238,
@@ -2431,7 +2431,7 @@
     "dockerfile": 24
    },
    "docker-library/python": {
-    "dockerfile": 104
+    "dockerfile": 103
    },
    "docker/awesome-compose": {
     "bash": 9,
@@ -2800,7 +2800,7 @@
     "rust": 208
    },
    "libsdl-org/SDL": {
-    "c": 449
+    "c": 448
    },
    "libsdl-org/sdlwiki": {
     "bash": 25,
@@ -3375,7 +3375,7 @@
     "python": 19
    },
    "TheAlgorithms/C": {
-    "c": 90
+    "c": 91
    },
    "TheAlgorithms/C-Plus-Plus": {
     "cpp": 369
@@ -3629,5 +3629,5 @@
    }
   }
  },
- "note": "The pinned collection of 2026-10-30 (Linux, the cloud workspace): it does not reproduce lang-v2.bin's training set (63,751 blocks; per-language counts in docs/MODELS.md §3.1). Kept as the reference for the next rebuild."
+ "note": "The pinned collection of 2026-10-30 after the collect.ts fixes (existing clones completed; file windows seeded by repo-relative paths), checked identical when collected from two different folders. It does not reproduce lang-v2.bin's training set (63,751 blocks; per-language counts in docs/MODELS.md §3.1). v3 and its control trained on the same day's collection made before the fixes: 64,288 training blocks, differing only in windows of the 16 code-file sources (train: dockerfile -1, c -1/+1 by repository)."
 }

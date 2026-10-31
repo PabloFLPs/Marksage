@@ -162,9 +162,19 @@ folder is missing) — impossible to check now: v2's blocks are gone.
    `build-sets.ts`), and the Node and git versions. Commit it with the model.
 3. **Check a rebuild before training on it:** `node --experimental-strip-types training/fingerprint.ts --check
    locks/<name>.json` prints "identical", or the repositories and languages that differ, largest first.
+4. **`collect.ts` no longer trusts an existing clone.** It used to clone only when a repo's folder was missing and
+   then read whatever files were inside — a clone an earlier run left half-done (a timeout, a dropped connection)
+   silently gave fewer blocks, run after run. Now every run re-applies the file selection and the pinned commit and
+   restores missing files (`git reset --hard`; cheap, git fetches only what's missing). Tested: 20 files deleted
+   from a clone came back, and the block count with them.
+5. **The code-file windows no longer depend on where the clones live.** Windows of real source files (the 16
+   "code" sources) were placed by a random generator seeded with the file's *absolute* path, so the same sources
+   gave different training data on another machine or folder. Now it's seeded by repo + path inside the repo:
+   collecting from two different folders gives identical data.
 
-`locks/rebuild-2026-10-30.json` records today's collection (the data v3 and its control were trained on), so the
-next rebuild can be checked against it.
+`locks/rebuild-2026-10-30.json` records today's collection after fixes 4 and 5, for the next rebuild to be checked
+against. (v3 and its control trained on the same day's collection made before them: 64,288 training blocks, 1 block
+off in three code-file repositories.)
 
 ## Third held-out set (2026-10-30) — for v3
 
