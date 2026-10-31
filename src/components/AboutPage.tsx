@@ -123,37 +123,6 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
         </button>
 
-        <Section title={x('Appearance', 'Aparência')}>
-          <p className="mb-4 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">
-            {x(
-              'App icon and accent colour — shown in the browser tab, the header, and across the interface.',
-              'Ícone do app e cor de destaque — aparecem na aba do navegador, no cabeçalho e em toda a interface.',
-            )}
-          </p>
-          <AppIconPicker value={appIcon} onChange={onAppIconChange} theme={theme} />
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-ink-muted dark:text-dark-ink-muted">{t('appearance.language')}</p>
-            <Segmented<Lang>
-              label={t('appearance.language')}
-              value={lang}
-              onChange={setLang}
-              options={LANGS.map((l) => [l.id, l.label, l.short])}
-            />
-          </div>
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-ink-muted dark:text-dark-ink-muted">{t('appearance.keyStyle')}</p>
-            <Segmented<KeyStyle>
-              label={t('appearance.keyStyle')}
-              value={keyStyle}
-              onChange={setKeyStyle}
-              options={[
-                ['mac', 'macOS', '⌘ ⇧'],
-                ['windows', t('keystyle.windows'), 'Ctrl Shift'],
-              ]}
-            />
-          </div>
-        </Section>
-
         <Section title="Smart Assist" badge={x('local · on by default', 'local · ligado por padrão')}>
           <p className="mb-4 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">
             {x(
@@ -341,6 +310,37 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
               <>O Marksage — código e modelos — é software livre sob a GNU Affero General Public License v3.0: você pode ler, mudar e compartilhar, e se rodar uma versão modificada para outras pessoas, compartilha as suas mudanças também. O código desta versão{APP_VERSION && <> (Marksage {APP_VERSION} — <a href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">changelog</a>)</>} está no <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>{SOURCE_COMMIT && <> (commit <code>{SOURCE_COMMIT.slice(0, 7)}</code>)</>}; o texto completo da licença está <a href="/LICENSE.txt" target="_blank" rel="noopener" className="text-accent hover:underline dark:text-dark-accent">aqui</a> (SPDX: AGPL-3.0-only).</>,
             )}
           </Feature>
+        </Section>
+
+        <Section title={x('Appearance', 'Aparência')}>
+          <p className="mb-4 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">
+            {x(
+              'App icon and accent colour — shown in the browser tab, the header, and across the interface.',
+              'Ícone do app e cor de destaque — aparecem na aba do navegador, no cabeçalho e em toda a interface.',
+            )}
+          </p>
+          <AppIconPicker value={appIcon} onChange={onAppIconChange} theme={theme} />
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-ink-muted dark:text-dark-ink-muted">{t('appearance.language')}</p>
+            <Segmented<Lang>
+              label={t('appearance.language')}
+              value={lang}
+              onChange={setLang}
+              options={LANGS.map((l) => [l.id, l.label, l.short])}
+            />
+          </div>
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-ink-muted dark:text-dark-ink-muted">{t('appearance.keyStyle')}</p>
+            <Segmented<KeyStyle>
+              label={t('appearance.keyStyle')}
+              value={keyStyle}
+              onChange={setKeyStyle}
+              options={[
+                ['mac', 'macOS', '⌘ ⇧'],
+                ['windows', t('keystyle.windows'), 'Ctrl Shift'],
+              ]}
+            />
+          </div>
         </Section>
       </div>
     </main>

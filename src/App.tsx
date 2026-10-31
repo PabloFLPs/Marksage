@@ -879,6 +879,8 @@ export default function App() {
           onNew={handleNew}
           isTouch={isTouch}
           onPrivacy={openPrivacy}
+          onTrySample={handleTrySmartAssist}
+          onStory={openStory}
           history={recent}
           onOpenHistory={handleOpenHistory}
           onRemoveHistory={removeFromHistory}

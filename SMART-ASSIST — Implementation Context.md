@@ -855,4 +855,10 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   mostly from English docs. Avoided on purpose: `== Title ==` (it maps to `#####`, DokuWiki-style, and looks wrong
   in a demo), short shell blocks (the rules aren't sure below a loop or a pipe), and `-a …` lines in PT (read as a
   flag).
+- **The start screen says what Marksage is** (agent C's top finding: a cold visitor saw only a drop box; the best
+  demo sat 1,800 px down About, below the icon picker): an `h1` tagline ("The Markdown editor that notices." /
+  "O editor de Markdown que repara nos detalhes."), one line (local-first; rules + two small models trained for it,
+  on your device), **Try it on a sample document** (primary) and **The story** link above the drop box, whose own
+  Smart Assist line goes (said above now). The start screen is the page's `<main>`. About: Appearance moves to the
+  end, after Open source. Checked: 1440 / 390 / 320 px, light / dark, EN / PT-BR, no overflow.
 

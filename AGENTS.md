@@ -23,7 +23,8 @@ src/
                           200 lines memoized) — keep the mirror's text classes = the textarea's. The mirror scrolls by a
                           scroll-driven animation (`.editor-lines`, `--scroll-max`; compositor, same frame as the text) —
                           a scroll listener only where unsupported (it trails a frame). Textarea: `overscroll-none`.
-    EmptyState.tsx        start screen: Open / Paste / Start writing, Smart Assist line, Privacy link (#privacy)
+    EmptyState.tsx        start screen (<main>, the page's h1): tagline + one line on what Marksage is, Try it on a sample
+                          document (lib/sampleDocument) and the story link, then Open / Paste / Start writing, Privacy link
     PageLoad.tsx          <PageLoading> + <PageLoadBoundary> (Try again / Back) for lazily loaded pages
     motion.tsx            <Presence> (exit animations) and <CollapseX> (toolbar width collapse)
     AboutPage.tsx         feature docs + Appearance (app icon, key style) — keep in sync with features

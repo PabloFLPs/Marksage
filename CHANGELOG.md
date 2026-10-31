@@ -8,7 +8,8 @@ app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: A
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.34.0** · 2026-10-31 · `(this commit)` · feat(sample): a sample document that shows every Smart Assist feature
+- **3.35.0** · 2026-10-31 · `(this commit)` · feat(start): the start screen says what Marksage is, with the sample and the story
+- **3.34.0** · 2026-10-31 · `04eb133` · feat(sample): a sample document that shows every Smart Assist feature
 - **3.33.4** · 2026-10-31 · `ec39055` · fix(history): Recent keeps every tab's documents
 - **3.33.3** · 2026-10-30 · `ecbec4d` · fix(training): collect.ts completes existing clones, and its data no longer depends on the folder
 - **3.33.2** · 2026-10-30 · `e5bc6a6` · fix(nav): Back no longer flashes "Marksage" while leaving a docs page

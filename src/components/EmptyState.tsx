@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ClipboardPaste, FilePlus2, FileText, FolderOpen, Sparkles } from 'lucide-react'
+import { ArrowRight, ClipboardPaste, FilePlus2, FileText, FolderOpen, Milestone, Sparkles } from 'lucide-react'
 import { searchHistory, type HistoryEntry } from '../lib/history'
 import { HistoryList } from './HistoryList'
 import { ClearHistory, HistorySearch } from './HistoryTools'
@@ -14,13 +14,16 @@ interface EmptyStateProps {
   /** Phones and tablets: no drag & drop, no Ctrl/Cmd + V — the copy says so. */
   isTouch: boolean
   onPrivacy: () => void
+  /** The sample document (Smart Assist tour) — the same one as About's "Try it on a sample document". */
+  onTrySample: () => void
+  onStory: () => void
   history: HistoryEntry[]
   onOpenHistory: (entry: HistoryEntry) => void
   onRemoveHistory: (id: string) => void
   onClearHistory: () => void
 }
 
-export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, onPrivacy, history, onOpenHistory, onRemoveHistory, onClearHistory }: EmptyStateProps) {
+export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, onPrivacy, onTrySample, onStory, history, onOpenHistory, onRemoveHistory, onClearHistory }: EmptyStateProps) {
   const { t } = useI18n()
   const [hint, setHint] = useState<string | null>(null)
   const [query, setQuery] = useState('')
@@ -37,7 +40,29 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, on
   }
 
   return (
-    <div className="anim-rise scroll-area flex min-h-0 flex-1 flex-col items-center justify-center-safe gap-8 overflow-y-auto p-6">
+    <main className="anim-rise scroll-area flex min-h-0 flex-1 flex-col items-center justify-center-safe gap-8 overflow-y-auto p-6">
+      {/* What Marksage is, for someone landing here cold (a shared link): the line, the tour, the story. */}
+      <section className="flex w-full max-w-md flex-col items-center text-center">
+        <h1 className="text-balance text-xl font-semibold tracking-tight text-ink dark:text-dark-ink">{t('empty.tagline')}</h1>
+        <p className="mt-2 text-pretty text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">{t('empty.pitch')}</p>
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-1">
+          <button
+            type="button"
+            onClick={onTrySample}
+            className="tap press group inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
+          >
+            <Sparkles className="hover-sparkle h-4 w-4" /> {t('empty.trySample')}
+          </button>
+          <button
+            type="button"
+            onClick={onStory}
+            className="tap group inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-accent hover:bg-accent/5 dark:text-dark-accent dark:hover:bg-dark-accent/10"
+          >
+            <Milestone className="h-4 w-4" /> {t('empty.story')}
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </button>
+        </div>
+      </section>
       <div
         className={`flex w-full max-w-md flex-col items-center rounded-xl border-2 border-dashed p-10 text-center transition-all duration-200 ${
           isDragging
@@ -71,11 +96,7 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, on
             {hint}
           </p>
         )}
-        <p className="mt-6 inline-flex items-start gap-1.5 text-left text-xs text-ink-muted dark:text-dark-ink-muted">
-          <Sparkles className="mt-0.5 h-3 w-3 shrink-0 text-accent dark:text-dark-accent" />
-          <span>{t('empty.assist')}</span>
-        </p>
-        <p className="mt-3 text-xs text-ink-muted dark:text-dark-ink-muted">
+        <p className="mt-6 text-xs text-ink-muted dark:text-dark-ink-muted">
           {t('empty.supports')}{' '}
           <button type="button" onClick={onPrivacy} className="underline decoration-line underline-offset-2 transition-colors hover:text-accent dark:decoration-dark-line dark:hover:text-dark-accent">
             {t('empty.privacy')}
@@ -104,6 +125,6 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, on
           )}
         </section>
       )}
-    </div>
+    </main>
   )
 }

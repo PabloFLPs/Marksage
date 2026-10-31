@@ -52,7 +52,7 @@ Everything runs in the browser — files never leave your machine.
   macOS or Windows keyboard-shortcut labels
 - **Sample document** — a small made-up README with slips left in on purpose: a one-minute tour of every
   Smart Assist feature (code languages, structure hints, smart paste, readability, the Outline's three tabs,
-  and what Rules + AI adds), from About
+  and what Rules + AI adds), from the start screen and About
 - **About page** (`#about`) documenting every feature, and two technical
   pages: how Smart Assist works (`#smart-assist`) and how the two models work (`#models`) — loaded on demand,
   only in the current language, prefetched while About is open; a failed download shows *Try again* instead of
