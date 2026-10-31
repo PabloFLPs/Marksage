@@ -17,6 +17,7 @@ import { forward, isShort, loadModel, softmaxT, type ModelHeader, type Pooling }
 import { combineFence, toChoice } from '../src/assist/model/hybrid.ts'
 import { hasJsonComment } from './jsonComments.ts'
 import { decisive } from './pairSyntax.ts'
+import { fingerprint, writeLock } from './fingerprint.ts'
 import { fit, fitTemperature, fnv, rng, rowOf, serialise, type Sample as BaseSample } from './fasttext.ts'
 import { HeuristicEngine } from '../src/assist/heuristicEngine.ts'
 import { LANGUAGES, Q } from '../src/assist/questions.ts'
@@ -227,6 +228,12 @@ if (SAVE) {
   mkdirSync(dirname(SAVE), { recursive: true })
   writeFileSync(SAVE, new Uint8Array(buf))
   console.log(`saved ${SAVE}`)
+  // A model that ships gets a fingerprint of its training data (fingerprint.ts) — v2's couldn't be rebuilt without one.
+  if (/public\/models\//.test(SAVE)) {
+    const name = SAVE.split('/').pop()!.replace(/\.bin$/, '')
+    writeLock(join(ROOT, 'locks', `${name}.json`), fingerprint(name, `trained with: train.ts ${process.argv.slice(2).join(' ')}`))
+    console.log(`wrote training/locks/${name}.json`)
+  }
 }
 
 if (process.argv.includes('--analyze')) {

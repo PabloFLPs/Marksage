@@ -41,6 +41,7 @@ node --experimental-strip-types training/eval-links.ts
 | `build-sections.ts`, `train-sections.ts` | ✓ | Section model: dataset from the cloned Markdown, trainer (see the last section). |
 | `sources-test2.json`, `manifest-test2.json`, `build-test2.ts` | ✓ | The second, fresh held-out set (`fences.real2.json`): 72 repos used nowhere else, built once and frozen. |
 | `sources-test3.json`, `manifest-test3.json`, `build-test3.ts`, `jsonComments.ts` | ✓ | The third held-out set (`fences.real3.json`, 2026-10-30, for v3): 221 repos used nowhere else (158 in the sample), built before any v3 training and frozen. |
+| `fingerprint.ts`, `locks/` | ✓ | Training-data fingerprints (2026-10-30): per repo and language, blocks collected and blocks trained on, checksums, tool versions. `train.ts` writes `locks/<model>.json` when it saves into `public/models/`; `--check` compares a rebuild with a lock. See "Reproducibility". |
 | `eval-test3.ts`, `pairSyntax.ts` | ✓ | The v3 experiment's one held-out run (v2, v3, same-data control; alone, hybrid, hybrid without `RULES_OVERRIDE`; the bar) and the decisive-syntax markers for its report. |
 | `build-structure.ts`, `train-structure.ts`, `structureFeatures.ts` | ✓ | Structure model (tried, not used): dataset, trainer, clue reader 3. |
 | `build-pastes.ts`, `train-pastes.ts`, `pasteFeatures.ts` | ✓ | Paste-type model (tried, not used): dataset, trainer, clue reader 4. |
@@ -136,6 +137,34 @@ heuristics' precision" goal is not met yet. ~5 of the 13 wrong suggestions are l
 one-liners valid in several languages (`void main() { … }`, `print page.html`, `foo.doSomething();`) and a
 few genuine misses (`a {}` → js). v3 ideas: a "too short to tell" abstain rule for one-liners; per-language
 gates; more CSS/diff/Markdown in training.
+
+## Reproducibility (2026-10-30)
+
+**The problem.** The shipped `lang-v2.bin` can't be rebuilt: the pinned collection gives 64,288 training blocks
+instead of 63,751, and a retrain with v2's exact recipe scores 77% dev accuracy against the shipped file's 81.8%.
+Against v2's per-language counts (docs/MODELS.md §3.1) the extra 537 are almost all **Rust (+463)**, plain text (+51)
+and diff (+20); every other language is within ±5. So a few sources collect more than they did on 2026-10-24.
+
+**Ruled out:** code, settings, `sources.json`, `manifest.json` and `splits.json` (unchanged since v2); macOS's
+case-insensitive file system (16 colliding files, no effect on training); the git version — git 2.39.5 (Apple's)
+and 2.43 check out exactly the same Markdown files for all 61 folder-limited sources. **Not found** within the time
+set for it (an hour): no single repository explains the Rust, plain text and diff excess together. The leading
+guess is a clone that was incomplete when v2 was collected and reused as it was (`collect.ts` only clones when the
+folder is missing) — impossible to check now: v2's blocks are gone.
+
+**What changes:**
+1. **The shipped file is the baseline.** v2 is `public/models/lang-v2.bin` as committed — never "a rebuild of v2".
+   Every comparison also carries a same-data control (the old recipe retrained on the new data), as v3 did, so a
+   change's effect is told apart from the data's.
+2. **Every shipped model gets a lock.** `train.ts --save public/models/<name>.bin` writes `locks/<name>.json`
+   (`fingerprint.ts`): blocks collected and blocks trained on per repository and language, checksums of both files
+   and of the inputs that decide them (`sources.json`, `manifest.json`, `splits.json`, `labels.ts`, `collect.ts`,
+   `build-sets.ts`), and the Node and git versions. Commit it with the model.
+3. **Check a rebuild before training on it:** `node --experimental-strip-types training/fingerprint.ts --check
+   locks/<name>.json` prints "identical", or the repositories and languages that differ, largest first.
+
+`locks/rebuild-2026-10-30.json` records today's collection (the data v3 and its control were trained on), so the
+next rebuild can be checked against it.
 
 ## Third held-out set (2026-10-30) — for v3
 

@@ -8,7 +8,7 @@ What's planned next, with the context a fresh session needs to start. Shipped wo
 ## 0. Done (2026-10-28): structure and paste models tried, Hybrid mode, new near-misses
 
 The plan that was here — a structure model and a "Local models only" mode — ran its course: modes are now Off /
-Heuristics / **Hybrid**, three new near-misses ship as rules (`• item`, `1- item`, `[text] (url)`), and the
+Rules / **Rules + AI** (then called Heuristics / Hybrid), three new near-misses ship as rules (`• item`, `1- item`, `[text] (url)`), and the
 structure model, a paste-type model and a URL link-text rule were measured on fresh held-out sets and not used.
 Numbers and reasons: `SMART-ASSIST — Implementation Context.md` §28, `training/README.md`, `docs/MODELS.md` §8.3–8.5.
 Follow-ups are in §4.
@@ -125,8 +125,10 @@ Follow-ups, not started:
   — the gap is in the labels, not the model.
 - **Mean + max for overall coverage** (+11 right, −2 wrong in the hybrid on the third set; much more on CV) is a
   different claim from the one tested; it would need its own bar and a new fresh held-out set.
-- **Reproducibility:** find why the pinned rebuild gives 64,288 training blocks instead of v2's 63,751 (keep a
-  checksum of `train.jsonl` with every shipped model from now on).
+- **Reproducibility — done (2026-10-30):** the shipped file is the fixed baseline, every shipped model gets a
+  training-data lock (`training/fingerprint.ts`), and rebuilds are checked against it. The cause of v2's gap (+463
+  Rust, +51 plain text, +20 diff blocks today) wasn't found in the hour set for it — training/README.md,
+  "Reproducibility".
 
 ## 5. Showcase
 

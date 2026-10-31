@@ -140,6 +140,9 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
 - Docs must match the code: when a model, test set or number changes, update `docs/MODELS.md` §7 (model cards)
   and §8 (versions and test sets), `docs/SMART-ASSIST.md` §4–5 (EN + PT-BR), `training/README.md` and the timeline.
   Dates in the timeline and version tables are git commit dates (America/Sao_Paulo).
+- Reproducibility (training/README.md): the shipped model file is the baseline — never compare against a "rebuilt"
+  one; carry a same-data control. Saving into `public/models/` writes `training/locks/<name>.json` — commit it with
+  the model, and run `fingerprint.ts --check` on a rebuild before training on it.
 
 ## Verify before committing
 `npx tsc -b` · `npm run lint` · `npm run eval:assist` · manually check light/dark, desktop/mobile, and reduced motion.

@@ -784,3 +784,18 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   committed; Privacy & storage unchanged (nothing shipped).
 - `#story` (Pablo asked): a 2026-10-30 entry, "Better overall, not where it was aimed" (the bar, the verdict, the
   label cause, the fallback re-measured; link → #models), and "What comes next" now leads with fixing TS/JS labels.
+
+## 36. Reproducibility of the training data (2026-10-30)
+
+- Pablo chose all three: (1) the shipped file is the fixed baseline, with a same-data control in every comparison;
+  (2) training-data locks; (3) an hour to look for the cause, reported even if inconclusive.
+- `training/fingerprint.ts`: per repo × language, blocks collected and trained on, checksums of `blocks.jsonl`
+  (sorted lines — collector order varies) and `train.jsonl`, of the six inputs that decide them, and Node / git
+  versions. `train.ts --save public/models/…` writes `training/locks/<name>.json`; `--check` lists the differing
+  repos and languages, largest first. `locks/rebuild-2026-10-30.json` = the collection v3 trained on (59 KB).
+- The hunt: MODELS §3.1's per-language counts put the 537 extra blocks in Rust +463, plain text +51, diff +20
+  (others ±5). Ruled out: inputs and code (unchanged), case-insensitive file system, git version (2.39.5 built from
+  source vs 2.43: identical sparse checkouts for all 61 folder-limited sources), top-level files of `/src/*` sources.
+  No single repo explains the excess (largest Rust sources are capped at 600). Leading guess, uncheckable: a clone
+  incomplete at v2 time and reused (`collect.ts` clones only when the folder is missing). Closed as not found.
+- ROADMAP §0's mode names fixed (Rules / Rules + AI).

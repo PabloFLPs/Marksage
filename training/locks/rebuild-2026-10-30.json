@@ -1,0 +1,3633 @@
+{
+ "name": "rebuild-2026-10-30",
+ "created": "2026-10-30",
+ "tools": {
+  "node": "v22.23.4",
+  "git": "git version 2.43.0",
+  "platform": "linux-x64"
+ },
+ "inputs": {
+  "sources.json": "4d08bdfa49201fdff99729f800d52d07e52a123bc3010d31afe989193164878a",
+  "manifest.json": "69231100a20a1f5d052cfdb4cf65b38fa018399c70968d112502600dcd2afab0",
+  "splits.json": "702f9ec99430b1f5b7b4e5f3130aaae4982d95a9e3ae87cbbfd10e737e6946c9",
+  "labels.ts": "0d324a164c53315846807fd640aafe45628cdda66b9041d117e2e9cbde12d1ad",
+  "collect.ts": "8e38009a9c4cce7ecdb67593305a601f6f45b77163cdf5d4fcbff2a85212b399",
+  "build-sets.ts": "f7d39a8e43b8d85177016c4d8d4f57bcf80bfb72ead9848c54311de5ccc4c97c"
+ },
+ "collected": {
+  "sha256": "9ebb777e898791fc62505dddce05818e79eaeb3738b17911adcd1494e13538c7",
+  "blocks": 272506,
+  "perLabel": {
+   "bash": 42370,
+   "c": 7155,
+   "cpp": 4312,
+   "csharp": 3566,
+   "css": 2496,
+   "diff": 2053,
+   "dockerfile": 893,
+   "go": 14216,
+   "html": 3973,
+   "java": 6331,
+   "js": 47123,
+   "json": 5325,
+   "markdown": 2470,
+   "php": 13438,
+   "plaintext": 5649,
+   "python": 39522,
+   "ruby": 6034,
+   "rust": 3969,
+   "sql": 16575,
+   "ts": 33455,
+   "yaml": 11581
+  },
+  "perRepo": {
+   "actions/checkout": {
+    "bash": 1,
+    "yaml": 16
+   },
+   "actix/actix-web": {
+    "bash": 3,
+    "diff": 18,
+    "rust": 52
+   },
+   "airbnb/javascript": {
+    "bash": 17,
+    "js": 6
+   },
+   "ajv-validator/ajv": {
+    "bash": 8,
+    "html": 3,
+    "js": 112,
+    "json": 3,
+    "ts": 47
+   },
+   "alacritty/alacritty": {
+    "bash": 30
+   },
+   "angular/angular": {
+    "bash": 34,
+    "css": 7,
+    "html": 79,
+    "js": 1,
+    "json": 13,
+    "plaintext": 12,
+    "ts": 753
+   },
+   "animate-css/animate.css": {
+    "bash": 6,
+    "css": 6,
+    "html": 8,
+    "js": 9,
+    "json": 1
+   },
+   "AnthonyCalandra/modern-cpp-features": {
+    "cpp": 396
+   },
+   "anthropics/anthropic-sdk-python": {
+    "bash": 18,
+    "json": 1,
+    "python": 147
+   },
+   "App-vNext/Polly": {
+    "bash": 8,
+    "csharp": 178,
+    "markdown": 2,
+    "plaintext": 13
+   },
+   "argoproj/argo-cd": {
+    "bash": 424,
+    "css": 2,
+    "diff": 7,
+    "dockerfile": 5,
+    "go": 3,
+    "js": 9,
+    "json": 24,
+    "markdown": 1,
+    "plaintext": 7,
+    "ts": 8,
+    "yaml": 799
+   },
+   "argoproj/argo-workflows": {
+    "bash": 157,
+    "go": 21,
+    "json": 4,
+    "plaintext": 19,
+    "python": 3,
+    "rust": 1,
+    "sql": 8,
+    "yaml": 236
+   },
+   "astral-sh/ruff": {
+    "bash": 154,
+    "diff": 3,
+    "html": 1,
+    "json": 21,
+    "markdown": 24,
+    "plaintext": 36,
+    "python": 12296,
+    "rust": 14,
+    "ts": 1,
+    "yaml": 13
+   },
+   "astral-sh/uv": {
+    "bash": 482,
+    "dockerfile": 30,
+    "js": 3,
+    "json": 5,
+    "markdown": 1,
+    "plaintext": 17,
+    "python": 30,
+    "rust": 3,
+    "yaml": 25
+   },
+   "AutoMapper/AutoMapper": {
+    "csharp": 175
+   },
+   "avelino/awesome-go": {
+    "markdown": 5
+   },
+   "axios/axios": {
+    "bash": 44,
+    "diff": 20,
+    "html": 15,
+    "js": 746,
+    "json": 8,
+    "plaintext": 5,
+    "ts": 252
+   },
+   "Azure/azure-sdk-for-net": {
+    "bash": 12,
+    "csharp": 311,
+    "diff": 3,
+    "json": 9,
+    "markdown": 2,
+    "plaintext": 13,
+    "yaml": 85
+   },
+   "babel/babel": {
+    "bash": 339,
+    "diff": 3,
+    "js": 357,
+    "json": 13,
+    "markdown": 2,
+    "plaintext": 5
+   },
+   "bevyengine/bevy": {
+    "bash": 48,
+    "diff": 1,
+    "json": 3,
+    "plaintext": 4,
+    "rust": 65,
+    "yaml": 1
+   },
+   "BurntSushi/ripgrep": {
+    "bash": 10,
+    "rust": 5
+   },
+   "BurntSushi/xsv": {
+    "bash": 12
+   },
+   "caddyserver/website": {
+    "bash": 6,
+    "dockerfile": 1,
+    "go": 23,
+    "html": 1,
+    "json": 16,
+    "yaml": 2
+   },
+   "catchorg/Catch2": {
+    "bash": 2,
+    "cpp": 125,
+    "markdown": 1,
+    "plaintext": 8
+   },
+   "cezaraugusto/You-Dont-Know-JS": {
+    "html": 6,
+    "js": 1332
+   },
+   "chalk/chalk": {
+    "bash": 1,
+    "js": 6
+   },
+   "changkun/modern-cpp-tutorial": {
+    "bash": 10,
+    "cpp": 360,
+    "plaintext": 3
+   },
+   "charmbracelet/bubbletea": {
+    "bash": 1,
+    "go": 37
+   },
+   "charmbracelet/lipgloss": {
+    "bash": 2,
+    "go": 79
+   },
+   "chartjs/Chart.js": {
+    "bash": 6,
+    "html": 13,
+    "js": 197,
+    "json": 2,
+    "ts": 5
+   },
+   "clap-rs/clap": {
+    "bash": 120,
+    "rust": 7
+   },
+   "cli/cli": {
+    "bash": 128,
+    "go": 2,
+    "json": 16,
+    "markdown": 2,
+    "plaintext": 2,
+    "yaml": 5
+   },
+   "cockroachdb/docs": {
+    "bash": 548,
+    "csharp": 1,
+    "go": 14,
+    "java": 13,
+    "js": 7,
+    "json": 17,
+    "plaintext": 2,
+    "python": 25,
+    "ruby": 3,
+    "sql": 2721,
+    "ts": 4,
+    "yaml": 82
+   },
+   "colinhacks/zod": {
+    "bash": 39,
+    "diff": 3,
+    "js": 1,
+    "json": 8,
+    "markdown": 4,
+    "ts": 1092,
+    "yaml": 1
+   },
+   "compose-spec/compose-spec": {
+    "bash": 4,
+    "dockerfile": 2,
+    "markdown": 2,
+    "plaintext": 2,
+    "yaml": 425
+   },
+   "composer/composer": {
+    "bash": 123,
+    "dockerfile": 3,
+    "json": 173,
+    "php": 25,
+    "plaintext": 15,
+    "yaml": 6
+   },
+   "cpp-best-practices/cppbestpractices": {
+    "cpp": 44
+   },
+   "craftcms/docs": {
+    "bash": 87,
+    "html": 17,
+    "js": 11,
+    "json": 22,
+    "markdown": 8,
+    "php": 474,
+    "yaml": 2
+   },
+   "curl/curl": {
+    "bash": 46,
+    "c": 1226,
+    "cpp": 1,
+    "html": 4
+   },
+   "CyC2018/CS-Notes": {
+    "bash": 11,
+    "c": 21,
+    "html": 324,
+    "java": 875,
+    "js": 4,
+    "plaintext": 12,
+    "python": 4,
+    "sql": 155
+   },
+   "d3/d3": {
+    "bash": 3,
+    "css": 1,
+    "html": 17,
+    "js": 1056,
+    "json": 3
+   },
+   "dapr/docs": {
+    "bash": 305,
+    "cpp": 2,
+    "csharp": 89,
+    "diff": 1,
+    "go": 74,
+    "html": 1,
+    "java": 54,
+    "js": 48,
+    "json": 36,
+    "markdown": 8,
+    "php": 4,
+    "plaintext": 1,
+    "python": 57,
+    "ruby": 2,
+    "rust": 1,
+    "sql": 16,
+    "ts": 3,
+    "yaml": 69
+   },
+   "date-fns/date-fns": {
+    "bash": 22,
+    "diff": 1,
+    "html": 5,
+    "js": 53,
+    "ts": 29
+   },
+   "DaveGamble/cJSON": {
+    "bash": 8,
+    "c": 12,
+    "json": 1,
+    "ruby": 3,
+    "yaml": 2
+   },
+   "dbt-labs/docs.getdbt.com": {
+    "bash": 872,
+    "html": 1,
+    "java": 1,
+    "js": 23,
+    "json": 87,
+    "markdown": 26,
+    "plaintext": 166,
+    "python": 132,
+    "rust": 22,
+    "sql": 951,
+    "yaml": 1679
+   },
+   "Delgan/loguru": {
+    "bash": 1,
+    "plaintext": 1,
+    "python": 24
+   },
+   "denoland/deno": {
+    "bash": 78,
+    "css": 2,
+    "diff": 2,
+    "html": 2,
+    "js": 23,
+    "json": 19,
+    "plaintext": 97,
+    "rust": 14,
+    "sql": 4,
+    "ts": 31,
+    "yaml": 2
+   },
+   "diesel-rs/diesel": {
+    "bash": 13,
+    "diff": 6,
+    "rust": 83,
+    "sql": 23
+   },
+   "docker-library/docs": {
+    "bash": 1238,
+    "dockerfile": 188,
+    "json": 1,
+    "markdown": 2,
+    "php": 2,
+    "plaintext": 5,
+    "python": 2,
+    "yaml": 71
+   },
+   "docker-library/golang": {
+    "dockerfile": 24
+   },
+   "docker-library/python": {
+    "dockerfile": 104
+   },
+   "docker/awesome-compose": {
+    "bash": 55,
+    "dockerfile": 2,
+    "plaintext": 1,
+    "python": 1,
+    "ruby": 1,
+    "yaml": 14
+   },
+   "docker/docs": {
+    "bash": 122,
+    "diff": 1,
+    "dockerfile": 58,
+    "json": 3,
+    "plaintext": 6,
+    "yaml": 85
+   },
+   "doocs/advanced-java": {
+    "bash": 12,
+    "c": 4,
+    "cpp": 2,
+    "html": 1,
+    "java": 63,
+    "json": 3,
+    "sql": 1,
+    "yaml": 2
+   },
+   "dotnet/AspNetCore.Docs": {
+    "bash": 139,
+    "csharp": 209,
+    "diff": 1,
+    "html": 18,
+    "json": 79,
+    "plaintext": 14,
+    "sql": 12
+   },
+   "dotnet/docs": {
+    "bash": 24,
+    "cpp": 1,
+    "csharp": 127,
+    "json": 2,
+    "plaintext": 17
+   },
+   "dotnet/docs-maui": {
+    "bash": 50,
+    "csharp": 192,
+    "plaintext": 4
+   },
+   "dotnet/EntityFramework.Docs": {
+    "bash": 53,
+    "csharp": 1106,
+    "diff": 1,
+    "json": 17,
+    "plaintext": 138,
+    "sql": 407,
+    "yaml": 1
+   },
+   "dotnet/orleans": {
+    "bash": 86,
+    "csharp": 147,
+    "dockerfile": 3,
+    "json": 11,
+    "markdown": 1,
+    "plaintext": 12,
+    "yaml": 2
+   },
+   "drizzle-team/drizzle-orm": {
+    "bash": 29,
+    "diff": 2,
+    "js": 1,
+    "json": 10,
+    "plaintext": 5,
+    "sql": 23,
+    "ts": 417,
+    "yaml": 6
+   },
+   "electron/electron": {
+    "bash": 148,
+    "cpp": 30,
+    "css": 7,
+    "diff": 2,
+    "html": 40,
+    "js": 593,
+    "json": 32,
+    "markdown": 18,
+    "plaintext": 30,
+    "ts": 5,
+    "yaml": 129
+   },
+   "encode/django-rest-framework": {
+    "bash": 29,
+    "plaintext": 2,
+    "python": 87
+   },
+   "encode/httpx": {
+    "bash": 34,
+    "python": 103
+   },
+   "encode/starlette": {
+    "bash": 28,
+    "html": 1,
+    "python": 139
+   },
+   "eslint/eslint": {
+    "bash": 86,
+    "diff": 6,
+    "html": 6,
+    "js": 2523,
+    "json": 155,
+    "plaintext": 18,
+    "rust": 1,
+    "ts": 98,
+    "yaml": 2
+   },
+   "executablebooks/MyST-Parser": {
+    "bash": 13,
+    "html": 2,
+    "js": 2,
+    "markdown": 17,
+    "python": 28,
+    "ts": 1,
+    "yaml": 6
+   },
+   "expressjs/express": {
+    "bash": 10,
+    "js": 1
+   },
+   "facebook/docusaurus": {
+    "bash": 1789,
+    "css": 217,
+    "diff": 333,
+    "html": 84,
+    "java": 14,
+    "js": 4612,
+    "json": 259,
+    "markdown": 1296,
+    "php": 3,
+    "plaintext": 107,
+    "python": 13,
+    "sql": 2,
+    "ts": 628,
+    "yaml": 142
+   },
+   "facebook/react": {
+    "bash": 85,
+    "diff": 3,
+    "html": 1,
+    "js": 3278,
+    "json": 5,
+    "markdown": 1,
+    "rust": 70,
+    "ts": 138
+   },
+   "fastapi/fastapi": {
+    "bash": 60,
+    "json": 72,
+    "plaintext": 2,
+    "python": 147
+   },
+   "fastify/fastify": {
+    "bash": 67,
+    "dockerfile": 1,
+    "js": 438,
+    "json": 15,
+    "markdown": 1,
+    "sql": 1,
+    "ts": 45,
+    "yaml": 1
+   },
+   "filamentphp/filament": {
+    "bash": 124,
+    "css": 25,
+    "html": 1,
+    "js": 33,
+    "json": 4,
+    "markdown": 1,
+    "php": 2665,
+    "plaintext": 1
+   },
+   "fluxcd/website": {
+    "bash": 68,
+    "yaml": 65
+   },
+   "fmtlib/fmt": {
+    "bash": 2,
+    "cpp": 186
+   },
+   "gabime/spdlog": {
+    "bash": 2,
+    "cpp": 24
+   },
+   "getify/You-Dont-Know-JS": {
+    "js": 668,
+    "json": 1,
+    "plaintext": 1,
+    "ts": 3
+   },
+   "gin-gonic/gin": {
+    "bash": 26,
+    "go": 71,
+    "html": 5,
+    "json": 1
+   },
+   "github/docs": {
+    "bash": 295,
+    "dockerfile": 5,
+    "html": 5,
+    "js": 11,
+    "json": 41,
+    "markdown": 34,
+    "plaintext": 34,
+    "ruby": 9,
+    "yaml": 316
+   },
+   "github/linguist": {
+    "bash": 31,
+    "js": 1,
+    "markdown": 1,
+    "ruby": 1
+   },
+   "go-chi/chi": {
+    "bash": 2,
+    "go": 6
+   },
+   "go-gorm/gorm.io": {
+    "bash": 138,
+    "go": 9671,
+    "sql": 35,
+    "yaml": 16
+   },
+   "go-task/task": {
+    "bash": 262,
+    "go": 10,
+    "json": 4,
+    "plaintext": 8,
+    "yaml": 566
+   },
+   "gofiber/fiber": {
+    "bash": 68,
+    "diff": 2,
+    "go": 1401,
+    "html": 4,
+    "js": 1,
+    "json": 18,
+    "plaintext": 23,
+    "yaml": 1
+   },
+   "gohugoio/hugoDocs": {
+    "bash": 127,
+    "css": 23,
+    "diff": 1,
+    "go": 1,
+    "html": 103,
+    "js": 19,
+    "json": 12,
+    "markdown": 58,
+    "plaintext": 81,
+    "ts": 2,
+    "yaml": 7
+   },
+   "goldbergyoni/javascript-testing-best-practices": {
+    "bash": 2,
+    "html": 18,
+    "js": 452,
+    "json": 3,
+    "plaintext": 2,
+    "yaml": 3
+   },
+   "goldbergyoni/nodebestpractices": {
+    "bash": 38,
+    "dockerfile": 122,
+    "html": 14,
+    "js": 638,
+    "json": 55,
+    "sql": 7,
+    "ts": 75,
+    "yaml": 9
+   },
+   "google/googletest": {
+    "bash": 10,
+    "cpp": 396,
+    "plaintext": 10
+   },
+   "google/gson": {
+    "bash": 1,
+    "java": 33,
+    "json": 6
+   },
+   "google/leveldb": {
+    "cpp": 192
+   },
+   "GoogleContainerTools/distroless": {
+    "bash": 12,
+    "dockerfile": 4
+   },
+   "GoogleContainerTools/skaffold": {
+    "bash": 427,
+    "c": 1,
+    "diff": 5,
+    "dockerfile": 13,
+    "go": 586,
+    "html": 1,
+    "java": 3,
+    "js": 1,
+    "json": 40,
+    "markdown": 1,
+    "plaintext": 22,
+    "yaml": 291
+   },
+   "gorilla/mux": {
+    "bash": 3,
+    "go": 34
+   },
+   "gradio-app/gradio": {
+    "bash": 185,
+    "cpp": 1,
+    "css": 3,
+    "dockerfile": 2,
+    "html": 44,
+    "js": 96,
+    "json": 12,
+    "markdown": 2,
+    "plaintext": 3,
+    "python": 704,
+    "rust": 1,
+    "ts": 82,
+    "yaml": 1
+   },
+   "grafana/k6-docs": {
+    "bash": 112,
+    "diff": 1,
+    "dockerfile": 3,
+    "js": 161,
+    "json": 10,
+    "plaintext": 2
+   },
+   "graphql/graphql-js": {
+    "bash": 37,
+    "diff": 25,
+    "js": 171,
+    "json": 12,
+    "plaintext": 5,
+    "ts": 641
+   },
+   "grpc/grpc": {
+    "bash": 166,
+    "c": 7,
+    "cpp": 19,
+    "json": 4,
+    "php": 4,
+    "plaintext": 1,
+    "python": 23,
+    "ruby": 3
+   },
+   "grpc/grpc-go": {
+    "bash": 43,
+    "diff": 1,
+    "go": 55
+   },
+   "h5bp/html5-boilerplate": {
+    "bash": 10,
+    "html": 22
+   },
+   "hadolint/hadolint": {
+    "bash": 27,
+    "dockerfile": 5,
+    "yaml": 24
+   },
+   "hanami/guides": {
+    "bash": 524,
+    "css": 3,
+    "diff": 1,
+    "html": 56,
+    "js": 19,
+    "json": 8,
+    "plaintext": 38,
+    "ruby": 2049,
+    "sql": 71,
+    "yaml": 4
+   },
+   "heartcombo/devise": {
+    "bash": 11,
+    "ruby": 32,
+    "yaml": 3
+   },
+   "helix-editor/helix": {
+    "bash": 30,
+    "js": 3,
+    "plaintext": 3,
+    "python": 3,
+    "rust": 4,
+    "yaml": 1
+   },
+   "helm/helm-www": {
+    "bash": 2282,
+    "go": 264,
+    "js": 6,
+    "json": 85,
+    "markdown": 25,
+    "plaintext": 454,
+    "sql": 14,
+    "yaml": 3415
+   },
+   "hollischuang/toBeTopJavaer": {
+    "bash": 1,
+    "java": 29,
+    "js": 1,
+    "python": 1,
+    "ruby": 1
+   },
+   "honojs/hono": {
+    "bash": 15,
+    "diff": 8,
+    "ts": 20
+   },
+   "httpie/cli": {
+    "bash": 220,
+    "html": 1,
+    "json": 17
+   },
+   "huggingface/accelerate": {
+    "bash": 96,
+    "diff": 23,
+    "json": 5,
+    "python": 206,
+    "yaml": 13
+   },
+   "huggingface/datasets": {
+    "bash": 57,
+    "json": 1,
+    "plaintext": 14,
+    "python": 517,
+    "yaml": 5
+   },
+   "huggingface/diffusers": {
+    "bash": 1045,
+    "diff": 53,
+    "json": 21,
+    "markdown": 4,
+    "plaintext": 15,
+    "python": 2118,
+    "yaml": 7
+   },
+   "huggingface/hub-docs": {
+    "bash": 335,
+    "diff": 2,
+    "dockerfile": 10,
+    "html": 13,
+    "js": 11,
+    "json": 23,
+    "markdown": 5,
+    "plaintext": 26,
+    "python": 309,
+    "rust": 1,
+    "sql": 10,
+    "ts": 8,
+    "yaml": 112
+   },
+   "huggingface/peft": {
+    "bash": 29,
+    "diff": 5,
+    "json": 5,
+    "python": 204,
+    "yaml": 5
+   },
+   "huggingface/transformers": {
+    "bash": 1411,
+    "cpp": 1,
+    "diff": 110,
+    "dockerfile": 3,
+    "json": 107,
+    "markdown": 19,
+    "plaintext": 121,
+    "python": 6855,
+    "rust": 1,
+    "ts": 1,
+    "yaml": 45
+   },
+   "iluwatar/java-design-patterns": {
+    "bash": 18,
+    "html": 6,
+    "java": 1658,
+    "markdown": 4,
+    "plaintext": 5,
+    "sql": 2
+   },
+   "immerjs/immer": {
+    "bash": 6,
+    "js": 81,
+    "json": 4,
+    "ts": 20
+   },
+   "isocpp/CppCoreGuidelines": {
+    "cpp": 25
+   },
+   "jbogard/MediatR": {
+    "csharp": 3
+   },
+   "jbranchaud/til": {
+    "bash": 985,
+    "css": 34,
+    "diff": 2,
+    "go": 32,
+    "html": 24,
+    "java": 4,
+    "js": 287,
+    "json": 33,
+    "markdown": 1,
+    "plaintext": 1,
+    "python": 133,
+    "ruby": 640,
+    "sql": 299,
+    "ts": 80,
+    "yaml": 22
+   },
+   "jekyll/jekyll": {
+    "bash": 93,
+    "css": 3,
+    "diff": 4,
+    "html": 7,
+    "js": 1,
+    "json": 1,
+    "markdown": 17,
+    "plaintext": 2,
+    "ruby": 34,
+    "yaml": 96
+   },
+   "jessfraz/dockerfiles": {
+    "dockerfile": 200
+   },
+   "jestjs/jest": {
+    "bash": 302,
+    "diff": 33,
+    "js": 2302,
+    "json": 131,
+    "markdown": 1,
+    "plaintext": 5,
+    "ts": 623,
+    "yaml": 5
+   },
+   "jquense/yup": {
+    "diff": 4,
+    "js": 46,
+    "ts": 33
+   },
+   "kamranahmedse/developer-roadmap": {
+    "bash": 5,
+    "markdown": 2
+   },
+   "keras-team/keras-io": {
+    "bash": 22,
+    "json": 1,
+    "markdown": 5,
+    "python": 3231
+   },
+   "knex/knex": {
+    "bash": 32,
+    "js": 388,
+    "json": 1,
+    "sql": 3,
+    "ts": 37
+   },
+   "koalaman/shellcheck": {
+    "bash": 21,
+    "yaml": 1
+   },
+   "kubernetes/website": {
+    "bash": 1478,
+    "csharp": 1,
+    "dockerfile": 1,
+    "go": 13,
+    "html": 1,
+    "java": 1,
+    "js": 1,
+    "json": 20,
+    "plaintext": 127,
+    "python": 1,
+    "yaml": 361
+   },
+   "labstack/echo": {
+    "bash": 8,
+    "go": 87
+   },
+   "laravel/docs": {
+    "bash": 559,
+    "css": 2,
+    "dockerfile": 1,
+    "html": 44,
+    "js": 116,
+    "json": 36,
+    "markdown": 5,
+    "php": 4743,
+    "plaintext": 43,
+    "sql": 12,
+    "ts": 9,
+    "yaml": 39
+   },
+   "launchbadge/sqlx": {
+    "bash": 15,
+    "php": 3,
+    "plaintext": 5,
+    "rust": 24,
+    "sql": 2
+   },
+   "leonardomso/33-js-concepts": {
+    "bash": 12,
+    "css": 5,
+    "html": 19,
+    "js": 1734,
+    "markdown": 34,
+    "ts": 1
+   },
+   "leptos-rs/book": {
+    "bash": 18,
+    "css": 1,
+    "dockerfile": 1,
+    "html": 4,
+    "js": 1,
+    "json": 7,
+    "rust": 209
+   },
+   "libgit2/libgit2": {
+    "bash": 4,
+    "c": 28
+   },
+   "libsdl-org/SDL": {
+    "c": 450
+   },
+   "libsdl-org/sdlwiki": {
+    "bash": 153,
+    "c": 4488,
+    "cpp": 30
+   },
+   "lit/lit.dev": {
+    "bash": 53,
+    "css": 7,
+    "html": 79,
+    "js": 672,
+    "json": 27,
+    "plaintext": 4,
+    "ts": 373
+   },
+   "livewire/livewire": {
+    "bash": 70,
+    "css": 10,
+    "html": 58,
+    "js": 62,
+    "json": 6,
+    "markdown": 19,
+    "php": 524
+   },
+   "locustio/locust": {
+    "bash": 22,
+    "html": 2,
+    "js": 6,
+    "python": 1
+   },
+   "lodash/lodash": {
+    "bash": 3,
+    "html": 1,
+    "js": 306,
+    "plaintext": 1
+   },
+   "markdown-it/markdown-it": {
+    "bash": 4,
+    "html": 5,
+    "js": 36,
+    "plaintext": 1,
+    "ts": 6
+   },
+   "MassTransit/MassTransit": {
+    "csharp": 14,
+    "js": 1
+   },
+   "MaterializeInc/materialize": {
+    "bash": 5,
+    "json": 6,
+    "plaintext": 11,
+    "sql": 23
+   },
+   "mbeaudru/modern-js-cheatsheet": {
+    "js": 866
+   },
+   "mdn/content": {
+    "css": 450,
+    "html": 674,
+    "js": 481,
+    "json": 10,
+    "plaintext": 12
+   },
+   "mdn/translated-content": {
+    "css": 704,
+    "html": 289,
+    "js": 1060,
+    "plaintext": 7
+   },
+   "mdx-js/mdx": {
+    "bash": 23,
+    "diff": 11,
+    "html": 10,
+    "js": 39,
+    "markdown": 2,
+    "plaintext": 3,
+    "ts": 64
+   },
+   "microsoft/autogen": {
+    "bash": 168,
+    "csharp": 25,
+    "json": 11,
+    "python": 63,
+    "ts": 3,
+    "yaml": 5
+   },
+   "microsoft/playwright": {
+    "bash": 709,
+    "csharp": 578,
+    "css": 1,
+    "dockerfile": 2,
+    "html": 69,
+    "java": 569,
+    "js": 1219,
+    "json": 19,
+    "markdown": 12,
+    "plaintext": 22,
+    "python": 1045,
+    "sql": 2,
+    "ts": 109,
+    "yaml": 73
+   },
+   "microsoft/semantic-kernel": {
+    "bash": 40,
+    "csharp": 1,
+    "html": 1,
+    "json": 3,
+    "markdown": 1,
+    "plaintext": 2,
+    "python": 61
+   },
+   "microsoft/TypeScript-Website": {
+    "bash": 4,
+    "js": 11,
+    "plaintext": 3,
+    "ts": 381
+   },
+   "microsoft/vcpkg": {
+    "bash": 10,
+    "json": 4,
+    "markdown": 2,
+    "plaintext": 5,
+    "python": 2
+   },
+   "MicrosoftDocs/cpp-docs": {
+    "c": 200,
+    "cpp": 964,
+    "plaintext": 127
+   },
+   "mkdocs/mkdocs": {
+    "bash": 40,
+    "css": 1,
+    "diff": 1,
+    "json": 1,
+    "markdown": 10,
+    "plaintext": 26,
+    "python": 11,
+    "yaml": 73
+   },
+   "mobxjs/mobx": {
+    "bash": 2,
+    "diff": 6,
+    "js": 144,
+    "json": 1,
+    "ts": 2
+   },
+   "mockito/mockito": {
+    "bash": 4
+   },
+   "mswjs/msw": {
+    "bash": 11,
+    "js": 3,
+    "ts": 3
+   },
+   "neondatabase/website": {
+    "bash": 4053,
+    "c": 1,
+    "csharp": 159,
+    "css": 12,
+    "diff": 5,
+    "dockerfile": 6,
+    "go": 39,
+    "html": 20,
+    "java": 82,
+    "js": 428,
+    "json": 349,
+    "markdown": 128,
+    "php": 241,
+    "plaintext": 1613,
+    "python": 278,
+    "ruby": 10,
+    "rust": 11,
+    "sql": 5242,
+    "ts": 1484,
+    "yaml": 151
+   },
+   "nestjs/docs.nestjs.com": {
+    "bash": 353,
+    "html": 13,
+    "js": 20,
+    "json": 84,
+    "plaintext": 15,
+    "sql": 4,
+    "ts": 1845,
+    "yaml": 7
+   },
+   "nestjs/nest": {
+    "bash": 83,
+    "json": 1
+   },
+   "nlohmann/json": {
+    "bash": 41,
+    "cpp": 493,
+    "json": 6,
+    "python": 1
+   },
+   "nock/nock": {
+    "bash": 5,
+    "js": 141
+   },
+   "nodejs/docker-node": {
+    "bash": 11,
+    "dockerfile": 14,
+    "plaintext": 1,
+    "yaml": 1
+   },
+   "nodejs/node": {
+    "bash": 257,
+    "c": 209,
+    "cpp": 23,
+    "js": 2595,
+    "json": 74,
+    "plaintext": 38,
+    "ts": 5
+   },
+   "nodejs/node-addon-api": {
+    "bash": 2,
+    "c": 1,
+    "cpp": 502,
+    "js": 9
+   },
+   "nodejs/nodejs.org": {
+    "js": 2
+   },
+   "nushell/nushell.github.io": {
+    "bash": 159,
+    "cpp": 3,
+    "js": 8,
+    "json": 165,
+    "plaintext": 28,
+    "python": 21,
+    "rust": 54,
+    "yaml": 12
+   },
+   "nuxt/nuxt": {
+    "bash": 178,
+    "css": 2,
+    "diff": 60,
+    "dockerfile": 1,
+    "html": 36,
+    "js": 32,
+    "json": 75,
+    "markdown": 4,
+    "plaintext": 3,
+    "ts": 828,
+    "yaml": 1
+   },
+   "ocornut/imgui": {
+    "bash": 3,
+    "cpp": 74
+   },
+   "open-telemetry/opentelemetry.io": {
+    "bash": 52,
+    "go": 34,
+    "json": 3,
+    "plaintext": 4,
+    "yaml": 78
+   },
+   "openai/openai-python": {
+    "bash": 51,
+    "json": 2,
+    "plaintext": 2,
+    "python": 214
+   },
+   "pallets/click": {
+    "bash": 20,
+    "plaintext": 2,
+    "python": 80
+   },
+   "pestphp/docs": {
+    "bash": 138,
+    "diff": 91,
+    "json": 2,
+    "php": 518,
+    "plaintext": 6,
+    "yaml": 13
+   },
+   "pgvector/pgvector": {
+    "bash": 24,
+    "plaintext": 1,
+    "sql": 94
+   },
+   "PHPOffice/PhpSpreadsheet": {
+    "bash": 10,
+    "html": 2,
+    "js": 3,
+    "php": 459
+   },
+   "phpstan/phpstan": {
+    "bash": 33,
+    "diff": 1,
+    "dockerfile": 3,
+    "js": 2,
+    "json": 4,
+    "markdown": 12,
+    "php": 1744,
+    "yaml": 137
+   },
+   "picocss/pico": {
+    "bash": 3,
+    "html": 6
+   },
+   "pingcap/docs": {
+    "bash": 1363,
+    "csharp": 1,
+    "dockerfile": 1,
+    "go": 18,
+    "java": 51,
+    "js": 29,
+    "json": 138,
+    "markdown": 28,
+    "plaintext": 77,
+    "python": 218,
+    "ruby": 9,
+    "sql": 3029,
+    "ts": 35,
+    "yaml": 114
+   },
+   "pinojs/pino": {
+    "bash": 39,
+    "js": 135,
+    "json": 3,
+    "plaintext": 2,
+    "ts": 6
+   },
+   "pmndrs/zustand": {
+    "bash": 9,
+    "diff": 11,
+    "html": 16,
+    "js": 91,
+    "json": 4,
+    "plaintext": 1,
+    "ts": 286
+   },
+   "preactjs/preact": {
+    "bash": 3,
+    "js": 3,
+    "plaintext": 2
+   },
+   "PrefectHQ/prefect": {
+    "bash": 701,
+    "dockerfile": 7,
+    "js": 4,
+    "json": 57,
+    "markdown": 4,
+    "plaintext": 10,
+    "python": 6739,
+    "sql": 18,
+    "ts": 37,
+    "yaml": 126
+   },
+   "prettier/prettier": {
+    "bash": 224,
+    "csharp": 1,
+    "css": 77,
+    "diff": 19,
+    "html": 134,
+    "js": 823,
+    "json": 41,
+    "markdown": 146,
+    "plaintext": 10,
+    "ts": 363,
+    "yaml": 47
+   },
+   "prisma/docs": {
+    "bash": 1614,
+    "c": 1,
+    "css": 13,
+    "diff": 30,
+    "dockerfile": 1,
+    "go": 9,
+    "html": 12,
+    "js": 441,
+    "json": 347,
+    "markdown": 37,
+    "plaintext": 607,
+    "python": 1,
+    "sql": 294,
+    "ts": 4233,
+    "yaml": 50
+   },
+   "prisma/prisma": {
+    "bash": 556,
+    "diff": 178,
+    "js": 38,
+    "json": 205,
+    "markdown": 17,
+    "plaintext": 217,
+    "sql": 66,
+    "ts": 2132,
+    "yaml": 4
+   },
+   "prometheus/prometheus": {
+    "bash": 84,
+    "dockerfile": 1,
+    "go": 7,
+    "html": 1,
+    "json": 46,
+    "plaintext": 2,
+    "ts": 15,
+    "yaml": 65
+   },
+   "protocolbuffers/protobuf": {
+    "bash": 7,
+    "c": 13,
+    "cpp": 39,
+    "csharp": 9,
+    "go": 2,
+    "java": 4,
+    "js": 2,
+    "php": 1,
+    "plaintext": 1,
+    "python": 7,
+    "ruby": 3
+   },
+   "psf/black": {
+    "bash": 54,
+    "diff": 2,
+    "markdown": 6,
+    "plaintext": 3,
+    "python": 57,
+    "yaml": 11
+   },
+   "puppeteer/puppeteer": {
+    "bash": 75,
+    "dockerfile": 3,
+    "html": 1,
+    "js": 7,
+    "json": 5,
+    "ts": 954,
+    "yaml": 3
+   },
+   "pydantic/pydantic": {
+    "bash": 21,
+    "html": 1,
+    "json": 5,
+    "markdown": 1,
+    "plaintext": 5,
+    "python": 474,
+    "yaml": 2
+   },
+   "python-poetry/poetry": {
+    "bash": 226,
+    "markdown": 1,
+    "plaintext": 12,
+    "python": 7,
+    "yaml": 5
+   },
+   "quii/learn-go-with-tests": {
+    "bash": 25,
+    "dockerfile": 3,
+    "go": 797,
+    "html": 1,
+    "json": 1,
+    "markdown": 3,
+    "plaintext": 13
+   },
+   "rails/rails": {
+    "bash": 460,
+    "css": 7,
+    "diff": 13,
+    "html": 87,
+    "js": 27,
+    "json": 6,
+    "markdown": 17,
+    "plaintext": 1,
+    "ruby": 2451,
+    "sql": 101,
+    "yaml": 117
+   },
+   "raysan5/raylib": {
+    "bash": 8,
+    "c": 287
+   },
+   "react-hook-form/react-hook-form": {
+    "bash": 1,
+    "diff": 25,
+    "js": 4,
+    "markdown": 1,
+    "ts": 77
+   },
+   "ReactiveX/RxJava": {
+    "java": 309,
+    "plaintext": 2
+   },
+   "reactjs/pt-br.react.dev": {
+    "bash": 2,
+    "css": 342,
+    "html": 16,
+    "js": 1108,
+    "json": 24,
+    "ts": 16
+   },
+   "reactjs/react.dev": {
+    "css": 150,
+    "html": 7,
+    "js": 1011,
+    "json": 36
+   },
+   "realpython/materials": {
+    "bash": 743,
+    "diff": 1,
+    "json": 1,
+    "markdown": 11,
+    "plaintext": 21,
+    "python": 39
+   },
+   "redis/redis": {
+    "bash": 59,
+    "c": 76,
+    "cpp": 3,
+    "json": 2,
+    "plaintext": 1,
+    "yaml": 1
+   },
+   "reduxjs/redux": {
+    "bash": 34,
+    "js": 329,
+    "json": 5,
+    "ts": 295
+   },
+   "remarkjs/remark": {
+    "bash": 10,
+    "html": 8,
+    "js": 24,
+    "markdown": 7,
+    "plaintext": 4,
+    "yaml": 1
+   },
+   "risingwavelabs/risingwave-docs": {
+    "bash": 49,
+    "java": 2,
+    "js": 14,
+    "json": 2,
+    "plaintext": 1,
+    "python": 10,
+    "sql": 1070,
+    "yaml": 3
+   },
+   "rubocop/rubocop-rails": {
+    "bash": 2,
+    "diff": 1,
+    "markdown": 1,
+    "ruby": 3,
+    "yaml": 5
+   },
+   "rubygems/guides": {
+    "bash": 3,
+    "ruby": 60,
+    "yaml": 3
+   },
+   "rust-lang/api-guidelines": {
+    "bash": 2,
+    "diff": 3,
+    "markdown": 3,
+    "rust": 58
+   },
+   "rust-lang/async-book": {
+    "bash": 1,
+    "diff": 1,
+    "rust": 32
+   },
+   "rust-lang/book": {
+    "bash": 86,
+    "html": 1,
+    "markdown": 1,
+    "plaintext": 59,
+    "rust": 688
+   },
+   "rust-lang/cargo": {
+    "bash": 75,
+    "c": 2,
+    "js": 28,
+    "json": 2,
+    "plaintext": 9,
+    "rust": 94,
+    "yaml": 8
+   },
+   "rust-lang/mdBook": {
+    "bash": 41,
+    "c": 1,
+    "cpp": 1,
+    "csharp": 1,
+    "css": 2,
+    "diff": 6,
+    "go": 1,
+    "html": 6,
+    "java": 1,
+    "js": 1,
+    "json": 2,
+    "markdown": 27,
+    "php": 1,
+    "plaintext": 6,
+    "python": 6,
+    "ruby": 1,
+    "rust": 39,
+    "sql": 1,
+    "ts": 1,
+    "yaml": 1
+   },
+   "rust-lang/nomicon": {
+    "bash": 2,
+    "c": 6,
+    "plaintext": 18,
+    "rust": 204
+   },
+   "rust-lang/reference": {
+    "bash": 3,
+    "plaintext": 6,
+    "rust": 616
+   },
+   "rust-lang/rust-by-example": {
+    "bash": 43,
+    "html": 1,
+    "markdown": 2,
+    "plaintext": 16,
+    "rust": 261,
+    "yaml": 1
+   },
+   "rust-lang/rustlings": {
+    "bash": 5
+   },
+   "rust-unofficial/patterns": {
+    "bash": 5,
+    "c": 3,
+    "java": 1,
+    "plaintext": 5,
+    "rust": 76
+   },
+   "saadeghi/daisyui": {
+    "html": 536,
+    "js": 17,
+    "json": 2
+   },
+   "sass/sass-site": {
+    "bash": 88,
+    "css": 8,
+    "html": 3,
+    "js": 10,
+    "json": 6,
+    "ruby": 1,
+    "ts": 9,
+    "yaml": 1
+   },
+   "seanmonstar/reqwest": {
+    "rust": 5
+   },
+   "Seldaek/monolog": {
+    "bash": 2,
+    "php": 12
+   },
+   "sequelize/sequelize": {
+    "bash": 7,
+    "js": 1,
+    "ts": 30
+   },
+   "serde-rs/serde-rs.github.io": {
+    "diff": 2,
+    "json": 6,
+    "rust": 38,
+    "yaml": 1
+   },
+   "serilog/serilog": {
+    "csharp": 3,
+    "json": 1
+   },
+   "Shopify/liquid": {
+    "ruby": 6
+   },
+   "sinatra/sinatra": {
+    "bash": 12,
+    "js": 1,
+    "plaintext": 1,
+    "ruby": 149
+   },
+   "sindresorhus/got": {
+    "bash": 2,
+    "js": 134,
+    "plaintext": 4,
+    "ts": 21
+   },
+   "slimphp/Slim-Website": {
+    "bash": 71,
+    "js": 1,
+    "json": 2,
+    "php": 355
+   },
+   "Snailclimb/JavaGuide": {
+    "bash": 463,
+    "c": 27,
+    "cpp": 5,
+    "html": 5,
+    "java": 1499,
+    "js": 4,
+    "json": 54,
+    "markdown": 53,
+    "plaintext": 353,
+    "python": 9,
+    "sql": 364,
+    "ts": 16,
+    "yaml": 18
+   },
+   "socketio/socket.io": {
+    "bash": 35,
+    "html": 3,
+    "js": 123,
+    "json": 31
+   },
+   "solidjs/solid": {
+    "bash": 7,
+    "diff": 1,
+    "html": 2,
+    "js": 88,
+    "json": 2,
+    "ts": 4
+   },
+   "solidjs/solid-docs": {
+    "bash": 26,
+    "css": 10,
+    "html": 3,
+    "js": 253,
+    "json": 15,
+    "ts": 788,
+    "yaml": 4
+   },
+   "spatie/laravel-medialibrary": {
+    "bash": 23,
+    "html": 7,
+    "js": 1,
+    "php": 210
+   },
+   "spatie/laravel-permission": {
+    "bash": 17,
+    "diff": 7,
+    "php": 132
+   },
+   "spf13/cobra": {
+    "bash": 23,
+    "go": 70
+   },
+   "spf13/viper": {
+    "bash": 5,
+    "diff": 1,
+    "go": 35,
+    "json": 3,
+    "yaml": 1
+   },
+   "square/okhttp": {
+    "bash": 4,
+    "java": 37
+   },
+   "square/retrofit": {
+    "java": 31
+   },
+   "squidfunk/mkdocs-material": {
+    "bash": 9,
+    "css": 1,
+    "diff": 1,
+    "html": 12,
+    "js": 2,
+    "json": 1,
+    "markdown": 49,
+    "python": 4,
+    "ts": 1,
+    "yaml": 349
+   },
+   "starship/starship": {
+    "bash": 1238,
+    "diff": 220,
+    "json": 22,
+    "python": 22,
+    "rust": 4
+   },
+   "storybookjs/storybook": {
+    "bash": 526,
+    "css": 2,
+    "diff": 153,
+    "html": 21,
+    "js": 2029,
+    "json": 73,
+    "markdown": 46,
+    "plaintext": 22,
+    "sql": 1,
+    "ts": 2315,
+    "yaml": 20
+   },
+   "streamlit/docs": {
+    "bash": 163,
+    "css": 8,
+    "diff": 1,
+    "dockerfile": 15,
+    "js": 38,
+    "json": 2,
+    "markdown": 16,
+    "plaintext": 55,
+    "python": 1008,
+    "sql": 15,
+    "ts": 11,
+    "yaml": 9
+   },
+   "stretchr/testify": {
+    "go": 5
+   },
+   "supabase/supabase": {
+    "bash": 72,
+    "csharp": 33,
+    "js": 43,
+    "json": 7,
+    "markdown": 9,
+    "plaintext": 7,
+    "python": 25,
+    "sql": 441,
+    "ts": 6
+   },
+   "sveltejs/svelte": {
+    "bash": 16,
+    "css": 5,
+    "html": 7,
+    "js": 120,
+    "markdown": 1,
+    "ts": 30
+   },
+   "tailwindlabs/tailwindcss.com": {
+    "bash": 34,
+    "css": 20,
+    "html": 88,
+    "js": 68,
+    "json": 1,
+    "markdown": 1,
+    "plaintext": 1
+   },
+   "TanStack/query": {
+    "bash": 135,
+    "html": 7,
+    "js": 18,
+    "json": 7,
+    "plaintext": 2,
+    "ts": 4004
+   },
+   "tauri-apps/tauri-docs": {
+    "bash": 333,
+    "css": 5,
+    "diff": 11,
+    "html": 8,
+    "js": 449,
+    "json": 510,
+    "plaintext": 11,
+    "rust": 728,
+    "ts": 49,
+    "yaml": 23
+   },
+   "temporalio/documentation": {
+    "bash": 245,
+    "csharp": 176,
+    "dockerfile": 8,
+    "go": 276,
+    "java": 296,
+    "js": 5,
+    "php": 116,
+    "plaintext": 3,
+    "python": 329,
+    "ruby": 136,
+    "rust": 76,
+    "ts": 311,
+    "yaml": 12
+   },
+   "Textualize/rich": {
+    "bash": 37,
+    "python": 271
+   },
+   "Textualize/textual": {
+    "bash": 38,
+    "css": 115,
+    "python": 346
+   },
+   "TheAlgorithms/C": {
+    "c": 91
+   },
+   "TheAlgorithms/C-Plus-Plus": {
+    "cpp": 369
+   },
+   "TheAlgorithms/C-Sharp": {
+    "csharp": 26
+   },
+   "TheAlgorithms/Java": {
+    "java": 645
+   },
+   "TheAlgorithms/PHP": {
+    "php": 24
+   },
+   "TheAlgorithms/Python": {
+    "bash": 10,
+    "plaintext": 5,
+    "python": 11
+   },
+   "TheAlgorithms/Ruby": {
+    "ruby": 133
+   },
+   "thephpleague/flysystem": {
+    "bash": 13,
+    "php": 1
+   },
+   "thoughtbot/factory_bot": {
+    "bash": 8,
+    "ruby": 280
+   },
+   "thoughtbot/guides": {
+    "bash": 33,
+    "css": 26,
+    "json": 1,
+    "plaintext": 5,
+    "ruby": 11
+   },
+   "tiangolo/sqlmodel": {
+    "bash": 71,
+    "json": 7,
+    "python": 102,
+    "sql": 35
+   },
+   "tiangolo/typer": {
+    "bash": 281,
+    "markdown": 1,
+    "plaintext": 2,
+    "python": 75
+   },
+   "timescale/docs": {
+    "bash": 299,
+    "java": 1,
+    "js": 2,
+    "json": 43,
+    "plaintext": 31,
+    "python": 89,
+    "ruby": 3,
+    "sql": 915,
+    "yaml": 15
+   },
+   "tj/commander.js": {
+    "bash": 60,
+    "js": 153,
+    "plaintext": 6,
+    "ts": 3
+   },
+   "tokio-rs/axum": {
+    "bash": 3,
+    "rust": 105
+   },
+   "tokio-rs/tokio": {
+    "bash": 5,
+    "plaintext": 3,
+    "rust": 10
+   },
+   "tokio-rs/website": {
+    "bash": 33,
+    "js": 1,
+    "plaintext": 23,
+    "rust": 289,
+    "sql": 1
+   },
+   "tqdm/tqdm": {
+    "bash": 2,
+    "python": 4
+   },
+   "traefik/traefik": {
+    "bash": 307,
+    "html": 2,
+    "json": 57,
+    "plaintext": 32,
+    "yaml": 546
+   },
+   "trpc/trpc": {
+    "bash": 171,
+    "diff": 8,
+    "js": 1,
+    "json": 23,
+    "ts": 897
+   },
+   "twbs/bootstrap": {
+    "html": 22,
+    "js": 59
+   },
+   "typeorm/typeorm": {
+    "bash": 74,
+    "diff": 3,
+    "html": 1,
+    "js": 28,
+    "json": 6,
+    "plaintext": 12,
+    "sql": 70,
+    "ts": 825
+   },
+   "typescript-cheatsheets/react": {
+    "bash": 1,
+    "js": 2,
+    "ts": 200
+   },
+   "typescript-eslint/typescript-eslint": {
+    "bash": 22,
+    "diff": 1,
+    "js": 93,
+    "json": 18,
+    "plaintext": 5,
+    "ts": 38
+   },
+   "uber-go/guide": {
+    "bash": 3,
+    "go": 338,
+    "plaintext": 16
+   },
+   "uber-go/zap": {
+    "bash": 4,
+    "go": 4
+   },
+   "ultralytics/ultralytics": {
+    "bash": 418,
+    "cpp": 1,
+    "dockerfile": 2,
+    "json": 61,
+    "markdown": 2,
+    "plaintext": 87,
+    "python": 349,
+    "rust": 3,
+    "sql": 2,
+    "yaml": 27
+   },
+   "urfave/cli": {
+    "bash": 63,
+    "go": 97
+   },
+   "vercel/next.js": {
+    "bash": 439,
+    "css": 24,
+    "diff": 10,
+    "html": 56,
+    "js": 1566,
+    "json": 45,
+    "markdown": 7,
+    "plaintext": 45,
+    "ts": 1366,
+    "yaml": 13
+   },
+   "vinta/awesome-python": {
+    "markdown": 6
+   },
+   "vitejs/vite": {
+    "bash": 73,
+    "css": 2,
+    "diff": 3,
+    "html": 11,
+    "js": 179,
+    "json": 24,
+    "markdown": 1,
+    "ts": 100,
+    "yaml": 2
+   },
+   "vitest-dev/vitest": {
+    "bash": 213,
+    "diff": 7,
+    "html": 59,
+    "js": 206,
+    "json": 15,
+    "markdown": 1,
+    "plaintext": 3,
+    "ts": 1532,
+    "yaml": 25
+   },
+   "void-linux/void-packages": {
+    "diff": 385
+   },
+   "vuejs-translations/docs-pt": {
+    "bash": 21,
+    "css": 15,
+    "diff": 3,
+    "html": 25,
+    "js": 543,
+    "json": 2,
+    "ts": 184
+   },
+   "vuejs/core": {
+    "bash": 9,
+    "diff": 1,
+    "html": 1,
+    "js": 19,
+    "ts": 10
+   },
+   "vuejs/docs": {
+    "bash": 15,
+    "css": 13,
+    "diff": 2,
+    "html": 21,
+    "js": 381,
+    "json": 3,
+    "ts": 54
+   },
+   "webpack/webpack": {
+    "bash": 34,
+    "css": 14,
+    "html": 34,
+    "js": 825,
+    "json": 21,
+    "markdown": 1,
+    "ts": 12,
+    "yaml": 4
+   },
+   "winstonjs/winston": {
+    "bash": 4,
+    "js": 109,
+    "sql": 1,
+    "ts": 1
+   },
+   "winterbe/java8-tutorial": {
+    "java": 55
+   },
+   "withastro/docs": {
+    "bash": 2049,
+    "css": 60,
+    "diff": 68,
+    "dockerfile": 35,
+    "html": 206,
+    "js": 2975,
+    "json": 315,
+    "markdown": 117,
+    "plaintext": 3,
+    "ts": 1739,
+    "yaml": 38
+   },
+   "WordPress/gutenberg": {
+    "bash": 294,
+    "css": 49,
+    "diff": 3,
+    "html": 229,
+    "js": 1490,
+    "json": 242,
+    "markdown": 13,
+    "php": 244,
+    "plaintext": 11,
+    "ts": 146,
+    "yaml": 5
+   },
+   "yargs/yargs": {
+    "bash": 10,
+    "html": 1,
+    "js": 106,
+    "json": 4,
+    "ts": 8
+   },
+   "yiisoft/yii2": {
+    "bash": 13,
+    "html": 4,
+    "js": 14,
+    "json": 10,
+    "php": 933,
+    "sql": 7,
+    "yaml": 6
+   }
+  }
+ },
+ "train": {
+  "sha256": "bb849043524b98e29629b50b77e69df9f7293261e48656d2c266f256645f405c",
+  "blocks": 64288,
+  "perLabel": {
+   "bash": 6000,
+   "c": 2176,
+   "cpp": 1941,
+   "csharp": 2070,
+   "css": 1363,
+   "diff": 1103,
+   "dockerfile": 567,
+   "go": 2747,
+   "html": 2874,
+   "java": 2238,
+   "js": 6000,
+   "json": 3132,
+   "markdown": 945,
+   "php": 2843,
+   "plaintext": 3163,
+   "python": 6000,
+   "ruby": 1132,
+   "rust": 3045,
+   "sql": 4428,
+   "ts": 6000,
+   "yaml": 4521
+  },
+  "perRepo": {
+   "actix/actix-web": {
+    "bash": 1,
+    "diff": 18,
+    "rust": 50
+   },
+   "airbnb/javascript": {
+    "bash": 3,
+    "js": 1
+   },
+   "ajv-validator/ajv": {
+    "html": 3,
+    "js": 14,
+    "json": 3,
+    "ts": 9
+   },
+   "alacritty/alacritty": {
+    "bash": 6
+   },
+   "angular/angular": {
+    "bash": 9,
+    "css": 4,
+    "html": 77,
+    "json": 13,
+    "plaintext": 11,
+    "ts": 162
+   },
+   "AnthonyCalandra/modern-cpp-features": {
+    "cpp": 198
+   },
+   "anthropics/anthropic-sdk-python": {
+    "bash": 1,
+    "json": 1,
+    "python": 75
+   },
+   "argoproj/argo-workflows": {
+    "bash": 38,
+    "go": 20,
+    "json": 3,
+    "plaintext": 19,
+    "python": 2,
+    "rust": 1,
+    "sql": 8,
+    "yaml": 204
+   },
+   "astral-sh/ruff": {
+    "bash": 40,
+    "diff": 3,
+    "html": 1,
+    "json": 21,
+    "markdown": 24,
+    "plaintext": 21,
+    "python": 600,
+    "rust": 14,
+    "yaml": 9
+   },
+   "Azure/azure-sdk-for-net": {
+    "bash": 2,
+    "csharp": 279,
+    "diff": 3,
+    "json": 6,
+    "markdown": 1,
+    "plaintext": 13,
+    "yaml": 76
+   },
+   "babel/babel": {
+    "bash": 79,
+    "diff": 3,
+    "js": 60,
+    "json": 13,
+    "markdown": 2,
+    "plaintext": 5
+   },
+   "bevyengine/bevy": {
+    "bash": 12,
+    "diff": 1,
+    "json": 3,
+    "plaintext": 4,
+    "rust": 64,
+    "yaml": 1
+   },
+   "BurntSushi/xsv": {
+    "bash": 5
+   },
+   "caddyserver/website": {
+    "bash": 3,
+    "dockerfile": 1,
+    "go": 23,
+    "json": 15,
+    "yaml": 2
+   },
+   "cezaraugusto/You-Dont-Know-JS": {
+    "html": 6,
+    "js": 199
+   },
+   "charmbracelet/lipgloss": {
+    "bash": 1,
+    "go": 78
+   },
+   "chartjs/Chart.js": {
+    "bash": 1,
+    "html": 12,
+    "js": 24,
+    "json": 1,
+    "ts": 2
+   },
+   "cli/cli": {
+    "bash": 31,
+    "go": 2,
+    "json": 16,
+    "markdown": 2,
+    "plaintext": 2,
+    "yaml": 5
+   },
+   "compose-spec/compose-spec": {
+    "dockerfile": 2,
+    "markdown": 2,
+    "plaintext": 1,
+    "yaml": 223
+   },
+   "craftcms/docs": {
+    "bash": 25,
+    "html": 15,
+    "js": 1,
+    "json": 21,
+    "markdown": 8,
+    "php": 467,
+    "yaml": 2
+   },
+   "curl/curl": {
+    "bash": 8,
+    "c": 600,
+    "cpp": 1,
+    "html": 4
+   },
+   "CyC2018/CS-Notes": {
+    "bash": 2,
+    "c": 21,
+    "html": 303,
+    "java": 600,
+    "js": 1,
+    "plaintext": 12,
+    "python": 2,
+    "sql": 99
+   },
+   "d3/d3": {
+    "css": 1,
+    "html": 17,
+    "js": 155,
+    "json": 3
+   },
+   "dapr/docs": {
+    "bash": 62,
+    "cpp": 2,
+    "csharp": 87,
+    "diff": 1,
+    "go": 61,
+    "html": 1,
+    "java": 54,
+    "js": 10,
+    "json": 34,
+    "markdown": 8,
+    "php": 4,
+    "plaintext": 1,
+    "python": 29,
+    "ruby": 2,
+    "rust": 1,
+    "sql": 16,
+    "ts": 2,
+    "yaml": 61
+   },
+   "date-fns/date-fns": {
+    "bash": 3,
+    "diff": 1,
+    "html": 5,
+    "js": 9,
+    "ts": 9
+   },
+   "dbt-labs/docs.getdbt.com": {
+    "bash": 166,
+    "html": 1,
+    "java": 1,
+    "js": 3,
+    "json": 69,
+    "markdown": 25,
+    "plaintext": 162,
+    "python": 73,
+    "rust": 15,
+    "sql": 600,
+    "yaml": 600
+   },
+   "Delgan/loguru": {
+    "plaintext": 1,
+    "python": 17
+   },
+   "denoland/deno": {
+    "bash": 19,
+    "css": 2,
+    "diff": 2,
+    "html": 2,
+    "js": 7,
+    "json": 18,
+    "plaintext": 71,
+    "rust": 14,
+    "sql": 3,
+    "ts": 5,
+    "yaml": 1
+   },
+   "docker-library/docs": {
+    "bash": 251,
+    "dockerfile": 165,
+    "json": 1,
+    "markdown": 2,
+    "php": 1,
+    "plaintext": 4,
+    "python": 1,
+    "yaml": 62
+   },
+   "docker-library/golang": {
+    "dockerfile": 24
+   },
+   "docker-library/python": {
+    "dockerfile": 104
+   },
+   "docker/awesome-compose": {
+    "bash": 9,
+    "dockerfile": 2,
+    "plaintext": 1,
+    "ruby": 1,
+    "yaml": 13
+   },
+   "dotnet/docs-maui": {
+    "bash": 10,
+    "csharp": 190,
+    "plaintext": 2
+   },
+   "dotnet/EntityFramework.Docs": {
+    "bash": 11,
+    "csharp": 600,
+    "diff": 1,
+    "json": 12,
+    "plaintext": 121,
+    "sql": 367,
+    "yaml": 1
+   },
+   "drizzle-team/drizzle-orm": {
+    "bash": 7,
+    "diff": 2,
+    "json": 6,
+    "plaintext": 5,
+    "sql": 19,
+    "ts": 86,
+    "yaml": 3
+   },
+   "electron/electron": {
+    "bash": 31,
+    "cpp": 30,
+    "css": 7,
+    "diff": 2,
+    "html": 32,
+    "js": 86,
+    "json": 29,
+    "markdown": 18,
+    "plaintext": 30,
+    "ts": 1,
+    "yaml": 66
+   },
+   "encode/django-rest-framework": {
+    "bash": 3,
+    "plaintext": 2,
+    "python": 44
+   },
+   "encode/starlette": {
+    "bash": 3,
+    "html": 1,
+    "python": 62
+   },
+   "eslint/eslint": {
+    "bash": 16,
+    "diff": 6,
+    "html": 6,
+    "js": 391,
+    "json": 150,
+    "plaintext": 16,
+    "rust": 1,
+    "ts": 16,
+    "yaml": 1
+   },
+   "executablebooks/MyST-Parser": {
+    "bash": 4,
+    "html": 2,
+    "markdown": 17,
+    "python": 16,
+    "yaml": 6
+   },
+   "facebook/docusaurus": {
+    "bash": 138,
+    "css": 23,
+    "diff": 41,
+    "html": 10,
+    "java": 1,
+    "js": 337,
+    "json": 30,
+    "markdown": 148,
+    "php": 1,
+    "plaintext": 12,
+    "python": 1,
+    "sql": 2,
+    "ts": 62,
+    "yaml": 34
+   },
+   "facebook/react": {
+    "bash": 19,
+    "diff": 3,
+    "js": 483,
+    "json": 5,
+    "markdown": 1,
+    "rust": 70,
+    "ts": 32
+   },
+   "fastify/fastify": {
+    "bash": 8,
+    "dockerfile": 1,
+    "js": 60,
+    "json": 15,
+    "markdown": 1,
+    "sql": 1,
+    "ts": 10,
+    "yaml": 1
+   },
+   "filamentphp/filament": {
+    "bash": 27,
+    "css": 25,
+    "html": 1,
+    "js": 6,
+    "json": 3,
+    "markdown": 1,
+    "php": 600,
+    "plaintext": 1
+   },
+   "fluxcd/website": {
+    "bash": 17,
+    "yaml": 56
+   },
+   "getify/You-Dont-Know-JS": {
+    "js": 102,
+    "json": 1,
+    "plaintext": 1,
+    "ts": 1
+   },
+   "github/linguist": {
+    "bash": 7,
+    "js": 1,
+    "markdown": 1,
+    "ruby": 1
+   },
+   "go-gorm/gorm.io": {
+    "bash": 7,
+    "go": 600,
+    "sql": 3,
+    "yaml": 1
+   },
+   "go-task/task": {
+    "bash": 49,
+    "go": 5,
+    "json": 2,
+    "plaintext": 4,
+    "yaml": 281
+   },
+   "gofiber/fiber": {
+    "bash": 17,
+    "diff": 2,
+    "go": 600,
+    "json": 16,
+    "plaintext": 22,
+    "yaml": 1
+   },
+   "goldbergyoni/javascript-testing-best-practices": {
+    "bash": 2,
+    "html": 7,
+    "js": 63,
+    "json": 1,
+    "plaintext": 2,
+    "yaml": 2
+   },
+   "google/leveldb": {
+    "cpp": 192
+   },
+   "gradio-app/gradio": {
+    "bash": 33,
+    "cpp": 1,
+    "css": 2,
+    "dockerfile": 2,
+    "html": 36,
+    "js": 17,
+    "json": 10,
+    "markdown": 2,
+    "plaintext": 3,
+    "python": 301,
+    "rust": 1,
+    "ts": 14,
+    "yaml": 1
+   },
+   "grafana/k6-docs": {
+    "bash": 24,
+    "diff": 1,
+    "dockerfile": 3,
+    "js": 20,
+    "json": 10,
+    "plaintext": 2
+   },
+   "graphql/graphql-js": {
+    "bash": 8,
+    "diff": 23,
+    "js": 29,
+    "json": 11,
+    "plaintext": 5,
+    "ts": 122
+   },
+   "grpc/grpc-go": {
+    "bash": 10,
+    "diff": 1,
+    "go": 53
+   },
+   "h5bp/html5-boilerplate": {
+    "bash": 2,
+    "html": 21
+   },
+   "hanami/guides": {
+    "bash": 91,
+    "css": 1,
+    "diff": 1,
+    "html": 47,
+    "js": 3,
+    "json": 3,
+    "plaintext": 16,
+    "ruby": 600,
+    "sql": 28,
+    "yaml": 4
+   },
+   "helm/helm-www": {
+    "bash": 218,
+    "go": 72,
+    "json": 7,
+    "markdown": 17,
+    "plaintext": 197,
+    "sql": 2,
+    "yaml": 518
+   },
+   "hollischuang/toBeTopJavaer": {
+    "java": 29,
+    "ruby": 1
+   },
+   "httpie/cli": {
+    "bash": 44,
+    "html": 1,
+    "json": 17
+   },
+   "huggingface/accelerate": {
+    "bash": 13,
+    "diff": 23,
+    "json": 5,
+    "python": 100,
+    "yaml": 12
+   },
+   "huggingface/datasets": {
+    "bash": 8,
+    "json": 1,
+    "plaintext": 12,
+    "python": 250,
+    "yaml": 4
+   },
+   "huggingface/diffusers": {
+    "bash": 168,
+    "diff": 46,
+    "json": 16,
+    "markdown": 4,
+    "plaintext": 15,
+    "python": 600,
+    "yaml": 4
+   },
+   "huggingface/hub-docs": {
+    "bash": 81,
+    "diff": 2,
+    "dockerfile": 10,
+    "html": 13,
+    "js": 3,
+    "json": 23,
+    "markdown": 5,
+    "plaintext": 26,
+    "python": 162,
+    "rust": 1,
+    "sql": 10,
+    "ts": 1,
+    "yaml": 94
+   },
+   "huggingface/peft": {
+    "bash": 6,
+    "diff": 4,
+    "json": 5,
+    "python": 113,
+    "yaml": 5
+   },
+   "huggingface/transformers": {
+    "bash": 211,
+    "cpp": 1,
+    "diff": 82,
+    "dockerfile": 3,
+    "json": 60,
+    "markdown": 18,
+    "plaintext": 85,
+    "python": 600,
+    "rust": 1,
+    "yaml": 26
+   },
+   "immerjs/immer": {
+    "bash": 1,
+    "js": 12,
+    "json": 2,
+    "ts": 3
+   },
+   "jbogard/MediatR": {
+    "csharp": 3
+   },
+   "jessfraz/dockerfiles": {
+    "dockerfile": 200
+   },
+   "jestjs/jest": {
+    "bash": 45,
+    "diff": 17,
+    "js": 259,
+    "json": 32,
+    "markdown": 1,
+    "plaintext": 1,
+    "ts": 99,
+    "yaml": 1
+   },
+   "kamranahmedse/developer-roadmap": {
+    "bash": 2,
+    "markdown": 2
+   },
+   "keras-team/keras-io": {
+    "bash": 5,
+    "json": 1,
+    "markdown": 5,
+    "python": 600
+   },
+   "knex/knex": {
+    "bash": 9,
+    "js": 59,
+    "json": 1,
+    "sql": 3,
+    "ts": 8
+   },
+   "koalaman/shellcheck": {
+    "bash": 4,
+    "yaml": 1
+   },
+   "kubernetes/website": {
+    "bash": 344,
+    "csharp": 1,
+    "dockerfile": 1,
+    "go": 12,
+    "html": 1,
+    "java": 1,
+    "js": 1,
+    "json": 17,
+    "plaintext": 121,
+    "python": 1,
+    "yaml": 274
+   },
+   "labstack/echo": {
+    "bash": 2,
+    "go": 87
+   },
+   "leonardomso/33-js-concepts": {
+    "bash": 4,
+    "css": 5,
+    "html": 16,
+    "js": 258,
+    "markdown": 17
+   },
+   "leptos-rs/book": {
+    "bash": 4,
+    "css": 1,
+    "dockerfile": 1,
+    "html": 4,
+    "json": 7,
+    "rust": 208
+   },
+   "libsdl-org/SDL": {
+    "c": 449
+   },
+   "libsdl-org/sdlwiki": {
+    "bash": 25,
+    "c": 600,
+    "cpp": 27
+   },
+   "lit/lit.dev": {
+    "bash": 8,
+    "css": 4,
+    "html": 49,
+    "js": 114,
+    "json": 22,
+    "plaintext": 3,
+    "ts": 59
+   },
+   "locustio/locust": {
+    "bash": 2,
+    "html": 2,
+    "python": 1
+   },
+   "lodash/lodash": {
+    "html": 1,
+    "js": 45,
+    "plaintext": 1
+   },
+   "markdown-it/markdown-it": {
+    "bash": 1,
+    "html": 5,
+    "js": 2,
+    "plaintext": 1,
+    "ts": 1
+   },
+   "MaterializeInc/materialize": {
+    "bash": 1,
+    "json": 2,
+    "plaintext": 11,
+    "sql": 23
+   },
+   "mbeaudru/modern-js-cheatsheet": {
+    "js": 111
+   },
+   "mdn/content": {
+    "css": 378,
+    "html": 600,
+    "js": 55,
+    "json": 10,
+    "plaintext": 12
+   },
+   "mdn/translated-content": {
+    "css": 600,
+    "html": 234,
+    "js": 169,
+    "plaintext": 7
+   },
+   "microsoft/playwright": {
+    "bash": 153,
+    "csharp": 543,
+    "css": 1,
+    "dockerfile": 2,
+    "html": 45,
+    "java": 539,
+    "js": 185,
+    "json": 17,
+    "markdown": 10,
+    "plaintext": 21,
+    "python": 501,
+    "sql": 2,
+    "ts": 15,
+    "yaml": 68
+   },
+   "microsoft/semantic-kernel": {
+    "bash": 8,
+    "csharp": 1,
+    "html": 1,
+    "json": 3,
+    "markdown": 1,
+    "plaintext": 2,
+    "python": 31
+   },
+   "microsoft/TypeScript-Website": {
+    "bash": 1,
+    "js": 1,
+    "plaintext": 3,
+    "ts": 87
+   },
+   "microsoft/vcpkg": {
+    "bash": 5,
+    "json": 4,
+    "markdown": 2,
+    "plaintext": 5
+   },
+   "MicrosoftDocs/cpp-docs": {
+    "c": 199,
+    "cpp": 600,
+    "plaintext": 122
+   },
+   "mkdocs/mkdocs": {
+    "bash": 9,
+    "css": 1,
+    "diff": 1,
+    "json": 1,
+    "markdown": 10,
+    "plaintext": 26,
+    "python": 7,
+    "yaml": 71
+   },
+   "mobxjs/mobx": {
+    "diff": 6,
+    "js": 30,
+    "json": 1
+   },
+   "mswjs/msw": {
+    "bash": 4,
+    "ts": 1
+   },
+   "neondatabase/website": {
+    "bash": 600,
+    "c": 1,
+    "csharp": 131,
+    "css": 6,
+    "diff": 5,
+    "dockerfile": 5,
+    "go": 33,
+    "html": 19,
+    "java": 77,
+    "js": 61,
+    "json": 316,
+    "markdown": 119,
+    "php": 194,
+    "plaintext": 600,
+    "python": 142,
+    "ruby": 9,
+    "rust": 11,
+    "sql": 600,
+    "ts": 333,
+    "yaml": 132
+   },
+   "nestjs/docs.nestjs.com": {
+    "bash": 80,
+    "html": 10,
+    "js": 5,
+    "json": 78,
+    "plaintext": 15,
+    "sql": 4,
+    "ts": 393,
+    "yaml": 7
+   },
+   "nestjs/nest": {
+    "bash": 22,
+    "json": 1
+   },
+   "nock/nock": {
+    "bash": 2,
+    "js": 18
+   },
+   "nodejs/node": {
+    "bash": 57,
+    "c": 207,
+    "cpp": 23,
+    "js": 412,
+    "json": 69,
+    "plaintext": 36,
+    "ts": 2
+   },
+   "nodejs/node-addon-api": {
+    "bash": 1,
+    "cpp": 495
+   },
+   "nodejs/nodejs.org": {
+    "js": 1
+   },
+   "nushell/nushell.github.io": {
+    "bash": 31,
+    "cpp": 1,
+    "json": 112,
+    "plaintext": 21,
+    "python": 8,
+    "rust": 38,
+    "yaml": 8
+   },
+   "nuxt/nuxt": {
+    "bash": 33,
+    "css": 2,
+    "diff": 60,
+    "dockerfile": 1,
+    "html": 36,
+    "js": 6,
+    "json": 61,
+    "markdown": 4,
+    "plaintext": 3,
+    "ts": 175,
+    "yaml": 1
+   },
+   "open-telemetry/opentelemetry.io": {
+    "bash": 5,
+    "go": 34,
+    "json": 2,
+    "plaintext": 3,
+    "yaml": 74
+   },
+   "openai/openai-python": {
+    "bash": 12,
+    "json": 2,
+    "plaintext": 2,
+    "python": 126
+   },
+   "pallets/click": {
+    "bash": 7,
+    "plaintext": 2,
+    "python": 40
+   },
+   "phpstan/phpstan": {
+    "bash": 8,
+    "diff": 1,
+    "dockerfile": 3,
+    "json": 2,
+    "markdown": 12,
+    "php": 600,
+    "yaml": 122
+   },
+   "picocss/pico": {
+    "bash": 1,
+    "html": 4
+   },
+   "pingcap/docs": {
+    "bash": 290,
+    "csharp": 1,
+    "dockerfile": 1,
+    "go": 16,
+    "java": 51,
+    "js": 3,
+    "json": 129,
+    "markdown": 28,
+    "plaintext": 73,
+    "python": 98,
+    "ruby": 9,
+    "sql": 600,
+    "ts": 7,
+    "yaml": 107
+   },
+   "pinojs/pino": {
+    "bash": 11,
+    "js": 21,
+    "json": 3,
+    "plaintext": 2
+   },
+   "pmndrs/zustand": {
+    "bash": 3,
+    "diff": 11,
+    "html": 3,
+    "js": 13,
+    "json": 3,
+    "plaintext": 1,
+    "ts": 68
+   },
+   "preactjs/preact": {
+    "bash": 1,
+    "plaintext": 2
+   },
+   "PrefectHQ/prefect": {
+    "bash": 138,
+    "dockerfile": 7,
+    "json": 47,
+    "markdown": 4,
+    "plaintext": 10,
+    "python": 600,
+    "sql": 17,
+    "ts": 9,
+    "yaml": 121
+   },
+   "prettier/prettier": {
+    "bash": 47,
+    "csharp": 1,
+    "css": 75,
+    "diff": 18,
+    "html": 130,
+    "js": 111,
+    "json": 33,
+    "markdown": 129,
+    "plaintext": 6,
+    "ts": 84,
+    "yaml": 39
+   },
+   "prisma/docs": {
+    "bash": 322,
+    "c": 1,
+    "css": 13,
+    "diff": 30,
+    "dockerfile": 1,
+    "go": 9,
+    "html": 12,
+    "js": 66,
+    "json": 254,
+    "markdown": 37,
+    "plaintext": 509,
+    "sql": 227,
+    "ts": 600,
+    "yaml": 46
+   },
+   "prisma/prisma": {
+    "bash": 108,
+    "diff": 67,
+    "js": 5,
+    "json": 180,
+    "markdown": 17,
+    "plaintext": 180,
+    "sql": 59,
+    "ts": 449,
+    "yaml": 4
+   },
+   "prometheus/prometheus": {
+    "bash": 13,
+    "dockerfile": 1,
+    "go": 7,
+    "html": 1,
+    "json": 43,
+    "plaintext": 2,
+    "ts": 3,
+    "yaml": 65
+   },
+   "psf/black": {
+    "bash": 12,
+    "diff": 2,
+    "markdown": 4,
+    "plaintext": 3,
+    "python": 30,
+    "yaml": 9
+   },
+   "puppeteer/puppeteer": {
+    "bash": 12,
+    "dockerfile": 3,
+    "html": 1,
+    "json": 3,
+    "ts": 205,
+    "yaml": 3
+   },
+   "pydantic/pydantic": {
+    "bash": 7,
+    "html": 1,
+    "json": 5,
+    "markdown": 1,
+    "plaintext": 5,
+    "python": 248,
+    "yaml": 2
+   },
+   "python-poetry/poetry": {
+    "bash": 46,
+    "markdown": 1,
+    "plaintext": 12,
+    "python": 2,
+    "yaml": 5
+   },
+   "quii/learn-go-with-tests": {
+    "bash": 4,
+    "dockerfile": 3,
+    "go": 600,
+    "json": 1,
+    "markdown": 2,
+    "plaintext": 13
+   },
+   "reactjs/react.dev": {
+    "css": 54,
+    "html": 1,
+    "js": 150,
+    "json": 7
+   },
+   "realpython/materials": {
+    "bash": 124,
+    "diff": 1,
+    "json": 1,
+    "markdown": 8,
+    "plaintext": 20,
+    "python": 20
+   },
+   "reduxjs/redux": {
+    "bash": 5,
+    "js": 50,
+    "json": 5,
+    "ts": 60
+   },
+   "risingwavelabs/risingwave-docs": {
+    "bash": 8,
+    "java": 2,
+    "js": 6,
+    "json": 2,
+    "plaintext": 1,
+    "python": 3,
+    "sql": 600,
+    "yaml": 3
+   },
+   "rubocop/rubocop-rails": {
+    "diff": 1,
+    "markdown": 1,
+    "ruby": 3,
+    "yaml": 5
+   },
+   "rubygems/guides": {
+    "bash": 2,
+    "ruby": 58,
+    "yaml": 3
+   },
+   "rust-lang/async-book": {
+    "bash": 1,
+    "diff": 1,
+    "rust": 32
+   },
+   "rust-lang/book": {
+    "bash": 22,
+    "html": 1,
+    "markdown": 1,
+    "plaintext": 59,
+    "rust": 600
+   },
+   "rust-lang/cargo": {
+    "bash": 18,
+    "c": 2,
+    "js": 2,
+    "json": 2,
+    "plaintext": 9,
+    "rust": 91,
+    "yaml": 8
+   },
+   "rust-lang/nomicon": {
+    "c": 6,
+    "plaintext": 18,
+    "rust": 203
+   },
+   "rust-lang/reference": {
+    "bash": 1,
+    "plaintext": 6,
+    "rust": 600
+   },
+   "rust-lang/rust-by-example": {
+    "bash": 11,
+    "html": 1,
+    "markdown": 2,
+    "plaintext": 15,
+    "rust": 259,
+    "yaml": 1
+   },
+   "saadeghi/daisyui": {
+    "html": 535,
+    "js": 4,
+    "json": 2
+   },
+   "sequelize/sequelize": {
+    "js": 1,
+    "ts": 5
+   },
+   "serde-rs/serde-rs.github.io": {
+    "diff": 2,
+    "json": 6,
+    "rust": 38,
+    "yaml": 1
+   },
+   "serilog/serilog": {
+    "csharp": 3,
+    "json": 1
+   },
+   "sindresorhus/got": {
+    "bash": 1,
+    "js": 22,
+    "plaintext": 4,
+    "ts": 5
+   },
+   "socketio/socket.io": {
+    "bash": 7,
+    "html": 3,
+    "js": 17,
+    "json": 11
+   },
+   "solidjs/solid": {
+    "bash": 1,
+    "diff": 1,
+    "html": 2,
+    "js": 18,
+    "json": 2,
+    "ts": 2
+   },
+   "solidjs/solid-docs": {
+    "bash": 8,
+    "css": 5,
+    "html": 2,
+    "js": 32,
+    "json": 13,
+    "ts": 182,
+    "yaml": 4
+   },
+   "spf13/viper": {
+    "bash": 1,
+    "go": 14,
+    "json": 2,
+    "yaml": 1
+   },
+   "squidfunk/mkdocs-material": {
+    "bash": 2,
+    "css": 1,
+    "diff": 1,
+    "html": 12,
+    "json": 1,
+    "markdown": 48,
+    "python": 3,
+    "yaml": 325
+   },
+   "starship/starship": {
+    "bash": 59,
+    "diff": 13,
+    "json": 1,
+    "python": 1,
+    "rust": 4
+   },
+   "storybookjs/storybook": {
+    "bash": 94,
+    "css": 2,
+    "diff": 145,
+    "html": 18,
+    "js": 313,
+    "json": 61,
+    "markdown": 41,
+    "plaintext": 22,
+    "sql": 1,
+    "ts": 484,
+    "yaml": 19
+   },
+   "supabase/supabase": {
+    "bash": 17,
+    "csharp": 33,
+    "js": 6,
+    "json": 5,
+    "markdown": 9,
+    "plaintext": 7,
+    "python": 15,
+    "sql": 427,
+    "ts": 2
+   },
+   "TanStack/query": {
+    "bash": 32,
+    "html": 5,
+    "js": 3,
+    "json": 7,
+    "plaintext": 2,
+    "ts": 586
+   },
+   "tauri-apps/tauri-docs": {
+    "bash": 52,
+    "css": 3,
+    "diff": 3,
+    "html": 2,
+    "js": 58,
+    "json": 222,
+    "plaintext": 3,
+    "rust": 366,
+    "ts": 7,
+    "yaml": 14
+   },
+   "temporalio/documentation": {
+    "bash": 53,
+    "csharp": 171,
+    "dockerfile": 8,
+    "go": 241,
+    "java": 282,
+    "php": 110,
+    "plaintext": 3,
+    "python": 163,
+    "ruby": 133,
+    "rust": 74,
+    "ts": 76,
+    "yaml": 11
+   },
+   "Textualize/rich": {
+    "bash": 2,
+    "python": 19
+   },
+   "TheAlgorithms/C": {
+    "c": 90
+   },
+   "TheAlgorithms/C-Plus-Plus": {
+    "cpp": 369
+   },
+   "TheAlgorithms/C-Sharp": {
+    "csharp": 26
+   },
+   "TheAlgorithms/Java": {
+    "java": 600
+   },
+   "TheAlgorithms/PHP": {
+    "php": 24
+   },
+   "TheAlgorithms/Python": {
+    "bash": 2,
+    "plaintext": 5,
+    "python": 3
+   },
+   "TheAlgorithms/Ruby": {
+    "ruby": 133
+   },
+   "thephpleague/flysystem": {
+    "bash": 1,
+    "php": 1
+   },
+   "thoughtbot/factory_bot": {
+    "bash": 1,
+    "ruby": 168
+   },
+   "thoughtbot/guides": {
+    "bash": 8,
+    "css": 26,
+    "json": 1,
+    "plaintext": 5,
+    "ruby": 11
+   },
+   "tiangolo/sqlmodel": {
+    "bash": 17,
+    "json": 6,
+    "python": 53,
+    "sql": 30
+   },
+   "tiangolo/typer": {
+    "bash": 52,
+    "markdown": 1,
+    "plaintext": 2,
+    "python": 33
+   },
+   "timescale/docs": {
+    "bash": 51,
+    "java": 1,
+    "json": 37,
+    "plaintext": 30,
+    "python": 44,
+    "ruby": 3,
+    "sql": 600,
+    "yaml": 15
+   },
+   "tj/commander.js": {
+    "bash": 13,
+    "js": 18,
+    "plaintext": 4
+   },
+   "tokio-rs/tokio": {
+    "bash": 1,
+    "plaintext": 2,
+    "rust": 8
+   },
+   "tokio-rs/website": {
+    "bash": 5,
+    "plaintext": 21,
+    "rust": 277,
+    "sql": 1
+   },
+   "tqdm/tqdm": {
+    "python": 1
+   },
+   "traefik/traefik": {
+    "bash": 57,
+    "html": 2,
+    "json": 51,
+    "plaintext": 19,
+    "yaml": 457
+   },
+   "trpc/trpc": {
+    "bash": 21,
+    "diff": 6,
+    "json": 11,
+    "ts": 193
+   },
+   "typeorm/typeorm": {
+    "bash": 18,
+    "diff": 3,
+    "html": 1,
+    "js": 3,
+    "json": 5,
+    "plaintext": 12,
+    "sql": 68,
+    "ts": 195
+   },
+   "typescript-cheatsheets/react": {
+    "js": 1,
+    "ts": 42
+   },
+   "typescript-eslint/typescript-eslint": {
+    "bash": 3,
+    "diff": 1,
+    "js": 14,
+    "json": 18,
+    "plaintext": 5,
+    "ts": 7
+   },
+   "uber-go/guide": {
+    "go": 169,
+    "plaintext": 8
+   },
+   "ultralytics/ultralytics": {
+    "bash": 92,
+    "cpp": 1,
+    "dockerfile": 2,
+    "json": 59,
+    "markdown": 1,
+    "plaintext": 80,
+    "python": 159,
+    "rust": 3,
+    "sql": 1,
+    "yaml": 27
+   },
+   "urfave/cli": {
+    "bash": 20,
+    "go": 11
+   },
+   "vercel/next.js": {
+    "bash": 94,
+    "css": 20,
+    "diff": 10,
+    "html": 55,
+    "js": 247,
+    "json": 41,
+    "markdown": 5,
+    "plaintext": 43,
+    "ts": 274,
+    "yaml": 13
+   },
+   "vitejs/vite": {
+    "bash": 13,
+    "css": 2,
+    "diff": 3,
+    "html": 10,
+    "js": 28,
+    "json": 21,
+    "markdown": 1,
+    "ts": 8,
+    "yaml": 2
+   },
+   "vitest-dev/vitest": {
+    "bash": 43,
+    "diff": 7,
+    "html": 49,
+    "js": 31,
+    "json": 10,
+    "markdown": 1,
+    "plaintext": 3,
+    "ts": 347,
+    "yaml": 25
+   },
+   "void-linux/void-packages": {
+    "diff": 385
+   },
+   "vuejs-translations/docs-pt": {
+    "bash": 4,
+    "css": 11,
+    "diff": 2,
+    "html": 14,
+    "js": 76,
+    "json": 1,
+    "ts": 36
+   },
+   "vuejs/core": {
+    "bash": 2,
+    "diff": 1,
+    "html": 1,
+    "js": 2,
+    "ts": 3
+   },
+   "vuejs/docs": {
+    "bash": 1,
+    "css": 10,
+    "diff": 1,
+    "html": 11,
+    "js": 51,
+    "json": 3,
+    "ts": 8
+   },
+   "webpack/webpack": {
+    "bash": 5,
+    "css": 12,
+    "html": 14,
+    "js": 91,
+    "json": 21,
+    "markdown": 1,
+    "ts": 3,
+    "yaml": 4
+   },
+   "winstonjs/winston": {
+    "js": 15,
+    "sql": 1,
+    "ts": 1
+   },
+   "withastro/docs": {
+    "bash": 300,
+    "css": 17,
+    "diff": 23,
+    "dockerfile": 11,
+    "html": 106,
+    "js": 388,
+    "json": 104,
+    "markdown": 100,
+    "plaintext": 2,
+    "ts": 313,
+    "yaml": 32
+   },
+   "WordPress/gutenberg": {
+    "bash": 70,
+    "css": 49,
+    "diff": 3,
+    "html": 225,
+    "js": 225,
+    "json": 235,
+    "markdown": 12,
+    "php": 241,
+    "plaintext": 10,
+    "ts": 25,
+    "yaml": 5
+   },
+   "yargs/yargs": {
+    "bash": 1,
+    "html": 1,
+    "js": 18,
+    "json": 4,
+    "ts": 1
+   },
+   "yiisoft/yii2": {
+    "bash": 4,
+    "html": 4,
+    "js": 2,
+    "json": 10,
+    "php": 600,
+    "sql": 6,
+    "yaml": 6
+   }
+  }
+ },
+ "note": "The pinned collection of 2026-10-30 (Linux, the cloud workspace): it does not reproduce lang-v2.bin's training set (63,751 blocks; per-language counts in docs/MODELS.md §3.1). Kept as the reference for the next rebuild."
+}
