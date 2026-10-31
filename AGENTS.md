@@ -23,6 +23,7 @@ src/
                           200 lines memoized) — keep the mirror's text classes = the textarea's. The mirror scrolls by a
                           scroll-driven animation (`.editor-lines`, `--scroll-max`; compositor, same frame as the text) —
                           a scroll listener only where unsupported (it trails a frame). Textarea: `overscroll-none`.
+                          The caret line (brighter number): read `selectionStart` once per frame — it costs O(text).
     EmptyState.tsx        start screen (<main>, the page's h1): tagline + one line on what Marksage is, Try it on a sample
                           document (lib/sampleDocument) and the story link, then Open / Paste / Start writing, Privacy link
     PageLoad.tsx          <PageLoading> + <PageLoadBoundary> (Try again / Back) for lazily loaded pages

@@ -861,4 +861,11 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   on your device), **Try it on a sample document** (primary) and **The story** link above the drop box, whose own
   Smart Assist line goes (said above now). The start screen is the page's `<main>`. About: Appearance moves to the
   end, after Open source. Checked: 1440 / 390 / 320 px, light / dark, EN / PT-BR, no overflow.
+- **Typing at the end of a long document stalled** (regression from §34's brighter caret line): `caret()` read
+  `ta.selectionStart` for every newline before the caret, and it ran 2–3 times per key (input, keyup,
+  selectionchange). `selectionStart` costs time proportional to the text, so the work grew with the square of the
+  line count. Now: read once, at most once per frame. Agent A's measure (400-section file, 254 KB, 4,402 lines,
+  Assist off, production build, headless Chromium on 2 vCPUs, 11 real keys): end of document 548 → 52–61 ms per
+  key, long tasks 30 → 2; start of document 34–49 ms (unchanged). The caret line still follows typing, arrows and
+  clicks.
 

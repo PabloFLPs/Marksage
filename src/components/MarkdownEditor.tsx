@@ -156,12 +156,21 @@ function LineNumbers({ value, textareaRef, overlayActive }: { value: string; tex
     const follow = () => {
       if (!SCROLL_LINKED) mirror.style.transform = `translate3d(0, ${-ta.scrollTop}px, 0)`
     }
-    // The caret's line number is drawn brighter — where you are at a glance.
+    // The caret's line number is drawn brighter — where you are at a glance. Once per frame however many events
+    // fire (a keystroke sends input, keyup and selectionchange), and the caret read once: `selectionStart` costs
+    // time proportional to the text, so reading it for every newline made typing at the end of a 4,400-line
+    // document take ~500 ms per key (pre-launch review).
+    let frame = 0
     const caret = () => {
-      const v = ta.value
-      let n = 0
-      for (let i = v.indexOf('\n'); i !== -1 && i < ta.selectionStart; i = v.indexOf('\n', i + 1)) n++
-      setCaretLine(n)
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        frame = 0
+        const v = ta.value
+        const end = ta.selectionStart
+        let n = 0
+        for (let i = v.indexOf('\n'); i !== -1 && i < end; i = v.indexOf('\n', i + 1)) n++
+        setCaretLine(n)
+      })
     }
     follow()
     caret()
@@ -172,6 +181,7 @@ function LineNumbers({ value, textareaRef, overlayActive }: { value: string; tex
     const onSelection = () => window.document.activeElement === ta && caret()
     window.document.addEventListener('selectionchange', onSelection)
     return () => {
+      window.cancelAnimationFrame(frame)
       ta.removeEventListener('scroll', follow)
       for (const ev of CARET) ta.removeEventListener(ev, caret)
       window.document.removeEventListener('selectionchange', onSelection)
