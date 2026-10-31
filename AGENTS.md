@@ -119,7 +119,7 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   `PageLoadBoundary` (Back / Try again → reload: browsers cache a failed module import, so re-importing fails).
 - On About and the docs pages the header hides the open document's controls (name, Assist, Edit/Preview, Copy,
   Export; ⌘S and ⌘⇧C do nothing) — they'd act on a document that isn't on screen. The docs pages show a disabled
-  "Read-only" in place of Edit (desktop; phones say it in the page bar). Their page bar is the same `DocBar` every
+  "Read-only" in place of Edit (desktop; phones show a lock in the page bar, with the word where it fits, and a long Back label truncates). Their page bar is the same `DocBar` every
   document gets (type, **Copy Markdown** — here the page source as in the repo — and Outline). Docs stay
   read-only: no "open in editor" (Pablo's call).
 

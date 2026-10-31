@@ -868,4 +868,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   Assist off, production build, headless Chromium on 2 vCPUs, 11 real keys): end of document 548 → 52–61 ms per
   key, long tasks 30 → 2; start of document 34–49 ms (unchanged). The caret line still follows typing, arrows and
   clicks.
+- **Docs pages scrolled sideways on phones** (`#smart-assist`, `#models`: up to 489 px wide at 360 px, the Outline
+  button off-screen): the bar's Back button couldn't shrink. Now it truncates ("Docs…" at 320 px in PT), and
+  "Read-only" shows as a lock until the bar has room for the word (title + screen-reader text keep it). Checked:
+  320 / 360 / 375 / 390 / 430 px, EN / PT-BR, opened from About and from the other docs page — page width = viewport,
+  Outline button in view and opens the panel.
 

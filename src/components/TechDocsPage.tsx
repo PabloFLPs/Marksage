@@ -156,16 +156,19 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
             <button
               type="button"
               onClick={onBack}
-              className="tap -ml-2 inline-flex shrink-0 items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
+              title={backLabel}
+              className="tap -ml-2 inline-flex min-w-0 items-center gap-1 rounded-md px-2 py-1 text-sm text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent"
             >
-              <ArrowLeft className="h-4 w-4" /> {backLabel}
+              {/* Phones: a long target ("How Smart Assist works") gives way to the bar's buttons — it truncates. */}
+              <ArrowLeft className="h-4 w-4 shrink-0" /> <span className="truncate">{backLabel}</span>
             </button>
           }
           extra={
             /* Phones: the header has no room for "Read-only", so the page says it. Read-only by design (no "open in
                editor"); copying the Markdown is the way to take it with you. */
             <span title={t('docs.readOnlyTitle')} className="inline-flex items-center gap-1 whitespace-nowrap text-xs text-ink-muted sm:hidden dark:text-dark-ink-muted">
-              <Lock className="h-3 w-3" /> {t('docs.readOnly')}
+              {/* The word only where the bar has room; narrower, the lock (its title and screen readers say it). */}
+              <Lock className="h-3 w-3" /> <span className="sr-only @sm:not-sr-only">{t('docs.readOnly')}</span>
             </span>
           }
         />

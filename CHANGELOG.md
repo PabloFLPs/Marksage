@@ -8,7 +8,8 @@ app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: A
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.35.1** · 2026-10-31 · `(this commit)` · perf(editor): typing at the end of a long document is smooth again
+- **3.35.2** · 2026-10-31 · `(this commit)` · fix(docs): the docs pages fit phone screens; the Outline button is always reachable
+- **3.35.1** · 2026-10-31 · `554f260` · perf(editor): typing at the end of a long document is smooth again
 - **3.35.0** · 2026-10-31 · `209f480` · feat(start): the start screen says what Marksage is, with the sample and the story
 - **3.34.0** · 2026-10-31 · `04eb133` · feat(sample): a sample document that shows every Smart Assist feature
 - **3.33.4** · 2026-10-31 · `ec39055` · fix(history): Recent keeps every tab's documents
