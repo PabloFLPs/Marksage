@@ -799,3 +799,12 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   No single repo explains the excess (largest Rust sources are capped at 600). Leading guess, uncheckable: a clone
   incomplete at v2 time and reused (`collect.ts` clones only when the folder is missing). Closed as not found.
 - ROADMAP §0's mode names fixed (Rules / Rules + AI).
+
+## 37. Evening fixes (2026-10-30)
+
+- **/LICENSE.txt in `npm run dev`** (155ef22): the license file was emitted only by the production build, so in dev
+  About's "here" opened the app at `/LICENSE.txt` (then `/LICENSE.txt#about`). The dev server now serves it too.
+  Deployed: plain text on purpose (QA #28 — verbatim, readable without the app); Pablo asked, kept.
+- **Back label flash:** Back from a docs page to About showed "Marksage" for the 220 ms exit — the hash change set
+  the *next* page's `cameFrom` (About, opened from the app) while the old page was still leaving. `goToInfo(next,
+  from)` now sets both together, after the exit. Checked: "About" until the page switches.

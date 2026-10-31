@@ -179,10 +179,13 @@ export default function App() {
   infoRef.current = infoPage
   const aboutTimer = useRef<number | null>(null)
   const showAbout = infoPage !== null
-  // Play the current page's exit animation, then show `next` (or nothing).
-  const goToInfo = useCallback((next: InfoPage | null) => {
-    if (infoRef.current === next) return
+  // Play the current page's exit animation, then show `next` (or nothing) with where it was opened from. The
+  // Back label changes with the page, not before: the leaving page used to flash the next one's label ("Marksage")
+  // during its exit.
+  const goToInfo = useCallback((next: InfoPage | null, from: CameFrom) => {
+    if (infoRef.current === next) return setCameFrom(from)
     if (infoRef.current === null) {
+      setCameFrom(from)
       setInfoPage(next)
       return
     }
@@ -191,6 +194,7 @@ export default function App() {
     aboutTimer.current = window.setTimeout(() => {
       aboutTimer.current = null
       setAboutClosing(false)
+      setCameFrom(from)
       setInfoPage(next)
     }, EXIT_MS)
   }, [])
@@ -198,8 +202,7 @@ export default function App() {
     const onHash = () => {
       // A new entry (a button, a link between the docs, the address bar): remember where it was opened from.
       if (!navState()) window.history.replaceState({ ms: 1, from: infoRef.current ?? 'app' } satisfies NavState, '')
-      setCameFrom(navState()?.from ?? null)
-      goToInfo(pageFromHash())
+      goToInfo(pageFromHash(), navState()?.from ?? null)
     }
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
@@ -229,8 +232,7 @@ export default function App() {
     const parent: InfoPage | null = infoRef.current === 'about' ? null : 'about'
     const url = window.location.pathname + window.location.search + (parent ? '#about' : '')
     window.history.replaceState({ ms: 1, from: null } satisfies NavState, '', url)
-    setCameFrom(null)
-    goToInfo(parent)
+    goToInfo(parent, null)
   }, [goToInfo])
   // The Back label names where Back goes.
   const backLabel =
@@ -275,7 +277,7 @@ export default function App() {
   const goHome = useCallback(() => {
     if (infoRef.current === null) return
     window.history.replaceState({ ms: 1, from: null } satisfies NavState, '', window.location.pathname + window.location.search)
-    goToInfo(null)
+    goToInfo(null, null)
   }, [goToInfo])
 
   // Editor enter/exit: the pane slides in from the right, and back out on close.
