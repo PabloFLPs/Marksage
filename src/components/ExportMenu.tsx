@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Check, Download, X } from 'lucide-react'
 import { Presence } from './motion'
 import { baseNameLength, normalizeFilename } from '../lib/file'
@@ -38,8 +38,10 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
     if (doneTimer.current) window.clearTimeout(doneTimer.current)
   }, [])
 
-  // A fresh, selected name every time it opens.
-  useEffect(() => {
+  // A fresh, selected name every time it opens. A layout effect: the new name is in the input before the frame
+  // that selects it (with a plain effect, the first ⌘S on an untitled document selected the name from when the
+  // panel mounted, then the real one replaced it with the caret at the end — typing appended to it).
+  useLayoutEffect(() => {
     if (!open) return
     setValue(defaultName)
     const id = window.requestAnimationFrame(() => {

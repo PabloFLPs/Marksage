@@ -8,7 +8,8 @@ app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: A
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.35.3** · 2026-10-31 · `(this commit)` · fix(theme): no light flash in dark mode, and a first visit starts light
+- **3.35.4** · 2026-10-31 · `(this commit)` · fix(export): the first ⌘S on an untitled document selects the suggested name
+- **3.35.3** · 2026-10-31 · `d2fb315` · fix(theme): no light flash in dark mode, and a first visit starts light
 - **3.35.2** · 2026-10-31 · `e2aa47d` · fix(docs): the docs pages fit phone screens; the Outline button is always reachable
 - **3.35.1** · 2026-10-31 · `554f260` · perf(editor): typing at the end of a long document is smooth again
 - **3.35.0** · 2026-10-31 · `209f480` · feat(start): the start screen says what Marksage is, with the sample and the story

@@ -881,4 +881,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   light whatever the system says, with the Classic accent (already the default). Checked with the main script
   held back 2 s: dark at 100 / 300 / 900 / 1,800 ms and after; first visit light with the OS in dark mode;
   toggling still saves and applies.
+- **Export's first ⌘S didn't select the name** (untitled document "# Meeting Notes": `document.md` selected for a
+  frame, then `meeting-notes.md` with the caret at the end, so typing appended — `meeting-notes.mdfoo.md`): the
+  panel's name is state from when it mounted, refreshed by an effect that committed after the frame selecting it.
+  Now a layout effect. Checked: first ⌘S, the Export button and a named document all select `meeting-notes` from
+  the first frame on.
 
