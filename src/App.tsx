@@ -445,7 +445,7 @@ export default function App() {
   }, [])
 
   const handleTrySmartAssist = useCallback(() => {
-    pasteText(getSampleDocument(lang), getSampleFilename(lang))
+    pasteText(getSampleDocument(lang), getSampleFilename())
     handleAssistModeChange(assistMode === 'off' ? 'heuristics' : assistMode)
     goHome()
     setViewMode('edit')

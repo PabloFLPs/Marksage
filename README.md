@@ -50,7 +50,10 @@ Everything runs in the browser — files never leave your machine.
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
 - **Appearance** — app icon + accent palette (Classic, Mono, Line, Sunset), light/dark theme,
   macOS or Windows keyboard-shortcut labels
-- **About page** (`#about`) documenting every feature, with a Smart Assist playground, and two technical
+- **Sample document** — a small made-up README with slips left in on purpose: a one-minute tour of every
+  Smart Assist feature (code languages, structure hints, smart paste, readability, the Outline's three tabs,
+  and what Rules + AI adds), from About
+- **About page** (`#about`) documenting every feature, and two technical
   pages: how Smart Assist works (`#smart-assist`) and how the two models work (`#models`) — loaded on demand,
   only in the current language, prefetched while About is open; a failed download shows *Try again* instead of
   a blank page. Back always returns to the page you came from. The docs are read-only (the header says so instead

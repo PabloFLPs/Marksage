@@ -844,4 +844,15 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   that moment (this tab's copy only when storage can't be read), and a `storage` event on the key refreshes the
   other tabs' menus. Checked with the agent's two-tab script: Recent keeps both documents through typing in A,
   closing B and reopening.
+- **A sample document that shows everything** (Pablo: richer, useful and enjoyable — not necessarily big): the
+  4-section playground became `pitwall-README.md`, a made-up README for a lap-time CLI with a tour checklist on top
+  and slips left in on purpose. Checked in the app, EN and PT-BR: Rules lists 12 suggestions (Bash 97%, JS 85%,
+  JSON 100%, `-item` ×3, `• item`, `**Options**`, `1)item` ×2, `[text] (url)`, `#License`), the CSV in Examples
+  pasted back offers a table, the Document tab calls it a README (from its sections, not the file name) and lists
+  untagged code, a "click here" link and a 40+ word sentence; "How it works" is the hard-to-read section.
+  Rules + AI adds the ✦ calls and the JS-or-TS "Which language?" pick on Usage; the section model types "Keeping
+  your data private" as Security in English. Not in PT: the model reads the PT text as "other" (0.30) — it learned
+  mostly from English docs. Avoided on purpose: `== Title ==` (it maps to `#####`, DokuWiki-style, and looks wrong
+  in a demo), short shell blocks (the rules aren't sure below a loop or a pipe), and `-a …` lines in PT (read as a
+  flag).
 

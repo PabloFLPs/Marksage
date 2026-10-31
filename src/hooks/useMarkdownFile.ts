@@ -188,7 +188,7 @@ export function useMarkdownFile() {
   )
 
   /**
-   * Open text that isn't a file. `filename` names a document the app offers (the playground), which then
+   * Open text that isn't a file. `filename` names a document the app offers (the sample document), which then
    * starts clean: there is nothing of the user's to lose until they edit it.
    */
   const pasteText = useCallback(

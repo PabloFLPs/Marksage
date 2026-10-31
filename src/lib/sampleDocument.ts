@@ -1,83 +1,198 @@
-/** Playground document used by "Try Smart Assist" on the About page. */
-export const SAMPLE_DOCUMENT = `# Smart Assist playground
+/**
+ * The sample document — "Try it on a sample document" on the start screen and on About.
+ *
+ * A small, made-up README with slips left in on purpose, so every Smart Assist feature shows up in a minute:
+ * code blocks without a language (one TypeScript-or-JavaScript case for Rules + AI's two-option offer), structure
+ * near-misses of several kinds, a CSV to paste back in (smart paste), one long winding section and one plain one
+ * (readability dots), headings that name their type and one that doesn't (Outline; the section model reads it in
+ * Rules + AI), and a vague link + untagged code for the Document tab's "worth a look". The checklist on top is the
+ * tour. Keep EN and PT-BR in step, and check both in the app after any change (Suggestions tab, Outline types).
+ */
+export const SAMPLE_DOCUMENT = `# Pitwall
 
-Move your cursor around this document — suggestions appear at the bottom of the editor.
-Press **Tab** to accept, **Esc** to dismiss.
+> **Smart Assist tour.** This README has a few slips left in on purpose. Move the cursor around: suggestions show up at the bottom of the editor. **Tab** accepts, **Esc** dismisses, **Ctrl/⌘ Z** undoes. Nothing changes unless you accept it.
+>
+> - [ ] Give the code blocks a language (Installation, Usage, Configuration)
+> - [ ] Fix the formatting slips (Usage, Configuration, FAQ, the last line)
+> - [ ] Paste the lap times in Examples back in and take the table
+> - [ ] Open the **Outline**: what each section is, then the **Document** and **Suggestions** tabs
+> - [ ] Switch the **Assist** menu to **Rules + AI**: Marksage's own small models join in (✦)
 
-## 1. Code blocks without a language
+Pitwall turns lap-time spreadsheets into race summaries: fastest laps, stints and the gap to the leader. One small command-line tool, no account, no server.
 
-The block below has no language tag. Click outside it and Smart Assist will suggest one.
+## Installation
+
+You need Node.js 20 or newer. Install it, then summarise a whole folder of races:
 
 \`\`\`
-interface User {
-  id: string
-  name: string
+npm install --global pitwall
+for f in races/*.csv; do pitwall "$f" --laps 53; done
+\`\`\`
+
+## Usage
+
+Point it at the CSV your timing app exports:
+
+\`\`\`
+import { summarize } from 'pitwall'
+
+const race = await summarize('monza.csv', { laps: 53 })
+console.log(race.fastestLap)
+\`\`\`
+
+It gives you:
+
+-the fastest lap of each driver
+-every stint, from pit stop to pit stop
+-the gap to the leader, lap by lap
+
+## Configuration
+
+**Options**
+
+- \`laps\`: total race laps
+- \`units\`: \`s\` or \`ms\`
+• \`leader\`: whose gaps to show (pasted from a doc)
+
+Keep them next to your CSV, in \`pitwall.json\`:
+
+\`\`\`
+{
+  "laps": 53,
+  "units": "ms",
+  "leader": "Ana"
 }
 \`\`\`
 
-## 2. Structure that almost worked
+## Examples
 
-**Installation**
+Copy the four lines below, then paste them on the empty line under them: Smart Assist offers a Markdown table.
 
-#Getting started
+driver,lap,time
+Ana,12,1:21.402
+Bruno,12,1:21.877
+Carla,13,1:21.095
 
--this should be a list item
 
-## 3. Smart paste
+## Keeping your data private
 
-Copy the lines below and paste them anywhere — you'll be offered a Markdown table.
+Pitwall reads files only from the folder you point it at and never uploads them anywhere. If you find a vulnerability, please report it privately by email instead of opening a public issue.
 
-name,role,city
-Ana,Engineer,São Paulo
-Bruno,Designer,Rio
+## How it works
 
-## 4. Readability
+Under the hood, every lap row is parsed, normalised to milliseconds and grouped into stints by detecting the pit-lane laps whose sector times exceed the driver's rolling median by a configurable margin, after which the gap to the leader is recomputed cumulatively at each timing line, which is why a single malformed row early in the file can quietly shift every gap that follows it unless you [click here](#faq) first. Laps run under a safety car are kept but marked, because removing them would make the remaining stints look shorter than they really were.
 
-Switch to the preview (or look at the left pane): each long \`##\` section gets a small dot showing how easy it is to read. Hover it for details. Short sentences and plain words make the dot green; long, winding sentences packed with multisyllabic terminology and nested qualifications, like this one, push it toward amber or red.
+## FAQ
+
+### Why is a lap missing?
+
+Pitwall skips rows it can't read, and it tells you how many at the end. Most of the time it is an empty time cell or a lap number written as text. To find and fix them:
+
+1)Run it again with \`--verbose\` to list each skipped row and why.
+2)Fix those rows in your spreadsheet and export the CSV again.
+
+See [the CSV format] (#examples) for the columns it expects.
+
+#License
+
+MIT: use it, change it, share it.
 `
 
-export const SAMPLE_DOCUMENT_PT_BR = `# Playground do Smart Assist
+export const SAMPLE_DOCUMENT_PT_BR = `# Pitwall
 
-Mova o cursor pelo documento — as sugestões aparecem na parte de baixo do editor.
-Aperte **Tab** para aceitar e **Esc** para ignorar.
+> **Tour do Smart Assist.** Este README tem alguns deslizes deixados de propósito. Mova o cursor pelo texto: as sugestões aparecem na parte de baixo do editor. **Tab** aceita, **Esc** ignora, **Ctrl/⌘ Z** desfaz. Nada muda sem você aceitar.
+>
+> - [ ] Dê uma linguagem aos blocos de código (Instalação, Uso, Configuração)
+> - [ ] Corrija os deslizes de formatação (Uso, Configuração, Perguntas frequentes, a última linha)
+> - [ ] Cole de volta os tempos de volta em Exemplos e aceite a tabela
+> - [ ] Abra a **Estrutura**: o que é cada seção, depois as abas **Documento** e **Sugestões**
+> - [ ] Mude o menu **Assist** para **Regras + IA**: os modelos pequenos do próprio Marksage entram em ação (✦)
 
-## 1. Blocos de código sem linguagem
+O Pitwall transforma planilhas de tempos de volta em resumos de corrida: voltas mais rápidas, stints e a diferença para o líder. Uma pequena ferramenta de linha de comando, sem conta e sem servidor.
 
-O bloco abaixo não tem linguagem definida. Clique fora dele e o Smart Assist vai sugerir uma.
+## Instalação
+
+Você precisa do Node.js 20 ou mais novo. Instale e resuma uma pasta inteira de corridas:
 
 \`\`\`
-interface Usuario {
-  id: string
-  nome: string
+npm install --global pitwall
+for f in races/*.csv; do pitwall "$f" --laps 53; done
+\`\`\`
+
+## Uso
+
+Aponte para o CSV que o seu app de cronometragem exporta:
+
+\`\`\`
+import { summarize } from 'pitwall'
+
+const race = await summarize('monza.csv', { laps: 53 })
+console.log(race.fastestLap)
+\`\`\`
+
+Você recebe:
+
+-volta mais rápida de cada piloto
+-cada stint, de uma parada a outra
+-diferença para o líder, volta a volta
+
+## Configuração
+
+**Opções**
+
+- \`laps\`: total de voltas da corrida
+- \`units\`: \`s\` ou \`ms\`
+• \`leader\`: de quem mostrar as diferenças (colado de um documento)
+
+Guarde as opções ao lado do CSV, em \`pitwall.json\`:
+
+\`\`\`
+{
+  "laps": 53,
+  "units": "ms",
+  "leader": "Ana"
 }
 \`\`\`
 
-## 2. Formatação que quase deu certo
+## Exemplos
 
-**Instalação**
+Copie as quatro linhas abaixo e cole na linha vazia logo depois delas: o Smart Assist oferece uma tabela Markdown.
 
-#Primeiros passos
+piloto,volta,tempo
+Ana,12,1:21.402
+Bruno,12,1:21.877
+Carla,13,1:21.095
 
--isto deveria ser um item de lista
 
-## 3. Colagem inteligente
+## Mantendo seus dados privados
 
-Copie as linhas abaixo e cole em qualquer lugar — você vai receber a oferta de uma tabela Markdown.
+O Pitwall lê arquivos só da pasta que você indicar e nunca os envia para lugar nenhum. Se encontrar uma vulnerabilidade ou falha de segurança, por favor reporte em particular, por e-mail, em vez de abrir uma issue pública.
 
-nome,cargo,cidade
-Ana,Engenheira,São Paulo
-Bruno,Designer,Rio
+## Como funciona
 
-## 4. Legibilidade
+Por baixo dos panos, cada linha de volta é lida, convertida para milissegundos e agrupada em stints pela detecção das voltas de pit lane cujos tempos de setor ultrapassam a mediana móvel do piloto por uma margem configurável, depois do que a diferença para o líder é recalculada de forma cumulativa em cada linha de cronometragem, e é por isso que uma única linha malformada no começo do arquivo pode deslocar silenciosamente todas as diferenças seguintes, a menos que você [clique aqui](#perguntas-frequentes) antes. As voltas sob safety car são mantidas, mas marcadas, porque tirá-las faria os stints restantes parecerem mais curtos do que de fato foram.
 
-Mude para a pré-visualização (ou olhe o painel da esquerda): cada seção \`##\` longa ganha um pontinho que mostra o quão fácil ela é de ler. Passe o mouse para ver os detalhes. Frases curtas e palavras simples deixam o ponto verde; frases longas e sinuosas, repletas de terminologia polissilábica e de ressalvas encadeadas umas nas outras, como esta, empurram o ponto para o âmbar ou o vermelho.
+## Perguntas frequentes
+
+### Por que falta uma volta?
+
+O Pitwall pula as linhas que não consegue ler e diz quantas no final. Na maioria das vezes é uma célula de tempo vazia ou um número de volta escrito como texto. Para achar e corrigir:
+
+1)Rode de novo com \`--verbose\` para listar cada linha pulada e o motivo.
+2)Corrija essas linhas na planilha e exporte o CSV de novo.
+
+Veja [o formato do CSV] (#exemplos) para as colunas que ele espera.
+
+#Licença
+
+MIT: use, modifique, compartilhe.
 `
 
 export function getSampleDocument(lang: string): string {
   return lang === 'pt-BR' ? SAMPLE_DOCUMENT_PT_BR : SAMPLE_DOCUMENT
 }
 
-/** The playground's file name, shown in the header and in history instead of "Untitled". */
-export function getSampleFilename(lang: string): string {
-  return lang === 'pt-BR' ? 'playground-smart-assist.md' : 'smart-assist-playground.md'
+/** The sample's file name, shown in the header and in Recent instead of "Untitled". */
+export function getSampleFilename(): string {
+  return 'pitwall-README.md'
 }
