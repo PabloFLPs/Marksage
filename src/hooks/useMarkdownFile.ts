@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { READ_ONLY_DOC_CHARS, isMarkdownFile, looksBinary, readFileAsText } from '../lib/file'
 import { loadDocument, saveDocument } from '../lib/storage'
 import {
+  HISTORY_KEY,
   clearHistory as clearAll,
   findDuplicate,
   loadHistory,
@@ -104,8 +105,15 @@ export function useMarkdownFile() {
   }, [])
 
   // Another tab saved: follow it when this tab has nothing of its own, or ask when both changed the document.
+  // Its Recent list too, so this tab's menu shows the documents made or removed there.
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
+      if (e.key === HISTORY_KEY) {
+        const list = loadHistory()
+        historyRef.current = list
+        setHistory(list)
+        return
+      }
       if (e.key !== DOC_KEY || !e.newValue) return
       const stored = loadDocument()
       const cur = docRef.current

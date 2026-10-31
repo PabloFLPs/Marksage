@@ -831,3 +831,17 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   "Marksage 3.33.3 — changelog" next to the commit. Tags: annotated `v1.0.0`, `v2.0.0`, `v3.0.0`, `v3.33.3`, each
   marked retroactive (Pablo pushes them with `git push --tags`). This commit is `chore`, so the version stays 3.33.3.
 
+## 39. Pre-launch review by three agents (2026-10-31)
+
+Before the LinkedIn post, three agents reviewed the app at 3.33.3 (`b9bf60e`) in parallel — A: flows and behaviour,
+B: content accuracy against code, eval and git history, C: first impression for a LinkedIn visitor — driving the
+production build in headless Chromium (desktop / phone, light / dark, reduced motion, EN / PT-BR). Report first:
+34 merged findings (2 blockers), Pablo approved the fixes in batches. Baseline kept: `eval:assist` 1,215 "✗".
+
+- **Recent lost a document across two tabs** (blocker): tab B made a new document, tab A kept typing in its own;
+  A's save wrote its in-memory Recent over `marksage:history`, so B's document disappeared once B closed (its
+  pagehide flush had nothing new to write). `upsertHistory` / `removeHistory` now apply to what storage holds at
+  that moment (this tab's copy only when storage can't be read), and a `storage` event on the key refreshes the
+  other tabs' menus. Checked with the agent's two-tab script: Recent keeps both documents through typing in A,
+  closing B and reopening.
+

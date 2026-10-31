@@ -13,7 +13,8 @@ export interface HistoryEntry {
   updatedAt: number
 }
 
-const KEY = 'marksage:history'
+export const HISTORY_KEY = 'marksage:history'
+const KEY = HISTORY_KEY
 export const HISTORY_LIMIT = 15
 const MAX_ENTRY_CHARS = 400_000 // skip huge docs rather than evict everything else
 const MAX_TOTAL_CHARS = 2_000_000
@@ -24,7 +25,8 @@ export function newDocId(): string {
     : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
 }
 
-export function loadHistory(): HistoryEntry[] {
+/** What storage holds now, or null when it can't be read. */
+function readStored(): HistoryEntry[] | null {
   try {
     const raw = localStorage.getItem(KEY)
     const parsed = raw ? (JSON.parse(raw) as unknown) : []
@@ -34,8 +36,21 @@ export function loadHistory(): HistoryEntry[] {
         !!e && typeof e.id === 'string' && typeof e.content === 'string' && typeof e.updatedAt === 'number',
     )
   } catch {
-    return []
+    return null
   }
+}
+
+export function loadHistory(): HistoryEntry[] {
+  return readStored() ?? []
+}
+
+/**
+ * The list a change applies to: what storage holds now, not this tab's copy — another Marksage tab may have added
+ * or removed documents since this one read it, and writing a stale copy over the shared key would drop them
+ * (a document made in one tab vanished once another tab typed). This tab's copy only when storage can't be read.
+ */
+function current(entries: HistoryEntry[]): HistoryEntry[] {
+  return readStored() ?? entries
 }
 
 function persist(entries: HistoryEntry[]): HistoryEntry[] {
@@ -63,12 +78,12 @@ function persist(entries: HistoryEntry[]): HistoryEntry[] {
 /** Insert or update, moving the entry to the top. Empty documents are not kept. */
 export function upsertHistory(entries: HistoryEntry[], entry: HistoryEntry): HistoryEntry[] {
   if (!entry.content.trim() || entry.content.length > MAX_ENTRY_CHARS) return entries
-  const rest = entries.filter((e) => e.id !== entry.id)
+  const rest = current(entries).filter((e) => e.id !== entry.id)
   return persist([entry, ...rest])
 }
 
 export function removeHistory(entries: HistoryEntry[], id: string): HistoryEntry[] {
-  return persist(entries.filter((e) => e.id !== id))
+  return persist(current(entries).filter((e) => e.id !== id))
 }
 
 export function clearHistory(): HistoryEntry[] {

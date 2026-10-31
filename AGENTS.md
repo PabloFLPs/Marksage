@@ -63,6 +63,9 @@ training/                 Own models' pipeline (collect → split → train; bui
   nothing until the reload — any new writer of user content must check it too.
   Tabs: a tab writes the document only when it differs from what it last wrote or read (`persisted`), follows
   another tab's save (`storage` event) when it has no changes of its own, and asks (conflict bar) when both do.
+  Recent (`lib/history.ts`) is shared the same way: every change applies to what storage holds *now*, never the
+  tab's own copy (a stale copy written over the key dropped the other tab's documents), and other tabs' changes
+  refresh the menu.
 - **Imports inside `src/assist/`** use explicit `.ts` extensions so `node --experimental-strip-types` can run the eval.
 
 ## Smart Assist
