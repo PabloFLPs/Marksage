@@ -30,8 +30,15 @@ export default defineConfig(({ mode }) => {
         transformIndexHtml: (html) => html.replaceAll('%SITE_URL%', siteUrl),
       },
       {
+        // The license as plain text — verbatim, readable without the app — in the build and in `npm run dev` (where
+        // it used to fall through to the app: About's "here" opened Marksage at /LICENSE.txt).
         name: 'marksage-license',
-        apply: 'build',
+        configureServer(server) {
+          server.middlewares.use('/LICENSE.txt', (_req, res) => {
+            res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+            res.end(readFileSync('LICENSE', 'utf8'))
+          })
+        },
         generateBundle() {
           this.emitFile({ type: 'asset', fileName: 'LICENSE.txt', source: readFileSync('LICENSE', 'utf8') })
         },
