@@ -2,14 +2,16 @@
   "name": "marksage",
   "private": true,
   "license": "AGPL-3.0-only",
-  "version": "0.0.0",
+  "version": "3.33.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "eval:assist": "node --experimental-strip-types scripts/eval-assist.ts"
+    "eval:assist": "node --experimental-strip-types scripts/eval-assist.ts",
+    "version:next": "node --experimental-strip-types scripts/version.ts --next",
+    "version:check": "node --experimental-strip-types scripts/version.ts --check"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

@@ -21,7 +21,12 @@ export default defineConfig(({ mode }) => {
     // Not a git checkout: About links the repository instead.
   }
   return {
-    define: { 'import.meta.env.VITE_SOURCE_COMMIT': JSON.stringify(commit) },
+    define: {
+      'import.meta.env.VITE_SOURCE_COMMIT': JSON.stringify(commit),
+      // Shown in About next to the commit; package.json's version is checked against the git history
+      // (scripts/version.ts --check).
+      'import.meta.env.VITE_APP_VERSION': JSON.stringify((JSON.parse(readFileSync('package.json', 'utf8')) as { version: string }).version),
+    },
     plugins: [
       react(),
       tailwindcss(),

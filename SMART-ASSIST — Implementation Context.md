@@ -817,3 +817,17 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   code-file windows were seeded by the file's absolute path, so data depended on the clone folder — now repo +
   relative path; two collections from different folders are identical. `locks/rebuild-2026-10-30.json` rewritten
   after both (train 64,287); v3 trained on the pre-fix collection (64,288; three code-file repos off by one block).
+
+## 38. Versioning (2026-10-30)
+
+- Pablo wanted versions from now on, reflecting the whole history (the first commit was already "1.0.0" in his eyes).
+  Options discussed: 1.0.0 at launch; majors per product generation + one release per day (3.5.0 — rejected: it needs
+  a time-zone choice); **per commit (chosen, his call): 3.33.3** — recomputable from `git log` alone, so anyone digging
+  the code can verify it.
+- `scripts/version.ts`: `feat` → minor, `fix` / `perf` → patch, others unchanged; majors at `883a328` (previewer),
+  `899f502` (Smart Assist), `d724a55` (own model) — the only judgment call, listed by hash. `--next "<message>"`
+  writes `package.json` + `CHANGELOG.md` before a commit, `--check` verifies after; `--list`, `--commit <ref>`.
+- `CHANGELOG.md` (generated, newest first, grouped by major), `package.json` 3.33.3, About → License shows
+  "Marksage 3.33.3 — changelog" next to the commit. Tags: annotated `v1.0.0`, `v2.0.0`, `v3.0.0`, `v3.33.3`, each
+  marked retroactive (Pablo pushes them with `git push --tags`). This commit is `chore`, so the version stays 3.33.3.
+

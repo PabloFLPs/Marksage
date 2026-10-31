@@ -146,3 +146,11 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
 
 ## Verify before committing
 `npx tsc -b` · `npm run lint` · `npm run eval:assist` · manually check light/dark, desktop/mobile, and reduced motion.
+
+## Versioning (since 2026-10-30)
+The version comes from the git history (`scripts/version.ts`): `feat` → minor, `fix` / `perf` → patch, other types
+don't change it; majors only at the three commits listed in `MAJORS` (the product's generations). Versions before
+3.33.3 were assigned retroactively with the same rule. For every commit: `npm run version:next -- "<the commit
+message>"` before committing (writes `package.json` + `CHANGELOG.md` — include them in the commit), then
+`npm run version:check` after it. Git tags only for milestones (`v1.0.0`, `v2.0.0`, `v3.0.0`) and versions shown
+publicly (annotated; Pablo pushes them with `git push --tags`). About shows the version next to the commit.

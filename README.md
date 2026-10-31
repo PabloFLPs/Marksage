@@ -99,6 +99,13 @@ from zero (model cards, version history), [`training/`](training/README.md) for 
 `ROADMAP.md` for what's next, and `SMART-ASSIST — Implementation Context.md` for the design notes and
 timeline.
 
+## Versioning
+
+Marksage's version is computed from its git history by `scripts/version.ts` — `feat` commits raise the minor,
+`fix` / `perf` the patch, and the majors mark the product's three generations (1 the previewer, 2 Smart Assist, 3
+its own models). Every version and the commit that made it: [`CHANGELOG.md`](CHANGELOG.md) (versions before 3.33.3
+were assigned retroactively on 2026-10-30 with the same rule). `npm run version:check` verifies it.
+
 ## License
 
 Copyright (C) 2026 PabloFLPs.

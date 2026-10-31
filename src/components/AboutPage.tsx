@@ -59,6 +59,8 @@ interface AboutPageProps {
 
 /** The exact source of this build (AGPL §13): its commit when the build knew it, else the repository. */
 const SOURCE_COMMIT: string = import.meta.env.VITE_SOURCE_COMMIT ?? ''
+const APP_VERSION: string = import.meta.env.VITE_APP_VERSION ?? ''
+const CHANGELOG_URL = `https://github.com/PabloFLPs/Marksage/blob/${SOURCE_COMMIT || 'main'}/CHANGELOG.md`
 const SOURCE_URL = SOURCE_COMMIT ? `https://github.com/PabloFLPs/Marksage/tree/${SOURCE_COMMIT}` : 'https://github.com/PabloFLPs/Marksage'
 
 const SHORTCUTS: [KeyToken[], string, string][] = [
@@ -335,8 +337,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
         <Section title={x('Open source', 'Código aberto')}>
           <Feature icon={<Scale />} title={x('Free software, AGPL-3.0', 'Software livre, AGPL-3.0')}>
             {x(
-              <>Marksage — code and models — is free software under the GNU Affero General Public License v3.0: you can read, change and share it, and if you run a changed version for other people, you share your changes too. The source of this version is on <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>{SOURCE_COMMIT && <> (commit <code>{SOURCE_COMMIT.slice(0, 7)}</code>)</>}; the full license text is <a href="/LICENSE.txt" target="_blank" rel="noopener" className="text-accent hover:underline dark:text-dark-accent">here</a> (SPDX: AGPL-3.0-only).</>,
-              <>O Marksage — código e modelos — é software livre sob a GNU Affero General Public License v3.0: você pode ler, mudar e compartilhar, e se rodar uma versão modificada para outras pessoas, compartilha as suas mudanças também. O código desta versão está no <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>{SOURCE_COMMIT && <> (commit <code>{SOURCE_COMMIT.slice(0, 7)}</code>)</>}; o texto completo da licença está <a href="/LICENSE.txt" target="_blank" rel="noopener" className="text-accent hover:underline dark:text-dark-accent">aqui</a> (SPDX: AGPL-3.0-only).</>,
+              <>Marksage — code and models — is free software under the GNU Affero General Public License v3.0: you can read, change and share it, and if you run a changed version for other people, you share your changes too. The source of this version{APP_VERSION && <> (Marksage {APP_VERSION} — <a href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">changelog</a>)</>} is on <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>{SOURCE_COMMIT && <> (commit <code>{SOURCE_COMMIT.slice(0, 7)}</code>)</>}; the full license text is <a href="/LICENSE.txt" target="_blank" rel="noopener" className="text-accent hover:underline dark:text-dark-accent">here</a> (SPDX: AGPL-3.0-only).</>,
+              <>O Marksage — código e modelos — é software livre sob a GNU Affero General Public License v3.0: você pode ler, mudar e compartilhar, e se rodar uma versão modificada para outras pessoas, compartilha as suas mudanças também. O código desta versão{APP_VERSION && <> (Marksage {APP_VERSION} — <a href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">changelog</a>)</>} está no <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>{SOURCE_COMMIT && <> (commit <code>{SOURCE_COMMIT.slice(0, 7)}</code>)</>}; o texto completo da licença está <a href="/LICENSE.txt" target="_blank" rel="noopener" className="text-accent hover:underline dark:text-dark-accent">aqui</a> (SPDX: AGPL-3.0-only).</>,
             )}
           </Feature>
         </Section>
