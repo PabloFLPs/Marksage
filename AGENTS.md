@@ -59,6 +59,8 @@ training/                 Own models' pipeline (collect → split → train; bui
   Images from other websites load only with "Load images from the web" on (`lib/remoteImages.ts`, About → Privacy;
   off shows a placeholder + a bar linking there) and never send a referrer. Any new key or download must be listed in About → Privacy & storage (EN + PT-BR) and be removed by "Delete all Marksage data" (`deleteAllLocalData`). (Renamed from `markdown-preview:*`; `index.html` migrates old keys once on load.)
 - **Scroll sync:** preview blocks carry `data-line` (rehype plugin in `lib/scrollSync.ts`); the editor side is measured with a hidden mirror. Keep `rehypeSourceLines` on the preview.
+  The preview renders after the editor (deferred): `useScrollSync` re-syncs when the preview's content resizes while
+  the editor is the driver (a paste, typing at the end).
 - **Focus:** call `focus({ preventScroll: true })` — plain focus during slide animations shifts the layout.
 - **Files:** `lib/file.ts` `ACCEPTED_EXTENSIONS` — Markdown only (`.md .markdown .mdx .mdown .mkd .mkdn .mdwn`);
   `.txt` is refused on purpose; `looksBinary` refuses renamed binaries. Keep `error.notMarkdown` listing the same set.

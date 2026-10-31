@@ -51,6 +51,20 @@ export function useScrollSync(
       driver = side
     }
 
+    // The preview renders a moment after the editor changes (deferred), so a paste or typing at the end moves the
+    // editor while the preview still has its old height — and the sync that ran then is never redone. Follow again
+    // whenever the preview's content changes size, while the editor is the side being driven.
+    const resized = new ResizeObserver(() => {
+      if (driver === 'editor') sync('editor')
+    })
+    const watch = () => {
+      resized.disconnect()
+      for (const el of preview.children) resized.observe(el)
+    }
+    watch()
+    const replaced = new MutationObserver(watch)
+    replaced.observe(preview, { childList: true })
+
     const onPreview = onScroll('preview')
     const onEditor = onScroll('editor')
     const claimPreview = claim('preview')
@@ -63,6 +77,8 @@ export function useScrollSync(
     }
     return () => {
       cancelAnimationFrame(frame)
+      resized.disconnect()
+      replaced.disconnect()
       preview.removeEventListener('scroll', onPreview)
       editor.removeEventListener('scroll', onEditor)
       for (const ev of ['wheel', 'touchstart', 'pointerdown', 'keydown'] as const) {

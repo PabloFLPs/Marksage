@@ -886,4 +886,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   panel's name is state from when it mounted, refreshed by an effect that committed after the frame selecting it.
   Now a layout effect. Checked: first ⌘S, the Export button and a named document all select `meeting-notes` from
   the first frame on.
+- **The preview didn't follow a paste in split view** (15 KB pasted: editor at the bottom, preview stuck at the
+  top, and typing at the end didn't move it): the sync ran on the editor's scroll, while the deferred preview was
+  still empty, and nothing re-ran it. `useScrollSync` now re-syncs when the preview's content changes size while
+  the editor is the driver. Checked: after the paste the preview is at 9,567 / 9,603; scrolling either pane still
+  moves the other, with no snap-back.
 
