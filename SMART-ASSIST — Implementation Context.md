@@ -781,4 +781,6 @@ That closes the launch QA report: 36 findings — 35 fixed in their own commits 
   +230 v2 on the 842 new blocks; nothing else changed).
 - Documented: MODELS §2.7 + §8.1 + §8.5 (EN + PT-BR), training/README (full tables and commands), ROADMAP §4.1
   (follow-ups: TS/JS labels, mean + max for coverage as its own claim, rebuild reproducibility). No model file
-  committed; Privacy & storage and #story unchanged (nothing shipped).
+  committed; Privacy & storage unchanged (nothing shipped).
+- `#story` (Pablo asked): a 2026-10-30 entry, "Better overall, not where it was aimed" (the bar, the verdict, the
+  label cause, the fallback re-measured; link → #models), and "What comes next" now leads with fixing TS/JS labels.

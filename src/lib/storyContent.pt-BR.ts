@@ -99,9 +99,23 @@ const content: StoryContent = {
       facts: ['36 problemas: 35 corrigidos, 1 planejado', 'Tabelas grandes: ~25 s → 1,7 s', 'Alternativa: +1 sugestão certa, 0 erros novos em todos os conjuntos de teste'],
     },
     {
+      date: '2026-10-30',
+      title: 'Melhor no geral, não onde mirava',
+      body: [
+        'O modelo de código seguinte guardou, em cada dimensão, a pista mais forte ao lado da média (média + máximo), para uma pista decisiva como `: number` não sumir na média. Ele foi ajustado com previsões para repositórios em que não treinou e julgado uma única vez num terceiro conjunto de teste novo — 842 blocos de 158 repositórios — contra uma régua escrita antes de rodar: mais sugestões certas nas linguagens quase gêmeas (TypeScript/JavaScript, C++/C, C#/Java) sem perder precisão.',
+        'No geral, superou o modelo em uso. Nas linguagens quase gêmeas, não: ficou menos preciso, e pior em TypeScript/JavaScript. A causa estava nos rótulos, não no modelo — só 42% do código marcado como TypeScript no treino tem alguma sintaxe só de TypeScript; o resto é JavaScript válido. Ele não entrou, e o resultado está documentado ao lado dos que entraram.',
+      ],
+      facts: [
+        '842 blocos de teste · linguagens quase gêmeas: 103 certas, 88,0% contra 106, 89,8% do modelo em uso',
+        'No geral: 391 certas, 93,8% contra 380, 93,1%',
+        'Alternativa das regras medida de novo: +3 certas, 0 erros novos — continua',
+      ],
+      link: { label: 'Testado, não usado', hash: 'models' },
+    },
+    {
       title: 'O que vem a seguir',
       body: [
-        'Um modelo de código que preserve as pistas decisivas em vez de diluí-las na média, medido em linguagens quase gêmeas (TypeScript/JavaScript, C++/C); um carregamento inicial mais leve em redes lentas; e IA opcional com a sua própria chave, desligada por padrão.',
+        'Resolver TypeScript/JavaScript onde está o problema: rótulos que digam o que o código é, não de que projeto ele veio. Depois, um carregamento inicial mais leve em redes lentas e IA opcional com a sua própria chave, desligada por padrão.',
       ],
     },
   ],

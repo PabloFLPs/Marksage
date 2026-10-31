@@ -99,9 +99,23 @@ const content: StoryContent = {
       facts: ['36 findings: 35 fixed, 1 planned', 'Big tables: ~25 s → 1.7 s', 'Fallback: +1 right suggestion, 0 new mistakes on every test set'],
     },
     {
+      date: '2026-10-30',
+      title: 'Better overall, not where it was aimed',
+      body: [
+        'The next code model kept each dimension’s strongest clue next to the average (mean + max pooling), so one decisive clue like `: number` couldn’t be averaged away. It was tuned on predictions for repositories it never trained on, then judged once on a third fresh test set — 842 blocks from 158 repositories — against a bar written down before the run: more right suggestions on the near-twin languages (TypeScript/JavaScript, C++/C, C#/Java) without losing precision.',
+        'Overall it beat the model in use. On the near-twin languages it didn’t: less precise, and worse on TypeScript/JavaScript. The cause was in the labels, not the model — only 42% of the code tagged TypeScript in training has any TypeScript-only syntax; the rest is valid JavaScript. It didn’t ship, and the result is documented next to the ones that did.',
+      ],
+      facts: [
+        '842 held-out blocks · near-twin languages: 103 right, 88.0% vs 106, 89.8% for the model in use',
+        'Overall: 391 right, 93.8% vs 380, 93.1%',
+        'Rules fallback re-measured: +3 right, 0 new mistakes — it stays',
+      ],
+      link: { label: 'Tried, not used', hash: 'models' },
+    },
+    {
       title: 'What comes next',
       body: [
-        'A code model that keeps decisive clues instead of averaging them away, measured on near-twin languages (TypeScript/JavaScript, C++/C); a lighter first load on slow networks; and optional bring-your-own-key AI, off by default.',
+        'Fixing TypeScript/JavaScript where the problem is: labels that say what the code is, not which project it came from. Then a lighter first load on slow networks, and optional bring-your-own-key AI, off by default.',
       ],
     },
   ],
