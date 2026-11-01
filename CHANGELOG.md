@@ -8,7 +8,8 @@ app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: A
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.38.6** · 2026-11-01 · `(this commit)` · perf(docs): diagrams regenerated from the script, without embedded provenance blocks
+- **3.38.7** · 2026-11-01 · `(this commit)` · fix(build): the missing-URL warning says what is actually at risk
+- **3.38.6** · 2026-11-01 · `57fdf59` · perf(docs): diagrams regenerated from the script, without embedded provenance blocks
 - **3.38.5** · 2026-11-01 · `edb5661` · fix(build): link previews work on Vercel without setting VITE_SITE_URL
 - **3.38.4** · 2026-11-01 · `b1eddab` · fix(ui): a message without JavaScript, start buttons that fit at 320 px, two lint warnings
 - **3.38.3** · 2026-11-01 · `2d360e4` · fix(a11y): keyboard for the split divider and the Outline tabs, focus in the phone sheet, contrast

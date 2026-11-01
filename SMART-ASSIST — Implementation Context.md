@@ -1003,4 +1003,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   are byte-identical minus that block; the docs chunks go 134.7 → 103.6 KB (EN) and 142.5 → 111.4 KB (PT), gzip
   38.5 → 34.2 and 40.1 → 35.8 KB. Neither Anthropic's terms nor the EU AI Act (Art. 50: deepfakes, public-interest
   text) require labelling these diagrams.
+- **The missing-URL warning, corrected** (Pablo, 2026-11-01: WhatsApp showed the full preview, image included, from
+  the live build with relative tags): it no longer claims LinkedIn, Slack and WhatsApp *will* show no image — agent
+  C's assumption, repeated in two earlier commit messages here. It says the spec asks for absolute URLs and some
+  previews *may* lack the image. The Vercel fallback stays: the tags are absolute there either way. LinkedIn itself
+  is unverified until the deploy (Post Inspector).
 

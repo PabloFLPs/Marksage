@@ -11,7 +11,8 @@ export default defineConfig(({ mode }) => {
   // project's production domain (VERCEL_PROJECT_PRODUCTION_URL, set on every build, previews included) is used.
   const vercelProd = process.env.VERCEL_PROJECT_PRODUCTION_URL
   const siteUrl = (loadEnv(mode, process.cwd(), '').VITE_SITE_URL || (vercelProd ? `https://${vercelProd}` : '')).replace(/\/+$/, '')
-  // Without it, og:image / og:url stay relative and link previews show no image (launch QA #34): say so at build.
+  // Without it, og:image / og:url stay relative. The Open Graph spec asks for absolute URLs; some apps resolve
+  // relative ones anyway (WhatsApp does — Pablo checked, 2026-11-01), stricter crawlers may not: say so at build.
   if (mode === 'production' && !siteUrl)
     console.warn('\n⚠ VITE_SITE_URL is not set — link previews (og:image, og:url) will be relative. See .env.example.\n')
   // AGPL: About links the exact source of the build people are using (the commit), and the site serves the
@@ -45,7 +46,7 @@ export default defineConfig(({ mode }) => {
         // without it shows link previews with no image (pre-launch review).
         closeBundle: () => {
           if (mode === 'production' && !siteUrl)
-            console.warn('\n⚠ Built WITHOUT VITE_SITE_URL: og:image and og:url are relative, so LinkedIn, Slack and WhatsApp previews\n  will show no image. Set it (see .env.example) and build again before deploying.\n')
+            console.warn('\n⚠ Built WITHOUT VITE_SITE_URL: og:image and og:url are relative. Open Graph asks for absolute URLs, so\n  some link previews may show no image. Set it (see .env.example) or build on Vercel, where it is automatic.\n')
         },
       },
       {
