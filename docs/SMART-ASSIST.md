@@ -69,8 +69,8 @@ Every Smart Assist question climbs the same ladder, and stops at the first step 
 1. **Rules** (the heuristics) — instant, transparent, precise; tried first for every feature.
 2. **A tiny purpose-trained model** — only where the rules stay too quiet *and* real labelled data exists.
    Both of Marksage's models are here. Each had to prove, on repositories it never saw, that it adds answers
-   the rules can't give. The code model shows more than twice as many suggestions at about the same
-   precision; the section model types sections whose heading says nothing. Two more were trained and
+   the rules can't give. The code model gets about twice as many suggestions right as the rules
+   (1.7–2.2× on three held-out sets) at about the same precision; the section model types sections whose heading says nothing. Two more were trained and
    measured the same way — structure hints and paste types — and didn't do better than the rules on real
    text, so they aren't used (section 4.6).
 3. **A general decision model** — Laya preferably, because it runs on your device. Reserved for questions
@@ -102,7 +102,7 @@ weaker than Rules + AI without being any more honest.
 **Rules is the default.** A first visit starts in *Rules*: it runs on your device, downloads nothing and only
 suggests, so being on costs nothing — and the start screen says what it does. Choosing *Off* (or *Rules + AI*)
 is remembered. "AI" in *Rules + AI* means Marksage's two small trained models (section 4), not a chatbot or
-anything hosted. (Until 2026-10-28 the modes were called *Heuristics* and *Hybrid*, and Smart Assist started
+anything hosted. (Until 2026-10-29 the modes were called *Heuristics* and *Hybrid* — *Local model* before 2026-10-28 — and Smart Assist started
 off; the stored values — `heuristics`, `model` — didn't change, so nobody's choice was reset.)
 
 ---
@@ -240,9 +240,10 @@ the opening fence marker.
 
 **Two options.** With *Rules + AI*, when no language passes the gate but the top two together hold
 ≥ 85% (the second ≥ 20%), the bar offers both — `Tab` (or a click) takes the first, `Alt+2` the second.
-Typical pairs: JavaScript/TypeScript, JSON/YAML, C/C++. The rule was set on the dev set; on the two
-held-out sets it made 15 and 17 offers, and the right language was one of the two every time. (Only the
-model's probabilities are calibrated well enough for this, so heuristics mode doesn't offer pairs.)
+Typical pairs: JavaScript/TypeScript, JSON/YAML, C/C++. The rule was set on the dev set; on the three
+held-out sets it made 15, 17 and 81 offers, and the right language was one of the two in 15, 17 and 75 of them
+(107 of 113). (Only the model's probabilities are calibrated well enough for this, so in the editor, *Rules* mode
+doesn't offer pairs.)
 
 ### Smart paste (`choice`)
 
@@ -466,11 +467,13 @@ model, nor any tuning, had ever touched (up to 15 per language):
 | **Model v2 (current)** | **74%** | **158 (56%)** | **92%** | **145 / 13** |
 
 On the first set (314 blocks, the one v1 was measured on) v2 reaches 77% accuracy, 164 shown and
-96% right when shown (v1: 76%, 141, 94%; heuristics: 57%, 76, 97%).
+96% right when shown (v1: 76%, 141, 94%; rules: 57%, 76, 97%). On a third fresh set (842 blocks from 158
+repositories, 2026-10-30), *Rules + AI* shows 408 suggestions at 93.1% against the rules' 239 at 92.1% — 1.7× the
+right ones, slightly more precise.
 
-So: more than twice the useful suggestions of the heuristics, and better than v1 on every count — but
-still about a point less precise than the heuristics on unfamiliar repositories, which is why it stays an
-opt-in mode. About half of its misses are really labelling quirks (`dotnet build -c Release` tagged as
+So: about twice the useful suggestions of the rules (1.7–2.2× on the three held-out sets) and better than v1 on
+every count, within about a point of the rules' precision — a little below on the first two sets, a little above
+on the third. It's an opt-in mode because it downloads a file and keeps it in your browser. About half of its misses are really labelling quirks (`dotnet build -c Release` tagged as
 C#), the rest are one-liners that fit several languages (`void main() { … }` is valid Java *and* C++).
 
 ### 4.4 The section model
@@ -607,7 +610,7 @@ held-out 89% is the honest number.
 Read it like this: when a suggestion appears it's almost always right; the cost of that caution
 is that many real code blocks get no language suggestion at all. Heuristic decisions take well under
 a millisecond. With *Rules + AI*, code-block language on the same 314 blocks reaches **77% accuracy, 164 shown, 96%
-precision**, and 74% / 158 / 92% on a second, fresh set (section 4.3).
+precision**, 74% / 158 / 92% on a second, fresh set, and 73% / 408 / 93% on a third (section 4.3).
 
 ---
 

@@ -335,6 +335,9 @@ The effect on the dev set — same trained numbers, only the temperature changed
 | No calibration (temperature 1) | 210 | 87.6% |
 | Calibrated (shipped) | 157 | 94.9% |
 
+(158 at the same precision in the app since 2026-10-30, which also takes the rules' answers when they're
+≥ 99% sure.)
+
 Fewer suggestions, but the ones you see are right more often — the trade Smart Assist always makes. On the
 fresh held-out set, confidence and correctness line up like this:
 
@@ -491,9 +494,9 @@ committed. "Shown" is how many answers pass the 0.8 / 0.2 gate; "right" is preci
 | Version | Date | Training data | What changed | First held-out set (314 blocks) | Fresh held-out set (284 blocks) | Third held-out set (842 blocks) | Status |
 |---|---|---|---|---|---|---|---|
 | Heuristics only | — | — | rules, no model | 57.3% · 76 shown · 97.4% right | 58.5% · 70 shown · 92.9% right | 53.9% · 239 · 92.1% | reference |
-| **v1** | 2026-10-24 | ~55,000 blocks, 264 repositories | first model: 8 numbers per clue, 32,768 slots, 8 epochs, temperature 1.85 fitted on dev | 75.8% · 141 · 94.3% | 71.5% · 151 · 88.1% | — | replaced by v2 |
+| **v1** | 2026-10-23 | ~55,000 blocks, 264 repositories | first model: 8 numbers per clue, 32,768 slots, 8 epochs, temperature 1.85 fitted on dev | 75.8% · 141 · 94.3% | 71.5% · 151 · 88.1% | — | replaced by v2 |
 | **v2** | 2026-10-24 | 63,751 blocks, 309 repositories | +45 repositories; temperature from repositories it never saw (1.85, short snippets 2.55, 95% target); in the app, agreement with the heuristics, and since 2026-10-30 nearly certain rules (≥ 99%) — no change on the first two held-out sets, +3 right on the third | 77.4% · 164 · 95.7% | 74.3% · 158 · 91.8% (model alone: 74.3% · 146 · 92.5%) | 72.7% · 408 · 93.1% (model alone: 72.3% · 326 · 92.6%) | **in use** |
-| v3 experiment: mean + max | 2026-10-30 | 64,288 blocks (the same sources, collected again) | each dimension also keeps its strongest clue (mean + max pooling), so one decisive clue can't be averaged away; clue numbers bounded (±2), 4 epochs, learning rate 0.2; 395 KB, same speed | — | — | 74.6% · 417 · 93.8% (model alone: 74.2% · 371 · 93.8%) — six pair languages 103 right · 88.0% vs v2's 106 · 89.8% | **not used** |
+| v3 experiment: mean + max | 2026-10-30 | 64,288 blocks (the same sources, collected again) | each dimension also keeps its strongest clue (mean + max pooling), so one decisive clue can't be averaged away; clue numbers bounded (±2), 4 epochs, learning rate 0.2; 386 KB (394,972 bytes), same speed | — | — | 74.6% · 417 · 93.8% (model alone: 74.2% · 371 · 93.8%) — six pair languages 103 right · 88.0% vs v2's 106 · 89.8% | **not used** |
 
 v1 was measured once on the first held-out set. Because that set had then been seen, v2 was judged on a second,
 fresh one, built from 72 repositories used nowhere else.
@@ -557,9 +560,9 @@ models; 5 epochs (chosen on dev), learning rate 0.3, class weighting 0.5, temper
 
 | Set | What it is | Size | Rule |
 |---|---|---|---|
-| Written | examples written alongside the rules | code 42 · paste 15 · structure 36 · headings 65 · documents 4 | catches regressions; scores near 100% by construction |
+| Written | examples written alongside the rules | code 42 · paste 15 · structure 41 · headings 65 · documents 6 | catches regressions; scores near 100% by construction |
 | Dev | real documents, used to make choices | code 280 · paste 27 · structure 212 (36, plus 176 lines from issues and wikis on 2026-10-28) · sections from 27 repositories | tune here, never on the held-out sets |
-| First held-out (2026-10-24) | real documents, never tuned on | code 314 · paste 31 · structure 30 | run once per version; v1's judge |
+| First held-out (2026-10-23) | real documents, never tuned on | code 314 · paste 31 · structure 30 | run once per version; v1's judge |
 | Fresh held-out (2026-10-24) | code from 72 repositories used nowhere else | code 284 (67 repositories) | built once for v2, then frozen |
 | Third held-out (2026-10-30) | code from 158 repositories used nowhere else, built before any v3 training | code 842: ≤ 30 per language, up to 60 for TypeScript, JavaScript, C, C++, C# and Java, plus 40 JSON blocks with comments | built once for v3, then frozen; run once on 2026-10-30 (v3 experiment, v2, heuristics) |
 | Sections held-out (2026-10-24) | sections from the code model's test repositories plus the fresh ones | 133 repositories (134 from v2: new types label sections in one more) | run once per section model |

@@ -918,4 +918,12 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   model carries a fingerprint" → every *code* model shipped from now on (only `train.ts` writes locks, and none
   exists yet for the shipped files); link labels name the page they open ("How the models work", "How Smart Assist
   works") instead of a section they don't scroll to; PT: "memoizado", "pistas passadas por hash".
+- **Technical docs brought up to date** (agent B): the third held-out set (real3) joins SMART-ASSIST §1.2 / §4.2 /
+  §4.3 / §5 — two-option offers right in 107 of 113 (15/15, 17/17, 75/81), and the "a point less precise, which is
+  why it's opt-in" line is gone: on real3 Rules + AI is 408 at 93.1% vs the rules' 239 at 92.1%, 1.7–2.2× the right
+  suggestions across the three sets; opt-in because of the download. Dates = São Paulo commit dates (v1 and the
+  first held-out set 2026-10-23; the mode rename 2026-10-29, *Local model* before 10-28). MODELS: written set
+  structure 41 · documents 6, v3 386 KB (394,972 bytes, same unit as the other sizes), a note that the app shows
+  158 on dev since the ≥ 99% override. training/README: the override's effect per set, the rules row dated, 858.
+  PT: "conjunto de teste" in MODELS (was "de fora"), "*Regras*" for the old "modo heurístico".
 

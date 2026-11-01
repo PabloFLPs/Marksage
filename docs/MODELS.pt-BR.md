@@ -338,6 +338,9 @@ O efeito no conjunto de ajuste — mesmos números treinados, só a temperatura 
 | Sem calibração (temperatura 1) | 210 | 87,6% |
 | Calibrado (o que vai no app) | 157 | 94,9% |
 
+(158 com a mesma precisão no app desde 2026-10-30, que também aceita as respostas das regras quando elas têm
+≥ 99% de certeza.)
+
 Menos sugestões, mas as que você vê acertam mais — a troca que o Smart Assist sempre faz. No conjunto de teste
 novo, confiança e acerto se alinham assim:
 
@@ -423,7 +426,7 @@ quão bem funciona e onde falha. Tudo o que é preciso para usar os arquivos for
 | **Temperatura** | 1,85; 2,55 quando o trecho tem 3 linhas não vazias ou menos |
 | **Dados de treino** | 63.751 blocos de código de 309 repositórios públicos, rotulados pelas tags dos autores, no máximo 6.000 por linguagem, mais janelas de arquivos de código reais para linguagens raras |
 | **Treino** | 8 épocas de SGD, taxa de aprendizado de 0,4 caindo até 0, linguagens raras com peso (6.000 ÷ quantidade)^0,5, semente 1; temperaturas ajustadas em previsões fora do repositório (5 grupos) para 95% de precisão no filtro |
-| **Resultados de fora** (284 blocos, 67 repositórios nunca vistos) | A primeira resposta acerta 74,3% das vezes; com o filtro 0,8 / 0,2 ele responde 51% dos blocos e acerta 92,5% das vezes |
+| **Resultados de teste** (284 blocos, 67 repositórios nunca vistos) | A primeira resposta acerta 74,3% das vezes; com o filtro 0,8 / 0,2 ele responde 51% dos blocos e acerta 92,5% das vezes |
 | **Velocidade** | Cerca de 0,1 ms por trecho em JavaScript puro |
 | **Use para** | Adivinhar a linguagem de um trecho curto de código, principalmente em documentação |
 | **Não use para** | Linguagens fora das 20 (ele diz a mais parecida, nunca "não sei"); linhas únicas (`x = 1` sai Python com 97%); nada em que um palpite errado importe |
@@ -443,7 +446,7 @@ quão bem funciona e onde falha. Tudo o que é preciso para usar os arquivos for
 | **Temperatura** | 1,6 |
 | **Dados de treino** | 27.250 seções dos mesmos repositórios, rotuladas por títulos sem ambiguidade (o título depois fica escondido do modelo); 7.813 delas são "outro" |
 | **Treino** | 3 épocas de SGD, taxa de aprendizado de 0,3 caindo até 0, peso de classe 0,5, semente 1; temperatura ajustada nos repositórios de ajuste |
-| **Resultados de fora** (134 repositórios nunca vistos) | Com o filtro 0,8 / 0,2 ele dá tipo a 13,5% das seções rotuladas e concorda com o título 88,9% das vezes (84,5% sem as de mudanças); a partir de 0,6, 25,1% e 85,6%. Tipos novos: segurança 34 de 38 mostradas concordam, desempenho 45 de 60, implantação 2 de 2. Os rótulos vêm dos títulos, então é concordância, não acurácia conferida à mão. |
+| **Resultados de teste** (134 repositórios nunca vistos) | Com o filtro 0,8 / 0,2 ele dá tipo a 13,5% das seções rotuladas e concorda com o título 88,9% das vezes (84,5% sem as de mudanças); a partir de 0,6, 25,1% e 85,6%. Tipos novos: segurança 34 de 38 mostradas concordam, desempenho 45 de 60, implantação 2 de 2. Os rótulos vêm dos títulos, então é concordância, não acurácia conferida à mão. |
 | **Velocidade** | Cerca de 0,1 ms por seção |
 | **Use para** | Identificar seções de READMEs e docs técnicas cujo título não diz o que são; ignore "outro" |
 | **Não use para** | Seções de explicação ("Como funciona", "Arquitetura"): o texto delas parece o de qualquer assunto, e um modelo treinado para reconhecê-las não acertou nenhuma nos repositórios de ajuste, então o Marksage as identifica só pelo título — como glossários e roadmaps (76 e 57 títulos em 381 repositórios: poucos demais). "Guia" também quase nunca é reconhecido, e "desempenho" é o mais fraco dos tipos da v2. |
@@ -492,19 +495,19 @@ Cada versão de modelo e cada experimento, com os números em que foi medido. As
 
 ### 8.1 Modelo de linguagens de código
 
-| Versão | Data | Dados de treino | O que mudou | Primeiro conjunto de fora (314 blocos) | Conjunto de fora novo (284 blocos) | Terceiro conjunto de fora (842 blocos) | Situação |
+| Versão | Data | Dados de treino | O que mudou | Primeiro conjunto de teste (314 blocos) | Conjunto de teste novo (284 blocos) | Terceiro conjunto de teste (842 blocos) | Situação |
 |---|---|---|---|---|---|---|---|
 | Só heurísticas | — | — | regras, sem modelo | 57,3% · 76 mostradas · 97,4% certas | 58,5% · 70 mostradas · 92,9% certas | 53,9% · 239 · 92,1% | referência |
-| **v1** | 2026-10-24 | ~55 mil blocos, 264 repositórios | primeiro modelo: 8 números por pista, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no conjunto de ajuste | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | — | substituído pela v2 |
+| **v1** | 2026-10-23 | ~55 mil blocos, 264 repositórios | primeiro modelo: 8 números por pista, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no conjunto de ajuste | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | — | substituído pela v2 |
 | **v2** | 2026-10-24 | 63.751 blocos, 309 repositórios | +45 repositórios; temperatura em repositórios nunca vistos (1,85; trechos curtos 2,55; meta de 95%); no app, concordância com as heurísticas e, desde 2026-10-30, regras quase certas (≥ 99%) — sem mudança nos dois primeiros conjuntos de teste, +3 certas no terceiro | 77,4% · 164 · 95,7% | 74,3% · 158 · 91,8% (só o modelo: 74,3% · 146 · 92,5%) | 72,7% · 408 · 93,1% (só o modelo: 72,3% · 326 · 92,6%) | **em uso** |
-| Experimento v3: média + máximo | 2026-10-30 | 64.288 blocos (as mesmas fontes, coletadas de novo) | cada dimensão guarda também a sua pista mais forte (média + máximo), para uma pista decisiva não sumir na média; números das pistas limitados (±2), 4 épocas, taxa de aprendizado 0,2; 395 KB, mesma velocidade | — | — | 74,6% · 417 · 93,8% (só o modelo: 74,2% · 371 · 93,8%) — seis linguagens dos pares: 103 certas · 88,0% contra 106 · 89,8% da v2 | **não usado** |
+| Experimento v3: média + máximo | 2026-10-30 | 64.288 blocos (as mesmas fontes, coletadas de novo) | cada dimensão guarda também a sua pista mais forte (média + máximo), para uma pista decisiva não sumir na média; números das pistas limitados (±2), 4 épocas, taxa de aprendizado 0,2; 386 KB (394.972 bytes), mesma velocidade | — | — | 74,6% · 417 · 93,8% (só o modelo: 74,2% · 371 · 93,8%) — seis linguagens dos pares: 103 certas · 88,0% contra 106 · 89,8% da v2 | **não usado** |
 
-A v1 foi medida uma vez no primeiro conjunto de fora. Como ele já tinha sido visto, a v2 foi julgada num segundo
+A v1 foi medida uma vez no primeiro conjunto de teste. Como ele já tinha sido visto, a v2 foi julgada num segundo
 conjunto, novo, montado com 72 repositórios que não aparecem em mais nenhum lugar.
 
 **O experimento v3 (2026-10-30, não usado).** O alvo eram as linguagens quase gêmeas, em que a média afoga poucas
 pistas decisivas: TypeScript / JavaScript, C++ / C, C# / Java, JSON com comentários. A régua foi escrita antes
-de rodar o terceiro conjunto de fora (uma vez): nessas seis linguagens juntas, mais sugestões certas *e* precisão
+de rodar o terceiro conjunto de teste (uma vez): nessas seis linguagens juntas, mais sugestões certas *e* precisão
 no mínimo igual à da v2, mais precisão geral no mínimo igual à da v2 — para o modelo sozinho e para a combinação
 com as regras usada no app. Média + máximo cumpriu a parte geral (mais sugestões certas, precisão maior) e foi
 claramente melhor em C# / Java (44 certas · 3 erradas contra 28 · 1), JSON com comentários (26 · 0 contra 8 · 0) e
@@ -541,10 +544,10 @@ título, código, prosa…). Mesmo tamanho e configurações do modelo de seçõ
 | Regras | 2026-10-28 | — | 115 mostradas · 97,4% certas | 140 mostradas · 88,6% certas · 124 de 132 linhas verdadeiras | **em uso** |
 | **v1** | 2026-10-28 | 66.076 linhas dos 381 repositórios: itens e títulos reais transformados em quase-acertos (sim), parecidos reais de prosa e de blocos de código, mais algumas linhas sintéticas de hashtags e assinaturas (não) | modelo 64 · 93,8% · regras + modelo ≥ 95% 116 · 97,4% | modelo 76 · 90,8% · 69 linhas verdadeiras; regras + modelo ≥ 95% 141 · 88,7% · 125 | não usado |
 
-A combinação foi escolhida no ajuste antes de rodar o conjunto de fora e passou na régua (a precisão das regras,
+A combinação foi escolhida no ajuste antes de rodar o conjunto de teste e passou na régua (a precisão das regras,
 pelo menos tantas linhas verdadeiras) por uma linha — pouco demais para um download de 385 KB. As regras e o
 modelo erram linhas diferentes, então uma versão que precisa dos dois concordando é a próxima tentativa, num
-conjunto de fora novo. Linhas em negrito não dá para aprender assim: os exemplos de "não" são linhas em negrito
+conjunto de teste novo. Linhas em negrito não dá para aprender assim: os exemplos de "não" são linhas em negrito
 reais, e muitas delas são títulos.
 
 ### 8.4 Modelo de tipos de colagem (testado, não usado)
@@ -564,15 +567,15 @@ temperatura 1,05.
 
 | Conjunto | O que é | Tamanho | Regra |
 |---|---|---|---|
-| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · estrutura 36 · títulos 65 · documentos 4 | pega regressões; dá perto de 100% por construção |
-| Ajuste | documentos reais, usados para tomar decisões | código 280 · colagem 27 · estrutura 212 (36, mais 176 linhas de issues e wikis em 2026-10-28) · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de fora |
-| Primeiro de fora (2026-10-24) | documentos reais, nunca usados para ajustar | código 314 · colagem 31 · estrutura 30 | roda uma vez por versão; julgou a v1 |
-| De fora novo (2026-10-24) | código de 72 repositórios que não aparecem em mais nenhum lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |
-| Terceiro de fora (2026-10-30) | código de 158 repositórios que não aparecem em mais nenhum lugar, montado antes de qualquer treino da v3 | código 842: ≤ 30 por linguagem, até 60 para TypeScript, JavaScript, C, C++, C# e Java, mais 40 blocos JSON com comentários | montado uma vez para a v3, depois congelado; rodou uma vez em 2026-10-30 (experimento v3, v2, heurísticas) |
-| Seções de fora (2026-10-24) | seções dos repositórios de teste do modelo de código mais os novos | 133 repositórios (134 a partir da v2: os tipos novos rotulam seções em mais um) | roda uma vez por modelo de seções |
-| Estrutura de fora (2026-10-28) | linhas quase certas de issues, pull requests e comentários do GitHub de 43 repositórios que não aparecem em mais nenhum lugar, rotuladas à mão | 227 linhas | montado uma vez para o modelo de estrutura, depois congelado |
-| Colagens de fora (2026-10-28) | colagens reais de 19 fontes fora do corpus: arquivos de dados, células de planilha, saída de comandos, código-fonte, configurações, READMEs | 53 colagens | montado uma vez para o modelo de colagem, depois congelado |
-| Links (2026-10-28) | links sozinhos na linha, com o texto que os autores escolheram | ajuste 2.842 (28 repositórios) · de fora 5.058 (138) | julga a regra do texto do link (SMART-ASSIST §4.6) |
+| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · estrutura 41 · títulos 65 · documentos 6 | pega regressões; dá perto de 100% por construção |
+| Ajuste | documentos reais, usados para tomar decisões | código 280 · colagem 27 · estrutura 212 (36, mais 176 linhas de issues e wikis em 2026-10-28) · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de teste |
+| Primeiro de teste (2026-10-23) | documentos reais, nunca usados para ajustar | código 314 · colagem 31 · estrutura 30 | roda uma vez por versão; julgou a v1 |
+| Teste novo (2026-10-24) | código de 72 repositórios que não aparecem em mais nenhum lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |
+| Terceiro de teste (2026-10-30) | código de 158 repositórios que não aparecem em mais nenhum lugar, montado antes de qualquer treino da v3 | código 842: ≤ 30 por linguagem, até 60 para TypeScript, JavaScript, C, C++, C# e Java, mais 40 blocos JSON com comentários | montado uma vez para a v3, depois congelado; rodou uma vez em 2026-10-30 (experimento v3, v2, heurísticas) |
+| Seções de teste (2026-10-24) | seções dos repositórios de teste do modelo de código mais os novos | 133 repositórios (134 a partir da v2: os tipos novos rotulam seções em mais um) | roda uma vez por modelo de seções |
+| Estrutura de teste (2026-10-28) | linhas quase certas de issues, pull requests e comentários do GitHub de 43 repositórios que não aparecem em mais nenhum lugar, rotuladas à mão | 227 linhas | montado uma vez para o modelo de estrutura, depois congelado |
+| Colagens de teste (2026-10-28) | colagens reais de 19 fontes fora do corpus: arquivos de dados, células de planilha, saída de comandos, código-fonte, configurações, READMEs | 53 colagens | montado uma vez para o modelo de colagem, depois congelado |
+| Links (2026-10-28) | links sozinhos na linha, com o texto que os autores escolheram | ajuste 2.842 (28 repositórios) · teste 5.058 (138) | julga a regra do texto do link (SMART-ASSIST §4.6) |
 
 ## 9. Glossário
 
@@ -598,7 +601,7 @@ temperatura 1,05.
 | **Softmax** | Transforma pontuações em probabilidades que somam 100%. |
 | **Taxa de aprendizado** | O tamanho de cada passo de treino. |
 | **Temperatura** | Um divisor aplicado às pontuações antes do softmax; maior quer dizer menos confiante. |
-| **Teste (conjunto de fora)** | Exemplos guardados à parte e rodados uma vez, para os números publicados. |
+| **Teste (conjunto de teste)** | Exemplos guardados à parte e rodados uma vez, para os números publicados. |
 | **Truque do hash** | Mapear pistas para um número fixo de slots com uma função de hash, em vez de um dicionário. |
 | **Validação cruzada** | Dividir os dados de treino em grupos e prever cada grupo com um modelo treinado nos outros. |
 | **Viés** | Um número por resposta somado à pontuação dela, qualquer que seja a entrada. |

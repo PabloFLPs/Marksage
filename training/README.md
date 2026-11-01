@@ -64,7 +64,7 @@ node --experimental-strip-types training/eval-links.ts
 - **train** — capped at 6,000 blocks per language and 600 per repo per language, so no single project
   or language dominates.
 
-## The model (v1, committed 2026-10-24, d425964) — superseded by v2 below
+## The model (v1, committed 2026-10-23, d425964) — superseded by v2 below
 
 `src/assist/model/` — shared by the trainer and the app, so both see identical features.
 
@@ -84,7 +84,7 @@ model → heuristics adds coverage but loses precision too).
 
 | Held-out (`fences.real.json`, 314 blocks, run once) | Accuracy | Shown | Precision when shown | Right / wrong shown |
 |---|---|---|---|---|
-| Heuristics | 57.3% | 75 (24%) | 97.3% | 73 / 2 |
+| Heuristics (as of 2026-10-23) | 57.3% | 75 (24%) | 97.3% | 73 / 2 |
 | **Model v1** | **75.8%** | **141 (45%)** | 94.3% | **133 / 8** |
 
 Against the bar set beforehand: accuracy and coverage are far better (≈ 1.8× the right suggestions),
@@ -112,7 +112,8 @@ training; TS-vs-JS cues (type annotations, `interface`, generics).
 - **Agreement hybrid** (`src/assist/model/hybrid.ts`): if the model isn't confident, a confident heuristic
   answer is used only when the model's top pick agrees. +~20 suggestions on dev at equal precision.
   Since 2026-10-30 also when the heuristics are ≥ 99% sure (`RULES_OVERRIDE`, launch QA #17): dev 157 → 158
-  shown at the same 94.9% precision, accuracy 81.8% → 82.1%; held-out sets unchanged.
+  shown at the same 94.9% precision, accuracy 81.8% → 82.1%; the first two held-out sets unchanged, the third (2026-10-30)
+  405 → 408 shown, +3 right, no new mistakes.
 - **Tried and dropped:** training on 1–3 line slices of longer blocks (−2 to −5 points accuracy on dev);
   bigger models (12–16 dims, 64k buckets: more coverage, ~3 points less precision).
 - Seed 1 (the default) was kept — not the best-looking seed.
@@ -367,7 +368,7 @@ performance 45/60 · config 44/58 · security 34/38 · reference 27/32 · contri
 guide 0/3 · deployment 2/2 · overview 0/0. Without changelog: 392/464 = 84.5%.
 
 **Against v1 on the same test set** (both files through `examples/marksage-models.mjs`, so the same quantised
-numbers the app uses): v1 922 shown (14.5%), 89.6% agree; v2 857 (13.5%), 88.9%. On the old types only: v1
+numbers the app uses): v1 922 shown (14.5%), 89.6% agree; v2 858 (13.5%), 88.9%. On the old types only: v1
 903 / 91.5%, v2 770 / 88.4% — v2 shows fewer changelog sections (393 vs 560, more precise: 94% vs 92%) and is
 less precise on setup (88/109 vs 84/88). v1 couldn't type security text at all: of the 154 security sections
 it gave 144 no type, 6 changelog, 3 legal, 1 config. Net: level overall, three new types, performance the

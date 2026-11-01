@@ -69,8 +69,8 @@ Toda pergunta do Smart Assist sobe a mesma escada e para no primeiro degrau que 
 1. **Regras** (as heurísticas) — instantâneas, transparentes, precisas; tentadas primeiro em todo recurso.
 2. **Um modelo minúsculo treinado para a tarefa** — só onde as regras ficam quietas demais *e* existem dados
    rotulados reais. Os dois modelos do Marksage estão aqui. Cada um precisou provar, em repositórios que nunca
-   tinha visto, que traz respostas que as regras não dão. O modelo de código mostra mais que o dobro de
-   sugestões com quase a mesma precisão; o modelo de seções identifica seções cujo título não diz nada. Mais
+   tinha visto, que traz respostas que as regras não dão. O modelo de código acerta cerca do dobro de
+   sugestões das regras (1,7–2,2× em três conjuntos de teste) com quase a mesma precisão; o modelo de seções identifica seções cujo título não diz nada. Mais
    dois foram treinados e medidos do mesmo jeito — dicas de formatação e tipos de colagem — e não se saíram
    melhor que as regras em textos reais, então não são usados (seção 4.6).
 3. **Um modelo de decisão geral** — de preferência o Laya, porque roda no seu dispositivo. Reservado para
@@ -102,7 +102,7 @@ Um modo assim seria mais fraco que o modo Regras + IA sem ser mais honesto.
 **Regras é o padrão.** A primeira visita começa em *Regras*: roda no seu dispositivo, não baixa nada e só
 sugere, então ficar ligado não custa nada — e a tela inicial diz o que ele faz. Escolher *Desligado* (ou
 *Regras + IA*) fica lembrado. "IA" em *Regras + IA* são os dois modelos pequenos treinados pelo Marksage
-(seção 4), não um chatbot nem nada hospedado. (Até 2026-10-28 os modos se chamavam *Heurísticas* e *Híbrido*,
+(seção 4), não um chatbot nem nada hospedado. (Até 2026-10-29 os modos se chamavam *Heurísticas* e *Híbrido* — *Modelo local* antes de 2026-10-28 —
 e o Smart Assist começava desligado; os valores guardados — `heuristics`, `model` — não mudaram, então a escolha
 de ninguém foi perdida.)
 
@@ -243,9 +243,9 @@ logo após o marcador de abertura.
 **Duas opções.** Com o modo *Regras + IA*, quando nenhuma linguagem passa no filtro mas as duas primeiras
 somam ≥ 85% (a segunda ≥ 20%), a barra oferece as duas — `Tab` (ou um clique) escolhe a primeira,
 `Alt+2` a segunda. Pares típicos: JavaScript/TypeScript, JSON/YAML, C/C++. A regra foi definida no
-conjunto dev; nos dois conjuntos separados ela fez 15 e 17 ofertas, e a linguagem certa estava entre as
-duas em todas. (Só as probabilidades do modelo são calibradas o bastante para isso, então o modo
-heurístico não oferece pares.)
+conjunto dev; nos três conjuntos separados ela fez 15, 17 e 81 ofertas, e a linguagem certa estava entre as
+duas em 15, 17 e 75 delas (107 de 113). (Só as probabilidades do modelo são calibradas o bastante para isso,
+então, no editor, o modo *Regras* não oferece pares.)
 
 ### Colagem inteligente (`choice`)
 
@@ -473,11 +473,13 @@ do modelo, nem nenhum ajuste, tinha tocado (até 15 por linguagem):
 | **Modelo v2 (atual)** | **74%** | **158 (56%)** | **92%** | **145 / 13** |
 
 No primeiro conjunto (314 blocos, onde a v1 foi medida) a v2 chega a 77% de acurácia, 164 exibidas e
-96% de acerto quando exibe (v1: 76%, 141, 94%; heurísticas: 57%, 76, 97%).
+96% de acerto quando exibe (v1: 76%, 141, 94%; regras: 57%, 76, 97%). Num terceiro conjunto novo (842 blocos
+de 158 repositórios, 2026-10-30), o *Regras + IA* mostra 408 sugestões com 93,1% contra 239 com 92,1% das regras —
+1,7× as certas, um pouco mais preciso.
 
-Ou seja: mais que o dobro de sugestões úteis das heurísticas, e melhor que a v1 em todos os números —
-mas ainda cerca de um ponto menos precisa que as heurísticas em repositórios desconhecidos, por isso
-continua sendo um modo opcional. Cerca de metade dos erros são, na verdade, rótulos estranhos
+Ou seja: cerca do dobro de sugestões úteis das regras (1,7–2,2× nos três conjuntos separados) e melhor que a v1
+em todos os números, a cerca de um ponto da precisão das regras — um pouco abaixo nos dois primeiros conjuntos,
+um pouco acima no terceiro. É um modo opcional porque baixa um arquivo e o guarda no seu navegador. Cerca de metade dos erros são, na verdade, rótulos estranhos
 (`dotnet build -c Release` marcado como C#); o resto são linhas únicas que servem para várias
 linguagens (`void main() { … }` é Java *e* C++ válidos).
 
@@ -623,7 +625,7 @@ estrutura chegam a 97%; os 89% do conjunto separado são o número honesto.
 Leia assim: quando uma sugestão aparece, ela quase sempre está certa; o preço dessa cautela é que
 muitos blocos de código reais ficam sem sugestão de linguagem. As decisões heurísticas levam bem menos de um
 milissegundo. Com o modo *Regras + IA*, a linguagem dos blocos de código nos mesmos 314 blocos chega a **77% de
-acurácia, 164 exibidas e 96% de precisão**, e 74% / 158 / 92% num segundo conjunto novo (seção 4.3).
+acurácia, 164 exibidas e 96% de precisão**, 74% / 158 / 92% num segundo conjunto novo e 73% / 408 / 93% num terceiro (seção 4.3).
 
 ---
 
