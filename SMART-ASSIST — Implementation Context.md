@@ -993,4 +993,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   wins. Checked: a build with only that variable set gets absolute `og:` URLs.
 - **README: the live link** — "Try it: marksage.vercel.app" under the tagline (the sample is on its start screen),
   and "the story" links the live `#story`.
+- **More follow-ups in ROADMAP §4** (Pablo: keep the review's "not proposed" items as next steps): Tab to indent
+  lists (needs the "Assist Off = original behaviour" rule revisited), raw HTML in the preview (a line in About, or a
+  sanitized subset), CI with its badge. The README's live URL item is done.
 
