@@ -8,7 +8,8 @@ app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: A
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.38.1** · 2026-11-01 · `(this commit)` · fix(build): About links the exact commit on hosts that build without git
+- **3.38.2** · 2026-11-01 · `(this commit)` · perf(load): About loads on demand, after the first paint
+- **3.38.1** · 2026-11-01 · `3e9c828` · fix(build): About links the exact commit on hosts that build without git
 - **3.38.0** · 2026-11-01 · `5ed9309` · feat(credit): the story and About lead to the source and the author
 - **3.37.0** · 2026-11-01 · `c85c1b9` · feat(meta): tab titles per page, previews that mention the models, a louder missing-URL warning
 - **3.36.3** · 2026-11-01 · `63ee660` · fix(copy): wording that matches the app, in both languages

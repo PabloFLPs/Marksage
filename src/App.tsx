@@ -19,7 +19,6 @@ import {
 } from './lib/file'
 import { deleteAllLocalData, loadAssistMode, loadModelNoticeSeen, loadOutlineOpen, loadRemoteImages, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveRemoteImages, saveSplitRatio } from './lib/storage'
 import { deleteDownloadedModel } from './assist/modelEngine'
-import { AboutPage } from './components/AboutPage'
 import { getSampleDocument, getSampleFilename } from './lib/sampleDocument'
 import { useI18n } from './hooks/useI18n'
 import { CommandPalette, type Command } from './components/CommandPalette'
@@ -100,6 +99,11 @@ function utf8Bytes(s: string): number {
   }
   return n
 }
+
+// About loads on demand (pre-launch review: 11 KB gzip off the script every first visit waits for) — fetched while
+// the browser is idle after the first paint, so opening it stays instant.
+const loadAbout = () => import('./components/AboutPage')
+const AboutPage = lazy(() => loadAbout().then((m) => ({ default: m.AboutPage })))
 
 function formatBytes(bytes: number, lang: string): string {
   if (bytes < 1000) return `${bytes.toLocaleString(lang)} B`
@@ -264,6 +268,15 @@ export default function App() {
       }),
     [lang],
   )
+  // About: fetched once the app has painted and the browser is idle (not on Save-Data), so it opens instantly.
+  useEffect(() => {
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    if (conn?.saveData) return
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500))
+    const cancel = window.cancelIdleCallback ?? window.clearTimeout
+    const id = idle(() => void loadAbout().catch(() => {}))
+    return () => cancel(id)
+  }, [])
   // While About is open, fetch the docs page in the background (unless the user asked to save data), so
   // "How it works" is usually ready before the click.
   useEffect(() => {
@@ -927,22 +940,26 @@ export default function App() {
           </Suspense>
         </PageLoadBoundary>
       ) : showAbout ? (
-        <AboutPage
-          key="about"
-          onOpenDocs={openDocs}
-          onOpenModelsDocs={openModelsDocs}
-          onOpenStory={openStory}
-          closing={aboutClosing}
-          onBack={closeAbout}
-          onTrySmartAssist={handleTrySmartAssist}
-          appIcon={appIcon}
-          onAppIconChange={setAppIcon}
-          onRemoveModel={handleRemoveModel}
-          onDeleteAllData={handleDeleteAllData}
-          remoteImages={remoteImages}
-          onRemoteImagesChange={changeRemoteImages}
-          theme={theme}
-        />
+        <PageLoadBoundary key="about" onRetry={retryDocs} onBack={closeAbout} backLabel={t('about.back')}>
+          <Suspense fallback={<PageLoading />}>
+            <AboutPage
+              key="about"
+              onOpenDocs={openDocs}
+              onOpenModelsDocs={openModelsDocs}
+              onOpenStory={openStory}
+              closing={aboutClosing}
+              onBack={closeAbout}
+              onTrySmartAssist={handleTrySmartAssist}
+              appIcon={appIcon}
+              onAppIconChange={setAppIcon}
+              onRemoveModel={handleRemoveModel}
+              onDeleteAllData={handleDeleteAllData}
+              remoteImages={remoteImages}
+              onRemoteImagesChange={changeRemoteImages}
+              theme={theme}
+            />
+          </Suspense>
+        </PageLoadBoundary>
       ) : !document ? (
         <EmptyState
           isDragging={isDragging}

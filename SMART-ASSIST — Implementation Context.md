@@ -954,4 +954,10 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   (`VERCEL_GIT_COMMIT_SHA`, `CF_PAGES_COMMIT_SHA`, Netlify's `COMMIT_REF`, `RENDER_GIT_COMMIT`, `GITHUB_SHA`), and a
   production build from uncommitted changes warns that the linked commit isn't exactly the build. Checked: a
   git-less copy with `VERCEL_GIT_COMMIT_SHA` set embeds that commit; a dirty tree prints the warning.
+- **About loads on demand** (agent C's first-load numbers: `/` 182 KB gzip of JS, usable at 2.6 s on Slow 4G and
+  8.8 s on Slow 3G with a 4× slower CPU): About was in the main script; now its own chunk, fetched when the browser
+  is idle after the first paint (not on Save-Data), behind the same `PageLoadBoundary` as the docs. Main script
+  193.1 → 181.7 KB gzip. Checked: About opens instantly after load, cold `#privacy` still scrolls to its section, a
+  blocked chunk shows "couldn't load" + Try again / Back. Not done: one language per chunk (About's copy is inline
+  EN + PT) — ROADMAP §4.
 
