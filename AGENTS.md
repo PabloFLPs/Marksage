@@ -11,7 +11,8 @@ Guidance for AI coding agents (and humans) working on this repo.
 ## Map
 ```
 src/
-  App.tsx                 screen state (about / empty / edit / preview), shortcuts, drag & drop, paste
+  App.tsx                 screen state (about / empty / edit / preview), shortcuts (⌘K O S ⇧C; no ⌘N — Chrome, Edge and
+                          Opera never pass it to a page), drag & drop, paste
   components/
     Header.tsx            toolbar; conditional items wrapped in <CollapseX>
     DocName.tsx           the document name in the header — click to rename (lib/file.ts `normalizeFilename`);
@@ -31,6 +32,9 @@ src/
     AboutPage.tsx         feature docs + Appearance (app icon, key style) — keep in sync with features
     StoryPage.tsx         #story: the architecture decisions and models as a timeline (showcase, not docs); content in
                           lib/storyContent.<lang>.ts, lazily loaded — neutral voice, date order, numbers = MODELS / training
+    CommandPalette.tsx    ⌘/Ctrl + K: every action of the current screen + recent documents, searchable (EN + PT words);
+                          the list is built in App (`commands`). Rules + AI from it opens the Assist menu on the notice
+                          (`assistNoticeRequest`) until the notice was seen — never skip it.
     HistoryMenu/HistoryList, SuggestionBar, AssistToggle, AppIconPicker, SplitPanes, Markdown*
   assist/                 Smart Assist — see "Smart Assist" below (model/ = own models: features + inference; sections.ts / outline.ts = Outline)
   hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery

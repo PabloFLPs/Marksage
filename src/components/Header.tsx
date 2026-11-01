@@ -66,6 +66,8 @@ interface HeaderProps {
   readOnly?: boolean
   outlineOpen: boolean
   onToggleOutline: () => void
+  /** Counter from the command palette: open the Assist menu on the Rules + AI download notice. */
+  assistNoticeRequest?: number
 }
 
 const actionButton =
@@ -110,6 +112,7 @@ export function Header({
   readOnly = false,
   outlineOpen,
   onToggleOutline,
+  assistNoticeRequest,
 }: HeaderProps) {
   const { t } = useI18n()
   const { keyStyle } = useKeyStyle()
@@ -162,7 +165,7 @@ export function Header({
 
       <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
         <CollapseX show={hasDocument && editing && !showingAbout} gap={compact ? 6 : 8}>
-          <AssistToggle mode={assistMode} status={assistStatus} onChange={onAssistModeChange} onRetry={onAssistRetry} compact={compact} />
+          <AssistToggle mode={assistMode} status={assistStatus} onChange={onAssistModeChange} onRetry={onAssistRetry} compact={compact} noticeRequest={assistNoticeRequest} />
         </CollapseX>
 
         <CollapseX show={hasDocument && !compact && !showingAbout}>
@@ -219,7 +222,7 @@ export function Header({
 
         {!compact && (
           <>
-            <button type="button" onClick={onNew} title={t('action.newTitle', { keys: shortcut(['mod', 'n'], keyStyle) })} className={actionButton}>
+            <button type="button" onClick={onNew} title={t('action.newDocument')} className={actionButton}>
               <FilePlus2 className="h-3.5 w-3.5" />
               <span className="hidden xl:inline">{t('action.new')}</span>
             </button>

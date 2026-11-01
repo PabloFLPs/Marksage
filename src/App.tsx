@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
-import { AlertCircle, Eye, Gauge, ImageOff, Lock, X } from 'lucide-react'
+import { AlertCircle, BookOpen, Brain, ClipboardPaste, Clipboard, Columns2, Cpu, Download, Eye, FilePlus2, FileText, FolderOpen, Gauge, ImageOff, Info, Languages, ListTree, Lock, Milestone, Moon, PenLine, PowerOff, Shield, Sparkles, Sun, X, Zap } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
 import { MarkdownPreview } from './components/MarkdownPreview'
@@ -17,11 +17,14 @@ import {
   openFilePicker,
   suggestFilename,
 } from './lib/file'
-import { deleteAllLocalData, loadAssistMode, loadOutlineOpen, loadRemoteImages, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveRemoteImages, saveSplitRatio } from './lib/storage'
+import { deleteAllLocalData, loadAssistMode, loadModelNoticeSeen, loadOutlineOpen, loadRemoteImages, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveRemoteImages, saveSplitRatio } from './lib/storage'
 import { deleteDownloadedModel } from './assist/modelEngine'
 import { AboutPage } from './components/AboutPage'
 import { getSampleDocument, getSampleFilename } from './lib/sampleDocument'
 import { useI18n } from './hooks/useI18n'
+import { CommandPalette, type Command } from './components/CommandPalette'
+import { entryTitle, relativeTime } from './lib/history'
+import { LANGS } from './lib/i18n'
 import { useKeyStyle } from './hooks/useKeyStyle'
 import { shortcut } from './lib/keyStyle'
 import { Presence } from './components/motion'
@@ -111,7 +114,7 @@ function isEditableTarget(target: EventTarget | null): boolean {
 }
 
 export default function App() {
-  const { t, lang } = useI18n()
+  const { t, lang, setLang } = useI18n()
   const { keyStyle } = useKeyStyle()
   const {
     document,
@@ -453,6 +456,9 @@ export default function App() {
 
   // Export: a named download (the Export panel, or ⌘/Ctrl + S); the name also becomes the document's name.
   const [exportOpen, setExportOpen] = useState(false)
+  const [paletteOpen, setPaletteOpen] = useState(false)
+  // The palette's "Rules + AI" before the download notice was seen: the Assist menu opens on the notice instead.
+  const [assistNoticeRequest, setAssistNoticeRequest] = useState(0)
   const handleExport = useCallback(
     (name: string) => {
       if (!document) return
@@ -504,9 +510,11 @@ export default function App() {
         e.preventDefault()
         // Opens the Export panel; inside it, ⌘/Ctrl + S again downloads (ExportMenu). Not on About / the docs.
         if (document && !exportOpen && !showAbout) setExportOpen(true)
-      } else if (key === 'n' && !e.shiftKey) {
+      } else if (key === 'k' && !e.shiftKey && !e.altKey) {
+        // The command palette: every action, whatever the browser keeps for itself (⌘N never reaches a page in
+        // Chrome, Edge or Opera, so Marksage doesn't use it).
         e.preventDefault()
-        handleNew()
+        setPaletteOpen((o) => !o)
       } else if (key === 'c' && e.shiftKey && !showAbout) {
         e.preventDefault()
         handleCopy()
@@ -515,7 +523,7 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [handleImport, document, exportOpen, showAbout, handleNew, handleCopy])
+  }, [handleImport, document, exportOpen, showAbout, handleCopy])
 
   useEffect(() => {
     const hasFiles = (e: DragEvent) => e.dataTransfer?.types.includes('Files')
@@ -777,6 +785,60 @@ export default function App() {
     />
   )
   // Previous screen — lets the preview skip its fade when it's revealed by the editor closing.
+  // The command palette's list — only what can be done from the current screen.
+  const commands = useMemo<Command[]>(() => {
+    const docGroup = t('palette.group.document')
+    const viewGroup = t('palette.group.view')
+    const assistGroup = 'Smart Assist'
+    const goGroup = t('palette.group.goto')
+    const onDoc = hasDocument && !showAbout
+    const list: Command[] = [
+      { id: 'new', group: docGroup, icon: <FilePlus2 />, label: t('action.newDocument'), keywords: 'new blank create novo criar em branco', run: handleNew },
+      { id: 'open', group: docGroup, icon: <FolderOpen />, label: t('action.openFile'), keys: ['mod', 'o'], keywords: 'open file abrir arquivo', run: handleImport },
+      { id: 'paste', group: docGroup, icon: <ClipboardPaste />, label: t('empty.paste'), keywords: 'paste clipboard colar', run: () => void handlePasteFromClipboard() },
+      { id: 'sample', group: docGroup, icon: <Sparkles />, label: t('empty.trySample'), keywords: 'sample demo tour example exemplo', run: handleTrySmartAssist },
+    ]
+    if (onDoc && !readOnly) list.push({ id: 'export', group: docGroup, icon: <Download />, label: t('action.exportMarkdown'), keys: ['mod', 's'], keywords: 'export save download exportar salvar baixar', run: () => setExportOpen(true) })
+    if (onDoc) list.push({ id: 'copy', group: docGroup, icon: <Clipboard />, label: t('action.copyMarkdown'), keys: ['mod', 'shift', 'c'], keywords: 'copy copiar', run: () => void handleCopy() })
+    if (onDoc && !readOnly)
+      list.push(
+        editing
+          ? { id: 'view', group: viewGroup, icon: <Eye />, label: t('action.preview'), keywords: 'preview read visualizar ler', run: () => changeViewMode('preview') }
+          : { id: 'view', group: viewGroup, icon: isDesktop ? <Columns2 /> : <PenLine />, label: t('action.edit'), keywords: 'edit editor write editar escrever', run: () => changeViewMode('edit') },
+      )
+    if (onDoc)
+      list.push({ id: 'outline', group: viewGroup, icon: <ListTree />, label: t(outlineShown ? 'palette.outlineHide' : 'palette.outlineShow'), keywords: 'outline document suggestions estrutura documento sugestões', run: toggleOutline })
+    list.push(
+      { id: 'theme', group: viewGroup, icon: theme === 'dark' ? <Sun /> : <Moon />, label: t(theme === 'dark' ? 'theme.toLight' : 'theme.toDark'), keywords: 'theme dark light tema escuro claro', run: toggleTheme },
+      ...LANGS.filter((l) => l.id !== lang).map((l) => ({ id: `lang-${l.id}`, group: viewGroup, icon: <Languages />, label: t('palette.language', { lang: l.label }), keywords: 'language idioma english português', run: () => setLang(l.id) })),
+    )
+    if (onDoc && editing) {
+      const modes: [AssistMode, React.ReactNode][] = [['off', <PowerOff key="off" />], ['heuristics', <Zap key="rules" />], ['model', <Cpu key="model" />]]
+      for (const [mode, icon] of modes)
+        list.push({
+          id: `assist-${mode}`,
+          group: assistGroup,
+          icon,
+          label: t(`assist.option.${mode}`),
+          hint: mode === assistMode ? t('palette.current') : undefined,
+          keywords: 'assist mode modo smart',
+          run: () => (mode !== 'model' || assistMode === 'model' || loadModelNoticeSeen() ? handleAssistModeChange(mode) : setAssistNoticeRequest((n) => n + 1)),
+        })
+    }
+    list.push(
+      { id: 'about', group: goGroup, icon: <Info />, label: t('palette.about'), keywords: 'about help features sobre ajuda recursos', run: openAbout },
+      { id: 'docs', group: goGroup, icon: <BookOpen />, label: t('palette.docs'), keywords: 'docs documentation how documentação', run: openDocs },
+      { id: 'models', group: goGroup, icon: <Brain />, label: t('palette.models'), keywords: 'models ai training modelos ia treino', run: openModelsDocs },
+      { id: 'story', group: goGroup, icon: <Milestone />, label: t('empty.story'), keywords: 'story timeline history história linha do tempo', run: openStory },
+      { id: 'privacy', group: goGroup, icon: <Shield />, label: t('empty.privacy'), keywords: 'privacy storage data delete privacidade dados apagar', run: openPrivacy },
+    )
+    const recentGroup = t('history.title')
+    for (const e of recent)
+      if (e.id !== document?.id)
+        list.push({ id: `recent-${e.id}`, group: recentGroup, icon: <FileText />, label: entryTitle(e, t('doc.untitled')), hint: relativeTime(e.updatedAt, t, lang), keywords: e.filename ?? '', run: () => handleOpenHistory(e) })
+    return list
+  }, [t, lang, setLang, hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, recent, document?.id, handleNew, handleImport, handlePasteFromClipboard, handleTrySmartAssist, handleCopy, changeViewMode, toggleOutline, toggleTheme, handleAssistModeChange, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, handleOpenHistory])
+
   const view = showAbout ? 'about' : !hasDocument ? 'empty' : editing ? 'edit' : 'preview'
   const prevView = useRef(view)
   const currentView = useRef(view)
@@ -824,7 +886,10 @@ export default function App() {
         readOnly={readOnly}
         outlineOpen={outlineShown && !outlineClosing}
         onToggleOutline={toggleOutline}
+        assistNoticeRequest={assistNoticeRequest}
       />
+
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} commands={commands} />
 
       <Presence show={isDragging} duration={160} className="pointer-events-none fixed inset-0 z-50">
         <div className="flex h-full items-center justify-center bg-accent/10 backdrop-blur-[1px] dark:bg-dark-accent/10">

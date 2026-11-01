@@ -898,4 +898,13 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   keyboard); Tab in the Assist menu closes it onto its button. Checked: ⌘S + Esc, ⌘S + Enter, Assist Esc / choose,
   Recent ⌘⇧H + Esc → editor (typing continues); preview only: Export Esc / click outside → Export button; Assist
   Tab → Assist button.
+- **Shortcuts and a command palette** (Pablo, 2026-11-01, after the review's #9: browsers keep some keys — ⌘N opens a
+  window in Chrome, Edge and Opera, Opera opens its assistant on ⌘O; ⌘⇧ combos are no safer: ⌘⇧N private window,
+  ⌘⇧T reopen tab, Safari's ⌘⇧H home). Kept: ⌘S, ⌘Z, Tab, Esc. ⌘N removed (handler, tooltip, About, README).
+  ⌘O, ⌘⇧C, ⌘⇧H still work where the browser lets them, marked "*" with a note in About and the README. New: **⌘/Ctrl
+  + K, the command palette** (`CommandPalette.tsx`) — every action of the current screen (document, view, Smart
+  Assist modes while editing, pages) plus recent documents, searched in EN and PT words; ↑ ↓ / Enter / Esc,
+  focus back where it was unless the command moved it. Rules + AI from it never skips the download notice: the
+  Assist menu opens on it. Checked in Chromium: start screen / editor / About lists, Enter runs (sample, Export,
+  theme, language, story), Esc returns focus to the editor, PT labels and search ("hist" → história), 390 px fits.
 

@@ -63,12 +63,13 @@ const APP_VERSION: string = import.meta.env.VITE_APP_VERSION ?? ''
 const CHANGELOG_URL = `https://github.com/PabloFLPs/Marksage/blob/${SOURCE_COMMIT || 'main'}/CHANGELOG.md`
 const SOURCE_URL = SOURCE_COMMIT ? `https://github.com/PabloFLPs/Marksage/tree/${SOURCE_COMMIT}` : 'https://github.com/PabloFLPs/Marksage'
 
-const SHORTCUTS: [KeyToken[], string, string][] = [
-  [['mod', 'o'], 'Open a file', 'Abrir um arquivo'],
-  [['mod', 'n'], 'New document', 'Novo documento'],
+/** [keys, EN, PT, a browser may keep it for itself]. No ⌘N: Chrome, Edge and Opera never pass it to a page. */
+const SHORTCUTS: [KeyToken[], string, string, boolean?][] = [
+  [['mod', 'k'], 'Command palette — every action and recent document, searchable', 'Paleta de comandos — todas as ações e documentos recentes, com busca'],
   [['mod', 's'], 'Export (press again to download)', 'Exportar (aperte de novo para baixar)'],
-  [['mod', 'shift', 'c'], 'Copy Markdown', 'Copiar Markdown'],
-  [['mod', 'shift', 'h'], 'Recent documents', 'Documentos recentes'],
+  [['mod', 'o'], 'Open a file', 'Abrir um arquivo', true],
+  [['mod', 'shift', 'c'], 'Copy Markdown', 'Copiar Markdown', true],
+  [['mod', 'shift', 'h'], 'Recent documents', 'Documentos recentes', true],
   [['tab'], 'Accept a Smart Assist suggestion', 'Aceitar uma sugestão do Smart Assist'],
   [['esc'], 'Dismiss a suggestion', 'Ignorar uma sugestão'],
 ]
@@ -245,15 +246,24 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
 
         <Section title={x('Keyboard shortcuts', 'Atalhos de teclado')}>
           <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
-            {SHORTCUTS.map(([k, en, ptBR]) => (
+            {SHORTCUTS.map(([k, en, ptBR, browser]) => (
               <div key={k.join('+')} className="contents">
                 <dt>
                   <Keys k={k} />
                 </dt>
-                <dd className="text-ink-muted dark:text-dark-ink-muted">{x(en, ptBR)}</dd>
+                <dd className="text-ink-muted dark:text-dark-ink-muted">
+                  {x(en, ptBR)}
+                  {browser && <span aria-hidden> *</span>}
+                </dd>
               </div>
             ))}
           </dl>
+          <p className="mt-3 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">
+            {x(
+              <>* Your browser may keep these keys for itself — Opera, for one, opens its assistant on <Keys k={['mod', 'o']} />. <Keys k={['mod', 'k']} /> always works, and so do the buttons.</>,
+              <>* O seu navegador pode ficar com essas teclas — o Opera, por exemplo, abre o assistente dele com <Keys k={['mod', 'o']} />. <Keys k={['mod', 'k']} /> sempre funciona, assim como os botões.</>,
+            )}
+          </p>
         </Section>
 
         <Section title={x('Privacy & storage', 'Privacidade e armazenamento')}>

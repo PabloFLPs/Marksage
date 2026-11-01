@@ -16,6 +16,8 @@ interface AssistToggleProps {
   onRetry?: () => void
   /** Icon-only (mobile): the native select sits invisibly on top. */
   compact?: boolean
+  /** Bumped by the command palette's "Rules + AI" before the notice was seen: open here, on the notice. */
+  noticeRequest?: number
 }
 
 function statusText(mode: AssistMode, status: EngineStatus, t: (k: MessageKey, v?: Vars) => string): string {
@@ -38,7 +40,7 @@ const OPTIONS: { id: AssistMode; icon: typeof Sparkles; disabled?: boolean }[] =
   { id: 'model', icon: Cpu },
 ]
 
-export function AssistToggle({ mode, status, onChange, onRetry, compact = false }: AssistToggleProps) {
+export function AssistToggle({ mode, status, onChange, onRetry, compact = false, noticeRequest = 0 }: AssistToggleProps) {
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const [focus, setFocus] = useState(0)
@@ -64,6 +66,12 @@ export function AssistToggle({ mode, status, onChange, onRetry, compact = false 
     window.addEventListener('pointerdown', onDown)
     return () => window.removeEventListener('pointerdown', onDown)
   }, [open])
+
+  useEffect(() => {
+    if (!noticeRequest) return
+    setOpen(true)
+    setNotice(true)
+  }, [noticeRequest])
 
   // Move DOM focus with the roving index while the menu is open.
   useEffect(() => {

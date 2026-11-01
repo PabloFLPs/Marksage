@@ -65,12 +65,15 @@ Everything runs in the browser — files never leave your machine.
 
 | Keys | Action |
 |---|---|
-| `⌘/Ctrl O` | Open file |
-| `⌘/Ctrl N` | New document |
+| `⌘/Ctrl K` | Command palette — every action and recent document, searchable |
 | `⌘/Ctrl S` | Export — opens the name field; again (or `Enter`) downloads |
-| `⌘/Ctrl ⇧ C` | Copy Markdown |
-| `⌘/Ctrl ⇧ H` | Recent documents |
+| `⌘/Ctrl O` | Open file \* |
+| `⌘/Ctrl ⇧ C` | Copy Markdown \* |
+| `⌘/Ctrl ⇧ H` | Recent documents \* |
 | `Tab` / `Esc` | Accept / dismiss a suggestion |
+
+\* A browser may keep these keys for itself (Opera opens its assistant on `⌘O`); `⌘/Ctrl K` always works. There's
+no shortcut for New: Chrome, Edge and Opera never pass `⌘/Ctrl N` to a page.
 
 ## Development
 
