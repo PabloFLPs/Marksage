@@ -525,7 +525,8 @@ types. Every version is listed in [How the two models work](MODELS.md), section 
 **Laya** — Convai Innovations' open-weights decision model (322–421 M parameters) that natively answers
 `choice` / `score` / `noul`, like TypeSafe AI's hosted **Jev** — was the original plan for this mode, chosen
 over Jev because it can run on your device. For code-block languages a purpose-trained model
-turned out to be the better fit: thousands of times smaller, instant, and measurable on real data.
+turned out to be the better fit: over a thousand times smaller (262 thousand parameters), instant, and
+measurable on real data.
 The section model followed the same path. Laya stays an option for future questions where no such training data exists. By default, whatever
 runs, runs on your device; anything hosted, like the planned BYOK mode, will be opt-in and clearly marked.
 

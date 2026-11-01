@@ -982,4 +982,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   models; §4 opens with the follow-ups Pablo kept for a future iteration (the section model and Portuguese, the
   browser bar colour, the SVG metadata, README URL / CI, a story sentence in his words, smaller ones). AGENTS: the
   rename date, the ≥ 99% override in the hybrid, the lock writer, a merged bullet split.
+- **Laya in the story** (agent B's #13; Pablo, 2026-11-01: never measured in the browser — an assumption that it's
+  too heavy, plus a question to Claude): the story no longer says a general model was "tried in the browser … not
+  reliable enough"; it says what happened — the plan was a general model, and for this question a model trained for
+  it was the better fit. SMART-ASSIST §4.5's "thousands of times smaller" → over a thousand (262 thousand
+  parameters vs Laya's 322–421 M: ~1,200–1,600×). EN + PT-BR.
 

@@ -535,7 +535,7 @@ mudanças e acrescenta os três tipos novos. Todas as versões estão em
 O **Laya** — o modelo de decisão com pesos abertos da Convai Innovations (322–421 M de parâmetros), que responde
 nativamente perguntas `choice` / `score` / `noul`, como o **Jev** hospedado da TypeSafe AI — era o plano
 original para este modo, escolhido no lugar do Jev porque pode rodar no seu dispositivo. Para a
-linguagem dos blocos de código, um modelo treinado para a tarefa se mostrou a melhor escolha: milhares de vezes menor, instantâneo e
+linguagem dos blocos de código, um modelo treinado para a tarefa se mostrou a melhor escolha: mais de mil vezes menor (262 mil parâmetros), instantâneo e
 mensurável em dados reais. O modelo de seções seguiu o mesmo caminho. O Laya continua sendo uma opção para perguntas futuras em que não existam
 dados de treino assim. Por padrão, o que rodar, roda no seu dispositivo;
 qualquer coisa hospedada, como o modo BYOK planejado, será opcional e bem sinalizada.
