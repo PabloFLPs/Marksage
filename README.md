@@ -3,6 +3,9 @@
 **The Markdown editor that notices.** A local-first Markdown editor whose assistant, Smart Assist, suggests fixes
 as you write — rules plus two small models trained for it, running in your browser. Your files never leave it.
 
+**Try it: [marksage.vercel.app](https://marksage.vercel.app)** — *Try it on a sample document* on the start screen
+is a one-minute tour of Smart Assist.
+
 ![Marksage suggesting a language for a code block](public/og-image.png)
 
 - **Local-first.** No backend, no accounts, no analytics: documents and settings stay in your browser, each one
@@ -13,9 +16,8 @@ as you write — rules plus two small models trained for it, running in your bro
 - **What didn't ship is documented too.** Models for structure hints, paste types and a v3 code model were trained,
   judged against a bar written down before the run, and left out — with the numbers.
 
-**Read more:** the story — the app's `#story` page, the decisions and models with their numbers
-([text](src/lib/storyContent.en.ts)) · [How Smart Assist works](docs/SMART-ASSIST.md) ·
-[How the models work](docs/MODELS.md) · [Training pipeline](training/README.md) · [Roadmap](ROADMAP.md)
+**Read more:** [the story](https://marksage.vercel.app/#story) — the decisions and models with their numbers ·
+[How Smart Assist works](docs/SMART-ASSIST.md) · [How the models work](docs/MODELS.md) · [Training pipeline](training/README.md) · [Roadmap](ROADMAP.md)
 
 ## Features
 

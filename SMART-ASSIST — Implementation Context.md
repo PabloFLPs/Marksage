@@ -991,4 +991,6 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   `og:url` / `og:image`, `VITE_SITE_URL` unset): `vite.config.ts` falls back to `https://$VERCEL_PROJECT_PRODUCTION_URL`
   (set by Vercel on every build, previews included — so their previews point at production). `VITE_SITE_URL` still
   wins. Checked: a build with only that variable set gets absolute `og:` URLs.
+- **README: the live link** — "Try it: marksage.vercel.app" under the tagline (the sample is on its start screen),
+  and "the story" links the live `#story`.
 
