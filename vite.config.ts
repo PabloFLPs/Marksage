@@ -17,8 +17,14 @@ export default defineConfig(({ mode }) => {
   let commit = ''
   try {
     commit = execSync('git rev-parse HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()
+    // A build from uncommitted changes would link a commit that isn't what's deployed: say so (not an error).
+    if (mode === 'production' && execSync('git status --porcelain --untracked-files=no', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim())
+      console.warn('\n⚠ Uncommitted changes: About will link commit ' + commit.slice(0, 7) + ', which is not exactly this build.\n')
   } catch {
-    // Not a git checkout: About links the repository instead.
+    // Not a git checkout (many hosts build from a copy without .git): their own commit variable, else About
+    // links the repository (pre-launch review).
+    const env = process.env
+    commit = (env.VERCEL_GIT_COMMIT_SHA || env.CF_PAGES_COMMIT_SHA || env.COMMIT_REF || env.RENDER_GIT_COMMIT || env.GITHUB_SHA || '').trim()
   }
   return {
     define: {

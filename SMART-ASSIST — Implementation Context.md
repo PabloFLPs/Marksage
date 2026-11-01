@@ -949,4 +949,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   GitHub (AGPL-3.0)." (EN + PT-BR, `credit` in the story content), and About's top shows "Source on GitHub" (this
   build's commit) next to the story link, wrapping cleanly on phones. The optional sentence on which calls were
   Pablo's is left for him to write.
+- **About's source commit on hosts without `.git`** (agent C): many hosts build from a copy without git, so About
+  linked only the repository root. `vite.config.ts` now falls back to the host's commit variable
+  (`VERCEL_GIT_COMMIT_SHA`, `CF_PAGES_COMMIT_SHA`, Netlify's `COMMIT_REF`, `RENDER_GIT_COMMIT`, `GITHUB_SHA`), and a
+  production build from uncommitted changes warns that the linked commit isn't exactly the build. Checked: a
+  git-less copy with `VERCEL_GIT_COMMIT_SHA` set embeds that commit; a dirty tree prints the warning.
 
