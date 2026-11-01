@@ -8,7 +8,8 @@ app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: A
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.37.0** · 2026-11-01 · `(this commit)` · feat(meta): tab titles per page, previews that mention the models, a louder missing-URL warning
+- **3.38.0** · 2026-11-01 · `(this commit)` · feat(credit): the story and About lead to the source and the author
+- **3.37.0** · 2026-11-01 · `c85c1b9` · feat(meta): tab titles per page, previews that mention the models, a louder missing-URL warning
 - **3.36.3** · 2026-11-01 · `63ee660` · fix(copy): wording that matches the app, in both languages
 - **3.36.2** · 2026-11-01 · `b39b1fa` · fix(privacy): Privacy & storage lists the Rules + AI notice key too
 - **3.36.1** · 2026-11-01 · `a866c51` · fix(assist): "== Title ==" becomes "## Title", as on MediaWiki

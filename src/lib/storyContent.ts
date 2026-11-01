@@ -26,6 +26,8 @@ export interface StoryContent {
   /** Shown in place of a date for the entry without one ("Next"). */
   upcoming: string
   entries: StoryEntry[]
+  /** The page's last line: who built it and where the source is — "{author}" and "{source}" become links. */
+  credit: string
 }
 
 export function loadStoryPage(lang: Lang) {

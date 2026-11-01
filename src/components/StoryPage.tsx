@@ -105,6 +105,22 @@ export function StoryPage({ content, closing = false, onBack, backLabel }: Story
             </li>
           ))}
         </ol>
+        {/* Who and where: a visitor from a shared link reaches the code and the author from the last line. */}
+        <p className="mt-12 border-t border-line pt-6 text-sm leading-6 text-ink-muted dark:border-dark-line dark:text-dark-ink-muted">
+          {content.credit.split(/(\{author\}|\{source\})/).map((part, i) =>
+            part === '{author}' ? (
+              <a key={i} href="https://github.com/PabloFLPs" target="_blank" rel="noopener noreferrer" className="font-medium text-accent hover:underline dark:text-dark-accent">
+                PabloFLPs
+              </a>
+            ) : part === '{source}' ? (
+              <a key={i} href="https://github.com/PabloFLPs/Marksage" target="_blank" rel="noopener noreferrer" className="font-medium text-accent hover:underline dark:text-dark-accent">
+                GitHub
+              </a>
+            ) : (
+              <Fragment key={i}>{part}</Fragment>
+            ),
+          )}
+        </p>
       </div>
     </main>
   )

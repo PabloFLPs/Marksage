@@ -944,4 +944,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   — "The story — Marksage"), EN + PT-BR, set in App (the I18n provider's effect ran after App's and overwrote it).
   Crawlers don't run JS, so a shared `#story` link still previews as the site — said in AGENTS. PT tagline aligned
   with the start screen: "O editor de Markdown que repara nos detalhes."
+- **The story and About lead to the code and the author** (agent C: the story ended at "What comes next"; About's
+  GitHub link sat 3,800 px down): #story ends with "Built by PabloFLPs. Source, training code and model files:
+  GitHub (AGPL-3.0)." (EN + PT-BR, `credit` in the story content), and About's top shows "Source on GitHub" (this
+  build's commit) next to the story link, wrapping cleanly on phones. The optional sentence on which calls were
+  Pablo's is left for him to write.
 

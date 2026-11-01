@@ -121,6 +121,7 @@ const content: StoryContent = {
       ],
     },
   ],
+  credit: 'Feito por {author}. Código, treino e arquivos dos modelos: {source} (AGPL-3.0).',
 }
 
 export default content

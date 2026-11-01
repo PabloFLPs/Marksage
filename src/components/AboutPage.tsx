@@ -1,6 +1,7 @@
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
   BookOpen,
   Brain,
   ClipboardPaste,
@@ -114,15 +115,27 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
             'Um lugar tranquilo para ler e escrever Markdown — com um pequeno assistente local que percebe o que você quis escrever e oferece a correção. Nada do que você abre aqui sai do seu navegador.',
           )}
         </p>
-        <button
-          type="button"
-          onClick={onOpenStory}
-          className="tap group mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline dark:text-dark-accent"
-        >
-          <Milestone className="h-4 w-4" />
-          {x('The story: the decisions and models behind Marksage', 'A história: as decisões e os modelos por trás do Marksage')}
-          <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
-        </button>
+        <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <button
+            type="button"
+            onClick={onOpenStory}
+            className="tap group inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline dark:text-dark-accent"
+          >
+            <Milestone className="h-4 w-4" />
+            {x('The story: the decisions and models behind Marksage', 'A história: as decisões e os modelos por trás do Marksage')}
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </button>
+          <a
+            href={SOURCE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tap group inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline dark:text-dark-accent"
+          >
+            <Code2 className="h-4 w-4" />
+            {x('Source on GitHub', 'Código no GitHub')}
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </a>
+        </div>
 
         <Section title="Smart Assist" badge={x('local · on by default', 'local · ligado por padrão')}>
           <p className="mb-4 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">
