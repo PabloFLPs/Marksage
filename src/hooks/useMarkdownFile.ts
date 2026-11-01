@@ -179,7 +179,7 @@ export function useMarkdownFile() {
         setDocument({ id: idFor(file.name, content), filename: file.name, content, savedContent: content, ...(readOnly && { readOnly }) })
         setError(null)
         return true
-      } catch (err) {
+      } catch {
         setError('error.readFailed')
         return false
       }

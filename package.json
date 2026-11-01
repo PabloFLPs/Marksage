@@ -2,7 +2,7 @@
   "name": "marksage",
   "private": true,
   "license": "AGPL-3.0-only",
-  "version": "3.38.3",
+  "version": "3.38.4",
   "type": "module",
   "scripts": {
     "dev": "vite",

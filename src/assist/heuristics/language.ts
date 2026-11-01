@@ -36,7 +36,7 @@ const RULES: Record<Exclude<Language, 'plaintext'>, Rule[]> = {
     [/`[^`]*\$\{[^}]+\}[^`]*`/, 1],
   ],
   python: [
-    [/^\s*def\s+\w+\s*\(.*\)\s*(->\s*[\w\[\], ]+)?\s*:\s*$/m, 4],
+    [/^\s*def\s+\w+\s*\(.*\)\s*(->\s*[\w[\], ]+)?\s*:\s*$/m, 4],
     [/^\s*(from\s+[\w.]+\s+)?import\s+[\w.]+(\s+as\s+\w+)?\s*$/m, 2],
     [/^\s*class\s+\w+(\(.*\))?\s*:\s*$/m, 3],
     [/^\s*(if|elif|while|for)\s+.*:\s*$/m, 2],

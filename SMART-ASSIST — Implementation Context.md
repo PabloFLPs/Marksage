@@ -967,4 +967,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   2.75–4.48 on 10 px); the Smart Assist heading reads "Smart Assist — local · on by default" to screen readers;
   the docs' contents list jumps without smooth scrolling under reduced motion. The start screen got `<main>` + `h1`
   earlier in this review.
+- **Polish** (agent C): a `<noscript>` line (EN + PT) instead of a lone "Marksage" with JavaScript off; the start
+  screen's drop box has less padding on phones, so the PT buttons fit on one line at 320 px; two of the three old
+  lint warnings fixed (an unneeded `\[` escape — same regex — and an unused `catch` binding); the third (`useI18n.tsx`
+  exports a hook next to its provider) stays. Not done: renaming the root files with spaces (links everywhere) and
+  the build's chunk-size note (Mermaid's lazy chunks).
 

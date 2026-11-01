@@ -64,7 +64,7 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, on
         </div>
       </section>
       <div
-        className={`flex w-full max-w-md flex-col items-center rounded-xl border-2 border-dashed p-10 text-center transition-all duration-200 ${
+        className={`flex w-full max-w-md flex-col items-center rounded-xl border-2 border-dashed p-6 text-center sm:p-10 transition-all duration-200 ${
           isDragging
             ? 'scale-[1.02] border-accent bg-accent/5 dark:border-dark-accent dark:bg-dark-accent/10'
             : 'border-line dark:border-dark-line'
