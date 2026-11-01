@@ -18,7 +18,7 @@ const content: StoryContent = {
       date: '2026-09-26',
       title: 'Decision models, not generative ones',
       body: [
-        'Decision models — popularised by Jev (Sep 15) and Laya, an open model (Sep 18) — answer fixed questions instead of writing text, so their output can’t be malformed. That is the right shape for “which language is this code?”. A general one, tried later in the browser, turned out too heavy for an editor and not reliable enough on this task.',
+        'Decision models — popularised by Jev, from TypeSafe AI (Sep 15), and Laya, an open model (Sep 18) — answer fixed questions instead of writing text, so their output can’t be malformed. That is the right shape for “which language is this code?”. A general one, tried later in the browser, turned out too heavy for an editor and not reliable enough on this task.',
         'It led to a rule for every feature: use the smallest tool that works — rules, then a tiny model trained for one question, then a general decision model. Never a generative model in the built-in features.',
       ],
       link: { label: 'How Smart Assist works', hash: 'smart-assist' },

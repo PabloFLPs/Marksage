@@ -18,7 +18,7 @@ const content: StoryContent = {
       date: '2026-09-26',
       title: 'Modelos de decisão, não generativos',
       body: [
-        'Modelos de decisão — popularizados pelo Jev (15 set) e pelo Laya, um modelo aberto (18 set) — respondem perguntas fechadas em vez de escrever texto, então a saída não tem como vir malformada. É o formato certo para “que linguagem é este código?”. Um modelo geral, testado depois no navegador, se mostrou pesado demais para um editor e não confiável o bastante nessa tarefa.',
+        'Modelos de decisão — popularizados pelo Jev, da TypeSafe AI (15 set), e pelo Laya, um modelo aberto (18 set) — respondem perguntas fechadas em vez de escrever texto, então a saída não tem como vir malformada. É o formato certo para “que linguagem é este código?”. Um modelo geral, testado depois no navegador, se mostrou pesado demais para um editor e não confiável o bastante nessa tarefa.',
         'Daí veio uma regra para todo recurso: usar a menor ferramenta que resolve — regras, depois um modelo minúsculo treinado para uma pergunta, depois um modelo de decisão geral. Nunca um modelo generativo nos recursos embutidos.',
       ],
       link: { label: 'Como o Smart Assist funciona', hash: 'smart-assist' },

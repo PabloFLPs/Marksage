@@ -929,4 +929,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **Privacy & storage listed every key but one** (agent B): `marksage:model-notice` (set when the Rules + AI notice
   is confirmed) now appears in About's list, EN + PT-BR. The code stores exactly the 11 `marksage:*` keys + the
   `marksage-models-v1` cache AGENTS lists; "Delete all Marksage data" removes them all.
+- **Copy fixes, EN + PT-BR** (agents B and C): the Rules + AI notice says "models" / "them" (two files); the mode
+  table in About says "≥ 99%" like SMART-ASSIST and the README; size limits say what the code counts (a million /
+  5 million characters, about 1 / 5 MB); PT wording a Brazilian dev would use ("Tudo local, sempre", "deslizes de
+  formatação", "o Marksage oferece uma tabela", "o que vale conferir", "dicas de formatação"); EN "color" and a
+  curly apostrophe; the story introduces Jev ("from TypeSafe AI").
 

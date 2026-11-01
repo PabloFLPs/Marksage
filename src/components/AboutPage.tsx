@@ -130,7 +130,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
               <>
                 It’s on from the start in <strong className={strong}>Rules</strong> mode; switch modes or turn it off from the{' '}
                 <strong className={strong}>Assist</strong> menu in the editor header (the sparkle button on phones). It never
-                changes your text on its own — it only suggests, and only when it's confident.{' '}
+                changes your text on its own — it only suggests, and only when it’s confident.{' '}
                 <Keys k={['tab']} /> accepts, <Keys k={['esc']} /> dismisses, <Keys k={['mod', 'z']} /> undoes. The icon on a suggestion says what kind of fix it is; a ✦ means the local model made the call; click the card to see where it applies.
               </>,
               <>
@@ -150,13 +150,13 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           <Feature icon={<Table />} title={x('Smart paste', 'Colagem inteligente')}>
             {x(
               'Paste CSV, spreadsheet cells, terminal output, bullet lists or JSON — your paste lands untouched, then you’re offered a clean Markdown table, list or code block.',
-              'Cole CSV, células de planilha, saída de terminal, listas ou JSON — a colagem entra intacta e depois você recebe a oferta de uma tabela, lista ou bloco de código em Markdown.',
+              'Cole CSV, células de planilha, saída de terminal, listas ou JSON — a colagem entra intacta e depois o Marksage oferece uma tabela, lista ou bloco de código em Markdown.',
             )}
           </Feature>
           <Feature icon={<Heading />} title={x('Structure hints', 'Dicas de formatação')}>
             {x(
               <>Catches the near-misses: <code>**Title**</code> used as a heading, <code>#Heading</code> without a space, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> pasted from a document, <code>== Title ==</code>, and links broken by a space, <code>[text] (url)</code>.</>,
-              <>Pega os quase-acertos: <code>**Título**</code> usado como título, <code>#Título</code> sem espaço, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> colado de um documento, <code>== Título ==</code> e links quebrados por um espaço, <code>[texto] (url)</code>.</>,
+              <>Pega os deslizes de formatação: <code>**Título**</code> usado como título, <code>#Título</code> sem espaço, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> colado de um documento, <code>== Título ==</code> e links quebrados por um espaço, <code>[texto] (url)</code>.</>,
             )}
           </Feature>
           <Feature icon={<Gauge />} title={x('Readability dots', 'Pontos de legibilidade')}>
@@ -168,13 +168,13 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           <Feature icon={<ListTree />} title={x('Outline & document insights', 'Estrutura e análise do documento')}>
             {x(
               <>The <em>Outline</em> panel lists every section with what it is — setup, reference, security and 13 more — and its key sentence; click one to jump there. Types come from the headings; in <em>Rules + AI</em> mode, Marksage’s section model also reads the text under headings that don’t say. Its <em>Document</em> tab sums the whole file up: what it looks like (README, guide, technical docs…), reading time, readability, tone signals and things worth a look, like heading jumps or images without alt text. Its <em>Suggestions</em> tab lists everything Smart Assist could fix in the whole document; click one and the suggestion opens right there in the editor.</>,
-              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, segurança e mais 13 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Regras + IA</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, documentação técnica…), tempo de leitura, legibilidade, sinais de tom e o que vale uma olhada, como saltos de título ou imagens sem texto alternativo. A aba <em>Sugestões</em> lista tudo o que o Smart Assist poderia corrigir no documento inteiro; clique em uma e a sugestão abre ali mesmo no editor.</>,
+              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, segurança e mais 13 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Regras + IA</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, documentação técnica…), tempo de leitura, legibilidade, sinais de tom e o que vale conferir, como saltos de título ou imagens sem texto alternativo. A aba <em>Sugestões</em> lista tudo o que o Smart Assist poderia corrigir no documento inteiro; clique em uma e a sugestão abre ali mesmo no editor.</>,
             )}
           </Feature>
           <p className="mt-4 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">
             {x(
               <>Modes: <strong className="font-medium">Rules</strong> runs instantly with no download — rules for every question. <strong className="font-medium">Rules + AI</strong> adds Marksage’s own small models where they beat the rules: one for code-block languages (385 KB, trained on ~64k real code blocks) and one for section types in the Outline (385 KB, trained on ~27k real doc sections, fetched the first time you open it). They run entirely on your device and are downloaded once, then kept in your browser. Everything else stays with the rules: models for structure hints and paste types were trained too, but on real text they didn’t do better than the rules, so they aren’t used.</>,
-              <>Modos: <strong className="font-medium">Regras</strong> roda na hora, sem download — regras para todas as perguntas. <strong className="font-medium">Regras + IA</strong> adiciona os modelos pequenos do próprio Marksage onde eles superam as regras: um para as linguagens dos blocos de código (385 KB, treinado com ~64 mil blocos de código reais) e um para os tipos de seção na Estrutura (385 KB, treinado com ~27 mil seções de documentação reais, baixado na primeira vez que você a abre). Eles rodam inteiramente no seu dispositivo e são baixados uma vez, depois ficam guardados no navegador. O resto continua com as regras: também treinamos modelos para as dicas de estrutura e os tipos de colagem, mas em textos reais eles não se saíram melhor que as regras, então não são usados.</>,
+              <>Modos: <strong className="font-medium">Regras</strong> roda na hora, sem download — regras para todas as perguntas. <strong className="font-medium">Regras + IA</strong> adiciona os modelos pequenos do próprio Marksage onde eles superam as regras: um para as linguagens dos blocos de código (385 KB, treinado com ~64 mil blocos de código reais) e um para os tipos de seção na Estrutura (385 KB, treinado com ~27 mil seções de documentação reais, baixado na primeira vez que você a abre). Eles rodam inteiramente no seu dispositivo e são baixados uma vez, depois ficam guardados no navegador. O resto continua com as regras: também treinamos modelos para as dicas de formatação e os tipos de colagem, mas em textos reais eles não se saíram melhor que as regras, então não são usados.</>,
             )}
           </p>
           <ModeTable x={x} />
@@ -217,8 +217,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<Save />} title={x('Autosave', 'Salvamento automático')}>
             {x(
-              'Your current document is kept in this browser — saved as you type and again the moment you reload, close the tab or switch apps — so a refresh never loses work. If a document is too large for the browser to keep, Marksage tells you to export it. Big files: from 1 MB Marksage notes that editing may be slow; over 5 MB they open read-only and aren’t kept. An asterisk next to the filename means there are changes you haven’t exported.',
-              'O documento atual fica guardado neste navegador — salvo enquanto você digita e de novo no instante em que você recarrega, fecha a aba ou troca de app — então recarregar a página nunca perde trabalho. Se um documento for grande demais para o navegador guardar, o Marksage avisa para exportar. Arquivos grandes: a partir de 1 MB o Marksage avisa que editar pode ficar lento; acima de 5 MB eles abrem só para leitura e não são guardados. Um asterisco ao lado do nome indica alterações ainda não exportadas.',
+              'Your current document is kept in this browser — saved as you type and again the moment you reload, close the tab or switch apps — so a refresh never loses work. If a document is too large for the browser to keep, Marksage tells you to export it. Big files: from a million characters (about 1 MB) Marksage notes that editing may be slow; over 5 million (about 5 MB) they open read-only and aren’t kept. An asterisk next to the filename means there are changes you haven’t exported.',
+              'O documento atual fica guardado neste navegador — salvo enquanto você digita e de novo no instante em que você recarrega, fecha a aba ou troca de app — então recarregar a página nunca perde trabalho. Se um documento for grande demais para o navegador guardar, o Marksage avisa para exportar. Arquivos grandes: a partir de um milhão de caracteres (cerca de 1 MB) o Marksage avisa que editar pode ficar lento; acima de 5 milhões (cerca de 5 MB) eles abrem só para leitura e não são guardados. Um asterisco ao lado do nome indica alterações ainda não exportadas.',
             )}
           </Feature>
           <Feature icon={<History />} title={x('Recent documents', 'Documentos recentes')}>
@@ -268,7 +268,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
 
         <Section title={x('Privacy & storage', 'Privacidade e armazenamento')}>
           <div id="privacy" />
-          <Feature icon={<Lock />} title={x('Local-first, always', 'Local em primeiro lugar, sempre')}>
+          <Feature icon={<Lock />} title={x('Local-first, always', 'Tudo local, sempre')}>
             {x(
               'No accounts and no uploads: the website only delivers the app’s files. Files are read by your browser and Smart Assist runs on your device — nothing you open or write is sent anywhere.',
               'Sem contas e sem uploads: o site só entrega os arquivos do app. Os arquivos são lidos pelo seu navegador e o Smart Assist roda no seu dispositivo — nada do que você abre ou escreve é enviado.',
@@ -325,7 +325,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
         <Section title={x('Appearance', 'Aparência')}>
           <p className="mb-4 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">
             {x(
-              'App icon and accent colour — shown in the browser tab, the header, and across the interface.',
+              'App icon and accent color — shown in the browser tab, the header, and across the interface.',
               'Ícone do app e cor de destaque — aparecem na aba do navegador, no cabeçalho e em toda a interface.',
             )}
           </p>
@@ -364,7 +364,7 @@ type Pick2 = <T>(en: T, ptBR: T) => T
 function ModeTable({ x }: { x: Pick2 }) {
   const rules = x('rules', 'regras')
   const rows: [string, string, string][] = [
-    [x('Code-block language', 'Linguagem do bloco de código'), rules, x('model ✦, or the rules when the model agrees or they’re 99% sure', 'modelo ✦, ou as regras quando o modelo concorda ou elas têm 99% de certeza')],
+    [x('Code-block language', 'Linguagem do bloco de código'), rules, x('model ✦, or the rules when the model agrees or they’re ≥ 99% sure', 'modelo ✦, ou as regras quando o modelo concorda ou elas têm ≥ 99% de certeza')],
     [x('Smart paste', 'Colagem inteligente'), rules, x('rules (a pasted code block’s language: as above)', 'regras (linguagem de um bloco de código colado: como acima)')],
     [x('Structure hints', 'Dicas de formatação'), rules, rules],
     [x('Readability', 'Legibilidade'), rules, rules],
