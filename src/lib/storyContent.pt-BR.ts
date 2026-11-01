@@ -15,13 +15,13 @@ const content: StoryContent = {
       facts: ['Código no servidor: nenhum', 'Onde ficam os documentos: só neste navegador'],
     },
     {
-      date: '2026-09-25',
+      date: '2026-09-26',
       title: 'Modelos de decisão, não generativos',
       body: [
         'Modelos de decisão — popularizados pelo Jev (15 set) e pelo Laya, um modelo aberto (18 set) — respondem perguntas fechadas em vez de escrever texto, então a saída não tem como vir malformada. É o formato certo para “que linguagem é este código?”. Um modelo geral, testado depois no navegador, se mostrou pesado demais para um editor e não confiável o bastante nessa tarefa.',
         'Daí veio uma regra para todo recurso: usar a menor ferramenta que resolve — regras, depois um modelo minúsculo treinado para uma pergunta, depois um modelo de decisão geral. Nunca um modelo generativo nos recursos embutidos.',
       ],
-      link: { label: 'Por que modelos de decisão', hash: 'smart-assist' },
+      link: { label: 'Como o Smart Assist funciona', hash: 'smart-assist' },
     },
     {
       date: '2026-09-26',
@@ -34,11 +34,11 @@ const content: StoryContent = {
       link: { label: 'Como o Smart Assist funciona', hash: 'smart-assist' },
     },
     {
-      date: '2026-10-24',
+      date: '2026-10-23',
       title: 'Um modelo de 385 KB treinado para uma pergunta',
       body: [
         'Em que linguagem está um bloco de código? Repositórios públicos têm essa resposta centenas de milhares de vezes, escrita pelos próprios autores: o `python` depois dos acentos graves que abrem o bloco. Cerca de 250.000 blocos foram coletados e separados por repositório, então nenhum projeto visto no treino aparece nos testes.',
-        'O modelo é no estilo fastText: pistas do código em hash, 8 números por pista, a média delas, uma camada linear. Roda em TypeScript puro — sem runtime de ML — e o mesmo código monta as pistas no treino e no navegador. A meta foi definida antes de medir: superar as regras em dados de teste sem perder precisão.',
+        'O modelo é no estilo fastText: pistas do código passadas por hash, 8 números por pista, a média delas, uma camada linear. Roda em TypeScript puro — sem runtime de ML — e o mesmo código monta as pistas no treino e no navegador. A meta foi definida antes de medir: superar as regras em dados de teste sem perder precisão.',
       ],
       facts: [
         '314 blocos de teste: regras 73 sugestões certas, modelo v1 133 (1,8×), ~94% certas quando exibidas',
@@ -54,7 +54,7 @@ const content: StoryContent = {
         'Quando o modelo não tem certeza, uma resposta confiante das regras só vale se o primeiro palpite do próprio modelo concordar: dois métodos independentes concordando somam sugestões sem somar erros.',
       ],
       facts: ['63.751 blocos de treino de 309 repositórios', 'Teste: 164 sugestões exibidas, 95,7% certas · conjunto novo: 158, 91,8%'],
-      link: { label: 'Calibração e versões', hash: 'models' },
+      link: { label: 'Como os modelos funcionam', hash: 'models' },
     },
     {
       date: ['2026-10-24', '2026-10-27'],
@@ -63,10 +63,10 @@ const content: StoryContent = {
         'A Estrutura dá um tipo a cada seção — instalação, referência, segurança… — pelo título. Quando o título não diz, um segundo modelo de 385 KB lê o texto. Ele só é usado onde aprendeu algo: seções de “explicação” tiveram 0 acertos em duas rodadas de treino, então esse tipo continua só pelo título.',
       ],
       facts: ['134 repositórios de teste: 13,5% das seções tipadas pelo modelo, 88,9% de acordo com o título'],
-      link: { label: 'O modelo de seções', hash: 'models' },
+      link: { label: 'Como os modelos funcionam', hash: 'models' },
     },
     {
-      date: '2026-10-25',
+      date: ['2026-10-24', '2026-10-25'],
       title: 'AGPL-3.0, e uma página que diz o que fica guardado',
       body: [
         'O Marksage — código e modelos — é software livre sob a AGPL-3.0, então versões modificadas rodando para outras pessoas também ficam abertas. Uma página de Privacidade e armazenamento lista tudo o que fica no navegador e apaga tudo com um clique.',
@@ -80,23 +80,23 @@ const content: StoryContent = {
         'A regra desde então: um modelo só é usado onde empata ou supera as regras num conjunto de teste novo. Os modos dizem exatamente isso: Desligado, Regras, Regras + IA.',
       ],
       facts: ['Dicas de formatação, 227 linhas de teste: regras 140 exibidas / 88,6% · regras + modelo 141 / 88,7%', 'Tipos de colagem, 53 colagens de teste: regras 97,6% · modelo 90,9%'],
-      link: { label: 'Testados, não usados', hash: 'smart-assist' },
+      link: { label: 'Como o Smart Assist funciona', hash: 'smart-assist' },
     },
     {
       date: '2026-10-29',
       title: 'Digitar continua fluido em documentos longos',
       body: [
-        'Documentos longos são desenhados em pedaços divididos nos títulos, cada um memorizado, com prioridade menor que a digitação: as teclas aparecem primeiro e a pré-visualização acompanha um instante depois, refazendo só o pedaço que mudou.',
+        'Documentos longos são desenhados em pedaços divididos nos títulos, cada um memoizado, com prioridade menor que a digitação: as teclas aparecem primeiro e a pré-visualização acompanha um instante depois, refazendo só o pedaço que mudou.',
       ],
     },
     {
-      date: ['2026-10-29', '2026-10-30'],
+      date: '2026-10-30',
       title: 'QA de lançamento feito por cinco agentes de IA',
       body: [
         'Antes do lançamento, cinco agentes de IA fizeram, cada um, o papel de um usuário de primeira viagem — impaciente, cético, no celular com 3G lento, alguém cujo inglês não é a língua nativa e um tentando quebrar tudo — usando o app de verdade num navegador. Eles relataram 36 problemas: 35 foram corrigidos, uma mudança por commit, cada uma documentada; um está planejado.',
         'Dois mostram o método. Um travamento de 25 segundos em tabelas grandes parecia lentidão para desenhar; o profiling achou um laço quadrático numa dependência que lê o Markdown, e uma atualização baixou para 1,7 s. E quando o modelo de código chamou TypeScript claramente tipado de “JavaScript”, uma análise pista por pista mostrou cinco pistas decisivas (`: number` a mais forte) diluídas na média entre 65 comuns às duas linguagens — o que levou a uma alternativa medida por agora e ao desenho do próximo modelo.',
       ],
-      facts: ['36 problemas: 35 corrigidos, 1 planejado', 'Tabelas grandes: ~25 s → 1,7 s', 'Alternativa: +1 sugestão certa, 0 erros novos em todos os conjuntos de teste'],
+      facts: ['36 problemas: 35 corrigidos, 1 planejado', 'Tabelas grandes: ~25 s → 1,7 s', 'Alternativa: +1 certa no conjunto de ajuste, conjuntos de teste sem mudança, 0 erros novos'],
     },
     {
       date: '2026-10-30',
@@ -104,15 +104,15 @@ const content: StoryContent = {
       body: [
         'O modelo de código seguinte guardou, em cada dimensão, a pista mais forte ao lado da média (média + máximo), para uma pista decisiva como `: number` não sumir na média. Ele foi ajustado com previsões para repositórios em que não treinou e julgado uma única vez num terceiro conjunto de teste novo — 842 blocos de 158 repositórios — contra uma régua escrita antes de rodar: mais sugestões certas nas linguagens quase gêmeas (TypeScript/JavaScript, C++/C, C#/Java) sem perder precisão.',
         'No geral, superou o modelo em uso. Nas linguagens quase gêmeas, não: ficou menos preciso, e pior em TypeScript/JavaScript. A causa estava nos rótulos, não no modelo — só 42% do código marcado como TypeScript no treino tem alguma sintaxe só de TypeScript; o resto é JavaScript válido. Ele não entrou, e o resultado está documentado ao lado dos que entraram.',
-        'Refazer os dados de treino também mostrou que o modelo em uso não podia ser reproduzido exatamente a partir das fontes registradas. Por isso o arquivo publicado virou a referência fixa com que todo modelo novo é comparado, e cada modelo agora sai com uma impressão digital dos dados com que aprendeu.',
+        'Refazer os dados de treino também mostrou que o modelo em uso não podia ser reproduzido exatamente a partir das fontes registradas. Por isso o arquivo publicado virou a referência fixa com que todo modelo novo é comparado, e todo modelo de código publicado daqui em diante sai com uma impressão digital dos dados com que aprendeu.',
       ],
       facts: [
         '842 blocos de teste · linguagens quase gêmeas: 103 certas, 88,0% contra 106, 89,8% do modelo em uso',
         'No geral: 391 certas, 93,8% contra 380, 93,1%',
         'Alternativa das regras medida de novo: +3 certas, 0 erros novos — continua',
-        'Todo modelo publicado: uma impressão digital dos dados de treino, conferida a cada reconstrução',
+        'Próximo modelo de código publicado: uma impressão digital dos dados de treino, conferida a cada reconstrução',
       ],
-      link: { label: 'Testado, não usado', hash: 'models' },
+      link: { label: 'Como os modelos funcionam', hash: 'models' },
     },
     {
       title: 'O que vem a seguir',

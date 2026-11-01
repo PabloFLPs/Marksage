@@ -910,4 +910,12 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **`== Title ==` → `##`** (noticed while building the sample; Pablo's call): wiki headings took DokuWiki's order
   (7 − the `=` count), so the common `== Title ==` became `#####`. Now MediaWiki's: `==` → `##`, `===` → `###`, up
   to `======` → `######`. Detection unchanged (eval 1,215 "✗"); SMART-ASSIST §3 table (EN + PT-BR).
+- **#story corrected** (agent B): the launch-QA fact "+1 right suggestion, 0 new mistakes on every test set" →
+  "+1 right on the tuning set, held-out sets unchanged, 0 new mistakes" (re-measured with the ≥ 99% override off:
+  dev 157 → 158, real and real2 unchanged, real3 405 → 408, mistakes unchanged everywhere — the v3 entry already says
+  the +3); dates = commit dates in São Paulo (v1 2026-10-23, not the UTC day; the first entry 2026-09-26, the first
+  commit; AGPL + Privacy page 10-24 → 10-25; the launch QA 10-30, the pass its numbers come from); "every shipped
+  model carries a fingerprint" → every *code* model shipped from now on (only `train.ts` writes locks, and none
+  exists yet for the shipped files); link labels name the page they open ("How the models work", "How Smart Assist
+  works") instead of a section they don't scroll to; PT: "memoizado", "pistas passadas por hash".
 
