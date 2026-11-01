@@ -977,4 +977,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   what didn't ship is documented), then links (the story, the two docs, training, roadmap); the doc names in the
   text are links now; the features list gains the palette, two tabs, images from the web and the story. Waiting
   on Pablo: the live URL (none in the repo yet). Not added: CI and its badge (his call).
+- **ROADMAP and AGENTS** (agent B + this review's follow-ups): ROADMAP §5 marks the story done (linked from the
+  start screen, About and ⌘K — never the ••• menu), §0.1's date is 10-29, the reproducibility line says *code*
+  models; §4 opens with the follow-ups Pablo kept for a future iteration (the section model and Portuguese, the
+  browser bar colour, the SVG metadata, README URL / CI, a story sentence in his words, smaller ones). AGENTS: the
+  rename date, the ≥ 99% override in the hybrid, the lock writer, a merged bullet split.
 

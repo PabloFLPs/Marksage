@@ -13,7 +13,7 @@ structure model, a paste-type model and a URL link-text rule were measured on fr
 Numbers and reasons: `SMART-ASSIST — Implementation Context.md` §28, `training/README.md`, `docs/MODELS.md` §8.3–8.5.
 Follow-ups are in §4.
 
-## 0.1 Done (2026-10-28): launch QA fixes
+## 0.1 Done (2026-10-29): launch QA fixes
 
 A five-persona launch QA pass (impatient, skeptic, mobile on slow 3G, non-native English, "breaker") and Pablo's
 own testing found 15 issues; all fixed: docs pages that went blank on a failed download (now Try again), Back
@@ -82,6 +82,19 @@ and fix the docs where it's right and the features where it's wrong. Both get be
 
 ## 4. Smaller items
 
+Follow-ups from the pre-launch review (2026-10-31 – 11-01, Implementation Context §39):
+
+- **The section model and Portuguese:** it reads PT text poorly — the sample's privacy section is typed Security
+  (0.75) in English, "other" (0.30) in Portuguese. More PT sections in its training data, or say it in MODELS §7.
+- **Browser bar colour:** `theme-color` is always `#0d1117`, so on phones the bar stays near-black over the light
+  theme a first visit now gets. One tag per scheme, updated when the theme changes.
+- **Diagram metadata:** the docs SVGs carry a ~7.8 KB C2PA manifest each that `scripts/diagrams.py` doesn't make
+  (~31 KB of base64 per language in the docs chunk). Keep or regenerate without — Pablo's call.
+- **README:** the live URL once deployed; CI (type-check, lint, `eval:assist`) and its badge, if wanted.
+- **Story:** one sentence on which calls were Pablo's (the bars, ship / don't ship), in his words.
+- **Smaller:** root file names with spaces (ugly GitHub URLs), one language per About chunk (its copy is inline
+  EN + PT), the build's chunk-size note (Mermaid's lazy chunks).
+
 - **Faster first load on slow networks** (launch QA #35, 2026-10-30): on slow 3G (2 s latency, 50 KB/s) the start
   screen took ~8 s — one 590 KB script (~180 KB gzip) holding React, the Markdown pipeline, the editor and Smart
   Assist, which the start screen doesn't need. Try loading the editor + preview + Smart Assist as their own chunk
@@ -125,13 +138,14 @@ Follow-ups, not started:
   — the gap is in the labels, not the model.
 - **Mean + max for overall coverage** (+11 right, −2 wrong in the hybrid on the third set; much more on CV) is a
   different claim from the one tested; it would need its own bar and a new fresh held-out set.
-- **Reproducibility — done (2026-10-30):** the shipped file is the fixed baseline, every shipped model gets a
-  training-data lock (`training/fingerprint.ts`), and rebuilds are checked against it. The cause of v2's gap (+463
+- **Reproducibility — done (2026-10-30):** the shipped file is the fixed baseline, every code model shipped from now
+  on gets a training-data lock (`training/fingerprint.ts`; `train-sections.ts` doesn't write one yet), and rebuilds are checked against it. The cause of v2's gap (+463
   Rust, +51 plain text, +20 diff blocks today) wasn't found in the hour set for it — training/README.md,
   "Reproducibility".
 
 ## 5. Showcase
 
-- **Timeline / story page** (`#story`, linked from About and the ••• menu) — the project's history for the
-  LinkedIn audience, built from the Implementation Context timeline and `docs/MODELS.md` §8.
+- **Done (2026-10-30): timeline / story page** (`#story`, linked from the start screen, About and ⌘K) — the
+  project's history for the LinkedIn audience, built from the Implementation Context timeline and
+  `docs/MODELS.md` §8; ends with the source and the author (2026-11-01).
 - **LinkedIn post.**
