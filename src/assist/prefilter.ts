@@ -186,7 +186,9 @@ export function findStructureCandidates(text: string): StructureCandidate[] {
     } else if ((m = /^(#{1,6})([^\s#].*)$/.exec(t)) && !isLikelyHashtag(m[1], m[2])) {
       push('heading-nospace', `${m[1]} ${m[2]}`, `The line "${t}" is meant to be a Markdown heading.`)
     } else if ((m = /^(={2,6})\s*([^=].*?)\s*\1\s*$/.exec(t))) {
-      const level = Math.min(6, Math.max(1, 7 - m[1].length))
+      // MediaWiki levels: "== Title ==" is a section, `##` (it was 7 − count, DokuWiki's order, which turned the
+      // common "== Title ==" into `#####` — pre-launch review, Pablo's call).
+      const level = m[1].length
       push('heading-wiki', `${'#'.repeat(level)} ${m[2]}`, `The line "${t}" is meant to be a heading.`)
     } else if ((m = /^(\s*)([-+*])([^\s\-+*./>=|<)\]}].*)$/.exec(t)) && !/^\s*\*[^*]+\*/.test(t)) {
       // `*/`, `->`, `*...` and the like are code or punctuation, not a missing space.

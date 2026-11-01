@@ -8,7 +8,8 @@ app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: A
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.36.0** · 2026-11-01 · `(this commit)` · feat(palette): ⌘/Ctrl K command palette; no ⌘N, and keys a browser may keep are marked
+- **3.36.1** · 2026-11-01 · `(this commit)` · fix(assist): "== Title ==" becomes "## Title", as on MediaWiki
+- **3.36.0** · 2026-11-01 · `d44d664` · feat(palette): ⌘/Ctrl K command palette; no ⌘N, and keys a browser may keep are marked
 - **3.35.6** · 2026-10-31 · `c0f333d` · fix(focus): closing a menu returns focus to the editor, or to its button
 - **3.35.5** · 2026-10-31 · `d634545` · fix(sync): the preview follows the editor after a paste
 - **3.35.4** · 2026-10-31 · `e63a161` · fix(export): the first ⌘S on an untitled document selects the suggested name

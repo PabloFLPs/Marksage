@@ -278,7 +278,7 @@ indented code blocks and raw HTML (`<pre>`, `<style>`, …) are skipped:
 |---|---|
 | `**Title**` alone on a line after a blank line | `## Title` |
 | `#Heading` (no space) — but not lowercase `#tag` words or `#fff` colours | `# Heading` |
-| `== Title ==` (wiki style) | heading, level from the `=` count |
+| `== Title ==` (wiki style) | heading at the same level, as on MediaWiki: `== Title ==` → `## Title`, `=== Title ===` → `### Title` |
 | `-item`, `*item`, `+item` | `- item` |
 | `• item`, `– item`, `✔️ item` — a typographic bullet, as pasted from a document, a web page or a chat | `- item` (a check mark stays: `- ✔️ item`) |
 | `1)item`, `1.item` | `1) item` |

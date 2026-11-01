@@ -281,7 +281,7 @@ blocos cercados, blocos de código indentados e HTML bruto (`<pre>`, `<style>`, 
 |---|---|
 | `**Título**` sozinho numa linha após uma linha em branco | `## Título` |
 | `#Título` (sem espaço) — mas não `#tag` em minúsculas nem cores `#fff` | `# Título` |
-| `== Título ==` (estilo wiki) | título, nível pela quantidade de `=` |
+| `== Título ==` (estilo wiki) | título no mesmo nível, como no MediaWiki: `== Título ==` → `## Título`, `=== Título ===` → `### Título` |
 | `-item`, `*item`, `+item` | `- item` |
 | `• item`, `– item`, `✔️ item` — um marcador tipográfico, colado de um documento, de uma página ou de um chat | `- item` (um ✔️ fica: `- ✔️ item`) |
 | `1)item`, `1.item` | `1) item` |

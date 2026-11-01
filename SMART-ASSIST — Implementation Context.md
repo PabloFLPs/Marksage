@@ -907,4 +907,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   focus back where it was unless the command moved it. Rules + AI from it never skips the download notice: the
   Assist menu opens on it. Checked in Chromium: start screen / editor / About lists, Enter runs (sample, Export,
   theme, language, story), Esc returns focus to the editor, PT labels and search ("hist" → história), 390 px fits.
+- **`== Title ==` → `##`** (noticed while building the sample; Pablo's call): wiki headings took DokuWiki's order
+  (7 − the `=` count), so the common `== Title ==` became `#####`. Now MediaWiki's: `==` → `##`, `===` → `###`, up
+  to `======` → `######`. Detection unchanged (eval 1,215 "✗"); SMART-ASSIST §3 table (EN + PT-BR).
 
