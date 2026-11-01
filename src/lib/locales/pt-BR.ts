@@ -2,7 +2,7 @@ import type { en } from './en'
 
 /** Português (Brasil). Missing keys fall back to English. */
 export const pt: Partial<Record<keyof typeof en, string>> = {
-  'app.tagline': 'O editor de Markdown que percebe.',
+  'app.tagline': 'O editor de Markdown que repara nos detalhes.',
   'doc.untitled': 'Sem título',
   'doc.unsaved': 'Ainda não exportado — o texto fica guardado neste navegador',
   'doc.nameLabel': 'Nome do documento',
@@ -30,6 +30,8 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'icon.outline': 'Linha',
   'icon.sunset': 'Pôr do sol',
   'app.title': 'Marksage — editor de Markdown',
+  'title.page': '{page} — Marksage',
+  'title.about': 'Sobre',
   'drop.oneAtATime.one': '{name} aberto — o Marksage abre um arquivo por vez, então o outro não foi aberto.',
   'drop.oneAtATime.many': '{name} aberto — o Marksage abre um arquivo por vez, então os outros {n} não foram abertos.',
   'shell.dismiss': 'Fechar',

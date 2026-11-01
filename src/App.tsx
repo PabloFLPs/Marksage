@@ -277,6 +277,13 @@ export default function App() {
   }, [infoPage, lang])
   // Logo / app name: leave About or the docs straight back to the app — the open document,
   // or the start screen when there is none. Already there → nothing to do.
+  // The tab's title follows the page and the language (launch QA #26): a shared #story link, a bookmark or the
+  // history list says which page it is.
+  useEffect(() => {
+    const page = infoPage === 'about' ? t('title.about') : infoPage === 'docs' ? t('palette.docs') : infoPage === 'models' ? t('palette.models') : infoPage === 'story' ? t('story.back') : null
+    window.document.title = page ? t('title.page', { page }) : t('app.title')
+  }, [infoPage, t])
+
   const goHome = useCallback(() => {
     if (infoRef.current === null) return
     window.history.replaceState({ ms: 1, from: null } satisfies NavState, '', window.location.pathname + window.location.search)

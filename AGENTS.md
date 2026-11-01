@@ -121,7 +121,8 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   `expected` guard → fixtures in `assist/__fixtures__/` → extend `scripts/eval-assist.ts` → document it on the About page.
 
 ## Navigation (info pages)
-- Hashes: `#about`, `#privacy` (About scrolled to Privacy & storage), `#smart-assist`, `#models`, `#story`. Open them by setting
+- Hashes: `#about`, `#privacy` (About scrolled to Privacy & storage), `#smart-assist`, `#models`, `#story`. The tab title
+  names the page (App, `title.page`); link previews (crawlers, no JS) always show the site's `og:` tags. Open them by setting
   `location.hash` — never `pushState` directly. Each history entry gets `{ ms: 1, from }` (`App.tsx`, `navState`):
   the screen it was opened from. The in-app Back (`closeAbout`) calls `history.back()` when `from` is set, so it
   always matches the browser's Back; a direct link (`from: null`) goes to the parent (docs → About → app) with

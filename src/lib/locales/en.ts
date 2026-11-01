@@ -31,6 +31,8 @@ export const en = {
   'icon.outline': 'Line',
   'icon.sunset': 'Sunset',
   'app.title': 'Marksage — Markdown editor',
+  'title.page': '{page} — Marksage',
+  'title.about': 'About',
   'drop.oneAtATime.one': 'Opened {name} — Marksage opens one file at a time, so the other one wasn’t opened.',
   'drop.oneAtATime.many': 'Opened {name} — Marksage opens one file at a time, so the other {n} weren’t opened.',
   'shell.dismiss': 'Dismiss',

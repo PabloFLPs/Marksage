@@ -938,4 +938,10 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   app say "ignora" (`scripts/diagrams.py` + the two PT SVGs, edited in place). Found doing it: the committed SVGs
   each carry a ~7.8 KB C2PA "content credentials" manifest that `diagrams.py` doesn't produce (≈ 31 KB of base64 per
   language in the docs chunk); kept for now — Pablo's call.
+- **Link previews and tab titles** (agent C): a build without `VITE_SITE_URL` still succeeds, but now ends with the
+  warning (it used to be line 2 of ~120, under the bundle list); `og:` / `twitter:` / `description` mention the
+  two small models trained for it, running on the device; the tab title names the page (About, the docs, the story
+  — "The story — Marksage"), EN + PT-BR, set in App (the I18n provider's effect ran after App's and overwrote it).
+  Crawlers don't run JS, so a shared `#story` link still previews as the site — said in AGENTS. PT tagline aligned
+  with the start screen: "O editor de Markdown que repara nos detalhes."
 

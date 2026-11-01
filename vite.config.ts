@@ -33,6 +33,12 @@ export default defineConfig(({ mode }) => {
       {
         name: 'marksage-site-url',
         transformIndexHtml: (html) => html.replaceAll('%SITE_URL%', siteUrl),
+        // Said again as the build's last line: the first warning scrolls away under the bundle list, and a deploy
+        // without it shows link previews with no image (pre-launch review).
+        closeBundle: () => {
+          if (mode === 'production' && !siteUrl)
+            console.warn('\n⚠ Built WITHOUT VITE_SITE_URL: og:image and og:url are relative, so LinkedIn, Slack and WhatsApp previews\n  will show no image. Set it (see .env.example) and build again before deploying.\n')
+        },
       },
       {
         // The license as plain text — verbatim, readable without the app — in the build and in `npm run dev` (where
