@@ -987,4 +987,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   reliable enough"; it says what happened — the plan was a general model, and for this question a model trained for
   it was the better fit. SMART-ASSIST §4.5's "thousands of times smaller" → over a thousand (262 thousand
   parameters vs Laya's 322–421 M: ~1,200–1,600×). EN + PT-BR.
+- **Link previews on Vercel without setup** (Pablo: live at https://marksage.vercel.app; its build had relative
+  `og:url` / `og:image`, `VITE_SITE_URL` unset): `vite.config.ts` falls back to `https://$VERCEL_PROJECT_PRODUCTION_URL`
+  (set by Vercel on every build, previews included — so their previews point at production). `VITE_SITE_URL` still
+  wins. Checked: a build with only that variable set gets absolute `og:` URLs.
 

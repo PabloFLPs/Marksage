@@ -7,8 +7,10 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   // Link previews need absolute URLs (WhatsApp/Slack ignore relative og:image).
-  // Set VITE_SITE_URL (e.g. https://marksage.app) in .env or your host's env vars.
-  const siteUrl = (loadEnv(mode, process.cwd(), '').VITE_SITE_URL ?? '').replace(/\/+$/, '')
+  // Set VITE_SITE_URL (e.g. https://marksage.app) in .env or your host's env vars. On Vercel it isn't needed: the
+  // project's production domain (VERCEL_PROJECT_PRODUCTION_URL, set on every build, previews included) is used.
+  const vercelProd = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  const siteUrl = (loadEnv(mode, process.cwd(), '').VITE_SITE_URL || (vercelProd ? `https://${vercelProd}` : '')).replace(/\/+$/, '')
   // Without it, og:image / og:url stay relative and link previews show no image (launch QA #34): say so at build.
   if (mode === 'production' && !siteUrl)
     console.warn('\n⚠ VITE_SITE_URL is not set — link previews (og:image, og:url) will be relative. See .env.example.\n')
