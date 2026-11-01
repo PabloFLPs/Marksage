@@ -99,7 +99,7 @@ export const en = {
   'split.resize': 'Resize preview and editor',
   'scroll.toStart': 'Scroll to the top',
   'scroll.toEnd': 'Scroll to the end',
-  'split.resizeTitle': 'Drag to resize — double-click to reset',
+  'split.resizeTitle': 'Drag (or ← →) to resize — double-click (or Enter) to reset',
 
   'error.notMarkdown': 'Marksage opens Markdown files only (.md, .markdown, .mdx, .mdown, .mkd, .mkdn, .mdwn).',
   'error.notText': 'This file doesn’t look like text — is it really Markdown?',

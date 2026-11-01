@@ -39,6 +39,30 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
   const current: PanelTab = tabs.includes(tab) ? tab : 'outline'
   const pending = suggestions?.enabled ? suggestions.items.length : 0
 
+  // The phone sheet is a dialog: focus moves into it, and back to where it was when it closes.
+  const sheetRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (variant !== 'sheet') return
+    const before = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const sheet = sheetRef.current
+    sheet?.focus({ preventScroll: true })
+    return () => {
+      const now = document.activeElement
+      if (!now || now === document.body || sheet?.contains(now)) before?.focus({ preventScroll: true })
+    }
+  }, [variant])
+
+  // Tabs: ← → Home End move between them (the WAI-ARIA tabs pattern; one Tab stop for the row).
+  const tablistRef = useRef<HTMLDivElement>(null)
+  const onTabKey = (e: React.KeyboardEvent) => {
+    const i = tabs.indexOf(current)
+    const next = e.key === 'ArrowRight' ? tabs[(i + 1) % tabs.length] : e.key === 'ArrowLeft' ? tabs[(i - 1 + tabs.length) % tabs.length] : e.key === 'Home' ? tabs[0] : e.key === 'End' ? tabs[tabs.length - 1] : null
+    if (!next) return
+    e.preventDefault()
+    onTabChange(next)
+    window.requestAnimationFrame(() => tablistRef.current?.querySelector<HTMLElement>(`#panel-tab-${next}`)?.focus({ preventScroll: true }))
+  }
+
   useEffect(() => {
     if (variant !== 'sheet') return
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
@@ -49,7 +73,7 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
   const body = (
     <>
       <div className="flex h-11 shrink-0 items-center gap-1 border-b border-line px-2 dark:border-dark-line">
-        <div role="tablist" aria-label={t('outline.toggleTitle')} className="flex shrink-0 items-center">
+        <div ref={tablistRef} role="tablist" aria-label={t('outline.toggleTitle')} onKeyDown={onTabKey} className="flex shrink-0 items-center">
           {tabs.map((id) => (
             <button
               key={id}
@@ -57,6 +81,7 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
               role="tab"
               id={`panel-tab-${id}`}
               aria-selected={current === id}
+              tabIndex={current === id ? 0 : -1}
               title={id === 'outline' && items.length > 0 ? t('outline.count', { n: items.length, typed }) : undefined}
               aria-controls={`panel-${id}`}
               onClick={() => onTabChange(id)}
@@ -146,7 +171,10 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
         className={`absolute inset-0 bg-black/30 ${closing ? 'anim-fade-out' : 'anim-fade'}`}
       />
       <div
+        ref={sheetRef}
+        tabIndex={-1}
         role="dialog"
+        aria-modal="true"
         aria-label={t('outline.title')}
         className={`absolute inset-x-0 bottom-0 flex max-h-[75dvh] flex-col rounded-t-xl border-t border-line bg-surface pb-[env(safe-area-inset-bottom)] shadow-xl dark:border-dark-line dark:bg-dark-surface ${closing ? 'anim-sheet-out' : 'anim-sheet-in'}`}
       >

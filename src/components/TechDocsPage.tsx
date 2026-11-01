@@ -132,7 +132,8 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
 
   const jumpTo = (i: number) => {
     const h = bodyRef.current?.querySelectorAll('.markdown-body h2')[i]
-    h?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    h?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
   }
 
   return (

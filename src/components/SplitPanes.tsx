@@ -75,14 +75,27 @@ export function SplitPanes({ ratio, onRatioChange, left, right, closing = false,
         {left}
       </div>
 
+      {/* Keyboard too: ← → resize by 5% (Shift: 10%), Home / End to the limits, Enter back to half. Above the editor
+          pane (z-10), so its grab area is 8 px on both sides of the line, not only the left. */}
       <div
         role="separator"
+        tabIndex={0}
         aria-orientation="vertical"
         aria-label={t('split.resize')}
+        aria-valuenow={Math.round(ratio)}
+        aria-valuemin={MIN_RATIO}
+        aria-valuemax={MAX_RATIO}
         title={t('split.resizeTitle')}
         onPointerDown={startDrag}
         onDoubleClick={() => onRatioChange(50)}
-        className="group relative w-px shrink-0 cursor-col-resize touch-none select-none bg-line transition-colors hover:bg-accent dark:bg-dark-line dark:hover:bg-dark-accent"
+        onKeyDown={(e) => {
+          const step = e.shiftKey ? 10 : 5
+          const next = e.key === 'ArrowLeft' ? ratio - step : e.key === 'ArrowRight' ? ratio + step : e.key === 'Home' ? MIN_RATIO : e.key === 'End' ? MAX_RATIO : e.key === 'Enter' ? 50 : null
+          if (next === null) return
+          e.preventDefault()
+          onRatioChange(clamp(next))
+        }}
+        className="group relative z-10 w-px shrink-0 cursor-col-resize touch-none select-none bg-line outline-none transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:ring-2 focus-visible:ring-accent/40 dark:bg-dark-line dark:hover:bg-dark-accent dark:focus-visible:bg-dark-accent"
       >
         <span className="absolute inset-y-0 -left-2 -right-2" />
       </div>

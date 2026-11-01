@@ -960,4 +960,11 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   193.1 → 181.7 KB gzip. Checked: About opens instantly after load, cold `#privacy` still scrolls to its section, a
   blocked chunk shows "couldn't load" + Try again / Back. Not done: one language per chunk (About's copy is inline
   EN + PT) — ROADMAP §4.
+- **Accessibility basics** (agents A and C): the split divider is a focusable separator with its value (← → 5%,
+  Shift 10%, Home / End, Enter = half) and sits above the editor pane, so its 8 px grab area works on both sides of
+  the line; the Outline tabs follow the WAI-ARIA tabs pattern (← → Home End, one Tab stop); the phone Outline
+  sheet is a modal dialog that takes focus and gives it back; About's toggle hints lose `opacity-70` (contrast
+  2.75–4.48 on 10 px); the Smart Assist heading reads "Smart Assist — local · on by default" to screen readers;
+  the docs' contents list jumps without smooth scrolling under reduced motion. The start screen got `<main>` + `h1`
+  earlier in this review.
 

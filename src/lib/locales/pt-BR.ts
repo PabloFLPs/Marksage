@@ -100,7 +100,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'split.resize': 'Redimensionar pré-visualização e editor',
   'scroll.toStart': 'Ir para o topo',
   'scroll.toEnd': 'Ir para o fim',
-  'split.resizeTitle': 'Arraste para redimensionar — clique duplo para redefinir',
+  'split.resizeTitle': 'Arraste (ou ← →) para redimensionar — clique duplo (ou Enter) para redefinir',
 
   'error.notMarkdown': 'O Marksage abre só arquivos Markdown (.md, .markdown, .mdx, .mdown, .mkd, .mkdn, .mdwn).',
   'error.notText': 'Este arquivo não parece ser texto — é mesmo Markdown?',

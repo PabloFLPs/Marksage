@@ -467,7 +467,12 @@ function Section({ title, badge, children }: { title: string; badge?: string; ch
     <section className="mt-12 scroll-mt-6 anim-rise">
       <h2 className="mb-5 flex items-baseline gap-2 border-b border-line pb-2 text-xs font-semibold uppercase tracking-wider text-ink-muted dark:border-dark-line dark:text-dark-ink-muted">
         {title}
-        {badge && <span className="font-normal normal-case tracking-normal text-accent dark:text-dark-accent">{badge}</span>}
+        {badge && (
+          <span className="font-normal normal-case tracking-normal text-accent dark:text-dark-accent">
+            <span className="sr-only"> — </span>
+            {badge}
+          </span>
+        )}
       </h2>
       {children}
     </section>
@@ -541,7 +546,7 @@ function Segmented<T extends string>({
           }`}
         >
           <span className="font-medium">{text}</span>
-          <span className="font-mono text-[10px] opacity-70">{hint}</span>
+          <span className="font-mono text-[10px]">{hint}</span>
         </button>
       ))}
     </div>
