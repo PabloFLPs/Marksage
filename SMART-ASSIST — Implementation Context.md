@@ -926,4 +926,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   structure 41 · documents 6, v3 386 KB (394,972 bytes, same unit as the other sizes), a note that the app shows
   158 on dev since the ≥ 99% override. training/README: the override's effect per set, the rules row dated, 858.
   PT: "conjunto de teste" in MODELS (was "de fora"), "*Regras*" for the old "modo heurístico".
+- **Privacy & storage listed every key but one** (agent B): `marksage:model-notice` (set when the Rules + AI notice
+  is confirmed) now appears in About's list, EN + PT-BR. The code stores exactly the 11 `marksage:*` keys + the
+  `marksage-models-v1` cache AGENTS lists; "Delete all Marksage data" removes them all.
 
