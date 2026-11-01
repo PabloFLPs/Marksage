@@ -996,4 +996,11 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **More follow-ups in ROADMAP §4** (Pablo: keep the review's "not proposed" items as next steps): Tab to indent
   lists (needs the "Assist Off = original behaviour" rule revisited), raw HTML in the preview (a line in About, or a
   sanitized subset), CI with its badge. The README's live URL item is done.
+- **Diagrams regenerated without their C2PA manifests** (Pablo's call, 2026-11-01): the 8 SVGs carried a ~7.7 KB
+  "Content Credentials" record each — signed by Anthropic, "Claude provided this file at the request of a user…",
+  added when an earlier session delivered them; `scripts/diagrams.py` never wrote it, and the two PT files edited in
+  place for "Esc ignora" no longer matched its content hash. `python3 scripts/diagrams.py docs` again: the drawings
+  are byte-identical minus that block; the docs chunks go 134.7 → 103.6 KB (EN) and 142.5 → 111.4 KB (PT), gzip
+  38.5 → 34.2 and 40.1 → 35.8 KB. Neither Anthropic's terms nor the EU AI Act (Art. 50: deepfakes, public-interest
+  text) require labelling these diagrams.
 

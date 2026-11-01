@@ -88,8 +88,6 @@ Follow-ups from the pre-launch review (2026-10-31 – 11-01, Implementation Cont
   (0.75) in English, "other" (0.30) in Portuguese. More PT sections in its training data, or say it in MODELS §7.
 - **Browser bar colour:** `theme-color` is always `#0d1117`, so on phones the bar stays near-black over the light
   theme a first visit now gets. One tag per scheme, updated when the theme changes.
-- **Diagram metadata:** the docs SVGs carry a ~7.8 KB C2PA manifest each that `scripts/diagrams.py` doesn't make
-  (~31 KB of base64 per language in the docs chunk). Keep or regenerate without — Pablo's call.
 - **CI:** a GitHub Action running the type-check, lint and `eval:assist` on every push, and its badge in the README.
 - **Tab to indent lists:** with no suggestion showing, Tab / Shift-Tab could indent / outdent list lines (today Tab
   leaves the editor, as a textarea does). It changes "Assist Off = the original behaviour" (AGENTS), so it needs
