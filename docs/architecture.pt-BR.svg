@@ -48,7 +48,7 @@
 <path class="msd-line" d="M180,378 L180,401" marker-end="url(#msd-arrow)"/>
 <rect class="msd-box " x="24" y="402" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="425.0" text-anchor="middle">Recurso + conversor</text><text class="msd-s" x="180.0" y="442.0" text-anchor="middle">monta a edição: tabela, lista, bloco</text>
 <path class="msd-line" d="M180,456 L180,479" marker-end="url(#msd-arrow)"/>
-<rect class="msd-box " x="24" y="480" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="503.0" text-anchor="middle">Barra de sugestão</text><text class="msd-s" x="180.0" y="520.0" text-anchor="middle">Tab aceita · Esc dispensa · dá para desfazer</text>
+<rect class="msd-box " x="24" y="480" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="503.0" text-anchor="middle">Barra de sugestão</text><text class="msd-s" x="180.0" y="520.0" text-anchor="middle">Tab aceita · Esc ignora · dá para desfazer</text>
 <rect class="msd-lane" x="368" y="8" width="344" height="536" rx="14"/>
 <text class="msd-lane-t" x="384" y="30">ESTRUTURA E DOCUMENTO</text>
 <rect class="msd-box " x="384" y="44" width="268" height="54" rx="9"/><text class="msd-t" x="518.0" y="67.0" text-anchor="middle">Documento</text><text class="msd-s" x="518.0" y="84.0" text-anchor="middle">o texto que você lê ou edita</text>

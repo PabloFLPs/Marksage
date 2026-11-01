@@ -934,4 +934,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   5 million characters, about 1 / 5 MB); PT wording a Brazilian dev would use ("Tudo local, sempre", "deslizes de
   formatação", "o Marksage oferece uma tabela", "o que vale conferir", "dicas de formatação"); EN "color" and a
   curly apostrophe; the story introduces Jev ("from TypeSafe AI").
+- **Diagram: "Esc ignora"** — the drawn PT architecture diagram said "Esc dispensa" where its Mermaid twin and the
+  app say "ignora" (`scripts/diagrams.py` + the two PT SVGs, edited in place). Found doing it: the committed SVGs
+  each carry a ~7.8 KB C2PA "content credentials" manifest that `diagrams.py` doesn't produce (≈ 31 KB of base64 per
+  language in the docs chunk); kept for now — Pablo's call.
 
