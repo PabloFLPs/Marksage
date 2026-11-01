@@ -8,7 +8,7 @@ app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: A
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.38.4** · 2026-11-01 · `(this commit)` · fix(ui): a message without JavaScript, start buttons that fit at 320 px, two lint warnings
+- **3.38.4** · 2026-11-01 · `b1eddab` · fix(ui): a message without JavaScript, start buttons that fit at 320 px, two lint warnings
 - **3.38.3** · 2026-11-01 · `2d360e4` · fix(a11y): keyboard for the split divider and the Outline tabs, focus in the phone sheet, contrast
 - **3.38.2** · 2026-11-01 · `b11cff7` · perf(load): About loads on demand, after the first paint
 - **3.38.1** · 2026-11-01 · `3e9c828` · fix(build): About links the exact commit on hosts that build without git

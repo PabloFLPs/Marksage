@@ -972,4 +972,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   lint warnings fixed (an unneeded `\[` escape — same regex — and an unused `catch` binding); the third (`useI18n.tsx`
   exports a hook next to its provider) stays. Not done: renaming the root files with spaces (links everywhere) and
   the build's chunk-size note (Mermaid's lazy chunks).
+- **README as a landing page** (agent C): the tagline, the preview image, three bullets (local-first; two 385 KB
+  models used only where they beat the rules, ~2× the right code-language suggestions at about the same precision;
+  what didn't ship is documented), then links (the story, the two docs, training, roadmap); the doc names in the
+  text are links now; the features list gains the palette, two tabs, images from the web and the story. Waiting
+  on Pablo: the live URL (none in the repo yet). Not added: CI and its badge (his call).
 

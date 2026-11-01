@@ -1,8 +1,21 @@
 # Marksage
 
-**The Markdown editor that notices.** A minimalist, local-first Markdown editor with a small
-on-device assistant (Smart Assist).
-Everything runs in the browser — files never leave your machine.
+**The Markdown editor that notices.** A local-first Markdown editor whose assistant, Smart Assist, suggests fixes
+as you write — rules plus two small models trained for it, running in your browser. Your files never leave it.
+
+![Marksage suggesting a language for a code block](public/og-image.png)
+
+- **Local-first.** No backend, no accounts, no analytics: documents and settings stay in your browser, each one
+  listed in About → Privacy & storage and removable with one click.
+- **Its own small models, measured honestly.** Two 385 KB models trained in this repo — code-block language and
+  section types — used only where they beat the rules on repositories they never saw: about twice the right
+  code-language suggestions at about the same precision, on three held-out sets.
+- **What didn't ship is documented too.** Models for structure hints, paste types and a v3 code model were trained,
+  judged against a bar written down before the run, and left out — with the numbers.
+
+**Read more:** the story — the app's `#story` page, the decisions and models with their numbers
+([text](src/lib/storyContent.en.ts)) · [How Smart Assist works](docs/SMART-ASSIST.md) ·
+[How the models work](docs/MODELS.md) · [Training pipeline](training/README.md) · [Roadmap](ROADMAP.md)
 
 ## Features
 
@@ -31,7 +44,7 @@ Everything runs in the browser — files never leave your machine.
   | Outline section types | heading rule | heading rule, then the section model |
 
   Models for structure hints and paste types were trained too and didn't beat the rules on real text
-  (`docs/MODELS.md` §8).
+  ([docs/MODELS.md](docs/MODELS.md) §8).
 - **Outline panel** — every section with its type (setup, reference, explanation…) and key sentence;
   a **Document** tab with what the file looks like, reading time, readability, tone signals and things
   worth a look (heading jumps, untagged code, images without alt text…), and a **Suggestions** tab listing every
@@ -48,6 +61,13 @@ Everything runs in the browser — files never leave your machine.
 - **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown;
   the footer shows lines, words, characters and file size
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
+- **Command palette** (`⌘/Ctrl K`) — every action of the current screen and the recent documents, searchable
+- **Two tabs, one document** — an idle tab follows the other's saves; when both changed it, a bar asks which to
+  keep; Recent keeps every tab's documents
+- **Images from the web** load only when you allow it (About → Privacy & storage); until then a placeholder, and
+  never a referrer
+- **The story** (`#story`) — the architecture decisions and the models, in date order, with their numbers; ends
+  with the source and the author
 - **Appearance** — app icon + accent palette (Classic, Mono, Line, Sunset), light/dark theme (a first visit is
   light with Classic; a chosen dark theme shows from the first paint, no flash),
   macOS or Windows keyboard-shortcut labels
@@ -100,11 +120,11 @@ cp .env.example .env   # then edit VITE_SITE_URL, or set it in your host's env v
 
 Stack: React 19 + TypeScript + Vite + Tailwind CSS 4, `react-markdown` + `remark-gfm`, `lucide-react`,
 `refractor` (Prism grammars, lazy) and `mermaid` (docs diagram view, lazy).
-See `AGENTS.md` for architecture and conventions, `docs/SMART-ASSIST.md` for the Smart Assist
-technical documentation (heuristics, Marksage's own models, evaluation), `docs/MODELS.md` for the models
-from zero (model cards, version history), [`training/`](training/README.md) for the model pipeline,
-`ROADMAP.md` for what's next, and `SMART-ASSIST — Implementation Context.md` for the design notes and
-timeline.
+See [AGENTS.md](AGENTS.md) for architecture and conventions, [docs/SMART-ASSIST.md](docs/SMART-ASSIST.md) for the
+Smart Assist technical documentation (heuristics, Marksage's own models, evaluation),
+[docs/MODELS.md](docs/MODELS.md) for the models from zero (model cards, version history),
+[training/](training/README.md) for the model pipeline, [ROADMAP.md](ROADMAP.md) for what's next, and
+[the Implementation Context](<SMART-ASSIST — Implementation Context.md>) for the design notes and timeline.
 
 ## Versioning
 
