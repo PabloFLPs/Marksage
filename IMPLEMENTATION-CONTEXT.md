@@ -1083,4 +1083,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   mode, file checks and names, preview pieces (fences, reference definitions, footnotes), structure hints (MediaWiki
   levels, near-misses, code that only looks like one), version bumps, shortcut labels. `tsconfig.test.json` type-checks
   them with `tsc -b`; CI runs them after lint.
+- **Recent's search lost focus when reopened quickly** (found by the new E2E suite): the menu stays mounted for its
+  140 ms exit animation, so reopening it then didn't remount the search box, whose `autoFocus` effect never ran
+  again — the next keys went nowhere (and a digit could open a document). `HistorySearch` takes a `focusKey` that
+  changes on every opening.
 

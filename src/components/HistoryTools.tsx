@@ -3,12 +3,12 @@ import { Search, X } from 'lucide-react'
 import { useI18n } from '../hooks/useI18n'
 
 /** Search field for Recent documents (filters by title, file name and content). */
-export function HistorySearch({ value, onChange, autoFocus = false }: { value: string; onChange: (v: string) => void; autoFocus?: boolean }) {
+export function HistorySearch({ value, onChange, autoFocus = false, focusKey = 0 }: { value: string; onChange: (v: string) => void; autoFocus?: boolean; /** Changes on every menu opening: focus again (reopened during its exit animation, it isn't remounted). */ focusKey?: number }) {
   const { t } = useI18n()
   const ref = useRef<HTMLInputElement>(null)
   useEffect(() => {
     if (autoFocus) ref.current?.focus({ preventScroll: true })
-  }, [autoFocus])
+  }, [autoFocus, focusKey])
   return (
     <div className="relative">
       <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-muted dark:text-dark-ink-muted" />

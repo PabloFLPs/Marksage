@@ -47,9 +47,11 @@ export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, com
     return () => window.removeEventListener('keydown', onKey)
   }, [open, onOpen])
 
-  // A fresh search every time the menu opens.
+  // A fresh search every time the menu opens — focused, even when reopened during the closing animation.
+  const [opened, setOpened] = useState(0)
   useEffect(() => {
     if (!open) setQuery('')
+    else setOpened((n) => n + 1)
   }, [open])
 
   useEffect(() => {
@@ -115,7 +117,7 @@ export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, com
           </div>
           {entries.length > 0 && (
             <div className="px-1 pb-1.5">
-              <HistorySearch value={query} onChange={setQuery} autoFocus={open && !compact} />
+              <HistorySearch value={query} onChange={setQuery} autoFocus={open && !compact} focusKey={opened} />
             </div>
           )}
           {entries.length === 0 ? (
