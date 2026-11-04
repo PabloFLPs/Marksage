@@ -13,7 +13,8 @@
     "test:e2e": "npm run build && playwright test",
     "eval:assist": "node --experimental-strip-types scripts/eval-assist.ts",
     "version:next": "node --experimental-strip-types scripts/version.ts --next",
-    "version:check": "node --experimental-strip-types scripts/version.ts --check"
+    "version:check": "node --experimental-strip-types scripts/version.ts --check",
+    "size": "node --experimental-strip-types scripts/size.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

@@ -1113,3 +1113,10 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   command palette, in light and dark (14 tests). It waits for entrance animations to end first (mid-fade text
   measures lower than it ends up), but not for looping or scroll-driven ones. The first run failed 11 of 14; the
   fixes are the commit before this one.
+- **Performance budgets** — test item 5. `npm run size` (`scripts/size.ts`, CI `check` job): what the first visit
+  downloads before the app paints (the entry, its preloads and the CSS that `dist/index.html` names), gzip level
+  9 — 180.9 KB JS / 12.5 KB CSS today, budgets 190 / 16. `tests/e2e/perf.spec.ts` (CI `e2e` job, Chromium):
+  the 400-section, 251 KB document, 13 keys at its end and 15 at its start, each key timed by the browser (Event
+  Timing: press → next painted frame) — median 72–88 ms, slowest 176–304 ms on 2 vCPUs in Rules mode; budgets
+  150 / 500 ms (a key cost 378–587 ms before the long-document fixes). The text goes in as one input event, as a
+  paste would: Playwright's `fill()` took 78 s on it (the app takes ~1.3 s).

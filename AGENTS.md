@@ -175,6 +175,9 @@ wait on state (`expect`, `expect.poll`), never on time. `CROSS_BROWSER=1` adds W
 them in `e2e-cross-browser`, non-blocking until it has been green once (then remove its `continue-on-error`).
 `tests/e2e/a11y.spec.ts` runs axe (WCAG 2.1 A + AA) on every screen in light and dark: a new screen, panel or dialog
 gets a scan there; fix what it finds rather than disabling rules (accent text on an accent tint: `text-accent-strong`).
+Budgets: `npm run size` (after a build — first-load JS ≤ 190 KB gzip, CSS ≤ 16 KB; `scripts/size.ts`) and
+`tests/e2e/perf.spec.ts` (typing on a 400-section, 250 KB document: median ≤ 150 ms per key, slowest ≤ 500 ms).
+Raise one only in the commit that needs it, saying why; a new dependency in the first load should be lazy instead.
 GitHub runs the same on every push and pull request (`.github/workflows/ci.yml`: type-check, lint, build, eval, version
 check) and fails if the eval's "✗" count leaves `EVAL_BASELINE` — update it in the commit that changes the count.
 

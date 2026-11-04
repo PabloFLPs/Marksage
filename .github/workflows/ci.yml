@@ -30,6 +30,8 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+      - name: Bundle-size budget (first-load JS / CSS)
+        run: npm run size
       - name: Smart Assist evaluation
         run: |
           npm run eval:assist | tee eval.log
