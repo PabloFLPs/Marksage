@@ -12,7 +12,13 @@ export async function newDocument(page: Page, text: string) {
   const startWriting = page.getByRole('button', { name: 'Start writing' })
   if (await startWriting.isVisible()) await startWriting.click()
   else await page.locator('header button', { hasText: /^New$/ }).click()
-  await page.locator('textarea').fill(text)
+  const editor = page.locator('textarea')
+  await editor.fill(text)
+  // fill() sends several input events for one insert (a real paste sends one); about one run in ten React put the
+  // value back once more in between and the caret landed inside the text. The caret goes to the end, as after typing.
+  await expect
+    .poll(() => editor.evaluate((ta: HTMLTextAreaElement) => (ta.setSelectionRange(ta.value.length, ta.value.length), ta.selectionStart === ta.value.length)))
+    .toBe(true)
 }
 
 /** Runs a command palette entry, found by typing `query`. */

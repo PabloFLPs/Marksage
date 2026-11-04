@@ -1120,3 +1120,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   Timing: press → next painted frame) — median 72–88 ms, slowest 176–304 ms on 2 vCPUs in Rules mode; budgets
   150 / 500 ms (a key cost 378–587 ms before the long-document fixes). The text goes in as one input event, as a
   paste would: Playwright's `fill()` took 78 s on it (the app takes ~1.3 s).
+- **A flaky E2E test, explained** — the Export test failed about 1 run in 10 (3 / 30, the same before and after the
+  App.tsx split): the next keystroke landed before "text", not after it. Playwright's `fill()` sends four input
+  events for one insert (a real paste sends one), and now and then React put the value back once more between them,
+  which left the caret inside the text. `newDocument()` in `tests/e2e/helpers.ts` now puts the caret at the end, as
+  after typing: 40 / 40.
