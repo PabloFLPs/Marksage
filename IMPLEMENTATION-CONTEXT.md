@@ -1175,3 +1175,6 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   2 s on slow 3G. A returning visitor now opens Marksage from the cache: 2.1 s on slow 3G (start screen or a stored
   document), the HTML's one round trip. `index.html` and `/models/*.bin` (not hashed) keep the default, so a
   deploy is picked up on the next visit.
+- **Start-screen logo: no box behind the corners** (Pablo) — its shadow was a `box-shadow` on a box rounded like
+  Classic (rx 6/32 → 11 px); Mono, Line and Sunset are rounder (rx 8, 7, 9), so the box's corners showed behind
+  them. Now `drop-shadow`, which follows each icon's own shape. Checked: the four icons, light and dark.

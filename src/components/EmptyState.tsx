@@ -45,7 +45,8 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, on
     <main className="anim-rise scroll-area flex min-h-0 flex-1 flex-col items-center justify-center-safe gap-8 overflow-y-auto p-6">
       {/* What Marksage is, for someone landing here cold (a shared link): the line, the tour, the story. */}
       <section className="flex w-full max-w-md flex-col items-center text-center">
-        <img src={logoSrc} alt="" aria-hidden width={56} height={56} className="anim-pop mb-4 h-14 w-14 rounded-[11px] shadow-sm" />
+        {/* drop-shadow, not box-shadow: it follows each icon's own corners (Classic's are tighter than the others'). */}
+        <img src={logoSrc} alt="" aria-hidden width={56} height={56} className="anim-pop mb-4 h-14 w-14 drop-shadow-sm" />
         <h1 className="text-balance text-xl font-semibold tracking-tight text-ink dark:text-dark-ink">{t('empty.tagline')}</h1>
         <p className="mt-2 text-pretty text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">{t('empty.pitch')}</p>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-1">
