@@ -8,7 +8,7 @@ app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: A
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.40.0** · 2026-11-03 · `(this commit)` · feat(docbar): one icon per Outline tab, a second click closes, no duplicate Outline button at the top
+- **3.40.0** · 2026-11-03 · `8763a0f` · feat(docbar): one icon per Outline tab, a second click closes, no duplicate Outline button at the top
 - **3.39.0** · 2026-11-03 · `6c422f0` · feat(history): 1–9 open a document from the Recent menu
 - **3.38.7** · 2026-11-01 · `2a260d5` · fix(build): the missing-URL warning says what is actually at risk
 - **3.38.6** · 2026-11-01 · `57fdf59` · perf(docs): diagrams regenerated from the script, without embedded provenance blocks

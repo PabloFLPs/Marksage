@@ -6,7 +6,7 @@ as you write — rules plus two small models trained for it, running in your bro
 **Try it: [marksage.vercel.app](https://marksage.vercel.app)** — *Try it on a sample document* on the start screen
 is a one-minute tour of Smart Assist.
 
-![Marksage suggesting a language for a code block](public/og-image.png)
+![Marksage suggesting a language for a code block](https://marksage.vercel.app/og-image.png)
 
 - **Local-first.** No backend, no accounts, no analytics: documents and settings stay in your browser, each one
   listed in About → Privacy & storage and removable with one click.

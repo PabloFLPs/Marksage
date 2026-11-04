@@ -1027,4 +1027,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   follows the preview pane's own scrolling) and comes back once it's scrolled past. Checked: split view and preview,
   top / scrolled / back; Outline → open, Outline → closed, Document → open, type → closed, type → Document;
   #models shows two icons; 320 px PT fits.
+- **README image by its live URL** (Pablo, `npm run dev`: "Instead of /public/og-image.png, use /og-image.png"):
+  opened in Marksage, the README's relative `public/og-image.png` was requested from the app's own server — served
+  with that warning in dev, a 404 in production. Now `https://marksage.vercel.app/og-image.png`: GitHub shows it the
+  same, and in Marksage it's an image from the web like any other (placeholder until allowed).
 
