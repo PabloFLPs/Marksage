@@ -1065,4 +1065,6 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   model", as a model decision shows in the app. `public/og-image.png` (dark) ships; `public/og-image-light.png` is
   the switch-ready variant.
 - **og:description says "EN-US · PT-BR"**, the pattern the refreshed preview image uses (Pablo).
+- **The logo on the start screen** (Pablo): the app icon the user picked (About → Appearance; Classic by default)
+  above the tagline, 56 px, the same image as the header and the tab, so it follows the icon and the theme.
 

@@ -994,6 +994,7 @@ export default function App() {
           onPrivacy={openPrivacy}
           onTrySample={handleTrySmartAssist}
           onStory={openStory}
+          logoSrc={appIconUrl(appIcon, theme)}
           history={recent}
           onOpenHistory={handleOpenHistory}
           onRemoveHistory={removeFromHistory}

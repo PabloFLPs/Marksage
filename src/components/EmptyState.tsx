@@ -17,13 +17,15 @@ interface EmptyStateProps {
   /** The sample document (Smart Assist tour) — the same one as About's "Try it on a sample document". */
   onTrySample: () => void
   onStory: () => void
+  /** The app icon the user picked (About → Appearance), the same one as the header and the tab. */
+  logoSrc: string
   history: HistoryEntry[]
   onOpenHistory: (entry: HistoryEntry) => void
   onRemoveHistory: (id: string) => void
   onClearHistory: () => void
 }
 
-export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, onPrivacy, onTrySample, onStory, history, onOpenHistory, onRemoveHistory, onClearHistory }: EmptyStateProps) {
+export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, onPrivacy, onTrySample, onStory, logoSrc, history, onOpenHistory, onRemoveHistory, onClearHistory }: EmptyStateProps) {
   const { t } = useI18n()
   const [hint, setHint] = useState<string | null>(null)
   const [query, setQuery] = useState('')
@@ -43,6 +45,7 @@ export function EmptyState({ isDragging, onOpenFile, onPaste, onNew, isTouch, on
     <main className="anim-rise scroll-area flex min-h-0 flex-1 flex-col items-center justify-center-safe gap-8 overflow-y-auto p-6">
       {/* What Marksage is, for someone landing here cold (a shared link): the line, the tour, the story. */}
       <section className="flex w-full max-w-md flex-col items-center text-center">
+        <img src={logoSrc} alt="" aria-hidden width={56} height={56} className="anim-pop mb-4 h-14 w-14 rounded-[11px] shadow-sm" />
         <h1 className="text-balance text-xl font-semibold tracking-tight text-ink dark:text-dark-ink">{t('empty.tagline')}</h1>
         <p className="mt-2 text-pretty text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">{t('empty.pitch')}</p>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-1">
