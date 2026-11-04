@@ -112,6 +112,7 @@ npm install
 npm run dev          # dev server
 npm test             # unit tests (Vitest, tests/unit)
 npm run test:e2e     # end-to-end tests (Playwright, tests/e2e) — once before: npx playwright install chromium
+                     # CROSS_BROWSER=1 adds WebKit (desktop + iPhone) and Firefox (install them: webkit firefox)
 npm run build        # type-check + production build
 npm run lint         # oxlint
 npm run eval:assist  # Smart Assist fixture evaluation (Node ≥ 22.6)

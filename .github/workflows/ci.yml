@@ -66,3 +66,33 @@ jobs:
           name: playwright-traces
           path: test-results
           retention-days: 7
+
+  e2e-cross-browser:
+    # The same suite in WebKit (Safari's engine: desktop and iPhone) and Firefox. Non-blocking until it has been
+    # green on GitHub once (it can't run where it was written) — then drop continue-on-error.
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Browsers
+        run: npx playwright install --with-deps webkit firefox
+      - name: Build
+        run: npm run build
+      - name: End-to-end tests (WebKit, Firefox)
+        run: npx playwright test --project=webkit --project=firefox --project=iphone
+        env:
+          CROSS_BROWSER: '1'
+      - name: Traces of failed tests
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces-cross-browser
+          path: test-results
+          retention-days: 7

@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test'
 
 // End-to-end tests: the real app, production build, in a browser. `npm run test:e2e` builds, serves and runs them.
-// Projects: desktop and phone Chromium (CI also adds WebKit and Firefox — tests/e2e/README in AGENTS).
+// Projects: desktop and phone Chromium; CROSS_BROWSER=1 adds WebKit (Safari's engine, desktop and iPhone) and Firefox —
+// CI runs those in their own job (`npx playwright install webkit firefox` first, locally).
 export default defineConfig({
   testDir: 'tests/e2e',
   fullyParallel: true,
@@ -16,6 +17,13 @@ export default defineConfig({
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } }, testIgnore: /phone\.spec/ },
     { name: 'phone', use: { ...devices['Pixel 7'] }, testMatch: /phone\.spec/ },
+    ...(process.env.CROSS_BROWSER
+      ? [
+          { name: 'webkit', use: { ...devices['Desktop Safari'], viewport: { width: 1440, height: 900 } }, testIgnore: /phone\.spec/ },
+          { name: 'firefox', use: { ...devices['Desktop Firefox'], viewport: { width: 1440, height: 900 } }, testIgnore: /phone\.spec/ },
+          { name: 'iphone', use: { ...devices['iPhone 14'] }, testMatch: /phone\.spec/ },
+        ]
+      : []),
   ],
   webServer: {
     command: 'npx vite preview --port 4173 --strictPort --host 127.0.0.1',

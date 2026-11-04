@@ -1095,4 +1095,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   document bar's icons and the header Outline; first-visit light / dark before the app; docs navigation; no
   overflow at 320 / 390 px on every page; the phone menu. Three green runs in a row here. CI: an `e2e` job (installs
   Chromium, uploads traces on failure).
+- **WebKit and Firefox** — test item 3: `CROSS_BROWSER=1` adds three Playwright projects (WebKit desktop = Safari's
+  engine, iPhone 14 for the phone tests, Firefox): 51 tests in all. CI runs them in `e2e-cross-browser`. They could
+  not run where they were written (only Chromium is installed there), so that job is non-blocking
+  (`continue-on-error`) until its first green run on GitHub; then it should block like the others.
 
