@@ -1064,4 +1064,5 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   (accent) · "Live split editor" · "EN-US · PT-BR", and the suggestion carries ✦ with "TypeScript · 95% · local
   model", as a model decision shows in the app. `public/og-image.png` (dark) ships; `public/og-image-light.png` is
   the switch-ready variant.
+- **og:description says "EN-US · PT-BR"**, the pattern the refreshed preview image uses (Pablo).
 
