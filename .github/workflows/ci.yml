@@ -40,3 +40,29 @@ jobs:
           [ "$count" -eq "$EVAL_BASELINE" ] || { echo "::error::Eval changed: $count ✗, baseline $EVAL_BASELINE"; exit 1; }
       - name: Version matches the history
         run: npm run version:check
+
+  e2e:
+    # The real app in a browser (tests/e2e): the production build, desktop and phone Chromium.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Browsers
+        run: npx playwright install --with-deps chromium
+      - name: Build
+        run: npm run build
+      - name: End-to-end tests
+        run: npx playwright test
+      - name: Traces of failed tests
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: test-results
+          retention-days: 7

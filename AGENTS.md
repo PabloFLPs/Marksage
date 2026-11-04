@@ -168,8 +168,10 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   the model, and run `fingerprint.ts --check` on a rebuild before training on it.
 
 ## Verify before committing
-`npx tsc -b` · `npm run lint` · `npm test` (unit, `tests/unit`) · `npm run eval:assist` · manually check light/dark, desktop/mobile, and
-reduced motion.
+`npx tsc -b` · `npm run lint` · `npm test` (unit, `tests/unit`) · `npm run test:e2e` (Playwright, `tests/e2e`: the production build
+in desktop + phone Chromium) · `npm run eval:assist` · manually check light/dark, desktop/mobile, and reduced motion.
+A user-facing flow that changes needs its E2E test changed or added (`tests/e2e/helpers.ts`: openSample, palette, focused…);
+wait on state (`expect`, `expect.poll`), never on time.
 GitHub runs the same on every push and pull request (`.github/workflows/ci.yml`: type-check, lint, build, eval, version
 check) and fails if the eval's "✗" count leaves `EVAL_BASELINE` — update it in the commit that changes the count.
 

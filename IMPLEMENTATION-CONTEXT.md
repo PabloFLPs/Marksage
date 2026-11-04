@@ -1087,4 +1087,12 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   140 ms exit animation, so reopening it then didn't remount the search box, whose `autoFocus` effect never ran
   again — the next keys went nowhere (and a digit could open a document). `HistorySearch` takes a `focusKey` that
   changes on every opening.
+- **End-to-end tests (Playwright)** — test item 2: `npm run test:e2e` builds, serves the production build and runs
+  18 tests (`tests/e2e`) in desktop and phone Chromium, the flows this review drove by hand: the start screen and
+  story link; the sample's suggestions, Tab, undo; the Suggestions tab; two tabs keeping both documents; Export's
+  name selection and download; focus back to the editor; Recent 1–9 (it found the reopen-focus bug above); Close
+  document; the sample's language; Delete all; the palette (incl. never skipping the Rules + AI notice); the
+  document bar's icons and the header Outline; first-visit light / dark before the app; docs navigation; no
+  overflow at 320 / 390 px on every page; the phone menu. Three green runs in a row here. CI: an `e2e` job (installs
+  Chromium, uploads traces on failure).
 
