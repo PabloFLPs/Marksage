@@ -1139,3 +1139,5 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **Line palette, darker** (Pablo: do it) — light accent teal-700 `#0f766e` (5.47 : 1 on white, was 3.74), hover
   teal-800 `#115e59`; dark unchanged. Its app icon keeps teal-600 (a graphic: 3 : 1 is the bar, 3.74 passes). The
   axe spec now scans the sample + Outline and About with Mono, Line and Sunset too, light and dark: 26 tests.
+- **Palette names in English in both languages** (Pablo: "they don't translate well") — Classic, Mono, Line,
+  Sunset in Portuguese too (were Clássico, Linha, Pôr do sol); they're names, like the app's.
