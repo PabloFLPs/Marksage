@@ -8,6 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
+- **3.41.0** · 2026-11-03 · `(this commit)` · feat(meta): a refreshed link preview that says what's special, with a light variant kept ready
 - **3.40.1** · 2026-11-03 · `2388a2b` · fix(theme): the browser bar matches the page's theme
 - **3.40.0** · 2026-11-03 · `8763a0f` · feat(docbar): one icon per Outline tab, a second click closes, no duplicate Outline button at the top
 - **3.39.0** · 2026-11-03 · `6c422f0` · feat(history): 1–9 open a document from the Recent menu

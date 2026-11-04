@@ -119,8 +119,10 @@ dependencies; the model cards are in `docs/MODELS.md` §7).
 
 ### Link previews
 
-Shared links show a preview card (`public/og-image.png`, 1200×630) on WhatsApp, Slack, Discord, X, etc.
-These services need absolute URLs, so set your deployed URL before building:
+Shared links show a preview card (`public/og-image.png`, 1200×630) on WhatsApp, Slack, Discord, X, etc. It's
+rendered from [`scripts/og-image.html`](scripts/og-image.html) (the commands are at its top); a light variant,
+`public/og-image-light.png`, is kept ready — point the `og:image` / `twitter:image` tags at it to switch.
+The Open Graph spec asks for absolute URLs, so set your deployed URL before building (automatic on Vercel):
 
 ```bash
 cp .env.example .env   # then edit VITE_SITE_URL, or set it in your host's env vars

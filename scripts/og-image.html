@@ -1,0 +1,134 @@
+<!doctype html>
+<!--
+  The link-preview image (public/og-image.png, 1200 × 630). Dark by default; ?theme=light for the light variant.
+  Render it (any recent Chromium; Inter if installed, else the system sans):
+    npx playwright screenshot --viewport-size "1200, 630" "file://$PWD/scripts/og-image.html" public/og-image.png
+    npx playwright screenshot --viewport-size "1200, 630" "file://$PWD/scripts/og-image.html?theme=light" public/og-image-light.png
+  The dark one ships (index.html's og:image / twitter:image); the light one is kept ready — point those two tags at
+  /og-image-light.png to switch.
+  Keep the words in step with the app: the tagline, what's special (local-first; rules + two small models trained for
+  it), and a suggestion as the app shows it (✦ = the model decided).
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Marksage — link preview</title>
+    <style>
+      :root {
+        --bg: #0d1117;
+        --glow: rgba(56, 139, 253, 0.16);
+        --ink: #e6edf3;
+        --muted: #9ba5b1;
+        --accent: #58a6ff;
+        --chip-line: #30363d;
+        --chip-ink: #c9d1d9;
+        --card: #161b22;
+        --card-line: #30363d;
+        --code: #e6edf3;
+        --code-muted: #6e7681;
+        --bar: #1c2128;
+        --btn: #58a6ff;
+        --btn-ink: #0d1117;
+        --dot: #30363d;
+        --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      }
+      :root[data-theme='light'] {
+        --bg: #ffffff;
+        --glow: rgba(37, 99, 235, 0.1);
+        --ink: #111827;
+        --muted: #4b5563;
+        --accent: #2563eb;
+        --chip-line: #d1d5db;
+        --chip-ink: #374151;
+        --card: #f8fafc;
+        --card-line: #e5e7eb;
+        --code: #1f2937;
+        --code-muted: #9ca3af;
+        --bar: #ffffff;
+        --btn: #2563eb;
+        --btn-ink: #ffffff;
+        --dot: #d1d5db;
+        --shadow: 0 30px 80px rgba(15, 23, 42, 0.12);
+      }
+      * { box-sizing: border-box; margin: 0; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        background:
+          radial-gradient(900px 520px at 88% 8%, var(--glow), transparent 60%),
+          radial-gradient(700px 420px at 0% 100%, var(--glow), transparent 65%),
+          var(--bg);
+        color: var(--ink);
+        font-family: Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 56px;
+        padding: 0 72px 0 80px;
+      }
+      .left { width: 500px; flex: none; }
+      .brand { display: flex; align-items: center; gap: 22px; }
+      .brand svg { width: 88px; height: 88px; flex: none; }
+      .brand h1 { font-size: 80px; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
+      .tagline { margin-top: 30px; font-size: 34px; font-weight: 650; line-height: 1.2; letter-spacing: -0.015em; color: var(--accent); }
+      .pitch { margin-top: 22px; font-size: 21px; line-height: 1.5; color: var(--muted); }
+      .pitch strong { color: var(--ink); font-weight: 600; }
+      .chips { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; }
+      .chip { border: 1px solid var(--chip-line); border-radius: 999px; padding: 7px 16px; font-size: 17px; color: var(--chip-ink); white-space: nowrap; }
+      .chip.key { border-color: var(--accent); color: var(--accent); }
+      .card { width: 492px; flex: none; border: 1px solid var(--card-line); border-radius: 16px; background: var(--card); box-shadow: var(--shadow); overflow: hidden; }
+      .card .top { display: flex; gap: 8px; padding: 16px 18px; border-bottom: 1px solid var(--card-line); }
+      .card .top i { width: 12px; height: 12px; border-radius: 50%; background: var(--dot); }
+      pre { font-family: 'DejaVu Sans Mono', ui-monospace, Menlo, Consolas, monospace; font-size: 19px; line-height: 1.72; color: var(--code); padding: 22px 24px 8px; }
+      pre .h { color: var(--accent); }
+      pre .b { font-weight: 700; }
+      pre .m { color: var(--code-muted); }
+      .bar { margin: 6px 16px 16px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--card-line); border-radius: 12px; background: var(--bar); padding: 13px 14px 13px 16px; }
+      .bar .spark { color: var(--accent); font-size: 18px; }
+      .bar .text { flex: 1; min-width: 0; }
+      .bar .title { font-size: 17px; font-weight: 600; color: var(--ink); }
+      .bar .sub { margin-top: 3px; font-family: 'DejaVu Sans Mono', ui-monospace, monospace; font-size: 13px; color: var(--muted); }
+      .bar .btn { background: var(--btn); color: var(--btn-ink); border-radius: 7px; padding: 7px 12px; font-size: 15px; font-weight: 600; white-space: nowrap; }
+    </style>
+    <script>
+      if (new URLSearchParams(location.search).get('theme') === 'light') document.documentElement.dataset.theme = 'light'
+    </script>
+  </head>
+  <body>
+    <div class="left">
+      <div class="brand">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#2563eb" /><path d="M9 22V10l7 7 7-7v12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        <h1>Marksage</h1>
+      </div>
+      <p class="tagline">The Markdown editor<br />that notices.</p>
+      <p class="pitch">
+        Local-first: files never leave your browser.<br />
+        <strong>Rules + two small models</strong> trained for it<br />
+        suggest fixes on your device — you decide.
+      </p>
+      <div class="chips">
+        <span class="chip key">Its own models</span>
+        <span class="chip">Live split editor</span>
+        <span class="chip">EN-US · PT-BR</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><i></i><i></i><i></i></div>
+      <pre><span class="h"># Release notes</span>
+
+<span class="b">**Installation**</span>
+
+<span class="m">```</span>
+interface User {
+  id: string
+}
+<span class="m">```</span></pre>
+      <div class="bar">
+        <span class="spark">✦</span>
+        <div class="text">
+          <div class="title">Add language “ts” to code block</div>
+          <div class="sub">TypeScript · 95% · local model</div>
+        </div>
+        <span class="btn">Accept · Tab</span>
+      </div>
+    </div>
+  </body>
+</html>

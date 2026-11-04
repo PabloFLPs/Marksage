@@ -1054,4 +1054,14 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   1,214 the eval step fails as it should.
 - **ROADMAP §4** keeps the four follow-ups Pablo set aside — the section model in Portuguese, Tab to indent lists,
   raw HTML in the preview, the faster first load (now with About's per-language chunk folded in); the rest is done.
+- **The README image warning, explained** (Pablo still saw "Instead of /public/og-image.png" in dev): opening
+  today's README.md requests no `og-image` at all; the README from before the fix requests `/public/og-image.png`
+  and prints exactly that warning — the copy Marksage keeps of a document opened earlier (open document / Recent)
+  is the old text. The fix stands; re-opening the file from disk ends the warnings.
+- **A refreshed link preview, dark and light** (Pablo picked dark to ship, keeps light ready): rendered from
+  `scripts/og-image.html` (template, `?theme=light`, commands in its header). Same layout as before; the pitch now
+  says "Rules + two small models trained for it suggest fixes on your device — you decide", chips "Its own models"
+  (accent) · "Live split editor" · "EN-US · PT-BR", and the suggestion carries ✦ with "TypeScript · 95% · local
+  model", as a model decision shows in the app. `public/og-image.png` (dark) ships; `public/og-image-light.png` is
+  the switch-ready variant.
 
