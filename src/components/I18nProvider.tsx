@@ -1,14 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import { loadLang, saveLang, translate, type Lang, type MessageKey, type Vars } from '../lib/i18n'
-
-interface I18n {
-  lang: Lang
-  setLang: (lang: Lang) => void
-  t: (key: MessageKey | (string & {}), vars?: Vars) => string
-}
-
-const I18nContext = createContext<I18n>({ lang: 'en', setLang: () => {}, t: (k, v) => translate('en', k, v) })
+import { loadLang, saveLang, translate, type Lang, type Vars } from '../lib/i18n'
+import { I18nContext } from '../hooks/useI18n'
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(loadLang)
@@ -23,5 +16,3 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const value = useMemo(() => ({ lang, setLang, t }), [lang, setLang, t])
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
 }
-
-export const useI18n = () => useContext(I18nContext)

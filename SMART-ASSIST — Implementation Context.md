@@ -1035,4 +1035,6 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   bar stayed near-black over the light theme a first visit gets. Now `#ffffff` in `index.html`, `#0d1117` from the
   pre-paint script when dark is stored, and `useTheme` updates it on every switch. Checked: first visit with the OS
   dark → white; toggle → dark; reload with the app held back → dark before it runs.
+- **Lint: 0 warnings** — `hooks/useI18n.ts` keeps the context and the hook, `components/I18nProvider.tsx` the
+  provider (a file exporting a component next to a hook breaks Fast Refresh, the last oxlint warning).
 
