@@ -1154,3 +1154,18 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **The lockfile's version** — `version:next` wrote `package.json` and `CHANGELOG.md` but not the two version
   fields in `package-lock.json`, so the first `npm install` after a version change left the tree dirty (it stopped
   a `git am` on Pablo's Mac). It writes them now, and `version:check` checks them.
+- **First load: the document view as its own chunk** (Pablo picked it over lazy menus, Preact or nothing; measured
+  with Brotli as Vercel serves it, Chromium on emulated slow 3G — 2 s latency, 50 KB/s). `components/DocumentView`
+  holds what only an open document needs (preview + Markdown pipeline, editor, Smart Assist, Outline, doc bar);
+  App keeps the shell. Start screen: 584 → 332 KB raw, 181.6 → 96.8 KB gzip, **150 → 83 KB Brotli; usable in 6.4 s
+  instead of 7.4**. Three things the first try got wrong, found by timing it: (1) a stored document waited for
+  the main script before asking for its view — `index.html` now asks for it at once (`marksage-document-preload`
+  in vite.config.ts), placed *before* the stylesheet (after it, the inline script waited for the CSS: +2.5 s) and
+  with `crossorigin` like the module script; (2) About's idle prefetch shared the bandwidth with that download —
+  it now waits for the document view; (3) React holds a Suspense reveal back ~300 ms — with a stored document
+  main.tsx renders once the view is here and uses it directly (`lib/documentView.ts`). Result for a stored
+  document: 7.9 s with an empty cache (7.4 before: +8 KB from the split), 2.1 s from the cache — the same as
+  before (with the caching of the next commit). The view stays mounted
+  on About (renders nothing), so dismissed suggestions and a loaded model survive a visit there. Budget lowered:
+  110 KB gzip. E2E: only a stored document makes index.html ask for the view (main script blocked to tell them
+  apart).

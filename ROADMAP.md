@@ -93,14 +93,10 @@ Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Cont
 - **Raw HTML in the preview:** `<details>`, `<kbd>`, `<img>` and the like show as escaped text, on purpose (no
   script can run). Either one line in About saying so, or render a safe subset (`rehype-raw` + `rehype-sanitize`).
 
-- **Faster first load on slow networks** (launch QA #35, 2026-10-30; grade item 4 of the 2026-11-03 review): on slow
-  3G (2 s latency, 50 KB/s) the start screen took ~8 s — one 590 KB script (~180 KB gzip) holding React, the
-  Markdown pipeline, the editor and Smart Assist, which the start screen doesn't need. `npm run size` now guards it
-  (181.6 KB gzip, budget 190); a split like the one below would let the budget drop to what the start screen needs. Try loading the editor + preview + Smart Assist as their own chunk
-  (prefetched once the start screen is up), keep `index.html`'s boot screen meaningful, and check the host serves
-  Brotli. Measure first-usable time and the cost for returning visitors (a stored document opens straight into the
-  editor) before and after. Done so far: About loads on demand (−11 KB gzip, 2026-11-01). Smaller: one language per
-  About chunk (its copy is inline EN + PT).
+- **First load, what's left** (done 2026-11-04: the document view is its own chunk — start screen 150 → 83 KB
+  Brotli, 7.4 → 6.4 s on slow 3G): a returning visitor whose
+  cache is empty (just after a deploy) waits ~0.5 s more than before (7.9 s), for the 8 KB the split costs. Smaller
+  still: one language per About chunk (its copy is inline EN + PT); react-dom is half of what's left.
 - **Tested in real browsers, not only engines** (grade item 3): the E2E suite runs in Chromium everywhere; WebKit
   (desktop + iPhone 14) and Firefox only in CI's `e2e-cross-browser` job, non-blocking until its first green run —
   then make it blocking (AGENTS). Engines in Playwright aren't Safari on an iPhone: before the LinkedIn post, one
@@ -183,8 +179,8 @@ each from going higher, most weight first, and what would move it:
    pass by hand (VoiceOver on macOS / iOS, NVDA) yet.
 
 **Overall (8.5)**
-1. **The first load** (§4): one 584 KB script (150 KB Brotli) that holds the editor, the Markdown pipeline and
-   Smart Assist, which the start screen doesn't use — ~8 s to the start screen on slow 3G. Options are with Pablo.
+1. **The first load** — done the same day (§4): the start screen downloads 83 KB Brotli instead of 150 (6.4 s on
+   slow 3G instead of 7.4; 2.1 s for a returning visitor, from the cache). What's left is small (§4).
 2. **The models' gains are modest** (§4): about twice the right code-language suggestions at the rules' precision;
    the section model adds little in Portuguese and on "performance" / "guide" sections; three trained models
    weren't shipped. Honest and documented, but not yet a reason on its own to pick Marksage.
@@ -195,6 +191,6 @@ each from going higher, most weight first, and what would move it:
 5. **Real-user feedback hasn't started** (§3, dogfooding): with no analytics by design, the feedback loop is
    people telling you — the LinkedIn post is the first real round.
 
-What would move them: items 1–2 of the tests list bring tests to about 9; the first-load split plus one
-editor-basics item (syntax colouring or saving in place) bring the overall to about 9. Real users' feedback is
+What would move them: items 1–2 of the tests list bring tests to about 9; with the first load done, one
+editor-basics item (syntax colouring or saving in place) brings the overall to about 9. Real users' feedback is
 what decides the rest.

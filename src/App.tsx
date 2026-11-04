@@ -1,53 +1,35 @@
 import { lazy, Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
-import { AlertCircle, Eye, Gauge, ImageOff, Lock, X } from 'lucide-react'
+import { AlertCircle, X } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
-import { MarkdownPreview } from './components/MarkdownPreview'
-import { countRemoteImages } from './lib/remoteImages'
-import { MarkdownEditor } from './components/MarkdownEditor'
-import { SplitPanes } from './components/SplitPanes'
 import { useMarkdownFile } from './hooks/useMarkdownFile'
 import { useTheme } from './hooks/useTheme'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import {
-  LARGE_DOC_CHARS,
   copyTextToClipboard,
   downloadMarkdown,
   openFilePicker,
   suggestFilename,
 } from './lib/file'
 import { deleteAllLocalData, loadAssistMode, loadRemoteImages, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveRemoteImages, saveSplitRatio } from './lib/storage'
-import { deleteDownloadedModel } from './assist/modelEngine'
 import { SAMPLE_DOCUMENT, SAMPLE_DOCUMENT_PT_BR, getSampleDocument, getSampleFilename } from './lib/sampleDocument'
 import { useI18n } from './hooks/useI18n'
 import { CommandPalette } from './components/CommandPalette'
-import { useKeyStyle } from './hooks/useKeyStyle'
-import { shortcut } from './lib/keyStyle'
 import { Presence } from './components/motion'
-import { SuggestionBar } from './components/SuggestionBar'
 import { useAppIcon } from './hooks/useAppIcon'
 import { appIconUrl } from './lib/appIcons'
-import { useScrollSync } from './hooks/useScrollSync'
-import { useSmartAssist } from './assist/useSmartAssist'
-import { useOutline } from './assist/useOutline'
-import { elementForLine, useOutlineNav } from './hooks/useOutlineNav'
-import { ScrollJump } from './components/ScrollJump'
-import { editorLineTops } from './lib/scrollSync'
-import { OutlinePanel, type PanelTab } from './components/OutlinePanel'
-import { DocBar } from './components/DocBar'
-import { useDocKind } from './hooks/useDocKind'
-import type { AssistMode, Suggestion } from './assist/types'
+import type { EngineStatus } from './assist/useSmartAssist'
+import type { AssistMode } from './assist/types'
+import { documentViewComponent, loadDocumentView } from './lib/documentView'
 import { PageLoadBoundary, PageLoading } from './components/PageLoad'
 import { countLines, countWords, formatBytes, utf8Bytes } from './lib/docStats'
 import { useInfoPages } from './hooks/useInfoPages'
 import { useViewMode } from './hooks/useViewMode'
 import { useOutlinePanel } from './hooks/useOutlinePanel'
 import { useGlobalInput } from './hooks/useGlobalInput'
-import { useTypeToEdit } from './hooks/useTypeToEdit'
 import { usePaletteCommands } from './hooks/usePaletteCommands'
 
 const DESKTOP_QUERY = '(min-width: 768px)'
-const nullRef = { current: null }
 const COPIED_RESET_MS = 1600
 
 // About loads on demand (pre-launch review: 11 KB gzip off the script every first visit waits for) — fetched while
@@ -55,11 +37,8 @@ const COPIED_RESET_MS = 1600
 const loadAbout = () => import('./components/AboutPage')
 const AboutPage = lazy(() => loadAbout().then((m) => ({ default: m.AboutPage })))
 
-const PANEL_TABS: PanelTab[] = ['outline', 'document', 'suggestions']
-
 export default function App() {
   const { t, lang, setLang } = useI18n()
-  const { keyStyle } = useKeyStyle()
   const {
     document,
     isDirty,
@@ -86,15 +65,27 @@ export default function App() {
   const isTouch = useMediaQuery('(pointer: coarse)')
   const { infoPage, showAbout, aboutClosing, backLabel, openAbout, openPrivacy, openDocs, openModelsDocs, openStory, closeAbout, goHome, TechDocs, Story, retryDocs } = useInfoPages()
   const hasDocument = document !== null
+  // Chosen once: switching from the lazy wrapper to the loaded component later would remount the view.
+  const [DocumentView] = useState(documentViewComponent)
   const readOnly = !!document?.readOnly
-  // About: fetched once the app has painted and the browser is idle (not on Save-Data), so it opens instantly.
+  // After the first paint: the document view at once (Save-Data too: it's what every next click needs), then About
+  // once the browser is idle (not on Save-Data), so it opens instantly. In that order: on a slow connection About's
+  // download used to share the bandwidth with the document a returning visitor was waiting for.
   useEffect(() => {
-    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
-    if (conn?.saveData) return
+    let cancelled = false
+    let id = 0
     const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500))
     const cancel = window.cancelIdleCallback ?? window.clearTimeout
-    const id = idle(() => void loadAbout().catch(() => {}))
-    return () => cancel(id)
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    loadDocumentView()
+      .catch(() => {})
+      .then(() => {
+        if (!cancelled && !conn?.saveData) id = idle(() => void loadAbout().catch(() => {}))
+      })
+    return () => {
+      cancelled = true
+      cancel(id)
+    }
   }, [])
   const { viewMode, setViewMode, editorClosing, changeViewMode } = useViewMode({ readOnly, isDesktop, hasDocument })
   const { outlineOpen, outlineShown, outlineClosing, closeOutline, toggleOutline, panelTab, setPanelTab, openPanelTab, toggleTab } = useOutlinePanel({ isDesktop, available: hasDocument && !showAbout })
@@ -113,64 +104,20 @@ export default function App() {
   const [splitRatio, setSplitRatio] = useState(loadSplitRatio)
   const copiedTimer = useRef<number | null>(null)
   const [assistMode, setAssistMode] = useState<AssistMode>(loadAssistMode)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const previewPaneRef = useRef<HTMLDivElement>(null) // split view: the preview pane (scrolls with the editor)
-  const assist = useSmartAssist({
-    mode: document?.readOnly ? 'off' : assistMode, // a read-only giant isn't scanned
-    text: document?.content ?? '',
-    textareaRef,
-    onChange: updateContent,
-    listAll: outlineOpen, // the Suggestions tab and its count
-  })
+  // Smart Assist runs in the document view; the header's Assist menu shows its state.
+  const [assistStatus, setAssistStatus] = useState<EngineStatus>({ state: 'off' })
+  const assistRetry = useRef<() => void>(() => {})
+  const onAssistStatus = useCallback((status: EngineStatus, retry: () => void) => {
+    setAssistStatus(status)
+    assistRetry.current = retry
+  }, [])
+  const retryAssist = useCallback(() => assistRetry.current(), [])
 
   const { icon: appIcon, setIcon: setAppIcon } = useAppIcon(theme)
   const handleAssistModeChange = useCallback((mode: AssistMode) => {
     setAssistMode(mode)
     saveAssistMode(mode)
   }, [])
-
-  // "Show where" on the suggestion bar: bring its spot into view (the caret stays, so the suggestion does too)
-  // and flash the matching block in the split view's preview.
-  const locateSuggestion = useCallback((s: Suggestion) => {
-    const ta = textareaRef.current
-    if (!ta) return
-    const line = ta.value.slice(0, s.edit.from).split('\n').length - 1
-    const tops = editorLineTops(ta)
-    const y = tops[line] ?? 0
-    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (y < ta.scrollTop || y > ta.scrollTop + ta.clientHeight - 80)
-      ta.scrollTo({ top: Math.max(0, y - ta.clientHeight / 3), behavior: smooth ? 'smooth' : 'auto' })
-    const block = previewPaneRef.current && elementForLine(previewPaneRef.current, line)
-    if (block) {
-      block.classList.remove('suggest-flash')
-      void block.offsetWidth // restart the animation
-      block.classList.add('suggest-flash')
-      window.setTimeout(() => block.classList.remove('suggest-flash'), 2200)
-    }
-  }, [])
-
-  const editor = document && (
-    <MarkdownEditor
-      value={document.content}
-      onChange={updateContent}
-      textareaRef={textareaRef}
-      placeholder={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: shortcut(['mod', 'v'], keyStyle) }) : undefined}
-      {...(assist.enabled ? assist.handlers : {})}
-      overlayActive={assist.enabled && !!assist.suggestion}
-    >
-      <Presence
-        show={assist.enabled && !!assist.suggestion}
-        enter=""
-        exit="anim-slide-down"
-        duration={160}
-        className="pointer-events-none absolute inset-x-3 bottom-3 z-10"
-      >
-        {assist.enabled && assist.suggestion && (
-          <SuggestionBar key={assist.suggestion.key} suggestion={assist.suggestion} onAccept={assist.accept} onDismiss={assist.dismiss} onLocate={locateSuggestion} />
-        )}
-      </Presence>
-    </MarkdownEditor>
-  )
 
   // Opening or creating a document always lands in the app — never behind About / the docs.
   const showResult = useCallback(
@@ -226,6 +173,7 @@ export default function App() {
   )
 
   const handleRemoveModel = useCallback(async () => {
+    const { deleteDownloadedModel } = await import('./assist/modelEngine')
     await deleteDownloadedModel()
     saveModelNoticeSeen(false) // picking it again shows the download notice again
     if (assistMode === 'model') handleAssistModeChange('heuristics')
@@ -323,10 +271,9 @@ export default function App() {
     saveSplitRatio(ratio)
   }, [])
 
-  // The preview follows the text at low priority: keystrokes paint first, the preview catches up when idle
-  // (long documents render in pieces React can pause between — see lib/chunks.ts).
+  // The footer's counts follow the text at low priority, like the preview: on a long document a full count every
+  // keystroke is noticeable.
   const previewContent = useDeferredValue(document?.content ?? '')
-  // Counted on the deferred text too: on a long document a full count every keystroke is noticeable.
   const wordCount = useMemo(() => countWords(previewContent), [previewContent])
   const lineCount = useMemo(() => countLines(previewContent), [previewContent])
   const byteCount = useMemo(() => utf8Bytes(previewContent), [previewContent])
@@ -336,93 +283,7 @@ export default function App() {
     setRemoteImages(on)
     saveRemoteImages(on)
   }, [])
-  const blockedImages = useMemo(() => (remoteImages ? 0 : countRemoteImages(previewContent)), [remoteImages, previewContent])
-  const remoteBar =
-    blockedImages > 0 ? (
-      <div role="note" className="anim-fade mx-auto mt-4 flex w-[calc(100%-2rem)] max-w-[868px] flex-wrap items-center gap-x-2 gap-y-1 rounded-md border border-line bg-surface-soft px-3 py-2 text-xs text-ink-muted sm:w-[calc(100%-3rem)] dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink-muted">
-        <ImageOff aria-hidden className="h-3.5 w-3.5 shrink-0" />
-        <span className="min-w-0 flex-1">{blockedImages === 1 ? t('remote.bar.one') : t('remote.bar.many', { n: blockedImages })}</span>
-        <button type="button" onClick={openPrivacy} className="font-medium text-accent hover:underline dark:text-dark-accent">
-          {t('remote.bar.settings')}
-        </button>
-      </div>
-    ) : null
-  // Big documents: over 5 M characters read-only, from 1 M a note that editing may be slow (dismissible per document).
-  const [slowNoteHidden, setSlowNoteHidden] = useState<string | null>(null)
-  const docChars = document?.content.length ?? 0
-  const sizeLabel = `${(docChars / 1_000_000).toLocaleString(lang, { maximumFractionDigits: 1 })} MB`
-  const sizeName = document?.filename ?? t('doc.untitled')
-  const sizeBar = !document ? null : readOnly ? (
-    <div role="note" className="anim-fade mx-auto mt-4 flex w-[calc(100%-2rem)] max-w-[868px] items-center gap-2 rounded-md border border-line bg-surface-soft px-3 py-2 text-xs text-ink-muted sm:w-[calc(100%-3rem)] dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink-muted">
-      <Lock aria-hidden className="h-3.5 w-3.5 shrink-0" />
-      <span className="min-w-0 flex-1">{t('large.readOnly', { name: sizeName, size: sizeLabel })}</span>
-    </div>
-  ) : docChars > LARGE_DOC_CHARS && slowNoteHidden !== document.id ? (
-    <div role="note" className="anim-fade mx-auto mt-4 flex w-[calc(100%-2rem)] max-w-[868px] items-center gap-2 rounded-md border border-line bg-surface-soft px-3 py-2 text-xs text-ink-muted sm:w-[calc(100%-3rem)] dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink-muted">
-      <Gauge aria-hidden className="h-3.5 w-3.5 shrink-0" />
-      <span className="min-w-0 flex-1">{t('large.slow', { name: sizeName, size: sizeLabel })}</span>
-      <button type="button" onClick={() => setSlowNoteHidden(document.id)} aria-label={t('large.dismiss')} title={t('large.dismiss')} className="-m-1 inline-flex h-7 w-7 items-center justify-center rounded text-ink-muted hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink">
-        <X className="h-3.5 w-3.5" />
-      </button>
-    </div>
-  ) : null
   const editing = hasDocument && viewMode === 'edit'
-  // Split view: preview and editor scroll together (desktop only).
-  useScrollSync(previewPaneRef, textareaRef, editing && isDesktop && !showAbout)
-  const previewScrollRef = useRef<HTMLElement>(null)
-  // Built with the panel closed too — the document bar shows the type the Document tab gives. The section model is
-  // still fetched only once the panel opens.
-  const outline = useOutline(document?.content ?? '', hasDocument && !showAbout, assistMode === 'model', outlineShown)
-  const docKind = useDocKind(outline.text, outline.items, document?.filename ?? null, document?.id ?? '')
-  // The preview on screen: the left pane in split view, the page in preview mode, none in the mobile editor.
-  const visiblePreview = editing ? (isDesktop ? previewPaneRef : nullRef) : previewScrollRef
-  const outlineNav = useOutlineNav(
-    visiblePreview,
-    textareaRef,
-    outline.items.map((i) => i.line),
-    outlineShown,
-    `${editing ? 'edit' : 'preview'}|${isDesktop}|${document?.id ?? ''}`,
-  )
-  // Suggestions tab → the editor: open it if needed, put the caret on the spot, and show that suggestion there.
-  const pickSuggestion = useCallback(
-    (s: Suggestion) => {
-      if (!isDesktop) closeOutline()
-      if (viewMode !== 'edit') changeViewMode('edit')
-      let tries = 0
-      const go = () => {
-        const ta = textareaRef.current
-        if (!ta) {
-          if (++tries < 30) requestAnimationFrame(go)
-          return
-        }
-        const caret = s.edit.from
-        const line = ta.value.slice(0, caret).split('\n').length - 1
-        const top = editorLineTops(ta)[line] ?? 0
-        ta.scrollTo({ top: Math.max(0, top - ta.clientHeight / 3) })
-        ta.focus({ preventScroll: true })
-        ta.setSelectionRange(caret, caret)
-        if (assist.enabled) assist.show(s, caret)
-      }
-      requestAnimationFrame(go)
-    },
-    [isDesktop, closeOutline, viewMode, changeViewMode, assist],
-  )
-
-  useTypeToEdit({ document, viewMode, showAbout, previewRef: previewScrollRef, textareaRef, changeViewMode, updateContent })
-  const suggestionsTab = {
-    items: assist.all,
-    capped: assist.allCapped,
-    enabled: assist.enabled,
-    text: document?.content ?? '',
-    onPick: pickSuggestion,
-  }
-  const selectSection = useCallback(
-    (line: number) => {
-      outlineNav.goTo(line)
-      if (!isDesktop) closeOutline()
-    },
-    [outlineNav, isDesktop, closeOutline],
-  )
   // While the document bar is on screen (the top of the preview), the header's Outline button would repeat its tab
   // icons, so it steps aside; scrolled past the bar, it comes back.
   const [docBarInView, setDocBarInView] = useState(false)
@@ -435,22 +296,6 @@ export default function App() {
     io.observe(el)
     docBarObserver.current = io
   }, [])
-  const docBar = document && (
-    <div ref={watchDocBar}>
-      <DocBar
-        className="pt-5 sm:pt-6"
-        kind={docKind}
-        name={document.filename ?? t('doc.untitled')}
-        copied={copied}
-        onCopy={handleCopy}
-        copyTitle={t('action.copyTitle', { keys: shortcut(['mod', 'shift', 'c'], keyStyle) })}
-        tabs={PANEL_TABS}
-        openTab={openPanelTab}
-        onTab={toggleTab}
-        pending={assist.enabled ? assist.all.length : 0}
-      />
-    </div>
-  )
   const commands = usePaletteCommands({
     hasDocument,
     showAbout,
@@ -517,8 +362,8 @@ export default function App() {
         onToggleTheme={toggleTheme}
         isDesktop={isDesktop}
         assistMode={assistMode}
-        assistStatus={assist.status}
-        onAssistRetry={assist.retry}
+        assistStatus={hasDocument ? assistStatus : { state: 'off' }}
+        onAssistRetry={retryAssist}
         onAssistModeChange={handleAssistModeChange}
         onAbout={openAbout}
         onHome={goHome}
@@ -604,95 +449,44 @@ export default function App() {
           onRemoveHistory={removeFromHistory}
           onClearHistory={clearHistory}
         />
-      ) : (
-        <div className="flex min-h-0 flex-1">
-          {outlineShown && isDesktop && (
-            <OutlinePanel
-              variant="side"
-              items={outline.items}
-              status={outline.status}
-              activeLine={outlineNav.activeLine}
-              onSelect={selectSection}
-              onHover={outlineNav.hover}
-              onClose={closeOutline}
-              closing={outlineClosing}
-              tab={panelTab}
-              onTabChange={setPanelTab}
-              text={outline.text}
-              filename={document.filename}
-              suggestions={suggestionsTab}
-            />
-          )}
-          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-            {editing ? (
-              isDesktop ? (
-                <SplitPanes
-                  closing={editorClosing}
-                  leftRef={previewPaneRef}
-                  animateWidth={document.content.length < 40_000}
-                  ratio={splitRatio}
-                  onRatioChange={handleChangeSplitRatio}
-                  left={
-                    <main>
-                      {docBar}
-                      {sizeBar}
-                      {remoteBar}
-                      <MarkdownPreview content={previewContent} readability={assist.readability} emptyHint={pasteHint ? t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: shortcut(['mod', 'v'], keyStyle) }) : t('preview.empty')} remoteImages={remoteImages} />
-                      <ScrollJump />
-                    </main>
-                  }
-                  right={
-                    <main className="h-full">
-                      {editor}
-                    </main>
-                  }
-                />
-              ) : (
-                <>
-                  <main className={`min-h-0 flex-1 ${editorClosing ? 'anim-slide-out-right' : 'anim-slide-in-right'}`}>
-                    {editor}
-                  </main>
-                  <div className="shrink-0 border-t border-line bg-surface p-3 dark:border-dark-line dark:bg-dark-surface">
-                    <button
-                      type="button"
-                      onClick={() => changeViewMode('preview')}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
-                    >
-                      <Eye className="h-4 w-4" />
-                      {t('action.preview')}
-                    </button>
-                  </div>
-                </>
-              )
-            ) : (
-              <main ref={previewScrollRef} key="preview" className={`scroll-area flex min-h-0 flex-1 flex-col overflow-y-auto ${prevView.current === 'edit' ? '' : 'anim-fade'}`}>
-                {docBar}
-                {sizeBar}
-                {remoteBar}
-                <MarkdownPreview content={previewContent} readability={assist.readability} remoteImages={remoteImages} emptyHint={readOnly ? undefined : t('preview.emptyDoc')} />
-                <ScrollJump />
-              </main>
-            )}
-          </div>
-        </div>
-      )}
+      ) : null}
 
-      {outlineShown && !isDesktop && (
-        <OutlinePanel
-          variant="sheet"
-          items={outline.items}
-          status={outline.status}
-          activeLine={outlineNav.activeLine}
-          onSelect={selectSection}
-          onHover={outlineNav.hover}
-          onClose={closeOutline}
-          closing={outlineClosing}
-          tab={panelTab}
-          onTabChange={setPanelTab}
-          text={outline.text}
-          filename={document?.filename ?? null}
-          suggestions={suggestionsTab}
-        />
+      {/* Mounted while a document is open — on About and the docs pages too, where it renders nothing — so Smart
+          Assist and the Outline keep their state (dismissed suggestions, the loaded model). */}
+      {document && (
+        <PageLoadBoundary onRetry={retryDocs} onBack={handleCloseDocument} backLabel={t('palette.startScreen')}>
+          <Suspense fallback={showAbout ? null : <PageLoading />}>
+            <DocumentView
+              document={document}
+              visible={!showAbout}
+              updateContent={updateContent}
+              viewMode={viewMode}
+              editorClosing={editorClosing}
+              changeViewMode={changeViewMode}
+              isDesktop={isDesktop}
+              isTouch={isTouch}
+              assistMode={assistMode}
+              onAssistStatus={onAssistStatus}
+              outlineOpen={outlineOpen}
+              outlineShown={outlineShown}
+              outlineClosing={outlineClosing}
+              closeOutline={closeOutline}
+              panelTab={panelTab}
+              setPanelTab={setPanelTab}
+              openPanelTab={openPanelTab}
+              toggleTab={toggleTab}
+              splitRatio={splitRatio}
+              onSplitRatio={handleChangeSplitRatio}
+              remoteImages={remoteImages}
+              openPrivacy={openPrivacy}
+              copied={copied}
+              onCopy={handleCopy}
+              pasteHint={pasteHint}
+              skipFade={prevView.current === 'edit'}
+              docBarRef={watchDocBar}
+            />
+          </Suspense>
+        </PageLoadBoundary>
       )}
 
       {document && !showAbout && (

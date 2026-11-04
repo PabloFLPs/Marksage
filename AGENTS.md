@@ -14,6 +14,11 @@ src/
   App.tsx                 composes the screen (about / empty / edit / preview) from the hooks below and holds the
                           document actions (open, new, paste, export, copy, close, the sample); the layout is its JSX
   components/
+    DocumentView.tsx      everything while a document is open (preview, editor, Smart Assist, Outline, doc bar) — its
+                          own chunk, kept out of the start screen's script (`lib/documentView.ts`: prefetched after the
+                          first paint; with a stored document index.html preloads it and main.tsx renders once it's
+                          here). Mounted on About too (renders nothing) so Smart Assist keeps its state. Anything only
+                          a document needs goes here, not in App — `npm run size` (≤ 110 KB gzip) will say so.
     Header.tsx            toolbar; conditional items wrapped in <CollapseX>
     DocName.tsx           the document name in the header — click to rename (lib/file.ts `normalizeFilename`);
                           `RenameSheet` = the phone version, from MoreMenu's "Rename…" (the header has no room for the name)
@@ -182,7 +187,7 @@ them in `e2e-cross-browser`, non-blocking until it has been green once (then rem
 `tests/e2e/a11y.spec.ts` runs axe (WCAG 2.1 A + AA) on every screen in light and dark, and the four accent palettes
 (a new palette gets a line there): a new screen, panel or dialog
 gets a scan there; fix what it finds rather than disabling rules (accent text on an accent tint: `text-accent-strong`).
-Budgets: `npm run size` (after a build — first-load JS ≤ 190 KB gzip, CSS ≤ 16 KB; `scripts/size.ts`) and
+Budgets: `npm run size` (after a build — first-load JS ≤ 110 KB gzip, CSS ≤ 16 KB; `scripts/size.ts`) and
 `tests/e2e/perf.spec.ts` (typing on a 400-section, 250 KB document: median ≤ 150 ms per key, slowest ≤ 500 ms).
 Raise one only in the commit that needs it, saying why; a new dependency in the first load should be lazy instead.
 GitHub runs the same on every push and pull request (`.github/workflows/ci.yml`: type-check, lint, build, eval, version

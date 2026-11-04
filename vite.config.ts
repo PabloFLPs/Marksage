@@ -32,8 +32,8 @@ export default defineConfig(({ mode }) => {
   return {
     build: {
       // Over Vite's 500 kB default: Mermaid's chunks (elk ~1.46 MB), fetched only on a docs diagram's Mermaid
-      // switch, and the main script (~590 kB, ~183 kB gzip), whose size is the first-load item in ROADMAP §4. The
-      // note said nothing new on every build, so it's raised past them.
+      // switch. (The main script is ~330 kB since the document view got its own chunk; `npm run size` guards it.)
+      // The note said nothing new on every build, so it's raised past them.
       chunkSizeWarningLimit: 1500,
     },
     define: {
@@ -45,6 +45,34 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss(),
+      {
+        // The document view is its own chunk (App.tsx, first load). A visitor with a stored document needs it at
+        // once: this inline script asks for it (and its own chunks) in parallel with the main script, instead of
+        // after it has run. With nothing stored, nothing is fetched here — App prefetches it after the first paint.
+        name: 'marksage-document-preload',
+        apply: 'build',
+        transformIndexHtml: {
+          order: 'post',
+          handler(html, ctx) {
+            const chunks = Object.values(ctx.bundle ?? {}).filter((c) => c.type === 'chunk')
+            const view = chunks.find((c) => c.facadeModuleId?.endsWith('/src/components/DocumentView.tsx'))
+            if (!view) throw new Error('marksage-document-preload: no DocumentView chunk — was it renamed?')
+            const entry = new Set(chunks.filter((c) => c.isEntry).flatMap((c) => [c.fileName, ...c.imports]))
+            const files: string[] = []
+            const add = (name: string) => {
+              if (entry.has(name) || files.includes(name)) return
+              files.push(name)
+              for (const dep of chunks.find((c) => c.fileName === name)?.imports ?? []) add(dep)
+            }
+            add(view.fileName)
+            const script = `<script>try{var d=JSON.parse(localStorage.getItem('marksage:doc')||'null');if(d&&(d.content||d.filename))${JSON.stringify(files.map((f) => '/' + f))}.forEach(function(h){var l=document.createElement('link');l.rel='modulepreload';l.crossOrigin='';l.href=h;document.head.appendChild(l)})}catch(e){}</script>`
+            // Before the stylesheet: an inline script after one waits for it to load (it cost ~2.5 s on slow 3G).
+            const at = html.indexOf('<link rel="stylesheet"')
+            if (at < 0) throw new Error('marksage-document-preload: no stylesheet link in index.html')
+            return `${html.slice(0, at)}${script}\n    ${html.slice(at)}`
+          },
+        },
+      },
       {
         name: 'marksage-site-url',
         transformIndexHtml: (html) => html.replaceAll('%SITE_URL%', siteUrl),

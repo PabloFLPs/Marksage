@@ -11,7 +11,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { gzipSync } from 'node:zlib'
 
-const BUDGET_KB = { js: 190, css: 16 } // first-load JS / CSS, KB (1024 B) gzip — 2026-11-04: 180.9 / 12.5
+const BUDGET_KB = { js: 110, css: 16 } // first-load JS / CSS, KB (1024 B) gzip — 2026-11-04: 96.8 / 12.5 (was 181.6 JS before the document view got its own chunk)
 
 const dist = join(import.meta.dirname, '..', 'dist')
 const html = readFileSync(join(dist, 'index.html'), 'utf8')

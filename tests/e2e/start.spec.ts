@@ -32,3 +32,32 @@ test('the Suggestions tab lists every fix in the sample', async ({ page }) => {
   await expect(page.getByRole('tabpanel')).toContainText('Add language “json” to code block')
   await expect(page.getByRole('tabpanel')).toContainText('Fix this link?')
 })
+
+test('first load: only a stored document makes index.html ask for the document view', async ({ page }) => {
+  // The main script blocked: whatever asks for the document view then is index.html's own script.
+  const asked = async () => {
+    const urls: string[] = []
+    const onRequest = (r: { url: () => string }) => urls.push(r.url())
+    page.on('request', onRequest)
+    await page.reload({ waitUntil: 'load' })
+    page.off('request', onRequest)
+    return urls.some((u) => u.includes('DocumentView'))
+  }
+  await page.goto('/')
+  await page.route(/\/assets\/index-[^/]+\.js$/, (route) => route.abort())
+  expect(await asked()).toBe(false)
+  await page.evaluate(() => localStorage.setItem('marksage:doc', JSON.stringify({ id: 'd1', filename: 'kept.md', content: '# Kept' })))
+  expect(await asked()).toBe(true)
+
+  // And with the app running, it opens on the stored document; with nothing stored, the start screen prefetches the
+  // view after its first paint (for the next click).
+  await page.unroute(/\/assets\/index-[^/]+\.js$/)
+  await page.reload()
+  await expect(page.locator('.markdown-body h1')).toHaveText('Kept')
+  await page.evaluate(() => localStorage.clear())
+  const later: string[] = []
+  page.on('request', (r) => later.push(r.url()))
+  await page.reload()
+  await expect(page.getByRole('heading', { level: 1, name: 'The Markdown editor that notices.' })).toBeVisible()
+  await expect.poll(() => later.some((u) => u.includes('DocumentView'))).toBe(true)
+})

@@ -117,7 +117,8 @@ npm run test:e2e     # end-to-end tests (Playwright, tests/e2e), incl. an axe ac
                      # — once before: npx playwright install chromium
                      # CROSS_BROWSER=1 adds WebKit (desktop + iPhone) and Firefox (install them: webkit firefox)
 npm run build        # type-check + production build
-npm run size         # first-load JS / CSS against their gzip budgets (after a build)
+npm run size         # first-load JS / CSS against their gzip budgets (after a build): the start screen's
+                     # script only — the document view is its own chunk
 npm run lint         # oxlint
 npm run eval:assist  # Smart Assist fixture evaluation (Node ≥ 22.6)
 ```

@@ -31,7 +31,7 @@ describe('App', () => {
     mount()
     expect(screen.getByRole('button', { name: 'Try it on a sample document' })).toBeTruthy()
     fireEvent.click(screen.getByRole('button', { name: 'Start writing' }))
-    const editor = screen.getByRole('textbox') as HTMLTextAreaElement
+    const editor = (await screen.findByRole('textbox')) as HTMLTextAreaElement // the document view loads on demand
     fireEvent.change(editor, { target: { value: '# Groceries\n\n- milk' } })
     await settle()
     expect(loadDocument()?.content).toBe('# Groceries\n\n- milk')
@@ -41,7 +41,7 @@ describe('App', () => {
   it('the sample opens in the editor with Smart Assist on, and Close document goes back to the start', async () => {
     mount()
     fireEvent.click(screen.getByRole('button', { name: 'Try it on a sample document' }))
-    expect((screen.getByRole('textbox') as HTMLTextAreaElement).value).toMatch(/^# Pitwall/)
+    expect(((await screen.findByRole('textbox')) as HTMLTextAreaElement).value).toMatch(/^# Pitwall/)
     expect(header().getByRole('button', { name: /^Assist: Rules/ })).toBeTruthy()
     await settle()
     fireEvent.click(header().getByRole('button', { name: 'Close document' }))
@@ -53,7 +53,7 @@ describe('App', () => {
   it('Preview and Edit switch views; the Outline lists the sections', async () => {
     mount()
     fireEvent.click(screen.getByRole('button', { name: 'Start writing' }))
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '# Doc\n\n## Install\n\ntext\n\n## Usage\n\nmore' } })
+    fireEvent.change(await screen.findByRole('textbox'), { target: { value: '# Doc\n\n## Install\n\ntext\n\n## Usage\n\nmore' } })
     fireEvent.click(header().getByRole('button', { name: /^Preview/ }))
     await settle()
     expect(screen.queryByRole('textbox')).toBeNull()
