@@ -31,7 +31,8 @@ function CodeBlockImpl({ lang, code, fallback, ...rest }: CodeBlockProps) {
   }
   return (
     <div {...rest} className="code-block">
-      <pre>{nodes ? <code className={`language-${lang}`}>{nodes}</code> : fallback}</pre>
+      {/* Focusable: a wide block scrolls sideways, and the keyboard must reach it too (WCAG 2.1.1). */}
+      <pre tabIndex={0}>{nodes ? <code className={`language-${lang}`}>{nodes}</code> : fallback}</pre>
       <CopyButton code={code} />
     </div>
   )

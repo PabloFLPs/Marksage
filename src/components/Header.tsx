@@ -149,7 +149,7 @@ export function Header({
                 type="button"
                 data-brand
                 onClick={onHome}
-                aria-label={hasDocument ? t('app.backToDocument') : t('app.backToStart')}
+                aria-label={`${t('app.name')} — ${hasDocument ? t('app.backToDocument') : t('app.backToStart')}`}
                 title={hasDocument ? t('app.backToDocument') : t('app.backToStart')}
                 className="group -ml-1 inline-flex min-w-0 shrink-0 cursor-pointer items-center gap-2.5 rounded-md px-1 py-0.5"
               >

@@ -146,7 +146,7 @@ export function CommandPalette({ open, onClose, commands }: { open: boolean; onC
                       onPointerMove={() => i !== active && setActive(i)}
                       onClick={() => run(c)}
                       className={`tap flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors ${
-                        i === active ? 'bg-accent/10 text-accent dark:bg-dark-accent/15 dark:text-dark-accent' : 'text-ink dark:text-dark-ink'
+                        i === active ? 'bg-accent/10 text-accent-strong dark:bg-dark-accent/15 dark:text-dark-accent' : 'text-ink dark:text-dark-ink'
                       }`}
                     >
                       <span className="flex h-4 w-4 shrink-0 items-center justify-center [&>svg]:h-4 [&>svg]:w-4">{c.icon}</span>

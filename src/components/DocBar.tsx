@@ -95,10 +95,11 @@ export function DocBar({ kind, name, fallbackLabel, copied, onCopy, copyTitle, t
               const name = t(`panel.tab.${tab}`)
               const label = tab === 'suggestions' && pending ? `${name} (${pending})` : name
               return (
-                <button key={tab} type="button" onClick={() => onTab(tab)} aria-pressed={on} aria-label={label} title={on ? t('docbar.closeTab', { tab: name }) : label} className={`${button} relative px-2 ${on ? buttonOn : buttonOff}`}>
-                  <TabIcon className="h-3.5 w-3.5" />
+                <button key={tab} type="button" onClick={() => onTab(tab)} aria-pressed={on} title={on ? t('docbar.closeTab', { tab: name }) : label} className={`${button} relative px-2 ${on ? buttonOn : buttonOff}`}>
+                  <TabIcon aria-hidden className="h-3.5 w-3.5" />
+                  <span className="sr-only">{name}</span>
                   {tab === 'suggestions' && pending > 0 && (
-                    <span aria-hidden className="absolute -right-1 -top-1 min-w-4 rounded-full bg-accent px-1 text-center text-[10px] font-semibold leading-4 text-white tabular-nums dark:bg-dark-accent dark:text-dark-surface">
+                    <span className="absolute -right-1 -top-1 min-w-4 rounded-full bg-accent px-1 text-center text-[10px] font-semibold leading-4 text-white tabular-nums dark:bg-dark-accent dark:text-dark-surface">
                       {pending > 99 ? '99+' : pending}
                     </span>
                   )}

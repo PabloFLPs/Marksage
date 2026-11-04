@@ -12,6 +12,8 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'doc.renameSave': 'Salvar',
   'doc.renameCancel': 'Cancelar (Esc)',
   'remote.placeholder': 'Imagem de {host} — não carregada',
+  'preview.taskDone': 'Feito',
+  'preview.taskOpen': 'Não feito',
   'remote.bar.one': 'Este documento carrega 1 imagem de outro site — não carregada, para manter sua leitura privada.',
   'remote.bar.many': 'Este documento carrega {n} imagens de outros sites — não carregadas, para manter sua leitura privada.',
   'remote.bar.settings': 'Configurações de privacidade',

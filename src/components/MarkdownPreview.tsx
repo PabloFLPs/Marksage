@@ -85,6 +85,9 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
         }
         return <img src={url} alt={alt ?? ''} referrerPolicy="no-referrer" loading="lazy" {...rest} />
       },
+      // Task-list boxes are read-only: the name says which state, the item's text follows it.
+      input: ({ node: _node, ...rest }) =>
+        rest.type === 'checkbox' ? <input {...rest} aria-label={rest.checked ? t('preview.taskDone') : t('preview.taskOpen')} /> : <input {...rest} />,
       table: ({ node: _node, children, ...rest }) => <BigTable {...rest}>{children}</BigTable>,
       // Fenced blocks: highlighted when tagged, always with a copy button. Props (data-line) stay on the
       // outer element, so scroll sync and the Outline still find the block.

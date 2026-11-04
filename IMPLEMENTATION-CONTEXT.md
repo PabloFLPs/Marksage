@@ -1100,3 +1100,11 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   not run where they were written (only Chromium is installed there), so that job is non-blocking
   (`continue-on-error`) until its first green run on GitHub; then it should block like the others.
 
+- **Accessibility fixes (axe, WCAG 2.1 AA)** — found by test item 4's scan, light and dark: the header brand button,
+  the Assist button and the doc bar's tab icons now have names that contain their visible text (2.5.3 — the icons'
+  names are screen-reader text, the badge count is already read next to them); Dismiss on the suggestion bar the
+  same, its words screen-reader-only on phones; accent text on accent tints (palette group chip, Outline badge and
+  active row) uses `accent-strong` in light (4.49 → 5.82 : 1), the active row's key sentence `ink/80`; the bar's
+  `Tab` / `Esc` chips sit on `black/20` (white on accent: 7.2 : 1); task-list boxes are named *Done* / *Not done*;
+  code blocks are focusable (they scroll sideways); links in the preview are underlined, faintly (1.4.1 — not
+  colour alone).

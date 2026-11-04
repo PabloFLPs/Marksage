@@ -79,7 +79,7 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
             >
               {name}
               <span className="tabular-nums opacity-75">{Math.round(c.confidence * 100)}%</span>
-              <span className={`hidden rounded px-1 font-mono text-[10px] sm:inline ${i === 0 ? 'bg-white/20' : 'border border-line dark:border-dark-line'}`}>{hint(i)}</span>
+              <span className={`hidden rounded px-1 font-mono text-[10px] sm:inline ${i === 0 ? 'bg-black/20' : 'border border-line dark:border-dark-line'}`}>{hint(i)}</span>
             </button>
             )
           })}
@@ -122,7 +122,7 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
         }}
         className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md bg-accent px-3 font-medium sm:h-auto sm:px-2 sm:py-1 text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
       >
-        {t('suggest.accept')} <span className="hidden rounded bg-white/20 px-1 font-mono text-[10px] sm:inline">Tab</span>
+        {t('suggest.accept')} <span className="hidden rounded bg-black/20 px-1 font-mono text-[10px] sm:inline">Tab</span>
       </button>
       <DismissButton onDismiss={onDismiss} />
     </div>
@@ -143,12 +143,12 @@ function DismissButton({ onDismiss }: { onDismiss: () => void }) {
         e.stopPropagation()
         onDismiss()
       }}
-      aria-label={t('suggest.dismiss', { key: 'Esc' })}
       title={t('suggest.dismiss', { key: 'Esc' })}
       className="-mr-1.5 inline-flex h-9 w-9 shrink-0 items-center justify-center gap-1.5 rounded-md text-ink-muted transition-colors hover:text-ink sm:mr-0 sm:h-auto sm:w-auto dark:text-dark-ink-muted dark:hover:text-dark-ink"
     >
-      <X className="h-4 w-4 sm:hidden" />
-      <span className="hidden sm:inline">{t('suggest.dismissShort')}</span>
+      <X aria-hidden className="h-4 w-4 sm:hidden" />
+      {/* The visible words are the name (phones: icon only, so the same words for screen readers). */}
+      <span className="sr-only sm:not-sr-only sm:inline">{t('suggest.dismissShort')}</span>
       <span className={`hidden sm:inline ${kbd}`}>Esc</span>
     </button>
   )

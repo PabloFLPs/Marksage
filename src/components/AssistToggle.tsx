@@ -124,7 +124,8 @@ export function AssistToggle({ mode, status, onChange, onRetry, compact = false,
       <button
         type="button"
         title={statusText(mode, status, t)}
-        aria-label={t('assist.label')}
+        // The visible words first ("Assist: Rules"), so the name matches what's on screen (WCAG 2.5.3).
+        aria-label={compact ? t('assist.label') : `Assist: ${shortLabel} — ${t('assist.label')}`}
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => (open ? setOpen(false) : openMenu())}

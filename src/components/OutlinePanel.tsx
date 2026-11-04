@@ -93,7 +93,7 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
             >
               {t(`panel.tab.${id}`)}
               {id === 'suggestions' && pending > 0 && (
-                <span className="rounded-full bg-accent/10 px-1.5 text-[10.5px] font-semibold tabular-nums text-accent dark:bg-dark-accent/15 dark:text-dark-accent">
+                <span className="rounded-full bg-accent/10 px-1.5 text-[10.5px] font-semibold tabular-nums text-accent-strong dark:bg-dark-accent/15 dark:text-dark-accent">
                   {pending}
                   {suggestions?.capped && '+'}
                 </span>
@@ -216,7 +216,7 @@ function OutlineRow({ item, indent, active, onSelect, onHover }: { item: Outline
       >
         <Icon className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${item.type && !item.tentative ? 'text-accent dark:text-dark-accent' : 'text-ink-muted/60 dark:text-dark-ink-muted/60'}`} />
         <span className="min-w-0 flex-1">
-          <span className={`block truncate text-[13px] ${indent === 0 ? 'font-semibold' : 'font-medium'} ${active ? 'text-accent dark:text-dark-accent' : 'text-ink dark:text-dark-ink'}`}>
+          <span className={`block truncate text-[13px] ${indent === 0 ? 'font-semibold' : 'font-medium'} ${active ? 'text-accent-strong dark:text-dark-accent' : 'text-ink dark:text-dark-ink'}`}>
             {plainHeading(item.heading)}
           </span>
           {item.type && (
@@ -225,7 +225,7 @@ function OutlineRow({ item, indent, active, onSelect, onHover }: { item: Outline
               {item.source === 'model' && <Sparkles aria-hidden className="h-2.5 w-2.5" />}
             </Badge>
           )}
-          {item.key && <span className="mt-0.5 line-clamp-2 block text-xs leading-snug text-ink-muted dark:text-dark-ink-muted">{item.key}</span>}
+          {item.key && <span className={`mt-0.5 line-clamp-2 block text-xs leading-snug ${active ? 'text-ink/80' : 'text-ink-muted'} dark:text-dark-ink-muted`}>{item.key}</span>}
         </span>
       </button>
     </li>

@@ -13,6 +13,8 @@ export const en = {
   'doc.renameSave': 'Save',
   'doc.renameCancel': 'Cancel (Esc)',
   'remote.placeholder': 'Image from {host} — not loaded',
+  'preview.taskDone': 'Done',
+  'preview.taskOpen': 'Not done',
   'remote.bar.one': 'This document loads 1 image from another website — not loaded, to keep your reading private.',
   'remote.bar.many': 'This document loads {n} images from other websites — not loaded, to keep your reading private.',
   'remote.bar.settings': 'Privacy settings',
