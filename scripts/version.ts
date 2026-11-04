@@ -66,7 +66,7 @@ export function changelog(versions: Version[]): string {
     'git history (`--check` verifies this file). `feat` → minor, `fix` / `perf` → patch, other commits don’t change',
     'the version; majors mark the three generations of the product. **Versions before 3.33.3 were assigned',
     'retroactively on 2026-10-30** with this same rule — the commits are unchanged. The story behind them: the',
-    'app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: America/Sao_Paulo.',
+    'app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.',
     '',
   ]
   const shown = versions.filter((v) => v.bumps)

@@ -130,7 +130,7 @@ See [AGENTS.md](AGENTS.md) for architecture and conventions, [docs/SMART-ASSIST.
 Smart Assist technical documentation (heuristics, Marksage's own models, evaluation),
 [docs/MODELS.md](docs/MODELS.md) for the models from zero (model cards, version history),
 [training/](training/README.md) for the model pipeline, [ROADMAP.md](ROADMAP.md) for what's next, and
-[the Implementation Context](<SMART-ASSIST — Implementation Context.md>) for the design notes and timeline.
+[the Implementation Context](IMPLEMENTATION-CONTEXT.md) for the design notes and timeline.
 
 ## Versioning
 

@@ -17,8 +17,7 @@ TypeScript code acts.** If you can't list the possible answers up front, it's no
 - Editor is a plain `<textarea>` (`src/components/MarkdownEditor.tsx`) — **no inline decorations
   possible**; suggestions must be UI outside the text (suggestion bar / toast / gutter chip).
 - Relevant files: `src/App.tsx`, `src/hooks/useMarkdownFile.ts`, `src/lib/storage.ts`,
-  `src/components/MarkdownPreview.tsx`. Full product spec: `Markdown Preview Web Application —
-  Product & Technical Specification.md`.
+  `src/components/MarkdownPreview.tsx`. Full product spec: `PRODUCT-SPEC.md`.
 - Product promise: minimalist, local-first, "files never leave your machine". **Keep it.**
 
 ## 3. Scope — features to build
@@ -1043,4 +1042,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **The story says whose calls they were** (ROADMAP follow-up, in the words Pablo approved for the README): the
   closing line now reads "Built by PabloFLPs, with AI assistance (Claude) for implementation and review; the
   architecture, the measurement bars and every ship / don't-ship call are his." EN + PT-BR, neutral voice.
+- **Root files without spaces** (ROADMAP follow-up: GitHub URLs full of `%20` and `%E2%80%94`): `SMART-ASSIST —
+  Implementation Context.md` → `IMPLEMENTATION-CONTEXT.md`, `Markdown Preview Web Application — Product & Technical
+  Specification.md` → `PRODUCT-SPEC.md` (its title, from the previewer days, unchanged). References in the README,
+  ROADMAP, this file and the CHANGELOG header (`scripts/version.ts`) follow; commit subjects in the CHANGELOG keep
+  the old name, as history.
 

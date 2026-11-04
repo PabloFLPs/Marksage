@@ -1,7 +1,7 @@
 # Marksage — roadmap
 
 What's planned next, with the context a fresh session needs to start. Shipped work and its numbers live in
-`docs/MODELS.md` §8 (versions), `training/README.md` and `SMART-ASSIST — Implementation Context.md` (timeline).
+`docs/MODELS.md` §8 (versions), `training/README.md` and `IMPLEMENTATION-CONTEXT.md` (timeline).
 
 ---
 
@@ -10,7 +10,7 @@ What's planned next, with the context a fresh session needs to start. Shipped wo
 The plan that was here — a structure model and a "Local models only" mode — ran its course: modes are now Off /
 Rules / **Rules + AI** (then called Heuristics / Hybrid), three new near-misses ship as rules (`• item`, `1- item`, `[text] (url)`), and the
 structure model, a paste-type model and a URL link-text rule were measured on fresh held-out sets and not used.
-Numbers and reasons: `SMART-ASSIST — Implementation Context.md` §28, `training/README.md`, `docs/MODELS.md` §8.3–8.5.
+Numbers and reasons: `IMPLEMENTATION-CONTEXT.md` §28, `training/README.md`, `docs/MODELS.md` §8.3–8.5.
 Follow-ups are in §4.
 
 ## 0.1 Done (2026-10-29): launch QA fixes
@@ -21,7 +21,7 @@ from "How the models work" going to the wrong page, text lost on a fast reload, 
 no "start writing" on the start screen, Smart Assist starting off (now **Rules** by default; modes renamed
 **Rules** / **Rules + AI**), typing lag on long documents (~400 ms → ~20 ms per key on a 270 KB file), the
 privacy section's reach and "who runs it", Markdown extensions (`.mdx` & co. accepted, `.txt` refused), and
-smaller polish. Details: `SMART-ASSIST — Implementation Context.md` §29.
+smaller polish. Details: `IMPLEMENTATION-CONTEXT.md` §29.
 
 Idea left open (Pablo, not decided): readability **icons** instead of dots, as an option — only if it stays
 minimal.

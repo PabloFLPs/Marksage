@@ -4,7 +4,7 @@ Every version of Marksage and the commit that made it, newest first — generate
 git history (`--check` verifies this file). `feat` → minor, `fix` / `perf` → patch, other commits don’t change
 the version; majors mark the three generations of the product. **Versions before 3.33.3 were assigned
 retroactively on 2026-10-30** with this same rule — the commits are unchanged. The story behind them: the
-app’s `#story` page and `SMART-ASSIST — Implementation Context.md`. Dates: America/Sao_Paulo.
+app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
