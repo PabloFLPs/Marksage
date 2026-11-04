@@ -158,3 +158,43 @@ Follow-ups, not started:
   project's history for the LinkedIn audience, built from the Implementation Context timeline and
   `docs/MODELS.md` §8; ends with the source and the author (2026-11-01).
 - **LinkedIn post.**
+
+## 6. What the grades still miss (review, 2026-11-04)
+
+After this round, the evaluation stands at **tests 8.5 / 10** (from 8: the hooks, components and the whole app are
+now unit-tested, 56.7% of `src/` lines, and the axe scan covers every palette) and **overall 8.5 / 10**. What keeps
+each from going higher, most weight first, and what would move it:
+
+**Tests (8.5)**
+1. **No real device has run it.** Chromium is tested everywhere; WebKit, iPhone and Firefox only as Playwright
+   engines in CI, in a job that isn't blocking yet (§4). Missing: a hand pass on a real iPhone (Safari), an
+   Android phone and desktop Firefox / Safari — then the CI job made blocking.
+2. **Rules + AI is never run in a browser by a test.** `eval:assist` checks both models' answers in Node (parity
+   with the standalone runner included); no test downloads them in a page, caches them, uses them while typing, or
+   recovers from a failed download (*Try again*). One E2E test with the model files served locally would cover it.
+3. **Half the branches are untested** (45% branch coverage): the editor's line-number mirror and caret line,
+   split-view scroll sync, the Export panel, the Assist menu's download notice, About's settings (Delete all data,
+   remote images) — reached by E2E flows, not checked case by case.
+4. **No visual regression check.** Layout is checked for overflow at 320 / 390 px only; a broken theme, palette or
+   spacing would pass. Screenshot comparisons of a few screens (light / dark, desktop / phone) would catch it.
+5. **The evaluation sets are used up.** The held-out sets that measured the shipped models have been seen; any
+   model change (section v3, structure v2) needs fresh ones first (§4).
+6. **Automated accessibility is only part of it.** axe finds roughly a third of real problems; no screen-reader
+   pass by hand (VoiceOver on macOS / iOS, NVDA) yet.
+
+**Overall (8.5)**
+1. **The first load** (§4): one 584 KB script (150 KB Brotli) that holds the editor, the Markdown pipeline and
+   Smart Assist, which the start screen doesn't use — ~8 s to the start screen on slow 3G. Options are with Pablo.
+2. **The models' gains are modest** (§4): about twice the right code-language suggestions at the rules' precision;
+   the section model adds little in Portuguese and on "performance" / "guide" sections; three trained models
+   weren't shipped. Honest and documented, but not yet a reason on its own to pick Marksage.
+3. **Editor basics a Markdown user expects**: no syntax colouring in the editor (a plain textarea with line
+   numbers), Tab doesn't indent lists, raw HTML (`<details>`, `<kbd>`) shows as text, and Export downloads a copy —
+   there's no saving back into the opened file (File System Access, Chromium only).
+4. **Large documents**: switching a 3 MB document to the split view spends ~7 s laying out the preview (§4).
+5. **Real-user feedback hasn't started** (§3, dogfooding): with no analytics by design, the feedback loop is
+   people telling you — the LinkedIn post is the first real round.
+
+What would move them: items 1–2 of the tests list bring tests to about 9; the first-load split plus one
+editor-basics item (syntax colouring or saving in place) bring the overall to about 9. Real users' feedback is
+what decides the rest.
