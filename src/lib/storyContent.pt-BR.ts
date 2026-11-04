@@ -121,7 +121,7 @@ const content: StoryContent = {
       ],
     },
   ],
-  credit: 'Feito por {author}. Código, treino e arquivos dos modelos: {source} (AGPL-3.0).',
+  credit: 'Feito por {author}, com assistência de IA (Claude) na implementação e na revisão; a arquitetura, as réguas de medição e cada decisão de publicar ou não são dele. Código, treino e arquivos dos modelos: {source} (AGPL-3.0).',
 }
 
 export default content

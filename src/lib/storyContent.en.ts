@@ -121,7 +121,7 @@ const content: StoryContent = {
       ],
     },
   ],
-  credit: 'Built by {author}. Source, training code and model files: {source} (AGPL-3.0).',
+  credit: 'Built by {author}, with AI assistance (Claude) for implementation and review; the architecture, the measurement bars and every ship / don’t-ship call are his. Source, training code and model files: {source} (AGPL-3.0).',
 }
 
 export default content

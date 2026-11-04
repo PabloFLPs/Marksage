@@ -1040,4 +1040,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **No chunk-size note on every build:** `chunkSizeWarningLimit: 1500` — the chunks over 500 kB are Mermaid's (elk
   1.46 MB, only on a docs diagram's Mermaid switch) and the main script (~590 kB, ~183 kB gzip), tracked as ROADMAP
   §4's first-load item.
+- **The story says whose calls they were** (ROADMAP follow-up, in the words Pablo approved for the README): the
+  closing line now reads "Built by PabloFLPs, with AI assistance (Claude) for implementation and review; the
+  architecture, the measurement bars and every ship / don't-ship call are his." EN + PT-BR, neutral voice.
 
