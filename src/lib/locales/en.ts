@@ -120,6 +120,8 @@ export const en = {
   'history.noMatches': 'Nothing matches “{q}”.',
   'history.empty': 'Documents you open or write show up here.',
   'history.localOnly': 'Stored only in this browser.',
+  'history.quickOpen': 'Type 1–{n} to open',
+  'history.quickOpenOne': 'Type 1 to open',
   'history.openNow': 'Open now',
   'history.chars': '{n} chars',
   'history.notExported': 'Not exported',

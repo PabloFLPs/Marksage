@@ -121,6 +121,8 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'history.noMatches': 'Nada encontrado para “{q}”.',
   'history.empty': 'Os documentos que você abrir ou escrever aparecem aqui.',
   'history.localOnly': 'Guardado apenas neste navegador.',
+  'history.quickOpen': 'Digite 1–{n} para abrir',
+  'history.quickOpenOne': 'Digite 1 para abrir',
   'history.openNow': 'Aberto agora',
   'history.chars': '{n} caracteres',
   'history.notExported': 'Não exportado',

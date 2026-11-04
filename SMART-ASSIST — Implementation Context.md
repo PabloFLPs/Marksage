@@ -1012,3 +1012,11 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   guessing): "Built with AI assistance (Claude) for implementation and review. The architecture, the measurement bars
   and every ship / don't-ship call are mine." Above the "Read more" links.
 
+## 40. Last touches before the post (2026-11-03)
+
+- **Recent: 1–9 open a document** (Pablo: the menu has a shortcut, so picking from it should be quick too): the
+  first nine documents other than the open one carry 1–9 (the open one has no number); typing the digit opens it
+  while the search box is empty — once anything is typed, digits search ("2026"). The footer says "Type 1–n to
+  open". Desktop only (no keyboard on phones). Checked: three documents, ⌘⇧H, "2" opens the second; "a1" types
+  into the search.
+

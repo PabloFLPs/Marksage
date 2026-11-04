@@ -90,6 +90,11 @@ export function clearHistory(): HistoryEntry[] {
   return persist([])
 }
 
+/** The documents the Recent menu's 1–9 open: the first nine that aren't the one already open. */
+export function numberedEntries(entries: HistoryEntry[], currentId?: string): HistoryEntry[] {
+  return entries.filter((e) => e.id !== currentId).slice(0, 9)
+}
+
 /** Same file opened again → reuse its entry instead of duplicating it. */
 export function findDuplicate(entries: HistoryEntry[], filename: string | null, content: string) {
   return entries.find((e) => e.filename === filename && e.content === content)

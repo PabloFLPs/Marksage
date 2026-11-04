@@ -35,7 +35,8 @@ src/
     CommandPalette.tsx    ⌘/Ctrl + K: every action of the current screen + recent documents, searchable (EN + PT words);
                           the list is built in App (`commands`). Rules + AI from it opens the Assist menu on the notice
                           (`assistNoticeRequest`) until the notice was seen — never skip it.
-    HistoryMenu/HistoryList, SuggestionBar, AssistToggle, AppIconPicker, SplitPanes, Markdown*
+    HistoryMenu/HistoryList (the menu numbers the first 9 other documents — 1–9 open them while the search is empty;
+                          `numberedEntries` in lib/history), SuggestionBar, AssistToggle, AppIconPicker, SplitPanes, Markdown*
   assist/                 Smart Assist — see "Smart Assist" below (model/ = own models: features + inference; sections.ts / outline.ts = Outline)
   hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery
   lib/                    storage, history, appIcons (icons + accent), keyStyle, file, sampleDocument,

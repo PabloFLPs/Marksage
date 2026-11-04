@@ -55,7 +55,7 @@ ship / don't-ship call are mine.
   worth a look (heading jumps, untagged code, images without alt text…), and a **Suggestions** tab listing every
   fix Smart Assist would offer in the document (click → it opens in the editor)
 - **Code blocks** with syntax colors (~30 languages, loaded only when needed) and a copy button
-- **Recent documents** — up to 15, kept in this browser, searchable (`⌘/Ctrl ⇧ H`)
+- **Recent documents** — up to 15, kept in this browser, searchable (`⌘/Ctrl ⇧ H`); in the menu, `1`–`9` open one
 - **Privacy & storage** — no cookies, accounts or tracking; everything stored is listed on the About page
   (linked from the start screen, `#privacy`), who runs the site, and removable with one click
 - **Rename** by clicking the name in the header; **Export** asks for the file name first (the document's name, or

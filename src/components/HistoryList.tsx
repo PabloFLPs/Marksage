@@ -1,5 +1,5 @@
 import { FileText, X } from 'lucide-react'
-import { entryTitle, relativeTime, type HistoryEntry } from '../lib/history'
+import { entryTitle, numberedEntries, relativeTime, type HistoryEntry } from '../lib/history'
 import { useI18n } from '../hooks/useI18n'
 
 interface HistoryListProps {
@@ -8,12 +8,16 @@ interface HistoryListProps {
   onOpen: (entry: HistoryEntry) => void
   onRemove: (id: string) => void
   limit?: number
+  /** The header menu: the first 9 documents you can switch to carry 1–9 (typing the digit opens it). */
+  numbered?: boolean
 }
 
+
 /** Shared list used by the header menu and the empty state. */
-export function HistoryList({ entries, currentId, onOpen, onRemove, limit }: HistoryListProps) {
+export function HistoryList({ entries, currentId, onOpen, onRemove, limit, numbered = false }: HistoryListProps) {
   const { t, lang } = useI18n()
   const items = limit ? entries.slice(0, limit) : entries
+  const numbers = new Map(numbered ? numberedEntries(entries, currentId).map((e, i) => [e.id, i + 1]) : [])
   return (
     <ul className="anim-stagger flex flex-col">
       {items.map((e) => {
@@ -31,6 +35,11 @@ export function HistoryList({ entries, currentId, onOpen, onRemove, limit }: His
                   : 'hover:bg-surface-soft dark:hover:bg-dark-surface-raised'
               }`}
             >
+              {numbered && (
+                <kbd aria-hidden className={`w-3 shrink-0 text-center font-sans text-[11px] tabular-nums text-ink-muted dark:text-dark-ink-muted ${numbers.has(e.id) ? '' : 'invisible'}`}>
+                  {numbers.get(e.id) ?? 0}
+                </kbd>
+              )}
               <FileText
                 className={`h-4 w-4 shrink-0 transition-transform duration-200 group-hover/item:-rotate-6 ${
                   current ? 'text-accent dark:text-dark-accent' : 'text-ink-muted dark:text-dark-ink-muted'

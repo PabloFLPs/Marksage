@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { History } from 'lucide-react'
-import { searchHistory, type HistoryEntry } from '../lib/history'
+import { numberedEntries, searchHistory, type HistoryEntry } from '../lib/history'
 import { HistoryList } from './HistoryList'
 import { ClearHistory, HistorySearch } from './HistoryTools'
 import { Presence } from './motion'
@@ -27,6 +27,25 @@ export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, com
   const rootRef = useRef<HTMLDivElement>(null)
   useReturnFocus(open, rootRef)
   const shown = searchHistory(entries, query, t('doc.untitled'))
+  // 1–9 open a document straight away — while nothing is typed in the search (then digits search, "2026").
+  const quick = query ? [] : numberedEntries(shown, currentId)
+  const quickRef = useRef(quick)
+  quickRef.current = quick
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey || !/^[1-9]$/.test(e.key)) return
+      const el = e.target as HTMLElement | null
+      if (el && (el.isContentEditable || ((el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') && (el as HTMLInputElement).value))) return
+      const entry = quickRef.current[Number(e.key) - 1]
+      if (!entry) return
+      e.preventDefault()
+      setOpen(false)
+      onOpen(entry)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open, onOpen])
 
   // A fresh search every time the menu opens.
   useEffect(() => {
@@ -111,6 +130,7 @@ export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, com
             <div className="max-h-[60vh] overflow-y-auto">
               <HistoryList
                 entries={shown}
+                numbered={!query && !compact}
                 currentId={currentId}
                 onRemove={onRemove}
                 onOpen={(e) => {
@@ -122,6 +142,7 @@ export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, com
           )}
           <p className="border-t border-line px-2.5 pb-1 pt-2 text-[11px] text-ink-muted dark:border-dark-line dark:text-dark-ink-muted">
             {t('history.localOnly')}
+            {quick.length > 0 && !compact && <> · {quick.length === 1 ? t('history.quickOpenOne') : t('history.quickOpen', { n: quick.length })}</>}
           </p>
         </div>
       </Presence>

@@ -236,8 +236,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<History />} title={x('Recent documents', 'Documentos recentes')}>
             {x(
-              <>Every document you open, paste or write is kept in Recent (clock icon, or <Keys k={['mod', 'shift', 'h']} />) — switch between them freely, nothing is lost. Up to 15, stored only in this browser.</>,
-              <>Todo documento que você abre, cola ou escreve fica em Recentes (ícone de relógio, ou <Keys k={['mod', 'shift', 'h']} />) — alterne entre eles à vontade, nada se perde. Até 15, guardados só neste navegador.</>,
+              <>Every document you open, paste or write is kept in Recent (clock icon, or <Keys k={['mod', 'shift', 'h']} />) — switch between them freely, nothing is lost; in the menu, typing 1–9 opens one straight away. Up to 15, stored only in this browser.</>,
+              <>Todo documento que você abre, cola ou escreve fica em Recentes (ícone de relógio, ou <Keys k={['mod', 'shift', 'h']} />) — alterne entre eles à vontade, nada se perde; no menu, digitar 1–9 abre um na hora. Até 15, guardados só neste navegador.</>,
             )}
           </Feature>
           <Feature icon={<Download />} title={x('Name, export & copy', 'Nome, exportar e copiar')}>
