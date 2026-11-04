@@ -8,7 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.44.3** · 2026-11-04 · `(this commit)` · fix(a11y): active Outline row's key sentence readable in dark Mono
+- **3.44.3** · 2026-11-04 · `85c2812` · fix(a11y): active Outline row's key sentence readable in dark Mono
 - **3.44.2** · 2026-11-04 · `ddadc5f` · fix(a11y): names that match visible text, contrast, labelled task boxes
 - **3.44.1** · 2026-11-04 · `f94c281` · fix(history): Recent's search is focused every time the menu opens
 - **3.44.0** · 2026-11-04 · `5cb05bc` · feat(doc): Close document — back to the start screen, the document kept in Recent

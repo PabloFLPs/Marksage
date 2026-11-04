@@ -93,13 +93,27 @@ Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Cont
 - **Raw HTML in the preview:** `<details>`, `<kbd>`, `<img>` and the like show as escaped text, on purpose (no
   script can run). Either one line in About saying so, or render a safe subset (`rehype-raw` + `rehype-sanitize`).
 
-- **Faster first load on slow networks** (launch QA #35, 2026-10-30): on slow 3G (2 s latency, 50 KB/s) the start
-  screen took ~8 s — one 590 KB script (~180 KB gzip) holding React, the Markdown pipeline, the editor and Smart
-  Assist, which the start screen doesn't need. Try loading the editor + preview + Smart Assist as their own chunk
+- **Faster first load on slow networks** (launch QA #35, 2026-10-30; grade item 4 of the 2026-11-03 review): on slow
+  3G (2 s latency, 50 KB/s) the start screen took ~8 s — one 590 KB script (~180 KB gzip) holding React, the
+  Markdown pipeline, the editor and Smart Assist, which the start screen doesn't need. `npm run size` now guards it
+  (181.6 KB gzip, budget 190); a split like the one below would let the budget drop to what the start screen needs. Try loading the editor + preview + Smart Assist as their own chunk
   (prefetched once the start screen is up), keep `index.html`'s boot screen meaningful, and check the host serves
   Brotli. Measure first-usable time and the cost for returning visitors (a stored document opens straight into the
   editor) before and after. Done so far: About loads on demand (−11 KB gzip, 2026-11-01). Smaller: one language per
   About chunk (its copy is inline EN + PT).
+- **Tested in real browsers, not only engines** (grade item 3): the E2E suite runs in Chromium everywhere; WebKit
+  (desktop + iPhone 14) and Firefox only in CI's `e2e-cross-browser` job, non-blocking until its first green run —
+  then make it blocking (AGENTS). Engines in Playwright aren't Safari on an iPhone: before the LinkedIn post, one
+  pass by hand on a real iPhone (Safari) and in desktop Firefox — the sample tour, Tab / Esc, paste, Export, the
+  phone menu, light / dark.
+- **Model results are modest, and say so** (grade item 5): the code-language model about doubles the right
+  suggestions at the rules' precision; the section model adds little in Portuguese and on "performance" / "guide"
+  sections (the items above and below). The docs already give the numbers; the next real step up is a general
+  decision model (§2) or BYOK (§1), not tuning these two against sets they've seen.
+- **The Line palette's contrast** (axe, 2026-11-04): its teal accent is 3.74 : 1 on white — under WCAG AA's 4.5 for
+  text (counts, labels, section types; Classic, Mono and Sunset pass in light and dark). A darker teal for light
+  (≈ teal-700, `#0f766e`, 5.5 : 1) would fix it and change how Line looks, so it waits for Pablo. Then add the
+  four palettes to `tests/e2e/a11y.spec.ts`.
 - **Preview layout on big documents** (launch QA #15): switching a 3 MB document to the split editor spends ~7 s
   laying out the whole preview again. `content-visibility: auto` on the preview's pieces would skip off-screen ones,
   but scroll sync and the Outline measure those blocks — needs their positions to stay right.
