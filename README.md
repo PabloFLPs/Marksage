@@ -16,6 +16,9 @@ is a one-minute tour of Smart Assist.
 - **What didn't ship is documented too.** Models for structure hints, paste types and a v3 code model were trained,
   judged against a bar written down before the run, and left out — with the numbers.
 
+Built with AI assistance (Claude) for implementation and review. The architecture, the measurement bars and every
+ship / don't-ship call are mine.
+
 **Read more:** [the story](https://marksage.vercel.app/#story) — the decisions and models with their numbers ·
 [How Smart Assist works](docs/SMART-ASSIST.md) · [How the models work](docs/MODELS.md) · [Training pipeline](training/README.md) · [Roadmap](ROADMAP.md)
 

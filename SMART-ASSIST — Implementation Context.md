@@ -1008,4 +1008,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   C's assumption, repeated in two earlier commit messages here. It says the spec asks for absolute URLs and some
   previews *may* lack the image. The Vercel fallback stays: the tags are absolute there either way. LinkedIn itself
   is unverified until the deploy (Post Inspector).
+- **README: how it was built** (Pablo's choice, 2026-11-03 — no legal requirement, an honest line instead of people
+  guessing): "Built with AI assistance (Claude) for implementation and review. The architecture, the measurement bars
+  and every ship / don't-ship call are mine." Above the "Read more" links.
 
