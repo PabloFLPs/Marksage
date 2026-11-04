@@ -1141,3 +1141,13 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   axe spec now scans the sample + Outline and About with Mono, Line and Sunset too, light and dark: 26 tests.
 - **Palette names in English in both languages** (Pablo: "they don't translate well") — Classic, Mono, Line,
   Sunset in Portuguese too (were Clássico, Linha, Pôr do sol); they're names, like the app's.
+- **Unit tests for hooks, components and the app** — the gap left by the last evaluation. Testing Library
+  (`@testing-library/react`) in happy-dom: `useMarkdownFile` (debounced save, New stored at once, Close, Recent
+  reuse, replaceUntouched, refusals, two tabs: follow / conflict / keep mine), the App hooks (view mode and its
+  exit, the Outline's tab toggling and what's remembered, hash navigation and Back, shortcuts / Esc / paste),
+  DocName, CommandPalette (PT keywords, accents), SuggestionBar, DocBar, Recent's list, MarkdownPreview (GFM, line
+  numbers, task boxes, remote images, raw HTML as text, in-document links), and `app.test.tsx`: the whole app from
+  the start screen (Start writing, the sample, Close document, preview / edit, the Outline, ⌘K → About → Esc, a
+  reload). 27 → 70 tests, ~11 s; lines of `src/` run by them 7.6% → 56.7% (App 62%, hooks 68%, lib 66%, components
+  54%, assist 48% — plus `eval:assist`'s ~93% of assist/). `npm run test:coverage` (`@vitest/coverage-v8`) runs in
+  CI with a 50% floor.

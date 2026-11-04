@@ -26,8 +26,8 @@ jobs:
         run: npx tsc -b
       - name: Lint
         run: npm run lint
-      - name: Unit tests
-        run: npm test
+      - name: Unit tests, with coverage (floor: 50% of lines)
+        run: npm run test:coverage
       - name: Build
         run: npm run build
       - name: Bundle-size budget (first-load JS / CSS)

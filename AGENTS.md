@@ -173,7 +173,8 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   the model, and run `fingerprint.ts --check` on a rebuild before training on it.
 
 ## Verify before committing
-`npx tsc -b` · `npm run lint` · `npm test` (unit, `tests/unit`) · `npm run test:e2e` (Playwright, `tests/e2e`: the production build
+`npx tsc -b` · `npm run lint` · `npm test` (unit, `tests/unit`: logic, hooks and components with Testing Library,
+the whole app in `app.test.tsx`; `npm run test:coverage` in CI, floor 50% of lines) · `npm run test:e2e` (Playwright, `tests/e2e`: the production build
 in desktop + phone Chromium) · `npm run eval:assist` · manually check light/dark, desktop/mobile, and reduced motion.
 A user-facing flow that changes needs its E2E test changed or added (`tests/e2e/helpers.ts`: openSample, palette, focused…);
 wait on state (`expect`, `expect.poll`), never on time. `CROSS_BROWSER=1` adds WebKit (desktop + iPhone) and Firefox; CI runs
