@@ -8,6 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
+- **3.44.6** · 2026-11-04 · `(this commit)` · fix(version): package-lock.json's version follows package.json
 - **3.44.5** · 2026-11-04 · `6a0e7df` · fix(i18n): palette names stay in English in Portuguese
 - **3.44.4** · 2026-11-04 · `205d038` · fix(a11y): Line palette's accent darker in light (3.74 -> 5.47:1)
 - **3.44.3** · 2026-11-04 · `85c2812` · fix(a11y): active Outline row's key sentence readable in dark Mono

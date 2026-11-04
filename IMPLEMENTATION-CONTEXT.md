@@ -1151,3 +1151,6 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   reload). 27 → 70 tests, ~11 s; lines of `src/` run by them 7.6% → 56.7% (App 62%, hooks 68%, lib 66%, components
   54%, assist 48% — plus `eval:assist`'s ~93% of assist/). `npm run test:coverage` (`@vitest/coverage-v8`) runs in
   CI with a 50% floor.
+- **The lockfile's version** — `version:next` wrote `package.json` and `CHANGELOG.md` but not the two version
+  fields in `package-lock.json`, so the first `npm install` after a version change left the tree dirty (it stopped
+  a `git am` on Pablo's Mac). It writes them now, and `version:check` checks them.

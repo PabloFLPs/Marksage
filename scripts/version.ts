@@ -3,9 +3,10 @@
  *   node --experimental-strip-types scripts/version.ts                     # version of HEAD
  *   node --experimental-strip-types scripts/version.ts --commit <ref>      # version of any commit
  *   node --experimental-strip-types scripts/version.ts --list              # every versioned commit
- *   node --experimental-strip-types scripts/version.ts --next "<message>"  # before committing: write package.json
- *                                                                          #   and CHANGELOG.md as that commit will be
- *   node --experimental-strip-types scripts/version.ts --check             # package.json + CHANGELOG.md match HEAD
+ *   node --experimental-strip-types scripts/version.ts --next "<message>"  # before committing: write package.json,
+ *                                                                          #   package-lock.json and CHANGELOG.md as
+ *                                                                          #   that commit will be
+ *   node --experimental-strip-types scripts/version.ts --check             # those three match HEAD
  *
  * The rule (adopted 2026-10-30; earlier versions were assigned retroactively from the log):
  *   - `feat` → minor (patch back to 0) · `fix`, `perf` → patch · anything else (docs, chore, test, style,
@@ -81,6 +82,18 @@ export function changelog(versions: Version[]): string {
 
 const pkgPath = `${ROOT}package.json`
 const logPath = `${ROOT}CHANGELOG.md`
+// The lockfile repeats the version twice; npm rewrites it on install, so a stale one left the tree dirty after every
+// `npm install` (2026-11-04). npm's own format: two-space JSON and a final newline.
+const lockPath = `${ROOT}package-lock.json`
+type Lock = { version?: string; packages?: Record<string, { version?: string }> }
+const lockVersions = (lock: Lock) => [lock.version, lock.packages?.['']?.version]
+function writeLockVersion(version: string) {
+  const lock = JSON.parse(readFileSync(lockPath, 'utf8')) as Lock
+  if (lockVersions(lock).every((v) => v === version)) return
+  lock.version = version
+  if (lock.packages?.['']) lock.packages[''].version = version
+  writeFileSync(lockPath, JSON.stringify(lock, null, 2) + '\n')
+}
 const flag = (n: string) => (process.argv.includes(n) ? process.argv[process.argv.indexOf(n) + 1] : null)
 
 if (import.meta.url === `file://${process.argv[1]}`) {
@@ -93,8 +106,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const now = versions[versions.length - 1]
     const pkg = readFileSync(pkgPath, 'utf8').replace(/"version": "[^"]*"/, `"version": "${now.version}"`)
     writeFileSync(pkgPath, pkg)
+    writeLockVersion(now.version)
     writeFileSync(logPath, changelog(versions))
-    console.log(`${now.bumps ? 'version' : 'unchanged'}: ${now.version} — package.json and CHANGELOG.md written (commit them with it)`)
+    console.log(`${now.bumps ? 'version' : 'unchanged'}: ${now.version} — package.json, package-lock.json and CHANGELOG.md written (commit them with it)`)
   } else if (process.argv.includes('--check')) {
     const versions = history()
     const head = versions[versions.length - 1]
@@ -104,6 +118,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const have = readFileSync(logPath, 'utf8').replace(/`\(this commit\)`/, `\`${head.hash.slice(0, 7)}\``)
     const problems = [
       ...(pkgVersion === head.version ? [] : [`package.json says ${pkgVersion}, the history says ${head.version}`]),
+      ...lockVersions(JSON.parse(readFileSync(lockPath, 'utf8')) as Lock)
+        .filter((v) => v !== head.version)
+        .map((v) => `package-lock.json says ${v}, the history says ${head.version}`),
       ...(have === want ? [] : ['CHANGELOG.md differs from the history — run --next "<message>" before committing, or regenerate it']),
     ]
     console.log(problems.length ? problems.join('\n') : `ok: ${head.version} (${head.hash.slice(0, 7)})`)
