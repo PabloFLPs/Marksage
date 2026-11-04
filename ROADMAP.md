@@ -94,7 +94,7 @@ Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Cont
   script can run). Either one line in About saying so, or render a safe subset (`rehype-raw` + `rehype-sanitize`).
 
 - **First load, what's left** (done 2026-11-04: the document view is its own chunk — start screen 150 → 83 KB
-  Brotli, 7.4 → 6.4 s on slow 3G): a returning visitor whose
+  Brotli, 7.4 → 6.4 s on slow 3G; year-long caching of `/assets/` in `vercel.json`): a returning visitor whose
   cache is empty (just after a deploy) waits ~0.5 s more than before (7.9 s), for the 8 KB the split costs. Smaller
   still: one language per About chunk (its copy is inline EN + PT); react-dom is half of what's left.
 - **Tested in real browsers, not only engines** (grade item 3): the E2E suite runs in Chromium everywhere; WebKit

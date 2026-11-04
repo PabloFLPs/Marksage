@@ -1169,3 +1169,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   on About (renders nothing), so dismissed suggestions and a loaded model survive a visit there. Budget lowered:
   110 KB gzip. E2E: only a stored document makes index.html ask for the view (main script blocked to tell them
   apart).
+- **Caching the hashed files** — `vercel.json`: `/assets/*` (content-hashed names) `public, max-age=31536000,
+  immutable`. Vercel's default is `public, max-age=0, must-revalidate`
+  (https://vercel.com/docs/caching/cache-control-headers): every visit re-checked every file, a round trip each —
+  2 s on slow 3G. A returning visitor now opens Marksage from the cache: 2.1 s on slow 3G (start screen or a stored
+  document), the HTML's one round trip. `index.html` and `/models/*.bin` (not hashed) keep the default, so a
+  deploy is picked up on the next visit.
