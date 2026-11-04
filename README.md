@@ -110,6 +110,7 @@ no shortcut for New: Chrome, Edge and Opera never pass `⌘/Ctrl N` to a page.
 ```bash
 npm install
 npm run dev          # dev server
+npm test             # unit tests (Vitest, tests/unit)
 npm run build        # type-check + production build
 npm run lint         # oxlint
 npm run eval:assist  # Smart Assist fixture evaluation (Node ≥ 22.6)

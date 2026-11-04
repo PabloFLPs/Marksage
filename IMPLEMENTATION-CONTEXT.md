@@ -1077,4 +1077,10 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   "Close document" in the phone's ••• menu, "Start screen" in ⌘K (also from About / the docs). It flushes the
   document into Recent, clears `marksage:doc` (a reload stays on the start screen) and shows the start screen.
   Checked: ✕ → start screen, Recent lists it, reload stays, reopen from Recent; ⌘K from About; phone menu (PT).
+- **Unit tests (Vitest + happy-dom)** — test item 1 of the review's evaluation: `npm test`, 24 tests in `tests/unit`
+  for the pure logic that broke or could break silently: Recent across tabs (the blocker — with the old code put
+  back, both tests fail), Delete all (keys removed, nothing written back), the stored document, first-visit Assist
+  mode, file checks and names, preview pieces (fences, reference definitions, footnotes), structure hints (MediaWiki
+  levels, near-misses, code that only looks like one), version bumps, shortcut labels. `tsconfig.test.json` type-checks
+  them with `tsc -b`; CI runs them after lint.
 

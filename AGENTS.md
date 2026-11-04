@@ -168,7 +168,8 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   the model, and run `fingerprint.ts --check` on a rebuild before training on it.
 
 ## Verify before committing
-`npx tsc -b` · `npm run lint` · `npm run eval:assist` · manually check light/dark, desktop/mobile, and reduced motion.
+`npx tsc -b` · `npm run lint` · `npm test` (unit, `tests/unit`) · `npm run eval:assist` · manually check light/dark, desktop/mobile, and
+reduced motion.
 GitHub runs the same on every push and pull request (`.github/workflows/ci.yml`: type-check, lint, build, eval, version
 check) and fails if the eval's "✗" count leaves `EVAL_BASELINE` — update it in the commit that changes the count.
 
