@@ -33,6 +33,8 @@ export function useTheme() {
   // Before paint, so a change never shows a frame of the old theme.
   useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
+    // The browser bar on phones matches the page (surface colours in index.css).
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0d1117' : '#ffffff')
   }, [theme])
 
   const toggleTheme = useCallback(() => {

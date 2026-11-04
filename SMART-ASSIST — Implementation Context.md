@@ -1031,4 +1031,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   opened in Marksage, the README's relative `public/og-image.png` was requested from the app's own server — served
   with that warning in dev, a 404 in production. Now `https://marksage.vercel.app/og-image.png`: GitHub shows it the
   same, and in Marksage it's an image from the web like any other (placeholder until allowed).
+- **Browser bar colour follows the theme** (ROADMAP follow-up): `theme-color` was always `#0d1117`, so on phones the
+  bar stayed near-black over the light theme a first visit gets. Now `#ffffff` in `index.html`, `#0d1117` from the
+  pre-paint script when dark is stored, and `useTheme` updates it on every switch. Checked: first visit with the OS
+  dark → white; toggle → dark; reload with the app held back → dark before it runs.
 

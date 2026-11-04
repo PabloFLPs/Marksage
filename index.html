@@ -28,7 +28,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Marksage — Markdown editor</title>
     <meta name="description" content="The Markdown editor that notices. Local-first — your files never leave the browser — with an assistant that runs rules and two small models trained for it on your device, and suggests, never overwrites." />
-    <meta name="theme-color" content="#0d1117" />
+    <!-- The browser bar (phones): the page's own colour — light, or dark once chosen (pre-paint script, useTheme). -->
+    <meta name="theme-color" content="#ffffff" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Link previews (WhatsApp, Slack, Discord, iMessage, LinkedIn, X…).
@@ -66,7 +67,10 @@
     <script>
       try {
         // The theme before first paint — the same "dark" class the app uses, so nothing flips when it starts.
-        if (localStorage.getItem("marksage:theme") === "dark") document.documentElement.classList.add("dark");
+        if (localStorage.getItem("marksage:theme") === "dark") {
+          document.documentElement.classList.add("dark");
+          document.querySelector('meta[name="theme-color"]').setAttribute("content", "#0d1117");
+        }
       } catch (e) {}
     </script>
   </head>
