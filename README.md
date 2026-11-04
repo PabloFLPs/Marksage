@@ -58,6 +58,8 @@ ship / don't-ship call are mine.
   fix Smart Assist would offer in the document (click → it opens in the editor)
 - **Code blocks** with syntax colors (~30 languages, loaded only when needed) and a copy button
 - **Recent documents** — up to 15, kept in this browser, searchable (`⌘/Ctrl ⇧ H`); in the menu, `1`–`9` open one
+- **Close document** — the ✕ next to its name (phone: the ••• menu; `⌘/Ctrl K` → Start screen) goes back to the
+  start screen; the document stays in Recent
 - **Privacy & storage** — no cookies, accounts or tracking; everything stored is listed on the About page
   (linked from the start screen, `#privacy`), who runs the site, and removable with one click
 - **Rename** by clicking the name in the header; **Export** asks for the file name first (the document's name, or

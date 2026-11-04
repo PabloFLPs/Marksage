@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { READ_ONLY_DOC_CHARS, isMarkdownFile, looksBinary, readFileAsText } from '../lib/file'
-import { loadDocument, saveDocument } from '../lib/storage'
+import { clearStoredDocument, loadDocument, saveDocument } from '../lib/storage'
 import {
   HISTORY_KEY,
   clearHistory as clearAll,
@@ -225,6 +225,15 @@ export function useMarkdownFile() {
     setError(null)
   }, [flushCurrent])
 
+  /** Back to the start screen: the document goes to Recent first (one click to reopen), then nothing is open. */
+  const closeDocument = useCallback(() => {
+    flushCurrent()
+    clearStoredDocument()
+    persisted.current = sig(null)
+    setDocument(null)
+    setError(null)
+  }, [flushCurrent])
+
   const removeFromHistory = useCallback((id: string) => setHistory((prev) => removeHistory(prev, id)), [])
   const clearHistory = useCallback(() => setHistory(clearAll()), [])
 
@@ -251,6 +260,7 @@ export function useMarkdownFile() {
     openFile,
     pasteText,
     newDocument,
+    closeDocument,
     renameDocument,
     updateContent,
     replaceUntouched,

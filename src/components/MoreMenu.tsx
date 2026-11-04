@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Check, Clipboard, FilePlus2, FolderOpen, Info, ListTree, Moon, MoreHorizontal, PenLine, Sun } from 'lucide-react'
+import { Check, Clipboard, FilePlus2, FolderOpen, Info, ListTree, Moon, MoreHorizontal, PenLine, Sun, X } from 'lucide-react'
 import type { Theme } from '../hooks/useTheme'
 import { Presence } from './motion'
 import { RenameSheet } from './DocName'
@@ -21,11 +21,12 @@ interface MoreMenuProps {
   filename?: string | null
   isDirty?: boolean
   onRename?: (name: string) => void
+  onCloseDocument?: () => void
 }
 
 /** Compact (mobile) overflow menu for secondary header actions. */
 export function MoreMenu(props: MoreMenuProps) {
-  const { hasDocument, copied, theme, onNew, onOpen, onCopy, onAbout, onToggleTheme, onOutline, filename = null, isDirty = false, onRename } = props
+  const { hasDocument, copied, theme, onNew, onOpen, onCopy, onAbout, onToggleTheme, onOutline, filename = null, isDirty = false, onRename, onCloseDocument } = props
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const [renaming, setRenaming] = useState(false)
@@ -83,6 +84,7 @@ export function MoreMenu(props: MoreMenuProps) {
               onClick={run(() => setRenaming(true))}
             />
           )}
+          {hasDocument && onCloseDocument && <Item icon={<X />} label={t('action.closeDocument')} onClick={run(onCloseDocument)} />}
           <Item icon={<FilePlus2 />} label={t('action.newDocument')} onClick={run(onNew)} />
           <Item icon={<FolderOpen />} label={t('action.openFile')} onClick={run(onOpen)} />
           {hasDocument && (

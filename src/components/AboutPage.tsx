@@ -236,8 +236,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<History />} title={x('Recent documents', 'Documentos recentes')}>
             {x(
-              <>Every document you open, paste or write is kept in Recent (clock icon, or <Keys k={['mod', 'shift', 'h']} />) — switch between them freely, nothing is lost; in the menu, typing 1–9 opens one straight away. Up to 15, stored only in this browser.</>,
-              <>Todo documento que você abre, cola ou escreve fica em Recentes (ícone de relógio, ou <Keys k={['mod', 'shift', 'h']} />) — alterne entre eles à vontade, nada se perde; no menu, digitar 1–9 abre um na hora. Até 15, guardados só neste navegador.</>,
+              <>Every document you open, paste or write is kept in Recent (clock icon, or <Keys k={['mod', 'shift', 'h']} />) — switch between them freely, nothing is lost; in the menu, typing 1–9 opens one straight away. The ✕ next to a document’s name closes it and goes back to the start screen (also “Close document” in the phone menu and “Start screen” in ⌘K) — it stays in Recent. Up to 15, stored only in this browser.</>,
+              <>Todo documento que você abre, cola ou escreve fica em Recentes (ícone de relógio, ou <Keys k={['mod', 'shift', 'h']} />) — alterne entre eles à vontade, nada se perde; no menu, digitar 1–9 abre um na hora. O ✕ ao lado do nome de um documento o fecha e volta para a tela inicial (também “Fechar documento” no menu do celular e “Tela inicial” no ⌘K) — ele fica em Recentes. Até 15, guardados só neste navegador.</>,
             )}
           </Feature>
           <Feature icon={<Download />} title={x('Name, export & copy', 'Nome, exportar e copiar')}>

@@ -12,6 +12,7 @@ import {
   Eye,
   ListTree,
   Lock,
+  X,
 } from 'lucide-react'
 import type { ViewMode } from '../lib/viewMode'
 import { ThemeToggle } from './ThemeToggle'
@@ -42,6 +43,8 @@ interface HeaderProps {
   exportName: string
   onExport: (name: string) => void
   onRename: (name: string) => void
+  /** ✕ next to the name (the phone menu's "Close document"): back to the start screen; it stays in Recent. */
+  onCloseDocument: () => void
   theme: Theme
   onToggleTheme: () => void
   isDesktop: boolean
@@ -94,6 +97,7 @@ export function Header({
   exportName,
   onExport,
   onRename,
+  onCloseDocument,
   theme,
   onToggleTheme,
   isDesktop,
@@ -161,7 +165,20 @@ export function Header({
               </span>
             )}
             {/* About and the docs pages hide the document's controls: they'd act on a document that isn't on screen. */}
-            {hasDocument && !showingAbout && <DocName filename={filename} isDirty={isDirty} onRename={onRename} />}
+            {hasDocument && !showingAbout && (
+              <>
+                <DocName filename={filename} isDirty={isDirty} onRename={onRename} />
+                <button
+                  type="button"
+                  onClick={onCloseDocument}
+                  aria-label={t('action.closeDocument')}
+                  title={t('action.closeTitle')}
+                  className="anim-fade -ml-1 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-surface-soft hover:text-ink dark:text-dark-ink-muted dark:hover:bg-dark-surface-soft dark:hover:text-dark-ink"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </>
+            )}
           </>
         )}
       </div>
@@ -264,6 +281,7 @@ export function Header({
             filename={filename}
             isDirty={isDirty}
             onRename={onRename}
+            onCloseDocument={onCloseDocument}
           />
         ) : (
           <>

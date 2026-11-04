@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
-import { AlertCircle, BookOpen, Brain, ClipboardPaste, Clipboard, Columns2, Cpu, Download, Eye, FilePlus2, FileText, FolderOpen, Gauge, ImageOff, Info, Languages, ListTree, Lock, Milestone, Moon, PenLine, PowerOff, Shield, Sparkles, Sun, X, Zap } from 'lucide-react'
+import { AlertCircle, BookOpen, Brain, ClipboardPaste, Clipboard, Columns2, Cpu, Download, Eye, FilePlus2, FileText, FolderOpen, Gauge, Home, ImageOff, Info, Languages, ListTree, Lock, Milestone, Moon, PenLine, PowerOff, Shield, Sparkles, Sun, X, Zap } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
 import { MarkdownPreview } from './components/MarkdownPreview'
@@ -131,6 +131,7 @@ export default function App() {
     renameDocument,
     updateContent,
     replaceUntouched,
+    closeDocument,
     markSaved,
     error,
     clearError,
@@ -481,6 +482,14 @@ export default function App() {
     const want = getSampleDocument(lang)
     if (d.content !== want && (d.content === SAMPLE_DOCUMENT || d.content === SAMPLE_DOCUMENT_PT_BR)) replaceUntouched(want)
   }, [lang, docId, replaceUntouched])
+
+  // Close document (✕ next to its name, the phone menu, ⌘K "Start screen"): back to the start screen; it stays in
+  // Recent. From About or a docs page, the start screen too.
+  const handleCloseDocument = useCallback(() => {
+    setExportOpen(false)
+    closeDocument()
+    goHome()
+  }, [closeDocument, goHome])
 
   const handleTrySmartAssist = useCallback(() => {
     pasteText(getSampleDocument(lang), getSampleFilename())
@@ -881,6 +890,7 @@ export default function App() {
           run: () => (mode !== 'model' || assistMode === 'model' || loadModelNoticeSeen() ? handleAssistModeChange(mode) : setAssistNoticeRequest((n) => n + 1)),
         })
     }
+    if (hasDocument || showAbout) list.push({ id: 'home', group: goGroup, icon: <Home />, label: t('palette.startScreen'), keywords: 'start home close início inicial fechar', run: handleCloseDocument })
     list.push(
       { id: 'about', group: goGroup, icon: <Info />, label: t('palette.about'), keywords: 'about help features sobre ajuda recursos', run: openAbout },
       { id: 'docs', group: goGroup, icon: <BookOpen />, label: t('palette.docs'), keywords: 'docs documentation how documentação', run: openDocs },
@@ -893,7 +903,7 @@ export default function App() {
       if (e.id !== document?.id)
         list.push({ id: `recent-${e.id}`, group: recentGroup, icon: <FileText />, label: entryTitle(e, t('doc.untitled')), hint: relativeTime(e.updatedAt, t, lang), keywords: e.filename ?? '', run: () => handleOpenHistory(e) })
     return list
-  }, [t, lang, setLang, hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, recent, document?.id, handleNew, handleImport, handlePasteFromClipboard, handleTrySmartAssist, handleCopy, changeViewMode, toggleOutline, toggleTheme, handleAssistModeChange, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, handleOpenHistory])
+  }, [t, lang, setLang, hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, recent, document?.id, handleNew, handleImport, handlePasteFromClipboard, handleTrySmartAssist, handleCopy, changeViewMode, toggleOutline, toggleTheme, handleAssistModeChange, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, handleOpenHistory, handleCloseDocument])
 
   const view = showAbout ? 'about' : !hasDocument ? 'empty' : editing ? 'edit' : 'preview'
   const prevView = useRef(view)
@@ -922,6 +932,7 @@ export default function App() {
         exportName={exportName}
         onExport={handleExport}
         onRename={renameDocument}
+        onCloseDocument={handleCloseDocument}
         theme={theme}
         onToggleTheme={toggleTheme}
         isDesktop={isDesktop}

@@ -1072,4 +1072,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   version (`replaceUntouched` in useMarkdownFile: same id, so one Recent entry; still clean, no "*") on a language
   switch and when opened from Recent; an edited sample stays as written. Checked: EN → PT → EN in place; edited →
   kept; untouched in Recent, reopened after switching to PT → PT. About (Reading & writing), EN + PT-BR.
+- **Close document / back to the start screen** (Pablo asked how to reach the start screen; the logo already means
+  "back to the open document" from About and the docs). An explicit close: a ✕ next to the name in the header,
+  "Close document" in the phone's ••• menu, "Start screen" in ⌘K (also from About / the docs). It flushes the
+  document into Recent, clears `marksage:doc` (a reload stays on the start screen) and shows the start screen.
+  Checked: ✕ → start screen, Recent lists it, reload stays, reopen from Recent; ⌘K from About; phone menu (PT).
 
