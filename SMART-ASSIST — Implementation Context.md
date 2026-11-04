@@ -1037,4 +1037,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   dark → white; toggle → dark; reload with the app held back → dark before it runs.
 - **Lint: 0 warnings** — `hooks/useI18n.ts` keeps the context and the hook, `components/I18nProvider.tsx` the
   provider (a file exporting a component next to a hook breaks Fast Refresh, the last oxlint warning).
+- **No chunk-size note on every build:** `chunkSizeWarningLimit: 1500` — the chunks over 500 kB are Mermaid's (elk
+  1.46 MB, only on a docs diagram's Mermaid switch) and the main script (~590 kB, ~183 kB gzip), tracked as ROADMAP
+  §4's first-load item.
 

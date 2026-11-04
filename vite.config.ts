@@ -30,6 +30,12 @@ export default defineConfig(({ mode }) => {
     commit = (env.VERCEL_GIT_COMMIT_SHA || env.CF_PAGES_COMMIT_SHA || env.COMMIT_REF || env.RENDER_GIT_COMMIT || env.GITHUB_SHA || '').trim()
   }
   return {
+    build: {
+      // Over Vite's 500 kB default: Mermaid's chunks (elk ~1.46 MB), fetched only on a docs diagram's Mermaid
+      // switch, and the main script (~590 kB, ~183 kB gzip), whose size is the first-load item in ROADMAP §4. The
+      // note said nothing new on every build, so it's raised past them.
+      chunkSizeWarningLimit: 1500,
+    },
     define: {
       'import.meta.env.VITE_SOURCE_COMMIT': JSON.stringify(commit),
       // Shown in About next to the commit; package.json's version is checked against the git history
