@@ -225,7 +225,7 @@ function OutlineRow({ item, indent, active, onSelect, onHover }: { item: Outline
               {item.source === 'model' && <Sparkles aria-hidden className="h-2.5 w-2.5" />}
             </Badge>
           )}
-          {item.key && <span className={`mt-0.5 line-clamp-2 block text-xs leading-snug ${active ? 'text-ink/80' : 'text-ink-muted'} dark:text-dark-ink-muted`}>{item.key}</span>}
+          {item.key && <span className={`mt-0.5 line-clamp-2 block text-xs leading-snug ${active ? 'text-ink/80 dark:text-dark-ink/85' : 'text-ink-muted dark:text-dark-ink-muted'}`}>{item.key}</span>}
         </span>
       </button>
     </li>

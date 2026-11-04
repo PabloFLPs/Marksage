@@ -1132,3 +1132,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   the layout. One real difference: the shortcut listener no longer re-registers on every keystroke (it depended
   on the document object; now on whether there is one). First-load JS +0.7 KB gzip (181.6). Checks: tsc, lint 0,
   27 unit + 33 E2E (×3), eval 1215.
+- **Contrast per accent palette** — a one-off axe run with each app icon (the spec covers Classic): Mono, Sunset
+  and Classic pass in light and dark once the Outline's active key sentence got its dark variant (Mono dark was
+  4.42 : 1). **Line fails in light**: its teal accent is 3.74 : 1 on white (10 elements — counts, labels, the
+  section types); it needs a darker teal, Pablo's call (ROADMAP §4).
