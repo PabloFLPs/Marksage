@@ -70,6 +70,9 @@ function parseDoc(source: string, svgs: DocsContent['svgs']) {
 }
 
 /** Technical docs pages: "How Smart Assist works" (#smart-assist) and "How the two models work" (#models). */
+/** The docs pages' panel has no Suggestions tab (they're read-only). */
+const DOCS_TABS: PanelTab[] = ['outline', 'document']
+
 export function TechDocsPage({ page, content, closing = false, onBack, backLabel, isDesktop, useModel }: TechDocsPageProps) {
   const { t, lang } = useI18n()
   const bodyRef = useRef<HTMLDivElement>(null)
@@ -84,10 +87,15 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
   const filename = page === 'models' ? 'MODELS.md' : 'SMART-ASSIST.md'
   // Without the file name — the type comes from the text, as for any pasted document.
   const kind = useDocKind(outline.text, outline.items, null, `${page}|${lang}`)
-  const showDocument = useCallback(() => {
-    setTab('document')
-    setPanelOpen(true)
-  }, [])
+  // The bar's tab icons and its type: open the panel there, or close it when that tab is showing.
+  const toggleTab = useCallback(
+    (next: PanelTab) => {
+      if (panelOpen && tab === next) return setPanelOpen(false)
+      setTab(next)
+      setPanelOpen(true)
+    },
+    [panelOpen, tab],
+  )
   const nav = useOutlineNav(scrollRef, noEditor, outline.items.map((i) => i.line), panelOpen, `${page}|${lang}`)
   const closePanel = useCallback(() => setPanelOpen(false), [])
   const select = useCallback(
@@ -147,12 +155,12 @@ export function TechDocsPage({ page, content, closing = false, onBack, backLabel
           kind={kind}
           name={filename}
           fallbackLabel={t('docs.badge')}
-          onShowDocument={showDocument}
           copied={copied}
           onCopy={copyPage}
           copyTitle={t('docs.copyTitle')}
-          outlineOpen={panelOpen}
-          onToggleOutline={() => setPanelOpen((o) => !o)}
+          tabs={DOCS_TABS}
+          openTab={panelOpen ? tab : null}
+          onTab={toggleTab}
           leading={
             <button
               type="button"

@@ -330,6 +330,7 @@ export const en = {
   'page.loadFailed': 'This page couldn’t load — check your connection and try again.',
   'page.retry': 'Try again',
   'docbar.noKind': 'No clear document type yet — click for the Document tab',
+  'docbar.closeTab': 'Close the {tab} tab',
   'docs.badge': 'Technical docs',
   'docs.readOnly': 'Read-only',
   'docs.readOnlyTitle': 'Marksage’s docs can’t be edited here — copy the Markdown to use it in your own document',

@@ -19,7 +19,9 @@ src/
                           `RenameSheet` = the phone version, from MoreMenu's "Rename…" (the header has no room for the name)
     ExportMenu.tsx        Export button + "Export as" panel; ⌘/Ctrl S opens it (state in App), again downloads
     DocBar.tsx            the bar above every rendered document and the docs pages: type (useDocKind → Document tab's
-                          `computeDocStats().kind`, after typing settles) or name, Copy Markdown, Outline; container queries
+                          `computeDocStats().kind`, after typing settles) or name, Copy Markdown, one icon per panel tab
+                          (`tabs` / `openTab` / `onTab`: open there, or close when that tab shows; the type = Document);
+                          container queries. App watches it (IntersectionObserver): on screen → the header's Outline hides
     MarkdownEditor.tsx    textarea + line numbers (a hidden mirror wraps like the textarea; numbers in the gutter; pieces of
                           200 lines memoized) — keep the mirror's text classes = the textarea's. The mirror scrolls by a
                           scroll-driven animation (`.editor-lines`, `--scroll-max`; compositor, same frame as the text) —

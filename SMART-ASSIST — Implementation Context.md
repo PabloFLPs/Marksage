@@ -1019,4 +1019,12 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   while the search box is empty — once anything is typed, digits search ("2026"). The footer says "Type 1–n to
   open". Desktop only (no keyboard on phones). Checked: three documents, ⌘⇧H, "2" opens the second; "a1" types
   into the search.
+- **The document bar's tab icons** (Pablo: a button per Outline tab, and clicking the type again closes the panel;
+  the header's Outline is redundant at the top of the preview): the bar's "Outline" button becomes three icon
+  buttons — Outline, Document, Suggestions (with its count while the panel lists them; the docs pages have no
+  Suggestions) — each opens the panel on its tab and closes it when that tab is showing; the type chip does the
+  same for Document. The header's Outline button collapses while the bar is on screen (IntersectionObserver, so it
+  follows the preview pane's own scrolling) and comes back once it's scrolled past. Checked: split view and preview,
+  top / scrolled / back; Outline → open, Outline → closed, Document → open, type → closed, type → Document;
+  #models shows two icons; 320 px PT fits.
 

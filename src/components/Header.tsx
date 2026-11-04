@@ -66,6 +66,8 @@ interface HeaderProps {
   readOnly?: boolean
   outlineOpen: boolean
   onToggleOutline: () => void
+  /** The document bar (with its own tab icons) is on screen: the Outline button steps aside. */
+  outlineButtonHidden?: boolean
   /** Counter from the command palette: open the Assist menu on the Rules + AI download notice. */
   assistNoticeRequest?: number
 }
@@ -112,6 +114,7 @@ export function Header({
   readOnly = false,
   outlineOpen,
   onToggleOutline,
+  outlineButtonHidden = false,
   assistNoticeRequest,
 }: HeaderProps) {
   const { t } = useI18n()
@@ -168,7 +171,7 @@ export function Header({
           <AssistToggle mode={assistMode} status={assistStatus} onChange={onAssistModeChange} onRetry={onAssistRetry} compact={compact} noticeRequest={assistNoticeRequest} />
         </CollapseX>
 
-        <CollapseX show={hasDocument && !compact && !showingAbout}>
+        <CollapseX show={hasDocument && !compact && !showingAbout && !outlineButtonHidden}>
           <button
             type="button"
             onClick={onToggleOutline}

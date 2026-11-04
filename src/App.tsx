@@ -105,6 +105,8 @@ function utf8Bytes(s: string): number {
 const loadAbout = () => import('./components/AboutPage')
 const AboutPage = lazy(() => loadAbout().then((m) => ({ default: m.AboutPage })))
 
+const PANEL_TABS: PanelTab[] = ['outline', 'document', 'suggestions']
+
 function formatBytes(bytes: number, lang: string): string {
   if (bytes < 1000) return `${bytes.toLocaleString(lang)} B`
   const [v, unit] = bytes < 1_000_000 ? [bytes / 1000, 'KB'] : [bytes / 1_000_000, 'MB']
@@ -786,23 +788,44 @@ export default function App() {
     },
     [outlineNav, isDesktop, closeOutline],
   )
-  // The type in the document bar → the panel's Document tab, which says why.
-  const showDocumentTab = useCallback(() => {
-    setPanelTab('document')
-    if (!outlineOpen || outlineClosing) toggleOutline()
-  }, [outlineOpen, outlineClosing, toggleOutline])
+  // The document bar's tab icons (and its type → Document): open the panel on that tab, or close it when that tab
+  // is the one showing.
+  const openPanelTab: PanelTab | null = outlineShown && !outlineClosing ? panelTab : null
+  const toggleTab = useCallback(
+    (tab: PanelTab) => {
+      if (openPanelTab === tab) return closeOutline()
+      setPanelTab(tab)
+      if (!openPanelTab) toggleOutline()
+    },
+    [openPanelTab, closeOutline, toggleOutline],
+  )
+  // While the document bar is on screen (the top of the preview), the header's Outline button would repeat its tab
+  // icons, so it steps aside; scrolled past the bar, it comes back.
+  const [docBarInView, setDocBarInView] = useState(false)
+  const docBarObserver = useRef<IntersectionObserver | null>(null)
+  const watchDocBar = useCallback((el: HTMLDivElement | null) => {
+    docBarObserver.current?.disconnect()
+    docBarObserver.current = null
+    if (!el) return setDocBarInView(false)
+    const io = new IntersectionObserver(([entry]) => setDocBarInView(entry.isIntersecting))
+    io.observe(el)
+    docBarObserver.current = io
+  }, [])
   const docBar = document && (
-    <DocBar
-      className="pt-5 sm:pt-6"
-      kind={docKind}
-      name={document.filename ?? t('doc.untitled')}
-      onShowDocument={showDocumentTab}
-      copied={copied}
-      onCopy={handleCopy}
-      copyTitle={t('action.copyTitle', { keys: shortcut(['mod', 'shift', 'c'], keyStyle) })}
-      outlineOpen={outlineShown && !outlineClosing}
-      onToggleOutline={toggleOutline}
-    />
+    <div ref={watchDocBar}>
+      <DocBar
+        className="pt-5 sm:pt-6"
+        kind={docKind}
+        name={document.filename ?? t('doc.untitled')}
+        copied={copied}
+        onCopy={handleCopy}
+        copyTitle={t('action.copyTitle', { keys: shortcut(['mod', 'shift', 'c'], keyStyle) })}
+        tabs={PANEL_TABS}
+        openTab={openPanelTab}
+        onTab={toggleTab}
+        pending={assist.enabled ? assist.all.length : 0}
+      />
+    </div>
   )
   // Previous screen — lets the preview skip its fade when it's revealed by the editor closing.
   // The command palette's list — only what can be done from the current screen.
@@ -906,6 +929,7 @@ export default function App() {
         readOnly={readOnly}
         outlineOpen={outlineShown && !outlineClosing}
         onToggleOutline={toggleOutline}
+        outlineButtonHidden={docBarInView}
         assistNoticeRequest={assistNoticeRequest}
       />
 

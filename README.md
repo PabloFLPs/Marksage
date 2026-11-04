@@ -61,7 +61,8 @@ ship / don't-ship call are mine.
 - **Rename** by clicking the name in the header; **Export** asks for the file name first (the document's name, or
   one from its first heading) and keeps it
 - **Document bar** above every rendered document — its type (README, technical docs…, from the Document tab) or
-  its name, **Copy Markdown** and the **Outline**
+  its name, **Copy Markdown**, and one icon per Outline tab (Outline, Document, Suggestions): a click opens the panel
+  there, a second one closes it; while the bar is on screen, the header's Outline button steps aside
 - **Line numbers** in the editor (they follow wrapped lines; the caret's line is brighter)
 - **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown;
   the footer shows lines, words, characters and file size

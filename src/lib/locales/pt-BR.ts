@@ -331,6 +331,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'page.loadFailed': 'Esta página não carregou — verifique a conexão e tente de novo.',
   'page.retry': 'Tentar de novo',
   'docbar.noKind': 'Ainda sem um tipo de documento claro — clique para ver a aba Documento',
+  'docbar.closeTab': 'Fechar a aba {tab}',
   'docs.badge': 'Documentação técnica',
   'docs.readOnly': 'Somente leitura',
   'docs.readOnlyTitle': 'A documentação do Marksage não pode ser editada aqui — copie o Markdown para usar no seu documento',

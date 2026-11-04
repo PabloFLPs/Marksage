@@ -1,5 +1,6 @@
 import type { ComponentType, ReactNode } from 'react'
-import { BookMarked, BookOpen, BookOpenText, Check, Clipboard, Compass, FileText, History, ListTree, Newspaper, NotebookPen } from 'lucide-react'
+import { BookMarked, BookOpen, BookOpenText, Check, Clipboard, Compass, FileSearch, FileText, History, ListTree, Newspaper, NotebookPen, Sparkles } from 'lucide-react'
+import type { PanelTab } from './OutlinePanel'
 import type { DocKind, DocStats } from '../assist/docStats'
 import { useI18n } from '../hooks/useI18n'
 import { kindReason } from '../lib/docKind'
@@ -14,6 +15,8 @@ const KIND_ICONS: Record<DocKind, ComponentType<{ className?: string }>> = {
   notes: NotebookPen,
 }
 
+const TAB_ICONS: Record<PanelTab, ComponentType<{ className?: string }>> = { outline: ListTree, document: FileSearch, suggestions: Sparkles }
+
 const button = 'tap inline-flex h-8 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 text-xs font-medium transition-colors'
 const buttonOff =
   'border-line text-ink hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent'
@@ -26,13 +29,17 @@ export interface DocBarProps {
   name: string
   /** When nothing is detected, show this instead of the name (the docs pages: "Technical docs"). */
   fallbackLabel?: string
-  /** The type was clicked: open the panel on its Document tab. */
-  onShowDocument: () => void
   copied: boolean
   onCopy: () => void
   copyTitle: string
-  outlineOpen: boolean
-  onToggleOutline: () => void
+  /** The panel's tabs this document has (the docs pages: no Suggestions). */
+  tabs: PanelTab[]
+  /** The tab on screen when the panel is open, else null. */
+  openTab: PanelTab | null
+  /** A tab icon (or the type, for Document) was clicked: open the panel there — or close it if that tab is showing. */
+  onTab: (tab: PanelTab) => void
+  /** Suggestions waiting, shown on its icon. */
+  pending?: number
   /** Left of the bar (the docs pages' Back); the type then moves next to the buttons. */
   leading?: ReactNode
   /** Before the buttons (the docs pages' "Read-only" on phones). */
@@ -42,10 +49,12 @@ export interface DocBarProps {
 
 /**
  * The bar above a rendered document — documents and Marksage's own docs pages alike: what the document is (type
- * from the Document tab, else its name), Copy Markdown and the Outline. Sized by its own width (container
- * queries), so it fits the split view's preview pane as well as a full page.
+ * from the Document tab, else its name), Copy Markdown, and one icon per panel tab (Outline, Document,
+ * Suggestions): each opens the panel there, and closes it when that tab is already showing — the type does the same
+ * for Document. Sized by its own width (container queries), so it fits the split view's preview pane as well as a
+ * full page.
  */
-export function DocBar({ kind, name, fallbackLabel, onShowDocument, copied, onCopy, copyTitle, outlineOpen, onToggleOutline, leading, extra, className = '' }: DocBarProps) {
+export function DocBar({ kind, name, fallbackLabel, copied, onCopy, copyTitle, tabs, openTab, onTab, pending = 0, leading, extra, className = '' }: DocBarProps) {
   const { t } = useI18n()
   const Icon = kind ? KIND_ICONS[kind.id] : fallbackLabel ? BookOpen : FileText
   const label = kind ? t(`doc.kindShort.${kind.id}`) : (fallbackLabel ?? name)
@@ -53,7 +62,8 @@ export function DocBar({ kind, name, fallbackLabel, onShowDocument, copied, onCo
   const chip = (
     <button
       type="button"
-      onClick={onShowDocument}
+      onClick={() => onTab('document')}
+      aria-pressed={openTab === 'document'}
       title={title}
       className={`tap group min-w-0 items-center gap-1.5 rounded-md py-1 text-xs text-ink-muted transition-colors hover:text-accent dark:text-dark-ink-muted dark:hover:text-dark-accent ${
         kind || fallbackLabel ? 'uppercase tracking-wider' : ''
@@ -78,10 +88,24 @@ export function DocBar({ kind, name, fallbackLabel, onShowDocument, copied, onCo
               {copied ? t('action.copied') : <><span className="@lg:hidden">{t('action.copy')}</span><span className="hidden @lg:inline">{t('action.copyMarkdown')}</span></>}
             </span>
           </button>
-          <button type="button" onClick={onToggleOutline} aria-pressed={outlineOpen} title={t('outline.toggleTitle')} className={`${button} ${outlineOpen ? buttonOn : buttonOff}`}>
-            <ListTree className="h-3.5 w-3.5" />
-            <span className="hidden @3xs:inline">{t('outline.toggle')}</span>
-          </button>
+          <span role="group" aria-label={t('outline.toggleTitle')} className="inline-flex shrink-0 items-center gap-1">
+            {tabs.map((tab) => {
+              const TabIcon = TAB_ICONS[tab]
+              const on = openTab === tab
+              const name = t(`panel.tab.${tab}`)
+              const label = tab === 'suggestions' && pending ? `${name} (${pending})` : name
+              return (
+                <button key={tab} type="button" onClick={() => onTab(tab)} aria-pressed={on} aria-label={label} title={on ? t('docbar.closeTab', { tab: name }) : label} className={`${button} relative px-2 ${on ? buttonOn : buttonOff}`}>
+                  <TabIcon className="h-3.5 w-3.5" />
+                  {tab === 'suggestions' && pending > 0 && (
+                    <span aria-hidden className="absolute -right-1 -top-1 min-w-4 rounded-full bg-accent px-1 text-center text-[10px] font-semibold leading-4 text-white tabular-nums dark:bg-dark-accent dark:text-dark-surface">
+                      {pending > 99 ? '99+' : pending}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
+          </span>
         </span>
       </div>
     </div>
