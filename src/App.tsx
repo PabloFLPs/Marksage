@@ -19,7 +19,7 @@ import {
 } from './lib/file'
 import { deleteAllLocalData, loadAssistMode, loadModelNoticeSeen, loadOutlineOpen, loadRemoteImages, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveRemoteImages, saveSplitRatio } from './lib/storage'
 import { deleteDownloadedModel } from './assist/modelEngine'
-import { getSampleDocument, getSampleFilename } from './lib/sampleDocument'
+import { SAMPLE_DOCUMENT, SAMPLE_DOCUMENT_PT_BR, getSampleDocument, getSampleFilename } from './lib/sampleDocument'
 import { useI18n } from './hooks/useI18n'
 import { CommandPalette, type Command } from './components/CommandPalette'
 import { entryTitle, relativeTime } from './lib/history'
@@ -130,6 +130,7 @@ export default function App() {
     newDocument,
     renameDocument,
     updateContent,
+    replaceUntouched,
     markSaved,
     error,
     clearError,
@@ -468,6 +469,18 @@ export default function App() {
     await deleteAllLocalData()
     window.location.replace(window.location.pathname + window.location.search) // fresh start, no #about
   }, [])
+
+  // Marksage's own document follows the app's language: the sample, while untouched, is swapped for the current
+  // language's version — on a language switch and when it's opened from Recent. An edited sample stays as it is.
+  const docId = document?.id
+  const docRef = useRef(document)
+  docRef.current = document
+  useEffect(() => {
+    const d = docRef.current
+    if (!d || d.filename !== getSampleFilename()) return
+    const want = getSampleDocument(lang)
+    if (d.content !== want && (d.content === SAMPLE_DOCUMENT || d.content === SAMPLE_DOCUMENT_PT_BR)) replaceUntouched(want)
+  }, [lang, docId, replaceUntouched])
 
   const handleTrySmartAssist = useCallback(() => {
     pasteText(getSampleDocument(lang), getSampleFilename())

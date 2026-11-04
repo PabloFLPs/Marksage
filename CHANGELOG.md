@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.42.0** · 2026-11-04 · `(this commit)` · feat(start): the Marksage logo on the start screen
+- **3.43.0** · 2026-11-04 · `(this commit)` · feat(sample): the sample document follows the app's language
+- **3.42.0** · 2026-11-04 · `fc270e0` · feat(start): the Marksage logo on the start screen
 - **3.41.1** · 2026-11-03 · `0fe6ba3` · fix(meta): og:description says "EN-US · PT-BR", like the preview image
 - **3.41.0** · 2026-11-03 · `27c4372` · feat(meta): a refreshed link preview that says what's special, with a light variant kept ready
 - **3.40.1** · 2026-11-03 · `2388a2b` · fix(theme): the browser bar matches the page's theme

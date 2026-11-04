@@ -232,6 +232,11 @@ export function useMarkdownFile() {
     setDocument((prev) => (prev && !prev.readOnly ? { ...prev, content } : prev))
   }, [])
 
+  /** Replace an untouched document's text in place — same entry in Recent, still clean (the sample in another language). */
+  const replaceUntouched = useCallback((content: string) => {
+    setDocument((prev) => (prev && !prev.readOnly && prev.content === prev.savedContent ? { ...prev, content, savedContent: content } : prev))
+  }, [])
+
   const markSaved = useCallback(() => {
     setDocument((prev) =>
       prev && prev.content !== prev.savedContent ? { ...prev, savedContent: prev.content } : prev,
@@ -248,6 +253,7 @@ export function useMarkdownFile() {
     newDocument,
     renameDocument,
     updateContent,
+    replaceUntouched,
     markSaved,
     error,
     clearError,

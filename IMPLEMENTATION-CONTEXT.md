@@ -1067,4 +1067,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **og:description says "EN-US · PT-BR"**, the pattern the refreshed preview image uses (Pablo).
 - **The logo on the start screen** (Pablo): the app icon the user picked (About → Appearance; Classic by default)
   above the tagline, 56 px, the same image as the header and the tab, so it follows the icon and the theme.
+- **The sample follows the app's language** (Pablo: Marksage's own documents should switch with it — the docs pages
+  and #story already did): while untouched, `pitwall-README.md` is swapped in place for the current language's
+  version (`replaceUntouched` in useMarkdownFile: same id, so one Recent entry; still clean, no "*") on a language
+  switch and when opened from Recent; an edited sample stays as written. Checked: EN → PT → EN in place; edited →
+  kept; untouched in Recent, reopened after switching to PT → PT. About (Reading & writing), EN + PT-BR.
 
