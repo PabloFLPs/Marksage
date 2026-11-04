@@ -58,8 +58,9 @@
   --color-dark-accent-strong: #f4f4f5;
 }
 :root[data-accent='outline'] {
-  --color-accent: #0d9488;
-  --color-accent-strong: #0f766e;
+  /* teal-700 / 800: teal-600 (#0d9488) was 3.74 : 1 on white, under AA for text (5.47 : 1 now). */
+  --color-accent: #0f766e;
+  --color-accent-strong: #115e59;
   --color-dark-accent: #2dd4bf;
   --color-dark-accent-strong: #5eead4;
 }

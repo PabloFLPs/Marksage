@@ -1136,3 +1136,6 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   and Classic pass in light and dark once the Outline's active key sentence got its dark variant (Mono dark was
   4.42 : 1). **Line fails in light**: its teal accent is 3.74 : 1 on white (10 elements — counts, labels, the
   section types); it needs a darker teal, Pablo's call (ROADMAP §4).
+- **Line palette, darker** (Pablo: do it) — light accent teal-700 `#0f766e` (5.47 : 1 on white, was 3.74), hover
+  teal-800 `#115e59`; dark unchanged. Its app icon keeps teal-600 (a graphic: 3 : 1 is the bar, 3.74 passes). The
+  axe spec now scans the sample + Outline and About with Mono, Line and Sunset too, light and dark: 26 tests.

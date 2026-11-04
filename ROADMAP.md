@@ -110,10 +110,6 @@ Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Cont
   suggestions at the rules' precision; the section model adds little in Portuguese and on "performance" / "guide"
   sections (the items above and below). The docs already give the numbers; the next real step up is a general
   decision model (§2) or BYOK (§1), not tuning these two against sets they've seen.
-- **The Line palette's contrast** (axe, 2026-11-04): its teal accent is 3.74 : 1 on white — under WCAG AA's 4.5 for
-  text (counts, labels, section types; Classic, Mono and Sunset pass in light and dark). A darker teal for light
-  (≈ teal-700, `#0f766e`, 5.5 : 1) would fix it and change how Line looks, so it waits for Pablo. Then add the
-  four palettes to `tests/e2e/a11y.spec.ts`.
 - **Preview layout on big documents** (launch QA #15): switching a 3 MB document to the split editor spends ~7 s
   laying out the whole preview again. `content-visibility: auto` on the preview's pieces would skip off-screen ones,
   but scroll sync and the Outline measure those blocks — needs their positions to stay right.

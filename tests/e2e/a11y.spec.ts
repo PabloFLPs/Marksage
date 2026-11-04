@@ -47,3 +47,30 @@ for (const theme of ['light', 'dark'] as const) {
     })
   })
 }
+
+// The other accent palettes (each app icon re-themes the accent, index.css): the screens with the most accent text.
+for (const icon of ['mono', 'outline', 'sunset'] as const)
+  for (const theme of ['light', 'dark'] as const)
+    test.describe(`${icon} palette, ${theme}`, () => {
+      test.beforeEach(async ({ context }) => {
+        await context.addInitScript(
+          ([i, t]) => {
+            localStorage.setItem('marksage:app-icon', i)
+            if (t === 'dark') localStorage.setItem('marksage:theme', 'dark')
+          },
+          [icon, theme],
+        )
+      })
+
+      test('the sample with the Outline open', async ({ page }) => {
+        await openSample(page)
+        await page.getByRole('group', { name: 'Outline and document insights' }).getByRole('button', { name: 'Outline', exact: true }).click()
+        await scan(page, `${icon} ${theme}: editor + Outline`)
+      })
+
+      test('About', async ({ page }) => {
+        await page.goto('/#about')
+        await page.waitForLoadState('networkidle')
+        await scan(page, `${icon} ${theme}: About`)
+      })
+    })
