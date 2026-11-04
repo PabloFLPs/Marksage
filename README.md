@@ -111,7 +111,8 @@ no shortcut for New: Chrome, Edge and Opera never pass `⌘/Ctrl N` to a page.
 npm install
 npm run dev          # dev server
 npm test             # unit tests (Vitest, tests/unit)
-npm run test:e2e     # end-to-end tests (Playwright, tests/e2e) — once before: npx playwright install chromium
+npm run test:e2e     # end-to-end tests (Playwright, tests/e2e), incl. an axe accessibility scan (WCAG 2.1 AA)
+                     # of every screen, light and dark — once before: npx playwright install chromium
                      # CROSS_BROWSER=1 adds WebKit (desktop + iPhone) and Firefox (install them: webkit firefox)
 npm run build        # type-check + production build
 npm run lint         # oxlint

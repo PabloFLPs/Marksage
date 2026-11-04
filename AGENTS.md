@@ -173,6 +173,8 @@ in desktop + phone Chromium) · `npm run eval:assist` · manually check light/da
 A user-facing flow that changes needs its E2E test changed or added (`tests/e2e/helpers.ts`: openSample, palette, focused…);
 wait on state (`expect`, `expect.poll`), never on time. `CROSS_BROWSER=1` adds WebKit (desktop + iPhone) and Firefox; CI runs
 them in `e2e-cross-browser`, non-blocking until it has been green once (then remove its `continue-on-error`).
+`tests/e2e/a11y.spec.ts` runs axe (WCAG 2.1 A + AA) on every screen in light and dark: a new screen, panel or dialog
+gets a scan there; fix what it finds rather than disabling rules (accent text on an accent tint: `text-accent-strong`).
 GitHub runs the same on every push and pull request (`.github/workflows/ci.yml`: type-check, lint, build, eval, version
 check) and fails if the eval's "✗" count leaves `EVAL_BASELINE` — update it in the commit that changes the count.
 

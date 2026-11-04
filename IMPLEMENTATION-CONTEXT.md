@@ -1108,3 +1108,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   `Tab` / `Esc` chips sit on `black/20` (white on accent: 7.2 : 1); task-list boxes are named *Done* / *Not done*;
   code blocks are focusable (they scroll sideways); links in the preview are underlined, faintly (1.4.1 — not
   colour alone).
+- **Automated accessibility** — test item 4: `tests/e2e/a11y.spec.ts` (`@axe-core/playwright`, WCAG 2.1 A + AA) scans
+  the start screen, the sample in the editor with the Outline open, About, the two docs pages, the story and the
+  command palette, in light and dark (14 tests). It waits for entrance animations to end first (mid-fade text
+  measures lower than it ends up), but not for looping or scroll-driven ones. The first run failed 11 of 14; the
+  fixes are the commit before this one.
