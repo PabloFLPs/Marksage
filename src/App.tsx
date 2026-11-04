@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
-import { AlertCircle, BookOpen, Brain, ClipboardPaste, Clipboard, Columns2, Cpu, Download, Eye, FilePlus2, FileText, FolderOpen, Gauge, Home, ImageOff, Info, Languages, ListTree, Lock, Milestone, Moon, PenLine, PowerOff, Shield, Sparkles, Sun, X, Zap } from 'lucide-react'
+import { AlertCircle, Eye, Gauge, ImageOff, Lock, X } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
 import { MarkdownPreview } from './components/MarkdownPreview'
@@ -12,18 +12,15 @@ import { useMediaQuery } from './hooks/useMediaQuery'
 import {
   LARGE_DOC_CHARS,
   copyTextToClipboard,
-  isMarkdownFile,
   downloadMarkdown,
   openFilePicker,
   suggestFilename,
 } from './lib/file'
-import { deleteAllLocalData, loadAssistMode, loadModelNoticeSeen, loadOutlineOpen, loadRemoteImages, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveOutlineOpen, saveRemoteImages, saveSplitRatio } from './lib/storage'
+import { deleteAllLocalData, loadAssistMode, loadRemoteImages, loadSplitRatio, saveAssistMode, saveModelNoticeSeen, saveRemoteImages, saveSplitRatio } from './lib/storage'
 import { deleteDownloadedModel } from './assist/modelEngine'
 import { SAMPLE_DOCUMENT, SAMPLE_DOCUMENT_PT_BR, getSampleDocument, getSampleFilename } from './lib/sampleDocument'
 import { useI18n } from './hooks/useI18n'
-import { CommandPalette, type Command } from './components/CommandPalette'
-import { entryTitle, relativeTime } from './lib/history'
-import { LANGS } from './lib/i18n'
+import { CommandPalette } from './components/CommandPalette'
 import { useKeyStyle } from './hooks/useKeyStyle'
 import { shortcut } from './lib/keyStyle'
 import { Presence } from './components/motion'
@@ -40,65 +37,18 @@ import { OutlinePanel, type PanelTab } from './components/OutlinePanel'
 import { DocBar } from './components/DocBar'
 import { useDocKind } from './hooks/useDocKind'
 import type { AssistMode, Suggestion } from './assist/types'
-import type { ViewMode } from './lib/viewMode'
-
-import { loadDocsPage } from './lib/docsContent'
-import { loadStoryPage } from './lib/storyContent'
-import type { TechDocsPageProps } from './components/TechDocsPage'
-import type { StoryPageProps } from './components/StoryPage'
 import { PageLoadBoundary, PageLoading } from './components/PageLoad'
+import { countLines, countWords, formatBytes, utf8Bytes } from './lib/docStats'
+import { useInfoPages } from './hooks/useInfoPages'
+import { useViewMode } from './hooks/useViewMode'
+import { useOutlinePanel } from './hooks/useOutlinePanel'
+import { useGlobalInput } from './hooks/useGlobalInput'
+import { useTypeToEdit } from './hooks/useTypeToEdit'
+import { usePaletteCommands } from './hooks/usePaletteCommands'
 
-const EXIT_MS = 220
-
-type InfoPage = 'about' | 'docs' | 'models' | 'story'
-function pageFromHash(): InfoPage | null {
-  const h = window.location.hash.toLowerCase() // "#ABOUT" works too (launch QA #36)
-  return h === '#about' || h === '#privacy' ? 'about' : h === '#smart-assist' ? 'docs' : h === '#models' ? 'models' : h === '#story' ? 'story' : null
-}
-
-/**
- * Each history entry Marksage has seen carries `{ ms: 1, from }`: the screen it was opened from ('app', a page),
- * or null when it was the first one (a direct link). The in-app Back goes back in history when there is an
- * in-app previous screen — so it always agrees with the browser's Back — and otherwise to the parent page.
- */
-type CameFrom = InfoPage | 'app' | null
-interface NavState {
-  ms: 1
-  from: CameFrom
-}
-function navState(): NavState | null {
-  const s = window.history.state as Partial<NavState> | null
-  return s?.ms === 1 ? (s as NavState) : null
-}
 const DESKTOP_QUERY = '(min-width: 768px)'
 const nullRef = { current: null }
 const COPIED_RESET_MS = 1600
-
-function countWords(content: string): number {
-  const match = content.trim().match(/\S+/g)
-  return match ? match.length : 0
-}
-
-function countLines(content: string): number {
-  let n = 1
-  for (let i = content.indexOf('\n'); i !== -1; i = content.indexOf('\n', i + 1)) n++
-  return n
-}
-
-/** UTF-8 size of the text — what Export saves — counted without encoding a copy. */
-function utf8Bytes(s: string): number {
-  let n = 0
-  for (let i = 0; i < s.length; i++) {
-    const c = s.charCodeAt(i)
-    if (c < 0x80) n += 1
-    else if (c < 0x800) n += 2
-    else if (c >= 0xd800 && c <= 0xdbff && i + 1 < s.length) {
-      n += 4 // surrogate pair: one 4-byte character
-      i++
-    } else n += 3
-  }
-  return n
-}
 
 // About loads on demand (pre-launch review: 11 KB gzip off the script every first visit waits for) — fetched while
 // the browser is idle after the first paint, so opening it stays instant.
@@ -106,18 +56,6 @@ const loadAbout = () => import('./components/AboutPage')
 const AboutPage = lazy(() => loadAbout().then((m) => ({ default: m.AboutPage })))
 
 const PANEL_TABS: PanelTab[] = ['outline', 'document', 'suggestions']
-
-function formatBytes(bytes: number, lang: string): string {
-  if (bytes < 1000) return `${bytes.toLocaleString(lang)} B`
-  const [v, unit] = bytes < 1_000_000 ? [bytes / 1000, 'KB'] : [bytes / 1_000_000, 'MB']
-  return `${v.toLocaleString(lang, { maximumFractionDigits: v < 100 ? 1 : 0 })} ${unit}`
-}
-
-function isEditableTarget(target: EventTarget | null): boolean {
-  const el = target as HTMLElement | null
-  if (!el) return false
-  return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable
-}
 
 export default function App() {
   const { t, lang, setLang } = useI18n()
@@ -146,11 +84,23 @@ export default function App() {
   const { theme, toggleTheme } = useTheme()
   const isDesktop = useMediaQuery(DESKTOP_QUERY)
   const isTouch = useMediaQuery('(pointer: coarse)')
+  const { infoPage, showAbout, aboutClosing, backLabel, openAbout, openPrivacy, openDocs, openModelsDocs, openStory, closeAbout, goHome, TechDocs, Story, retryDocs } = useInfoPages()
+  const hasDocument = document !== null
+  const readOnly = !!document?.readOnly
+  // About: fetched once the app has painted and the browser is idle (not on Save-Data), so it opens instantly.
+  useEffect(() => {
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    if (conn?.saveData) return
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500))
+    const cancel = window.cancelIdleCallback ?? window.clearTimeout
+    const id = idle(() => void loadAbout().catch(() => {}))
+    return () => cancel(id)
+  }, [])
+  const { viewMode, setViewMode, editorClosing, changeViewMode } = useViewMode({ readOnly, isDesktop, hasDocument })
+  const { outlineOpen, outlineShown, outlineClosing, closeOutline, toggleOutline, panelTab, setPanelTab, openPanelTab, toggleTab } = useOutlinePanel({ isDesktop, available: hasDocument && !showAbout })
   // "Paste Markdown" when the browser won't let us read the clipboard: a new document whose placeholder
   // says how to paste into it (works everywhere, iOS included). Cleared once there's text, or on a plain New.
   const [pasteHint, setPasteHint] = useState(false)
-  const [viewMode, setViewMode] = useState<ViewMode>('preview')
-  const [isDragging, setIsDragging] = useState(false)
   const [copied, setCopied] = useState(false)
   // A short, neutral message (not an error) that goes away by itself.
   const [notice, setNotice] = useState<string | null>(null)
@@ -165,9 +115,6 @@ export default function App() {
   const [assistMode, setAssistMode] = useState<AssistMode>(loadAssistMode)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const previewPaneRef = useRef<HTMLDivElement>(null) // split view: the preview pane (scrolls with the editor)
-  // Outline panel: docked on desktop (remembered), a bottom sheet on small screens (never auto-opens).
-  const [outlineOpen, setOutlineOpen] = useState(() => isDesktop && loadOutlineOpen())
-  const [panelTab, setPanelTab] = useState<PanelTab>('outline') // this session only
   const assist = useSmartAssist({
     mode: document?.readOnly ? 'off' : assistMode, // a read-only giant isn't scanned
     text: document?.content ?? '',
@@ -177,188 +124,6 @@ export default function App() {
   })
 
   const { icon: appIcon, setIcon: setAppIcon } = useAppIcon(theme)
-  // Info pages: About (#about) and the Smart Assist technical docs (#smart-assist).
-  const [infoPage, setInfoPage] = useState<InfoPage | null>(pageFromHash)
-  const [cameFrom, setCameFrom] = useState<CameFrom>(() => {
-    const st = navState()
-    if (st) return st.from // a reload keeps history.state, so Back still knows where it goes
-    window.history.replaceState({ ms: 1, from: null } satisfies NavState, '')
-    return null
-  })
-  const [aboutClosing, setAboutClosing] = useState(false)
-  const infoRef = useRef(infoPage)
-  infoRef.current = infoPage
-  const aboutTimer = useRef<number | null>(null)
-  const showAbout = infoPage !== null
-  // Play the current page's exit animation, then show `next` (or nothing) with where it was opened from. The
-  // Back label changes with the page, not before: the leaving page used to flash the next one's label ("Marksage")
-  // during its exit.
-  const goToInfo = useCallback((next: InfoPage | null, from: CameFrom) => {
-    if (infoRef.current === next) return setCameFrom(from)
-    if (infoRef.current === null) {
-      setCameFrom(from)
-      setInfoPage(next)
-      return
-    }
-    if (aboutTimer.current) window.clearTimeout(aboutTimer.current)
-    setAboutClosing(true)
-    aboutTimer.current = window.setTimeout(() => {
-      aboutTimer.current = null
-      setAboutClosing(false)
-      setCameFrom(from)
-      setInfoPage(next)
-    }, EXIT_MS)
-  }, [])
-  useEffect(() => {
-    const onHash = () => {
-      // A new entry (a button, a link between the docs, the address bar): remember where it was opened from.
-      if (!navState()) window.history.replaceState({ ms: 1, from: infoRef.current ?? 'app' } satisfies NavState, '')
-      goToInfo(pageFromHash(), navState()?.from ?? null)
-    }
-    window.addEventListener('hashchange', onHash)
-    return () => window.removeEventListener('hashchange', onHash)
-  }, [goToInfo])
-  const openAbout = useCallback(() => {
-    window.location.hash = 'about'
-  }, [])
-  const openPrivacy = useCallback(() => {
-    window.location.hash = 'privacy' // About, scrolled to "Privacy & storage"
-  }, [])
-  const openDocs = useCallback(() => {
-    window.location.hash = 'smart-assist'
-  }, [])
-  const openModelsDocs = useCallback(() => {
-    window.location.hash = 'models'
-  }, [])
-  const openStory = useCallback(() => {
-    window.location.hash = 'story'
-  }, [])
-  const closeAbout = useCallback(() => {
-    // Opened from inside the app → the previous screen, exactly like the browser's Back.
-    if (navState()?.from) {
-      window.history.back()
-      return
-    }
-    // A direct link: the docs pages → About, About → the app (replacing this entry, not adding one).
-    const parent: InfoPage | null = infoRef.current === 'about' ? null : 'about'
-    const url = window.location.pathname + window.location.search + (parent ? '#about' : '')
-    window.history.replaceState({ ms: 1, from: null } satisfies NavState, '', url)
-    goToInfo(parent, null)
-  }, [goToInfo])
-  // The Back label names where Back goes.
-  const backLabel =
-    cameFrom === 'docs' ? t('docs.backToDocs') : cameFrom === 'models' ? t('docs.backToModels') : cameFrom === 'story' ? t('story.back') : cameFrom === 'app' && infoPage !== 'about' ? t('app.name') : t('docs.backToAbout')
-
-  // The docs page + its language's content, lazily. A failed download (slow or dropped connection, an old tab
-  // after a deploy) shows Try again, which reloads the page: browsers remember a failed module download, so
-  // importing it again in place would fail again. Nothing is lost — the document is saved on the way out.
-  const TechDocs = useMemo(
-    () =>
-      lazy(async () => {
-        const [{ TechDocsPage }, content] = await loadDocsPage(lang)
-        const Page = (props: Omit<TechDocsPageProps, 'content'>) => <TechDocsPage {...props} content={content.default} />
-        return { default: Page }
-      }),
-    [lang],
-  )
-  const retryDocs = useCallback(() => window.location.reload(), [])
-  // The story page (#story) + its language's content, lazily, the same way.
-  const Story = useMemo(
-    () =>
-      lazy(async () => {
-        const [{ StoryPage }, content] = await loadStoryPage(lang)
-        const Page = (props: Omit<StoryPageProps, 'content'>) => <StoryPage {...props} content={content.default} />
-        return { default: Page }
-      }),
-    [lang],
-  )
-  // About: fetched once the app has painted and the browser is idle (not on Save-Data), so it opens instantly.
-  useEffect(() => {
-    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
-    if (conn?.saveData) return
-    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500))
-    const cancel = window.cancelIdleCallback ?? window.clearTimeout
-    const id = idle(() => void loadAbout().catch(() => {}))
-    return () => cancel(id)
-  }, [])
-  // While About is open, fetch the docs page in the background (unless the user asked to save data), so
-  // "How it works" is usually ready before the click.
-  useEffect(() => {
-    if (infoPage !== 'about') return
-    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
-    if (conn?.saveData) return
-    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1200))
-    const cancel = window.cancelIdleCallback ?? window.clearTimeout
-    const id = idle(() => void loadDocsPage(lang).catch(() => {}))
-    return () => cancel(id)
-  }, [infoPage, lang])
-  // Logo / app name: leave About or the docs straight back to the app — the open document,
-  // or the start screen when there is none. Already there → nothing to do.
-  // The tab's title follows the page and the language (launch QA #26): a shared #story link, a bookmark or the
-  // history list says which page it is.
-  useEffect(() => {
-    const page = infoPage === 'about' ? t('title.about') : infoPage === 'docs' ? t('palette.docs') : infoPage === 'models' ? t('palette.models') : infoPage === 'story' ? t('story.back') : null
-    window.document.title = page ? t('title.page', { page }) : t('app.title')
-  }, [infoPage, t])
-
-  const goHome = useCallback(() => {
-    if (infoRef.current === null) return
-    window.history.replaceState({ ms: 1, from: null } satisfies NavState, '', window.location.pathname + window.location.search)
-    goToInfo(null, null)
-  }, [goToInfo])
-
-  // Editor enter/exit: the pane slides in from the right, and back out on close.
-  const [editorClosing, setEditorClosing] = useState(false)
-  const editorTimer = useRef<number | null>(null)
-  const readOnly = !!document?.readOnly
-  const readOnlyRef = useRef(readOnly)
-  readOnlyRef.current = readOnly
-  // A read-only document never shows the editor — not even on phones, where opened files start in it.
-  useEffect(() => {
-    if (readOnly && viewMode === 'edit') setViewMode('preview')
-  }, [readOnly, viewMode])
-  const changeViewMode = useCallback(
-    (mode: ViewMode) => {
-      if (mode === 'edit') {
-        if (readOnlyRef.current) return // over 5 MB: the preview only (launch QA #15)
-        if (editorTimer.current) window.clearTimeout(editorTimer.current)
-        editorTimer.current = null
-        setEditorClosing(false)
-        setViewMode('edit')
-        return
-      }
-      if (viewMode !== 'edit' || editorTimer.current) return
-      setEditorClosing(true)
-      editorTimer.current = window.setTimeout(() => {
-        editorTimer.current = null
-        setEditorClosing(false)
-        setViewMode('preview')
-      }, EXIT_MS)
-    },
-    [viewMode],
-  )
-
-  const [outlineClosing, setOutlineClosing] = useState(false)
-  const outlineTimer = useRef<number | null>(null)
-  const closeOutline = useCallback(() => {
-    if (outlineTimer.current) return
-    setOutlineClosing(true)
-    outlineTimer.current = window.setTimeout(() => {
-      outlineTimer.current = null
-      setOutlineClosing(false)
-      setOutlineOpen(false)
-    }, EXIT_MS)
-    if (isDesktop) saveOutlineOpen(false)
-  }, [isDesktop])
-  const toggleOutline = useCallback(() => {
-    if (outlineOpen && !outlineClosing) return closeOutline()
-    if (outlineTimer.current) window.clearTimeout(outlineTimer.current)
-    outlineTimer.current = null
-    setOutlineClosing(false)
-    setOutlineOpen(true)
-    if (isDesktop) saveOutlineOpen(true)
-  }, [outlineOpen, outlineClosing, closeOutline, isDesktop])
-
   const handleAssistModeChange = useCallback((mode: AssistMode) => {
     setAssistMode(mode)
     saveAssistMode(mode)
@@ -414,7 +179,7 @@ export default function App() {
       goHome()
       setViewMode(isDesktop ? 'preview' : 'edit')
     },
-    [isDesktop, goHome],
+    [isDesktop, goHome, setViewMode],
   )
 
   const handleImport = useCallback(() => {
@@ -428,7 +193,7 @@ export default function App() {
     goHome()
     setViewMode('edit')
     setPasteHint(false)
-  }, [newDocument, goHome])
+  }, [newDocument, goHome, setViewMode])
 
   // Empty clipboard → the start screen says so. Clipboard not readable (permission, Firefox, some phones) →
   // a new document to paste into, instead of a dead end.
@@ -457,7 +222,7 @@ export default function App() {
       goHome()
       setViewMode(isDesktop ? 'preview' : 'edit')
     },
-    [openFromHistory, goHome, isDesktop],
+    [openFromHistory, goHome, isDesktop, setViewMode],
   )
 
   const handleRemoveModel = useCallback(async () => {
@@ -496,7 +261,7 @@ export default function App() {
     handleAssistModeChange(assistMode === 'off' ? 'heuristics' : assistMode)
     goHome()
     setViewMode('edit')
-  }, [lang, pasteText, handleAssistModeChange, assistMode, goHome])
+  }, [lang, pasteText, handleAssistModeChange, assistMode, goHome, setViewMode])
 
   // Export: a named download (the Export panel, or ⌘/Ctrl + S); the name also becomes the document's name.
   const [exportOpen, setExportOpen] = useState(false)
@@ -533,116 +298,25 @@ export default function App() {
     [],
   )
 
-  // Small screens start in the editor.
-  const checkedInitialMode = useRef(false)
-  useEffect(() => {
-    if (checkedInitialMode.current) return
-    checkedInitialMode.current = true
-    if (!isDesktop && document) setViewMode('edit')
-  }, [isDesktop, document])
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const mod = e.metaKey || e.ctrlKey
-      if (!mod) return
-
-      const key = e.key.toLowerCase()
-      if (key === 'o') {
-        e.preventDefault()
-        handleImport()
-      } else if (key === 's') {
-        e.preventDefault()
-        // Opens the Export panel; inside it, ⌘/Ctrl + S again downloads (ExportMenu). Not on About / the docs.
-        if (document && !exportOpen && !showAbout) setExportOpen(true)
-      } else if (key === 'k' && !e.shiftKey && !e.altKey) {
-        // The command palette: every action, whatever the browser keeps for itself (⌘N never reaches a page in
-        // Chrome, Edge or Opera, so Marksage doesn't use it).
-        e.preventDefault()
-        setPaletteOpen((o) => !o)
-      } else if (key === 'c' && e.shiftKey && !showAbout) {
-        e.preventDefault()
-        handleCopy()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [handleImport, document, exportOpen, showAbout, handleCopy])
-
-  useEffect(() => {
-    const hasFiles = (e: DragEvent) => e.dataTransfer?.types.includes('Files')
-
-    const handleDragOver = (e: DragEvent) => {
-      if (hasFiles(e)) {
-        e.preventDefault()
-        setIsDragging(true)
-      }
-    }
-
-    const handleDragLeave = (e: DragEvent) => {
-      if (!e.relatedTarget) setIsDragging(false)
-    }
-
-    // One file at a time: the first Markdown file among those dropped (else the first, which gets the usual
-    // refusal), and a note when others were left out. Dropped text (no files) outside the editor opens like a
-    // paste; on the editor the browser inserts it as usual (launch QA #30).
-    const handleDrop = (e: DragEvent) => {
-      setIsDragging(false)
-      const files = Array.from(e.dataTransfer?.files ?? [])
-      if (!files.length) {
-        if (isEditableTarget(e.target)) return
-        e.preventDefault()
-        const text = e.dataTransfer?.getData('text/plain')
-        if (text?.trim()) {
-          pasteText(text)
-          showResult(true)
-        }
-        return
-      }
-      e.preventDefault()
-      const file = files.find((f) => isMarkdownFile(f.name)) ?? files[0]
-      openFile(file).then((ok) => {
-        showResult(ok)
-        if (ok && files.length > 1) showNotice(t(files.length === 2 ? 'drop.oneAtATime.one' : 'drop.oneAtATime.many', { name: file.name, n: files.length - 1 }))
-      })
-    }
-
-    window.addEventListener('dragover', handleDragOver)
-    window.addEventListener('dragleave', handleDragLeave)
-    window.addEventListener('drop', handleDrop)
-    return () => {
-      window.removeEventListener('dragover', handleDragOver)
-      window.removeEventListener('dragleave', handleDragLeave)
-      window.removeEventListener('drop', handleDrop)
-    }
-  }, [openFile, showResult, pasteText, showNotice, t])
-
-  // Esc leaves About and the docs pages, like their Back — unless a menu, panel or field has it (launch QA #36).
-  useEffect(() => {
-    if (!showAbout) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape' || e.defaultPrevented || isEditableTarget(e.target)) return
-      if (window.document.querySelector('[role="menu"], [role="dialog"], [aria-expanded="true"]')) return
-      closeAbout()
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [showAbout, closeAbout])
-
-  // Paste Markdown anywhere outside the editor.
-  useEffect(() => {
-    const handlePaste = (e: ClipboardEvent) => {
-      if (isEditableTarget(e.target)) return
-      const text = e.clipboardData?.getData('text/plain')
-      if (!text?.trim()) return
-      e.preventDefault()
-      pasteText(text)
-      showResult(true)
-    }
-
-    window.addEventListener('paste', handlePaste)
-    return () => window.removeEventListener('paste', handlePaste)
-  }, [pasteText, showResult])
+  const openExport = useCallback(() => setExportOpen(true), [])
+  const togglePalette = useCallback(() => setPaletteOpen((o) => !o), [])
+  const pasteFromPalette = useCallback(() => void handlePasteFromClipboard(), [handlePasteFromClipboard])
+  const requestAssistNotice = useCallback(() => setAssistNoticeRequest((n) => n + 1), [])
+  const { isDragging } = useGlobalInput({
+    hasDocument,
+    showAbout,
+    exportOpen,
+    openExport,
+    togglePalette,
+    onImport: handleImport,
+    onCopy: handleCopy,
+    closeAbout,
+    openFile,
+    pasteText,
+    showResult,
+    showNotice,
+    t,
+  })
 
   const handleChangeSplitRatio = useCallback((ratio: number) => {
     setSplitRatio(ratio)
@@ -692,12 +366,10 @@ export default function App() {
       </button>
     </div>
   ) : null
-  const hasDocument = document !== null
   const editing = hasDocument && viewMode === 'edit'
   // Split view: preview and editor scroll together (desktop only).
   useScrollSync(previewPaneRef, textareaRef, editing && isDesktop && !showAbout)
   const previewScrollRef = useRef<HTMLElement>(null)
-  const outlineShown = outlineOpen && hasDocument && !showAbout
   // Built with the panel closed too — the document bar shows the type the Document tab gives. The section model is
   // still fetched only once the panel opens.
   const outline = useOutline(document?.content ?? '', hasDocument && !showAbout, assistMode === 'model', outlineShown)
@@ -736,66 +408,7 @@ export default function App() {
     [isDesktop, closeOutline, viewMode, changeViewMode, assist],
   )
 
-  // Read-first: opened and pasted files show the preview. Typing there switches to the editor and keeps the
-  // keystroke — at the end of the block last clicked in the preview, else of the first block in view (launch QA
-  // #8: testers typed into the preview and nothing happened). Space still scrolls; shortcuts and menus are untouched.
-  const lastPreviewLine = useRef<number | null>(null)
-  useEffect(() => {
-    if (!document || document.readOnly || viewMode !== 'preview' || showAbout) return
-    lastPreviewLine.current = null
-    const main = previewScrollRef.current
-    const onClick = (e: MouseEvent) => {
-      const block = (e.target as Element | null)?.closest?.('[data-line]')
-      if (block) lastPreviewLine.current = Number(block.getAttribute('data-line')) - 1
-    }
-    const firstVisibleLine = () => {
-      if (!main) return 0
-      const top = main.getBoundingClientRect().top
-      for (const el of main.querySelectorAll('[data-line]')) {
-        if (el.getBoundingClientRect().bottom > top + 1) return Number(el.getAttribute('data-line')) - 1
-      }
-      return 0
-    }
-    const onKey = (e: KeyboardEvent) => {
-      if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || e.isComposing) return
-      if (e.key.length !== 1 || e.key === ' ') return
-      const target = e.target as HTMLElement
-      if (target !== window.document.body && !main?.contains(target)) return
-      if (target.closest('input, textarea, select, [contenteditable="true"]')) return
-      e.preventDefault()
-      const line = Math.max(0, lastPreviewLine.current ?? firstVisibleLine())
-      const key = e.key
-      changeViewMode('edit')
-      let tries = 0
-      const go = () => {
-        const ta = textareaRef.current
-        if (!ta) {
-          if (++tries < 30) requestAnimationFrame(go)
-          return
-        }
-        const lines = ta.value.split('\n')
-        const l = Math.min(line, lines.length - 1)
-        const caret = lines.slice(0, l + 1).join('\n').length
-        const tops = editorLineTops(ta)
-        ta.scrollTo({ top: Math.max(0, (tops[l] ?? 0) - ta.clientHeight / 3) })
-        ta.focus({ preventScroll: true })
-        ta.setSelectionRange(caret, caret)
-        // execCommand keeps the browser's undo stack (⌘Z takes the keystroke back).
-        const ok = typeof window.document.execCommand === 'function' && window.document.execCommand('insertText', false, key)
-        if (!ok) {
-          updateContent(ta.value.slice(0, caret) + key + ta.value.slice(caret))
-          requestAnimationFrame(() => ta.setSelectionRange(caret + 1, caret + 1))
-        }
-      }
-      requestAnimationFrame(go)
-    }
-    main?.addEventListener('click', onClick)
-    window.addEventListener('keydown', onKey)
-    return () => {
-      main?.removeEventListener('click', onClick)
-      window.removeEventListener('keydown', onKey)
-    }
-  }, [document, viewMode, showAbout, changeViewMode, updateContent])
+  useTypeToEdit({ document, viewMode, showAbout, previewRef: previewScrollRef, textareaRef, changeViewMode, updateContent })
   const suggestionsTab = {
     items: assist.all,
     capped: assist.allCapped,
@@ -809,17 +422,6 @@ export default function App() {
       if (!isDesktop) closeOutline()
     },
     [outlineNav, isDesktop, closeOutline],
-  )
-  // The document bar's tab icons (and its type → Document): open the panel on that tab, or close it when that tab
-  // is the one showing.
-  const openPanelTab: PanelTab | null = outlineShown && !outlineClosing ? panelTab : null
-  const toggleTab = useCallback(
-    (tab: PanelTab) => {
-      if (openPanelTab === tab) return closeOutline()
-      setPanelTab(tab)
-      if (!openPanelTab) toggleOutline()
-    },
-    [openPanelTab, closeOutline, toggleOutline],
   )
   // While the document bar is on screen (the top of the preview), the header's Outline button would repeat its tab
   // icons, so it steps aside; scrolled past the bar, it comes back.
@@ -849,61 +451,39 @@ export default function App() {
       />
     </div>
   )
+  const commands = usePaletteCommands({
+    hasDocument,
+    showAbout,
+    readOnly,
+    editing,
+    isDesktop,
+    outlineShown,
+    theme,
+    assistMode,
+    recent,
+    currentDocId: document?.id,
+    onNew: handleNew,
+    onImport: handleImport,
+    onPaste: pasteFromPalette,
+    onTrySample: handleTrySmartAssist,
+    onExport: openExport,
+    onCopy: handleCopy,
+    changeViewMode,
+    toggleOutline,
+    toggleTheme,
+    setLang,
+    onAssistModeChange: handleAssistModeChange,
+    requestAssistNotice,
+    onCloseDocument: handleCloseDocument,
+    openAbout,
+    openDocs,
+    openModelsDocs,
+    openStory,
+    openPrivacy,
+    onOpenHistory: handleOpenHistory,
+  })
+
   // Previous screen — lets the preview skip its fade when it's revealed by the editor closing.
-  // The command palette's list — only what can be done from the current screen.
-  const commands = useMemo<Command[]>(() => {
-    const docGroup = t('palette.group.document')
-    const viewGroup = t('palette.group.view')
-    const assistGroup = 'Smart Assist'
-    const goGroup = t('palette.group.goto')
-    const onDoc = hasDocument && !showAbout
-    const list: Command[] = [
-      { id: 'new', group: docGroup, icon: <FilePlus2 />, label: t('action.newDocument'), keywords: 'new blank create novo criar em branco', run: handleNew },
-      { id: 'open', group: docGroup, icon: <FolderOpen />, label: t('action.openFile'), keys: ['mod', 'o'], keywords: 'open file abrir arquivo', run: handleImport },
-      { id: 'paste', group: docGroup, icon: <ClipboardPaste />, label: t('empty.paste'), keywords: 'paste clipboard colar', run: () => void handlePasteFromClipboard() },
-      { id: 'sample', group: docGroup, icon: <Sparkles />, label: t('empty.trySample'), keywords: 'sample demo tour example exemplo', run: handleTrySmartAssist },
-    ]
-    if (onDoc && !readOnly) list.push({ id: 'export', group: docGroup, icon: <Download />, label: t('action.exportMarkdown'), keys: ['mod', 's'], keywords: 'export save download exportar salvar baixar', run: () => setExportOpen(true) })
-    if (onDoc) list.push({ id: 'copy', group: docGroup, icon: <Clipboard />, label: t('action.copyMarkdown'), keys: ['mod', 'shift', 'c'], keywords: 'copy copiar', run: () => void handleCopy() })
-    if (onDoc && !readOnly)
-      list.push(
-        editing
-          ? { id: 'view', group: viewGroup, icon: <Eye />, label: t('action.preview'), keywords: 'preview read visualizar ler', run: () => changeViewMode('preview') }
-          : { id: 'view', group: viewGroup, icon: isDesktop ? <Columns2 /> : <PenLine />, label: t('action.edit'), keywords: 'edit editor write editar escrever', run: () => changeViewMode('edit') },
-      )
-    if (onDoc)
-      list.push({ id: 'outline', group: viewGroup, icon: <ListTree />, label: t(outlineShown ? 'palette.outlineHide' : 'palette.outlineShow'), keywords: 'outline document suggestions estrutura documento sugestões', run: toggleOutline })
-    list.push(
-      { id: 'theme', group: viewGroup, icon: theme === 'dark' ? <Sun /> : <Moon />, label: t(theme === 'dark' ? 'theme.toLight' : 'theme.toDark'), keywords: 'theme dark light tema escuro claro', run: toggleTheme },
-      ...LANGS.filter((l) => l.id !== lang).map((l) => ({ id: `lang-${l.id}`, group: viewGroup, icon: <Languages />, label: t('palette.language', { lang: l.label }), keywords: 'language idioma english português', run: () => setLang(l.id) })),
-    )
-    if (onDoc && editing) {
-      const modes: [AssistMode, React.ReactNode][] = [['off', <PowerOff key="off" />], ['heuristics', <Zap key="rules" />], ['model', <Cpu key="model" />]]
-      for (const [mode, icon] of modes)
-        list.push({
-          id: `assist-${mode}`,
-          group: assistGroup,
-          icon,
-          label: t(`assist.option.${mode}`),
-          hint: mode === assistMode ? t('palette.current') : undefined,
-          keywords: 'assist mode modo smart',
-          run: () => (mode !== 'model' || assistMode === 'model' || loadModelNoticeSeen() ? handleAssistModeChange(mode) : setAssistNoticeRequest((n) => n + 1)),
-        })
-    }
-    if (hasDocument || showAbout) list.push({ id: 'home', group: goGroup, icon: <Home />, label: t('palette.startScreen'), keywords: 'start home close início inicial fechar', run: handleCloseDocument })
-    list.push(
-      { id: 'about', group: goGroup, icon: <Info />, label: t('palette.about'), keywords: 'about help features sobre ajuda recursos', run: openAbout },
-      { id: 'docs', group: goGroup, icon: <BookOpen />, label: t('palette.docs'), keywords: 'docs documentation how documentação', run: openDocs },
-      { id: 'models', group: goGroup, icon: <Brain />, label: t('palette.models'), keywords: 'models ai training modelos ia treino', run: openModelsDocs },
-      { id: 'story', group: goGroup, icon: <Milestone />, label: t('empty.story'), keywords: 'story timeline history história linha do tempo', run: openStory },
-      { id: 'privacy', group: goGroup, icon: <Shield />, label: t('empty.privacy'), keywords: 'privacy storage data delete privacidade dados apagar', run: openPrivacy },
-    )
-    const recentGroup = t('history.title')
-    for (const e of recent)
-      if (e.id !== document?.id)
-        list.push({ id: `recent-${e.id}`, group: recentGroup, icon: <FileText />, label: entryTitle(e, t('doc.untitled')), hint: relativeTime(e.updatedAt, t, lang), keywords: e.filename ?? '', run: () => handleOpenHistory(e) })
-    return list
-  }, [t, lang, setLang, hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, recent, document?.id, handleNew, handleImport, handlePasteFromClipboard, handleTrySmartAssist, handleCopy, changeViewMode, toggleOutline, toggleTheme, handleAssistModeChange, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, handleOpenHistory, handleCloseDocument])
 
   const view = showAbout ? 'about' : !hasDocument ? 'empty' : editing ? 'edit' : 'preview'
   const prevView = useRef(view)

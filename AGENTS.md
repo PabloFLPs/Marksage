@@ -11,8 +11,8 @@ Guidance for AI coding agents (and humans) working on this repo.
 ## Map
 ```
 src/
-  App.tsx                 screen state (about / empty / edit / preview), shortcuts (⌘K O S ⇧C; no ⌘N — Chrome, Edge and
-                          Opera never pass it to a page), drag & drop, paste
+  App.tsx                 composes the screen (about / empty / edit / preview) from the hooks below and holds the
+                          document actions (open, new, paste, export, copy, close, the sample); the layout is its JSX
   components/
     Header.tsx            toolbar; conditional items wrapped in <CollapseX>
     DocName.tsx           the document name in the header — click to rename (lib/file.ts `normalizeFilename`);
@@ -35,14 +35,19 @@ src/
     StoryPage.tsx         #story: the architecture decisions and models as a timeline (showcase, not docs); content in
                           lib/storyContent.<lang>.ts, lazily loaded — neutral voice, date order, numbers = MODELS / training
     CommandPalette.tsx    ⌘/Ctrl + K: every action of the current screen + recent documents, searchable (EN + PT words);
-                          the list is built in App (`commands`). Rules + AI from it opens the Assist menu on the notice
+                          the list is built in `hooks/usePaletteCommands.tsx`. Rules + AI from it opens the Assist menu on the notice
                           (`assistNoticeRequest`) until the notice was seen — never skip it.
     HistoryMenu/HistoryList (the menu numbers the first 9 other documents — 1–9 open them while the search is empty;
                           `numberedEntries` in lib/history), SuggestionBar, AssistToggle, AppIconPicker, SplitPanes, Markdown*
   assist/                 Smart Assist — see "Smart Assist" below (model/ = own models: features + inference; sections.ts / outline.ts = Outline)
-  hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery
+  hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery;
+                          App's parts: useInfoPages (#about… navigation, Back, tab title, lazy docs/story pages),
+                          useViewMode (preview / editor + its exit animation), useOutlinePanel (open, tab, doc-bar icons),
+                          useGlobalInput (shortcuts ⌘K O S ⇧C — no ⌘N, Chrome, Edge and Opera never pass it to a page —,
+                          drop, paste outside the editor, Esc on info pages), useTypeToEdit (typing in the preview opens
+                          the editor), usePaletteCommands (the ⌘K list)
   lib/                    storage, history, appIcons (icons + accent), keyStyle, file, sampleDocument,
-                          chunks (long-document preview pieces), docsContent(.en/.pt-BR) (docs pages per language)
+                          chunks (long-document preview pieces), docsContent(.en/.pt-BR) (docs pages per language), docStats (footer counts)
   index.css               theme tokens, accent palettes ([data-accent]), markdown styles, motion keyframes
 scripts/eval-assist.ts    fixture evaluation for Smart Assist
 training/                 Own models' pipeline (collect → split → train; build-sections → train-sections; tried, not shipped: structure, pastes, link text); clones/train data gitignored
@@ -126,8 +131,8 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
 
 ## Navigation (info pages)
 - Hashes: `#about`, `#privacy` (About scrolled to Privacy & storage), `#smart-assist`, `#models`, `#story`. The tab title
-  names the page (App, `title.page`); link previews (crawlers, no JS) always show the site's `og:` tags. Open them by setting
-  `location.hash` — never `pushState` directly. Each history entry gets `{ ms: 1, from }` (`App.tsx`, `navState`):
+  names the page (`hooks/useInfoPages.tsx`, `title.page`); link previews (crawlers, no JS) always show the site's `og:` tags. Open them by setting
+  `location.hash` — never `pushState` directly. Each history entry gets `{ ms: 1, from }` (`useInfoPages`, `navState`):
   the screen it was opened from. The in-app Back (`closeAbout`) calls `history.back()` when `from` is set, so it
   always matches the browser's Back; a direct link (`from: null`) goes to the parent (docs → About → app) with
   `replaceState`. The Back label names the target (`backLabel`).

@@ -1125,3 +1125,10 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   events for one insert (a real paste sends one), and now and then React put the value back once more between them,
   which left the caret inside the text. `newDocument()` in `tests/e2e/helpers.ts` now puts the caret at the end, as
   after typing: 40 / 40.
+- **App.tsx split** — grade item 2: 1,175 → 755 lines. Moved, unchanged: `hooks/useInfoPages` (hash navigation, Back
+  and its label, the tab title, the lazy docs / story pages and their prefetch), `useViewMode`, `useOutlinePanel`
+  (incl. the doc bar's tab toggling), `useGlobalInput` (shortcuts, drop, paste, Esc), `useTypeToEdit`,
+  `usePaletteCommands`, and `lib/docStats` (footer counts, now unit-tested). App keeps the document actions and
+  the layout. One real difference: the shortcut listener no longer re-registers on every keystroke (it depended
+  on the document object; now on whether there is one). First-load JS +0.7 KB gzip (181.6). Checks: tsc, lint 0,
+  27 unit + 33 E2E (×3), eval 1215.
