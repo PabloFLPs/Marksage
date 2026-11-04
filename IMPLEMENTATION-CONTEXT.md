@@ -1052,4 +1052,6 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   the "✗" count leaves `EVAL_BASELINE`, 1,215 today; the count goes to the job summary), `version:check` (full history
   checked out). Badge at the top of the README. Dry-run on a fresh clone: every step passes; with a baseline of
   1,214 the eval step fails as it should.
+- **ROADMAP §4** keeps the four follow-ups Pablo set aside — the section model in Portuguese, Tab to indent lists,
+  raw HTML in the preview, the faster first load (now with About's per-language chunk folded in); the rest is done.
 
