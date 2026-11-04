@@ -1,0 +1,40 @@
+# The checks every commit runs before it's made (AGENTS.md, "Verify before committing"), on GitHub too.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      # Smart Assist's fixture evaluation: the number of "✗" lines it prints today. A change isn't wrong by itself,
+      # but it must be noticed and explained — update this with the commit that changes it.
+      EVAL_BASELINE: 1215
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # the version (scripts/version.ts) and About's commit come from the full history
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Type-check
+        run: npx tsc -b
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Smart Assist evaluation
+        run: |
+          npm run eval:assist | tee eval.log
+          count=$(grep -c '✗' eval.log || true)
+          echo "### Smart Assist evaluation: $count ✗ (baseline $EVAL_BASELINE)" >> "$GITHUB_STEP_SUMMARY"
+          grep -Eq '^([0-9]+)/\1 documents as expected' eval.log || { echo "::error::Document fixtures failed"; exit 1; }
+          [ "$(grep -c 'largest difference 0.0e+0' eval.log)" -eq 2 ] || { echo "::error::Standalone runner parity failed"; exit 1; }
+          [ "$count" -eq "$EVAL_BASELINE" ] || { echo "::error::Eval changed: $count ✗, baseline $EVAL_BASELINE"; exit 1; }
+      - name: Version matches the history
+        run: npm run version:check

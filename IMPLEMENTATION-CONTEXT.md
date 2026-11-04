@@ -1047,4 +1047,9 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   Specification.md` → `PRODUCT-SPEC.md` (its title, from the previewer days, unchanged). References in the README,
   ROADMAP, this file and the CHANGELOG header (`scripts/version.ts`) follow; commit subjects in the CHANGELOG keep
   the old name, as history.
+- **CI** (ROADMAP follow-up): `.github/workflows/ci.yml` on every push to `main` and every pull request — `npm ci`,
+  type-check, lint, build, `eval:assist` (fails if the document fixtures or the standalone-runner parity fail, or if
+  the "✗" count leaves `EVAL_BASELINE`, 1,215 today; the count goes to the job summary), `version:check` (full history
+  checked out). Badge at the top of the README. Dry-run on a fresh clone: every step passes; with a baseline of
+  1,214 the eval step fails as it should.
 

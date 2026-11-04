@@ -1,5 +1,7 @@
 # Marksage
 
+[![CI](https://github.com/PabloFLPs/Marksage/actions/workflows/ci.yml/badge.svg)](https://github.com/PabloFLPs/Marksage/actions/workflows/ci.yml)
+
 **The Markdown editor that notices.** A local-first Markdown editor whose assistant, Smart Assist, suggests fixes
 as you write — rules plus two small models trained for it, running in your browser. Your files never leave it.
 

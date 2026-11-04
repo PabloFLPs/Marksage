@@ -169,6 +169,8 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
 
 ## Verify before committing
 `npx tsc -b` · `npm run lint` · `npm run eval:assist` · manually check light/dark, desktop/mobile, and reduced motion.
+GitHub runs the same on every push and pull request (`.github/workflows/ci.yml`: type-check, lint, build, eval, version
+check) and fails if the eval's "✗" count leaves `EVAL_BASELINE` — update it in the commit that changes the count.
 
 ## Versioning (since 2026-10-30)
 The version comes from the git history (`scripts/version.ts`): `feat` → minor, `fix` / `perf` → patch, other types
