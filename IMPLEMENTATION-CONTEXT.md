@@ -1238,3 +1238,13 @@ sample explained, three small UI items and two ROADMAP entries.
   above the line (`###` under a `##`, at most `######`); `##` when there's none or only the `#` title, as before.
   `#` lines in code don't count. The eval is unchanged (it judges whether a line is shown, not the level). Unit
   test; SMART-ASSIST §3 structure table (EN + PT-BR).
+- **`npm run check:docs`** (`scripts/check-docs.ts`) — Marksage's own documents through Marksage: the README and
+  the four docs pages, Rules and Rules + AI, every feature the app has (Suggestions list with the "not sure"
+  picks, Document tab: kind, readability, tone, every flag; Outline types; readability dots), one report per
+  document. Shipped documents must be clean (zero suggestions, zero flags) unless an item is in `ALLOWED` with
+  Pablo's reason; untyped sections are accepted (Pablo, for now: the docs name sections after their own topics).
+  The sample is checked the other way round: the exact slips, line by line (the table in the script), in EN and
+  PT-BR, both modes, and after accepting every suggestion only the vague link and the long sentence may be left.
+  First run: 0 suggestions anywhere; 40 long-sentence flags (README 2, SMART-ASSIST 10 / PT 16, MODELS 5 / PT 7);
+  the sample left a second H1 (`#License` → `# License`). It joins CI once every document passes (after the PT
+  rewrite).

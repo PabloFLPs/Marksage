@@ -6,7 +6,8 @@
  * near-misses of several kinds, a CSV to paste back in (smart paste), one long winding section and one plain one
  * (readability dots), headings that name their type and one that doesn't (Outline; the section model reads it in
  * Rules + AI), and a vague link + untagged code for the Document tab's "worth a look". The checklist on top is the
- * tour. Keep EN and PT-BR in step, and check both in the app after any change (Suggestions tab, Outline types).
+ * tour. Keep EN and PT-BR in step (same lines): `npm run check:docs` lists every slip, line by line, with the
+ * feature it shows, and fails if one stops working or anything else appears — also after accepting everything.
  */
 export const SAMPLE_DOCUMENT = `# Pitwall
 

@@ -55,6 +55,7 @@ src/
                           chunks (long-document preview pieces), docsContent(.en/.pt-BR) (docs pages per language), docStats (footer counts)
   index.css               theme tokens, accent palettes ([data-accent]), markdown styles, motion keyframes
 scripts/eval-assist.ts    fixture evaluation for Smart Assist
+scripts/check-docs.ts     Marksage's own documents and the sample, checked by Marksage's features
 training/                 Own models' pipeline (collect → split → train; build-sections → train-sections; tried, not shipped: structure, pastes, link text); clones/train data gitignored
 ```
 
@@ -180,7 +181,10 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
 ## Verify before committing
 `npx tsc -b` · `npm run lint` · `npm test` (unit, `tests/unit`: logic, hooks and components with Testing Library,
 the whole app in `app.test.tsx`; `npm run test:coverage` in CI, floor 50% of lines) · `npm run test:e2e` (Playwright, `tests/e2e`: the production build
-in desktop + phone Chromium) · `npm run eval:assist` · manually check light/dark, desktop/mobile, and reduced motion.
+in desktop + phone Chromium) · `npm run eval:assist` · `npm run check:docs` (`scripts/check-docs.ts`: the README and the
+docs pages, EN + PT-BR, run through every Smart Assist and Document-tab feature in both modes — no suggestion, no
+"Worth a look" flag, unless approved in its `ALLOWED`; fix the document, never the rules; and the sample's slips,
+all of them and nothing else, also after accepting every suggestion) · manually check light/dark, desktop/mobile, and reduced motion.
 A user-facing flow that changes needs its E2E test changed or added (`tests/e2e/helpers.ts`: openSample, palette, focused…);
 wait on state (`expect`, `expect.poll`), never on time. `CROSS_BROWSER=1` adds WebKit (desktop + iPhone) and Firefox; CI runs
 them in `e2e-cross-browser` (blocking, like the others, since its first green run on 2026-11-05).

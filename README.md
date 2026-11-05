@@ -121,6 +121,7 @@ npm run size         # first-load JS / CSS against their gzip budgets (after a b
                      # script only — the document view is its own chunk
 npm run lint         # oxlint
 npm run eval:assist  # Smart Assist fixture evaluation (Node ≥ 22.6)
+npm run check:docs   # this README, the docs pages and the sample, checked by Marksage's own features
 ```
 
 The data pipeline and trainers for Smart Assist's own models live in [`training/`](training/README.md).
