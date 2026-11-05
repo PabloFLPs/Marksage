@@ -1200,3 +1200,6 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   attached its keyboard listener (WebKit renders later) — it now waits for the start screen; the first-load test
   loaded the page with the app running before blocking the main script, and WebKit reported that page's prefetch
   of the document view during the next load — the main script is now blocked from the first load.
+- **CI actions on Node 24** — the first run warned that `actions/checkout@v4`, `setup-node@v4` and
+  `upload-artifact@v4` target Node.js 20, which GitHub is retiring: now `checkout@v5`, `setup-node@v5` (Node 24)
+  and `upload-artifact@v6` (the first on Node 24; v5 isn't).
