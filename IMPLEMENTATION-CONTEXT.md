@@ -1192,3 +1192,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   `aria-label` isn't allowed on a plain span (axe `aria-prohibited-attr`; the Chromium scan ran before the dots
   appeared). Now `aria-hidden` with its hover title: a label would join every heading's name, and the Document tab
   gives readability in words; screen readers ignored the old label anyway. Unit test added.
+- **A flaky unit run** — about one `vitest run` in four ended with "window is not defined" (unhandled, so a failed
+  run): Testing Library unmounts after each test only with Vitest's `globals: true`, so hooks rendered in
+  `appHooks.test.tsx` stayed mounted and React's scheduler ran their work after happy-dom was gone.
+  `tests/unit/setup.ts` unmounts after every test: 12 / 12 clean runs.

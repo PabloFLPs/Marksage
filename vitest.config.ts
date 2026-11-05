@@ -7,6 +7,7 @@ export default defineConfig({
   test: {
     include: ['tests/unit/**/*.test.{ts,tsx}'],
     environment: 'happy-dom', // localStorage and the DOM, as in the browser
+    setupFiles: ['tests/unit/setup.ts'], // unmount after every test
     restoreMocks: true,
     // `npm run test:coverage` (CI): lines of src/ these tests run. Smart Assist's rules and models are covered by
     // `eval:assist` too (~93% of assist/), which this doesn't count. The floor catches a suite that stopped testing.

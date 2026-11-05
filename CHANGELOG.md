@@ -8,7 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.44.12** · 2026-11-04 · `(this commit)` · fix(a11y): readability dots hidden from screen readers, not mislabelled
+- **3.44.12** · 2026-11-04 · `0f66f15` · fix(a11y): readability dots hidden from screen readers, not mislabelled
 - **3.44.11** · 2026-11-04 · `9f501b9` · fix(build): no "uncommitted changes" warning on Vercel; it names the files
 - **3.44.10** · 2026-11-04 · `5f4b849` · fix(ci): workflow YAML valid again (a colon in a step name)
 - **3.44.9** · 2026-11-04 · `33752e8` · fix(start): the logo's shadow follows each icon's corners
