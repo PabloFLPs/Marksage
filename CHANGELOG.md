@@ -8,7 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.44.9** · 2026-11-04 · `(this commit)` · fix(start): the logo's shadow follows each icon's corners
+- **3.44.9** · 2026-11-04 · `33752e8` · fix(start): the logo's shadow follows each icon's corners
 - **3.44.8** · 2026-11-04 · `07dda50` · perf(cache): hashed assets cached for a year on Vercel
 - **3.44.7** · 2026-11-04 · `5717207` · perf(load): the document view is its own chunk, kept off the start screen
 - **3.44.6** · 2026-11-04 · `e01119f` · fix(version): package-lock.json's version follows package.json

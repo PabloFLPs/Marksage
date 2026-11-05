@@ -168,11 +168,10 @@ each from going higher, most weight first, and what would move it:
 2. **Rules + AI is never run in a browser by a test.** `eval:assist` checks both models' answers in Node (parity
    with the standalone runner included); no test downloads them in a page, caches them, uses them while typing, or
    recovers from a failed download (*Try again*). One E2E test with the model files served locally would cover it.
-3. **Half the branches are untested** (45% branch coverage): the editor's line-number mirror and caret line,
-   split-view scroll sync, the Export panel, the Assist menu's download notice, About's settings (Delete all data,
-   remote images) — reached by E2E flows, not checked case by case.
-4. **No visual regression check.** Layout is checked for overflow at 320 / 390 px only; a broken theme, palette or
-   spacing would pass. Screenshot comparisons of a few screens (light / dark, desktop / phone) would catch it.
+3. **Half the branches are untested** (45% branch coverage; the UI and the glue code, not the rules) — details
+   and the plan in §6.1.
+4. **No visual regression check** — a broken layout, colour or spacing passes every test today; details and the
+   plan in §6.2.
 5. **The evaluation sets are used up.** The held-out sets that measured the shipped models have been seen; any
    model change (section v3, structure v2) needs fresh ones first (§4).
 6. **Automated accessibility is only part of it.** axe finds roughly a third of real problems; no screen-reader
@@ -194,3 +193,68 @@ each from going higher, most weight first, and what would move it:
 What would move them: items 1–2 of the tests list bring tests to about 9; with the first load done, one
 editor-basics item (syntax colouring or saving in place) brings the overall to about 9. Real users' feedback is
 what decides the rest.
+
+### 6.1 Branch coverage (measured 2026-11-04, kept for a future iteration)
+
+Line coverage asks "did this line run?"; branch coverage asks "did each side of every `if`, `? :`, `&&`, `??`
+run?". A line counts as covered when one outcome ran, which is why branches (45.3%, 1,488 / 3,283) trail lines
+(57.1%). Measured with `npm run test:coverage` (unit tests only); by area: App 62.5%, lib 60.6%, hooks 54.3%,
+components 47.0%, assist 34.1%.
+
+The assist figure understates it: `eval:assist` (measured with c8 under `NODE_V8_COVERAGE`) runs the rules and the
+models' feature code on thousands of fixtures — paste rules 96%, structure rules 95%, language rules 100%,
+prefilter 97%, section features 96%, JSON detection 97%, model inference 82%. **The real gaps are the UI and the
+glue**, which neither layer reaches:
+
+| Where | Branches | What isn't tested |
+|---|---|---|
+| `assist/useSmartAssist.ts` | 20% (23 / 113) | when a suggestion shows or hides, the sticky paste suggestion and pinning, the stale-suggestion guard on accept, `Alt+2` for the second choice, engine status and retry — the E2E only covers Tab on the happy path |
+| `assist/features/smartPaste.ts` | 0% (0 / 41) | the paste event glue — the eval tests the detection, not the handler |
+| `components/AssistToggle.tsx` | 40% (44 / 109) | the Rules + AI notice, download progress, failure and retry states |
+| `hooks/useOutlineNav.ts`, `hooks/useScrollSync.ts`, `lib/scrollSync.ts`, `components/SplitPanes.tsx` | 21–39% | positions and scrolling — they need real layout, which happy-dom doesn't compute |
+| `components/DocumentTab.tsx`, `components/SuggestionsTab.tsx`, `components/MoreMenu.tsx` | 0% | the panel tabs' contents, the phone menu |
+| `components/ExportMenu.tsx`, `components/HistoryMenu.tsx`, `hooks/useReturnFocus.ts` | 12–46% | menu edge cases, where focus goes after them |
+| `components/TechDocsPage.tsx`, `components/StoryPage.tsx`, `components/CodeBlock.tsx`, `hooks/useTheme.ts` | 0–29% | the docs pages, the copy button, the theme switch |
+
+Plan (for the risk, not the number):
+1. **Unit tests in happy-dom for the risky logic**: `useSmartAssist` through `renderHook` with a real textarea (key
+   handling, the stale guard, what shows when), the paste glue, the Assist menu's states, the Document and
+   Suggestions tabs, the phone menu, Export's edge cases, the theme. Estimate: ~40–50 tests, branch coverage to
+   roughly 55–60%.
+2. **Assertions in Playwright for what needs layout**: scroll sync (the editor and the preview on the same passage),
+   Outline navigation (a click lands on the section, the active row follows scrolling).
+3. Then raise the `test:coverage` floor (vitest.config.ts) to what it reaches, and add a branch floor next to the
+   line one.
+
+### 6.2 Visual regression (kept for a future iteration)
+
+**What it is.** Screenshots of key screens compared pixel by pixel against reference images kept in the repo; any
+visible change fails, with a diff image in the CI artifacts. Today axe, the overflow checks and the E2E flows all
+pass on a broken layout, a wrong colour or a spacing slip — nothing looks at the picture. It catches **changes**
+from the reference, not bugs already in it (the start-screen logo's box, fixed 2026-11-04, would have been
+recorded as correct; the next one like it would be caught).
+
+**How.** Playwright's built-in `expect(page).toHaveScreenshot()` — no new dependency. About 14 screens: the start
+screen; the sample in the editor with the Outline open; the preview; About; one docs page; the command palette;
+the phone start screen and editor — light and dark — plus one screen per accent palette (Classic, Mono, Line,
+Sunset).
+
+**The catches:**
+- **Fonts.** Marksage uses the system font stack (`--font-sans`: `-apple-system, BlinkMacSystemFont, 'Segoe UI',
+  Helvetica…`): San Francisco on macOS, other fonts on Linux. References made on a Mac fail on GitHub's runners, so
+  they're made and compared in one environment — Playwright's Docker image at the pinned version
+  (`mcr.microsoft.com/playwright:v1.63.0-noble`), in CI and locally.
+- **What moves.** Recent's relative times, the caret, animations, the version and commit in About: frozen, hidden
+  or masked (`animations: 'disabled'`, `caret: 'hide'`, `mask: [...]`, a fixed clock). Lazily loaded content waited
+  for. A small tolerance (`maxDiffPixelRatio` ≈ 0.01) for anti-aliasing.
+- **Upkeep.** An intentional UI change → `npx playwright test --update-snapshots` in the Docker image, and the
+  image diffs reviewed in that commit. ~1–3 MB of PNGs in the repo; ~30 s more in CI (its own job).
+
+**Alternative.** A hosted service (Argos, free for open source; Percy; Chromatic) adds a review page, but needs an
+account and a token, and its main benefit — reviewing in a pull request — matters less when commits go straight to
+`main`.
+
+**Recommendation.** The built-in one in Docker. The first references: generated with Docker in the cloud
+workspace if the image registry is reachable from it, else by the first CI run (a `workflow_dispatch` job that
+uploads them as an artifact to commit).
+
