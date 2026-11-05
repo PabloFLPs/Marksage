@@ -1232,3 +1232,9 @@ sample explained, three small UI items and two ROADMAP entries.
   matched inside "vocês"). PT voice was always "impersonal", PT slang always 0. Now `wordsOf()` (letters and digits
   on either side, Unicode). The sample in PT now talks to the reader ("você"), like the English one; the eval's
   count is unchanged (it doesn't measure tone). Unit test.
+- **Bold-as-heading: the level under the heading above** (found by accepting every suggestion in the sample:
+  `**Options**` under `## Configuration` became `## Options`, which left Configuration an empty section — the
+  Document tab then flagged it; Pablo: fix the rule). The replacement is now one level below the last ATX heading
+  above the line (`###` under a `##`, at most `######`); `##` when there's none or only the `#` title, as before.
+  `#` lines in code don't count. The eval is unchanged (it judges whether a line is shown, not the level). Unit
+  test; SMART-ASSIST §3 structure table (EN + PT-BR).

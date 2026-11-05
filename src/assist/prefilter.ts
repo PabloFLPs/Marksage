@@ -168,11 +168,16 @@ export function findStructureCandidates(text: string): StructureCandidate[] {
   const lines = splitLines(text)
   const out: StructureCandidate[] = []
   const blank = (i: number) => i < 0 || i >= lines.length || lines[i].text.trim() === ''
+  // The level of the last ATX heading above: a bold line becomes the level under it ("## Configuration" then
+  // "**Options**" → "### Options"; as "## Options" it left Configuration an empty section). None yet → `##`.
+  let lastLevel = 1
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
     if (line.inCode) continue
     const t = line.text
+    const atx = /^ {0,3}(#{1,6})(?:\s|$)/.exec(t)
+    if (atx) lastLevel = atx[1].length
     const ctx = lines
       .slice(Math.max(0, i - 2), i + 3)
       .map((l) => l.text)
@@ -182,7 +187,7 @@ export function findStructureCandidates(text: string): StructureCandidate[] {
 
     let m: RegExpExecArray | null
     if ((m = /^\*\*([^*].*?[^*]|[^*])\*\*:?\s*$/.exec(t)) && blank(i - 1) && m[1].length <= 80) {
-      push('heading-bold', `## ${m[1].trim()}`, `The line "${t}" is meant to be a section heading.`)
+      push('heading-bold', `${'#'.repeat(Math.min(6, lastLevel + 1))} ${m[1].trim()}`, `The line "${t}" is meant to be a section heading.`)
     } else if ((m = /^(#{1,6})([^\s#].*)$/.exec(t)) && !isLikelyHashtag(m[1], m[2])) {
       push('heading-nospace', `${m[1]} ${m[2]}`, `The line "${t}" is meant to be a Markdown heading.`)
     } else if ((m = /^(={2,6})\s*([^=].*?)\s*\1\s*$/.exec(t))) {

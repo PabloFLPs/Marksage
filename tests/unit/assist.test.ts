@@ -37,3 +37,15 @@ describe('Document tab tone, in Portuguese', () => {
     expect(computeDocStats('O arquivo é aberto e o texto aparece no editor. '.repeat(8), [], null).tone!.voice).toBe('impersonal')
   })
 })
+
+describe('structure hints: a bold line becomes the level under the heading above it', () => {
+  const bold = (doc: string) => findStructureCandidates(doc).filter((c) => c.kind === 'heading-bold').map((c) => c.replacement)
+  it('## when no heading (or only the title) is above, one level down otherwise, at most ######', () => {
+    expect(bold('intro\n\n**Options**\n\ntext')).toEqual(['## Options'])
+    expect(bold('# Tool\n\n**Options**\n\ntext')).toEqual(['## Options'])
+    expect(bold('# Tool\n\n## Configuration\n\n**Options**\n\ntext')).toEqual(['### Options'])
+    expect(bold('###### Deep\n\n**Options**\n\ntext')).toEqual(['###### Options'])
+    // A `#` line inside code isn't a heading.
+    expect(bold('## Setup\n\n```sh\n# comment\n```\n\n**Options**\n\ntext')).toEqual(['### Options'])
+  })
+})

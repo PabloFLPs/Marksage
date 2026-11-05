@@ -279,7 +279,7 @@ blocos cercados, blocos de código indentados e HTML bruto (`<pre>`, `<style>`, 
 
 | Candidato | Correção |
 |---|---|
-| `**Título**` sozinho numa linha após uma linha em branco | `## Título` |
+| `**Título**` sozinho numa linha após uma linha em branco | um nível abaixo do título acima dele: `### Título` sob um `##`, `## Título` quando não há nenhum (ou só o título `#`) |
 | `#Título` (sem espaço) — mas não `#tag` em minúsculas nem cores `#fff` | `# Título` |
 | `== Título ==` (estilo wiki) | título no mesmo nível, como no MediaWiki: `== Título ==` → `## Título`, `=== Título ===` → `### Título` |
 | `-item`, `*item`, `+item` | `- item` |

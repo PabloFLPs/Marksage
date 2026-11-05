@@ -277,7 +277,7 @@ indented code blocks and raw HTML (`<pre>`, `<style>`, …) are skipped:
 
 | Candidate | Fix |
 |---|---|
-| `**Title**` alone on a line after a blank line | `## Title` |
+| `**Title**` alone on a line after a blank line | one level under the heading above it: `### Title` under a `##`, `## Title` when there's none (or only the `#` title) |
 | `#Heading` (no space) — but not lowercase `#tag` words or `#fff` colours | `# Heading` |
 | `== Title ==` (wiki style) | heading at the same level, as on MediaWiki: `== Title ==` → `## Title`, `=== Title ===` → `### Title` |
 | `-item`, `*item`, `+item` | `- item` |
