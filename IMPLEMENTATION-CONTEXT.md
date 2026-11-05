@@ -1187,3 +1187,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   tracked file here, so it's Vercel's build environment). The check is skipped on Vercel (`VERCEL` is set there; a
   CLI deploy uploads no `.git` and never reaches it) and names the changed files elsewhere. The other two lines in
   that log, `npm warn Unknown env config "cache-dir"`, come from Vercel's own npm settings, not the repository.
+- **First CI run, WebKit** (Pablo's push, 2026-11-04: `check` and `e2e` green; `e2e-cross-browser` 84 passed, 1
+  failed, 2 flaky). The failure was real: the readability dot next to each `##` heading was a `<span aria-label>` —
+  `aria-label` isn't allowed on a plain span (axe `aria-prohibited-attr`; the Chromium scan ran before the dots
+  appeared). Now `aria-hidden` with its hover title: a label would join every heading's name, and the Document tab
+  gives readability in words; screen readers ignored the old label anyway. Unit test added.

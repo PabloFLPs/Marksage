@@ -107,9 +107,11 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
         return (
           <h2 {...rest} className="relative">
             {mark && (
+              // A visual cue, hidden from screen readers: a label here would join every heading's name, and the
+              // Document tab says the same in words (aria-label on a plain span wasn't allowed anyway — axe, WebKit).
               <span
+                aria-hidden
                 title={t('readability.title', { label: t(`readability.${mark.value}`) })}
-                aria-label={t('readability.title', { label: t(`readability.${mark.value}`) })}
                 className={`anim-pop absolute -left-4 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full ${DOT_COLORS[mark.value]}`}
               />
             )}

@@ -143,6 +143,12 @@ describe('MarkdownPreview', () => {
     expect(container.querySelector('a[href="https://example.com"]')?.getAttribute('rel')).toBe('noopener noreferrer')
   })
 
+  it("a section's readability dot is shown, but stays out of the heading's name", async () => {
+    const { container } = await show('## Install\n\ntext', { readability: [{ heading: 'Install', value: 0, label: 'very easy' }] })
+    expect(container.querySelector('h2 [aria-hidden][title^="Readability"]')).toBeTruthy()
+    expect(screen.getByRole('heading', { level: 2, name: 'Install' })).toBeTruthy()
+  })
+
   it('task boxes are named Done / Not done', async () => {
     await show('- [x] shipped\n- [ ] later')
     expect(screen.getByRole('checkbox', { name: 'Done' })).toBeTruthy()
