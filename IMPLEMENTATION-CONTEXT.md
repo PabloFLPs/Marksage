@@ -1222,3 +1222,7 @@ sample explained, three small UI items and two ROADMAP entries.
   It stays the same element, so focus doesn't move (a first try put the rest on a row of its own: "Show fewer"
   then sat between the two rows). PT: "+{n} mais" (it said only "+{n}") / "Mostrar menos". Flag chips got `.tap`
   (40 px on touch screens). Unit test + E2E.
+- **Footer icons** (Pablo picked them from the report): `ListOrdered` lines, `WholeWord` words, `CaseSensitive`
+  characters (still hidden on phones), `Weight` size (`HardDrive` already means storage on About). `aria-hidden`,
+  70% opacity, text unchanged. Checked: desktop + Pixel 7 + 320 px, light / dark, EN / PT (the 320 px PT footer
+  fits with room to spare).

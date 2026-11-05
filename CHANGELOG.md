@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.46.0** · 2026-11-05 · `(this commit)` · feat(document): "+N more" in Worth a look shows the rest
+- **3.47.0** · 2026-11-05 · `(this commit)` · feat(footer): icons for lines, words, characters and size
+- **3.46.0** · 2026-11-05 · `aceaa98` · feat(document): "+N more" in Worth a look shows the rest
 - **3.45.0** · 2026-11-05 · `2f5c459` · feat(document): section-type chips go to their sections
 - **3.44.12** · 2026-11-04 · `0f66f15` · fix(a11y): readability dots hidden from screen readers, not mislabelled
 - **3.44.11** · 2026-11-04 · `9f501b9` · fix(build): no "uncommitted changes" warning on Vercel; it names the files

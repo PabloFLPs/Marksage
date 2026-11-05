@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
-import { AlertCircle, X } from 'lucide-react'
+import { AlertCircle, CaseSensitive, ListOrdered, Weight, WholeWord, X } from 'lucide-react'
 import { Header } from './components/Header'
 import { EmptyState } from './components/EmptyState'
 import { useMarkdownFile } from './hooks/useMarkdownFile'
@@ -36,6 +36,9 @@ const COPIED_RESET_MS = 1600
 // the browser is idle after the first paint, so opening it stays instant.
 const loadAbout = () => import('./components/AboutPage')
 const AboutPage = lazy(() => loadAbout().then((m) => ({ default: m.AboutPage })))
+
+/** The footer counts' icons: decoration only (the words say it), a shade lighter than the text. */
+const FOOTER_ICON = 'h-3.5 w-3.5 shrink-0 opacity-70'
 
 export default function App() {
   const { t, lang, setLang } = useI18n()
@@ -491,10 +494,22 @@ export default function App() {
 
       {document && !showAbout && (
         <footer className="anim-fade flex min-h-8 shrink-0 pb-[env(safe-area-inset-bottom)] items-center justify-center gap-4 border-t border-line bg-surface text-xs text-ink-muted dark:border-dark-line dark:bg-dark-surface dark:text-dark-ink-muted">
-          <span>{t(lineCount === 1 ? 'shell.lines.one' : 'shell.lines', { n: lineCount.toLocaleString(lang) })}</span>
-          <span>{t(wordCount === 1 ? 'shell.words.one' : 'shell.words', { n: wordCount.toLocaleString(lang) })}</span>
-          <span className="hidden sm:inline">{t(document.content.length === 1 ? 'shell.characters.one' : 'shell.characters', { n: document.content.length.toLocaleString(lang) })}</span>
-          <span title={t('shell.sizeTitle')}>{formatBytes(byteCount, lang)}</span>
+          <span className="inline-flex items-center gap-1">
+            <ListOrdered aria-hidden className={FOOTER_ICON} />
+            {t(lineCount === 1 ? 'shell.lines.one' : 'shell.lines', { n: lineCount.toLocaleString(lang) })}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <WholeWord aria-hidden className={FOOTER_ICON} />
+            {t(wordCount === 1 ? 'shell.words.one' : 'shell.words', { n: wordCount.toLocaleString(lang) })}
+          </span>
+          <span className="hidden items-center gap-1 sm:inline-flex">
+            <CaseSensitive aria-hidden className={FOOTER_ICON} />
+            {t(document.content.length === 1 ? 'shell.characters.one' : 'shell.characters', { n: document.content.length.toLocaleString(lang) })}
+          </span>
+          <span className="inline-flex items-center gap-1" title={t('shell.sizeTitle')}>
+            <Weight aria-hidden className={FOOTER_ICON} />
+            {formatBytes(byteCount, lang)}
+          </span>
         </footer>
       )}
 
