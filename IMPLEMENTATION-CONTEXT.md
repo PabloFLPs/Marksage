@@ -1252,3 +1252,8 @@ sample explained, three small UI items and two ROADMAP entries.
   accepted, and the Document tab then flagged it. Now `##License` (→ `## License`), EN + PT-BR. With the bold-heading
   fix, `check:docs` passes on the sample: every slip shows, nothing else, and after the tour only the two slips
   without a fix (the vague link, the long sentence) are left.
+- **The English docs pass `check:docs`** — the README (2) and SMART-ASSIST (10) / MODELS (5) long sentences split
+  or restructured, every fact, number and link kept; no suggestion or other flag was left. Two rules findings on
+  the way (ROADMAP, not tuned): a sentence that starts with a lowercase word or code (`` `q` is…``,
+  `docs/… is`) isn't split from the one before, so two short sentences count as one long one. (One re-wrap put
+  ```` ```` ```` at the start of a line, which CommonMark reads as a fence — the check caught it as untagged code.)

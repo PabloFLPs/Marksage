@@ -52,10 +52,10 @@ ship / don't-ship call are mine.
 
   Models for structure hints and paste types were trained too and didn't beat the rules on real text
   ([docs/MODELS.md](docs/MODELS.md) §8).
-- **Outline panel** — every section with its type (setup, reference, explanation…) and key sentence;
-  a **Document** tab with what the file looks like, reading time, readability, tone signals and things
-  worth a look (heading jumps, untagged code, images without alt text…), and a **Suggestions** tab listing every
-  fix Smart Assist would offer in the document (click → it opens in the editor)
+- **Outline panel** — every section with its type (setup, reference, explanation…) and key sentence. Its
+  **Document** tab shows what the file looks like, reading time, readability, tone signals and things worth a
+  look (heading jumps, untagged code, images without alt text…). Its **Suggestions** tab lists every fix Smart
+  Assist would offer in the document (click → it opens in the editor)
 - **Code blocks** with syntax colors (~30 languages, loaded only when needed) and a copy button
 - **Recent documents** — up to 15, kept in this browser, searchable (`⌘/Ctrl ⇧ H`); in the menu, `1`–`9` open one
 - **Close document** — the ✕ next to its name (phone: the ••• menu; `⌘/Ctrl K` → Start screen) goes back to the
@@ -141,11 +141,11 @@ cp .env.example .env   # then edit VITE_SITE_URL, or set it in your host's env v
 
 Stack: React 19 + TypeScript + Vite + Tailwind CSS 4, `react-markdown` + `remark-gfm`, `lucide-react`,
 `refractor` (Prism grammars, lazy) and `mermaid` (docs diagram view, lazy).
-See [AGENTS.md](AGENTS.md) for architecture and conventions, [docs/SMART-ASSIST.md](docs/SMART-ASSIST.md) for the
-Smart Assist technical documentation (heuristics, Marksage's own models, evaluation),
-[docs/MODELS.md](docs/MODELS.md) for the models from zero (model cards, version history),
-[training/](training/README.md) for the model pipeline, [ROADMAP.md](ROADMAP.md) for what's next, and
-[the Implementation Context](IMPLEMENTATION-CONTEXT.md) for the design notes and timeline.
+See [AGENTS.md](AGENTS.md) for architecture and conventions. The Smart Assist technical documentation
+(heuristics, Marksage's own models, evaluation) is [docs/SMART-ASSIST.md](docs/SMART-ASSIST.md), and
+[docs/MODELS.md](docs/MODELS.md) explains the models from zero (model cards, version history). The model pipeline
+is in [training/](training/README.md), what's next in [ROADMAP.md](ROADMAP.md), and the design notes and timeline
+in [the Implementation Context](IMPLEMENTATION-CONTEXT.md).
 
 ## Versioning
 

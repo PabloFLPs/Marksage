@@ -192,11 +192,11 @@ rules can still help:
 - **Agreement:** if the heuristics are confident *and* their answer is the model's own first pick, the
   suggestion is shown. Two independent methods agreeing adds suggestions without adding mistakes.
 - **Nearly certain rules (2026-10-30):** if the heuristics are at least 99% sure, their answer stands even when
-  the model disagrees. On short snippets the model's average can drown a few decisive clues: in
-  `const x: number = 1;` + `function add(a: number, b: number): number { … }`, the pair `: number` pushes hardest
-  toward TypeScript (+192), `) :` and `number` follow, but they are 5 of 70 clues; the other 65 are shared with
-  JavaScript and lean that way (`+`, `function`, `;`, short names), and the model starts 1.95 points in favour of
-  JavaScript (much untyped code is tagged `ts`). Result: js 63% — while the rules said ts 99%. On the fixture
+  the model disagrees. On short snippets the model's average can drown a few decisive clues. Take
+  `const x: number = 1;` + `function add(a: number, b: number): number { … }`: the pair `: number` pushes hardest
+  toward TypeScript (+192), and `) :` and `number` follow, but they are 5 of 70 clues. The other 65 are shared
+  with JavaScript and lean that way (`+`, `function`, `;`, short names), and the model starts 1.95 points in
+  favour of JavaScript (much untyped code is tagged `ts`). Result: js 63% — while the rules said ts 99%. On the fixture
   sets this rule added one right suggestion (dev) and no wrong one; on the third held-out set, 3 right and none
   wrong. A model that keeps each dimension's strongest clue (mean + max pooling) was tried as the general fix and
   didn't help TypeScript / JavaScript — most `ts`-tagged code has no TypeScript-only syntax at all (section 8.1).
@@ -503,15 +503,15 @@ fresh one, built from 72 repositories used nowhere else.
 
 **The v3 experiment (2026-10-30, not used).** The goal was the near-twin languages, where the average drowns a
 few decisive clues: TypeScript / JavaScript, C++ / C, C# / Java, JSON with comments. The bar was written down
-before the third held-out set was run (once): on those six languages together, more right suggestions *and*
-precision at least v2's, plus overall precision at least v2's — for the model alone and for the app's
-combination with the rules. Mean + max met the overall part (more right suggestions, higher precision) and was
-clearly better on C# / Java (44 right · 3 wrong vs 28 · 1), JSON with comments (26 · 0 vs 8 · 0) and C++ code
-with C++-only syntax (81% vs 67% accuracy) — but on the six languages together it was less precise, and on
-TypeScript / JavaScript worse (22 right · 5 wrong vs 33 · 4). So it failed the bar.
+before the third held-out set was run (once). On those six languages together: more right suggestions *and*
+precision at least v2's. Overall: precision at least v2's. Both for the model alone and for the app's combination
+with the rules. Mean + max met the overall part (more right suggestions, higher precision). It was clearly better
+on C# / Java (44 right · 3 wrong vs 28 · 1), JSON with comments (26 · 0 vs 8 · 0) and C++ code with C++-only
+syntax (81% vs 67% accuracy). But on the six languages together it was less precise, and on TypeScript /
+JavaScript worse (22 right · 5 wrong vs 33 · 4). So it failed the bar.
 
 The reason is in the labels, not the model: only **42% of the code tagged `ts` in training has any
-TypeScript-only syntax** (type annotations, `interface`, generics, `as`…); the rest is untyped code that is
+TypeScript-only syntax** (type annotations, `interface`, generics, `as`…). The rest is untyped code that is
 also valid JavaScript, and its tag says which project it came from. No way of pooling clues can tell those apart.
 Choices were made on dev plus out-of-repo predictions from five repository folds of the training data (64,288
 blocks), with mean pooling tuned the same way as a same-data control. Max pooling also needed two training
@@ -529,9 +529,9 @@ changes to work at all — without them its numbers grew without bound. Details:
 ### 8.3 Structure model (tried, not used)
 
 Question: "is this near-miss line a list item or a heading?" — two answers, *no* and *yes*. Clue reader 3 reads
-the line (its marker, the words after it, its shape: flags, `ls -l` permissions, hashtags, a sentence end, a
-colon…) and the category of the two lines before and after it (blank, list item, the same near-miss, heading,
-code, prose…). Same size and settings as the section model (8 numbers per clue, 32,768 slots, 3 epochs, learning
+the line: its marker, the words after it, its shape (flags, `ls -l` permissions, hashtags, a sentence end, a
+colon…). It also reads the category of the two lines before and after it (blank, list item, the same near-miss,
+heading, code, prose…). Same size and settings as the section model (8 numbers per clue, 32,768 slots, 3 epochs, learning
 rate 0.3; full class weighting), temperature 1.55.
 
 | Version | Date | Training data | Dev (212 lines) | Fresh held-out (227 lines) | Status |

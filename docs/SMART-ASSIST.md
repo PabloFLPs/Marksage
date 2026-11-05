@@ -94,8 +94,8 @@ everywhere else:
 | Readability | rules (LIX) | rules (LIX) |
 | Outline section types | heading rule | heading rule, then the section model ✦ for headings that don't say |
 
-A third mode where *only* models decide was considered and dropped: readability and the heading rule have no
-labels a model could learn from but their own output (a model trained on LIX scores would just copy LIX), and
+A third mode where *only* models decide was considered and dropped. Readability and the heading rule have no
+labels a model could learn from but their own output: a model trained on LIX scores would just copy LIX. And
 the structure and paste models didn't do better than the rules (section 4.6). Such a mode would have been
 weaker than Rules + AI without being any more honest.
 
@@ -172,7 +172,7 @@ interface DecisionEngine {
 ```
 
 Both engines implement the same interface, so features never know which one answered.
-`q` is a stable id (e.g. `fence.language`): the heuristic engine uses it to pick a scorer, and the
+The question id `q` is stable (e.g. `fence.language`): the heuristic engine uses it to pick a scorer, and the
 *Rules + AI* engine uses it to decide which questions its own models answer.
 
 ### 2.3 The confidence gate
@@ -265,14 +265,15 @@ untouched**; the suggestion offers to convert the pasted range afterwards.
 | `code` | reuses the code-block language scores + structural code shape (lines ending in `{ } ;`, indentation) |
 | `prose` | lines with sentence punctuation and ≥ 8 words |
 
-**Action**: CSV/TSV/aligned → GFM table (first row = header, `|` escaped); list →
-`- item` (existing bullets normalised); JSON → ```` ```json ```` (minified JSON is pretty-printed first; JSON with comments gets ```` ```jsonc ````); code → fenced block, tagged with
-the detected language only if *that* decision also passes the gate. `prose` never suggests anything.
+**Action**: CSV/TSV/aligned → GFM table (first row = header, `|` escaped); list → `- item` (existing bullets
+normalised). JSON → ```` ```json ```` (minified JSON is pretty-printed first; JSON with comments
+gets ```` ```jsonc ````). Code → fenced block, tagged with the detected language only if *that* decision also passes
+the gate. A `prose` paste never suggests anything.
 
 ### Structure hints (`noul`)
 
-**Trigger.** Near-miss Markdown on a line that is **not** the one being typed — or, after a 2 s pause with
-nothing else to suggest, the caret's own line (so a lone `#Title` gets its hint) — outside code: fenced blocks,
+**Trigger.** Near-miss Markdown, outside code, on a line that is **not** the one being typed. After a 2 s pause
+with nothing else to suggest, the caret's own line counts too (so a lone `#Title` gets its hint). Fenced blocks,
 indented code blocks and raw HTML (`<pre>`, `<style>`, …) are skipped:
 
 | Candidate | Fix |
@@ -368,11 +369,11 @@ clicked section stays highlighted until you scroll yourself), hover to tint the 
 **What it shows**, all worked out from the text on your device:
 
 - **Document type** — README, changelog, guide or tutorial, reference, technical documentation, article or
-  notes. The file name decides when it says so (`README.md`, `CHANGELOG.md`, `guide.md`, `ARCHITECTURE.md`);
-  otherwise the Outline's section types do (Installation + Usage + License → README; mostly
-  Reference/Configuration → reference; mostly Explanation, Reference, Configuration, Performance or Security →
-  technical documentation), with the sections that led there shown as the reason. Technical docs often name
-  their sections after their own topics ("The confidence gate"), which no rule or model can type, so they are
+  notes. The file name decides when it says so (`README.md`, `CHANGELOG.md`, `guide.md`, `ARCHITECTURE.md`).
+  Otherwise the Outline's section types do, and the sections that led there are shown as the reason:
+  Installation + Usage + License → README; mostly Reference/Configuration → reference; mostly Explanation,
+  Reference, Configuration, Performance or Security → technical documentation. Technical docs often name
+  their sections after their own topics ("The confidence gate"), which no rule or model can type. So they are
   also recognised by their shape: 800+ words of prose, 8+ sections over at least two heading levels, and three
   or more tables or code blocks backing the prose. With too little evidence (fewer than three typed sections,
   or under a quarter of them, and no clear shape), it says there's no clear pattern rather than guess. The same
@@ -398,7 +399,7 @@ clicked section stays highlighted until you scroll yourself), hover to tint the 
 **Trigger.** While the panel is open and Smart Assist is on (its count shows on the tab); recomputed 600 ms
 after you stop typing.
 
-**What it lists:** every spot of the document that would get a suggestion, in document order — code blocks
+**What it lists:** every spot of the document that would get a suggestion, in document order. That's code blocks
 without a language (same question, same gate and two-option rule as in the editor) and near-miss headings,
 lists and links (same rules as the structure hints). Each row has the fix's icon, its line, the code's first line or
 what changes into what, the confidence and a ✦ when the local model decided. A code block no language passes
@@ -475,8 +476,8 @@ repositories, 2026-10-30), *Rules + AI* shows 408 suggestions at 93.1% against t
 right ones, slightly more precise.
 
 So: about twice the useful suggestions of the rules (1.7–2.2× on the three held-out sets) and better than v1 on
-every count, within about a point of the rules' precision — a little below on the first two sets, a little above
-on the third. It's an opt-in mode because it downloads a file and keeps it in your browser. About half of its misses are really labelling quirks (`dotnet build -c Release` tagged as
+every count. Its precision is within about a point of the rules' — a little below on the first two sets, a
+little above on the third. It's an opt-in mode because it downloads a file and keeps it in your browser. About half of its misses are really labelling quirks (`dotnet build -c Release` tagged as
 C#), the rest are one-liners that fit several languages (`void main() { … }` is valid Java *and* C++).
 
 ### 4.4 The section model
@@ -540,10 +541,10 @@ repositories, every choice made on a dev set, then measured once on held-out rea
 than the rules. They're written down so the next attempt starts from the numbers.
 
 **A structure model** — "is this near-miss line a list item or a heading?" (yes / no), same recipe and size as
-the other two, reading the line and two lines around it. It learned from 66,076 lines: real list items and
-headings from the 381 repositories with the near-miss put back in (`- item` → `-item` or `• item`, `## Title` →
-`##Title` or `**Title**`), against real look-alikes (CLI help, `ls -l` output, diff lines, CSS, `#include`,
-footnotes, bold labels). It was judged on 227 hand-labelled lines from issues, pull requests and comments of 43
+the other two, reading the line and two lines around it. It learned from 66,076 lines. The "yes" lines are real
+list items and headings from the 381 repositories with the near-miss put back in (`- item` → `-item` or
+`• item`, `## Title` → `##Title` or `**Title**`). The "no" lines are real look-alikes (CLI help, `ls -l` output,
+diff lines, CSS, `#include`, footnotes, bold labels). It was judged on 227 hand-labelled lines from issues, pull requests and comments of 43
 repositories it never saw — unpolished text, where these near-misses really happen:
 
 | Held-out (227 lines, run once) | Shown | Right when shown | True lines found (of 132) |
@@ -559,9 +560,9 @@ in 227: not worth a download. The two make different mistakes: the rules wrongly
 fresh held-out set. Bold lines stay with the rules for good reason: the model's "no" examples were real bold
 lines, and many real bold lines *are* headings, so it learned "bold → no" (5 of 80 shown).
 
-**A paste-type model** — "what kind of text is this paste?" (the seven kinds of smart paste), trained on 16,977
-pastes made from real files: code and JSON blocks as their authors wrote them, real Markdown tables turned back
-into CSV, spreadsheet and terminal text, lists and paragraphs as a browser copies them. It was judged on 53 real
+**A paste-type model** — "what kind of text is this paste?" (the seven kinds of smart paste). It was trained on
+16,977 pastes made from real files: code and JSON blocks as their authors wrote them, real Markdown tables turned
+back into CSV, spreadsheet and terminal text, lists and paragraphs as a browser copies them. It was judged on 53 real
 pastes from 19 sources outside its data (data files, spreadsheet copies, `pip` and `kubectl` output, source
 files, configs, READMEs in English and Portuguese):
 
