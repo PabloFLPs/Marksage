@@ -1203,3 +1203,5 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **CI actions on Node 24** — the first run warned that `actions/checkout@v4`, `setup-node@v4` and
   `upload-artifact@v4` target Node.js 20, which GitHub is retiring: now `checkout@v5`, `setup-node@v5` (Node 24)
   and `upload-artifact@v6` (the first on Node 24; v5 isn't).
+- **Cross-browser CI blocking** — run #3 (2026-11-05, Pablo): `check`, `e2e` and `e2e-cross-browser` all green
+  (WebKit desktop, iPhone 14, Firefox). `continue-on-error` removed: a WebKit or Firefox failure now fails the run.

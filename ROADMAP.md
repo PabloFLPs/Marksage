@@ -98,8 +98,8 @@ Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Cont
   cache is empty (just after a deploy) waits ~0.5 s more than before (7.9 s), for the 8 KB the split costs. Smaller
   still: one language per About chunk (its copy is inline EN + PT); react-dom is half of what's left.
 - **Tested in real browsers, not only engines** (grade item 3): the E2E suite runs in Chromium everywhere; WebKit
-  (desktop + iPhone 14) and Firefox only in CI's `e2e-cross-browser` job, non-blocking until its first green run —
-  then make it blocking (AGENTS). Engines in Playwright aren't Safari on an iPhone: before the LinkedIn post, one
+  (desktop + iPhone 14) and Firefox in CI's `e2e-cross-browser` job (green and blocking since 2026-11-05).
+  Engines in Playwright aren't Safari on an iPhone: before the LinkedIn post, one
   pass by hand on a real iPhone (Safari) and in desktop Firefox — the sample tour, Tab / Esc, paste, Export, the
   phone menu, light / dark.
 - **Model results are modest, and say so** (grade item 5): the code-language model about doubles the right
@@ -163,8 +163,8 @@ each from going higher, most weight first, and what would move it:
 
 **Tests (8.5)**
 1. **No real device has run it.** Chromium is tested everywhere; WebKit, iPhone and Firefox only as Playwright
-   engines in CI, in a job that isn't blocking yet (§4). Missing: a hand pass on a real iPhone (Safari), an
-   Android phone and desktop Firefox / Safari — then the CI job made blocking.
+   engines in CI (that job green and blocking since 2026-11-05, §4). Missing: a hand pass on a real iPhone
+   (Safari), an Android phone and desktop Firefox / Safari.
 2. **Rules + AI is never run in a browser by a test.** `eval:assist` checks both models' answers in Node (parity
    with the standalone runner included); no test downloads them in a page, caches them, uses them while typing, or
    recovers from a failed download (*Try again*). One E2E test with the model files served locally would cover it.

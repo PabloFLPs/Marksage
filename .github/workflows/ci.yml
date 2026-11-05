@@ -70,10 +70,9 @@ jobs:
           retention-days: 7
 
   e2e-cross-browser:
-    # The same suite in WebKit (Safari's engine: desktop and iPhone) and Firefox. Non-blocking until it has been
-    # green on GitHub once (it can't run where it was written) — then drop continue-on-error.
+    # The same suite in WebKit (Safari's engine: desktop and iPhone) and Firefox. Blocking since its first green run
+    # (2026-11-05); it can't run where it was written, so a failure here is the first word on a WebKit / Firefox bug.
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v5
         with:
