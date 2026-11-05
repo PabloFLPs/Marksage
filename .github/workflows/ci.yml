@@ -26,7 +26,7 @@ jobs:
         run: npx tsc -b
       - name: Lint
         run: npm run lint
-      - name: Unit tests, with coverage (floor: 50% of lines)
+      - name: Unit tests, with coverage (at least 50% of lines)
         run: npm run test:coverage
       - name: Build
         run: npm run build

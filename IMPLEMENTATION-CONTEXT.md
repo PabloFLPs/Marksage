@@ -1178,3 +1178,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
 - **Start-screen logo: no box behind the corners** (Pablo) — its shadow was a `box-shadow` on a box rounded like
   Classic (rx 6/32 → 11 px); Mono, Line and Sunset are rounder (rx 8, 7, 9), so the box's corners showed behind
   them. Now `drop-shadow`, which follows each icon's own shape. Checked: the four icons, light and dark.
+- **CI didn't run at all after the coverage commit** (Pablo's first push of this round: "Invalid workflow file …
+  line 29") — the step name `Unit tests, with coverage (floor: 50% of lines)` has `: ` in an unquoted YAML value,
+  so GitHub rejected the whole file and ran no job, the cross-browser one included. Renamed; AGENTS says to parse a
+  workflow after editing it, and the pre-commit checks here now do.
