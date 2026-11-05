@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 import { ChartNoAxesColumn, Eye, Gauge, MessageSquareQuote, ScanSearch, Shapes } from 'lucide-react'
 import { computeDocStats, FLAG_ORDER, type DocFlag, type DocStats } from '../assist/docStats'
@@ -120,23 +120,62 @@ function Flags({ flags, onSelect }: { flags: DocFlag[]; onSelect: (line: number)
             <span>{t(`doc.flag.${kind}`)}</span>
             <span className="text-xs text-ink-muted dark:text-dark-ink-muted">{list.length}</span>
           </p>
-          <div className="mt-1 flex flex-wrap gap-1">
-            {list.slice(0, MAX_CHIPS).map((f, i) => (
-              <button
-                key={`${f.line}-${i}`}
-                type="button"
-                onClick={() => onSelect(f.line)}
-                title={f.detail ? `${t('doc.line', { n: f.line + 1 })} — ${f.detail}` : undefined}
-                className="max-w-full truncate rounded border border-line px-1.5 py-0.5 text-[11px] text-ink-muted transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink-muted dark:hover:border-dark-accent dark:hover:text-dark-accent"
-              >
-                {f.detail && kind !== 'longSentence' ? f.detail : t('doc.line', { n: f.line + 1 })}
-              </button>
-            ))}
-            {list.length > MAX_CHIPS && <span className="px-1 py-0.5 text-[11px] text-ink-muted dark:text-dark-ink-muted">{t('doc.more', { n: list.length - MAX_CHIPS })}</span>}
-          </div>
+          <FlagChips kind={kind} list={list} onSelect={onSelect} />
         </li>
       ))}
     </ul>
+  )
+}
+
+const CHIP =
+  'tap max-w-full truncate rounded border border-line px-1.5 py-0.5 text-[11px] text-ink-muted transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink-muted dark:hover:border-dark-accent dark:hover:text-dark-accent'
+
+/**
+ * One flag group's chips: the first MAX_CHIPS, then a toggle that shows the rest ("+3 more" ↔ "Show fewer"). The
+ * rest joins the same row before the toggle, which stays the same element, so focus doesn't move.
+ */
+function FlagChips({ kind, list, onSelect }: { kind: DocFlag['kind']; list: DocFlag[]; onSelect: (line: number) => void }) {
+  const { t } = useI18n()
+  const [open, setOpen] = useState(false)
+  const [closing, setClosing] = useState(false)
+  const rowId = useId()
+  useEffect(() => {
+    if (!closing) return
+    const timer = window.setTimeout(() => setClosing(false), 160)
+    return () => window.clearTimeout(timer)
+  }, [closing])
+  const chip = (f: DocFlag, i: number, anim = '') => (
+    <button
+      key={`${f.line}-${i}`}
+      type="button"
+      onClick={() => onSelect(f.line)}
+      title={f.detail ? `${t('doc.line', { n: f.line + 1 })} — ${f.detail}` : undefined}
+      className={`${CHIP} ${anim}`}
+    >
+      {f.detail && kind !== 'longSentence' ? f.detail : t('doc.line', { n: f.line + 1 })}
+    </button>
+  )
+  const hidden = list.length - MAX_CHIPS
+  return (
+    <div id={rowId} className="mt-1 flex flex-wrap gap-1">
+      {list.slice(0, MAX_CHIPS).map((f, i) => chip(f, i))}
+      {(open || closing) && list.slice(MAX_CHIPS).map((f, i) => chip(f, i + MAX_CHIPS, closing ? 'anim-fade-out' : 'anim-fade'))}
+      {hidden > 0 && (
+        <button
+          key="toggle"
+          type="button"
+          aria-expanded={open}
+          aria-controls={rowId}
+          onClick={() => {
+            if (open) setClosing(true)
+            setOpen(!open)
+          }}
+          className="tap rounded px-1 py-0.5 text-[11px] font-medium text-accent-strong transition-colors hover:text-accent dark:text-dark-accent dark:hover:text-dark-accent-strong"
+        >
+          {open ? t('doc.fewer') : t('doc.more', { n: hidden })}
+        </button>
+      )}
+    </div>
   )
 }
 

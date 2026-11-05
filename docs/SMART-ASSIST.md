@@ -388,7 +388,8 @@ clicked section stays highlighted until you scroll yourself), hover to tint the 
   Click a type to go to its section; with several, each click goes to the next one.
 - **Worth a look** — heading level jumps (H2 → H4), extra top-level titles, empty sections, repeated
   headings under the same parent, code blocks without a language, images without alt text, links that say
-  "here", very long sections and sentences over 40 words. Click one to jump there. Changelogs that give every
+  "here", very long sections and sentences over 40 words. Click one to jump there. A kind with more than six
+  shows the first six and a *+N more* button for the rest (*Show fewer* hides them again). Changelogs that give every
   release its own `#` title aren't flagged for it.
 
 

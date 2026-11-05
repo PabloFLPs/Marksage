@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { focused, openSample, palette } from './helpers'
+import { focused, newDocument, openSample, palette } from './helpers'
 
 test('the command palette runs commands and hands focus back', async ({ page }) => {
   await openSample(page)
@@ -72,4 +72,17 @@ test('Document tab: a section-type chip goes to its section', async ({ page }) =
   await expect(faq).not.toBeInViewport()
   await page.getByRole('tabpanel').getByRole('button', { name: /^Troubleshooting 1/ }).click()
   await expect(faq).toBeInViewport()
+})
+
+test('Document tab: "+N more" shows the rest of a flag group, "Show fewer" hides it', async ({ page }) => {
+  await page.goto('/')
+  await newDocument(page, '# Code\n\n' + '```\nx = 1\n```\n\n'.repeat(8))
+  await page.getByRole('group', { name: 'Outline and document insights' }).getByRole('button', { name: 'Document', exact: true }).click()
+  const panel = page.getByRole('tabpanel')
+  const lines = panel.getByRole('button', { name: /^Line \d+$/ })
+  await expect(lines).toHaveCount(6)
+  await panel.getByRole('button', { name: '+2 more' }).click()
+  await expect(lines).toHaveCount(8)
+  await panel.getByRole('button', { name: 'Show fewer' }).click()
+  await expect(lines).toHaveCount(6)
 })

@@ -394,7 +394,9 @@ documento muda.
   Clique num tipo para ir até a seção; se houver várias, cada clique leva à próxima.
 - **Vale conferir** — saltos de nível de título (H2 → H4), títulos principais a mais, seções vazias,
   títulos repetidos sob o mesmo pai, blocos de código sem linguagem, imagens sem texto alternativo, links
-  que dizem "aqui", seções muito longas e frases com mais de 40 palavras. Clique para ir até lá. Registros de
+  que dizem "aqui", seções muito longas e frases com mais de 40 palavras. Clique para ir até lá. Quando um
+  item tem mais de seis ocorrências, aparecem as seis primeiras e um botão *+N mais* para o resto (*Mostrar menos*
+  esconde de novo). Registros de
   mudanças que dão a cada versão seu próprio título `#` não são marcados por isso.
 
 

@@ -177,6 +177,7 @@ describe('MarkdownPreview', () => {
 })
 
 describe('DocumentTab', () => {
+  const fence = '```\nx = 1\n```\n'
   it('a section-type chip goes to its section, and with several, to the next one each time', async () => {
     const { DocumentTab } = await import('../../src/components/DocumentTab')
     const { buildOutline } = await import('../../src/assist/outline')
@@ -193,4 +194,27 @@ describe('DocumentTab', () => {
     expect(onSelect).toHaveBeenLastCalledWith(6)
   })
 
+  it('"+N more" shows the rest of a flag group, and "Show fewer" hides it again', async () => {
+    vi.useFakeTimers()
+    try {
+      const { DocumentTab } = await import('../../src/components/DocumentTab')
+      const { buildOutline } = await import('../../src/assist/outline')
+      const text = '# Code\n\n' + fence.repeat(8)
+      render(<DocumentTab text={text} items={buildOutline(text)} filename={null} onSelect={() => {}} />)
+      const lineChips = () => screen.queryAllByRole('button', { name: /^Line \d+$/ }).length
+      expect(lineChips()).toBe(6)
+      const more = screen.getByRole('button', { name: '+2 more' })
+      expect(more.getAttribute('aria-expanded')).toBe('false')
+      fireEvent.click(more)
+      expect(lineChips()).toBe(8)
+      expect(more.textContent).toBe('Show fewer')
+      expect(more.getAttribute('aria-expanded')).toBe('true')
+      fireEvent.click(more)
+      act(() => void vi.advanceTimersByTime(200)) // the exit animation
+      expect(lineChips()).toBe(6)
+      expect(more.textContent).toBe('+2 more')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
 })

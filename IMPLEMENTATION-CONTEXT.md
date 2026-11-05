@@ -1217,3 +1217,8 @@ sample explained, three small UI items and two ROADMAP entries.
   “Requirements” (2 of 2)"; the tooltip says the same). `computeDocStats` now keeps the sections behind each count
   (`typeSections`, the same rule as the count: tentative types left out). Unit test + E2E (the sample's
   Troubleshooting chip scrolls FAQ into view).
+- **"+N more" in Worth a look** — the count past the six chips was plain text; now a button that shows the rest
+  in the same row, before it (fading in and out), and turns into "Show fewer" (`aria-expanded`, `aria-controls`).
+  It stays the same element, so focus doesn't move (a first try put the rest on a row of its own: "Show fewer"
+  then sat between the two rows). PT: "+{n} mais" (it said only "+{n}") / "Mostrar menos". Flag chips got `.tap`
+  (40 px on touch screens). Unit test + E2E.

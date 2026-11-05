@@ -303,6 +303,7 @@ export const en = {
   'doc.flag.longSentence': 'Sentences over 40 words',
   'doc.line': 'Line {n}',
   'doc.more': '+{n} more',
+  'doc.fewer': 'Show fewer',
   'doc.typeGo': 'go to “{heading}”',
   'doc.typeGoMany': 'go to “{heading}” ({i} of {n})',
   'doc.footer': 'Worked out on your device from the text. Type and tone are signals, not verdicts.',
