@@ -57,6 +57,8 @@ export interface DocStats {
   kind: { id: DocKind; because: string[] } | null
   tone: Tone | null
   sectionTypes: [SectionType, number][]
+  /** The sections behind each type's count, in document order (the Document tab's chips go to them). */
+  typeSections: Partial<Record<SectionType, { heading: string; line: number }[]>>
   flags: DocFlag[]
 }
 
@@ -192,7 +194,13 @@ export function computeDocStats(text: string, outline: OutlineItem[], filename?:
 
   // ---- section types (from the Outline) and the document kind ----
   const typeCounts = new Map<SectionType, number>()
-  for (const item of outline) if (item.type && !item.tentative) typeCounts.set(item.type, (typeCounts.get(item.type) ?? 0) + 1)
+  const typeSections: DocStats['typeSections'] = {}
+  for (const item of outline)
+    if (item.type && !item.tentative) {
+      typeCounts.set(item.type, (typeCounts.get(item.type) ?? 0) + 1)
+      const list = (typeSections[item.type] ??= [])
+      list.push({ heading: plainHeading(item.heading), line: item.line })
+    }
   const sectionTypes = SECTION_TYPES.filter((t) => typeCounts.has(t)).map((t) => [t, typeCounts.get(t)!] as [SectionType, number]).sort((a, b) => b[1] - a[1])
   const listLines = lines.filter((l) => !l.inCode && /^\s*([-*+]|\d+[.)])\s/.test(l.text)).length
   const contentLines = lines.filter((l) => !l.inCode && l.text.trim()).length
@@ -241,6 +249,7 @@ export function computeDocStats(text: string, outline: OutlineItem[], filename?:
     kind,
     tone,
     sectionTypes,
+    typeSections,
     flags: finalFlags.sort((a, b) => FLAG_ORDER.indexOf(a.kind) - FLAG_ORDER.indexOf(b.kind) || a.line - b.line),
   }
 }

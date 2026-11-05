@@ -384,6 +384,8 @@ clicked section stays highlighted until you scroll yourself), hover to tint the 
 - **Tone** — formal, neutral or conversational, from signals that are counted and shown: contractions (they
   count half — modern style guides recommend them), exclamation marks, emoji, informal words, and who the text
   talks to ("you", "we", "I" or nobody). Signals, not a verdict.
+- **Section types** — how many sections of each type the Outline found (the tentative "probably" ones aside).
+  Click a type to go to its section; with several, each click goes to the next one.
 - **Worth a look** — heading level jumps (H2 → H4), extra top-level titles, empty sections, repeated
   headings under the same parent, code blocks without a language, images without alt text, links that say
   "here", very long sections and sentences over 40 words. Click one to jump there. Changelogs that give every

@@ -1205,3 +1205,15 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   and `upload-artifact@v6` (the first on Node 24; v5 isn't).
 - **Cross-browser CI blocking** — run #3 (2026-11-05, Pablo): `check`, `e2e` and `e2e-cross-browser` all green
   (WebKit desktop, iPhone 14, Firefox). `continue-on-error` removed: a WebKit or Firefox failure now fails the run.
+
+## 41. Final adjustments before the post (2026-11-05)
+
+A findings report first (Pablo approved it): the PT-BR diagnosis, Marksage's own documents run through Marksage, the
+sample explained, three small UI items and two ROADMAP entries.
+
+- **Section-type chips go to their sections** (Pablo: cycle). In the Document tab's "Section types", each chip is a
+  button: one click goes to that section; with several of one type, each click goes to the next one, back to the
+  first after the last. Its accessible name keeps the visible words and adds where it goes next (", go to
+  “Requirements” (2 of 2)"; the tooltip says the same). `computeDocStats` now keeps the sections behind each count
+  (`typeSections`, the same rule as the count: tentative types left out). Unit test + E2E (the sample's
+  Troubleshooting chip scrolls FAQ into view).

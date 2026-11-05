@@ -305,6 +305,8 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'doc.flag.longSentence': 'Frases com mais de 40 palavras',
   'doc.line': 'Linha {n}',
   'doc.more': '+{n}',
+  'doc.typeGo': 'ir para “{heading}”',
+  'doc.typeGoMany': 'ir para “{heading}” ({i} de {n})',
   'doc.footer': 'Calculado no seu dispositivo a partir do texto. Tipo e tom são sinais, não vereditos.',
   'section.overview': 'Visão geral',
   'section.setup': 'Instalação',

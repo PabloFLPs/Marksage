@@ -390,6 +390,8 @@ documento muda.
 - **Tom** — formal, neutro ou conversacional, a partir de sinais contados e mostrados: contrações (valem
   metade — guias de estilo modernos as recomendam), pontos de exclamação, emoji, palavras informais e com
   quem o texto fala ("você", "nós", "eu" ou ninguém). Sinais, não um veredito.
+- **Tipos de seção** — quantas seções de cada tipo a Estrutura achou (sem contar as marcadas como "provável").
+  Clique num tipo para ir até a seção; se houver várias, cada clique leva à próxima.
 - **Vale conferir** — saltos de nível de título (H2 → H4), títulos principais a mais, seções vazias,
   títulos repetidos sob o mesmo pai, blocos de código sem linguagem, imagens sem texto alternativo, links
   que dizem "aqui", seções muito longas e frases com mais de 40 palavras. Clique para ir até lá. Registros de

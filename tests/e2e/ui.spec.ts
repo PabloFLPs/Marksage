@@ -64,3 +64,12 @@ test('docs pages: Back names its target and matches the browser; a direct link g
   await page.keyboard.press('Escape')
   await expect(page).toHaveURL(/#about$/)
 })
+
+test('Document tab: a section-type chip goes to its section', async ({ page }) => {
+  await openSample(page)
+  await page.getByRole('group', { name: 'Outline and document insights' }).getByRole('button', { name: 'Document', exact: true }).click()
+  const faq = page.locator('.markdown-body h2', { hasText: 'FAQ' })
+  await expect(faq).not.toBeInViewport()
+  await page.getByRole('tabpanel').getByRole('button', { name: /^Troubleshooting 1/ }).click()
+  await expect(faq).toBeInViewport()
+})

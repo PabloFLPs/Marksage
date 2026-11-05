@@ -175,3 +175,22 @@ describe('MarkdownPreview', () => {
     expect(window.location.hash).toBe('')
   })
 })
+
+describe('DocumentTab', () => {
+  it('a section-type chip goes to its section, and with several, to the next one each time', async () => {
+    const { DocumentTab } = await import('../../src/components/DocumentTab')
+    const { buildOutline } = await import('../../src/assist/outline')
+    const text = '# Tool\n\n## Installation\n\nRun it.\n\n## Usage\n\nUse it.\n\n## Requirements\n\nNode 20.\n'
+    const onSelect = vi.fn()
+    render(<DocumentTab text={text} items={buildOutline(text)} filename="README.md" onSelect={onSelect} />)
+    const setup = screen.getByRole('button', { name: /^Setup 2 ?, go to “Installation” \(1 of 2\)$/ })
+    fireEvent.click(setup)
+    expect(screen.getByRole('button', { name: /^Setup 2 ?, go to “Requirements” \(2 of 2\)$/ })).toBe(setup)
+    fireEvent.click(setup)
+    fireEvent.click(setup)
+    expect(onSelect.mock.calls.map((c) => c[0])).toEqual([2, 10, 2])
+    fireEvent.click(screen.getByRole('button', { name: /^Guide 1 ?, go to “Usage”$/ }))
+    expect(onSelect).toHaveBeenLastCalledWith(6)
+  })
+
+})

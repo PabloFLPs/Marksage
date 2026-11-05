@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 import { ChartNoAxesColumn, Eye, Gauge, MessageSquareQuote, ScanSearch, Shapes } from 'lucide-react'
 import { computeDocStats, FLAG_ORDER, type DocFlag, type DocStats } from '../assist/docStats'
+import type { SectionType } from '../assist/sections'
 import type { OutlineItem } from '../assist/outline'
 import { SECTION_ICONS } from './sectionIcons'
 import { useI18n } from '../hooks/useI18n'
@@ -86,17 +87,7 @@ export function DocumentTab({ text, items, filename, onSelect }: DocumentTabProp
 
       {stats.sectionTypes.length > 0 && (
         <Block icon={Shapes} title={t('doc.types')}>
-          <ul className="flex flex-wrap gap-1.5">
-            {stats.sectionTypes.map(([type, n]) => {
-              const Icon = SECTION_ICONS[type]
-              return (
-                <li key={type} className="inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-xs dark:border-dark-line">
-                  <Icon className="h-3 w-3 text-accent dark:text-dark-accent" />
-                  {t(`section.${type}`)} <span className="text-ink-muted dark:text-dark-ink-muted">{n}</span>
-                </li>
-              )
-            })}
-          </ul>
+          <TypeChips types={stats.sectionTypes} sections={stats.typeSections} onSelect={onSelect} />
         </Block>
       )}
 
@@ -145,6 +136,45 @@ function Flags({ flags, onSelect }: { flags: DocFlag[]; onSelect: (line: number)
           </div>
         </li>
       ))}
+    </ul>
+  )
+}
+
+/**
+ * The "Section types" chips: each goes to a section of its type. With several, each click goes to the next one
+ * (back to the first after the last); the name and the tooltip say which one is next.
+ */
+function TypeChips({ types, sections, onSelect }: { types: [SectionType, number][]; sections: DocStats['typeSections']; onSelect: (line: number) => void }) {
+  const { t } = useI18n()
+  const [next, setNext] = useState<Partial<Record<SectionType, number>>>({})
+  return (
+    <ul className="flex flex-wrap gap-1.5">
+      {types.map(([type, n]) => {
+        const Icon = SECTION_ICONS[type]
+        const list = sections[type] ?? []
+        const i = list.length ? (next[type] ?? 0) % list.length : 0
+        const target = list[i]
+        const where = target && (list.length > 1 ? t('doc.typeGoMany', { heading: target.heading, i: i + 1, n: list.length }) : t('doc.typeGo', { heading: target.heading }))
+        return (
+          <li key={type}>
+            <button
+              type="button"
+              disabled={!target}
+              title={where ? where.charAt(0).toUpperCase() + where.slice(1) : undefined}
+              onClick={() => {
+                if (!target) return
+                onSelect(target.line)
+                setNext((p) => ({ ...p, [type]: i + 1 }))
+              }}
+              className="tap inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-xs transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:hover:border-dark-accent dark:hover:text-dark-accent"
+            >
+              <Icon aria-hidden className="h-3 w-3 text-accent dark:text-dark-accent" />
+              {t(`section.${type}`)} <span className="text-ink-muted dark:text-dark-ink-muted">{n}</span>
+              {where && <span className="sr-only">, {where}</span>}
+            </button>
+          </li>
+        )
+      })}
     </ul>
   )
 }
