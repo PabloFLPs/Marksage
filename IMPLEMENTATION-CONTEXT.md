@@ -1248,3 +1248,7 @@ sample explained, three small UI items and two ROADMAP entries.
   First run: 0 suggestions anywhere; 40 long-sentence flags (README 2, SMART-ASSIST 10 / PT 16, MODELS 5 / PT 7);
   the sample left a second H1 (`#License` → `# License`). It joins CI once every document passes (after the PT
   rewrite).
+- **The sample's License slip is an H2** — `#License` (→ `# License`) made a second top-level title once
+  accepted, and the Document tab then flagged it. Now `##License` (→ `## License`), EN + PT-BR. With the bold-heading
+  fix, `check:docs` passes on the sample: every slip shows, nothing else, and after the tour only the two slips
+  without a fix (the vague link, the long sentence) are left.

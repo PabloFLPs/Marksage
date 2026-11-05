@@ -94,7 +94,7 @@ Pitwall skips rows it can't read, and it tells you how many at the end. Most of 
 
 See [the CSV format] (#examples) for the columns it expects.
 
-#License
+##License
 
 MIT: use it, change it, share it.
 `
@@ -184,7 +184,7 @@ O Pitwall pula as linhas que não consegue ler e diz quantas no final. Na maiori
 
 Veja [o formato do CSV] (#exemplos) para as colunas que ele espera.
 
-#Licença
+##Licença
 
 MIT: use, modifique, compartilhe.
 `
