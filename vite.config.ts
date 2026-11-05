@@ -20,9 +20,16 @@ export default defineConfig(({ mode }) => {
   let commit = ''
   try {
     commit = execSync('git rev-parse HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()
-    // A build from uncommitted changes would link a commit that isn't what's deployed: say so (not an error).
-    if (mode === 'production' && execSync('git status --porcelain --untracked-files=no', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim())
-      console.warn('\n⚠ Uncommitted changes: About will link commit ' + commit.slice(0, 7) + ', which is not exactly this build.\n')
+    // A build from uncommitted changes would link a commit that isn't what's deployed: say so (not an error), with
+    // the files. Not on Vercel: a build from git there is exactly the pushed commit — what changes during it is the
+    // build environment's own doing (it warned on every deploy, 2026-11-04) — and a `vercel deploy` from a laptop
+    // uploads no .git, so it never gets here.
+    // Each line is "XY path" — two status columns, a space — so no trim() before the split (it ate the first one's).
+    const files = execSync('git status --porcelain --untracked-files=no', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().split('\n').filter(Boolean).map((l) => l.slice(3))
+    if (mode === 'production' && files.length && !process.env.VERCEL) {
+      const list = files.slice(0, 5).join(', ') + (files.length > 5 ? ` (+${files.length - 5} more)` : '')
+      console.warn(`\n⚠ Uncommitted changes (${list}): About will link commit ${commit.slice(0, 7)}, which is not exactly this build.\n`)
+    }
   } catch {
     // Not a git checkout (many hosts build from a copy without .git): their own commit variable, else About
     // links the repository (pre-launch review).

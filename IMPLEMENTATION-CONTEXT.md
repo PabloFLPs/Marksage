@@ -1182,3 +1182,8 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   line 29") — the step name `Unit tests, with coverage (floor: 50% of lines)` has `: ` in an unquoted YAML value,
   so GitHub rejected the whole file and ran no job, the cross-browser one included. Renamed; AGENTS says to parse a
   workflow after editing it, and the pre-commit checks here now do.
+- **Vercel's "Uncommitted changes" warning** — every Vercel deploy warned that About would link a commit "not
+  exactly this build", although Vercel builds the pushed commit (a clean `npm install` with npm 10 and 11 changes no
+  tracked file here, so it's Vercel's build environment). The check is skipped on Vercel (`VERCEL` is set there; a
+  CLI deploy uploads no `.git` and never reaches it) and names the changed files elsewhere. The other two lines in
+  that log, `npm warn Unknown env config "cache-dir"`, come from Vercel's own npm settings, not the repository.
