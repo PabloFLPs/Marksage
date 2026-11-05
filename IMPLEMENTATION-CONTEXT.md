@@ -1196,3 +1196,7 @@ production build in headless Chromium (desktop / phone, light / dark, reduced mo
   run): Testing Library unmounts after each test only with Vitest's `globals: true`, so hooks rendered in
   `appHooks.test.tsx` stayed mounted and React's scheduler ran their work after happy-dom was gone.
   `tests/unit/setup.ts` unmounts after every test: 12 / 12 clean runs.
+- **Two WebKit-only flakes** (same run, passed on retry): the palette's axe test pressed ⌘K before the app had
+  attached its keyboard listener (WebKit renders later) — it now waits for the start screen; the first-load test
+  loaded the page with the app running before blocking the main script, and WebKit reported that page's prefetch
+  of the document view during the next load — the main script is now blocked from the first load.

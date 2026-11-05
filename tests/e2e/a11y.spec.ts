@@ -41,6 +41,8 @@ for (const theme of ['light', 'dark'] as const) {
 
     test('command palette', async ({ page }) => {
       await page.goto('/')
+      // The app's keyboard listener is attached once it has rendered (WebKit pressed too early, CI 2026-11-04).
+      await expect(page.getByRole('button', { name: 'Start writing' })).toBeVisible()
       await page.keyboard.press('ControlOrMeta+k')
       await expect(page.getByRole('combobox')).toBeFocused()
       await scan(page, 'palette')

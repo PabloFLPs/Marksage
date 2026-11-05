@@ -43,8 +43,10 @@ test('first load: only a stored document makes index.html ask for the document v
     page.off('request', onRequest)
     return urls.some((u) => u.includes('DocumentView'))
   }
-  await page.goto('/')
+  // Blocked before the first load: a page where the app ran would prefetch the view, and WebKit reported that
+  // page's request during the next load (CI 2026-11-04).
   await page.route(/\/assets\/index-[^/]+\.js$/, (route) => route.abort())
+  await page.goto('/')
   expect(await asked()).toBe(false)
   await page.evaluate(() => localStorage.setItem('marksage:doc', JSON.stringify({ id: 'd1', filename: 'kept.md', content: '# Kept' })))
   expect(await asked()).toBe(true)
