@@ -24,3 +24,16 @@ describe('structure hints', () => {
     expect(await offered('-5 degrees outside\n\ntext')).toEqual([])
   })
 })
+
+describe('Document tab tone, in Portuguese', () => {
+  it('counts "você" and slang ending in an accent (\\b only knows ASCII letters)', async () => {
+    const { computeDocStats } = await import('../../src/assist/docStats.ts')
+    const pt = 'Você abre o arquivo e o editor mostra o texto. '.repeat(6) + 'Se você quiser, tá tudo pronto, né? Cê pode mudar depois. '.repeat(3)
+    const tone = computeDocStats(pt, [], null).tone!
+    expect(tone.voice).toBe('you')
+    expect(tone.signals.slang).toBe(9)
+    const en = 'You open the file and the editor shows your text. '.repeat(8)
+    expect(computeDocStats(en, [], null).tone!.voice).toBe('you')
+    expect(computeDocStats('O arquivo é aberto e o texto aparece no editor. '.repeat(8), [], null).tone!.voice).toBe('impersonal')
+  })
+})

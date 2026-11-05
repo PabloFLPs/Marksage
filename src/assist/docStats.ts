@@ -81,7 +81,15 @@ const FENCE = /^( {0,3})(`{3,}|~{3,})\s*([^\s`]*)/
 const EN_STOP = new Set('the and of to is are was in that it for with as on be this you your by or from not can will have an at which'.split(' '))
 const PT_STOP = new Set('de que o a os as e do da dos das em no na para com um uma por não se é são mais como você seu sua pelo pela ao'.split(' '))
 const CONTRACTION = /\b\w+n['’]t\b|\b(?:i|you|we|they|it|that|there|what|let|he|she)['’](?:m|re|ve|ll|d|s)\b/gi
-const PT_SLANG = /\b(?:pra|pro|tá|tô|né|vc|vcs|cê|beleza|valeu|bora|tipo assim|galera|massa)\b/gi
+/**
+ * Whole words from a list, for text with accents: `\b` only knows ASCII letters, so `/\bvocê\b/` never matched
+ * "você " (no boundary after "ê") — PT voice was always impersonal and "tá", "né", "cê" never counted.
+ */
+const wordsOf = (list: string, flags = 'gi') => new RegExp(`(?<![\\p{L}\\p{N}])(?:${list})(?![\\p{L}\\p{N}])`, `${flags}u`)
+const PT_SLANG = wordsOf('pra|pro|tá|tô|né|vc|vcs|cê|beleza|valeu|bora|tipo assim|galera|massa')
+const YOU = wordsOf('you|your|yours|você|vocês|te|teu|tua')
+const WE = wordsOf('we|our|ours|us|nós|nosso|nossa|nossos|nossas|a gente|vamos')
+const I_ME = wordsOf('I|my|mine|eu|meu|minha|meus|minhas', 'g')
 const EMOJI = /(?![©®™])\p{Extended_Pictographic}/gu
 const VAGUE_LINK = /^(?:click here|here|link|this|this link|read more|more|aqui|clique aqui|este link|esse link|leia mais|saiba mais)$/i
 
@@ -224,9 +232,9 @@ export function computeDocStats(text: string, outline: OutlineItem[], filename?:
     const casual = 0.5 * per1k(signals.contractions) + 2 * per1k(signals.exclamations) + 3 * per1k(signals.emoji) + 3 * per1k(signals.slang)
     const evidence = signals.contractions + signals.exclamations + signals.emoji + signals.slang
     const register = casual >= 12 && evidence >= 3 ? 'conversational' : casual < 2 && avgSentenceWords >= 16 ? 'formal' : 'neutral'
-    const you = count(prose, /\b(?:you|your|yours|você|vocês|te|teu|tua)\b/gi)
-    const we = count(prose, /\b(?:we|our|ours|us|nós|nosso|nossa|nossos|nossas|a gente|vamos)\b/gi)
-    const i = count(prose, /\b(?:I|my|mine|eu|meu|minha|meus|minhas)\b/g)
+    const you = count(prose, YOU)
+    const we = count(prose, WE)
+    const i = count(prose, I_ME)
     const top = Math.max(you, we, i)
     const voice = per1k(top) < 4 ? 'impersonal' : top === you ? 'you' : top === we ? 'we' : 'i'
     tone = { register, signals, voice }

@@ -1226,3 +1226,9 @@ sample explained, three small UI items and two ROADMAP entries.
   characters (still hidden on phones), `Weight` size (`HardDrive` already means storage on About). `aria-hidden`,
   70% opacity, text unchanged. Checked: desktop + Pixel 7 + 320 px, light / dark, EN / PT (the 320 px PT footer
   fits with room to spare).
+- **Tone in Portuguese: "você" and accented slang counted** (found by running the Document tab on our own docs;
+  Pablo: fix it as a clear bug). The voice and slang patterns were `\b(?:…você…)\b`: without the `u` flag `\b` only
+  knows ASCII letters, so there is no boundary after "ê" — "você", "tá", "né", "cê" never matched (and "você"
+  matched inside "vocês"). PT voice was always "impersonal", PT slang always 0. Now `wordsOf()` (letters and digits
+  on either side, Unicode). The sample in PT now talks to the reader ("você"), like the English one; the eval's
+  count is unchanged (it doesn't measure tone). Unit test.
