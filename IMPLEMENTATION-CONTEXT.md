@@ -1257,3 +1257,16 @@ sample explained, three small UI items and two ROADMAP entries.
   the way (ROADMAP, not tuned): a sentence that starts with a lowercase word or code (`` `q` is…``,
   `docs/… is`) isn't split from the one before, so two short sentences count as one long one. (One re-wrap put
   ```` ```` ```` at the start of a line, which CommonMark reads as a fence — the check caught it as untagged code.)
+- **The ladder, said precisely** (from the PT-BR pilot review; Pablo approved the EN changes). SMART-ASSIST §1.2
+  ("Start with the simplest solution") explains heuristic rules with an example (`def … :` → Python, a real rule
+  in `heuristics/language.ts`) and says what "labelled data" means. Step 3 no longer reads as a decision: Laya is
+  "today's candidate", open weight, runs locally, *not yet tried in a browser* ("Laya preferably, because it runs
+  on your device" stated a plan as a fact). BYOK left the ladder (an agent doesn't answer from a list): a
+  paragraph after it says the built-in features never use a generative model, and the next idea is connecting
+  other AI models — an AI agent with the model and key you choose, opt-in, off by default, text only to that
+  provider. §4.5 the same, plus a link to the model card. The story's decision-models entry: "can't be
+  malformed" → "never comes back in an unexpected shape", "a thousand times smaller" now says than what
+  (~262 thousand parameters vs the smallest Laya's 322 million, also as facts), the rule told as engineering
+  (small questions, one at a time, the simplest tool that is good enough), and its link goes to the model
+  cards. "What comes next": the lighter first load is done (2026-11-04), so it names the BYOK idea instead. The
+  start-screen pitch says "two small AI models". ROADMAP §1 / §2 follow. EN + PT-BR.

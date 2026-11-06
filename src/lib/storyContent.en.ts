@@ -18,10 +18,11 @@ const content: StoryContent = {
       date: '2026-09-26',
       title: 'Decision models, not generative ones',
       body: [
-        'Decision models — popularised by Jev, from TypeSafe AI (Sep 15), and Laya, an open model (Sep 18) — answer fixed questions instead of writing text, so their output can’t be malformed. That is the right shape for “which language is this code?”. The plan was a general one running in the browser; for this question, a tiny model trained just for it was the better fit — over a thousand times smaller, instant, and measurable on real code, which its authors already label.',
-        'It led to a rule for every feature: use the smallest tool that works — rules, then a tiny model trained for one question, then a general decision model. Never a generative model in the built-in features.',
+        'Decision models — popularised by Jev, from TypeSafe AI (Sep 15), and Laya, an open-weight model (Sep 18) — answer fixed questions instead of writing text. The answer is always one of the listed options, so it never comes back in an unexpected shape. That is the right fit for “which language is this code?”. The plan was a general one running in the browser; for this question, a small model trained just for it was the better fit — over a thousand times smaller than a general decision model (about 262 thousand parameters against the smallest Laya’s 322 million), instant, and measurable on real code, which its authors already label.',
+        'It became the way every feature is built: break the problem into small questions and solve them one at a time, each with the simplest tool that is good enough — heuristic rules first, then a small model trained for that question, and a general decision model only when neither works. The features built into Marksage never use a generative model; connecting other AI models, when it comes, will be opt-in.',
       ],
-      link: { label: 'How Smart Assist works', hash: 'smart-assist' },
+      facts: ['Marksage’s code model: about 262 thousand parameters, 385 KB', 'Laya: 322–421 million parameters'],
+      link: { label: 'The model cards: how the models work', hash: 'models' },
     },
     {
       date: '2026-09-26',
@@ -117,7 +118,7 @@ const content: StoryContent = {
     {
       title: 'What comes next',
       body: [
-        'Fixing TypeScript/JavaScript where the problem is: labels that say what the code is, not which project it came from. Then a lighter first load on slow networks, and optional bring-your-own-key AI, off by default.',
+        'Fixing TypeScript/JavaScript where the problem is: labels that say what the code is, not which project it came from. Then connecting other AI models (bring your own key): an AI agent, with the model and the key you choose, to help with anything inside Marksage — opt-in and off by default.',
       ],
     },
   ],

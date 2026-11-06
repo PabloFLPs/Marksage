@@ -18,10 +18,11 @@ const content: StoryContent = {
       date: '2026-09-26',
       title: 'Modelos de decisão, não generativos',
       body: [
-        'Modelos de decisão — popularizados pelo Jev, da TypeSafe AI (15 set), e pelo Laya, um modelo aberto (18 set) — respondem perguntas fechadas em vez de escrever texto, então a saída não tem como vir malformada. É o formato certo para “que linguagem é este código?”. O plano era um modelo geral rodando no navegador; para esta pergunta, um modelo minúsculo treinado só para ela foi a melhor escolha — mais de mil vezes menor, instantâneo e mensurável em código real, que os próprios autores já rotulam.',
-        'Daí veio uma regra para todo recurso: usar a menor ferramenta que resolve — regras, depois um modelo minúsculo treinado para uma pergunta, depois um modelo de decisão geral. Nunca um modelo generativo nos recursos embutidos.',
+        'Modelos de decisão, popularizados pelo Jev, da TypeSafe AI (15 de setembro), e pelo Laya, um modelo open weight (18 de setembro), respondem perguntas fechadas em vez de escrever texto. A resposta é sempre uma das opções da lista, então nunca vem num formato inesperado. É o formato certo para “em que linguagem está este código?”. O plano era usar um modelo geral rodando no navegador. Para essa pergunta, porém, um pequeno modelo treinado só para ela encaixou melhor: mais de mil vezes menor que um modelo de decisão geral (cerca de 262 mil parâmetros, contra os 322 milhões do menor Laya), instantâneo e fácil de medir em código real, que os próprios autores já rotulam.',
+        'Daí saiu o jeito de construir cada recurso: quebrar o problema em perguntas pequenas e resolver uma de cada vez, com a ferramenta mais simples que satisfaz. Primeiro regras heurísticas; depois um pequeno modelo treinado para aquela pergunta; um modelo de decisão geral só quando nenhum dos dois resolve. Os recursos que já vêm no Marksage nunca usam um modelo generativo. A conexão com outros modelos de IA, quando vier, vai ser opcional.',
       ],
-      link: { label: 'Como o Smart Assist funciona', hash: 'smart-assist' },
+      facts: ['Modelo de código do Marksage: cerca de 262 mil parâmetros, 385 KB', 'Laya: 322–421 milhões de parâmetros'],
+      link: { label: 'As fichas técnicas: como os modelos funcionam', hash: 'models' },
     },
     {
       date: '2026-09-26',
@@ -117,7 +118,7 @@ const content: StoryContent = {
     {
       title: 'O que vem a seguir',
       body: [
-        'Resolver TypeScript/JavaScript onde está o problema: rótulos que digam o que o código é, não de que projeto ele veio. Depois, um carregamento inicial mais leve em redes lentas e IA opcional com a sua própria chave, desligada por padrão.',
+        'Resolver TypeScript/JavaScript onde está o problema: rótulos que digam o que o código é, não de que projeto ele veio. Depois, a conexão com outros modelos de IA (BYOK, com a sua própria chave): um agente de IA, com o modelo e a chave que você escolher, para ajudar com o que precisar dentro do Marksage. Opcional e desligada por padrão.',
       ],
     },
   ],

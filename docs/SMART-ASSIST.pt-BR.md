@@ -62,23 +62,30 @@ novas formas de falhar, sem deixar a resposta melhor.
 *O Jev é um produto da TypeSafe AI e o Laya, da Convai Innovations. O Marksage não tem vínculo com nenhuma das
 duas e não usa nenhum dos dois hoje.*
 
-### 1.2 A menor ferramenta que resolve
+### 1.2 Começa pela solução mais simples
 
-Toda pergunta do Smart Assist sobe a mesma escada e para no primeiro degrau que basta:
+Para cada pergunta, o Smart Assist tenta as opções abaixo, nesta ordem, e fica com a primeira que satisfaz:
 
-1. **Regras** (as heurísticas) — instantâneas, transparentes, precisas; tentadas primeiro em todo recurso.
-2. **Um modelo minúsculo treinado para a tarefa** — só onde as regras ficam quietas demais *e* existem dados
-   rotulados reais. Os dois modelos do Marksage estão aqui. Cada um precisou provar, em repositórios que nunca
-   tinha visto, que traz respostas que as regras não dão. O modelo de código acerta cerca do dobro de
-   sugestões das regras (1,7–2,2× em três conjuntos de teste) com quase a mesma precisão; o modelo de seções identifica seções cujo título não diz nada. Mais
-   dois foram treinados e medidos do mesmo jeito — dicas de formatação e tipos de colagem — e não se saíram
-   melhor que as regras em textos reais, então não são usados (seção 4.6).
-3. **Um modelo de decisão geral** — de preferência o Laya, porque roda no seu dispositivo. Reservado para
-   perguntas sem dados de treino para aprender; nenhum recurso precisa dele ainda.
-4. **Um modelo generativo ou hospedado** — não é usado pelos recursos embutidos: se não dá para listar as
-   respostas possíveis de antemão, não é um recurso do Smart Assist. Em breve: um modo opcional *traga sua
-   própria chave* (BYOK) para conectar um modelo hospedado com a sua chave — desligado por padrão, bem
-   sinalizado e documentado aqui quando sair.
+1. **Regras heurísticas**: padrões escritos à mão que o código confere diretamente. Por exemplo: uma linha que
+   começa com `def` e termina com `:` indica Python. São instantâneas, cada decisão pode ser explicada e elas
+   erram pouco. Todo recurso do Smart Assist (a linguagem dos blocos de código, o copia & cola inteligente, as
+   dicas de formatação) tenta primeiro as regras heurísticas.
+2. **Um pequeno modelo, treinado para aquela pergunta**: entra só quando as regras deixam muita coisa sem
+   resposta *e* existem exemplos reais com a resposta certa já conhecida (dados rotulados). É aqui que entram os
+   dois modelos do Marksage. Cada um teve que provar, em repositórios que nunca viu, que traz respostas que as
+   regras não dão. O modelo de código acerta cerca do dobro de sugestões das regras (1,7–2,2× em três conjuntos
+   de teste), com praticamente a mesma precisão. O modelo de seções dá tipo a seções cujo título não diz nada.
+   Outros dois foram treinados e medidos do mesmo jeito, para dicas de formatação e tipos de colagem. Em texto
+   real, não superaram as regras, então ficaram de fora (seção 4.6).
+3. **Um modelo de decisão geral**: para perguntas sem dados de treino, que um modelo pequeno não tem como
+   aprender. Nenhum recurso precisa disso ainda. O candidato hoje é o Laya, um modelo open weight que roda
+   localmente, mas que ainda não foi testado no navegador (seção 4.5).
+
+E o que não cabe numa lista de respostas? Isso fica fora do Smart Assist: os recursos que já vêm no Marksage
+nunca usam um modelo generativo. A próxima ideia é a **conexão com outros modelos de IA (BYOK, *bring your own
+key*)**: um agente de IA, com o modelo e a chave que você escolher, para ajudar com o que precisar dentro do
+Marksage. Vai ser opcional e desligada por padrão, e o texto só vai para o provedor que você escolher. Quando
+chegar, fica documentada aqui.
 
 ### 1.3 Dois modos
 
@@ -536,13 +543,16 @@ mudanças e acrescenta os três tipos novos. Todas as versões estão em
 
 ### 4.5 E o Jev e o Laya?
 
-O **Laya** — o modelo de decisão com pesos abertos da Convai Innovations (322–421 M de parâmetros), que responde
-nativamente perguntas `choice` / `score` / `noul`, como o **Jev** hospedado da TypeSafe AI — era o plano
-original para este modo, escolhido no lugar do Jev porque pode rodar no seu dispositivo. Para a
-linguagem dos blocos de código, um modelo treinado para a tarefa se mostrou a melhor escolha: mais de mil vezes menor (262 mil parâmetros), instantâneo e
-mensurável em dados reais. O modelo de seções seguiu o mesmo caminho. O Laya continua sendo uma opção para perguntas futuras em que não existam
-dados de treino assim. Por padrão, o que rodar, roda no seu dispositivo;
-qualquer coisa hospedada, como o modo BYOK planejado, será opcional e bem sinalizada.
+O **Laya**, da Convai Innovations, é um modelo de decisão open weight (322–421 M de parâmetros) que responde
+nativamente perguntas `choice` / `score` / `noul`, como o **Jev**, da TypeSafe AI, que é hospedado. O Laya era o
+plano original para este modo, escolhido no lugar do Jev porque pode rodar na sua máquina. Para a linguagem dos
+blocos de código, um modelo treinado para a tarefa encaixou melhor: mais de mil vezes menor (cerca de 262 mil
+parâmetros — a ficha técnica está em [Como os modelos funcionam](MODELS.pt-BR.md), seção 7), instantâneo e fácil
+de medir em dados reais. O modelo de seções seguiu o mesmo caminho. O Laya continua sendo o candidato para
+perguntas futuras sem dados de treino assim. Ele ainda não foi testado no navegador: o tamanho do download, a
+velocidade e a memória que usaria ali são perguntas em aberto. Por padrão, o que roda, roda no seu dispositivo;
+qualquer coisa hospedada, como a futura conexão com outros modelos de IA (BYOK), vai ser opcional e bem
+sinalizada.
 
 ### 4.6 Testados, não usados: dicas de formatação, tipos de colagem, texto de links
 

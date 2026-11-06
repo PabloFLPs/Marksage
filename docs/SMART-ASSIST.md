@@ -62,23 +62,30 @@ latency and new ways to fail without making the answer any better.
 *Jev is a product of TypeSafe AI and Laya of Convai Innovations. Marksage isn't affiliated with either, and
 uses neither today.*
 
-### 1.2 The smallest tool that works
+### 1.2 Start with the simplest solution
 
-Every Smart Assist question climbs the same ladder, and stops at the first step that's good enough:
+For each question, Smart Assist tries the options below, in this order, and keeps the first one that is good
+enough:
 
-1. **Rules** (the heuristics) — instant, transparent, precise; tried first for every feature.
-2. **A tiny purpose-trained model** — only where the rules stay too quiet *and* real labelled data exists.
-   Both of Marksage's models are here. Each had to prove, on repositories it never saw, that it adds answers
-   the rules can't give. The code model gets about twice as many suggestions right as the rules
-   (1.7–2.2× on three held-out sets) at about the same precision; the section model types sections whose heading says nothing. Two more were trained and
+1. **Heuristic rules** — patterns written by hand that the code checks directly. For example, a line that
+   starts with `def` and ends with `:` points to Python. They're instant, every decision can be explained, and
+   they're rarely wrong. Every Smart Assist feature (code-block languages, smart paste, structure hints) tries
+   the heuristic rules first.
+2. **A small model trained for that question** — only where the rules leave too much unanswered *and* there are
+   real examples whose right answer is already known (labelled data). This is where Marksage's two models come
+   in. Each had to prove, on repositories it never saw, that it adds answers the rules can't give. The code
+   model gets about twice as many suggestions right as the rules (1.7–2.2× on three held-out sets) at about the
+   same precision. The section model types sections whose heading says nothing. Two more were trained and
    measured the same way — structure hints and paste types — and didn't do better than the rules on real
    text, so they aren't used (section 4.6).
-3. **A general decision model** — Laya preferably, because it runs on your device. Reserved for questions
-   with no training data to learn from; no feature needs it yet.
-4. **A generative or hosted model** — not used by the built-in features: if the possible answers can't be
-   listed up front, it isn't a Smart Assist feature. Coming next: an optional *bring your own key* (BYOK)
-   mode to connect a hosted model with your own key — off by default, clearly marked, and documented here
-   when it ships.
+3. **A general decision model** — for questions with no training data a small model could learn from. No
+   feature needs one yet. Today's candidate is Laya, an open-weight model that runs locally, but it hasn't been
+   tried in a browser yet (section 4.5).
+
+And what doesn't fit a list of answers? That stays outside Smart Assist: the features built into Marksage never
+use a generative model. The next idea is **connecting other AI models (BYOK, *bring your own key*)**: an AI
+agent, with the model and the key you choose, to help with anything inside Marksage. It will be opt-in and off
+by default, and your text will go only to the provider you pick. It will be documented here when it ships.
 
 ### 1.3 Two modes
 
@@ -526,13 +533,15 @@ types. Every version is listed in [How the two models work](MODELS.md), section 
 
 ### 4.5 And Jev and Laya?
 
-**Laya** — Convai Innovations' open-weights decision model (322–421 M parameters) that natively answers
-`choice` / `score` / `noul`, like TypeSafe AI's hosted **Jev** — was the original plan for this mode, chosen
-over Jev because it can run on your device. For code-block languages a purpose-trained model
-turned out to be the better fit: over a thousand times smaller (262 thousand parameters), instant, and
-measurable on real data.
-The section model followed the same path. Laya stays an option for future questions where no such training data exists. By default, whatever
-runs, runs on your device; anything hosted, like the planned BYOK mode, will be opt-in and clearly marked.
+**Laya** — Convai Innovations' open-weight decision model (322–421 M parameters) that natively answers
+`choice` / `score` / `noul`, like TypeSafe AI's hosted **Jev** — was the original plan for this mode. It was
+chosen over Jev because it can run on your machine. For code-block languages a purpose-trained model turned out
+to be the better fit: over a thousand times smaller (about 262 thousand parameters — its model card is in
+[How the models work](MODELS.md), section 7), instant, and measurable on real data. The section model followed
+the same path. Laya stays the candidate for future questions where no such training data exists. It hasn't been
+tried in a browser yet: its download size, speed and memory there are still open questions. By default, whatever
+runs, runs on your device; anything hosted, like the planned connection to other AI models (BYOK), will be
+opt-in and clearly marked.
 
 ### 4.6 Tried, not used: structure hints, paste types, link text
 

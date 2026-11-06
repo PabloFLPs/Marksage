@@ -83,7 +83,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'empty.titleTouch': 'Abra ou escreva Markdown',
   'empty.clipboardEmpty': 'Sua área de transferência está vazia — copie algum Markdown primeiro.',
   'empty.tagline': 'O editor de Markdown que repara nos detalhes.',
-  'empty.pitch': 'Local: seus arquivos ficam neste navegador. O Smart Assist sugere correções com regras e dois modelos pequenos treinados só para ele, rodando no seu dispositivo.',
+  'empty.pitch': 'Local-first: seus arquivos ficam neste navegador. O Smart Assist sugere correções com regras e dois pequenos modelos de IA, treinados só para isso, que rodam no seu dispositivo.',
   'empty.trySample': 'Experimentar num documento de exemplo',
   'empty.story': 'A história: decisões e modelos',
   'empty.privacy': 'Privacidade e armazenamento',

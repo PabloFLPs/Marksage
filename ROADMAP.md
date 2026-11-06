@@ -28,15 +28,19 @@ minimal.
 
 ## 1. BYOK — bring your own key (next)
 
-**Status:** idea owned by Pablo, not yet shared in detail ("I have a really cool idea for this"). Start the
-session by asking him for it; don't design before hearing it.
+**Status:** idea owned by Pablo. The gist, as the docs now put it (2026-11-05): an AI agent, with the model and
+the key the user chooses, to help with anything inside Marksage — opt-in, off by default. Start the session by
+asking him for the details; don't design before hearing them.
 
 What is already decided or promised in public text:
 
-- `docs/SMART-ASSIST.md` §1.2, ladder step 4: generative or hosted models are **not used by the built-in
-  features**; BYOK is announced as "an optional mode to connect a hosted model with your own key — off by
-  default, clearly marked, and documented here when it ships". §4.5: "anything hosted, like the planned BYOK
-  mode, will be opt-in and clearly marked". Update both when BYOK ships.
+- `docs/SMART-ASSIST.md` §1.2: the ladder has three steps (heuristic rules, a small trained model, a general
+  decision model); BYOK is **outside** it, in the paragraph after: "the features built into Marksage never use a
+  generative model. The next idea is connecting other AI models (BYOK, bring your own key): an AI agent, with
+  the model and the key you choose, to help with anything inside Marksage. It will be opt-in and off by
+  default, and your text will go only to the provider you pick." §4.5: "anything hosted, like the planned
+  connection to other AI models (BYOK), will be opt-in and clearly marked". The story's "What comes next" says
+  the same. Update all three (EN + PT-BR) when BYOK ships — and About's "nothing you write is sent anywhere".
 - The decision-model story (§1.1): Jev (TypeSafe AI) is a hosted decision model with a paid API — a natural
   BYOK candidate. Mentions must stay factual (no logos, no implied endorsement; affiliation note).
 
@@ -60,7 +64,9 @@ Constraints from the project rules (AGENTS.md):
 needs a model that reads meaning, not word clues.
 
 **Candidate:** Laya (Convai Innovations, Apache 2.0) — open weights, answers `choice` / `score` / `noul`,
-322M (multilingual) and 421M (English) checkpoints. Runs on the user's device, so it fits local-first.
+322M (multilingual) and 421M (English) checkpoints. It runs locally (on a machine), so it fits local-first —
+but it has never been tried in a browser, and the docs say so (SMART-ASSIST §1.2, §4.5: a candidate, not a
+decision).
 
 **Open questions:** how it runs in the browser (runtime, download size, WebGPU vs CPU speed, a fallback), how
 the download notice and Privacy & storage describe it, which questions it answers first (Explanation sections

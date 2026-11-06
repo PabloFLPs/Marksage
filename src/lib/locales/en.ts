@@ -81,7 +81,7 @@ export const en = {
   'empty.titleTouch': 'Open or write Markdown',
   'empty.clipboardEmpty': 'Your clipboard is empty — copy some Markdown first.',
   'empty.tagline': 'The Markdown editor that notices.',
-  'empty.pitch': 'Local-first: your files stay in this browser. Smart Assist suggests fixes with rules and two small models trained just for it, running on your device.',
+  'empty.pitch': 'Local-first: your files stay in this browser. Smart Assist suggests fixes with rules and two small AI models trained just for it, running on your device.',
   'empty.trySample': 'Try it on a sample document',
   'empty.story': 'The story: decisions and models',
   'empty.privacy': 'Privacy & storage',
