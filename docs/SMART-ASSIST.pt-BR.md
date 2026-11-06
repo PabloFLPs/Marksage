@@ -235,12 +235,12 @@ csharp, ruby, php, yaml, markdown, diff, dockerfile.
 **Regra heurística.** Cada linguagem tem regras de regex com pesos, que funcionam como logits: cada regra que
 casa soma o peso dela uma vez.
 
-- Pistas *distintivas* têm peso alto (`package main` → Go +4, `<?php` → PHP +6, `if err != nil` → Go +4,
+- Sinais *distintivos* têm peso alto (`package main` → Go +4, `<?php` → PHP +6, `if err != nil` → Go +4,
   `#!/bin/bash` → Bash +5, `@@ -1,2 +1,2 @@` → diff +5).
 - Sintaxe *compartilhada* (chaves, `=>`, `import … from`) tem peso baixo em várias linguagens.
-- Regras *negativas* descontam pontos quando aparecem pistas contrárias (por exemplo, anotações de tipo do TS penalizam JS puro).
+- Regras *negativas* descontam pontos quando aparecem sinais contrários (por exemplo, anotações de tipo do TS penalizam JS puro).
 - *Ajustes estruturais:* conteúdo que é JSON válido → json +6, inclusive o dialeto mais solto, "JSON com
-  comentários e vírgulas sobrando", usado em arquivos de configuração (+5). TS contra JS é decidido por pistas que
+  comentários e vírgulas sobrando", usado em arquivos de configuração (+5). TS contra JS é decidido por sinais que
   só existem em TS (anotações de tipo, `interface`, `import type`, `as const`), porque TS é um superconjunto de JS.
 - `plaintext` recebe uma nota pela taxa de **aparência de código** (densidade de símbolos em relação a palavras,
   descontados os sinais de pontuação de frases), para que texto corrido em qualquer idioma (inclusive em português) fique sem linguagem.
@@ -250,7 +250,7 @@ das crases que abrem o bloco.
 
 **Duas opções.** No *Regras + IA*, quando nenhuma linguagem passa pelo filtro, mas as duas primeiras somam
 ≥ 85% (e a segunda tem ≥ 20%), a barra oferece as duas: `Tab` (ou um clique) fica com a primeira, `Alt+2` com a
-segunda. Pares comuns: JavaScript/TypeScript, JSON/YAML, C/C++. A regra foi definida no conjunto de dev. Nos três
+segunda. Pares comuns: JavaScript/TypeScript, JSON/YAML, C/C++. A regra foi definida no conjunto de desenvolvimento. Nos três
 conjuntos de teste, ela fez 15, 17 e 81 ofertas, e a linguagem certa estava entre as duas em 15, 17 e 75 delas
 (107 de 113). Só as probabilidades do modelo são calibradas o bastante para isso; por isso, no editor, o modo
 *Regras* não oferece pares.
@@ -266,7 +266,7 @@ colado.
 
 **Regra heurística**:
 
-| Tipo | Pistas |
+| Tipo | Sinais |
 |---|---|
 | `json` | é JSON válido (estrito, ou com comentários e vírgulas sobrando, até com linhas de comentário antes do objeto), inclusive um conteúdo minificado de uma linha só |
 | `tsv` | uma tabulação em todas as linhas (já é forte sozinha, porque texto corrido nunca tem isso), mais ainda quando as contagens batem; várias tabulações seguidas contam como uma |
@@ -299,7 +299,7 @@ sozinho ganha a dica dele). Blocos de código, código indentado e HTML puro (`<
 | `[texto] (https://…)`: o espaço quebra o link | `[texto](https://…)` |
 
 **Regra heurística.** A engine recebe ±2 linhas de contexto e uma afirmação como *"A linha "**Instalação**"
-deveria ser um título de seção."*. A probabilidade parte de um valor inicial por tipo e é ajustada pelas pistas:
+deveria ser um título de seção."*. A probabilidade parte de um valor inicial por tipo e é ajustada pelos sinais:
 
 - **Linhas em negrito** longas, que terminam como frase (`.` `!` `?`, e também `。` `！` `？` e outros sistemas
   de escrita), que terminam com dois-pontos (`**Retorna:**`), que começam com uma palavra de aviso (`Note`,
@@ -387,7 +387,7 @@ muda.
   Referência, Configuração, Desempenho ou Segurança → documentação técnica. Documentação técnica costuma dar às
   seções o nome do próprio assunto ("O filtro de confiança"), que nenhuma regra nem modelo consegue classificar.
   Por isso ela também é reconhecida pela forma: mais de 800 palavras de texto corrido, mais de 8 seções em pelo
-  menos dois níveis de título e três ou mais tabelas ou blocos de código apoiando o texto. Com poucas pistas
+  menos dois níveis de título e três ou mais tabelas ou blocos de código apoiando o texto. Com poucos sinais
   (menos de três seções com tipo, ou menos de um quarto delas, e nenhuma forma clara), ela diz que ainda não há
   um padrão claro, em vez de arriscar um palpite. O mesmo tipo aparece na barra acima de todo documento renderizado (clique
   nele para abrir esta aba); sem tipo, a barra mostra o nome do arquivo.
@@ -432,7 +432,7 @@ a mesma proteção de todas as outras sugestões.
 
 ## 4. Os modelos próprios do Marksage
 
-> Nunca mexeu com machine learning? [Como os dois modelos funcionam](MODELS.pt-BR.md) explica cada passo (pistas,
+> Nunca mexeu com machine learning? [Como os dois modelos funcionam](MODELS.pt-BR.md) explica cada passo (sinais,
 > hash, treinamento, calibração) com números reais dos arquivos dos modelos, além da ficha técnica e do histórico
 > completo de versões de cada modelo.
 
@@ -450,28 +450,28 @@ do Smart Assist.
   texto nunca sai da página. Durante o download, o botão Assist mostra a porcentagem e uma linha fina de
   progresso; enquanto isso, as regras respondem. Se o download falhar, o botão mostra *Assist: Regras* em âmbar,
   e o menu dele explica o motivo, com **Tentar de novo**.
-- **Como ele lê código:** o trecho vira um conjunto de pequenas pistas: palavras e símbolos, pares de tokens
+- **Como ele lê código:** o trecho vira um conjunto de pequenos sinais: palavras e símbolos, pares de tokens
   vizinhos, como as linhas começam e terminam, o estilo de indentação e pedaços de três letras de palavras mais
-  longas. Cada pista tem um vetor aprendido de 8 números; o modelo tira a média deles e transforma essa média em
+  longas. Cada sinal tem um vetor aprendido de 8 números; o modelo tira a média deles e transforma essa média em
   uma probabilidade por linguagem.
 - **Cuidadoso de propósito:** a confiança dele é ajustada com previsões em repositórios que ele nunca viu no
   treinamento (os trechos curtos à parte, porque é mais fácil confiar demais neles), com a meta de acertar cerca de 95%
   das vezes em que se manifesta. O mesmo filtro de confiança das regras (0,8 / 0,2) decide se você vê alguma coisa.
 - **Duas opiniões:** quando o modelo não tem certeza mas as regras têm, a sugestão aparece mesmo assim, se a
   primeira opção do próprio modelo concordar ou se as regras tiverem pelo menos 99% de certeza. (Em trechos
-  curtos, as poucas pistas decisivas do modelo podem se perder na média; veja Como os modelos funcionam, §2.7.)
+  curtos, os poucos sinais decisivos do modelo podem se perder na média; veja Como os modelos funcionam, §2.7.)
 
 ### 4.2 Como foi treinado
 
 - **Dados:** cerca de 270.000 blocos de código de 309 repositórios públicos (documentação, READMEs, guias,
   inclusive em português), rotulados com a linguagem que os *próprios autores* indicaram, mais trechos de
   arquivos de código reais para as linguagens mais raras.
-- **Divisão justa:** cada repositório inteiro vai para o treinamento, para o ajuste (dev) ou para o teste final,
+- **Divisão justa:** cada repositório inteiro vai para o treinamento, para o ajuste (desenvolvimento) ou para o teste final,
   nunca o mesmo projeto em dois lugares. E qualquer bloco de treinamento parecido com um bloco de teste é removido.
 - **Treinamento:** cerca de 64.000 blocos, poucos segundos por passada, feito em TypeScript com o mesmo código que o
   app usa para ler os trechos. Assim, o que o modelo viu no treinamento é exatamente o que ele vê aqui.
-- **Escolhido no dev, medido uma vez:** tamanho, configurações e o jeito de combinar com as regras foram
-  decididos no conjunto de dev; cada conjunto de teste rodou uma única vez, no fim. O modelo atual é a segunda
+- **Escolhido no conjunto de desenvolvimento, medido uma vez:** tamanho, configurações e o jeito de combinar com as regras foram
+  decididos no conjunto de desenvolvimento; cada conjunto de teste rodou uma única vez, no fim. O modelo atual é a segunda
   versão; a primeira aparece nos resultados abaixo.
 
 ### 4.3 Resultados
@@ -502,8 +502,8 @@ linhas únicas que são válidas em várias linguagens (`void main() { … }` é
 No *Regras + IA*, a Estrutura também classifica seções cujo título não diz nada ("Antes de começar", "Correções
 de bugs", "Temas"), lendo o texto que vem abaixo do título.
 
-- **Mesma receita, outras pistas:** o mesmo tipo de modelo e de arquivo (385 KB, ~0,1 ms por seção), lendo texto
-  corrido em vez de código. As pistas são palavras e pares de palavras (sem acentos, então *instalação* =
+- **Mesma receita, outros sinais:** o mesmo tipo de modelo e de arquivo (385 KB, ~0,1 ms por seção), lendo texto
+  corrido em vez de código. Os sinais são palavras e pares de palavras (sem acentos, então *instalação* =
   *instalacao*), como as linhas começam e as palavras dentro do código. Ele também lê a forma da seção: blocos de
   código e as linguagens deles, tabelas, listas, prompts de shell, números de versão, datas, referências a issues.
 - **Rótulos vindos dos títulos, sem os títulos:** cerca de 27.000 seções dos mesmos repositórios públicos,
@@ -514,11 +514,11 @@ de bugs", "Temas"), lendo o texto que vem abaixo do título.
   tipo.
 - **Três tipos ficam com os títulos:** uma versão treinada para também reconhecer seções de explicação (com
   exemplos extras de pastas `concepts/` e `architecture/`, no estilo Diátaxis) não acertou nenhuma nos
-  repositórios de dev, porque um texto explicativo usa as mesmas palavras de qualquer assunto. Glossários e
+  repositórios de desenvolvimento, porque um texto explicativo usa as mesmas palavras de qualquer assunto. Glossários e
   roadmaps são raros demais para aprender (76 e 57 títulos em 381 repositórios). Esses três tipos vêm só do
   título; o modelo responde os outros treze.
-- **Divisão justa:** os repositórios de dev e de teste do modelo de linguagens (mais os 72 novos) ficam de fora
-  do treinamento; as configurações foram escolhidas no dev e o conjunto de teste rodou uma vez.
+- **Divisão justa:** os repositórios de desenvolvimento e de teste do modelo de linguagens (mais os 72 novos) ficam de fora
+  do treinamento; as configurações foram escolhidas no conjunto de desenvolvimento e o conjunto de teste rodou uma vez.
 
 Resultados no conjunto de teste: 6.339 seções com tipo, de 134 repositórios. Os rótulos vêm dos títulos, então
 "concorda" quer dizer que o modelo, lendo só o texto, deu o mesmo tipo que o título indica:
@@ -556,7 +556,7 @@ sinalizada.
 ### 4.6 Testados, não usados: dicas de formatação, tipos de conteúdo colado, texto de links
 
 Em outubro de 2026, mais três perguntas passaram pelo mesmo processo: treinamento (ou regras escritas) nos repositórios
-públicos, todas as escolhas feitas num conjunto de dev e uma única medição em texto real de teste. Nenhuma se saiu
+públicos, todas as escolhas feitas num conjunto de desenvolvimento e uma única medição em texto real de teste. Nenhuma se saiu
 melhor que as regras. Elas ficam registradas aqui para que a próxima tentativa já comece pelos números.
 
 **Um modelo de formatação**: "esta linha mal formatada é um item de lista ou um título?" (sim / não), com a
@@ -596,10 +596,10 @@ configurações, READMEs em inglês e em português):
 Ele confundiu com código uma saída de `kubectl`, uma lista de comandos e dois arquivos JSON.
 
 **Texto do link para uma URL colada**: sem internet, o texto só pode vir da própria URL. Foram medidos 2.842 links
-que aparecem sozinhos na linha nos repositórios de dev. O que os autores escrevem é um título ou um nome: o último
-pedaço da URL bate com ele em 10% das vezes, o domínio nunca, `dono/repo` em 28%. Só os links de issues e pull
-requests do GitHub (`dono/repo#123`) bateram com frequência no dev (90%), e em 32% nos repositórios de teste, onde
-cada projeto tem o seu costume ("BUG #523", "Pull Request", um título). Sem buscar a página, não há um bom texto
+que aparecem sozinhos na linha nos repositórios de desenvolvimento. O que os autores escrevem é um título ou um
+nome: o último pedaço da URL bate com ele em 10% das vezes, o domínio nunca, `dono/repo` em 28%. Só os links de
+issues e pull requests do GitHub (`dono/repo#123`) bateram com frequência no conjunto de desenvolvimento (90%). Nos
+repositórios de teste, foram 32%: cada projeto tem o seu costume ("BUG #523", "Pull Request", um título). Sem buscar a página, não há um bom texto
 para oferecer, então uma URL colada fica como está (o Markdown no padrão do GitHub já a mostra como link).
 
 ---
@@ -631,7 +631,7 @@ ajustadas contra ele. Por isso, ele dá o número honesto:
 
 Os conjuntos novos foram montados para os modelos da seção 4.6 e rodaram uma vez: 53 colagens de arquivos reais e
 227 linhas de issues, pull requests e comentários do GitHub. É texto sem revisão, onde os erros de formatação
-acontecem de verdade. No conjunto de dev contra o qual foram ajustadas (212 linhas de outros repositórios), as
+acontecem de verdade. No conjunto de desenvolvimento contra o qual foram ajustadas (212 linhas de outros repositórios), as
 regras de formatação chegam a 97%; os 89% do conjunto de teste são o número honesto.
 
 Leia assim: quando uma sugestão aparece, ela quase sempre está certa. O custo dessa cautela é que muitos blocos de

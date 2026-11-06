@@ -2,7 +2,7 @@
 
 O Marksage traz dois modelos próprios pequenos. Um diz a **linguagem de um bloco de código** (21 respostas, de
 TypeScript a "não é código"); o outro diz o **tipo de uma seção** do documento, para a Estrutura (13 tipos, mais
-"outro"). Os dois têm o mesmo desenho, o mesmo formato de arquivo e a mesma receita de treinamento. Mais dois foram
+"outro"). Os dois têm a mesma arquitetura, o mesmo formato de arquivo e a mesma receita de treinamento. Mais dois foram
 treinados do mesmo jeito, para as dicas de formatação e os tipos de conteúdo colado, e não são usados, porque não
 se saíram melhor que as regras em texto real (seção 8).
 
@@ -32,9 +32,9 @@ partir dos dados.
 
 Por que não escrever regras? O Marksage escreve, e as regras heurísticas são precisas. Mas elas ficam em silêncio
 em cerca de três blocos a cada quatro, porque escrever uma regra para cada padrão de 20 linguagens não tem fim. E
-por que não um grande modelo de linguagem? Ele teria centenas de megabytes, seria lento num notebook, e um modelo
+por que não um LLM convencional? Ele teria centenas de megabytes, seria lento num notebook, e um modelo
 hospedado significaria mandar o seu texto para fora. Um classificador feito para a tarefa tem cerca de
-**385 KB**, decide em cerca de **0,1 ms** e nunca sai da página.
+**385 KB**, decide em cerca de **0,1 ms** e é executado inteiramente dentro da página.
 
 ## 2. Uma decisão, passo a passo
 
@@ -46,16 +46,16 @@ def greet(name):
 ```
 
 <!-- diagram: inference -->
-![De um trecho a uma resposta: pistas, hash, 8 números por pista, média, pontuações, softmax, filtro](models-inference.pt-BR.svg)
+![De um trecho a uma resposta: sinais, hash, 8 números por sinal, média, pontuações, softmax, filtro](models-inference.pt-BR.svg)
 
 <details>
 <summary>O mesmo diagrama em Mermaid</summary>
 
 ```mermaid
 flowchart TB
-  A["1 · Trecho<br/>def greet(name): return f#quot;Hello…#quot;"] --> B["2 · Pistas (features)<br/>55 pistas: T:def · F:return · G:gre · E::"]
-  B --> C["3 · Hash de cada pista para um slot<br/>T:def → slot 23.610 de 32.768"]
-  C --> D["4 · Busca 8 números por slot<br/>55 pistas × 8 números aprendidos"]
+  A["1 · Trecho<br/>def greet(name): return f#quot;Hello…#quot;"] --> B["2 · Sinais (features)<br/>55 sinais: T:def · F:return · G:gre · E::"]
+  B --> C["3 · Hash de cada sinal para um slot<br/>T:def → slot 23.610 de 32.768"]
+  C --> D["4 · Busca 8 números por slot<br/>55 sinais × 8 números aprendidos"]
   D --> E["5 · Tira a média<br/>[0,11; −0,23; 0,32; 0,02; …]"]
   E --> F["6 · Pontua cada resposta<br/>python 16,7 · yaml 10,5 · markdown 8,6 …"]
   F --> G["7 · Softmax, temperatura 2,55<br/>python 83% · yaml 7% · markdown 4% …"]
@@ -68,10 +68,11 @@ flowchart TB
 
 As próximas seções mostram esses passos um de cada vez.
 
-### 2.1 O texto vira pistas (features)
+### 2.1 O texto vira sinais (features)
 
-Um modelo só sabe fazer contas, então o texto primeiro precisa virar algo contável. O Marksage quebra um trecho
-em pequenas **pistas**, que em machine learning se chamam **features**. Para código, há sete tipos:
+Um modelo só sabe fazer contas, então, primeiramente, o texto precisa se tornar algo possível de se
+contabilizar. O Marksage quebra um trecho
+em pequenos **sinais**, que em machine learning se chamam **features**. Para código, há sete tipos:
 
 | Tipo | O que captura | No exemplo |
 |---|---|---|
@@ -83,22 +84,22 @@ em pequenas **pistas**, que em machine learning se chamam **features**. Para có
 | `I:` indentação | tabulação, 2, 4 ou 8+ espaços | `I:4` |
 | `G:` trigrama | pedaços de três letras de palavras mais longas | `G:gre`, `G:ree`, `G:eet` |
 
-O nosso trecho gera **55 pistas**. Uma pista conta uma vez só, não importa quantas vezes apareça; assim, um bloco
+O trecho do exemplo gera **55 sinais**. Um sinal conta uma vez só, não importa quantas vezes apareça; assim, um bloco
 longo não abafa um curto. Os trigramas ajudam com nomes que o modelo nunca viu: `greet` é novo, mas `gre` e `eet`
 aparecem em muitas palavras.
 
-O modelo de seções lê texto corrido em vez de código, então as pistas dele são outras. Ele usa palavras e pares de
-palavras (em minúsculas, sem acentos, então *instalação* e *instalacao* são a mesma pista), a primeira palavra de
+O modelo de seções lê texto corrido em vez de código, então os sinais dele são outros. Ele usa palavras e pares de
+palavras (em minúsculas, sem acentos, então *instalação* e *instalacao* são o mesmo sinal), a primeira palavra de
 cada linha, as palavras dentro dos blocos de código e a linguagem de cada bloco. Ele também lê a *forma* da seção:
 ela tem uma tabela, uma lista, um prompt de shell, um número de versão, uma data, uma referência a issue? Seções
 "Antes de começar", por exemplo, estão cheias de `W:need`, `W:install` e `C:node`.
 
-### 2.2 As pistas viram números de slot (o truque do hash)
+### 2.2 Os sinais viram números de slot (o truque do hash)
 
-Os dados de treinamento têm cerca de **840.000 pistas diferentes** para código. Guardar um dicionário com todas elas
-deixaria o modelo enorme, e uma pista que ele nunca viu não teria entrada nenhuma.
+Os dados de treinamento têm cerca de **840.000 sinais diferentes** para código. Guardar um dicionário com todos eles
+deixaria o modelo enorme, e um sinal que ele nunca viu não teria entrada nenhuma.
 
-Em vez disso, cada pista passa por uma **função de hash**: uma conta rápida que transforma qualquer texto num
+Em vez disso, cada sinal passa por uma **função de hash**: uma conta rápida que transforma qualquer texto num
 número grande, sempre o mesmo número para o mesmo texto. O Marksage usa o FNV-1a e fica com o resto da divisão por
 32.768:
 
@@ -106,9 +107,9 @@ número grande, sempre o mesmo número para o mesmo texto. O Marksage usa o FNV-
 "T:def"  →  hash 774.298.682  →  774.298.682 mod 32.768  =  slot 23.610
 ```
 
-Assim, toda pista cai num dos **32.768 slots**. Isso quer dizer que cerca de 26 pistas diferentes dividem cada
-slot, o que se chama *colisão*. Parece ruim, mas funciona: a maioria das pistas é rara, as úteis (`T:def`, `E:;`,
-`F:$`) aparecem milhares de vezes e dominam o slot delas, e o treinamento aprende a contornar o ruído. Em troca, o
+Assim, todo sinal cai num dos **32.768 slots**. Isso quer dizer que cerca de 26 sinais diferentes dividem cada
+slot, o que se chama *colisão*. Parece ruim, mas funciona: a maioria dos sinais é rara, e os úteis (`T:def`, `E:;`,
+`F:$`) aparecem milhares de vezes e dominam o slot deles, e o treinamento aprende a contornar o ruído. Em troca, o
 modelo tem tamanho fixo, não precisa de arquivo de dicionário, e palavras novas ainda caem em algum lugar.
 
 ### 2.3 Cada slot guarda 8 números (um embedding)
@@ -121,11 +122,11 @@ T:def → [−2,21; −2,61; 0,92; 1,87; −3,01; 3,90; −1,66; 0,52]
 ```
 
 Os números, um a um, não querem dizer nada: ninguém os escolheu. Eles começaram aleatórios, e o treinamento foi
-mexendo neles até que pistas que apontam para a mesma resposta terminassem com listas parecidas. Dá para imaginar
-cada lista como um ponto num espaço de 8 dimensões: pistas típicas de Python acabam numa região, pistas típicas
+mexendo neles até que sinais que apontam para a mesma resposta terminassem com listas parecidas. Dá para imaginar
+cada lista como um ponto num espaço de 8 dimensões: sinais típicos de Python acabam numa região, sinais típicos
 de SQL em outra.
 
-### 2.4 Tira-se a média das pistas
+### 2.4 A média dos sinais
 
 As 55 listas do trecho viram uma só lista de 8 números, pela **média**:
 
@@ -133,8 +134,8 @@ As 55 listas do trecho viram uma só lista de 8 números, pela **média**:
 [0,114; −0,234; 0,322; 0,023; −0,301; 0,209; −0,068; 0,058]
 ```
 
-Isso é todo o "entendimento" que o modelo tem do trecho. A média ignora a ordem das pistas (as pistas de pares e
-de primeiro token guardam um pouco da ordem local), e é isso que deixa o modelo pequeno e rápido. Esse desenho
+Isso é todo o "entendimento" que o modelo tem do trecho. A média ignora a ordem dos sinais (os sinais de pares e
+de primeiro token guardam um pouco da ordem local), e é isso que deixa o modelo pequeno e rápido. Essa arquitetura
 vem do **fastText**, uma abordagem conhecida de classificação rápida de texto.
 
 ### 2.5 Cada resposta ganha uma pontuação (a camada linear)
@@ -146,7 +147,7 @@ viés mais cada um dos 8 números da média multiplicado pelo seu peso:
 pontuação(python) = viés + p₁·0,114 + p₂·(−0,234) + … + p₈·0,058
 ```
 
-Essas pontuações brutas se chamam **logits**. Para o nosso trecho:
+Essas pontuações brutas se chamam **logits**. Para o trecho do exemplo:
 
 | Resposta | Pontuação |
 |---|---|
@@ -159,7 +160,7 @@ Essas pontuações brutas se chamam **logits**. Para o nosso trecho:
 | c | −13,89 |
 
 Essa é a rede inteira: 32.768 × 8 números nos slots, mais 8 × 21 pesos e 21 vieses, **262.333 números** ao todo.
-(Para comparar: o pequeno "modelo de decisão" aberto que foi considerado no começo tinha de 322 a 421 milhões.)
+(Para comparar: o modelo de decisão open weight considerado no começo tinha de 322 a 421 milhões.)
 
 ### 2.6 As pontuações viram probabilidades (softmax e temperatura)
 
@@ -179,28 +180,28 @@ aproxima as probabilidades umas das outras:
 softmax com temperatura 2,55:  python 82,7% · yaml 7,4% · markdown 3,6% · ruby 3,0% · …
 ```
 
-A temperatura não é chutada. Ela é **calibrada**: escolhida para que "80% de certeza" signifique mesmo acertar
+A temperatura não é escolhida a olho. Ela é **calibrada**: escolhida para que "80% de certeza" signifique mesmo acertar
 cerca de 8 vezes em 10 (a seção 4.3 explica como). O modelo de código tem duas temperaturas: 1,85 para trechos
-mais longos e 2,55 para os curtos (3 linhas ou menos), porque é mais fácil confiar demais nos trechos curtos. O
+mais longos e 2,55 para os curtos (3 linhas ou menos), porque, nos trechos curtos, o modelo tende a ser confiante demais. O
 modelo de seções usa 1,6.
 
 ### 2.7 O filtro de confiança
 
 Por último, a mesma regra de toda sugestão do Smart Assist: ela só aparece se a primeira resposta tiver pelo menos
-**80%** e estiver pelo menos **20 pontos** à frente da segunda. Python com 82,7% contra YAML com 7,4% passa, então
+**80%** de confiança e estiver pelo menos **20 pontos** à frente da segunda. Python com 82,7% contra YAML com 7,4% passa, então
 o editor oferece "Adicionar a linguagem `python`". A resposta "não é código" nunca é sugerida, e quando o modelo
 não tem certeza, três regras extras ainda podem ajudar:
 
 - **Concordância:** se as regras heurísticas estão confiantes *e* a resposta delas é a primeira opção do próprio
   modelo, a sugestão aparece. Dois métodos independentes que concordam somam sugestões sem somar erros.
 - **Regras quase certas (2026-10-30):** se as regras têm pelo menos 99% de certeza, a resposta delas vale mesmo
-  quando o modelo discorda. Em trechos curtos, a média do modelo pode abafar algumas pistas decisivas. Por exemplo,
+  quando o modelo discorda. Em trechos curtos, a média do modelo pode abafar alguns sinais decisivos. Por exemplo,
   em `const x: number = 1;` + `function add(a: number, b: number): number { … }`, o par `: number` é o que mais
-  empurra para TypeScript (+192), e `) :` e `number` vêm logo depois, mas são 5 de 70 pistas. As outras 65 são
-  compartilhadas com JavaScript e puxam para lá (`+`, `function`, `;`, nomes curtos), e o modelo já começa 1,95
+  empurra para TypeScript (+192), e `) :` e `number` vêm logo depois, mas são 5 de 70 sinais. Os outros 65 são
+  compartilhados com JavaScript e puxam para lá (`+`, `function`, `;`, nomes curtos), e o modelo já começa 1,95
   ponto a favor de JavaScript (muito código sem tipos é marcado como `ts`). Resultado: js 63%, enquanto as regras
-  diziam ts 99%. Nos conjuntos de fixtures, essa regra acrescentou uma sugestão certa (dev) e nenhuma errada; no
-  terceiro conjunto de teste, 3 certas e nenhuma errada. Um modelo que guarda a pista mais forte de cada dimensão
+  diziam ts 99%. No conjunto de desenvolvimento, essa regra acrescentou uma sugestão certa e nenhuma errada; no
+  terceiro conjunto de teste, 3 certas e nenhuma errada. Um modelo que guarda o sinal mais forte de cada dimensão
   (mean + max pooling) foi testado como solução geral e não ajudou TypeScript / JavaScript. O motivo: a maior
   parte do código marcado como `ts` não tem nenhuma sintaxe exclusiva de TypeScript (seção 8.1).
 - **Duas opções:** se as duas primeiras respostas somam pelo menos 85% (e a segunda tem pelo menos 20%), você
@@ -222,7 +223,7 @@ títulos: **Explicação** ("Como funciona", "Arquitetura"), que o modelo não c
 ```mermaid
 flowchart TB
   A["1 · Repositórios públicos<br/>309 repositórios: docs, READMEs, guias"] --> B["2 · Exemplos rotulados<br/>código: as tags dos autores · seções: títulos"]
-  B --> C["3 · Divisão por repositório<br/>treinamento · dev (escolhas) · teste (uma vez)"]
+  B --> C["3 · Divisão por repositório<br/>treinamento · desenvolvimento · teste"]
   C --> D["4 · Loop de treinamento<br/>palpite → mede o erro → ajusta os números"]
   D -- "× várias passadas" --> D
   D --> E["5 · Calibra<br/>temperatura em repositórios nunca vistos"]
@@ -274,10 +275,10 @@ O treinamento começa com todos os números aleatórios e depois repete um passo
 3. **Ajusta os números.** Calcula para que lado cada número deve se mexer para a perda ficar um pouco menor (o
    **gradiente**) e mexe um pouco para lá.
 
-Para esse tipo de modelo, o lado é surpreendentemente simples. Para cada resposta, pegue *a probabilidade dela
+Para esse tipo de modelo, a direção é surpreendentemente simples de calcular. Para cada resposta, pegue *a probabilidade dela
 menos 1, se for a resposta certa, ou menos 0, se não for*. Resposta certa com 30% → −0,7: a pontuação dela
 precisa subir. Uma resposta errada com 50% → +0,5: a pontuação dela precisa descer. Os 8 pesos de cada resposta, o
-viés dela e os 8 números de cada pista do exemplo se mexem na proporção disso.
+viés dela e os 8 números de cada sinal do exemplo se mexem na proporção disso.
 
 O tamanho de cada passo é a **taxa de aprendizado** (learning rate): ela começa em 0,4 e diminui aos poucos até
 zero. Assim, os primeiros passos fazem mudanças grandes e os últimos fazem o ajuste fino. Isso é o **gradiente
@@ -293,8 +294,8 @@ perda média dele cai assim:
 
 Mais dois detalhes:
 
-- **Linguagens raras contam mais.** Há 6.000 blocos de Python e 566 Dockerfiles. O empurrão de cada exemplo é
-  multiplicado por (6.000 ÷ a quantidade da linguagem dele)^0,5, então um Dockerfile conta cerca de 3,3 vezes mais
+- **Linguagens raras contam mais.** Há 6.000 blocos de Python e 566 Dockerfiles. A correção que cada exemplo provoca é
+  multiplicada por (6.000 ÷ a quantidade da linguagem dele)^0,5, então um Dockerfile conta cerca de 3,3 vezes mais
   que um bloco de Python. Sem isso, o modelo aprenderia a responder só as linguagens comuns.
 - **Reproduzível.** O embaralhamento usa uma semente aleatória fixa, então treinar de novo com os mesmos dados gera
   exatamente o mesmo arquivo, byte a byte.
@@ -311,8 +312,8 @@ fossem para o treinamento e outros para o teste, o modelo poderia passar no test
 cada repositório inteiro vai para exatamente um de três conjuntos:
 
 - **Treinamento**: com o que o modelo aprende;
-- **Dev**: usado para fazer as escolhas (tamanho do modelo, número de épocas, quais regras manter);
-- **Teste**: separado antes e rodado **uma vez**, no fim, para gerar os números publicados.
+- **Desenvolvimento**: usado para fazer as escolhas (tamanho do modelo, número de épocas, quais regras manter);
+- **Teste**: separado de antemão e rodado **uma vez**, no fim, para gerar os números publicados.
 
 Uma proteção contra vazamento também remove qualquer bloco de treinamento cujo texto, ou cujas três primeiras linhas,
 também aparecem num conjunto de teste. E depois que o primeiro conjunto de teste já tinha sido visto, um segundo,
@@ -324,24 +325,24 @@ A perda de treinamento sempre cai; isso não quer dizer que o modelo está melho
 dobro de slots, o dobro de números por slot e 10 épocas, chegou a uma perda de treinamento de 0,05, quase perfeita. Mesmo
 assim, ele concordava com os títulos em repositórios novos só 57% das vezes, num arquivo de 1,3 MB. Ele tinha
 começado a decorar os exemplos em vez de aprender padrões: isso é **overfitting**. Um modelo menor, treinado por
-3 épocas, se saiu tão bem ou melhor no dev com um terço do tamanho, e foi esse que entrou no app.
+3 épocas, se saiu tão bem ou melhor no conjunto de desenvolvimento com um terço do tamanho, e foi esse que entrou no app.
 
 ### 4.3 Calibração em repositórios que o modelo nunca viu
 
-A temperatura (seção 2.6) é ajustada onde o modelo é honesto: em previsões para repositórios em que ele não
-treinou. No modelo de código, os repositórios de treinamento são divididos em 5 grupos; 5 modelos extras treinam, cada
+A temperatura (seção 2.6) é ajustada onde o modelo é honesto: em previsões em repositórios que ficaram fora do
+treinamento. No modelo de código, os repositórios de treinamento são divididos em 5 grupos; 5 modelos extras treinam, cada
 um, com 4 grupos e preveem o quinto (*validação cruzada*). Isso dá cerca de 7.600 previsões de fora do repositório.
-Depois, a temperatura sobe até que, no filtro do app, 95% dessas previsões estariam certas.
+Depois, a temperatura sobe até que, no filtro do app, 95% dessas previsões estejam certas.
 
-O efeito no conjunto de dev, com os mesmos números treinados e só a temperatura mudando:
+O efeito no conjunto de desenvolvimento, com os mesmos números treinados e só a temperatura mudando:
 
 | | Sugestões exibidas (de 280) | Certas quando exibidas |
 |---|---|---|
 | Sem calibração (temperatura 1) | 210 | 87,6% |
 | Calibrado (o que está no app) | 157 | 94,9% |
 
-(158, com a mesma precisão, no app desde 2026-10-30, que também aceita as respostas das regras quando elas têm
-≥ 99% de certeza.)
+(Desde 2026-10-30, o app mostra 158, com a mesma precisão, porque também aceita as respostas das regras quando
+elas têm ≥ 99% de certeza.)
 
 Menos sugestões, mas as que você vê estão certas com mais frequência: é a troca que o Smart Assist sempre faz. No
 conjunto de teste novo, confiança e acerto se alinham assim:
@@ -385,7 +386,7 @@ O arquivo (394.280 bytes) é organizado assim:
 | Parte | Tamanho |
 |---|---|
 | Assinatura "MSLM", versão, tamanho do cabeçalho | 12 bytes |
-| Cabeçalho (respostas, tamanhos, temperaturas, qual leitor de pistas) | ~300 bytes |
+| Cabeçalho (respostas, tamanhos, temperaturas, qual leitor de sinais) | ~300 bytes |
 | Números dos slots, 8 bits cada | 256 KB |
 | Uma escala por slot | 128 KB |
 | Pesos e vieses das 21 respostas | ~0,7 KB |
@@ -397,17 +398,17 @@ multiplicações.
 
 ## 6. Os limites, com honestidade
 
-- **Linhas únicas.** Trechos curtos trazem poucas pistas, e o modelo não sabe dizer "curto demais para saber".
+- **Trechos de uma linha só.** Trechos curtos trazem poucos sinais, e o modelo não sabe dizer "curto demais para saber".
   `x = 1` sai como Python com 97% (também é Ruby válido, JavaScript…), e `void main() { printf("hi"); }` como C++
   com 81% (também é C válido). Uma regra de "curto demais para avaliar" é o próximo passo óbvio.
 - **Os rótulos têm manias.** Os autores marcam `dotnet build -c Release` como C# e sessões de terminal como
   `text`. O modelo aprende esses hábitos, e alguns dos "erros" dele são, na verdade, discordâncias com um rótulo.
-- **A ordem quase não conta.** Tirar a média das pistas perde quase toda a ordem; um modelo que lê sequências
-  pegaria mais coisa, com um tamanho muitas vezes maior.
-- **Padrões, não significado.** Com 8 números por pista, ele reconhece a aparência de uma linguagem ou de uma seção.
+- **A ordem quase não conta.** Tirar a média dos sinais perde quase toda a ordem; um modelo que lê sequências
+  captaria mais coisa, com um tamanho muitas vezes maior.
+- **Padrões, não significado.** Com 8 números por sinal, ele reconhece a aparência de uma linguagem ou de uma seção.
   Ele não sabe o que o código faz nem o que a seção diz. E também não consegue explicar a resposta.
 - **Alguns tipos são fracos.** Seções de "guia" se parecem muito com instalação ou exemplos; o modelo de seções
-  raramente dá esse tipo com confiança. Dos tipos que entraram na v2, "desempenho" é o menos confiável (75% de
+  raramente classifica uma seção como guia com confiança. Dos tipos que entraram na v2, "desempenho" é o menos confiável (75% de
   concordância no conjunto de teste) e "deploy" teve poucos exemplos para aprender (246).
 
 ## 7. Fichas técnicas (model cards)
@@ -424,7 +425,7 @@ quão bem funciona e onde falha. Tudo o que você precisa para usar os arquivos 
 | **Entrada** | O código em si, sem as linhas ```` ``` ```` do bloco. Só os primeiros 2.000 caracteres são lidos. |
 | **Saída** | Uma probabilidade para cada uma das 21 respostas, somando 1 |
 | **Respostas, na ordem do arquivo** | `ts` `js` `python` `bash` `json` `html` `css` `sql` `go` `rust` `java` `c` `cpp` `csharp` `ruby` `php` `yaml` `markdown` `diff` `dockerfile` `plaintext` (não é código) |
-| **Como lê** | Leitor de pistas 1 (pistas de código, seção 2.1) → hash FNV-1a mod 32.768 → média de 8 números aprendidos por pista → 8 × 21 pesos + 21 vieses → softmax |
+| **Como lê** | Leitor de sinais 1 (sinais de código, seção 2.1) → hash FNV-1a mod 32.768 → média de 8 números aprendidos por sinal → 8 × 21 pesos + 21 vieses → softmax |
 | **Parâmetros** | 262.333 (guardados como números de 8 bits, com uma escala por slot) |
 | **Temperatura** | 1,85; 2,55 quando o trecho tem 3 linhas não vazias ou menos |
 | **Dados de treinamento** | 63.751 blocos de código de 309 repositórios públicos, rotulados pelas marcações dos autores, no máximo 6.000 por linguagem, mais trechos de arquivos de código reais para as linguagens raras |
@@ -441,21 +442,21 @@ quão bem funciona e onde falha. Tudo o que você precisa para usar os arquivos 
 |---|---|
 | **Arquivo** | `sections-v2.bin` — 394.008 bytes, servido junto do app em `/models/sections-v2.bin` |
 | **Tarefa** | Dizer o tipo de uma seção de documentação a partir do texto dela |
-| **Entrada** | O Markdown logo abaixo de um título, até o próximo título de qualquer nível, **sem a linha do título**. Só os primeiros 2.000 caracteres são lidos. Seções com menos de 40 caracteres de texto de verdade (depois de tirar tags de template, imagens e destinos de links) não valem a pergunta. |
+| **Entrada** | O Markdown logo abaixo de um título, até o próximo título de qualquer nível, **sem a linha do título**. Só os primeiros 2.000 caracteres são lidos. Seções com menos de 40 caracteres de texto de verdade (depois de tirar tags de template, imagens e destinos de links) não passam pelo modelo. |
 | **Saída** | Uma probabilidade para cada uma das 14 respostas, somando 1 |
 | **Respostas, na ordem do arquivo** | `overview` `setup` `guide` `reference` `config` `example` `troubleshooting` `changelog` `contributing` `legal` (licença e créditos) `security` `performance` `deployment` `other` (nenhum tipo em particular) |
-| **Como lê** | Leitor de pistas 2 (pistas de texto, seção 2.1) → o mesmo hash, a mesma média e a mesma pontuação do modelo de código, com 14 respostas |
+| **Como lê** | Leitor de sinais 2 (sinais de texto, seção 2.1) → o mesmo hash, a mesma média e a mesma pontuação do modelo de código, com 14 respostas |
 | **Parâmetros** | 262.270 |
 | **Temperatura** | 1,6 |
 | **Dados de treinamento** | 27.250 seções dos mesmos repositórios, rotuladas por títulos sem ambiguidade (o título depois fica escondido do modelo); 7.813 delas são "outro" |
-| **Treinamento** | 3 épocas de SGD, taxa de aprendizado de 0,3 caindo até 0, peso por classe 0,5, semente 1; temperatura ajustada nos repositórios de dev |
+| **Treinamento** | 3 épocas de SGD, taxa de aprendizado de 0,3 caindo até 0, peso por classe 0,5, semente 1; temperatura ajustada nos repositórios de desenvolvimento |
 | **Resultados de teste** (134 repositórios que ele nunca viu) | Com o filtro 0,8 / 0,2, ele classifica 13,5% das seções rotuladas e concorda com o título delas 88,9% das vezes (84,5% sem os changelogs); a partir de 0,6, 25,1% e 85,6%. Tipos novos: segurança, 34 de 38 exibidas concordam; desempenho, 45 de 60; deploy, 2 de 2. Os rótulos vêm dos títulos, então isso é concordância, não acurácia conferida à mão. |
 | **Velocidade** | Cerca de 0,1 ms por seção |
-| **Serve para** | Dar tipo a seções de READMEs e de documentação técnica cujo título não diz o que elas são; ignore o "outro" |
-| **Não serve para** | Seções de explicação ("Como funciona", "Arquitetura"): o texto delas se parece com o de qualquer assunto, e um modelo treinado para reconhecê-las não acertou nenhuma nos repositórios de dev. Por isso, o Marksage dá esse tipo só pelo título, assim como glossários e roadmaps (76 e 57 títulos em 381 repositórios: poucos demais). "Guia" também é raramente reconhecido, e "desempenho" é o mais fraco dos tipos da v2. |
+| **Serve para** | Classificar seções de READMEs e de documentação técnica cujo título não diz o que elas são; ignore o "outro" |
+| **Não serve para** | Seções de explicação ("Como funciona", "Arquitetura"): o texto delas se parece com o de qualquer assunto, e um modelo treinado para reconhecê-las não acertou nenhuma nos repositórios de desenvolvimento. Por isso, o Marksage só atribui esse tipo pelo título, assim como glossários e roadmaps (76 e 57 títulos em 381 repositórios: poucos demais). "Guia" também é raramente reconhecido, e "desempenho" é o mais fraco dos tipos da v2. |
 | **Licença** | GNU AGPL-3.0, como o resto do Marksage |
 
-### 7.3 Para rodar você mesmo
+### 7.3 Para executar você mesmo
 
 O repositório tem um runner de um arquivo só, `marksage-models.mjs`, na pasta `examples`: sem dependências, roda
 no Node 18+ ou em qualquer navegador moderno. Ele é uma cópia do código do próprio app, e a avaliação do Marksage
@@ -480,12 +481,12 @@ Para portar os modelos para outra linguagem (Python, Go…), você precisa de tr
 
 1. **O formato do arquivo.** Little-endian. Ele começa com a assinatura `MSLM`, a versão (1) e o tamanho do
    cabeçalho, 4 bytes cada. Depois vem o cabeçalho em JSON (respostas, número de slots, números por slot,
-   temperaturas, leitor de pistas). Em seguida, os números dos slots como inteiros de 8 bits com sinal (slots × 8,
+   temperaturas, leitor de sinais). Em seguida, os números dos slots como inteiros de 8 bits com sinal (slots × 8,
    completados até um múltiplo de 4 bytes) e uma escala float de 32 bits por slot. Por último, os pesos como
    floats de 32 bits (8 × respostas, agrupados por dimensão) e um viés float de 32 bits por resposta.
-2. **O leitor de pistas.** As regras exatas que transformam texto em pistas. As expressões regulares importam,
-   porque uma pista escrita de outro jeito cai num slot diferente.
-3. **O hash.** FNV-1a de 32 bits sobre as unidades de código UTF-16 da pista, depois o resto da divisão pelo
+2. **O leitor de sinais.** As regras exatas que transformam texto em sinais. As expressões regulares importam,
+   porque um sinal escrito de outro jeito cai num slot diferente.
+3. **O hash.** FNV-1a de 32 bits sobre as unidades de código UTF-16 do sinal, depois o resto da divisão pelo
    número de slots.
 
 Depois disso: tire a média dos números restaurados de cada slot distinto, calcule viés + pesos · média para cada
@@ -501,9 +502,9 @@ Cada versão de modelo e cada experimento, com os números em que foram medidos.
 | Versão | Data | Dados de treinamento | O que mudou | Primeiro conjunto de teste (314 blocos) | Conjunto de teste novo (284 blocos) | Terceiro conjunto de teste (842 blocos) | Situação |
 |---|---|---|---|---|---|---|---|
 | Só regras (as de hoje) | — | — | regras, sem modelo | 57,3% · 76 exibidas · 97,4% certas | 58,5% · 70 exibidas · 92,9% certas | 53,9% · 239 · 92,1% | referência |
-| **v1** | 2026-10-23 | ~55.000 blocos, 264 repositórios | primeiro modelo: 8 números por pista, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no dev | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | — | substituído pela v2 |
+| **v1** | 2026-10-23 | ~55.000 blocos, 264 repositórios | primeiro modelo: 8 números por sinal, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no conjunto de desenvolvimento | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | — | substituído pela v2 |
 | **v2** | 2026-10-24 | 63.751 blocos, 309 repositórios | +45 repositórios; temperatura vinda de repositórios que ele nunca viu (1,85, trechos curtos 2,55, meta de 95%); no app, concordância com as regras e, desde 2026-10-30, regras quase certas (≥ 99%): nenhuma mudança nos dois primeiros conjuntos de teste, +3 certas no terceiro | 77,4% · 164 · 95,7% | 74,3% · 158 · 91,8% (só o modelo: 74,3% · 146 · 92,5%) | 72,7% · 408 · 93,1% (só o modelo: 72,3% · 326 · 92,6%) | **em uso** |
-| Experimento v3: média + máximo | 2026-10-30 | 64.288 blocos (as mesmas fontes, coletadas de novo) | cada dimensão também guarda a pista mais forte (mean + max pooling), para que uma pista decisiva não se perca na média; números das pistas limitados (±2), 4 épocas, taxa de aprendizado 0,2; 386 KB (394.972 bytes), mesma velocidade | — | — | 74,6% · 417 · 93,8% (só o modelo: 74,2% · 371 · 93,8%) — seis linguagens dos pares: 103 certas · 88,0%, contra 106 · 89,8% da v2 | **não usado** |
+| Experimento v3: média + máximo | 2026-10-30 | 64.288 blocos (as mesmas fontes, coletadas de novo) | cada dimensão também guarda o sinal mais forte (mean + max pooling), para que um sinal decisivo não se perca na média; números dos sinais limitados (±2), 4 épocas, taxa de aprendizado 0,2; 386 KB (394.972 bytes), mesma velocidade | — | — | 74,6% · 417 · 93,8% (só o modelo: 74,2% · 371 · 93,8%) — seis linguagens dos pares: 103 certas · 88,0%, contra 106 · 89,8% da v2 | **não usado** |
 
 A v1 foi medida uma vez no primeiro conjunto de teste. Como esse conjunto já tinha sido visto, a v2 foi julgada
 num segundo conjunto, novo, montado com 72 repositórios que não foram usados em nenhum outro lugar.
@@ -512,10 +513,10 @@ A linha das regras mostra as regras de hoje. No dia em que a v1 entrou, as regra
 97,3% certas (73 certas) no primeiro conjunto.
 
 **O experimento v3 (2026-10-30, não usado).** O alvo eram as linguagens quase gêmeas, em que a média abafa
-algumas pistas decisivas: TypeScript / JavaScript, C++ / C, C# / Java, JSON com comentários. O critério de aprovação foi escrito
+alguns sinais decisivos: TypeScript / JavaScript, C++ / C, C# / Java, JSON com comentários. O critério de aprovação foi escrito
 antes de rodar o terceiro conjunto de teste (uma vez). Nessas seis linguagens juntas: mais sugestões certas *e*
 precisão pelo menos igual à da v2. No geral: precisão pelo menos igual à da v2. As duas coisas valiam para o
-modelo sozinho e para a combinação do app com as regras. A média + máximo cumpriu a parte geral (mais sugestões
+modelo sozinho e para a combinação do app com as regras. A média + máximo atendeu à parte geral (mais sugestões
 certas, mais precisão). Ela foi claramente melhor em C# / Java (44 certas · 3 erradas, contra 28 · 1), em JSON
 com comentários (26 · 0 contra 8 · 0) e em código C++ com sintaxe exclusiva de C++ (81% contra 67% de acurácia).
 Mas, nas seis linguagens juntas, foi menos precisa, e em TypeScript / JavaScript foi pior (22 certas · 5 erradas,
@@ -523,49 +524,49 @@ contra 33 · 4). Então ela não atendeu ao critério de aprovação.
 
 O motivo está nos rótulos, não no modelo: só **42% do código marcado como `ts` no treinamento tem alguma sintaxe
 exclusiva de TypeScript** (anotações de tipo, `interface`, genéricos, `as`…). O resto é código sem tipos que
-também é JavaScript válido, e a marcação dele diz de que projeto ele veio. Nenhum jeito de combinar pistas
-consegue separar esses casos. As escolhas foram feitas no dev e em previsões fora do repositório, de cinco grupos
-de repositórios dos dados de treinamento (64.288 blocos), com a média pura ajustada do mesmo jeito, como controle com
-os mesmos dados. O máximo também precisou de duas mudanças no treinamento para funcionar: sem elas, os números dele
+também é JavaScript válido, e a marcação dele diz de que projeto ele veio. Nenhum jeito de combinar sinais
+consegue separar esses casos. As escolhas foram feitas no conjunto de desenvolvimento e em previsões fora do repositório (cinco grupos
+de repositórios dos dados de treinamento, 64.288 blocos). Como controle, a média simples foi ajustada do mesmo
+jeito, com os mesmos dados. O máximo também precisou de duas mudanças no treinamento para funcionar: sem elas, os números dele
 cresciam sem limite. Detalhes: `training/README.md`.
 
 ### 8.2 Modelo de seções
 
 | Versão | Data | Dados de treinamento | O que mudou | Teste | Situação |
 |---|---|---|---|---|---|
-| Rascunho sem "outro" | 2026-10-24 | ~17.000 seções rotuladas | só 10 tipos | dev: 87% de acerto quando exibe nas seções rotuladas, mas cerca de 2 em 3 em seções com títulos que não dizem nada | não entrou no app |
-| **v1** | 2026-10-24 | 26.105 seções (7.832 "outro") | acrescenta o "outro"; 8 números por pista, 32.768 slots, 3 épocas, temperatura 1,6 | a partir de 0,8: 15,1% com tipo, 91,5% concordam com o título · a partir de 0,6: 27,4%, 87,1% (133 repositórios) | substituído pela v2 |
-| Experimento de explicação | 2026-10-25 | + 748, depois 1.283 seções de explicação | um 11º tipo, rotulado pelos títulos e depois também por pastas no estilo `concepts/` | dev: 0 respostas de explicação certas quando exibe, em todas as configurações testadas | não entrou no app — Explicação vem só dos títulos |
-| **v2** | 2026-10-27 | 27.250 seções (7.813 "outro") | + segurança, desempenho, deploy; títulos de segurança deixam de contar como licença e créditos; mesmas configurações da v1 (escolhidas de novo no dev) | a partir de 0,8: 13,5% com tipo, 88,9% concordam · a partir de 0,6: 25,1%, 85,6% (134 repositórios) · v1 no mesmo conjunto: 14,5%, 89,6% | **em uso** |
+| Rascunho sem "outro" | 2026-10-24 | ~17.000 seções rotuladas | só 10 tipos | desenvolvimento: 87% de acerto quando exibe nas seções rotuladas, mas cerca de 2 em 3 em seções com títulos que não dizem nada | não entrou no app |
+| **v1** | 2026-10-24 | 26.105 seções (7.832 "outro") | acrescenta o "outro"; 8 números por sinal, 32.768 slots, 3 épocas, temperatura 1,6 | a partir de 0,8: 15,1% com tipo, 91,5% concordam com o título · a partir de 0,6: 27,4%, 87,1% (133 repositórios) | substituído pela v2 |
+| Experimento de explicação | 2026-10-25 | + 748, depois 1.283 seções de explicação | um 11º tipo, rotulado pelos títulos e depois também por pastas no estilo `concepts/` | desenvolvimento: 0 respostas de explicação certas quando exibe, em todas as configurações testadas | não entrou no app — Explicação vem só dos títulos |
+| **v2** | 2026-10-27 | 27.250 seções (7.813 "outro") | + segurança, desempenho, deploy; títulos de segurança deixam de contar como licença e créditos; mesmas configurações da v1 (escolhidas de novo no conjunto de desenvolvimento) | a partir de 0,8: 13,5% com tipo, 88,9% concordam · a partir de 0,6: 25,1%, 85,6% (134 repositórios) · v1 no mesmo conjunto: 14,5%, 89,6% | **em uso** |
 
 ### 8.3 Modelo de formatação (testado, não usado)
 
 A pergunta: "esta linha mal formatada é um item de lista ou um título?", com duas respostas, *não* e *sim*. O
-leitor de pistas 3 lê a linha: o marcador, as palavras depois dele, a forma dela (flags, permissões do `ls -l`,
+leitor de sinais 3 lê a linha: o marcador, as palavras depois dele, a forma dela (flags, permissões do `ls -l`,
 hashtags, um fim de frase, dois-pontos…). Ele também lê a categoria das duas linhas antes e depois (em branco, item
 de lista, o mesmo erro, título, código, texto corrido…). Mesmo tamanho e mesmas configurações do modelo de seções
-(8 números por pista, 32.768 slots, 3 épocas, taxa de aprendizado 0,3; peso por classe completo), temperatura 1,55.
+(8 números por sinal, 32.768 slots, 3 épocas, taxa de aprendizado 0,3; peso por classe 1, completo), temperatura 1,55.
 
-| Versão | Data | Dados de treinamento | Dev (212 linhas) | Teste novo (227 linhas) | Situação |
+| Versão | Data | Dados de treinamento | Desenvolvimento (212 linhas) | Teste novo (227 linhas) | Situação |
 |---|---|---|---|---|---|
 | Regras | 2026-10-28 | — | 115 exibidas · 97,4% certas | 140 exibidas · 88,6% certas · 124 de 132 linhas verdadeiras | **em uso** |
 | **v1** | 2026-10-28 | 66.076 linhas dos 381 repositórios: itens e títulos reais transformados em erros (sim), coisas reais parecidas vindas de texto e de blocos de código, mais algumas linhas sintéticas de hashtags e assinaturas (não) | modelo 64 · 93,8% · regras + modelo ≥ 95%: 116 · 97,4% | modelo 76 · 90,8% · 69 linhas verdadeiras; regras + modelo ≥ 95%: 141 · 88,7% · 125 | não usado |
 
-A combinação foi escolhida no dev antes da rodada de teste e atendeu ao critério de aprovação (a precisão das regras, pelo menos as
+A combinação foi escolhida no conjunto de desenvolvimento antes da rodada de teste e atendeu ao critério de aprovação (a precisão das regras, pelo menos as
 mesmas linhas verdadeiras) por uma linha: pouco demais para um download de 385 KB. As regras e o modelo erram
 linhas diferentes, então a próxima tentativa é uma versão em que os dois precisam concordar, num conjunto de teste
-novo. Linhas em negrito não dá para aprender desse jeito: os exemplos "não" são linhas em negrito reais, e muitas
+novo. Não dá para aprender linhas em negrito dessa forma: os exemplos "não" são linhas em negrito reais, e muitas
 delas são títulos.
 
 ### 8.4 Modelo de tipos de conteúdo colado (testado, não usado)
 
 A pergunta: "que tipo de texto é este que foi colado?", com os sete tipos do copia & cola inteligente. O leitor de
-pistas 4 lê a forma do que foi colado: se é JSON válido, tabulações e células separadas por vírgula (e o quanto
+sinais 4 lê a forma do que foi colado: se é JSON válido, tabulações e células separadas por vírgula (e o quanto
 são consistentes), colunas alinhadas, marcadores, linhas curtas, texto quebrado em linhas, frases, estrutura de
 código. Ele também lê o primeiro token e o último caractere de cada linha. Mesmo tamanho dos outros modelos; 5 épocas
-(escolhidas no dev), taxa de aprendizado 0,3, peso por classe 0,5, temperatura 1,05.
+(escolhidas no conjunto de desenvolvimento), taxa de aprendizado 0,3, peso por classe 0,5, temperatura 1,05.
 
-| Versão | Data | Dados de treinamento | Dev (27 colagens) | Teste novo (53 colagens) | Situação |
+| Versão | Data | Dados de treinamento | Desenvolvimento (27 colagens) | Teste novo (53 colagens) | Situação |
 |---|---|---|---|---|---|
 | Regras | — | — | 19 exibidas · 100% certas | 41 exibidas · 97,6% certas | **em uso** |
 | **v1** | 2026-10-28 | 16.977 colagens a partir dos blocos de código reais dos repositórios, JSON, tabelas Markdown (como CSV, texto de planilha e de terminal), listas e parágrafos | 17 exibidas · 94,1% | 44 exibidas · 90,9% | não usado |
@@ -575,14 +576,14 @@ código. Ele também lê o primeiro token e o último caractere de cada linha. M
 | Conjunto | O que é | Tamanho | Regra |
 |---|---|---|---|
 | Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · formatação 41 · títulos 65 · documentos 6 | detecta regressões; notas perto de 100% por construção |
-| Dev | documentos reais, usados para fazer escolhas | código 280 · colagem 27 · formatação 212 (36, mais 176 linhas de issues e wikis em 2026-10-28) · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de teste |
+| Desenvolvimento | documentos reais, usados para fazer escolhas | código 280 · colagem 27 · formatação 212 (36, mais 176 linhas de issues e wikis em 2026-10-28) · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de teste |
 | Primeiro conjunto de teste (2026-10-23) | documentos reais, nunca usados para ajuste | código 314 · colagem 31 · formatação 30 | roda uma vez por versão; o juiz da v1 |
 | Conjunto de teste novo (2026-10-24) | código de 72 repositórios que não foram usados em nenhum outro lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |
 | Terceiro conjunto de teste (2026-10-30) | código de 158 repositórios que não foram usados em nenhum outro lugar, montado antes de qualquer treinamento da v3 | código 842: ≤ 30 por linguagem, até 60 para TypeScript, JavaScript, C, C++, C# e Java, mais 40 blocos de JSON com comentários | montado uma vez para a v3, depois congelado; rodado uma vez em 2026-10-30 (experimento v3, v2, regras) |
 | Teste de seções (2026-10-24) | seções dos repositórios de teste do modelo de código, mais os novos | 133 repositórios (134 a partir da v2: os tipos novos rotulam seções em mais um) | roda uma vez por modelo de seções |
 | Teste de formatação (2026-10-28) | linhas mal formatadas de issues, pull requests e comentários do GitHub de 43 repositórios que não foram usados em nenhum outro lugar, rotuladas à mão | 227 linhas | montado uma vez para o modelo de formatação, depois congelado |
 | Teste de colagem (2026-10-28) | colagens reais de 19 fontes de fora do corpus: arquivos de dados, cópias de planilha, saída de comandos, arquivos de código, configurações, READMEs | 53 colagens | montado uma vez para o modelo de colagem, depois congelado |
-| Links (2026-10-28) | links sozinhos na linha, com o texto que os autores escolheram | dev 2.842 (28 repositórios) · teste 5.058 (138) | julga a regra do texto de links (SMART-ASSIST §4.6) |
+| Links (2026-10-28) | links sozinhos na linha, com o texto que os autores escolheram | desenvolvimento 2.842 (28 repositórios) · teste 5.058 (138) | julga a regra do texto de links (SMART-ASSIST §4.6) |
 
 ## 9. Glossário
 
@@ -590,26 +591,26 @@ código. Ele também lê o primeiro token e o último caractere de cada linha. M
 |---|---|
 | **Calibração** | Ajustar a confiança para que "80% de certeza" signifique acertar cerca de 80% das vezes. |
 | **Classificador** | Um modelo que escolhe uma resposta de uma lista fixa. |
-| **Colisão** | Duas pistas diferentes que caem no mesmo slot de hash. |
-| **Conjunto de dev** | Exemplos usados para fazer as escolhas durante a construção; nunca usados no treinamento. |
-| **Conjunto de teste** (held-out) | Exemplos separados antes e rodados uma vez, para os números publicados. |
-| **Embedding** | A lista de números aprendidos (aqui, 8) que representa uma pista. |
+| **Colisão** | Dois sinais diferentes que caem no mesmo slot de hash. |
+| **Conjunto de desenvolvimento** | Exemplos usados para fazer as escolhas durante a construção; nunca usados no treinamento. |
+| **Conjunto de teste** (held-out) | Exemplos separados de antemão e rodados uma vez, para os números publicados. |
+| **Embedding** | A lista de números aprendidos (aqui, 8) que representa um sinal. |
 | **Época** (epoch) | Uma passada por todos os exemplos de treinamento. |
-| **Gradiente** | O lado para onde cada número deve se mexer para reduzir a perda. |
+| **Gradiente** | A direção em que cada número deve se mexer para reduzir a perda. |
 | **Logit** | A pontuação bruta de uma resposta, antes da softmax. |
 | **Overfitting** | Decorar os exemplos de treinamento em vez de aprender padrões que valem para casos novos. |
 | **Parâmetro** | Um dos números aprendidos (este modelo tem 262.333). |
 | **Perda** (loss) | O quanto um palpite errou: −log(probabilidade da resposta certa). |
-| **Pista** (feature) | Algo extraído da entrada (`T:def`, `E:;`). |
 | **Precisão** | Das respostas exibidas, a parte que está certa. |
 | **Quantização** | Guardar números com menos bits (aqui, 8 em vez de 32). |
 | **Rótulo** (label) | A resposta certa conhecida de um exemplo de treinamento. |
 | **Rótulo fraco** (weak label) | Um rótulo gerado por uma regra (aqui, o título), e não conferido à mão. |
 | **SGD** | Gradiente descendente estocástico: aprender com um exemplo por vez, mexendo os números na direção do gradiente. |
+| **Sinal** (feature) | Algo extraído da entrada (`T:def`, `E:;`). |
 | **Softmax** | Transforma pontuações em probabilidades que somam 100%. |
 | **Taxa de aprendizado** (learning rate) | O tamanho de cada passo do treinamento. |
 | **Temperatura** | Um divisor aplicado às pontuações antes da softmax; quanto maior, menos confiante. |
-| **Truque do hash** | Mapear pistas para um número fixo de slots com uma função de hash, em vez de um dicionário. |
+| **Truque do hash** | Mapear sinais para um número fixo de slots com uma função de hash, em vez de um dicionário. |
 | **Validação cruzada** | Dividir os dados de treinamento em grupos e prever cada grupo com um modelo treinado nos outros. |
 | **Viés** (bias) | Um número por resposta somado à pontuação dela, seja qual for a entrada. |
 

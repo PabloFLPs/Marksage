@@ -81,7 +81,7 @@ training/                 Own models' pipeline (collect → split → train; bui
   Outline / Document / Suggestions → **Estrutura / Documento / Sugestões**; Rules · Rules + AI · Off → **Regras ·
   Regras + IA · Desligado**; heuristics → **regras heurísticas** (then "regras"); engine → **engine** ("a engine");
   smart paste → **copia & cola inteligente** (paste types → **tipos de conteúdo colado**); structure hints → **dicas de formatação**; held-out set → **conjunto
-  de teste**; dev set → **conjunto de dev**; training → **treinamento** (never "treino"); bar (to ship) → **critério de aprovação** (never "régua"); confidence gate → **filtro de confiança**; key
+  de teste**; dev set → **conjunto de desenvolvimento** (never "dev" alone); training → **treinamento** (never "treino"); bar (to ship) → **critério de aprovação** (never "régua"); confidence gate → **filtro de confiança**; key
   sentence → **frase-chave**; section types → **tipos de seção**; Worth a look → **Vale conferir**; untagged code
   block → **bloco de código sem linguagem**; fence backticks → **crases**; Live editor → **Escrita em tempo
   real**; Not done → **Pendente**; model card → **ficha técnica (model card)**; open-weight → **open weight**;
@@ -89,7 +89,7 @@ training/                 Own models' pipeline (collect → split → train; bui
   time. Stays in English: build, commit, deploy (the Deployment section type is "Deploy"), changelog (also the
   section type), bundle, chunk, cache, dataset, prompt, token, pipeline, README, roadmap, issue, pull request,
   hash, slot, softmax, local-first, BYOK, app, link, download / upload; "feature" only as the ML term, next to
-  "pista".
+  "sinal" (feature → **sinal**, never "pista" or "sugestão": Sugestões is the tab).
 - **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice,outline,remote-images}`, plus the Cache API store `marksage-models-v1` (Rules + AI mode's model files: `lang-v2.bin`, and `sections-v2.bin` once the Outline is opened in that mode) — wrap every access in try/catch.
 - **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests).
   Images from other websites load only with "Load images from the web" on (`lib/remoteImages.ts`, About → Privacy;

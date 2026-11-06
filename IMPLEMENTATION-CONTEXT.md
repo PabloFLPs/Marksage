@@ -1433,3 +1433,16 @@ sample explained, three small UI items and two ROADMAP entries.
   a file and keeps it in the browser); the story gives the other. Both now: "…and because its precision isn't yet
   clearly above the rules'" (a point below on the first two held-out sets, a point above on the third — not the
   "still a point under on unfamiliar projects" first proposed, which the third set no longer supports).
+- **The Models page, Pablo's PT-BR review** — Pablo's lines: "E por que não um LLM convencional?", "é executado
+  inteiramente dentro da página", "então, primeiramente, o texto precisa se tornar algo possível de se
+  contabilizar", "Para executar você mesmo", "Não dá para aprender linhas em negrito dessa forma". The approved rest:
+  "a mesma arquitetura" (not "desenho"), "o trecho do exemplo" (not "o nosso"), "A média dos sinais" (not "Tira-se"),
+  "o modelo de decisão open weight considerado no começo", "não é escolhida a olho", "80% de confiança", "a direção é
+  surpreendentemente simples de calcular", "A correção que cada exemplo provoca", "de antemão", "estejam certas",
+  "Trechos de uma linha só", "captaria", "classificar" (the last "dar tipo"), "a média simples". Two terms across
+  every PT-BR page (Pablo's calls): ML features are **sinais** — "pistas" read badly, and "sugestões" would collide
+  with the Suggestions tab and every suggestion (MODELS, SMART-ASSIST, the story, the inference diagram; genders
+  redone: "sinais decisivos", "os outros 65") — and the dev set is the **conjunto de desenvolvimento** (never "dev"
+  alone; the training diagram's step 3 now reads "treinamento · desenvolvimento · teste", "(escolhas)" and "(uma
+  vez)" dropped to fit the box — step 7 already says "Mede uma vez"). "previsões" stays. One SMART-ASSIST sentence
+  grew past 40 words with the longer term and was split (§4.6, link text). AGENTS' glossary says so.

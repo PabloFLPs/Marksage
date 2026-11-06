@@ -37,18 +37,18 @@
 <path class="msd-line" d="M200.0,80 L200.0,101" marker-end="url(#msd-arrow-models-inference)"/>
 <rect class="msd-box " x="20" y="102" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="124">2</text>
-<text class="msd-t" x="52" y="124">Pistas (features)</text>
-<text class="msd-mono" x="52" y="144">55 pistas: T:def  F:return  G:gre  E::</text>
+<text class="msd-t" x="52" y="124">Sinais (features)</text>
+<text class="msd-mono" x="52" y="144">55 sinais: T:def  F:return  G:gre  E::</text>
 <path class="msd-line" d="M200.0,158 L200.0,179" marker-end="url(#msd-arrow-models-inference)"/>
 <rect class="msd-box " x="20" y="180" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="202">3</text>
-<text class="msd-t" x="52" y="202">Hash de cada pista para um slot</text>
+<text class="msd-t" x="52" y="202">Hash de cada sinal para um slot</text>
 <text class="msd-mono" x="52" y="222">T:def → slot 23.610 de 32.768</text>
 <path class="msd-line" d="M200.0,236 L200.0,257" marker-end="url(#msd-arrow-models-inference)"/>
 <rect class="msd-box " x="20" y="258" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="280">4</text>
 <text class="msd-t" x="52" y="280">Busca 8 números por slot</text>
-<text class="msd-mono" x="52" y="300">55 pistas × 8 números aprendidos</text>
+<text class="msd-mono" x="52" y="300">55 sinais × 8 números aprendidos</text>
 <path class="msd-line" d="M200.0,314 L200.0,335" marker-end="url(#msd-arrow-models-inference)"/>
 <rect class="msd-box " x="20" y="336" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="358">5</text>
