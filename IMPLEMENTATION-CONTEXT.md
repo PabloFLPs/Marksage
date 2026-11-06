@@ -1276,3 +1276,10 @@ sample explained, three small UI items and two ROADMAP entries.
   Deploy, "pequenos modelos de IA", "copia & cola inteligente"), the tagline "O editor de Markdown atento aos
   detalhes." (EN "notices"; Pablo's "pensa junto" would promise more than the app does today). Facts unchanged.
   The phone overflow E2E (320 / 390 px, every page) now runs in PT-BR too: longer labels, same checks.
+- **PT-BR, the About page rewritten** — the Portuguese half of its 70-odd `x(en, pt)` pairs, from the meaning:
+  "com a sua tecla nele" → "já com o que você digitou", "recarregar a página nunca perde trabalho" → "você não perde
+  nada ao recarregar", "conta àquele site" → "revela a esse site", "títulos que não dizem" → "quando o título não
+  deixa claro o que é a seção", "O seu navegador pode ficar com essas teclas" → "Alguns navegadores reservam esses
+  atalhos para si"; feature names as in the UI (Copia & cola inteligente, Testar com um documento de exemplo).
+  The license link said "here" / "aqui" — the vague link our own Document tab flags — in both languages: now
+  "full license text" / "texto completo da licença".

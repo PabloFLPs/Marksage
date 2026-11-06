@@ -66,7 +66,7 @@ const SOURCE_URL = SOURCE_COMMIT ? `https://github.com/PabloFLPs/Marksage/tree/$
 
 /** [keys, EN, PT, a browser may keep it for itself]. No ⌘N: Chrome, Edge and Opera never pass it to a page. */
 const SHORTCUTS: [KeyToken[], string, string, boolean?][] = [
-  [['mod', 'k'], 'Command palette — every action and recent document, searchable', 'Paleta de comandos — todas as ações e documentos recentes, com busca'],
+  [['mod', 'k'], 'Command palette — every action and recent document, searchable', 'Paleta de comandos: todas as ações e os documentos recentes, com busca'],
   [['mod', 's'], 'Export (press again to download)', 'Exportar (aperte de novo para baixar)'],
   [['mod', 'o'], 'Open a file', 'Abrir um arquivo', true],
   [['mod', 'shift', 'c'], 'Copy Markdown', 'Copiar Markdown', true],
@@ -112,7 +112,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
         <p className="mt-3 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">
           {x(
             'A quiet place to read and write Markdown — with a small, local assistant that notices what you meant to write and offers to fix it. Nothing you open here ever leaves your browser.',
-            'Um lugar tranquilo para ler e escrever Markdown — com um pequeno assistente local que percebe o que você quis escrever e oferece a correção. Nada do que você abre aqui sai do seu navegador.',
+            'Um lugar tranquilo para ler e escrever Markdown, com um pequeno assistente local que percebe o que você quis escrever e oferece a correção. Nada do que você abre aqui sai do seu navegador.',
           )}
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2">
@@ -132,7 +132,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
             className="tap group inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline dark:text-dark-accent"
           >
             <Code2 className="h-4 w-4" />
-            {x('Source on GitHub', 'Código no GitHub')}
+            {x('Source on GitHub', 'Código-fonte no GitHub')}
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
         </div>
@@ -147,47 +147,46 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
                 <Keys k={['tab']} /> accepts, <Keys k={['esc']} /> dismisses, <Keys k={['mod', 'z']} /> undoes. The icon on a suggestion says what kind of fix it is; a ✦ means the local model made the call; click the card to see where it applies.
               </>,
               <>
-                Ele já vem ligado no modo <strong className={strong}>Regras</strong>; troque de modo ou desligue pelo menu{' '}
-                <strong className={strong}>Assist</strong> no cabeçalho do editor (o botão ✦ no celular). Ele nunca altera o
-                seu texto sozinho — só sugere, e só quando tem confiança. <Keys k={['tab']} /> aceita,{' '}
-                <Keys k={['esc']} /> ignora, <Keys k={['mod', 'z']} /> desfaz. O ícone de uma sugestão diz que tipo de correção ela é; um ✦ quer dizer que o modelo local decidiu; clique no cartão para ver onde ela se aplica.
-              </>,
+                  Ele já vem ligado, no modo <strong className={strong}>Regras</strong>. Para trocar de modo ou desligar, use o menu{' '}
+                  <strong className={strong}>Assist</strong> no cabeçalho do editor (o botão ✦ no celular). Ele nunca altera o texto sozinho: só sugere, e só quando tem confiança.{' '}
+                  <Keys k={['tab']} /> aceita, <Keys k={['esc']} /> ignora e <Keys k={['mod', 'z']} /> desfaz. O ícone de cada sugestão mostra o tipo de correção; o ✦ indica que quem decidiu foi o modelo local. Clique no cartão para ver onde a sugestão se aplica.
+                </>,
             )}
           </p>
           <Feature icon={<Code2 />} title={x('Code block languages', 'Linguagem dos blocos de código')}>
             {x(
               <>Leave a code block (<code>```</code>) without a language and it suggests one (TypeScript, Python, Bash, SQL and 16 more), so your code gets properly labelled. When two languages fit (JavaScript or TypeScript, C or C++), <em>Rules + AI</em> offers both and lets you pick.</>,
-              <>Deixe um bloco de código (<code>```</code>) sem linguagem e ele sugere uma (TypeScript, Python, Bash, SQL e mais 16), para o seu código ficar bem identificado. Quando duas linguagens servem (JavaScript ou TypeScript, C ou C++), o modo <em>Regras + IA</em> oferece as duas para você escolher.</>,
+              <>Deixe um bloco de código (<code>```</code>) sem linguagem e ele sugere uma (TypeScript, Python, Bash, SQL e mais 16), para o código ficar identificado direito. Quando duas linguagens servem (JavaScript ou TypeScript, C ou C++), o modo <em>Regras + IA</em> oferece as duas para você escolher.</>,
             )}
           </Feature>
-          <Feature icon={<Table />} title={x('Smart paste', 'Colagem inteligente')}>
+          <Feature icon={<Table />} title={x('Smart paste', 'Copia & cola inteligente')}>
             {x(
               'Paste CSV, spreadsheet cells, terminal output, bullet lists or JSON — your paste lands untouched, then you’re offered a clean Markdown table, list or code block.',
-              'Cole CSV, células de planilha, saída de terminal, listas ou JSON — a colagem entra intacta e depois o Marksage oferece uma tabela, lista ou bloco de código em Markdown.',
+              'Cole CSV, células de planilha, saída de terminal, listas ou JSON. O que você colou entra do jeito que veio, e depois o Marksage oferece uma tabela, uma lista ou um bloco de código em Markdown.',
             )}
           </Feature>
           <Feature icon={<Heading />} title={x('Structure hints', 'Dicas de formatação')}>
             {x(
               <>Catches the near-misses: <code>**Title**</code> used as a heading, <code>#Heading</code> without a space, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> pasted from a document, <code>== Title ==</code>, and links broken by a space, <code>[text] (url)</code>.</>,
-              <>Pega os deslizes de formatação: <code>**Título**</code> usado como título, <code>#Título</code> sem espaço, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> colado de um documento, <code>== Título ==</code> e links quebrados por um espaço, <code>[texto] (url)</code>.</>,
+              <>Pega os pequenos erros de formatação: <code>**Título**</code> usado como título, <code>#Título</code> sem espaço, <code>-item</code>, <code>1)item</code>, <code>1- item</code>, <code>• item</code> colado de outro documento, <code>== Título ==</code> e links quebrados por um espaço, <code>[texto] (url)</code>.</>,
             )}
           </Feature>
           <Feature icon={<Gauge />} title={x('Readability dots', 'Pontos de legibilidade')}>
             {x(
               <>Each <code>##</code> section gets a subtle dot in the preview — green to red — with a tooltip. Works in English and Portuguese.</>,
-              <>Cada seção <code>##</code> ganha um pontinho discreto na pré-visualização — do verde ao vermelho — com uma dica ao passar o mouse. Funciona em português e inglês.</>,
+              <>Cada seção <code>##</code> ganha um pontinho discreto na pré-visualização, do verde ao vermelho, com uma dica ao passar o mouse. Funciona em português e em inglês.</>,
             )}
           </Feature>
           <Feature icon={<ListTree />} title={x('Outline & document insights', 'Estrutura e análise do documento')}>
             {x(
               <>The <em>Outline</em> panel lists every section with what it is — setup, reference, security and 13 more — and its key sentence; click one to jump there. Types come from the headings; in <em>Rules + AI</em> mode, Marksage’s section model also reads the text under headings that don’t say. Its <em>Document</em> tab sums the whole file up: what it looks like (README, guide, technical docs…), reading time, readability, tone signals, its section types (click one to go to that section, again for the next) and things worth a look, like heading jumps or images without alt text. Its <em>Suggestions</em> tab lists everything Smart Assist could fix in the whole document; click one and the suggestion opens right there in the editor.</>,
-              <>O painel <em>Estrutura</em> lista cada seção com o que ela é — instalação, referência, segurança e mais 13 — e sua frase-chave; clique para ir até ela. Os tipos vêm dos títulos; no modo <em>Regras + IA</em>, o modelo de seções do Marksage também lê o texto sob títulos que não dizem. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, documentação técnica…), tempo de leitura, legibilidade, sinais de tom, os tipos de seção (clique em um para ir até a seção, de novo para a próxima) e o que vale conferir, como saltos de título ou imagens sem texto alternativo. A aba <em>Sugestões</em> lista tudo o que o Smart Assist poderia corrigir no documento inteiro; clique em uma e a sugestão abre ali mesmo no editor.</>,
+              <>O painel <em>Estrutura</em> lista cada seção com o que ela é (instalação, referência, segurança e mais 13) e a frase-chave dela; clique para ir até a seção. Os tipos vêm dos títulos. No modo <em>Regras + IA</em>, o modelo de seções do Marksage também lê o texto quando o título não deixa claro o que é a seção. A aba <em>Documento</em> resume o arquivo inteiro: com o que ele se parece (README, guia, documentação técnica…), tempo de leitura, legibilidade, sinais de tom, os tipos de seção (clique em um para ir até a seção, e de novo para a próxima) e o que vale conferir, como títulos que pulam níveis ou imagens sem texto alternativo. A aba <em>Sugestões</em> lista tudo o que o Smart Assist poderia corrigir no documento; clique em uma e a sugestão abre ali mesmo, no editor.</>,
             )}
           </Feature>
           <p className="mt-4 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">
             {x(
               <>Modes: <strong className="font-medium">Rules</strong> runs instantly with no download — rules for every question. <strong className="font-medium">Rules + AI</strong> adds Marksage’s own small models where they beat the rules: one for code-block languages (385 KB, trained on ~64k real code blocks) and one for section types in the Outline (385 KB, trained on ~27k real doc sections, fetched the first time you open it). They run entirely on your device and are downloaded once, then kept in your browser. Everything else stays with the rules: models for structure hints and paste types were trained too, but on real text they didn’t do better than the rules, so they aren’t used.</>,
-              <>Modos: <strong className="font-medium">Regras</strong> roda na hora, sem download — regras para todas as perguntas. <strong className="font-medium">Regras + IA</strong> adiciona os modelos pequenos do próprio Marksage onde eles superam as regras: um para as linguagens dos blocos de código (385 KB, treinado com ~64 mil blocos de código reais) e um para os tipos de seção na Estrutura (385 KB, treinado com ~27 mil seções de documentação reais, baixado na primeira vez que você a abre). Eles rodam inteiramente no seu dispositivo e são baixados uma vez, depois ficam guardados no navegador. O resto continua com as regras: também treinamos modelos para as dicas de formatação e os tipos de colagem, mas em textos reais eles não se saíram melhor que as regras, então não são usados.</>,
+              <>Modos: <strong className="font-medium">Regras</strong> roda na hora, sem download, com regras para todas as perguntas. <strong className="font-medium">Regras + IA</strong> adiciona os pequenos modelos de IA do próprio Marksage onde eles superam as regras: um para a linguagem dos blocos de código (385 KB, treinado com ~64 mil blocos de código reais) e um para os tipos de seção na Estrutura (385 KB, treinado com ~27 mil seções reais de documentação, baixado na primeira vez que você abre a Estrutura). Eles rodam inteiramente no seu dispositivo, são baixados uma vez e ficam guardados no navegador. O resto continua com as regras: também treinamos modelos para as dicas de formatação e para os tipos de conteúdo colado, mas em texto real eles não superaram as regras, então ficaram de fora.</>,
             )}
           </p>
           <ModeTable x={x} />
@@ -196,7 +195,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
             onClick={onTrySmartAssist}
             className="press group mt-5 inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
           >
-            <Sparkles className="hover-sparkle h-4 w-4" /> {x('Try it on a sample document', 'Experimentar num documento de exemplo')}
+            <Sparkles className="hover-sparkle h-4 w-4" /> {x('Try it on a sample document', 'Testar com um documento de exemplo')}
           </button>
           <button
             type="button"
@@ -219,41 +218,41 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           <Feature icon={<FileText />} title={x('Open anything Markdown', 'Abra qualquer Markdown')}>
             {x(
               <>Drag a Markdown file anywhere onto the window, use Open, paste text straight onto the empty page, or start writing. <code>.md</code>, <code>.markdown</code> and <code>.mdx</code> open (MDX’s JSX shows as plain text), as do <code>.mdown</code>, <code>.mkd</code>, <code>.mkdn</code> and <code>.mdwn</code>; plain <code>.txt</code> doesn’t. If the browser won’t let Paste read your clipboard, a new document opens for you to paste into. New here? <em>Try it on a sample document</em> opens a small README with slips left in on purpose — a one-minute tour of Smart Assist, in the app’s language until you edit it.</>,
-              <>Arraste um arquivo Markdown para qualquer lugar da janela, use Abrir, cole o texto direto na página vazia, ou comece a escrever. Abrem <code>.md</code>, <code>.markdown</code> e <code>.mdx</code> (o JSX do MDX aparece como texto), além de <code>.mdown</code>, <code>.mkd</code>, <code>.mkdn</code> e <code>.mdwn</code>; <code>.txt</code> simples não. Se o navegador não deixar o Colar ler a área de transferência, abre um documento novo para você colar nele. Primeira vez aqui? <em>Experimentar num documento de exemplo</em> abre um pequeno README com deslizes deixados de propósito — um tour de um minuto pelo Smart Assist, no idioma do app até você editá-lo.</>,
+              <>Arraste um arquivo Markdown para qualquer lugar da janela, use Abrir, cole o texto direto na página vazia ou comece a escrever. Abrem <code>.md</code>, <code>.markdown</code> e <code>.mdx</code> (o JSX do MDX aparece como texto), além de <code>.mdown</code>, <code>.mkd</code>, <code>.mkdn</code> e <code>.mdwn</code>; um <code>.txt</code> comum, não. Se o navegador não deixar o Colar ler a área de transferência, abre um documento novo para você colar nele. Primeira vez aqui? <em>Testar com um documento de exemplo</em> abre um pequeno README com erros deixados de propósito: um tour de um minuto pelo Smart Assist, no idioma do app até você editar o texto.</>,
             )}
           </Feature>
-          <Feature icon={<Columns2 />} title={x('Live split editor', 'Editor dividido ao vivo')}>
+          <Feature icon={<Columns2 />} title={x('Live split editor', 'Editor lado a lado, em tempo real')}>
             {x(
               'Opened and pasted files show the preview first, for reading — start typing and the editor opens right there, with your keystroke in it. Edit on the right, watch the preview update on the left. Drag the divider to resize; double-click it to reset. Line numbers follow wrapped lines, and the caret’s line is brighter; the footer counts lines, words and characters and shows the file size. Above the preview, a bar says what the document is — its type, or its name — next to Copy Markdown and one icon per Outline tab (Outline, Document, Suggestions): each opens the panel there, and a second click closes it; the type opens the Document tab the same way. While the bar is on screen, the header’s Outline button steps aside. On phones the editor comes first. On long documents, two small buttons in the corner of the preview take you to the start or the end — and typing stays smooth: the preview catches up a moment later, re-rendering only the section you changed.',
-              'Arquivos abertos e colados aparecem primeiro na pré-visualização, para leitura — comece a digitar e o editor abre ali mesmo, com a sua tecla nele. Edite à direita e veja a pré-visualização atualizar à esquerda. Arraste o divisor para redimensionar; clique duas vezes para redefinir. Os números de linha acompanham as linhas quebradas, e o da linha do cursor fica mais forte; o rodapé conta linhas, palavras e caracteres e mostra o tamanho do arquivo. Acima da pré-visualização, uma barra diz o que é o documento — o tipo, ou o nome — ao lado de Copiar Markdown e de um ícone para cada aba da Estrutura (Estrutura, Documento, Sugestões): cada um abre o painel ali, e um segundo clique fecha; o tipo abre a aba Documento do mesmo jeito. Enquanto a barra está na tela, o botão Estrutura do cabeçalho sai de cena. No celular, o editor vem primeiro. Em documentos longos, dois botõezinhos no canto da pré-visualização levam ao início ou ao fim — e a digitação continua fluida: a pré-visualização acompanha um instante depois, refazendo só a seção que você mudou.',
+              'Arquivos abertos e colados aparecem primeiro na pré-visualização, para leitura. Comece a digitar e o editor abre ali mesmo, já com o que você digitou. Você edita à direita e vê a pré-visualização mudar à esquerda. Arraste o divisor para redimensionar; um duplo clique volta ao tamanho padrão. Os números de linha acompanham as linhas quebradas, e o da linha do cursor fica mais forte. O rodapé conta linhas, palavras e caracteres e mostra o tamanho do arquivo. Acima da pré-visualização, uma barra diz o que é o documento (o tipo, ou o nome), ao lado de Copiar Markdown e de um ícone para cada aba da Estrutura (Estrutura, Documento, Sugestões). Cada ícone abre o painel naquela aba, e um segundo clique fecha; o tipo abre a aba Documento do mesmo jeito. Enquanto a barra está na tela, o botão Estrutura do cabeçalho some. No celular, o editor vem primeiro. Em documentos longos, dois botões pequenos no canto da pré-visualização levam ao início ou ao fim, e a digitação continua fluida: a pré-visualização se atualiza um instante depois, refazendo só a seção que você mudou.',
             )}
           </Feature>
           <Feature icon={<Save />} title={x('Autosave', 'Salvamento automático')}>
             {x(
               'Your current document is kept in this browser — saved as you type and again the moment you reload, close the tab or switch apps — so a refresh never loses work. If a document is too large for the browser to keep, Marksage tells you to export it. Big files: from a million characters (about 1 MB) Marksage notes that editing may be slow; over 5 million (about 5 MB) they open read-only and aren’t kept. An asterisk next to the filename means there are changes you haven’t exported.',
-              'O documento atual fica guardado neste navegador — salvo enquanto você digita e de novo no instante em que você recarrega, fecha a aba ou troca de app — então recarregar a página nunca perde trabalho. Se um documento for grande demais para o navegador guardar, o Marksage avisa para exportar. Arquivos grandes: a partir de um milhão de caracteres (cerca de 1 MB) o Marksage avisa que editar pode ficar lento; acima de 5 milhões (cerca de 5 MB) eles abrem só para leitura e não são guardados. Um asterisco ao lado do nome indica alterações ainda não exportadas.',
+              'O documento atual fica salvo neste navegador: enquanto você digita e de novo no instante em que você recarrega a página, fecha a aba ou troca de app. Por isso você não perde nada ao recarregar. Se um documento for grande demais para o navegador guardar, o Marksage avisa para você exportar. Arquivos grandes: a partir de um milhão de caracteres (cerca de 1 MB), o Marksage avisa que a edição pode ficar lenta; acima de 5 milhões (cerca de 5 MB), eles abrem só para leitura e não são salvos. Um asterisco ao lado do nome indica alterações que você ainda não exportou.',
             )}
           </Feature>
           <Feature icon={<History />} title={x('Recent documents', 'Documentos recentes')}>
             {x(
               <>Every document you open, paste or write is kept in Recent (clock icon, or <Keys k={['mod', 'shift', 'h']} />) — switch between them freely, nothing is lost; in the menu, typing 1–9 opens one straight away. The ✕ next to a document’s name closes it and goes back to the start screen (also “Close document” in the phone menu and “Start screen” in ⌘K) — it stays in Recent. Up to 15, stored only in this browser.</>,
-              <>Todo documento que você abre, cola ou escreve fica em Recentes (ícone de relógio, ou <Keys k={['mod', 'shift', 'h']} />) — alterne entre eles à vontade, nada se perde; no menu, digitar 1–9 abre um na hora. O ✕ ao lado do nome de um documento o fecha e volta para a tela inicial (também “Fechar documento” no menu do celular e “Tela inicial” no ⌘K) — ele fica em Recentes. Até 15, guardados só neste navegador.</>,
+              <>Todo documento que você abre, cola ou escreve fica em Recentes (ícone de relógio, ou <Keys k={['mod', 'shift', 'h']} />). Alterne entre eles à vontade: nada se perde. No menu, digitar de 1 a 9 abre um documento na hora. O ✕ ao lado do nome fecha o documento e volta para a tela inicial (também “Fechar documento” no menu do celular e “Tela inicial” no ⌘K); ele continua em Recentes. São até 15, guardados só neste navegador.</>,
             )}
           </Feature>
-          <Feature icon={<Download />} title={x('Name, export & copy', 'Nome, exportar e copiar')}>
+          <Feature icon={<Download />} title={x('Name, export & copy', 'Nome, exportação e cópia')}>
             {x(
               <>Click the document’s name in the header to rename it (on a phone: ⋯ → Rename…). Export asks for the file name first — your document’s name, or one taken from its first heading — and that name sticks; <Keys k={['mod', 's']} /> opens it and pressing it again downloads. Or copy the raw Markdown in one click.</>,
-              <>Clique no nome do documento no cabeçalho para renomear (no celular: ⋯ → Renomear…). Exportar pede primeiro o nome do arquivo — o nome do documento, ou um tirado do primeiro título — e esse nome fica; <Keys k={['mod', 's']} /> abre e, apertando de novo, baixa. Ou copie o Markdown bruto com um clique.</>,
+              <>Clique no nome do documento, no cabeçalho, para renomear (no celular: ⋯ → Renomear…). O Exportar pede primeiro o nome do arquivo (o nome do documento, ou um tirado do primeiro título), e esse nome passa a valer para o documento. <Keys k={['mod', 's']} /> abre o Exportar; apertando de novo, baixa. Ou copie o Markdown puro com um clique.</>,
             )}
           </Feature>
-          <Feature icon={<ClipboardPaste />} title={x('GitHub-flavoured Markdown', 'Markdown no estilo GitHub')}>
+          <Feature icon={<ClipboardPaste />} title={x('GitHub-flavoured Markdown', 'Markdown no padrão do GitHub')}>
             {x(
               'Tables, task lists, strikethrough and autolinks render out of the box, and code blocks get syntax colors (about 30 languages) and a copy button.',
-              'Tabelas, listas de tarefas, tachado e links automáticos funcionam de cara, e os blocos de código ganham cores de sintaxe (cerca de 30 linguagens) e um botão de copiar.',
+              'Tabelas, listas de tarefas, texto tachado e links automáticos funcionam sem configurar nada, e os blocos de código ganham cores de sintaxe (cerca de 30 linguagens) e um botão de copiar.',
             )}
           </Feature>
           <Feature icon={<Moon />} title={x('Light & dark', 'Claro e escuro')}>
-            {x('Remembered between visits — as are your language, icon and accent.', 'Lembrado entre visitas — assim como o idioma, o ícone e a cor de destaque.')}
+            {x('Remembered between visits — as are your language, icon and accent.', 'O Marksage lembra da sua escolha entre uma visita e outra, assim como do idioma, do ícone e da cor de destaque.')}
           </Feature>
         </Section>
 
@@ -274,23 +273,23 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           <p className="mt-3 text-xs leading-5 text-ink-muted dark:text-dark-ink-muted">
             {x(
               <>* Your browser may keep these keys for itself — Opera, for one, opens its assistant on <Keys k={['mod', 'o']} />. <Keys k={['mod', 'k']} /> always works, and so do the buttons.</>,
-              <>* O seu navegador pode ficar com essas teclas — o Opera, por exemplo, abre o assistente dele com <Keys k={['mod', 'o']} />. <Keys k={['mod', 'k']} /> sempre funciona, assim como os botões.</>,
+              <>* Alguns navegadores reservam esses atalhos para si: o Opera, por exemplo, abre o próprio assistente com <Keys k={['mod', 'o']} />. <Keys k={['mod', 'k']} /> sempre funciona, e os botões também.</>,
             )}
           </p>
         </Section>
 
         <Section title={x('Privacy & storage', 'Privacidade e armazenamento')}>
           <div id="privacy" />
-          <Feature icon={<Lock />} title={x('Local-first, always', 'Tudo local, sempre')}>
+          <Feature icon={<Lock />} title={x('Local-first, always', 'Local-first, sempre')}>
             {x(
               'No accounts and no uploads: the website only delivers the app’s files. Files are read by your browser and Smart Assist runs on your device — nothing you open or write is sent anywhere.',
-              'Sem contas e sem uploads: o site só entrega os arquivos do app. Os arquivos são lidos pelo seu navegador e o Smart Assist roda no seu dispositivo — nada do que você abre ou escreve é enviado.',
+              'Sem contas e sem uploads: o site só entrega os arquivos do app. Quem lê os arquivos é o seu navegador, e o Smart Assist roda no seu dispositivo. Nada do que você abre ou escreve é enviado para lugar nenhum.',
             )}
           </Feature>
           <Feature icon={<ImageOff />} title={x('Images from the web', 'Imagens da web')}>
             {x(
               'An image in a document that points to another website isn’t loaded unless you turn this on: loading it tells that site your IP address and browser — a downloaded file could use it as a tracking pixel. Turned on, images load without saying where you read them (no referrer).',
-              'Uma imagem de um documento que aponta para outro site não é carregada a menos que você ative isto: carregá-la conta àquele site seu endereço IP e navegador — um arquivo baixado poderia usar isso como pixel de rastreamento. Ativado, as imagens carregam sem dizer onde você as lê (sem referrer).',
+              'Uma imagem no documento que aponta para outro site só carrega se você ativar esta opção. O motivo: carregar a imagem revela a esse site o seu endereço IP e o seu navegador, e um arquivo baixado poderia usar isso como pixel de rastreamento. Com a opção ativada, as imagens carregam sem dizer onde você está lendo (sem referrer).',
             )}
             <label className="mt-2 flex w-fit cursor-pointer items-center gap-2 text-xs font-medium text-ink dark:text-dark-ink">
               <button
@@ -308,19 +307,19 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           <Feature icon={<HardDrive />} title={x('What’s kept in this browser', 'O que fica guardado neste navegador')}>
             {x(
               <>Only on this device, in your browser’s local storage: the open document and up to 15 <span className={strong}>recent documents</span>, and your <span className={strong}>settings</span> (theme, language, icon, key style, editor split, Smart Assist mode, whether the Outline is open, whether images from the web load, whether you’ve seen the Rules + AI download notice). If you pick <span className={strong}>Rules + AI</span>, its model files (385 KB for code languages, plus 385 KB for section types once you open the Outline) are kept in the browser cache so they download once. It all stays until you clear it.</>,
-              <>Apenas neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, e suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist, se a Estrutura está aberta, se imagens da web carregam, se você já viu o aviso de download do Regras + IA). Se você escolher o <span className={strong}>Regras + IA</span>, os arquivos dos modelos (385 KB para linguagens de código, mais 385 KB para tipos de seção quando você abre a Estrutura) ficam no cache do navegador para baixar só uma vez. Tudo fica até você apagar.</>,
+              <>Só neste dispositivo, no armazenamento local do navegador: o documento aberto e até 15 <span className={strong}>documentos recentes</span>, além das suas <span className={strong}>configurações</span> (tema, idioma, ícone, estilo das teclas, divisão do editor, modo do Smart Assist, se a Estrutura está aberta, se imagens da web carregam, se você já viu o aviso de download do Regras + IA). Se você escolher o <span className={strong}>Regras + IA</span>, os arquivos dos modelos (385 KB para linguagens de código e mais 385 KB para tipos de seção, quando você abre a Estrutura) ficam no cache do navegador, para serem baixados só uma vez. Tudo fica guardado até você apagar.</>,
             )}
           </Feature>
           <Feature icon={<Cookie />} title={x('No cookies, no tracking', 'Sem cookies, sem rastreamento')}>
             {x(
               'No cookies, analytics, ads or third-party services — even the fonts are your system’s. Everything above is stored only because a feature you use needs it, which is why there’s no cookie banner. The server that hosts this site may keep standard technical logs (such as IP address and time) to deliver it.',
-              'Sem cookies, análises, anúncios ou serviços de terceiros — até as fontes são as do seu sistema. Tudo acima é guardado só porque um recurso que você usa precisa disso, e por isso não há banner de cookies. O servidor que hospeda este site pode manter registros técnicos padrão (como endereço IP e horário) para entregá-lo.',
+              'Sem cookies, analytics, anúncios ou serviços de terceiros: até as fontes são as do seu sistema. Tudo o que está acima só é guardado porque um recurso que você usa precisa disso, e é por isso que não há banner de cookies. O servidor que hospeda este site pode manter registros técnicos padrão (como endereço IP e horário) para entregar as páginas.',
             )}
           </Feature>
           <Feature icon={<UserRound />} title={x('Who runs Marksage', 'Quem mantém o Marksage')}>
             {x(
               <>Marksage is made and published by <a href="https://github.com/PabloFLPs" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">PabloFLPs</a>. Questions about privacy or your data: open an issue on <a href="https://github.com/PabloFLPs/Marksage/issues" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>. Nothing you write ever reaches us; “Delete all Marksage data” below clears what this browser keeps.</>,
-              <>O Marksage é feito e publicado por <a href="https://github.com/PabloFLPs" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">PabloFLPs</a>. Dúvidas sobre privacidade ou seus dados: abra uma issue no <a href="https://github.com/PabloFLPs/Marksage/issues" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>. Nada do que você escreve chega até nós; “Apagar todos os dados do Marksage”, abaixo, limpa o que este navegador guarda.</>,
+              <>O Marksage é feito e publicado por <a href="https://github.com/PabloFLPs" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">PabloFLPs</a>. Dúvidas sobre privacidade ou sobre os seus dados: abra uma issue no <a href="https://github.com/PabloFLPs/Marksage/issues" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>. Nada do que você escreve chega até nós, e “Apagar todos os dados do Marksage”, logo abaixo, limpa o que este navegador guarda.</>,
             )}
           </Feature>
           <StorageControls x={x} onRemoveModel={onRemoveModel} onDeleteAllData={onDeleteAllData} />
@@ -329,8 +328,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
         <Section title={x('Open source', 'Código aberto')}>
           <Feature icon={<Scale />} title={x('Free software, AGPL-3.0', 'Software livre, AGPL-3.0')}>
             {x(
-              <>Marksage — code and models — is free software under the GNU Affero General Public License v3.0: you can read, change and share it, and if you run a changed version for other people, you share your changes too. The source of this version{APP_VERSION && <> (Marksage {APP_VERSION} — <a href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">changelog</a>)</>} is on <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>{SOURCE_COMMIT && <> (commit <code>{SOURCE_COMMIT.slice(0, 7)}</code>)</>}; the full license text is <a href="/LICENSE.txt" target="_blank" rel="noopener" className="text-accent hover:underline dark:text-dark-accent">here</a> (SPDX: AGPL-3.0-only).</>,
-              <>O Marksage — código e modelos — é software livre sob a GNU Affero General Public License v3.0: você pode ler, mudar e compartilhar, e se rodar uma versão modificada para outras pessoas, compartilha as suas mudanças também. O código desta versão{APP_VERSION && <> (Marksage {APP_VERSION} — <a href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">changelog</a>)</>} está no <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>{SOURCE_COMMIT && <> (commit <code>{SOURCE_COMMIT.slice(0, 7)}</code>)</>}; o texto completo da licença está <a href="/LICENSE.txt" target="_blank" rel="noopener" className="text-accent hover:underline dark:text-dark-accent">aqui</a> (SPDX: AGPL-3.0-only).</>,
+              <>Marksage — code and models — is free software under the GNU Affero General Public License v3.0: you can read, change and share it, and if you run a changed version for other people, you share your changes too. The source of this version{APP_VERSION && <> (Marksage {APP_VERSION} — <a href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">changelog</a>)</>} is on <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>{SOURCE_COMMIT && <> (commit <code>{SOURCE_COMMIT.slice(0, 7)}</code>)</>}; see also the <a href="/LICENSE.txt" target="_blank" rel="noopener" className="text-accent hover:underline dark:text-dark-accent">full license text</a> (SPDX: AGPL-3.0-only).</>,
+              <>O Marksage, código e modelos, é software livre sob a GNU Affero General Public License v3.0: você pode ler, mudar e compartilhar. Se você rodar uma versão modificada para outras pessoas, também precisa compartilhar as suas mudanças. O código desta versão{APP_VERSION && <> (Marksage {APP_VERSION} — <a href={CHANGELOG_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">changelog</a>)</>} está no <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline dark:text-dark-accent">GitHub</a>{SOURCE_COMMIT && <> (commit <code>{SOURCE_COMMIT.slice(0, 7)}</code>)</>}; veja também o <a href="/LICENSE.txt" target="_blank" rel="noopener" className="text-accent hover:underline dark:text-dark-accent">texto completo da licença</a> (SPDX: AGPL-3.0-only).</>,
             )}
           </Feature>
         </Section>
@@ -339,7 +338,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           <p className="mb-4 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">
             {x(
               'App icon and accent color — shown in the browser tab, the header, and across the interface.',
-              'Ícone do app e cor de destaque — aparecem na aba do navegador, no cabeçalho e em toda a interface.',
+              'Ícone do app e cor de destaque: aparecem na aba do navegador, no cabeçalho e em toda a interface.',
             )}
           </p>
           <AppIconPicker value={appIcon} onChange={onAppIconChange} theme={theme} />
@@ -377,8 +376,8 @@ type Pick2 = <T>(en: T, ptBR: T) => T
 function ModeTable({ x }: { x: Pick2 }) {
   const rules = x('rules', 'regras')
   const rows: [string, string, string][] = [
-    [x('Code-block language', 'Linguagem do bloco de código'), rules, x('model ✦, or the rules when the model agrees or they’re ≥ 99% sure', 'modelo ✦, ou as regras quando o modelo concorda ou elas têm ≥ 99% de certeza')],
-    [x('Smart paste', 'Colagem inteligente'), rules, x('rules (a pasted code block’s language: as above)', 'regras (linguagem de um bloco de código colado: como acima)')],
+    [x('Code-block language', 'Linguagem do bloco de código'), rules, x('model ✦, or the rules when the model agrees or they’re ≥ 99% sure', 'modelo ✦, ou as regras quando o modelo concorda ou quando elas têm ≥ 99% de certeza')],
+    [x('Smart paste', 'Copia & cola inteligente'), rules, x('rules (a pasted code block’s language: as above)', 'regras (a linguagem de um bloco de código colado: como acima)')],
     [x('Structure hints', 'Dicas de formatação'), rules, rules],
     [x('Readability', 'Legibilidade'), rules, rules],
     [x('Outline section types', 'Tipos de seção na Estrutura'), x('heading rule', 'regra dos títulos'), x('heading rule, then the section model ✦', 'regra dos títulos, depois o modelo de seções ✦')],
@@ -438,13 +437,13 @@ function StorageControls({ x, onRemoveModel, onDeleteAllData }: { x: Pick2; onRe
       )}
       {removed && (
         <span role="status" className="anim-rise text-xs text-ink-muted dark:text-dark-ink-muted">
-          {x('Models removed — Smart Assist is back on Rules.', 'Modelos removidos — o Smart Assist voltou para Regras.')}
+          {x('Models removed — Smart Assist is back on Rules.', 'Modelos removidos. O Smart Assist voltou para o modo Regras.')}
         </span>
       )}
       {confirmAll ? (
         <span className="anim-rise inline-flex flex-wrap items-center gap-2 text-xs">
           <span className="text-ink-muted dark:text-dark-ink-muted">
-            {x('Delete the open document, recent documents, settings and the models from this browser?', 'Apagar o documento aberto, os recentes, as configurações e os modelos deste navegador?')}
+            {x('Delete the open document, recent documents, settings and the models from this browser?', 'Apagar deste navegador o documento aberto, os recentes, as configurações e os modelos?')}
           </span>
           <button type="button" onClick={onDeleteAllData} className="rounded px-1 font-medium text-red-600 hover:underline dark:text-red-400">
             {x('Delete everything', 'Apagar tudo')}

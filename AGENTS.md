@@ -80,7 +80,7 @@ training/                 Own models' pipeline (collect → split → train; bui
   in PT-BR number format (0,1 ms; 1.215; 1,7–2,2×). Glossary — EN → PT-BR (UI labels as the docs must name them):
   Outline / Document / Suggestions → **Estrutura / Documento / Sugestões**; Rules · Rules + AI · Off → **Regras ·
   Regras + IA · Desligado**; heuristics → **regras heurísticas** (then "regras"); engine → **engine** ("a engine");
-  smart paste → **copia & cola inteligente**; structure hints → **dicas de formatação**; held-out set → **conjunto
+  smart paste → **copia & cola inteligente** (paste types → **tipos de conteúdo colado**); structure hints → **dicas de formatação**; held-out set → **conjunto
   de teste**; dev set → **conjunto de dev**; training → **treino**; confidence gate → **filtro de confiança**; key
   sentence → **frase-chave**; section types → **tipos de seção**; Worth a look → **Vale conferir**; untagged code
   block → **bloco de código sem linguagem**; fence backticks → **crases**; Live editor → **Escrita em tempo

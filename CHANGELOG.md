@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.47.4** · 2026-11-05 · `(this commit)` · fix(i18n): the PT-BR interface reads as Portuguese, not as a translation
+- **3.47.5** · 2026-11-05 · `(this commit)` · fix(about): the PT-BR About page rewritten, and a license link that says where it goes
+- **3.47.4** · 2026-11-05 · `6318090` · fix(i18n): the PT-BR interface reads as Portuguese, not as a translation
 - **3.47.3** · 2026-11-05 · `de5e1f7` · fix(sample): the License slip is an H2, not a second top-level title
 - **3.47.2** · 2026-11-05 · `836be2e` · fix(assist): a bold line becomes a heading one level under the one above it
 - **3.47.1** · 2026-11-05 · `b3b9bc5` · fix(assist): the tone counts "você" and accented slang in Portuguese
