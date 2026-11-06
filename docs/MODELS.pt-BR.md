@@ -1,6 +1,6 @@
 # Como os dois modelos funcionam
 
-O Marksage traz dois pequenos modelos próprios. Um diz a **linguagem de um bloco de código** (21 respostas, de
+O Marksage traz dois modelos próprios pequenos. Um diz a **linguagem de um bloco de código** (21 respostas, de
 TypeScript a "não é código"); o outro diz o **tipo de uma seção** do documento, para a Estrutura (13 tipos, mais
 "outro"). Os dois têm o mesmo desenho, o mesmo formato de arquivo e a mesma receita de treinamento. Mais dois foram
 treinados do mesmo jeito, para as dicas de formatação e os tipos de conteúdo colado, e não são usados, porque não
@@ -255,7 +255,7 @@ comuns não dominem:
 
 **Modelo de seções.** Aqui ninguém escreveu rótulos, então eles vêm dos títulos: uma seção com o título
 "Instalação" é uma seção de instalação. Só entram títulos que indicam um único tipo sem dúvida (cerca de 27.000
-seções). O truque é que o modelo **nunca vê o título**, só o texto abaixo dele. É isso que permite dar tipo a uma
+seções). O truque é que o modelo **nunca vê o título**, só o texto abaixo dele. É isso que permite classificar uma
 seção cujo título não diz nada, como "Antes de começar". Rótulos feitos assim se chamam *rótulos fracos* (weak
 labels): quase sempre certos, mas não conferidos à mão.
 
@@ -363,7 +363,7 @@ conjunto de teste novo, confiança e acerto se alinham assim:
 
 Em 284 blocos de código novos, de 67 repositórios que ele nunca tinha visto, o modelo de código mostra uma sugestão
 para 158 (56%), certa 92% das vezes. É mais que o dobro de sugestões úteis das regras (70, com 93% de acerto). O
-modelo de seções, em 134 repositórios de teste, dá tipo com confiança a 13,5% das seções e concorda com o título
+modelo de seções, em 134 repositórios de teste, classifica com confiança 13,5% das seções e concorda com o título
 88,9% das vezes. Tabelas completas: [Como o Smart Assist funciona](SMART-ASSIST.pt-BR.md), seção 4.
 
 ## 5. Como o modelo ficou pequeno: números de 8 bits
@@ -449,7 +449,7 @@ quão bem funciona e onde falha. Tudo o que você precisa para usar os arquivos 
 | **Temperatura** | 1,6 |
 | **Dados de treinamento** | 27.250 seções dos mesmos repositórios, rotuladas por títulos sem ambiguidade (o título depois fica escondido do modelo); 7.813 delas são "outro" |
 | **Treinamento** | 3 épocas de SGD, taxa de aprendizado de 0,3 caindo até 0, peso por classe 0,5, semente 1; temperatura ajustada nos repositórios de dev |
-| **Resultados de teste** (134 repositórios que ele nunca viu) | Com o filtro 0,8 / 0,2, ele dá tipo a 13,5% das seções rotuladas e concorda com o título delas 88,9% das vezes (84,5% sem os changelogs); a partir de 0,6, 25,1% e 85,6%. Tipos novos: segurança, 34 de 38 exibidas concordam; desempenho, 45 de 60; deploy, 2 de 2. Os rótulos vêm dos títulos, então isso é concordância, não acurácia conferida à mão. |
+| **Resultados de teste** (134 repositórios que ele nunca viu) | Com o filtro 0,8 / 0,2, ele classifica 13,5% das seções rotuladas e concorda com o título delas 88,9% das vezes (84,5% sem os changelogs); a partir de 0,6, 25,1% e 85,6%. Tipos novos: segurança, 34 de 38 exibidas concordam; desempenho, 45 de 60; deploy, 2 de 2. Os rótulos vêm dos títulos, então isso é concordância, não acurácia conferida à mão. |
 | **Velocidade** | Cerca de 0,1 ms por seção |
 | **Serve para** | Dar tipo a seções de READMEs e de documentação técnica cujo título não diz o que elas são; ignore o "outro" |
 | **Não serve para** | Seções de explicação ("Como funciona", "Arquitetura"): o texto delas se parece com o de qualquer assunto, e um modelo treinado para reconhecê-las não acertou nenhuma nos repositórios de dev. Por isso, o Marksage dá esse tipo só pelo título, assim como glossários e roadmaps (76 e 57 títulos em 381 repositórios: poucos demais). "Guia" também é raramente reconhecido, e "desempenho" é o mais fraco dos tipos da v2. |

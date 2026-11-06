@@ -1420,3 +1420,12 @@ sample explained, three small UI items and two ROADMAP entries.
   doesn't read well) — "treino" → "treinamento" everywhere in SMART-ASSIST and MODELS PT-BR (the Mermaid source and
   the training diagram too: "Loop de treinamento"), "régua" → "critério de aprovação" ("atendeu ao critério de
   aprovação"). AGENTS' glossary says so, and so does the PT-BR playbook in Pablo's vault.
+- **The Smart Assist page, Pablo's PT-BR review** — "O motivo é engenharia, e não hype momentâneo" and "a precisão,
+  medida num conjunto de teste" (Pablo's, §1.1), "definido de antemão", "por nível" (not "degrau"), "que resolva",
+  BYOK without "chave… chave", "não têm rótulos independentes para um modelo aprender", "Em *Regras + IA*, a "IA"
+  são…", "serve de plano B", "reconstruída a partir do texto com um pequeno atraso", "registrado no textarea",
+  "recebe uma nota pela taxa de aparência de código" (it said "pontuado… pontuação"), "a confiança cresce com o
+  tamanho da seção" (not "nitidez"), "preferência pelas frases do começo", "em vez de arriscar um palpite",
+  "conjuntos de exemplos" (not "fixtures"), "Ele confundiu com código…", and "Cada recurso é medido por" (the docs'
+  only "nós"). Two terms everywhere in PT-BR (docs, About, the start-screen pitch, the Rules + AI notice, AGENTS'
+  glossary, the sample): "modelo(s) pequeno(s)", not "pequeno(s) modelo(s)", and "classificar", not "dar tipo a".

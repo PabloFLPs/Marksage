@@ -1,11 +1,11 @@
 # Smart Assist — Documentação técnica
 
 O Smart Assist é o "radar de escrita" local do Marksage. Ele já vem ligado, no modo *Regras*, e desliga com um
-clique. Ele acompanha o editor, detecta um pequeno conjunto de situações que dá para corrigir e **sugere** uma
+clique. O assistente acompanha o editor, detecta um pequeno conjunto de situações que dá para corrigir e **sugere** uma
 edição, que você aceita (`Tab`) ou ignora (`Esc`). Nada vai para a rede e nada é aplicado sozinho.
 
-> Esta página é para quem tem curiosidade: como o assistente decide, por que ele fica quieto e como os pequenos
-> modelos do próprio Marksage foram treinados. Ter alguma familiaridade com programação ajuda, mas você não
+> Esta página é para quem tem curiosidade: como o assistente decide, por que ele fica quieto e como os modelos
+> pequenos do próprio Marksage foram treinados. Ter alguma familiaridade com programação ajuda, mas você não
 > precisa do código-fonte. Se quiser ir mais fundo, ele está no [GitHub](https://github.com/PabloFLPs/Marksage).
 
 ---
@@ -13,17 +13,17 @@ edição, que você aceita (`Tab`) ou ignora (`Esc`). Nada vai para a rede e nad
 ## 1. Por que "modelos de decisão"
 
 O Smart Assist é construído sobre **modelos de decisão**, e não sobre modelos generativos. Um modelo de decisão
-responde a uma *pergunta tipada, com um conjunto de respostas definido antes*:
+responde a uma *pergunta tipada, com um conjunto de respostas definido de antemão*:
 
 | Tipo de decisão | Formato da pergunta | Retorna |
 |---|---|---|
 | `choice` | "Qual destas opções?" | a opção escolhida + uma probabilidade por opção |
-| `score` | "Em que ponto desta escala ordenada?" | um índice + uma probabilidade por degrau |
+| `score` | "Em que ponto desta escala ordenada?" | um índice + uma probabilidade por nível |
 | `noul` | "Esta afirmação é verdadeira?" | uma única probabilidade em `[0, 1]` |
 
 Como as respostas possíveis são fechadas, a saída nunca vem num formato inesperado. A regra que guia tudo:
 
-> **A engine decide; o nosso código TypeScript age.** Se não dá para listar as respostas possíveis antes, não
+> **A engine decide; o nosso código TypeScript age.** Se não dá para listar as respostas possíveis de antemão, não
 > é um trabalho para o Smart Assist.
 
 É também por isso que o projeto evita, de propósito, autocompletar com IA generativa, reescrita de texto e
@@ -37,10 +37,10 @@ Em setembro de 2026, a TypeSafe AI lançou o **Jev**, um modelo fechado feito pa
 grande. A ideia não é nova: classificadores, categorizadores e modelos de saída estruturada fazem versões mais
 restritas dela há anos. Mas o Jev deu a ela uma forma clara. Três dias depois, a Convai Innovations lançou o
 **Laya**, um modelo open weight (Apache 2.0) que responde os mesmos três tipos de pergunta e pode rodar na sua
-própria máquina. O Smart Assist leva essa ideia um passo adiante, com pequenos modelos próprios, treinados
+própria máquina. O Smart Assist leva essa ideia um passo adiante, com modelos próprios pequenos, treinados
 exatamente para as perguntas dele.
 
-O motivo é de engenharia, não de novidade: um modelo que só precisa *escolher* numa lista conhecida é muito
+O motivo é engenharia, e não hype momentâneo: um modelo que só precisa *escolher* numa lista conhecida é muito
 menor, mais barato e mais previsível do que um que precisa *escrever*.
 
 | | Modelo generativo (chatbot, autocompletar) | Modelo de decisão (Jev, Laya) | Modelos próprios do Marksage |
@@ -54,8 +54,8 @@ menor, mais barato e mais previsível do que um que precisa *escrever*.
 | Dá para medir? | é difícil: muitas saídas são aceitáveis | sim: certo ou errado contra um rótulo | sim: certo ou errado contra um rótulo |
 | Privacidade | hospedado quer dizer que o seu texto sai do dispositivo | o Jev é hospedado; o Laya roda localmente | roda localmente |
 
-Um modelo especializado tem limites claros: ele não consegue dizer nada fora da lista dele, a confiança dele
-pode ser calibrada e a acurácia pode ser medida num conjunto de teste antes de ele entrar no app. Para "em que
+Um modelo especializado tem limites claros: ele não consegue responder nada fora da própria lista; a confiança
+pode ser calibrada, e a precisão, medida num conjunto de teste antes de ele entrar no app. Para "em que
 linguagem está este bloco?" ou "que tipo de seção é esta?", isso é tudo de que a tarefa precisa. Gerar texto só
 somaria custo, demora e novas formas de errar, sem deixar a resposta melhor.
 
@@ -64,17 +64,17 @@ duas e, hoje, não usa nenhum dos dois.*
 
 ### 1.2 Começa pela solução mais simples
 
-Para cada pergunta, o Smart Assist tenta as opções abaixo, nesta ordem, e fica com a primeira que satisfaz:
+Para cada pergunta, o Smart Assist tenta as opções abaixo, nesta ordem, e fica com a primeira que resolva:
 
 1. **Regras heurísticas**: padrões escritos à mão que o código confere diretamente. Por exemplo: uma linha que
    começa com `def` e termina com `:` indica Python. São instantâneas, cada decisão pode ser explicada e elas
    erram pouco. Todo recurso do Smart Assist (a linguagem dos blocos de código, o copia & cola inteligente, as
    dicas de formatação) tenta primeiro as regras heurísticas.
-2. **Um pequeno modelo, treinado para aquela pergunta**: entra só quando as regras deixam muita coisa sem
+2. **Um modelo pequeno, treinado para aquela pergunta**: entra só quando as regras deixam muita coisa sem
    resposta *e* existem exemplos reais com a resposta certa já conhecida (dados rotulados). É aqui que entram os
    dois modelos do Marksage. Cada um teve que provar, em repositórios que nunca viu, que traz respostas que as
    regras não dão. O modelo de código acerta cerca do dobro de sugestões das regras (1,7–2,2× em três conjuntos
-   de teste), com praticamente a mesma precisão. O modelo de seções dá tipo a seções cujo título não diz nada.
+   de teste), com praticamente a mesma precisão. O modelo de seções classifica seções cujo título não diz nada.
    Outros dois foram treinados e medidos do mesmo jeito, para dicas de formatação e tipos de conteúdo colado. Em texto
    real, não superaram as regras, então ficaram de fora (seção 4.6).
 3. **Um modelo de decisão geral**: para perguntas sem dados de treinamento, que um modelo pequeno não tem como
@@ -83,9 +83,9 @@ Para cada pergunta, o Smart Assist tenta as opções abaixo, nesta ordem, e fica
 
 E o que não cabe numa lista de respostas? Isso fica fora do Smart Assist: os recursos que já vêm no Marksage
 nunca usam um modelo generativo. A próxima ideia é a **conexão com outros modelos de IA (BYOK, *bring your own
-key*)**: um agente de IA, com o modelo e a chave que você escolher, para ajudar com o que precisar dentro do
+key*: você usa a sua própria chave)**: um agente, com o modelo que você escolher, para ajudar com o que precisar dentro do
 Marksage. Vai ser opcional e desligada por padrão, e o texto só vai para o provedor que você escolher. Quando
-chegar, fica documentada aqui.
+chegar, vai ser documentada aqui.
 
 ### 1.3 Dois modos
 
@@ -102,16 +102,16 @@ regras em texto real, e as regras em todo o resto:
 | Tipos de seção na Estrutura | regras (pelo título) | regras (pelo título), depois o modelo de IA de seções de texto ✦ quando o título não diz |
 
 Um terceiro modo, em que *só* modelos decidem, foi considerado e descartado. A legibilidade e a regra dos títulos
-não têm rótulos de que um modelo pudesse aprender além da própria saída delas: um modelo treinado com notas LIX
-só copiaria o LIX. E os modelos de formatação e de colagem não se saíram melhor que as regras (seção 4.6). Um
+não têm rótulos independentes para um modelo aprender: um modelo treinado com notas LIX só copiaria o LIX.
+E os modelos de formatação e de conteúdo colado não se saíram melhor que as regras (seção 4.6). Um
 modo assim seria mais fraco que o Regras + IA, sem ser mais honesto.
 
 **O padrão é o Regras.** Na primeira visita, o Smart Assist começa no modo *Regras*: ele roda no seu
 dispositivo, não baixa nada e só sugere, então estar ligado não custa nada. A tela inicial explica o que ele faz.
-Se você escolher *Desligado* (ou *Regras + IA*), o Marksage lembra. O "IA" de *Regras + IA* são os dois pequenos
-modelos treinados do Marksage (seção 4), não um chatbot nem nada hospedado. (Até 2026-10-29, os modos se
+Se você escolher *Desligado* (ou *Regras + IA*), o Marksage lembra. Em *Regras + IA*, a "IA" são os dois modelos
+pequenos que o Marksage treinou (seção 4), não um chatbot nem nada hospedado. (Até 2026-10-29, os modos se
 chamavam *Heurísticas* e *Híbrido*, e antes de 2026-10-28, *Modelo local*; o Smart Assist começava desligado. Os
-valores guardados, `heuristics` e `model`, não mudaram, então a escolha de ninguém foi perdida.)
+valores guardados, `heuristics` e `model`, não mudaram, então ninguém perdeu a escolha que tinha feito.)
 
 ---
 
@@ -165,7 +165,7 @@ flowchart LR
 | **Recursos** | Transformam uma decisão confiante em uma edição concreta e reversível (os quatro recursos de sugestão abaixo; a Estrutura e a aba Documento só leem). |
 | **Conversores** | Código comum que faz a edição: monta a tabela, a lista, o bloco de código. A engine nunca escreve texto. |
 | **Barra de sugestão** | Mostra uma sugestão por vez, que você aceita ou ignora. O ícone mostra o tipo de correção (linguagem do bloco de código, tabela, lista, JSON, título, link); o ✦ indica que quem decidiu foi o modelo de IA local. Clicar no card rola até o ponto e destaca o trecho na pré-visualização. |
-| **Painel Estrutura** | Só visual: as seções recebem tipo pela regra dos títulos e, no modo *Regras + IA*, pelo modelo de seções. A aba Documento resume o arquivo inteiro; a aba Sugestões lista todos os pontos que dá para corrigir. |
+| **Painel Estrutura** | Só visual: as seções são classificadas pela regra dos títulos e, no modo *Regras + IA*, pelo modelo de seções. A aba Documento resume o arquivo inteiro; a aba Sugestões lista todos os pontos que dá para corrigir. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão, usados para medir cada recurso antes de ele entrar no app. |
 
 ### 2.2 O contrato da engine
@@ -208,20 +208,20 @@ O padrão é ficar em silêncio: uma sugestão que não aparece não custa nada;
   o hook confere de novo se `text.slice(from, to) === expected`; se você digitou alguma coisa nesse meio-tempo,
   a sugestão desatualizada é descartada.
 - **Dá para desfazer.** As edições são aplicadas com `document.execCommand('insertText')`, então entram na pilha
-  de desfazer do próprio navegador (`⌘/Ctrl Z`); um `onChange` controlado fica de reserva.
+  de desfazer do próprio navegador (`⌘/Ctrl Z`); um `onChange` controlado serve de plano B.
 - **Nunca a cada tecla.** A análise espera uma pausa (400 ms), a legibilidade espera 2 s parado, e o pré-filtro
-  precisa achar um candidato antes de qualquer chamada à engine. A Estrutura se refaz sobre o texto adiado e
-  guarda as respostas de cada seção (tipo, frase-chave) entre uma reconstrução e outra. Assim, uma tecla só faz
+  precisa achar um candidato antes de qualquer chamada à engine. A Estrutura é reconstruída a partir do texto com um pequeno
+  atraso e guarda as respostas de cada seção (tipo, frase-chave) entre uma reconstrução e outra. Assim, uma tecla só faz
   reler a seção que ela mudou.
 - **Cancelamento.** Cada execução tem o seu `AbortController`; uma entrada nova cancela as execuções antigas.
 - **O que você ignora continua ignorado** durante a sessão (pelo hash do conteúdo), então a mesma dica não volta
   a incomodar. Trocar de modo (ou desligar e ligar o Smart Assist) começa do zero: as sugestões ignoradas voltam a
   ser oferecidas.
-- **Desligado é desligado.** No modo *Desligado*, nenhum handler é ligado ao textarea.
+- **Desligado é desligado.** No modo *Desligado*, nenhum handler é registrado no textarea.
 
 ---
 
-## 3. Os recursos e as regras heurísticas deles
+## 3. Os recursos e as regras de cada um
 
 ### Linguagem do bloco de código (`choice`)
 
@@ -238,12 +238,12 @@ casa soma o peso dela uma vez.
 - Pistas *distintivas* têm peso alto (`package main` → Go +4, `<?php` → PHP +6, `if err != nil` → Go +4,
   `#!/bin/bash` → Bash +5, `@@ -1,2 +1,2 @@` → diff +5).
 - Sintaxe *compartilhada* (chaves, `=>`, `import … from`) tem peso baixo em várias linguagens.
-- Regras *negativas* subtraem pistas que contradizem (por exemplo, anotações de tipo do TS penalizam JS puro).
+- Regras *negativas* descontam pontos quando aparecem pistas contrárias (por exemplo, anotações de tipo do TS penalizam JS puro).
 - *Ajustes estruturais:* conteúdo que é JSON válido → json +6, inclusive o dialeto mais solto, "JSON com
   comentários e vírgulas sobrando", usado em arquivos de configuração (+5). TS contra JS é decidido por pistas que
   só existem em TS (anotações de tipo, `interface`, `import type`, `as const`), porque TS é um superconjunto de JS.
-- `plaintext` é pontuado por uma taxa de **aparência de código** (densidade de símbolos em relação a palavras, menos a
-  pontuação de frases), para que texto corrido em qualquer idioma (inclusive em português) fique sem linguagem.
+- `plaintext` recebe uma nota pela taxa de **aparência de código** (densidade de símbolos em relação a palavras,
+  descontados os sinais de pontuação de frases), para que texto corrido em qualquer idioma (inclusive em português) fique sem linguagem.
 
 As pontuações passam por `softmax` → probabilidades → filtro. **Ação:** inserir o id da linguagem logo depois
 das crases que abrem o bloco.
@@ -335,9 +335,9 @@ LIX = palavras / frases + 100 × palavrasLongas / palavras      (longa = mais de
 ```
 
 Primeiro o Markdown é removido (código, links, tabelas; itens de lista e títulos contam como frases). O valor
-vai para uma escala de 5 degraus, *muito fácil · fácil · moderada · difícil · muito difícil* (centros das faixas
-em 25/35/45/55/65), com uma nitidez que cresce com o tamanho da seção. Assim, seções curtas dão distribuições
-achatadas e ficam em silêncio.
+vai para uma escala de 5 níveis, *muito fácil · fácil · moderada · difícil · muito difícil* (centros das faixas
+em 25/35/45/55/65). A confiança cresce com o tamanho da seção: seções curtas ficam com distribuições achatadas e
+não ganham pontinho.
 
 **Ação.** Um pontinho colorido ao lado do título da seção, na pré-visualização, com uma dica ao passar o mouse.
 As marcas só são desenhadas de novo quando uma nota muda de fato.
@@ -366,7 +366,7 @@ plans", "Planos futuros":
 No *Regras + IA*, as seções que a regra dos títulos deixa sem tipo são lidas pelo modelo de seções (seção 4.4).
 
 **Frase-chave.** Escolhida dentro da seção, não escrita: é a frase que mais compartilha palavras com o resto da
-seção (sem as palavras vazias, nos dois idiomas), com um empurrão em direção ao começo. Uma frase de parágrafo
+seção (sem as palavras vazias, nos dois idiomas), com preferência pelas frases do começo. Uma frase de parágrafo
 ganha de um item de lista.
 
 **Ação.** Só visual: um painel com todas as seções, o tipo e a frase-chave de cada uma. Clique para ir até a
@@ -381,7 +381,7 @@ muda.
 **O que mostra**, tudo calculado a partir do texto, no seu dispositivo:
 
 - **Tipo de documento**: README, changelog, guia ou tutorial, referência, documentação técnica, artigo ou
-  anotações. O nome do arquivo decide quando diz (`README.md`, `CHANGELOG.md`, `guide.md`, `ARCHITECTURE.md`).
+  anotações. Quando o nome do arquivo já diz (`README.md`, `CHANGELOG.md`, `guide.md`, `ARCHITECTURE.md`), ele decide.
   Se não diz, decidem os tipos de seção da Estrutura, e as seções que levaram até lá aparecem como motivo:
   Instalação + Uso + Licença → README; quase tudo Referência/Configuração → referência; quase tudo Explicação,
   Referência, Configuração, Desempenho ou Segurança → documentação técnica. Documentação técnica costuma dar às
@@ -389,7 +389,7 @@ muda.
   Por isso ela também é reconhecida pela forma: mais de 800 palavras de texto corrido, mais de 8 seções em pelo
   menos dois níveis de título e três ou mais tabelas ou blocos de código apoiando o texto. Com poucas pistas
   (menos de três seções com tipo, ou menos de um quarto delas, e nenhuma forma clara), ela diz que ainda não há
-  um padrão claro, em vez de chutar. O mesmo tipo aparece na barra acima de todo documento renderizado (clique
+  um padrão claro, em vez de arriscar um palpite. O mesmo tipo aparece na barra acima de todo documento renderizado (clique
   nele para abrir esta aba); sem tipo, a barra mostra o nome do arquivo.
 - **Resumo**: palavras, tempo de leitura (230 palavras por minuto, sem contar código), seções, blocos de código
   por linguagem, tabelas, links, imagens e o idioma do texto (inglês, português ou misto).
@@ -419,14 +419,14 @@ Um bloco de código em que nenhuma linguagem passa pelo filtro também aparece, 
 certeza*: a aba nunca esconde um bloco sem linguagem que a aba Documento conta. O clique nele abre uma escolha em
 vez de uma correção: as duas linguagens mais prováveis da engine e depois *Texto simples* (marca o bloco como
 `text`). `Tab` fica com a primeira, `Alt+2` e `Alt+3` com as outras. Duas, e não três: nos 920 blocos dos
-fixtures, uma terceira linguagem só traria a resposta certa para mais 4–6% dos blocos sem certeza, menos que o
+conjuntos de exemplos, uma terceira linguagem só traria a resposta certa para mais 4–6% dos blocos sem certeza, menos que o
 *Texto simples* (7–13%). Essas escolhas só aparecem pela aba, nunca enquanto você digita. Colagens não aparecem
 na lista: elas são oferecidas na hora em que você cola. As sugestões ignoradas (`Esc`) saem da lista até o modo
 mudar.
 
 **Ação.** Nenhuma no painel. Um clique abre o editor, se precisar, põe o cursor no ponto e mostra a sugestão na
-barra normal; ela fica lá até você mover o cursor ou digitar. `Tab` aceita, `Esc` ignora e dá para desfazer: é
-a mesma edição protegida de todo o resto.
+barra normal; ela fica lá até você mover o cursor ou digitar. `Tab` aceita, `Esc` ignora e dá para desfazer: tem
+a mesma proteção de todas as outras sugestões.
 
 ---
 
@@ -438,8 +438,8 @@ a mesma edição protegida de todo o resto.
 
 ### 4.1 O que é
 
-O modo *Regras + IA* adiciona um pequeno classificador de linguagens treinado para uma única tarefa: dizer em que
-linguagem está um bloco de código sem linguagem (inclusive um bloco de código colado). Todo o resto continua com
+O modo *Regras + IA* adiciona um classificador de linguagens pequeno, treinado para uma única tarefa: dizer a
+linguagem de um bloco de código que não tem uma (inclusive um bloco de código colado). Todo o resto continua com
 as regras heurísticas. Não é um chatbot nem um LLM: ele lê um trecho e escolhe uma das 21 respostas, como o resto
 do Smart Assist.
 
@@ -454,7 +454,7 @@ do Smart Assist.
   vizinhos, como as linhas começam e terminam, o estilo de indentação e pedaços de três letras de palavras mais
   longas. Cada pista tem um vetor aprendido de 8 números; o modelo tira a média deles e transforma essa média em
   uma probabilidade por linguagem.
-- **Cuidadoso de propósito:** a confiança dele é ajustada com previsões para repositórios que ele nunca viu no
+- **Cuidadoso de propósito:** a confiança dele é ajustada com previsões em repositórios que ele nunca viu no
   treinamento (os trechos curtos à parte, porque é mais fácil confiar demais neles), com a meta de acertar cerca de 95%
   das vezes em que se manifesta. O mesmo filtro de confiança das regras (0,8 / 0,2) decide se você vê alguma coisa.
 - **Duas opiniões:** quando o modelo não tem certeza mas as regras têm, a sugestão aparece mesmo assim, se a
@@ -477,7 +477,7 @@ do Smart Assist.
 ### 4.3 Resultados
 
 A versão 2 foi medida num conjunto **novo**: 284 blocos de código de 67 repositórios que nenhuma versão do
-modelo, nem nenhum ajuste, tinha tocado (até 15 por linguagem):
+modelo nem nenhum ajuste tinham usado (até 15 por linguagem):
 
 | Engine | Acurácia | Sugestões exibidas | Certas quando exibidas | Sugestões certas / erradas |
 |---|---|---|---|---|
@@ -498,7 +498,7 @@ linhas únicas que são válidas em várias linguagens (`void main() { … }` é
 
 ### 4.4 O modelo de seções
 
-No *Regras + IA*, a Estrutura também dá tipo a seções cujo título não diz nada ("Antes de começar", "Correções
+No *Regras + IA*, a Estrutura também classifica seções cujo título não diz nada ("Antes de começar", "Correções
 de bugs", "Temas"), lendo o texto que vem abaixo do título.
 
 - **Mesma receita, outras pistas:** o mesmo tipo de modelo e de arquivo (385 KB, ~0,1 ms por seção), lendo texto
@@ -507,7 +507,7 @@ de bugs", "Temas"), lendo o texto que vem abaixo do título.
   código e as linguagens deles, tabelas, listas, prompts de shell, números de versão, datas, referências a issues.
 - **Rótulos vindos dos títulos, sem os títulos:** cerca de 27.000 seções dos mesmos repositórios públicos,
   rotuladas pela regra dos títulos (numa versão mais rígida, que só confia em títulos sem ambiguidade). O modelo
-  nunca vê o título, só o texto abaixo dele. É isso que permite dar tipo às seções cujo título não diz nada.
+  nunca vê o título, só o texto abaixo dele. É isso que permite classificar as seções cujo título não diz nada.
 - **Pode recusar:** a maioria das seções reais é só um assunto ("Arrays", "Amazon S3"), então ele aprende mais
   uma resposta, *outro*, com seções cujo título não indica tipo nenhum. Quando *outro* ganha, a seção fica sem
   tipo.
@@ -535,8 +535,8 @@ ela mostra um selo apagado, "Configuração?", com a confiança ao passar o mous
 
 **A versão 2 (2026-10-27)** acrescentou segurança, desempenho e deploy. No conjunto de teste, 34 das 38 respostas
 de segurança exibidas concordam com o título; 45 de 60 em desempenho (o tipo mais fraco); e 2 de 2 em deploy (que
-tinha só 246 exemplos de treinamento). Contra a versão 1, no mesmo conjunto: a v1 dá tipo a 14,5% com 89,6%, e a v2 a
-13,5% com 88,9%, praticamente empatadas no geral. A v2 mostra menos seções de changelog e acrescenta os três tipos
+tinha só 246 exemplos de treinamento). Contra a versão 1, no mesmo conjunto: a v1 classifica 14,5% (89,6% de concordância), e a v2,
+13,5% (88,9%), praticamente empatadas no geral. A v2 mostra menos seções de changelog e acrescenta os três tipos
 novos. Todas as versões estão em [Como os dois modelos funcionam](MODELS.pt-BR.md), seção 8.
 
 ### 4.5 E o Jev e o Laya?
@@ -547,7 +547,7 @@ plano original para este modo, escolhido no lugar do Jev porque pode rodar na su
 blocos de código, um modelo treinado para a tarefa foi a melhor escolha: mais de mil vezes menor (cerca de 262 mil
 parâmetros), instantâneo e fácil de medir em dados reais. A ficha técnica dele está em
 [Como os modelos funcionam](MODELS.pt-BR.md), seção 7. O modelo de seções seguiu o mesmo caminho. O Laya continua sendo o candidato para
-perguntas futuras sem dados de treinamento assim. Ele ainda não foi testado no navegador: o tamanho do download, a
+perguntas futuras que não tenham dados de treinamento como esses. Ele ainda não foi testado no navegador: o tamanho do download, a
 velocidade e a memória que usaria ali são perguntas em aberto. Por padrão, o que roda, roda no seu dispositivo;
 qualquer coisa hospedada, como a futura conexão com outros modelos de IA (BYOK), vai ser opcional e bem
 sinalizada.
@@ -592,7 +592,7 @@ configurações, READMEs em inglês e em português):
 | Regras | 41 | 97,6% |
 | Modelo | 44 | 90,9% |
 
-Ele achou que eram código uma saída de `kubectl`, uma lista de comandos e dois arquivos JSON.
+Ele confundiu com código uma saída de `kubectl`, uma lista de comandos e dois arquivos JSON.
 
 **Texto do link para uma URL colada**: sem internet, o texto só pode vir da própria URL. Foram medidos 2.842 links
 que aparecem sozinhos na linha nos repositórios de dev. O que os autores escrevem é um título ou um nome: o último
@@ -607,7 +607,7 @@ para oferecer, então uma URL colada fica como está (o Markdown no padrão do G
 
 Cada recurso é conferido contra um conjunto de exemplos rotulados à mão: trechos de código em várias linguagens,
 colagens reais (CSV, células de planilha, saída de terminal, JSON) e linhas mal formatadas. Entram também texto
-em português e texto misturando idiomas. Para cada recurso, acompanhamos:
+em português e texto misturando idiomas. Cada recurso é medido por:
 
 - **Acurácia**: quantas vezes a primeira resposta está certa;
 - **Exibidas**: quantas sugestões passam pelo filtro de confiança;
