@@ -37,7 +37,7 @@ In September 2026, TypeSafe AI released **Jev**, a closed model built to answer 
 `score`, `noul`) instead of writing text, and with it the term *decision model* reached a wide audience. The
 idea isn't new — classifiers, categorizers and structured-output models have done narrower versions of it
 for years — but Jev gave it a clear shape. Three days later, Convai Innovations released **Laya**, an
-open-weights model (Apache 2.0) that answers the same three question types and can run on your own machine.
+open-weight model (Apache 2.0) that answers the same three question types and can run on your own machine.
 Smart Assist takes the path one step further, with tiny models of its own, trained for exactly its questions.
 
 The reason is engineering, not novelty: a model that only has to *pick* from a known list is a much smaller,

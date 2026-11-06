@@ -1301,3 +1301,11 @@ sample explained, three small UI items and two ROADMAP entries.
   próprios + regras", "com tipo" → "tipo identificado", "fatos · tom · alertas" → "resumo · tom · vale conferir"
   (the Document tab's own words), "Laço de treino" → "Loop de treino", "ajuste" → "dev", "repositórios de fora" →
   "repositórios de teste". Checked rendered: wide, narrow and the training chain; every label fits its box.
+- **PT-BR, "Como o Smart Assist funciona" rewritten** (`docs/SMART-ASSIST.pt-BR.md`) section by section from the
+  English page's meaning, with the glossary: engine, regras heurísticas, copia & cola inteligente, conjunto de
+  dev / de teste, open weight, pequeno modelo, "Quando aparece" for Trigger, button and tab names as the PT UI
+  shows them. Headings, tables, code, links and every number are the English page's (a number check and a
+  heading / fence / link comparison match). `check:docs`: no suggestion, no flag (7 long sentences split on the
+  way), kind "docs", readability easy (LIX 37). The tone reads "formal · impersonal" where the English reads
+  "neutral · you": English contractions count as casual and Portuguese has none (ROADMAP §4). EN §1.1
+  "open-weights" → "open-weight", as §1.2.
