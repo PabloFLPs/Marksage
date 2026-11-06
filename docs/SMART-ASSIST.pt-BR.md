@@ -492,7 +492,8 @@ regras: 1,7× as certas, com um pouco mais de precisão.
 
 Ou seja: cerca do dobro de sugestões úteis das regras (1,7–2,2× nos três conjuntos de teste) e melhor que a v1 em
 todos os números. A precisão fica a cerca de um ponto da das regras: um pouco abaixo nos dois primeiros
-conjuntos, um pouco acima no terceiro. É um modo opcional porque baixa um arquivo e o guarda no navegador. Cerca
+conjuntos, um pouco acima no terceiro. É um modo opcional porque baixa um arquivo e o guarda no navegador, e porque a precisão dele ainda não fica
+claramente acima da das regras. Cerca
 de metade dos erros vem, na verdade, de rótulos estranhos (`dotnet build -c Release` marcado como C#); o resto são
 linhas únicas que são válidas em várias linguagens (`void main() { … }` é Java válido *e* C++ válido).
 

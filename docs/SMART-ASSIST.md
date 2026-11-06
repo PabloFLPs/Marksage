@@ -484,7 +484,8 @@ right ones, slightly more precise.
 
 So: about twice the useful suggestions of the rules (1.7–2.2× on the three held-out sets) and better than v1 on
 every count. Its precision is within about a point of the rules' — a little below on the first two sets, a
-little above on the third. It's an opt-in mode because it downloads a file and keeps it in your browser. About half of its misses are really labelling quirks (`dotnet build -c Release` tagged as
+little above on the third. It's an opt-in mode because it downloads a file and keeps it in your browser, and because its precision isn't yet
+clearly above the rules'. About half of its misses are really labelling quirks (`dotnet build -c Release` tagged as
 C#), the rest are one-liners that fit several languages (`void main() { … }` is valid Java *and* C++).
 
 ### 4.4 The section model

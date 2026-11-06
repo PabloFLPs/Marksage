@@ -1429,3 +1429,7 @@ sample explained, three small UI items and two ROADMAP entries.
   "conjuntos de exemplos" (not "fixtures"), "Ele confundiu com código…", and "Cada recurso é medido por" (the docs'
   only "nós"). Two terms everywhere in PT-BR (docs, About, the start-screen pitch, the Rules + AI notice, AGENTS'
   glossary, the sample): "modelo(s) pequeno(s)", not "pequeno(s) modelo(s)", and "classificar", not "dar tipo a".
+- **Why Rules + AI is opt-in, said fully** (SMART-ASSIST §4.3, EN + PT-BR) — the docs gave one reason (it downloads
+  a file and keeps it in the browser); the story gives the other. Both now: "…and because its precision isn't yet
+  clearly above the rules'" (a point below on the first two held-out sets, a point above on the third — not the
+  "still a point under on unfamiliar projects" first proposed, which the third set no longer supports).
