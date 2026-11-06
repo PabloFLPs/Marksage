@@ -86,3 +86,10 @@ test('Document tab: "+N more" shows the rest of a flag group, "Show fewer" hides
   await panel.getByRole('button', { name: 'Show fewer' }).click()
   await expect(lines).toHaveCount(6)
 })
+
+test('About: "Try it on a sample document" in Reading & writing opens the sample', async ({ page }) => {
+  await page.goto('/#about')
+  const feature = page.locator('section', { hasText: 'Open anything Markdown' })
+  await feature.getByRole('button', { name: 'Try it on a sample document' }).click()
+  await expect(page.locator('header')).toContainText('pitwall-README.md')
+})

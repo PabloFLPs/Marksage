@@ -1341,3 +1341,6 @@ sample explained, three small UI items and two ROADMAP entries.
   Portuguese "Testar com um documento de exemplo · Como funciona · Como os modelos funcionam" didn't fit the
   760 px column and wrapped two + one. Now a column in both languages, aligned on the left; "How the models work"
   got the same arrow as "How it works".
+- **"New here? Try it on a sample document" is a link** (Pablo) — in Reading & writing, the button's name was
+  italic text; now it opens the sample, like the button above (an inline button styled as a link, no `.tap`:
+  it sits inside a paragraph). E2E.
