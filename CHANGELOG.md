@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.48.1** · 2026-11-06 · `(this commit)` · fix(about): a second PT-BR pass, the app's controls in bold, and Recent and the AGPL said precisely
+- **3.48.2** · 2026-11-06 · `(this commit)` · fix(about): the mode table says "rules" the same way in every row
+- **3.48.1** · 2026-11-06 · `701e726` · fix(about): a second PT-BR pass, the app's controls in bold, and Recent and the AGPL said precisely
 - **3.48.0** · 2026-11-06 · `4db524a` · feat(about): the sample is one click away from Reading & writing too
 - **3.47.8** · 2026-11-06 · `ce1e1ab` · fix(about): the Smart Assist buttons stack in one column
 - **3.47.7** · 2026-11-06 · `5898abb` · fix(meta): link previews describe Marksage in English and Portuguese

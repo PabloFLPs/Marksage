@@ -1361,3 +1361,8 @@ sample explained, three small UI items and two ROADMAP entries.
   "you share your changes too" undersold it — making a changed version available to others, including as a
   website, means offering them its *complete* source under the same license (AGPL §13), not only the changes.
   "Marksage’s code and models are free software" (PT "O código e os modelos do Marksage são", Pablo's plural).
+- **The mode table says "rules" the same way in every row** (Pablo: why "heading rule" in one row and "rules" in
+  the others?) — the Outline row is rules too, the ones that read headings: "rules (from the heading)", then "the
+  section AI model ✦"; the code row starts "AI model ✦". PT: "regras (pelo título)", "modelo de IA de seções de
+  texto ✦", "modelo de IA ✦". In its three places (About, SMART-ASSIST §1.3 EN + PT-BR, README), kept in step
+  as AGENTS asks.

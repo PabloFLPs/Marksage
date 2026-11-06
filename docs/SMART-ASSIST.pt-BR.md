@@ -95,11 +95,11 @@ regras em texto real, e as regras em todo o resto:
 
 | Pergunta | Regras | Regras + IA |
 |---|---|---|
-| Linguagem do bloco de código | regras | modelo ✦ — ou as regras, quando a primeira opção do modelo concorda ou quando elas têm ≥ 99% de certeza |
+| Linguagem do bloco de código | regras | modelo de IA ✦ — ou as regras, quando a primeira opção do modelo concorda ou quando elas têm ≥ 99% de certeza |
 | Copia & cola inteligente (que tipo de texto é) | regras | regras — a linguagem de um bloco de código colado, como acima |
 | Dicas de formatação | regras | regras |
 | Legibilidade | regras (LIX) | regras (LIX) |
-| Tipos de seção na Estrutura | regra dos títulos | regra dos títulos, depois o modelo de seções ✦ quando o título não diz |
+| Tipos de seção na Estrutura | regras (pelo título) | regras (pelo título), depois o modelo de IA de seções de texto ✦ quando o título não diz |
 
 Um terceiro modo, em que *só* modelos decidem, foi considerado e descartado. A legibilidade e a regra dos títulos
 não têm rótulos de que um modelo pudesse aprender além da própria saída delas: um modelo treinado com notas LIX

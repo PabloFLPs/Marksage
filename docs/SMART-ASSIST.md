@@ -95,11 +95,11 @@ everywhere else:
 
 | Question | Rules | Rules + AI |
 |---|---|---|
-| Code-block language | rules | model ✦ — or the rules when the model's first pick agrees, or when they're ≥ 99% sure |
+| Code-block language | rules | AI model ✦ — or the rules when the model's first pick agrees, or when they're ≥ 99% sure |
 | Smart paste (what kind of text) | rules | rules — a pasted code block's language as above |
 | Structure hints | rules | rules |
 | Readability | rules (LIX) | rules (LIX) |
-| Outline section types | heading rule | heading rule, then the section model ✦ for headings that don't say |
+| Outline section types | rules (from the heading) | rules (from the heading), then the section AI model ✦ for headings that don't say |
 
 A third mode where *only* models decide was considered and dropped. Readability and the heading rule have no
 labels a model could learn from but their own output: a model trained on LIX scores would just copy LIX. And

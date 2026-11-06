@@ -44,11 +44,11 @@ ship / don't-ship call are mine.
 
   | Question | Rules | Rules + AI |
   |---|---|---|
-  | Code-block language | rules | model, or the rules when the model agrees or they're ≥ 99% sure |
+  | Code-block language | rules | AI model, or the rules when the model agrees or they're ≥ 99% sure |
   | Smart paste | rules | rules (a pasted code block's language: as above) |
   | Structure hints | rules | rules |
   | Readability | rules | rules |
-  | Outline section types | heading rule | heading rule, then the section model |
+  | Outline section types | rules (from the heading) | rules (from the heading), then the section AI model |
 
   Models for structure hints and paste types were trained too and didn't beat the rules on real text
   ([docs/MODELS.md](docs/MODELS.md) §8).

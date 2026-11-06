@@ -371,11 +371,11 @@ type Pick2 = <T>(en: T, ptBR: T) => T
 function ModeTable({ x }: { x: Pick2 }) {
   const rules = x('rules', 'regras')
   const rows: [string, string, string][] = [
-    [x('Code-block language', 'Linguagem do bloco de código'), rules, x('model ✦, or the rules when the model agrees or they’re ≥ 99% sure', 'modelo ✦, ou as regras quando o modelo concorda ou quando elas têm ≥ 99% de certeza')],
+    [x('Code-block language', 'Linguagem do bloco de código'), rules, x('AI model ✦, or the rules when the model agrees or they’re ≥ 99% sure', 'modelo de IA ✦, ou as regras quando o modelo concorda ou quando elas têm ≥ 99% de certeza')],
     [x('Smart paste', 'Copia & cola inteligente'), rules, x('rules (a pasted code block’s language: as above)', 'regras (a linguagem de um bloco de código colado: como acima)')],
     [x('Structure hints', 'Dicas de formatação'), rules, rules],
     [x('Readability', 'Legibilidade'), rules, rules],
-    [x('Outline section types', 'Tipos de seção na Estrutura'), x('heading rule', 'regra dos títulos'), x('heading rule, then the section model ✦', 'regra dos títulos, depois o modelo de seções ✦')],
+    [x('Outline section types', 'Tipos de seção na Estrutura'), x('rules (from the heading)', 'regras (pelo título)'), x('rules (from the heading), then the section AI model ✦', 'regras (pelo título), depois o modelo de IA de seções de texto ✦')],
   ]
   return (
     <div className="mt-3 overflow-x-auto">
