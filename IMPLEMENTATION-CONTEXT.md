@@ -1309,3 +1309,10 @@ sample explained, three small UI items and two ROADMAP entries.
   way), kind "docs", readability easy (LIX 37). The tone reads "formal · impersonal" where the English reads
   "neutral · you": English contractions count as casual and Portuguese has none (ROADMAP §4). EN §1.1
   "open-weights" → "open-weight", as §1.2.
+- **PT-BR, "Como os dois modelos funcionam" rewritten** (`docs/MODELS.pt-BR.md`) from the English page's
+  meaning: every term explained the first time in Portuguese, with the English ML term next to it where Brazilian
+  devs use it (perda / loss, época / epoch, pista / feature, rótulo fraco / weak label); "Mantendo os números
+  honestos" → "Números honestos", "Deixando pequeno" → "Como o modelo ficou pequeno"; the training diagram's
+  Mermaid as the SVG says it. Numbers, tables (same rows, the glossary included), code and links match the English
+  page. `check:docs`: clean (4 long sentences split on the way). With it, **every shipped document passes**:
+  README, both docs pages in EN and PT-BR, both modes.
