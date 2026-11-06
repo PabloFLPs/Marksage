@@ -87,3 +87,26 @@ test('Delete all Marksage data leaves nothing behind', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'The Markdown editor that notices.' })).toBeVisible()
   expect(await page.evaluate(() => Object.keys(localStorage).filter((k) => k.startsWith('marksage:')))).toEqual([])
 })
+
+test('the Portuguese sample offers exactly what the English one does (Suggestions tab, Outline types)', async ({ page }) => {
+  await openSample(page)
+  const rows = async (lineWord: RegExp) => {
+    const list = page.locator('#panel-suggestions li')
+    await expect(list.first()).toBeVisible()
+    await expect.poll(() => list.count()).toBeGreaterThan(5)
+    return (await list.allInnerTexts()).map((t) => `${t.match(lineWord)?.[1]} ${t.match(/(\d+)%/)?.[1] ?? 'pick'}`)
+  }
+  const types = async () => page.locator('#panel-outline li').evaluateAll((lis) => lis.map((li) => (li.querySelector('[title]') ? 'typed' : '—')))
+  const bar = (name: string) => page.locator('[role="group"]').first().getByRole('button', { name: new RegExp(`^${name}`) })
+  await bar('Suggestions').click()
+  const en = await rows(/Line (\d+)/)
+  await bar('Outline').click()
+  const enTypes = await types()
+  await palette(page, 'portug')
+  await expect(page.locator('textarea')).toHaveValue(/Tour do Smart Assist/)
+  await bar('Sugestões').click()
+  await expect.poll(() => rows(/Linha (\d+)/)).toEqual(en)
+  await bar('Estrutura').click()
+  await expect.poll(types).toEqual(enTypes)
+  expect(en).toHaveLength(12)
+})

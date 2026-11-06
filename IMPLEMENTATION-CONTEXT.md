@@ -1319,3 +1319,6 @@ sample explained, three small UI items and two ROADMAP entries.
 - **`check:docs` in CI** — every shipped document passes now, so the `check` job runs it after the eval (with
   `pipefail`: GitHub's default `bash -e` would let a failure through `tee`); its last line goes to the job
   summary. A failing document fails the run, like the eval's count.
+- **E2E: the PT-BR sample offers what the English one does** — in the browser, the Suggestions tab lists the
+  same 12 fixes on the same lines at the same confidences, and the Outline types the same sections, before and
+  after switching the language (the check `check:docs` makes in Node, here through the real UI).
