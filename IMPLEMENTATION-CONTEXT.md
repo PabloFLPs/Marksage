@@ -1404,3 +1404,15 @@ sample explained, three small UI items and two ROADMAP entries.
   and the link no longer centres a wrapped label: the icon sits on the first line, the text is left-aligned, and
   `NoOrphanArrow` keeps the arrow with the last word (EN still wraps at 390 px and narrower, cleanly). The GitHub
   link is unchanged.
+- **The Story page, Pablo's PT-BR review** (read as a Brazilian dev arriving from the LinkedIn post) — calques and
+  echoes out: "Modelos de decisão, e não os generativos convencionais" (title, Pablo's), the decision-models paragraph
+  opens with what they are and dates them after ("Ganharam força em setembro…"), "um modelo pequeno", "que resolva"
+  (not "satisfaz"), "80% ou mais de confiança", "A primeira engine é um conjunto de regras", "canceladas se o texto
+  tiver sido alterado" (Pablo's), "cada pista passa por um hash e vira 8 números", "Um nível de confiança só serve
+  se…", "a v2 ainda ficou", "classifica 13,5% das seções", "O que você digita aparece primeiro", "numa dependência
+  que interpreta o Markdown" (Pablo's), and the QA paragraph says plainly what the fallback is: the rules decide when
+  they're nearly certain (EN too, "a measured fallback for now" was as opaque). "régua" → "critério de aprovação",
+  "treino" → "treinamento" on this page (the docs follow in the next commit). The footer no longer says "são dele"
+  right after "Claude" (it read as Claude's): "Feito por {author}. A IA (Claude) ajudou na implementação e na
+  revisão; a arquitetura, os critérios de aprovação e cada decisão sobre o que entra ou não no app ficaram com o
+  autor. Código-fonte, código de treinamento e arquivos dos modelos: …".
