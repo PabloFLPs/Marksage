@@ -1270,3 +1270,9 @@ sample explained, three small UI items and two ROADMAP entries.
   (small questions, one at a time, the simplest tool that is good enough), and its link goes to the model
   cards. "What comes next": the lighter first load is done (2026-11-04), so it names the BYOK idea instead. The
   start-screen pitch says "two small AI models". ROADMAP §1 / §2 follow. EN + PT-BR.
+- **PT-BR, the UI strings rewritten** (Pablo approved the style guide, the glossary — now in AGENTS.md, i18n — and
+  the pilot). 78 of the ~350 keys changed: calques out ("para manter sua leitura privada", "com tipo", "Quanto o
+  Smart Assist tem certeza", "Editor ao vivo"), agreement fixed ("emojis"), terms made consistent (Changelog,
+  Deploy, "pequenos modelos de IA", "copia & cola inteligente"), the tagline "O editor de Markdown atento aos
+  detalhes." (EN "notices"; Pablo's "pensa junto" would promise more than the app does today). Facts unchanged.
+  The phone overflow E2E (320 / 390 px, every page) now runs in PT-BR too: longer labels, same checks.

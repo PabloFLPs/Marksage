@@ -1,13 +1,15 @@
 import { expect, test } from '@playwright/test'
 import { overflow } from './helpers'
 
-for (const width of [320, 390]) {
-  test(`no sideways scrolling at ${width} px on any page`, async ({ page }) => {
+for (const [width, lang] of [[320, 'en'], [390, 'en'], [320, 'pt-BR'], [390, 'pt-BR']] as const) {
+  test(`no sideways scrolling at ${width} px on any page (${lang})`, async ({ page }) => {
+    // Portuguese labels run longer: the same pages in both languages.
+    if (lang !== 'en') await page.addInitScript((l) => localStorage.setItem('marksage:lang', l), lang)
     await page.setViewportSize({ width, height: 800 })
     for (const hash of ['', '#about', '#smart-assist', '#models', '#story']) {
       await page.goto('/' + hash)
       await page.waitForLoadState('networkidle')
-      expect(await overflow(page), `overflow on "${hash || 'start'}" at ${width}px`).toBe(0)
+      expect(await overflow(page), `overflow on "${hash || 'start'}" at ${width}px (${lang})`).toBe(0)
     }
   })
 }

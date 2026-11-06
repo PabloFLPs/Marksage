@@ -72,6 +72,24 @@ training/                 Own models' pipeline (collect → split → train; bui
   Touch screens get ≥ 40 px targets (`@media (pointer: coarse)` in `index.css`): header buttons, tabs, `.code-copy`,
   the diagram switch and anything with `.tap` — add `.tap` to small tappable controls.
 - **i18n:** every user-facing string goes through `useI18n().t(key)`; add keys to `src/lib/locales/en.ts` (source) and `pt-BR.ts`. Long-form copy (About page) uses the `x(en, pt)` helper; the Smart Assist docs exist as `docs/SMART-ASSIST.md` + `.pt-BR.md`.
+- **PT-BR voice** (Pablo approved, 2026-11-05 — the rewrite of every PT surface): written as a Brazilian engineer
+  would say it, from the meaning, not sentence by sentence. "Você"; the imperative in the UI; short sentences (one
+  idea each, ~16 words on average — longer reads "formal" to the Document tab); active voice ("quem lê os arquivos é
+  o navegador"); every claim says why; honest hedges; no marketing words; "para", not "pra"; headings are nouns, not
+  English "-ing" forms. English stays the source of truth for facts: every number, name, unit and claim identical,
+  in PT-BR number format (0,1 ms; 1.215; 1,7–2,2×). Glossary — EN → PT-BR (UI labels as the docs must name them):
+  Outline / Document / Suggestions → **Estrutura / Documento / Sugestões**; Rules · Rules + AI · Off → **Regras ·
+  Regras + IA · Desligado**; heuristics → **regras heurísticas** (then "regras"); engine → **engine** ("a engine");
+  smart paste → **copia & cola inteligente**; structure hints → **dicas de formatação**; held-out set → **conjunto
+  de teste**; dev set → **conjunto de dev**; training → **treino**; confidence gate → **filtro de confiança**; key
+  sentence → **frase-chave**; section types → **tipos de seção**; Worth a look → **Vale conferir**; untagged code
+  block → **bloco de código sem linguagem**; fence backticks → **crases**; Live editor → **Escrita em tempo
+  real**; Not done → **Pendente**; model card → **ficha técnica (model card)**; open-weight → **open weight**;
+  tiny / small model → **pequeno modelo** (never "minúsculo"); feature (product) → **recurso**, named the first
+  time. Stays in English: build, commit, deploy (the Deployment section type is "Deploy"), changelog (also the
+  section type), bundle, chunk, cache, dataset, prompt, token, pipeline, README, roadmap, issue, pull request,
+  hash, slot, softmax, local-first, BYOK, app, link, download / upload; "feature" only as the ML term, next to
+  "pista".
 - **Storage keys:** `marksage:{doc,history,split,theme,assist,app-icon,key-style,lang,model-notice,outline,remote-images}`, plus the Cache API store `marksage-models-v1` (Rules + AI mode's model files: `lang-v2.bin`, and `sections-v2.bin` once the Outline is opened in that mode) — wrap every access in try/catch.
 - **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests).
   Images from other websites load only with "Load images from the web" on (`lib/remoteImages.ts`, About → Privacy;
