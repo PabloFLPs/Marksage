@@ -1316,3 +1316,6 @@ sample explained, three small UI items and two ROADMAP entries.
   Mermaid as the SVG says it. Numbers, tables (same rows, the glossary included), code and links match the English
   page. `check:docs`: clean (4 long sentences split on the way). With it, **every shipped document passes**:
   README, both docs pages in EN and PT-BR, both modes.
+- **`check:docs` in CI** — every shipped document passes now, so the `check` job runs it after the eval (with
+  `pipefail`: GitHub's default `bash -e` would let a failure through `tee`); its last line goes to the job
+  summary. A failing document fails the run, like the eval's count.

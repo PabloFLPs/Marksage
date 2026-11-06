@@ -40,6 +40,11 @@ jobs:
           grep -Eq '^([0-9]+)/\1 documents as expected' eval.log || { echo "::error::Document fixtures failed"; exit 1; }
           [ "$(grep -c 'largest difference 0.0e+0' eval.log)" -eq 2 ] || { echo "::error::Standalone runner parity failed"; exit 1; }
           [ "$count" -eq "$EVAL_BASELINE" ] || { echo "::error::Eval changed: $count ✗, baseline $EVAL_BASELINE"; exit 1; }
+      - name: Marksage's own documents, checked by Marksage
+        run: |
+          set -o pipefail
+          npm run check:docs | tee check-docs.log
+          echo "### Docs check: $(tail -1 check-docs.log)" >> "$GITHUB_STEP_SUMMARY"
       - name: Version matches the history
         run: npm run version:check
 

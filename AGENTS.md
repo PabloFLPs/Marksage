@@ -214,7 +214,7 @@ Budgets: `npm run size` (after a build — first-load JS ≤ 110 KB gzip, CSS �
 Raise one only in the commit that needs it, saying why; a new dependency in the first load should be lazy instead.
 After editing a workflow, parse it (`python3 -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml'))"`):
 an invalid file runs no job at all — GitHub only shows "Invalid workflow file" (a `: ` inside an unquoted step name
-did it once). GitHub runs the same on every push and pull request (`.github/workflows/ci.yml`: type-check, lint, build, eval, version
+did it once). GitHub runs the same on every push and pull request (`.github/workflows/ci.yml`: type-check, lint, build, eval, docs check, version
 check) and fails if the eval's "✗" count leaves `EVAL_BASELINE` — update it in the commit that changes the count.
 
 ## Versioning (since 2026-10-30)
