@@ -1344,3 +1344,20 @@ sample explained, three small UI items and two ROADMAP entries.
 - **"New here? Try it on a sample document" is a link** (Pablo) — in Reading & writing, the button's name was
   italic text; now it opens the sample, like the button above (an inline button styled as a link, no `.tap`:
   it sits inside a paragraph). E2E.
+- **About, second PT-BR pass from Pablo's review**, and the names of the app's controls in bold (Pablo: "words
+  reserved for terms and features", as Regras and Assist already were) — Abrir, Colar, Copiar Markdown, Estrutura,
+  Documento, Sugestões, Recentes, Fechar documento, Tela inicial, Renomear…, Exportar, Apagar todos os dados do
+  Marksage; the same in English. PT: "identifica" (not "percebe"), "modelo de IA local", "card", "identificado
+  corretamente", "quando duas linguagens são possíveis", "Identifica os pequenos erros", "o modelo de IA do
+  Marksage que lê seções de texto", "uma hierarquia de títulos quebrada (um H2 seguido direto de um H4)" (EN the
+  same, was "heading jumps"), "funciona out of the box … com regras heurísticas", "O Marksage suporta…", "o
+  Marksage abre um documento novo" (it read as a misspelt imperative), "vai se lembrar", "apertando novamente, o
+  download acontece na hora" (the shortcut list too: the two lines said almost the same), the shortcuts footnote
+  says which buttons, "sai do seu dispositivo", the web-images paragraph without "aponta / pixel de rastreamento"
+  (what the request reveals, in plain words; "Referer" kept as the header's name), "Tudo o que está listado em
+  “O que fica guardado neste navegador”", "Nada do que você escreve no Marksage".
+- **Two facts said precisely (EN + PT)**: Recent said "nothing is lost" — it keeps the 15 most recent (a new one
+  pushes the oldest out) and skips documents over 400,000 characters (`lib/history.ts`). And the AGPL line:
+  "you share your changes too" undersold it — making a changed version available to others, including as a
+  website, means offering them its *complete* source under the same license (AGPL §13), not only the changes.
+  "Marksage’s code and models are free software" (PT "O código e os modelos do Marksage são", Pablo's plural).
