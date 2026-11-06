@@ -70,7 +70,7 @@ const content: StoryContent = {
       date: ['2026-10-24', '2026-10-25'],
       title: 'AGPL-3.0, and a page that says what is stored',
       body: [
-        'Marksage — code and models — is free software under the AGPL-3.0, so modified versions run for other people stay open too. A Privacy & storage page lists everything kept in the browser and deletes it in one click.',
+        'Marksage’s code and models are free software under the AGPL-3.0: anyone who makes a changed version available to other people, even as a website, must offer them its complete source. A Privacy & storage page lists everything kept in the browser and deletes it in one click.',
       ],
     },
     {

@@ -70,7 +70,7 @@ const content: StoryContent = {
       date: ['2026-10-24', '2026-10-25'],
       title: 'AGPL-3.0, e uma página que diz o que fica guardado',
       body: [
-        'O Marksage, código e modelos, é software livre sob a AGPL-3.0: versões modificadas que rodam para outras pessoas também continuam abertas. Uma página de Privacidade e armazenamento lista tudo o que fica no navegador e apaga tudo com um clique.',
+        'O código e os modelos do Marksage são software livre, sob a AGPL-3.0: quem disponibilizar uma versão alterada para outras pessoas, mesmo como site, precisa oferecer a elas o código-fonte completo. Uma página de Privacidade e armazenamento lista tudo o que fica no navegador e apaga tudo com um clique.',
       ],
     },
     {

@@ -89,7 +89,7 @@ chegar, fica documentada aqui.
 
 ### 1.3 Dois modos
 
-Além do *Desligado*, o Smart Assist tem dois modos. O **Regras** responde todas as perguntas com regras:
+Além do *Desligado*, o Smart Assist tem dois modos. O **Regras** responde todas as perguntas com regras heurísticas:
 instantâneo, sem nada para baixar. O **Regras + IA** usa os modelos do próprio Marksage onde eles superam as
 regras em texto real, e as regras em todo o resto:
 
@@ -164,7 +164,7 @@ flowchart LR
 | **Filtro de confiança** | Descarta qualquer resposta que não esteja claramente à frente das outras. |
 | **Recursos** | Transformam uma decisão confiante em uma edição concreta e reversível (os quatro recursos de sugestão abaixo; a Estrutura e a aba Documento só leem). |
 | **Conversores** | Código comum que faz a edição: monta a tabela, a lista, o bloco de código. A engine nunca escreve texto. |
-| **Barra de sugestão** | Mostra uma sugestão por vez, que você aceita ou ignora. O ícone mostra o tipo de correção (linguagem do bloco de código, tabela, lista, JSON, título, link); o ✦ indica que quem decidiu foi o modelo local. Clicar no cartão rola até o ponto e destaca o trecho na pré-visualização. |
+| **Barra de sugestão** | Mostra uma sugestão por vez, que você aceita ou ignora. O ícone mostra o tipo de correção (linguagem do bloco de código, tabela, lista, JSON, título, link); o ✦ indica que quem decidiu foi o modelo de IA local. Clicar no card rola até o ponto e destaca o trecho na pré-visualização. |
 | **Painel Estrutura** | Só visual: as seções recebem tipo pela regra dos títulos e, no modo *Regras + IA*, pelo modelo de seções. A aba Documento resume o arquivo inteiro; a aba Sugestões lista todos os pontos que dá para corrigir. |
 | **Conjunto de avaliação** | Exemplos rotulados à mão, usados para medir cada recurso antes de ele entrar no app. |
 
@@ -400,7 +400,7 @@ muda.
   quem o texto fala ("você", "nós", "eu" ou ninguém). São indícios, não um veredito.
 - **Tipos de seção**: quantas seções de cada tipo a Estrutura achou (sem contar as marcadas como "provável").
   Clique num tipo para ir até a seção; se houver várias, cada clique leva à próxima.
-- **Vale conferir**: títulos que pulam níveis (H2 → H4), mais de um título principal, seções vazias, títulos
+- **Vale conferir**: hierarquia de títulos quebrada (H2 → H4), mais de um título principal, seções vazias, títulos
   repetidos sob o mesmo pai, blocos de código sem linguagem, imagens sem texto alternativo, links que dizem só
   "aqui", seções muito longas e frases com mais de 40 palavras. Clique em um item para ir até ele. Quando um item
   tem mais de seis ocorrências, aparecem as seis primeiras e um botão *+N mais* para o resto (*Mostrar menos*
@@ -414,7 +414,7 @@ recalculada 600 ms depois que você para de digitar.
 **O que lista:** todos os pontos do documento que receberiam uma sugestão, na ordem do documento. Ou seja,
 blocos de código sem linguagem (mesma pergunta, mesmo filtro e mesma regra das duas opções do editor) e títulos,
 listas e links mal formatados (mesmas regras das dicas de formatação). Cada linha mostra o ícone da correção, a
-linha, a primeira linha do código ou o que vira o quê, a confiança e um ✦ quando quem decidiu foi o modelo local.
+linha, a primeira linha do código ou o que vira o quê, a confiança e um ✦ quando quem decidiu foi o modelo de IA local.
 Um bloco de código em que nenhuma linguagem passa pelo filtro também aparece, apagado e marcado como *sem
 certeza*: a aba nunca esconde um bloco sem linguagem que a aba Documento conta. O clique nele abre uma escolha em
 vez de uma correção: as duas linguagens mais prováveis da engine e depois *Texto simples* (marca o bloco como

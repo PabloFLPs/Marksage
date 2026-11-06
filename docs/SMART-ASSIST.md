@@ -162,7 +162,7 @@ flowchart LR
 | **Confidence gate** | Drops any answer that isn't clearly ahead of the alternatives. |
 | **Features** | Turn a confident decision into a concrete, reversible edit (the four suggestion features below; the Outline and Document tab only read). |
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
-| **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading, link); a ✦ means the local model made the call. Clicking the card scrolls to the spot and flashes it in the preview. |
+| **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading, link); a ✦ means the local AI model made the call. Clicking the card scrolls to the spot and flashes it in the preview. |
 | **Outline panel** | Visual only: sections typed by the heading rule, then (in *Rules + AI* mode) by the section model; its Document tab sums the whole file up; its Suggestions tab lists every fixable spot. |
 | **Evaluation set** | Hand-labelled examples used to measure each feature before it ships. |
 
@@ -394,7 +394,7 @@ clicked section stays highlighted until you scroll yourself), hover to tint the 
   talks to ("you", "we", "I" or nobody). Signals, not a verdict.
 - **Section types** — how many sections of each type the Outline found (the tentative "probably" ones aside).
   Click a type to go to its section; with several, each click goes to the next one.
-- **Worth a look** — heading level jumps (H2 → H4), extra top-level titles, empty sections, repeated
+- **Worth a look** — a broken heading hierarchy (H2 → H4), extra top-level titles, empty sections, repeated
   headings under the same parent, code blocks without a language, images without alt text, links that say
   "here", very long sections and sentences over 40 words. Click one to jump there. A kind with more than six
   shows the first six and a *+N more* button for the rest (*Show fewer* hides them again). Changelogs that give every
@@ -409,7 +409,7 @@ after you stop typing.
 **What it lists:** every spot of the document that would get a suggestion, in document order. That's code blocks
 without a language (same question, same gate and two-option rule as in the editor) and near-miss headings,
 lists and links (same rules as the structure hints). Each row has the fix's icon, its line, the code's first line or
-what changes into what, the confidence and a ✦ when the local model decided. A code block no language passes
+what changes into what, the confidence and a ✦ when the local AI model decided. A code block no language passes
 the gate for is listed too, muted and marked *not sure* — the tab never hides an untagged block the Document tab
 counts. Its click opens a pick instead of one fix: the engine's two most likely languages, then *Plain text*
 (tags the block `text`); `Tab` takes the first, `Alt+2` and `Alt+3` the others. Two, not three: on the 920

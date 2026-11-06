@@ -1370,3 +1370,7 @@ sample explained, three small UI items and two ROADMAP entries.
   the ✦ tooltips, the Outline's model badges, the Suggestions footer), "regras heurísticas" in the start-screen
   pitch and the Rules + AI status, and the heading-jump flag is "Hierarquia de títulos quebrada" (EN "Broken
   heading hierarchy", was "Heading level jumps").
+- **Docs and story, the same review carried over**: SMART-ASSIST (EN + PT) says "local AI model" / "modelo de IA
+  local", "a broken heading hierarchy" / "hierarquia de títulos quebrada", "card", and the PT Rules mode answers
+  "com regras heurísticas"; the story's AGPL entry says what the license asks (the complete source of a changed
+  version made available to others, even as a website), EN + PT. `check:docs` still clean.
