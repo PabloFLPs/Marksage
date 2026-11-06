@@ -1283,3 +1283,8 @@ sample explained, three small UI items and two ROADMAP entries.
   atalhos para si"; feature names as in the UI (Copia & cola inteligente, Testar com um documento de exemplo).
   The license link said "here" / "aqui" — the vague link our own Document tab flags — in both languages: now
   "full license text" / "texto completo da licença".
+- **PT-BR, the story rewritten** (`storyContent.pt-BR.ts`) from the English entries' meaning, with the pilot's
+  opening as Pablo approved it ("atento aos detalhes", "Local-first desde o primeiro commit", "o armazenamento
+  dele"). "mecanismo" → "engine", "minúsculo" → "pequeno", "separados / de fora" → "conjunto de teste",
+  "fallback" → "regra de reserva", sentences split. A number check (every number of the EN file, in PT format, in
+  the PT file and nothing else) matches.
