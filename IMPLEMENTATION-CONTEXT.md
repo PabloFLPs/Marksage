@@ -1334,3 +1334,10 @@ sample explained, three small UI items and two ROADMAP entries.
   a fresh held-out set, a bar written first, +9 numbers per type, the UI and docs work) and a summary per section
   (better extractive as the next small Marksage model vs a tiny abstractive model in the browser vs BYOK, each for
   EN + PT, local-first and how to evaluate it; recommendation: extractive first, abstractive only through BYOK).
+
+### 41.1 Pablo's review of the PT-BR About page (2026-11-06)
+
+- **About's three buttons in one column** (Pablo: all on one line or one per line, not two + one) — in
+  Portuguese "Testar com um documento de exemplo · Como funciona · Como os modelos funcionam" didn't fit the
+  760 px column and wrapped two + one. Now a column in both languages, aligned on the left; "How the models work"
+  got the same arrow as "How it works".

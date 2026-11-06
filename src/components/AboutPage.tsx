@@ -190,28 +190,32 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
             )}
           </p>
           <ModeTable x={x} />
-          <button
-            type="button"
-            onClick={onTrySmartAssist}
-            className="press group mt-5 inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
-          >
-            <Sparkles className="hover-sparkle h-4 w-4" /> {x('Try it on a sample document', 'Testar com um documento de exemplo')}
-          </button>
-          <button
-            type="button"
-            onClick={onOpenDocs}
-            className="group ml-1 mt-5 inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-accent hover:bg-accent/5 dark:text-dark-accent dark:hover:bg-dark-accent/10"
-          >
-            <BookOpen className="h-4 w-4" /> {x('How it works', 'Como funciona')}
-            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
-          </button>
-          <button
-            type="button"
-            onClick={onOpenModelsDocs}
-            className="group ml-1 mt-5 inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-accent hover:bg-accent/5 dark:text-dark-accent dark:hover:bg-dark-accent/10"
-          >
-            <Brain className="h-4 w-4" /> {x('How the models work', 'Como os modelos funcionam')}
-          </button>
+          {/* One column: in Portuguese the three didn't fit on one line and wrapped two + one (Pablo). */}
+          <div className="mt-5 flex flex-col items-start gap-1">
+            <button
+              type="button"
+              onClick={onTrySmartAssist}
+              className="press group inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
+            >
+              <Sparkles className="hover-sparkle h-4 w-4" /> {x('Try it on a sample document', 'Testar com um documento de exemplo')}
+            </button>
+            <button
+              type="button"
+              onClick={onOpenDocs}
+              className="group inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-accent hover:bg-accent/5 dark:text-dark-accent dark:hover:bg-dark-accent/10"
+            >
+              <BookOpen className="h-4 w-4" /> {x('How it works', 'Como funciona')}
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </button>
+            <button
+              type="button"
+              onClick={onOpenModelsDocs}
+              className="group inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-accent hover:bg-accent/5 dark:text-dark-accent dark:hover:bg-dark-accent/10"
+            >
+              <Brain className="h-4 w-4" /> {x('How the models work', 'Como os modelos funcionam')}
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </button>
+          </div>
         </Section>
 
         <Section title={x('Reading & writing', 'Leitura e escrita')}>
