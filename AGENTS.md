@@ -81,7 +81,7 @@ training/                 Own models' pipeline (collect → split → train; bui
   Outline / Document / Suggestions → **Estrutura / Documento / Sugestões**; Rules · Rules + AI · Off → **Regras ·
   Regras + IA · Desligado**; heuristics → **regras heurísticas** (then "regras"); engine → **engine** ("a engine");
   smart paste → **copia & cola inteligente** (paste types → **tipos de conteúdo colado**); structure hints → **dicas de formatação**; held-out set → **conjunto
-  de teste**; dev set → **conjunto de dev**; training → **treino**; confidence gate → **filtro de confiança**; key
+  de teste**; dev set → **conjunto de dev**; training → **treinamento** (never "treino"); bar (to ship) → **critério de aprovação** (never "régua"); confidence gate → **filtro de confiança**; key
   sentence → **frase-chave**; section types → **tipos de seção**; Worth a look → **Vale conferir**; untagged code
   block → **bloco de código sem linguagem**; fence backticks → **crases**; Live editor → **Escrita em tempo
   real**; Not done → **Pendente**; model card → **ficha técnica (model card)**; open-weight → **open weight**;

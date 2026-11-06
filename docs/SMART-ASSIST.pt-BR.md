@@ -77,7 +77,7 @@ Para cada pergunta, o Smart Assist tenta as opções abaixo, nesta ordem, e fica
    de teste), com praticamente a mesma precisão. O modelo de seções dá tipo a seções cujo título não diz nada.
    Outros dois foram treinados e medidos do mesmo jeito, para dicas de formatação e tipos de conteúdo colado. Em texto
    real, não superaram as regras, então ficaram de fora (seção 4.6).
-3. **Um modelo de decisão geral**: para perguntas sem dados de treino, que um modelo pequeno não tem como
+3. **Um modelo de decisão geral**: para perguntas sem dados de treinamento, que um modelo pequeno não tem como
    aprender. Nenhum recurso precisa disso ainda. O candidato hoje é o Laya, um modelo open weight que roda
    localmente, mas que ainda não foi testado no navegador (seção 4.5).
 
@@ -433,7 +433,7 @@ a mesma edição protegida de todo o resto.
 ## 4. Os modelos próprios do Marksage
 
 > Nunca mexeu com machine learning? [Como os dois modelos funcionam](MODELS.pt-BR.md) explica cada passo (pistas,
-> hash, treino, calibração) com números reais dos arquivos dos modelos, além da ficha técnica e do histórico
+> hash, treinamento, calibração) com números reais dos arquivos dos modelos, além da ficha técnica e do histórico
 > completo de versões de cada modelo.
 
 ### 4.1 O que é
@@ -455,7 +455,7 @@ do Smart Assist.
   longas. Cada pista tem um vetor aprendido de 8 números; o modelo tira a média deles e transforma essa média em
   uma probabilidade por linguagem.
 - **Cuidadoso de propósito:** a confiança dele é ajustada com previsões para repositórios que ele nunca viu no
-  treino (os trechos curtos à parte, porque é mais fácil confiar demais neles), com a meta de acertar cerca de 95%
+  treinamento (os trechos curtos à parte, porque é mais fácil confiar demais neles), com a meta de acertar cerca de 95%
   das vezes em que se manifesta. O mesmo filtro de confiança das regras (0,8 / 0,2) decide se você vê alguma coisa.
 - **Duas opiniões:** quando o modelo não tem certeza mas as regras têm, a sugestão aparece mesmo assim, se a
   primeira opção do próprio modelo concordar ou se as regras tiverem pelo menos 99% de certeza. (Em trechos
@@ -466,10 +466,10 @@ do Smart Assist.
 - **Dados:** cerca de 270.000 blocos de código de 309 repositórios públicos (documentação, READMEs, guias,
   inclusive em português), rotulados com a linguagem que os *próprios autores* indicaram, mais trechos de
   arquivos de código reais para as linguagens mais raras.
-- **Divisão justa:** cada repositório inteiro vai para o treino, para o ajuste (dev) ou para o teste final,
-  nunca o mesmo projeto em dois lugares. E qualquer bloco de treino parecido com um bloco de teste é removido.
-- **Treino:** cerca de 64.000 blocos, poucos segundos por passada, feito em TypeScript com o mesmo código que o
-  app usa para ler os trechos. Assim, o que o modelo viu no treino é exatamente o que ele vê aqui.
+- **Divisão justa:** cada repositório inteiro vai para o treinamento, para o ajuste (dev) ou para o teste final,
+  nunca o mesmo projeto em dois lugares. E qualquer bloco de treinamento parecido com um bloco de teste é removido.
+- **Treinamento:** cerca de 64.000 blocos, poucos segundos por passada, feito em TypeScript com o mesmo código que o
+  app usa para ler os trechos. Assim, o que o modelo viu no treinamento é exatamente o que ele vê aqui.
 - **Escolhido no dev, medido uma vez:** tamanho, configurações e o jeito de combinar com as regras foram
   decididos no conjunto de dev; cada conjunto de teste rodou uma única vez, no fim. O modelo atual é a segunda
   versão; a primeira aparece nos resultados abaixo.
@@ -517,7 +517,7 @@ de bugs", "Temas"), lendo o texto que vem abaixo do título.
   roadmaps são raros demais para aprender (76 e 57 títulos em 381 repositórios). Esses três tipos vêm só do
   título; o modelo responde os outros treze.
 - **Divisão justa:** os repositórios de dev e de teste do modelo de linguagens (mais os 72 novos) ficam de fora
-  do treino; as configurações foram escolhidas no dev e o conjunto de teste rodou uma vez.
+  do treinamento; as configurações foram escolhidas no dev e o conjunto de teste rodou uma vez.
 
 Resultados no conjunto de teste: 6.339 seções com tipo, de 134 repositórios. Os rótulos vêm dos títulos, então
 "concorda" quer dizer que o modelo, lendo só o texto, deu o mesmo tipo que o título indica:
@@ -535,7 +535,7 @@ ela mostra um selo apagado, "Configuração?", com a confiança ao passar o mous
 
 **A versão 2 (2026-10-27)** acrescentou segurança, desempenho e deploy. No conjunto de teste, 34 das 38 respostas
 de segurança exibidas concordam com o título; 45 de 60 em desempenho (o tipo mais fraco); e 2 de 2 em deploy (que
-tinha só 246 exemplos de treino). Contra a versão 1, no mesmo conjunto: a v1 dá tipo a 14,5% com 89,6%, e a v2 a
+tinha só 246 exemplos de treinamento). Contra a versão 1, no mesmo conjunto: a v1 dá tipo a 14,5% com 89,6%, e a v2 a
 13,5% com 88,9%, praticamente empatadas no geral. A v2 mostra menos seções de changelog e acrescenta os três tipos
 novos. Todas as versões estão em [Como os dois modelos funcionam](MODELS.pt-BR.md), seção 8.
 
@@ -547,14 +547,14 @@ plano original para este modo, escolhido no lugar do Jev porque pode rodar na su
 blocos de código, um modelo treinado para a tarefa foi a melhor escolha: mais de mil vezes menor (cerca de 262 mil
 parâmetros), instantâneo e fácil de medir em dados reais. A ficha técnica dele está em
 [Como os modelos funcionam](MODELS.pt-BR.md), seção 7. O modelo de seções seguiu o mesmo caminho. O Laya continua sendo o candidato para
-perguntas futuras sem dados de treino assim. Ele ainda não foi testado no navegador: o tamanho do download, a
+perguntas futuras sem dados de treinamento assim. Ele ainda não foi testado no navegador: o tamanho do download, a
 velocidade e a memória que usaria ali são perguntas em aberto. Por padrão, o que roda, roda no seu dispositivo;
 qualquer coisa hospedada, como a futura conexão com outros modelos de IA (BYOK), vai ser opcional e bem
 sinalizada.
 
 ### 4.6 Testados, não usados: dicas de formatação, tipos de conteúdo colado, texto de links
 
-Em outubro de 2026, mais três perguntas passaram pelo mesmo processo: treino (ou regras escritas) nos repositórios
+Em outubro de 2026, mais três perguntas passaram pelo mesmo processo: treinamento (ou regras escritas) nos repositórios
 públicos, todas as escolhas feitas num conjunto de dev e uma única medição em texto real de teste. Nenhuma se saiu
 melhor que as regras. Elas ficam registradas aqui para que a próxima tentativa já comece pelos números.
 
@@ -572,7 +572,7 @@ repositórios que ele nunca viu: texto sem revisão, onde esses erros acontecem 
 | Só o modelo | 76 | 90,8% | 69 |
 | Regras + respostas do modelo com ≥ 95% onde as regras ficam quietas | 141 | 88,7% | 125 |
 
-A combinação passou pela régua definida antes (a precisão das regras, pelo menos as mesmas linhas verdadeiras)
+A combinação atendeu ao critério de aprovação definido antes (a precisão das regras, pelo menos as mesmas linhas verdadeiras)
 por uma linha em 227: pouco para valer um download. Os dois erram em lugares diferentes. As regras marcam por
 engano linhas de hashtags, `+20K estudantes` e linhas de diff, que o modelo acerta; o modelo marca por engano
 assinaturas (`-Jake`) e `#32 will fix this`, que as regras acertam. O próximo passo natural é uma versão em que

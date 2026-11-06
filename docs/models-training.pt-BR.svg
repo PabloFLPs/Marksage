@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 572" width="440" height="572" role="img" aria-labelledby="msd-title-models-training msd-desc-models-training" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
-<title id="msd-title-models-training">Como os modelos aprenderam</title><desc id="msd-desc-models-training">O fluxo de treino, dos repositórios públicos aos números publicados.</desc>
+<title id="msd-title-models-training">Como os modelos aprenderam</title><desc id="msd-desc-models-training">O fluxo de treinamento, dos repositórios públicos aos números publicados.</desc>
 <style>
   .msd-lane { fill: none; stroke: #d8dee4; }
   .msd-lane-t { fill: #2563eb; font-size: 11px; font-weight: 600; letter-spacing: .08em; }
@@ -43,11 +43,11 @@
 <rect class="msd-box " x="20" y="180" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="202">3</text>
 <text class="msd-t" x="52" y="202">Divisão por repositório</text>
-<text class="msd-mono" x="52" y="222">treino · dev (escolhas) · teste (uma vez)</text>
+<text class="msd-mono" x="52" y="222">treinamento · dev (escolhas) · teste (uma vez)</text>
 <path class="msd-line" d="M200.0,236 L200.0,257" marker-end="url(#msd-arrow-models-training)"/>
 <rect class="msd-box msd-accent" x="20" y="258" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="280">4</text>
-<text class="msd-t" x="52" y="280">Loop de treino</text>
+<text class="msd-t" x="52" y="280">Loop de treinamento</text>
 <text class="msd-mono" x="52" y="300">palpite → mede o erro → ajusta os números</text>
 <path class="msd-line" d="M200.0,314 L200.0,335" marker-end="url(#msd-arrow-models-training)"/>
 <rect class="msd-box " x="20" y="336" width="360" height="56" rx="9"/>

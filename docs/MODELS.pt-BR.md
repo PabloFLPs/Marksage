@@ -2,7 +2,7 @@
 
 O Marksage traz dois pequenos modelos próprios. Um diz a **linguagem de um bloco de código** (21 respostas, de
 TypeScript a "não é código"); o outro diz o **tipo de uma seção** do documento, para a Estrutura (13 tipos, mais
-"outro"). Os dois têm o mesmo desenho, o mesmo formato de arquivo e a mesma receita de treino. Mais dois foram
+"outro"). Os dois têm o mesmo desenho, o mesmo formato de arquivo e a mesma receita de treinamento. Mais dois foram
 treinados do mesmo jeito, para as dicas de formatação e os tipos de conteúdo colado, e não são usados, porque não
 se saíram melhor que as regras em texto real (seção 8).
 
@@ -95,7 +95,7 @@ ela tem uma tabela, uma lista, um prompt de shell, um número de versão, uma da
 
 ### 2.2 As pistas viram números de slot (o truque do hash)
 
-Os dados de treino têm cerca de **840.000 pistas diferentes** para código. Guardar um dicionário com todas elas
+Os dados de treinamento têm cerca de **840.000 pistas diferentes** para código. Guardar um dicionário com todas elas
 deixaria o modelo enorme, e uma pista que ele nunca viu não teria entrada nenhuma.
 
 Em vez disso, cada pista passa por uma **função de hash**: uma conta rápida que transforma qualquer texto num
@@ -108,7 +108,7 @@ número grande, sempre o mesmo número para o mesmo texto. O Marksage usa o FNV-
 
 Assim, toda pista cai num dos **32.768 slots**. Isso quer dizer que cerca de 26 pistas diferentes dividem cada
 slot, o que se chama *colisão*. Parece ruim, mas funciona: a maioria das pistas é rara, as úteis (`T:def`, `E:;`,
-`F:$`) aparecem milhares de vezes e dominam o slot delas, e o treino aprende a contornar o ruído. Em troca, o
+`F:$`) aparecem milhares de vezes e dominam o slot delas, e o treinamento aprende a contornar o ruído. Em troca, o
 modelo tem tamanho fixo, não precisa de arquivo de dicionário, e palavras novas ainda caem em algum lugar.
 
 ### 2.3 Cada slot guarda 8 números (um embedding)
@@ -120,7 +120,7 @@ está guardado no arquivo:
 T:def → [−2,21; −2,61; 0,92; 1,87; −3,01; 3,90; −1,66; 0,52]
 ```
 
-Os números, um a um, não querem dizer nada: ninguém os escolheu. Eles começaram aleatórios, e o treino foi
+Os números, um a um, não querem dizer nada: ninguém os escolheu. Eles começaram aleatórios, e o treinamento foi
 mexendo neles até que pistas que apontam para a mesma resposta terminassem com listas parecidas. Dá para imaginar
 cada lista como um ponto num espaço de 8 dimensões: pistas típicas de Python acabam numa região, pistas típicas
 de SQL em outra.
@@ -209,12 +209,12 @@ não tem certeza, três regras extras ainda podem ajudar:
 Na Estrutura, o filtro é o mesmo; mas, como um selo de tipo não muda nada no seu documento, uma resposta do modelo
 de seções entre 60% e 80% ainda aparece, marcada como "provável". A Estrutura também tem três tipos que só vêm dos
 títulos: **Explicação** ("Como funciona", "Arquitetura"), que o modelo não conseguiu aprender, e **Glossário** e
-**Roadmap**, raros demais nos repositórios de treino para ele aprender (veja a ficha técnica dele).
+**Roadmap**, raros demais nos repositórios de treinamento para ele aprender (veja a ficha técnica dele).
 
 ## 3. Como os modelos aprenderam
 
 <!-- diagram: training -->
-![Como os modelos aprenderam: repositórios públicos, exemplos rotulados, divisão por repositório, loop de treino, calibração, compressão, medição única](models-training.pt-BR.svg)
+![Como os modelos aprenderam: repositórios públicos, exemplos rotulados, divisão por repositório, loop de treinamento, calibração, compressão, medição única](models-training.pt-BR.svg)
 
 <details>
 <summary>O mesmo diagrama em Mermaid</summary>
@@ -222,8 +222,8 @@ títulos: **Explicação** ("Como funciona", "Arquitetura"), que o modelo não c
 ```mermaid
 flowchart TB
   A["1 · Repositórios públicos<br/>309 repositórios: docs, READMEs, guias"] --> B["2 · Exemplos rotulados<br/>código: as tags dos autores · seções: títulos"]
-  B --> C["3 · Divisão por repositório<br/>treino · dev (escolhas) · teste (uma vez)"]
-  C --> D["4 · Loop de treino<br/>palpite → mede o erro → ajusta os números"]
+  B --> C["3 · Divisão por repositório<br/>treinamento · dev (escolhas) · teste (uma vez)"]
+  C --> D["4 · Loop de treinamento<br/>palpite → mede o erro → ajusta os números"]
   D -- "× várias passadas" --> D
   D --> E["5 · Calibra<br/>temperatura em repositórios nunca vistos"]
   E --> F["6 · Encolhe<br/>8 bits + uma escala por linha → 385 KB"]
@@ -239,7 +239,7 @@ flowchart TB
 **Modelo de código.** A documentação está cheia de blocos de código em que os autores já escreveram a linguagem:
 ` ```python `. Essas marcações são rótulos de graça. O Marksage coletou cerca de 270.000 blocos de 309
 repositórios públicos (documentação, READMEs e guias, inclusive em português), mais trechos de arquivos de código
-reais para as linguagens mais raras. O treino usou 63.751 deles, no máximo 6.000 por linguagem, para que as mais
+reais para as linguagens mais raras. O treinamento usou 63.751 deles, no máximo 6.000 por linguagem, para que as mais
 comuns não dominem:
 
 | Linguagem | Blocos | Linguagem | Blocos | Linguagem | Blocos |
@@ -264,9 +264,9 @@ S3"). A maioria das seções reais é só um assunto. Sem o "outro", a primeira 
 só cerca de 2 em 3 das respostas confiantes nessas seções estavam certas. Com o "outro", ele pode recusar, e o
 acerto subiu para cerca de 9 em 10.
 
-### 3.2 O loop de treino
+### 3.2 O loop de treinamento
 
-O treino começa com todos os números aleatórios e depois repete um passo pequeno para cada exemplo:
+O treinamento começa com todos os números aleatórios e depois repete um passo pequeno para cada exemplo:
 
 1. **Dá um palpite.** Passa o exemplo pelos passos 2.1–2.6.
 2. **Mede o erro.** A **perda** (loss) é −log(probabilidade dada à resposta certa). Deu 90% para a resposta certa?
@@ -307,21 +307,21 @@ trabalho por trás desses modelos é garantir que os números publicados descrev
 ### 4.1 Divisão por repositório
 
 Blocos do mesmo projeto se parecem: os mesmos nomes de variáveis, o mesmo estilo. Se alguns blocos de um projeto
-fossem para o treino e outros para o teste, o modelo poderia passar no teste só por lembrar do projeto. Por isso,
+fossem para o treinamento e outros para o teste, o modelo poderia passar no teste só por lembrar do projeto. Por isso,
 cada repositório inteiro vai para exatamente um de três conjuntos:
 
-- **Treino**: com o que o modelo aprende;
+- **Treinamento**: com o que o modelo aprende;
 - **Dev**: usado para fazer as escolhas (tamanho do modelo, número de épocas, quais regras manter);
 - **Teste**: separado antes e rodado **uma vez**, no fim, para gerar os números publicados.
 
-Uma proteção contra vazamento também remove qualquer bloco de treino cujo texto, ou cujas três primeiras linhas,
+Uma proteção contra vazamento também remove qualquer bloco de treinamento cujo texto, ou cujas três primeiras linhas,
 também aparecem num conjunto de teste. E depois que o primeiro conjunto de teste já tinha sido visto, um segundo,
 novo, foi montado com 72 repositórios que não foram usados em nenhum outro lugar.
 
 ### 4.2 Overfitting
 
-A perda de treino sempre cai; isso não quer dizer que o modelo está melhorando. Um modelo de seções antigo, com o
-dobro de slots, o dobro de números por slot e 10 épocas, chegou a uma perda de treino de 0,05, quase perfeita. Mesmo
+A perda de treinamento sempre cai; isso não quer dizer que o modelo está melhorando. Um modelo de seções antigo, com o
+dobro de slots, o dobro de números por slot e 10 épocas, chegou a uma perda de treinamento de 0,05, quase perfeita. Mesmo
 assim, ele concordava com os títulos em repositórios novos só 57% das vezes, num arquivo de 1,3 MB. Ele tinha
 começado a decorar os exemplos em vez de aprender padrões: isso é **overfitting**. Um modelo menor, treinado por
 3 épocas, se saiu tão bem ou melhor no dev com um terço do tamanho, e foi esse que entrou no app.
@@ -329,7 +329,7 @@ começado a decorar os exemplos em vez de aprender padrões: isso é **overfitti
 ### 4.3 Calibração em repositórios que o modelo nunca viu
 
 A temperatura (seção 2.6) é ajustada onde o modelo é honesto: em previsões para repositórios em que ele não
-treinou. No modelo de código, os repositórios de treino são divididos em 5 grupos; 5 modelos extras treinam, cada
+treinou. No modelo de código, os repositórios de treinamento são divididos em 5 grupos; 5 modelos extras treinam, cada
 um, com 4 grupos e preveem o quinto (*validação cruzada*). Isso dá cerca de 7.600 previsões de fora do repositório.
 Depois, a temperatura sobe até que, no filtro do app, 95% dessas previsões estariam certas.
 
@@ -427,8 +427,8 @@ quão bem funciona e onde falha. Tudo o que você precisa para usar os arquivos 
 | **Como lê** | Leitor de pistas 1 (pistas de código, seção 2.1) → hash FNV-1a mod 32.768 → média de 8 números aprendidos por pista → 8 × 21 pesos + 21 vieses → softmax |
 | **Parâmetros** | 262.333 (guardados como números de 8 bits, com uma escala por slot) |
 | **Temperatura** | 1,85; 2,55 quando o trecho tem 3 linhas não vazias ou menos |
-| **Dados de treino** | 63.751 blocos de código de 309 repositórios públicos, rotulados pelas marcações dos autores, no máximo 6.000 por linguagem, mais trechos de arquivos de código reais para as linguagens raras |
-| **Treino** | 8 épocas de SGD, taxa de aprendizado de 0,4 caindo até 0, linguagens raras com peso (6.000 ÷ quantidade)^0,5, semente 1; temperaturas ajustadas em previsões fora do repositório (5 grupos) para 95% de precisão no filtro |
+| **Dados de treinamento** | 63.751 blocos de código de 309 repositórios públicos, rotulados pelas marcações dos autores, no máximo 6.000 por linguagem, mais trechos de arquivos de código reais para as linguagens raras |
+| **Treinamento** | 8 épocas de SGD, taxa de aprendizado de 0,4 caindo até 0, linguagens raras com peso (6.000 ÷ quantidade)^0,5, semente 1; temperaturas ajustadas em previsões fora do repositório (5 grupos) para 95% de precisão no filtro |
 | **Resultados de teste** (284 blocos, 67 repositórios que ele nunca viu) | A primeira resposta acerta 74,3% das vezes; com o filtro 0,8 / 0,2, ele responde 51% dos blocos e acerta 92,5% das vezes |
 | **Velocidade** | Cerca de 0,1 ms por trecho, em JavaScript puro |
 | **Serve para** | Adivinhar a linguagem de um trecho curto de código, principalmente em documentação |
@@ -447,8 +447,8 @@ quão bem funciona e onde falha. Tudo o que você precisa para usar os arquivos 
 | **Como lê** | Leitor de pistas 2 (pistas de texto, seção 2.1) → o mesmo hash, a mesma média e a mesma pontuação do modelo de código, com 14 respostas |
 | **Parâmetros** | 262.270 |
 | **Temperatura** | 1,6 |
-| **Dados de treino** | 27.250 seções dos mesmos repositórios, rotuladas por títulos sem ambiguidade (o título depois fica escondido do modelo); 7.813 delas são "outro" |
-| **Treino** | 3 épocas de SGD, taxa de aprendizado de 0,3 caindo até 0, peso por classe 0,5, semente 1; temperatura ajustada nos repositórios de dev |
+| **Dados de treinamento** | 27.250 seções dos mesmos repositórios, rotuladas por títulos sem ambiguidade (o título depois fica escondido do modelo); 7.813 delas são "outro" |
+| **Treinamento** | 3 épocas de SGD, taxa de aprendizado de 0,3 caindo até 0, peso por classe 0,5, semente 1; temperatura ajustada nos repositórios de dev |
 | **Resultados de teste** (134 repositórios que ele nunca viu) | Com o filtro 0,8 / 0,2, ele dá tipo a 13,5% das seções rotuladas e concorda com o título delas 88,9% das vezes (84,5% sem os changelogs); a partir de 0,6, 25,1% e 85,6%. Tipos novos: segurança, 34 de 38 exibidas concordam; desempenho, 45 de 60; deploy, 2 de 2. Os rótulos vêm dos títulos, então isso é concordância, não acurácia conferida à mão. |
 | **Velocidade** | Cerca de 0,1 ms por seção |
 | **Serve para** | Dar tipo a seções de READMEs e de documentação técnica cujo título não diz o que elas são; ignore o "outro" |
@@ -498,7 +498,7 @@ Cada versão de modelo e cada experimento, com os números em que foram medidos.
 
 ### 8.1 Modelo de linguagens de código
 
-| Versão | Data | Dados de treino | O que mudou | Primeiro conjunto de teste (314 blocos) | Conjunto de teste novo (284 blocos) | Terceiro conjunto de teste (842 blocos) | Situação |
+| Versão | Data | Dados de treinamento | O que mudou | Primeiro conjunto de teste (314 blocos) | Conjunto de teste novo (284 blocos) | Terceiro conjunto de teste (842 blocos) | Situação |
 |---|---|---|---|---|---|---|---|
 | Só regras (as de hoje) | — | — | regras, sem modelo | 57,3% · 76 exibidas · 97,4% certas | 58,5% · 70 exibidas · 92,9% certas | 53,9% · 239 · 92,1% | referência |
 | **v1** | 2026-10-23 | ~55.000 blocos, 264 repositórios | primeiro modelo: 8 números por pista, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no dev | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | — | substituído pela v2 |
@@ -512,26 +512,26 @@ A linha das regras mostra as regras de hoje. No dia em que a v1 entrou, as regra
 97,3% certas (73 certas) no primeiro conjunto.
 
 **O experimento v3 (2026-10-30, não usado).** O alvo eram as linguagens quase gêmeas, em que a média abafa
-algumas pistas decisivas: TypeScript / JavaScript, C++ / C, C# / Java, JSON com comentários. A régua foi escrita
+algumas pistas decisivas: TypeScript / JavaScript, C++ / C, C# / Java, JSON com comentários. O critério de aprovação foi escrito
 antes de rodar o terceiro conjunto de teste (uma vez). Nessas seis linguagens juntas: mais sugestões certas *e*
 precisão pelo menos igual à da v2. No geral: precisão pelo menos igual à da v2. As duas coisas valiam para o
 modelo sozinho e para a combinação do app com as regras. A média + máximo cumpriu a parte geral (mais sugestões
 certas, mais precisão). Ela foi claramente melhor em C# / Java (44 certas · 3 erradas, contra 28 · 1), em JSON
 com comentários (26 · 0 contra 8 · 0) e em código C++ com sintaxe exclusiva de C++ (81% contra 67% de acurácia).
 Mas, nas seis linguagens juntas, foi menos precisa, e em TypeScript / JavaScript foi pior (22 certas · 5 erradas,
-contra 33 · 4). Então ela não passou na régua.
+contra 33 · 4). Então ela não atendeu ao critério de aprovação.
 
-O motivo está nos rótulos, não no modelo: só **42% do código marcado como `ts` no treino tem alguma sintaxe
+O motivo está nos rótulos, não no modelo: só **42% do código marcado como `ts` no treinamento tem alguma sintaxe
 exclusiva de TypeScript** (anotações de tipo, `interface`, genéricos, `as`…). O resto é código sem tipos que
 também é JavaScript válido, e a marcação dele diz de que projeto ele veio. Nenhum jeito de combinar pistas
 consegue separar esses casos. As escolhas foram feitas no dev e em previsões fora do repositório, de cinco grupos
-de repositórios dos dados de treino (64.288 blocos), com a média pura ajustada do mesmo jeito, como controle com
-os mesmos dados. O máximo também precisou de duas mudanças no treino para funcionar: sem elas, os números dele
+de repositórios dos dados de treinamento (64.288 blocos), com a média pura ajustada do mesmo jeito, como controle com
+os mesmos dados. O máximo também precisou de duas mudanças no treinamento para funcionar: sem elas, os números dele
 cresciam sem limite. Detalhes: `training/README.md`.
 
 ### 8.2 Modelo de seções
 
-| Versão | Data | Dados de treino | O que mudou | Teste | Situação |
+| Versão | Data | Dados de treinamento | O que mudou | Teste | Situação |
 |---|---|---|---|---|---|
 | Rascunho sem "outro" | 2026-10-24 | ~17.000 seções rotuladas | só 10 tipos | dev: 87% de acerto quando exibe nas seções rotuladas, mas cerca de 2 em 3 em seções com títulos que não dizem nada | não entrou no app |
 | **v1** | 2026-10-24 | 26.105 seções (7.832 "outro") | acrescenta o "outro"; 8 números por pista, 32.768 slots, 3 épocas, temperatura 1,6 | a partir de 0,8: 15,1% com tipo, 91,5% concordam com o título · a partir de 0,6: 27,4%, 87,1% (133 repositórios) | substituído pela v2 |
@@ -546,12 +546,12 @@ hashtags, um fim de frase, dois-pontos…). Ele também lê a categoria das duas
 de lista, o mesmo erro, título, código, texto corrido…). Mesmo tamanho e mesmas configurações do modelo de seções
 (8 números por pista, 32.768 slots, 3 épocas, taxa de aprendizado 0,3; peso por classe completo), temperatura 1,55.
 
-| Versão | Data | Dados de treino | Dev (212 linhas) | Teste novo (227 linhas) | Situação |
+| Versão | Data | Dados de treinamento | Dev (212 linhas) | Teste novo (227 linhas) | Situação |
 |---|---|---|---|---|---|
 | Regras | 2026-10-28 | — | 115 exibidas · 97,4% certas | 140 exibidas · 88,6% certas · 124 de 132 linhas verdadeiras | **em uso** |
 | **v1** | 2026-10-28 | 66.076 linhas dos 381 repositórios: itens e títulos reais transformados em erros (sim), coisas reais parecidas vindas de texto e de blocos de código, mais algumas linhas sintéticas de hashtags e assinaturas (não) | modelo 64 · 93,8% · regras + modelo ≥ 95%: 116 · 97,4% | modelo 76 · 90,8% · 69 linhas verdadeiras; regras + modelo ≥ 95%: 141 · 88,7% · 125 | não usado |
 
-A combinação foi escolhida no dev antes da rodada de teste e passou na régua (a precisão das regras, pelo menos as
+A combinação foi escolhida no dev antes da rodada de teste e atendeu ao critério de aprovação (a precisão das regras, pelo menos as
 mesmas linhas verdadeiras) por uma linha: pouco demais para um download de 385 KB. As regras e o modelo erram
 linhas diferentes, então a próxima tentativa é uma versão em que os dois precisam concordar, num conjunto de teste
 novo. Linhas em negrito não dá para aprender desse jeito: os exemplos "não" são linhas em negrito reais, e muitas
@@ -565,7 +565,7 @@ são consistentes), colunas alinhadas, marcadores, linhas curtas, texto quebrado
 código. Ele também lê o primeiro token e o último caractere de cada linha. Mesmo tamanho dos outros modelos; 5 épocas
 (escolhidas no dev), taxa de aprendizado 0,3, peso por classe 0,5, temperatura 1,05.
 
-| Versão | Data | Dados de treino | Dev (27 colagens) | Teste novo (53 colagens) | Situação |
+| Versão | Data | Dados de treinamento | Dev (27 colagens) | Teste novo (53 colagens) | Situação |
 |---|---|---|---|---|---|
 | Regras | — | — | 19 exibidas · 100% certas | 41 exibidas · 97,6% certas | **em uso** |
 | **v1** | 2026-10-28 | 16.977 colagens a partir dos blocos de código reais dos repositórios, JSON, tabelas Markdown (como CSV, texto de planilha e de terminal), listas e parágrafos | 17 exibidas · 94,1% | 44 exibidas · 90,9% | não usado |
@@ -578,7 +578,7 @@ código. Ele também lê o primeiro token e o último caractere de cada linha. M
 | Dev | documentos reais, usados para fazer escolhas | código 280 · colagem 27 · formatação 212 (36, mais 176 linhas de issues e wikis em 2026-10-28) · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de teste |
 | Primeiro conjunto de teste (2026-10-23) | documentos reais, nunca usados para ajuste | código 314 · colagem 31 · formatação 30 | roda uma vez por versão; o juiz da v1 |
 | Conjunto de teste novo (2026-10-24) | código de 72 repositórios que não foram usados em nenhum outro lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |
-| Terceiro conjunto de teste (2026-10-30) | código de 158 repositórios que não foram usados em nenhum outro lugar, montado antes de qualquer treino da v3 | código 842: ≤ 30 por linguagem, até 60 para TypeScript, JavaScript, C, C++, C# e Java, mais 40 blocos de JSON com comentários | montado uma vez para a v3, depois congelado; rodado uma vez em 2026-10-30 (experimento v3, v2, regras) |
+| Terceiro conjunto de teste (2026-10-30) | código de 158 repositórios que não foram usados em nenhum outro lugar, montado antes de qualquer treinamento da v3 | código 842: ≤ 30 por linguagem, até 60 para TypeScript, JavaScript, C, C++, C# e Java, mais 40 blocos de JSON com comentários | montado uma vez para a v3, depois congelado; rodado uma vez em 2026-10-30 (experimento v3, v2, regras) |
 | Teste de seções (2026-10-24) | seções dos repositórios de teste do modelo de código, mais os novos | 133 repositórios (134 a partir da v2: os tipos novos rotulam seções em mais um) | roda uma vez por modelo de seções |
 | Teste de formatação (2026-10-28) | linhas mal formatadas de issues, pull requests e comentários do GitHub de 43 repositórios que não foram usados em nenhum outro lugar, rotuladas à mão | 227 linhas | montado uma vez para o modelo de formatação, depois congelado |
 | Teste de colagem (2026-10-28) | colagens reais de 19 fontes de fora do corpus: arquivos de dados, cópias de planilha, saída de comandos, arquivos de código, configurações, READMEs | 53 colagens | montado uma vez para o modelo de colagem, depois congelado |
@@ -591,29 +591,29 @@ código. Ele também lê o primeiro token e o último caractere de cada linha. M
 | **Calibração** | Ajustar a confiança para que "80% de certeza" signifique acertar cerca de 80% das vezes. |
 | **Classificador** | Um modelo que escolhe uma resposta de uma lista fixa. |
 | **Colisão** | Duas pistas diferentes que caem no mesmo slot de hash. |
-| **Conjunto de dev** | Exemplos usados para fazer as escolhas durante a construção; nunca usados no treino. |
+| **Conjunto de dev** | Exemplos usados para fazer as escolhas durante a construção; nunca usados no treinamento. |
 | **Conjunto de teste** (held-out) | Exemplos separados antes e rodados uma vez, para os números publicados. |
 | **Embedding** | A lista de números aprendidos (aqui, 8) que representa uma pista. |
-| **Época** (epoch) | Uma passada por todos os exemplos de treino. |
+| **Época** (epoch) | Uma passada por todos os exemplos de treinamento. |
 | **Gradiente** | O lado para onde cada número deve se mexer para reduzir a perda. |
 | **Logit** | A pontuação bruta de uma resposta, antes da softmax. |
-| **Overfitting** | Decorar os exemplos de treino em vez de aprender padrões que valem para casos novos. |
+| **Overfitting** | Decorar os exemplos de treinamento em vez de aprender padrões que valem para casos novos. |
 | **Parâmetro** | Um dos números aprendidos (este modelo tem 262.333). |
 | **Perda** (loss) | O quanto um palpite errou: −log(probabilidade da resposta certa). |
 | **Pista** (feature) | Algo extraído da entrada (`T:def`, `E:;`). |
 | **Precisão** | Das respostas exibidas, a parte que está certa. |
 | **Quantização** | Guardar números com menos bits (aqui, 8 em vez de 32). |
-| **Rótulo** (label) | A resposta certa conhecida de um exemplo de treino. |
+| **Rótulo** (label) | A resposta certa conhecida de um exemplo de treinamento. |
 | **Rótulo fraco** (weak label) | Um rótulo gerado por uma regra (aqui, o título), e não conferido à mão. |
 | **SGD** | Gradiente descendente estocástico: aprender com um exemplo por vez, mexendo os números na direção do gradiente. |
 | **Softmax** | Transforma pontuações em probabilidades que somam 100%. |
-| **Taxa de aprendizado** (learning rate) | O tamanho de cada passo do treino. |
+| **Taxa de aprendizado** (learning rate) | O tamanho de cada passo do treinamento. |
 | **Temperatura** | Um divisor aplicado às pontuações antes da softmax; quanto maior, menos confiante. |
 | **Truque do hash** | Mapear pistas para um número fixo de slots com uma função de hash, em vez de um dicionário. |
-| **Validação cruzada** | Dividir os dados de treino em grupos e prever cada grupo com um modelo treinado nos outros. |
+| **Validação cruzada** | Dividir os dados de treinamento em grupos e prever cada grupo com um modelo treinado nos outros. |
 | **Viés** (bias) | Um número por resposta somado à pontuação dela, seja qual for a entrada. |
 
 ---
 
-O código de treino, as fontes de dados e todos os resultados estão no repositório, no
+O código de treinamento, as fontes de dados e todos os resultados estão no repositório, no
 [GitHub](https://github.com/PabloFLPs/Marksage): a pasta `training` tem o seu próprio README.

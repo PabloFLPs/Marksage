@@ -1416,3 +1416,7 @@ sample explained, three small UI items and two ROADMAP entries.
   right after "Claude" (it read as Claude's): "Feito por {author}. A IA (Claude) ajudou na implementação e na
   revisão; a arquitetura, os critérios de aprovação e cada decisão sobre o que entra ou não no app ficaram com o
   autor. Código-fonte, código de treinamento e arquivos dos modelos: …".
+- **"treinamento" and "critério de aprovação" across the PT-BR docs** (Pablo: "treino" reads like the gym, "régua"
+  doesn't read well) — "treino" → "treinamento" everywhere in SMART-ASSIST and MODELS PT-BR (the Mermaid source and
+  the training diagram too: "Loop de treinamento"), "régua" → "critério de aprovação" ("atendeu ao critério de
+  aprovação"). AGENTS' glossary says so, and so does the PT-BR playbook in Pablo's vault.
