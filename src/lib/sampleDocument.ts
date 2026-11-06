@@ -8,6 +8,8 @@
  * Rules + AI), and a vague link + untagged code for the Document tab's "worth a look". The checklist on top is the
  * tour. Keep EN and PT-BR in step (same lines): `npm run check:docs` lists every slip, line by line, with the
  * feature it shows, and fails if one stops working or anything else appears — also after accepting everything.
+ * In Portuguese, a list slip can't start with an article (`-a volta…`, `-o …`): it reads as a command-line flag,
+ * and the structure rule rightly skips it. The readability dots must match too (a section under 30 words gets none).
  */
 export const SAMPLE_DOCUMENT = `# Pitwall
 
@@ -101,19 +103,19 @@ MIT: use it, change it, share it.
 
 export const SAMPLE_DOCUMENT_PT_BR = `# Pitwall
 
-> **Tour do Smart Assist.** Este README tem alguns deslizes deixados de propósito. Mova o cursor pelo texto: as sugestões aparecem na parte de baixo do editor. **Tab** aceita, **Esc** ignora, **Ctrl/⌘ Z** desfaz. Nada muda sem você aceitar.
+> **Tour do Smart Assist.** Este README tem alguns erros deixados de propósito. Mova o cursor pelo texto: as sugestões aparecem na parte de baixo do editor. **Tab** aceita, **Esc** ignora e **Ctrl/⌘ Z** desfaz. Nada muda sem você aceitar.
 >
 > - [ ] Dê uma linguagem aos blocos de código (Instalação, Uso, Configuração)
-> - [ ] Corrija os deslizes de formatação (Uso, Configuração, Perguntas frequentes, a última linha)
-> - [ ] Cole de volta os tempos de volta em Exemplos e aceite a tabela
-> - [ ] Abra a **Estrutura**: o que é cada seção, depois as abas **Documento** e **Sugestões**
-> - [ ] Mude o menu **Assist** para **Regras + IA**: os modelos pequenos do próprio Marksage entram em ação (✦)
+> - [ ] Corrija os erros de formatação (Uso, Configuração, Perguntas frequentes, a última linha)
+> - [ ] Em Exemplos, copie os tempos, cole de novo e aceite a tabela
+> - [ ] Abra a **Estrutura**: o que é cada seção; depois, as abas **Documento** e **Sugestões**
+> - [ ] Mude o menu **Assist** para **Regras + IA**: os pequenos modelos de IA do próprio Marksage entram em ação (✦)
 
-O Pitwall transforma planilhas de tempos de volta em resumos de corrida: voltas mais rápidas, stints e a diferença para o líder. Uma pequena ferramenta de linha de comando, sem conta e sem servidor.
+O Pitwall transforma planilhas de tempos de volta em resumos de corrida: voltas mais rápidas, stints e a diferença para o líder. É uma pequena ferramenta de linha de comando, sem conta e sem servidor.
 
 ## Instalação
 
-Você precisa do Node.js 20 ou mais novo. Instale e resuma uma pasta inteira de corridas:
+Você precisa do Node.js 20 ou mais recente. Instale e resuma uma pasta inteira de corridas:
 
 \`\`\`
 npm install --global pitwall
@@ -134,18 +136,18 @@ console.log(race.fastestLap)
 Você recebe:
 
 -volta mais rápida de cada piloto
--cada stint, de uma parada a outra
+-cada stint, de um pit stop a outro
 -diferença para o líder, volta a volta
 
 ## Configuração
 
 **Opções**
 
-- \`laps\`: total de voltas da corrida
+- \`laps\`: total de voltas
 - \`units\`: \`s\` ou \`ms\`
-• \`leader\`: de quem mostrar as diferenças (colado de um documento)
+• \`leader\`: de quem mostrar as diferenças (colado de outro documento)
 
-Guarde as opções ao lado do CSV, em \`pitwall.json\`:
+Salve-as junto do CSV, em \`pitwall.json\`:
 
 \`\`\`
 {
@@ -165,28 +167,28 @@ Bruno,12,1:21.877
 Carla,13,1:21.095
 
 
-## Mantendo seus dados privados
+## Privacidade dos seus dados
 
-O Pitwall lê arquivos só da pasta que você indicar e nunca os envia para lugar nenhum. Se encontrar uma vulnerabilidade ou falha de segurança, por favor reporte em particular, por e-mail, em vez de abrir uma issue pública.
+O Pitwall só lê arquivos da pasta que você indicar e nunca envia nada para lugar nenhum. Se encontrar uma vulnerabilidade, avise em particular, por e-mail, em vez de abrir uma issue pública.
 
 ## Como funciona
 
-Por baixo dos panos, cada linha de volta é lida, convertida para milissegundos e agrupada em stints pela detecção das voltas de pit lane cujos tempos de setor ultrapassam a mediana móvel do piloto por uma margem configurável, depois do que a diferença para o líder é recalculada de forma cumulativa em cada linha de cronometragem, e é por isso que uma única linha malformada no começo do arquivo pode deslocar silenciosamente todas as diferenças seguintes, a menos que você [clique aqui](#perguntas-frequentes) antes. As voltas sob safety car são mantidas, mas marcadas, porque tirá-las faria os stints restantes parecerem mais curtos do que de fato foram.
+Por baixo dos panos, cada linha de volta é lida, convertida para milissegundos e agrupada em stints, detectando as voltas de pit lane cujos tempos de setor passam da mediana móvel do piloto por uma margem configurável; depois, a diferença para o líder é recalculada de forma acumulada a cada linha de cronometragem, e é por isso que uma única linha com erro no começo do arquivo pode deslocar, sem aviso, todas as diferenças seguintes, a menos que você [clique aqui](#perguntas-frequentes) antes. As voltas com safety car na pista são mantidas, mas marcadas, porque tirá-las faria os stints restantes parecerem mais curtos do que realmente foram.
 
 ## Perguntas frequentes
 
 ### Por que falta uma volta?
 
-O Pitwall pula as linhas que não consegue ler e diz quantas no final. Na maioria das vezes é uma célula de tempo vazia ou um número de volta escrito como texto. Para achar e corrigir:
+O Pitwall pula as linhas que não consegue ler e, no final, diz quantas foram. Na maioria das vezes é uma célula de tempo vazia ou um número de volta escrito como texto. Para achar e corrigir essas linhas:
 
 1)Rode de novo com \`--verbose\` para listar cada linha pulada e o motivo.
 2)Corrija essas linhas na planilha e exporte o CSV de novo.
 
-Veja [o formato do CSV] (#exemplos) para as colunas que ele espera.
+Veja [o formato do CSV] (#exemplos) para saber quais colunas ele espera.
 
 ##Licença
 
-MIT: use, modifique, compartilhe.
+MIT: use, modifique e compartilhe.
 `
 
 export function getSampleDocument(lang: string): string {

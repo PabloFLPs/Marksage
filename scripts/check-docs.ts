@@ -167,6 +167,7 @@ const SAMPLES: [string, string, string][] = [
   ['en', SAMPLE_DOCUMENT, 'How it works'],
   ['pt-BR', SAMPLE_DOCUMENT_PT_BR, 'Como funciona'],
 ]
+const dotLevels: Record<string, string> = {}
 for (const [lang, text, hardest] of SAMPLES) {
   for (const [mode, engine, model] of MODES) {
     console.log(`\n## sample (${lang}) — ${mode}`)
@@ -179,6 +180,10 @@ for (const [lang, text, hardest] of SAMPLES) {
     if (r.stats.kind?.id !== 'readme') fail(`kind ${r.stats.kind?.id ?? '—'}, expected readme`)
     if (r.stats.hardestSection?.heading !== hardest) fail(`hardest section ${r.stats.hardestSection?.heading}, expected ${hardest}`)
     if (!r.dots.some((d) => d.startsWith(hardest) && d.endsWith('very hard'))) fail(`no "very hard" dot on ${hardest}`)
+    // The same sections get a readability dot, at the same level, in both languages.
+    const levels = r.dots.map((d) => d.slice(d.lastIndexOf(': ') + 2)).join(' · ')
+    if (lang === 'en') dotLevels[mode] = levels
+    else if (levels !== dotLevels[mode]) fail(`readability dots ${levels}, the English sample has ${dotLevels[mode]}`)
     if (r.stats.tone?.voice !== 'you') fail(`voice ${r.stats.tone?.voice}, expected you`)
     // The tour done: nothing new may appear, and only the slips without a fix remain.
     const after = await evaluate(acceptAll(text, r.all), getSampleFilename(), engine, model)

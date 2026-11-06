@@ -1288,3 +1288,11 @@ sample explained, three small UI items and two ROADMAP entries.
   dele"). "mecanismo" → "engine", "minúsculo" → "pequeno", "separados / de fora" → "conjunto de teste",
   "fallback" → "regra de reserva", sentences split. A number check (every number of the EN file, in PT format, in
   the PT file and nothing else) matches.
+- **PT-BR, the sample rewritten** (Pitwall) — line for line with the English one, so every slip sits on the same
+  line: "deslizes" → "erros", "Cole de volta os tempos de volta" → "Em Exemplos, copie os tempos, cole de novo",
+  "Mantendo seus dados privados" → "Privacidade dos seus dados", "linha malformada" → "linha com erro". It no
+  longer adds words the English lacks ("ou falha de segurança", added for the section model, which still reads
+  Portuguese poorly — ROADMAP §4). Two traps found by `check:docs`: a list slip that starts with an article
+  (`-a volta…`) reads as a command-line flag and gets no suggestion, so the items keep no article; and the PT
+  Configuration section had 31 words, enough for a readability dot the English one doesn't get (29) — now 29.
+  `check:docs` now also checks that both samples get the same readability dots, at the same levels.
