@@ -22,7 +22,6 @@ import {
   Save,
   Scale,
   History,
-  Sparkles,
   Table,
   UserRound,
 } from 'lucide-react'
@@ -140,8 +139,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
         <Section title="Smart Assist" badge={x('local · on by default', 'local · ligado por padrão')}>
           <p className="mb-4 text-sm leading-6 text-ink-muted dark:text-dark-ink-muted">
             {x(
-              <>It’s on from the start in <strong className={strong}>Rules</strong> mode; switch modes or turn it off from the <strong className={strong}>Assist</strong> menu in the editor header (the sparkle button on phones). It never changes your text on its own — it only suggests, and only when it’s confident. <Keys k={['tab']} /> accepts, <Keys k={['esc']} /> dismisses, <Keys k={['mod', 'z']} /> undoes. The icon on a suggestion says what kind of fix it is; a ✦ means the local AI model made the call; click the card to see where it applies.</>,
-              <>O Smart Assist já vem ligado, no modo <strong className={strong}>Regras</strong>, que usa só regras heurísticas. Para trocar de modo ou desligar, use o menu <strong className={strong}>Assist</strong> no cabeçalho do editor (o botão ✦ no celular). Ele nunca altera o texto sozinho: só sugere, e só quando tem confiança. <Keys k={['tab']} /> aceita, <Keys k={['esc']} /> ignora e <Keys k={['mod', 'z']} /> desfaz. O ícone de cada sugestão mostra o tipo de correção; o ✦ indica que quem decidiu foi o modelo de IA local. Clique no card para ver onde a sugestão se aplica.</>,
+              <>It’s on from the start in <strong className={strong}>Rules</strong> mode; switch modes or turn it off from the <strong className={strong}>Assist</strong> menu in the editor header (the sparkle button on phones). It never changes your text on its own — it only suggests, and only when it’s confident. <Keys k={['tab']} /> accepts, <Keys k={['esc']} /> dismisses, <Keys k={['mod', 'z']} /> undoes. The icon on a suggestion says what kind of fix it is; a ✦ means the local AI model made the call; click the card to see where it applies. Want to see it at work? <button type="button" onClick={onTrySmartAssist} className="font-medium text-accent hover:underline dark:text-dark-accent">Try it on a sample document</button></>,
+              <>O Smart Assist já vem ligado, no modo <strong className={strong}>Regras</strong>, que usa só regras heurísticas. Para trocar de modo ou desligar, use o menu <strong className={strong}>Assist</strong> no cabeçalho do editor (o botão ✦ no celular). Ele nunca altera o texto sozinho: só sugere, e só quando tem confiança. <Keys k={['tab']} /> aceita, <Keys k={['esc']} /> ignora e <Keys k={['mod', 'z']} /> desfaz. O ícone de cada sugestão mostra o tipo de correção; o ✦ indica que quem decidiu foi o modelo de IA local. Clique no card para ver onde a sugestão se aplica. Quer ver funcionando? <button type="button" onClick={onTrySmartAssist} className="font-medium text-accent hover:underline dark:text-dark-accent">Testar com um documento de exemplo</button></>,
             )}
           </p>
           <Feature icon={<Code2 />} title={x('Code block languages', 'Linguagem dos blocos de código')}>
@@ -181,28 +180,14 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
             )}
           </p>
           <ModeTable x={x} />
-          {/* One column: in Portuguese the three didn't fit on one line and wrapped two + one (Pablo). */}
-          <div className="mt-5 flex flex-col items-start gap-1">
-            <button
-              type="button"
-              onClick={onTrySmartAssist}
-              className="press group inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-strong dark:bg-dark-accent dark:text-dark-surface dark:hover:bg-dark-accent-strong"
-            >
-              <Sparkles className="hover-sparkle h-4 w-4" /> {x('Try it on a sample document', 'Testar com um documento de exemplo')}
-            </button>
-            <button
-              type="button"
-              onClick={onOpenDocs}
-              className="group inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-accent hover:bg-accent/5 dark:text-dark-accent dark:hover:bg-dark-accent/10"
-            >
-              <BookOpen className="h-4 w-4" /> {x('How it works', 'Como funciona')}
+          {/* The two docs pages, as text links like the ones at the top. The sample is a link in the intro above
+              (and in Reading & writing): the start screen's button is the one call to action (Pablo). */}
+          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+            <button type="button" onClick={onOpenDocs} className="tap group inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline dark:text-dark-accent">
+              <BookOpen className="h-4 w-4" /> {x('How Smart Assist works', 'Como o Smart Assist funciona')}
               <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
             </button>
-            <button
-              type="button"
-              onClick={onOpenModelsDocs}
-              className="group inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-accent hover:bg-accent/5 dark:text-dark-accent dark:hover:bg-dark-accent/10"
-            >
+            <button type="button" onClick={onOpenModelsDocs} className="tap group inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline dark:text-dark-accent">
               <Brain className="h-4 w-4" /> {x('How the models work', 'Como os modelos funcionam')}
               <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
             </button>

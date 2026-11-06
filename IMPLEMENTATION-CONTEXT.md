@@ -1374,3 +1374,10 @@ sample explained, three small UI items and two ROADMAP entries.
   local", "a broken heading hierarchy" / "hierarquia de títulos quebrada", "card", and the PT Rules mode answers
   "com regras heurísticas"; the story's AGPL entry says what the license asks (the complete source of a changed
   version made available to others, even as a website), EN + PT. `check:docs` still clean.
+- **About: two doc links, the sample as a link** (Pablo, after the one-column try) — the big "Try it on a sample
+  document" button left About: the start screen's is the one call to action, and visitors from a shared link land
+  there first. The sample is now a link at the end of the Smart Assist intro ("Want to see it at work?" / "Quer ver
+  funcionando?") and stays in Reading & writing ("New here?"). The two docs pages are text links on one row,
+  styled like the story / GitHub links at the top (no button padding, so they line up with the text; they wrap
+  one per line on a phone): "How Smart Assist works" / "Como o Smart Assist funciona" — the page's own title and
+  the ⌘K command's name — and "How the models work" / "Como os modelos funcionam". E2E.

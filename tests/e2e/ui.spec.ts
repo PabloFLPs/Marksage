@@ -55,7 +55,7 @@ test('a first visit is light whatever the system says; a chosen dark theme is da
 
 test('docs pages: Back names its target and matches the browser; a direct link goes to the parent', async ({ page }) => {
   await page.goto('/#about')
-  await page.getByRole('button', { name: /How it works/ }).click()
+  await page.getByRole('button', { name: /How Smart Assist works/ }).click()
   await expect(page).toHaveURL(/#smart-assist$/)
   await page.getByRole('button', { name: 'About' }).first().click()
   await expect(page).toHaveURL(/#about$/)
@@ -91,5 +91,13 @@ test('About: "Try it on a sample document" in Reading & writing opens the sample
   await page.goto('/#about')
   const feature = page.locator('section', { hasText: 'Open anything Markdown' })
   await feature.getByRole('button', { name: 'Try it on a sample document' }).click()
+  await expect(page.locator('header')).toContainText('pitwall-README.md')
+})
+
+test('About: the Smart Assist intro links to the sample; no big button competes with the start screen', async ({ page }) => {
+  await page.goto('/#about')
+  const smartAssist = page.locator('section', { hasText: 'local · on by default' })
+  await expect(smartAssist.getByRole('button', { name: 'Try it on a sample document' })).toHaveCount(1)
+  await smartAssist.getByRole('button', { name: 'Try it on a sample document' }).click()
   await expect(page.locator('header')).toContainText('pitwall-README.md')
 })
