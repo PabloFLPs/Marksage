@@ -122,7 +122,7 @@ T:def → [−2,21; −2,61; 0,92; 1,87; −3,01; 3,90; −1,66; 0,52]
 
 Os números, um a um, não querem dizer nada: ninguém os escolheu. Eles começaram aleatórios, e o treino foi
 mexendo neles até que pistas que apontam para a mesma resposta terminassem com listas parecidas. Dá para imaginar
-cada lista como um ponto num espaço de 8 dimensões: pistas com cara de Python acabam numa região, pistas com cara
+cada lista como um ponto num espaço de 8 dimensões: pistas típicas de Python acabam numa região, pistas típicas
 de SQL em outra.
 
 ### 2.4 Tira-se a média das pistas
@@ -223,7 +223,7 @@ títulos: **Explicação** ("Como funciona", "Arquitetura"), que o modelo não c
 flowchart TB
   A["1 · Repositórios públicos<br/>309 repositórios: docs, READMEs, guias"] --> B["2 · Exemplos rotulados<br/>código: as tags dos autores · seções: títulos"]
   B --> C["3 · Divisão por repositório<br/>treino · dev (escolhas) · teste (uma vez)"]
-  C --> D["4 · Loop de treino<br/>chuta → mede o erro → ajusta os números"]
+  C --> D["4 · Loop de treino<br/>palpite → mede o erro → ajusta os números"]
   D -- "× várias passadas" --> D
   D --> E["5 · Calibra<br/>temperatura em repositórios nunca vistos"]
   E --> F["6 · Encolhe<br/>8 bits + uma escala por linha → 385 KB"]
@@ -268,7 +268,7 @@ acerto subiu para cerca de 9 em 10.
 
 O treino começa com todos os números aleatórios e depois repete um passo pequeno para cada exemplo:
 
-1. **Chuta.** Passa o exemplo pelos passos 2.1–2.6.
+1. **Dá um palpite.** Passa o exemplo pelos passos 2.1–2.6.
 2. **Mede o erro.** A **perda** (loss) é −log(probabilidade dada à resposta certa). Deu 90% para a resposta certa?
    Perda 0,11. Deu 30%? Perda 1,20. Deu 1%? Perda 4,6. Os erros confiantes são os que mais custam.
 3. **Ajusta os números.** Calcula para que lado cada número deve se mexer para a perda ficar um pouco menor (o
@@ -404,7 +404,7 @@ multiplicações.
   `text`. O modelo aprende esses hábitos, e alguns dos "erros" dele são, na verdade, discordâncias com um rótulo.
 - **A ordem quase não conta.** Tirar a média das pistas perde quase toda a ordem; um modelo que lê sequências
   pegaria mais coisa, com um tamanho muitas vezes maior.
-- **Padrões, não significado.** Com 8 números por pista, ele reconhece a cara de uma linguagem ou de uma seção.
+- **Padrões, não significado.** Com 8 números por pista, ele reconhece a aparência de uma linguagem ou de uma seção.
   Ele não sabe o que o código faz nem o que a seção diz. E também não consegue explicar a resposta.
 - **Alguns tipos são fracos.** Seções de "guia" se parecem muito com instalação ou exemplos; o modelo de seções
   raramente dá esse tipo com confiança. Dos tipos que entraram na v2, "desempenho" é o menos confiável (75% de
@@ -571,7 +571,7 @@ código. Ele também lê o primeiro token e o último caractere de cada linha. M
 
 | Conjunto | O que é | Tamanho | Regra |
 |---|---|---|---|
-| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · formatação 41 · títulos 65 · documentos 6 | pega regressões; notas perto de 100% por construção |
+| Escrito | exemplos escritos junto com as regras | código 42 · colagem 15 · formatação 41 · títulos 65 · documentos 6 | detecta regressões; notas perto de 100% por construção |
 | Dev | documentos reais, usados para fazer escolhas | código 280 · colagem 27 · formatação 212 (36, mais 176 linhas de issues e wikis em 2026-10-28) · seções de 27 repositórios | ajuste aqui, nunca nos conjuntos de teste |
 | Primeiro conjunto de teste (2026-10-23) | documentos reais, nunca usados para ajuste | código 314 · colagem 31 · formatação 30 | roda uma vez por versão; o juiz da v1 |
 | Conjunto de teste novo (2026-10-24) | código de 72 repositórios que não foram usados em nenhum outro lugar | código 284 (67 repositórios) | montado uma vez para a v2, depois congelado |

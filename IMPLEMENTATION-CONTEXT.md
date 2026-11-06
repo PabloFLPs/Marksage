@@ -1381,3 +1381,8 @@ sample explained, three small UI items and two ROADMAP entries.
   styled like the story / GitHub links at the top (no button padding, so they line up with the text; they wrap
   one per line on a phone): "How Smart Assist works" / "Como o Smart Assist funciona" — the page's own title and
   the ⌘K command's name — and "How the models work" / "Como os modelos funcionam". E2E.
+- **The review's patterns on the other PT-BR pages** (Pablo: carry the About points to the pages not reviewed
+  yet) — beyond the term-level carry-over before: "pega regressões" → "detecta regressões", "Chuta" (the training
+  loop's first step, and the diagram) → "Dá um palpite" / "palpite", "servem para várias linguagens" → "são válidas
+  em", "encaixou melhor" → "foi a melhor escolha", "cara de código / de Python" → "aparência de código", "típicas
+  de Python". A pattern pass, not a new line-by-line read: Pablo's own review of those pages is still to come.

@@ -48,7 +48,7 @@
 <rect class="msd-box msd-accent" x="20" y="258" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="280">4</text>
 <text class="msd-t" x="52" y="280">Loop de treino</text>
-<text class="msd-mono" x="52" y="300">chuta → mede o erro → ajusta os números</text>
+<text class="msd-mono" x="52" y="300">palpite → mede o erro → ajusta os números</text>
 <path class="msd-line" d="M200.0,314 L200.0,335" marker-end="url(#msd-arrow-models-training)"/>
 <rect class="msd-box " x="20" y="336" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="358">5</text>

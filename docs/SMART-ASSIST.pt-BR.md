@@ -242,7 +242,7 @@ casa soma o peso dela uma vez.
 - *Ajustes estruturais:* conteúdo que é JSON válido → json +6, inclusive o dialeto mais solto, "JSON com
   comentários e vírgulas sobrando", usado em arquivos de configuração (+5). TS contra JS é decidido por pistas que
   só existem em TS (anotações de tipo, `interface`, `import type`, `as const`), porque TS é um superconjunto de JS.
-- `plaintext` é pontuado por uma taxa de **cara de código** (densidade de símbolos em relação a palavras, menos a
+- `plaintext` é pontuado por uma taxa de **aparência de código** (densidade de símbolos em relação a palavras, menos a
   pontuação de frases), para que texto corrido em qualquer idioma (inclusive em português) fique sem linguagem.
 
 As pontuações passam por `softmax` → probabilidades → filtro. **Ação:** inserir o id da linguagem logo depois
@@ -315,7 +315,7 @@ deveria ser um título de seção."*. A probabilidade parte de um valor inicial 
   (`-rw-r--r-- 1 …`) não são itens de lista; `*palavra*` é ênfase.
 - **Correções de lista** precisam de companhia: itens de lista por perto aumentam a confiança. Uma `*linha`
   sozinha costuma ser nota de rodapé, não item de lista, então fica quieta. Uma `-linha` sozinha só é sugerida
-  quando parece texto comum (três palavras ou mais, nada com cara de código, como `/`, `:` ou `=`): "-isto
+  quando parece texto comum (três palavras ou mais, nada com aparência de código, como `/`, `:` ou `=`): "-isto
   deveria ser um item de lista", sim; "-verbose" ou "-su cd: /opt/app: Permission denied", não.
 - **Marcadores tipográficos** também precisam de companhia: um `• linha` sozinho fica quieto, uma linha com
   vários marcadores é uma barra separadora (`• English • Русский • Français`) e um `— Nome` sozinho assina uma
@@ -494,7 +494,7 @@ Ou seja: cerca do dobro de sugestões úteis das regras (1,7–2,2× nos três c
 todos os números. A precisão fica a cerca de um ponto da das regras: um pouco abaixo nos dois primeiros
 conjuntos, um pouco acima no terceiro. É um modo opcional porque baixa um arquivo e o guarda no navegador. Cerca
 de metade dos erros vem, na verdade, de rótulos estranhos (`dotnet build -c Release` marcado como C#); o resto são
-linhas únicas que servem para várias linguagens (`void main() { … }` é Java válido *e* C++ válido).
+linhas únicas que são válidas em várias linguagens (`void main() { … }` é Java válido *e* C++ válido).
 
 ### 4.4 O modelo de seções
 
@@ -544,7 +544,7 @@ novos. Todas as versões estão em [Como os dois modelos funcionam](MODELS.pt-BR
 O **Laya**, da Convai Innovations, é um modelo de decisão open weight (322–421 M de parâmetros) que responde
 nativamente perguntas `choice` / `score` / `noul`, como o **Jev**, da TypeSafe AI, que é hospedado. O Laya era o
 plano original para este modo, escolhido no lugar do Jev porque pode rodar na sua máquina. Para a linguagem dos
-blocos de código, um modelo treinado para a tarefa encaixou melhor: mais de mil vezes menor (cerca de 262 mil
+blocos de código, um modelo treinado para a tarefa foi a melhor escolha: mais de mil vezes menor (cerca de 262 mil
 parâmetros), instantâneo e fácil de medir em dados reais. A ficha técnica dele está em
 [Como os modelos funcionam](MODELS.pt-BR.md), seção 7. O modelo de seções seguiu o mesmo caminho. O Laya continua sendo o candidato para
 perguntas futuras sem dados de treino assim. Ele ainda não foi testado no navegador: o tamanho do download, a
@@ -615,7 +615,7 @@ em português e texto misturando idiomas. Para cada recurso, acompanhamos:
 - **Calibração**: se "90% de confiança" quer dizer mesmo ~90% de acerto;
 - **Latência** por decisão.
 
-Há dois tipos de exemplo. O conjunto **escrito** foi feito junto com as regras: ele pega regressões, mas tem
+Há dois tipos de exemplo. O conjunto **escrito** foi feito junto com as regras: ele detecta regressões, mas tem
 notas perto de 100% por construção. O conjunto **do mundo real** vem de documentação real, wikis do GitHub,
 traduções da comunidade, arquivos de dados e saída de terminal (inclusive em português), e as regras nunca são
 ajustadas contra ele. Por isso, ele dá o número honesto:

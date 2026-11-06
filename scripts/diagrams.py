@@ -188,7 +188,7 @@ CHAINS = {
     steps=[('Repositórios públicos', '309 repositórios: docs, READMEs, guias'),
            ('Exemplos rotulados', 'código: as tags dos autores · seções: títulos'),
            ('Divisão por repositório', 'treino · dev (escolhas) · teste (uma vez)'),
-           ('Loop de treino', 'chuta → mede o erro → ajusta os números'),
+           ('Loop de treino', 'palpite → mede o erro → ajusta os números'),
            ('Calibra', 'temperatura em repositórios nunca vistos'),
            ('Encolhe', '8 bits + uma escala por linha → 385 KB'),
            ('Mede uma vez', 'repositórios de teste → os números publicados')],
