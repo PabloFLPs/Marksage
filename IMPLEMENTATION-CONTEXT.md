@@ -1296,3 +1296,8 @@ sample explained, three small UI items and two ROADMAP entries.
   (`-a volta…`) reads as a command-line flag and gets no suggestion, so the items keep no article; and the PT
   Configuration section had 31 words, enough for a readability dot the English one doesn't get (29) — now 29.
   `check:docs` now also checks that both samples get the same readability dots, at the same levels.
+- **PT-BR, the diagrams** (`scripts/diagrams.py`, regenerated): "Mecanismo de decisão" → "Engine de decisão",
+  "topo ≥ 0,8 e à frente por ≥ 0,2" → "a primeira ≥ 0,8 e ≥ 0,2 à frente", "modelos + heurísticas" → "modelos
+  próprios + regras", "com tipo" → "tipo identificado", "fatos · tom · alertas" → "resumo · tom · vale conferir"
+  (the Document tab's own words), "Laço de treino" → "Loop de treino", "ajuste" → "dev", "repositórios de fora" →
+  "repositórios de teste". Checked rendered: wide, narrow and the training chain; every label fits its box.

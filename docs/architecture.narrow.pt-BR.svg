@@ -32,19 +32,19 @@
 <defs><marker id="msd-arrow-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="msd-head" d="M0,0 L10,5 L0,10 z"/></marker></defs>
 <rect class="msd-lane" x="8" y="8" width="344" height="536" rx="14"/>
 <text class="msd-lane-t" x="24" y="30">SUGESTÕES</text>
-<rect class="msd-box " x="24" y="44" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="67.0" text-anchor="middle">Editor</text><text class="msd-s" x="180.0" y="84.0" text-anchor="middle">pausa de 400 ms · colagem · 2 s parado</text>
+<rect class="msd-box " x="24" y="44" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="67.0" text-anchor="middle">Editor</text><text class="msd-s" x="180.0" y="84.0" text-anchor="middle">pausa de 400 ms · colar · 2 s parado</text>
 <path class="msd-line" d="M180,98 L180,121" marker-end="url(#msd-arrow-n)"/>
-<rect class="msd-box " x="24" y="122" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="145.0" text-anchor="middle">Pré-filtro</text><text class="msd-s" x="180.0" y="162.0" text-anchor="middle">acha um candidato — sem ele, para aqui</text>
+<rect class="msd-box " x="24" y="122" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="145.0" text-anchor="middle">Pré-filtro</text><text class="msd-s" x="180.0" y="162.0" text-anchor="middle">acha um candidato — se não achar, para aqui</text>
 <rect class="msd-group" x="16" y="200" width="328" height="102" rx="12"/>
 <path class="msd-line" d="M180,176 L180,190"/>
 <path class="msd-line" d="M100,190 L260,190"/>
 <path class="msd-line" d="M100,190 L100,211" marker-end="url(#msd-arrow-n)"/>
 <path class="msd-line" d="M260,190 L260,211" marker-end="url(#msd-arrow-n)"/>
 <rect class="msd-box " x="24" y="212" width="152" height="60" rx="9"/><text class="msd-t" x="100.0" y="238.0" text-anchor="middle">Regras</text><text class="msd-s msd-small" x="100.0" y="255.0" text-anchor="middle">sempre prontas</text>
-<rect class="msd-box " x="184" y="212" width="152" height="60" rx="9"/><text class="msd-t" x="260.0" y="238.0" text-anchor="middle">Regras + IA</text><text class="msd-s msd-small" x="260.0" y="255.0" text-anchor="middle">modelos + heurísticas</text>
-<text class="msd-label" x="180" y="291" text-anchor="middle">Mecanismo de decisão · choice / score / noul</text>
+<rect class="msd-box " x="184" y="212" width="152" height="60" rx="9"/><text class="msd-t" x="260.0" y="238.0" text-anchor="middle">Regras + IA</text><text class="msd-s msd-small" x="260.0" y="255.0" text-anchor="middle">modelos próprios + regras</text>
+<text class="msd-label" x="180" y="291" text-anchor="middle">Engine de decisão · choice / score / noul</text>
 <path class="msd-line" d="M180,302 L180,323" marker-end="url(#msd-arrow-n)"/>
-<rect class="msd-box msd-accent" x="24" y="324" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="347.0" text-anchor="middle">Filtro de confiança</text><text class="msd-s" x="180.0" y="364.0" text-anchor="middle">topo ≥ 0,8 e à frente por ≥ 0,2</text>
+<rect class="msd-box msd-accent" x="24" y="324" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="347.0" text-anchor="middle">Filtro de confiança</text><text class="msd-s" x="180.0" y="364.0" text-anchor="middle">a primeira ≥ 0,8 e ≥ 0,2 à frente</text>
 <path class="msd-line" d="M180,378 L180,401" marker-end="url(#msd-arrow-n)"/>
 <rect class="msd-box " x="24" y="402" width="312" height="54" rx="9"/><text class="msd-t" x="180.0" y="425.0" text-anchor="middle">Recurso + conversor</text><text class="msd-s" x="180.0" y="442.0" text-anchor="middle">monta a edição: tabela, lista, bloco</text>
 <path class="msd-line" d="M180,456 L180,479" marker-end="url(#msd-arrow-n)"/>
@@ -54,20 +54,20 @@
 <text class="msd-lane-t" x="384" y="30">ESTRUTURA E DOCUMENTO</text>
 <rect class="msd-box " x="384" y="44" width="268" height="54" rx="9"/><text class="msd-t" x="518.0" y="67.0" text-anchor="middle">Documento</text><text class="msd-s" x="518.0" y="84.0" text-anchor="middle">o texto que você lê ou edita</text>
 <path class="msd-line" d="M518,98 L518,121" marker-end="url(#msd-arrow-n)"/>
-<rect class="msd-box " x="384" y="122" width="268" height="54" rx="9"/><text class="msd-t" x="518.0" y="145.0" text-anchor="middle">Seções</text><text class="msd-s" x="518.0" y="162.0" text-anchor="middle">divididas nos títulos, sem código</text>
+<rect class="msd-box " x="384" y="122" width="268" height="54" rx="9"/><text class="msd-t" x="518.0" y="145.0" text-anchor="middle">Seções</text><text class="msd-s" x="518.0" y="162.0" text-anchor="middle">divididas nos títulos, sem o código</text>
 <path class="msd-line" d="M518,176 L518,199" marker-end="url(#msd-arrow-n)"/>
 <rect class="msd-box " x="384" y="200" width="268" height="54" rx="9"/><text class="msd-t" x="518.0" y="223.0" text-anchor="middle">Regra dos títulos</text><text class="msd-s" x="518.0" y="240.0" text-anchor="middle">“Como instalar” → Instalação</text>
 <path class="msd-line" d="M518,254 L518,289" marker-end="url(#msd-arrow-n)"/>
 <text class="msd-label" x="526" y="276">o título não diz</text>
 <rect class="msd-box msd-dashed" x="384" y="290" width="268" height="60" rx="9"/><text class="msd-t" x="518.0" y="316.0" text-anchor="middle">Modelo de seções</text><text class="msd-s" x="518.0" y="333.0" text-anchor="middle">modo Regras + IA · lê o texto</text>
 <path class="msd-line" d="M652,227 L680,227 L680,386"/>
-<text class="msd-label" x="690" y="306" text-anchor="middle" transform="rotate(90 690 306)">com tipo</text>
+<text class="msd-label" x="690" y="306" text-anchor="middle" transform="rotate(90 690 306)">tipo identificado</text>
 <path class="msd-line" d="M518,350 L518,386"/>
 <path class="msd-line" d="M458,386 L680,386"/>
 <path class="msd-line" d="M458,386 L458,409" marker-end="url(#msd-arrow-n)"/>
 <path class="msd-line" d="M622,386 L622,409" marker-end="url(#msd-arrow-n)"/>
 <rect class="msd-box " x="384" y="410" width="148" height="60" rx="9"/><text class="msd-t" x="458.0" y="436.0" text-anchor="middle">Aba Estrutura</text><text class="msd-s msd-small" x="458.0" y="453.0" text-anchor="middle">tipo + frase-chave</text>
-<rect class="msd-box " x="548" y="410" width="148" height="60" rx="9"/><text class="msd-t" x="622.0" y="436.0" text-anchor="middle">Aba Documento</text><text class="msd-s msd-small" x="622.0" y="453.0" text-anchor="middle">fatos · tom · alertas</text>
+<rect class="msd-box " x="548" y="410" width="148" height="60" rx="9"/><text class="msd-t" x="622.0" y="436.0" text-anchor="middle">Aba Documento</text><text class="msd-s msd-small" x="622.0" y="453.0" text-anchor="middle">resumo · tom · vale conferir</text>
 <text class="msd-note" x="540" y="500" text-anchor="middle">Só visual — nunca edita</text>
 </g>
 </svg>

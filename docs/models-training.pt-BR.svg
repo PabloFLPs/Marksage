@@ -43,11 +43,11 @@
 <rect class="msd-box " x="20" y="180" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="202">3</text>
 <text class="msd-t" x="52" y="202">Divisão por repositório</text>
-<text class="msd-mono" x="52" y="222">treino · ajuste (escolhas) · teste (uma vez)</text>
+<text class="msd-mono" x="52" y="222">treino · dev (escolhas) · teste (uma vez)</text>
 <path class="msd-line" d="M200.0,236 L200.0,257" marker-end="url(#msd-arrow-models-training)"/>
 <rect class="msd-box msd-accent" x="20" y="258" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="280">4</text>
-<text class="msd-t" x="52" y="280">Laço de treino</text>
+<text class="msd-t" x="52" y="280">Loop de treino</text>
 <text class="msd-mono" x="52" y="300">chuta → mede o erro → ajusta os números</text>
 <path class="msd-line" d="M200.0,314 L200.0,335" marker-end="url(#msd-arrow-models-training)"/>
 <rect class="msd-box " x="20" y="336" width="360" height="56" rx="9"/>
@@ -63,7 +63,7 @@
 <rect class="msd-box " x="20" y="492" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="514">7</text>
 <text class="msd-t" x="52" y="514">Mede uma vez</text>
-<text class="msd-mono" x="52" y="534">repositórios de fora → os números publicados</text>
+<text class="msd-mono" x="52" y="534">repositórios de teste → os números publicados</text>
 <path class="msd-line" d="M380,300 L402,300 L402,272 L381,272" marker-end="url(#msd-arrow-models-training)"/>
 <text class="msd-label" x="414" y="286.0" text-anchor="middle" transform="rotate(90 414 286.0)">× várias passadas</text>
 </svg>
