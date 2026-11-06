@@ -293,7 +293,7 @@ export const en = {
   'doc.flags': 'Worth a look',
   'doc.flags.none': 'Nothing stands out.',
   'doc.flag.untaggedCode': 'Code blocks without a language',
-  'doc.flag.headingJump': 'Heading level jumps',
+  'doc.flag.headingJump': 'Broken heading hierarchy',
   'doc.flag.multipleH1': 'Extra top-level titles',
   'doc.flag.emptySection': 'Empty sections',
   'doc.flag.duplicateHeading': 'Repeated headings',

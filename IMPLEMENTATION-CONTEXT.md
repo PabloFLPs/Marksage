@@ -1366,3 +1366,7 @@ sample explained, three small UI items and two ROADMAP entries.
   section AI model ✦"; the code row starts "AI model ✦". PT: "regras (pelo título)", "modelo de IA de seções de
   texto ✦", "modelo de IA ✦". In its three places (About, SMART-ASSIST §1.3 EN + PT-BR, README), kept in step
   as AGENTS asks.
+- **PT-BR UI, the same review carried over**: "modelo de IA local" wherever the UI said "modelo local" (status,
+  the ✦ tooltips, the Outline's model badges, the Suggestions footer), "regras heurísticas" in the start-screen
+  pitch and the Rules + AI status, and the heading-jump flag is "Hierarquia de títulos quebrada" (EN "Broken
+  heading hierarchy", was "Heading level jumps").
