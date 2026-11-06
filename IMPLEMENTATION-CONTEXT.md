@@ -1322,3 +1322,9 @@ sample explained, three small UI items and two ROADMAP entries.
 - **E2E: the PT-BR sample offers what the English one does** — in the browser, the Suggestions tab lists the
   same 12 fixes on the same lines at the same confidences, and the Outline types the same sections, before and
   after switching the language (the check `check:docs` makes in Node, here through the real UI).
+- **Link previews in both languages** (Pablo: "let's see how it goes bilingual" — the LinkedIn post is in PT-BR,
+  and crawlers run no JS, so they always read `index.html`'s tags): `description`, `og:description` and
+  `twitter:description` say it in English, then "·", then in Portuguese (the PT tagline "O editor de Markdown
+  atento aos detalhes", "dois pequenos modelos de IA"); the English parts now say "AI models" like the start
+  screen. Titles, the image and its alt text stay English (one image; titles get cut). Easy to revert after the
+  post if the long description reads badly in the card.

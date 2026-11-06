@@ -8,6 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
+- **3.47.7** · 2026-11-06 · `(this commit)` · fix(meta): link previews describe Marksage in English and Portuguese
 - **3.47.6** · 2026-11-06 · `58ae8dc` · fix(sample): the PT-BR sample rewritten, with the same slips on the same lines
 - **3.47.5** · 2026-11-05 · `4a72454` · fix(about): the PT-BR About page rewritten, and a license link that says where it goes
 - **3.47.4** · 2026-11-05 · `6318090` · fix(i18n): the PT-BR interface reads as Portuguese, not as a translation
