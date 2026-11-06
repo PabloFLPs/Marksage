@@ -98,7 +98,7 @@ See [the CSV format] (#examples) for the columns it expects.
 
 ##License
 
-MIT: use it, change it, share it.
+AGPL-3.0.
 `
 
 export const SAMPLE_DOCUMENT_PT_BR = `# Pitwall
@@ -188,7 +188,7 @@ Veja [o formato do CSV] (#exemplos) para saber quais colunas ele espera.
 
 ##Licença
 
-MIT: use, modifique e compartilhe.
+AGPL-3.0.
 `
 
 export function getSampleDocument(lang: string): string {

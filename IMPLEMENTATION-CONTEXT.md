@@ -1395,3 +1395,7 @@ sample explained, three small UI items and two ROADMAP entries.
   97.4%), now labelled, with v1's-day numbers (75 shown, 97.3%, 73 right) below the table. SMART-ASSIST EN said
   "can never be malformed" — now "never comes back in an unexpected shape", as PT and the story already did.
   Pablo: "my call" (in public writing) covers only the later experiments, not v1's and v2's opt-in shipping.
+- **The sample's license line** (Pablo: an MIT license on Pitwall could read as Marksage's own) — now just
+  "AGPL-3.0." in both languages (a first try, "the same license as Marksage", was undone before push: inside
+  Marksage it doesn't need saying). Kept rather than removed: the section carries the `##License` slip (the heading
+  fix, line 86). `check:docs`: the sample still as designed.
