@@ -1399,3 +1399,8 @@ sample explained, three small UI items and two ROADMAP entries.
   "AGPL-3.0." in both languages (a first try, "the same license as Marksage", was undone before push: inside
   Marksage it doesn't need saying). Kept rather than removed: the section carries the `##License` slip (the heading
   fix, line 86). `check:docs`: the sample still as designed.
+- **About: the story link on a phone** (Pablo, PT-BR at phone width; a first fix, undone before push, still left the
+  arrow alone on a line) — the PT label is now "A história por trás do Marksage" (Pablo's pick; one line on phones),
+  and the link no longer centres a wrapped label: the icon sits on the first line, the text is left-aligned, and
+  `NoOrphanArrow` keeps the arrow with the last word (EN still wraps at 390 px and narrower, cleanly). The GitHub
+  link is unchanged.

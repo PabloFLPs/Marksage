@@ -74,6 +74,20 @@ const SHORTCUTS: [KeyToken[], string, string, boolean?][] = [
   [['esc'], 'Dismiss a suggestion', 'Ignorar uma sugestão'],
 ]
 
+/** A label whose trailing arrow never wraps onto a line of its own: the last word and the arrow stay together. */
+function NoOrphanArrow({ text }: { text: string }) {
+  const cut = text.lastIndexOf(' ') + 1
+  return (
+    <span>
+      {text.slice(0, cut)}
+      <span className="whitespace-nowrap">
+        {text.slice(cut)}
+        <ArrowRight className="ml-1.5 inline h-3.5 w-3.5 align-[-2px] transition-transform duration-200 group-hover:translate-x-0.5" />
+      </span>
+    </span>
+  )
+}
+
 export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDocs, onOpenStory, onTrySmartAssist, appIcon, onAppIconChange, theme, onRemoveModel, onDeleteAllData, remoteImages, onRemoteImagesChange }: AboutPageProps) {
   const { keyStyle, setKeyStyle } = useKeyStyle()
   const { t, lang, setLang } = useI18n()
@@ -118,11 +132,11 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           <button
             type="button"
             onClick={onOpenStory}
-            className="tap group inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline dark:text-dark-accent"
+            className="tap group inline-flex items-start gap-1.5 text-left text-sm font-medium text-accent hover:underline dark:text-dark-accent"
           >
-            <Milestone className="h-4 w-4" />
-            {x('The story: the decisions and models behind Marksage', 'A história: as decisões e os modelos por trás do Marksage')}
-            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+            {/* If the label wraps (a narrow phone), the icon stays on the first line and the arrow on the last word. */}
+            <Milestone className="mt-0.5 h-4 w-4 shrink-0" />
+            <NoOrphanArrow text={x('The story: the decisions and models behind Marksage', 'A história por trás do Marksage')} />
           </button>
           <a
             href={SOURCE_URL}
