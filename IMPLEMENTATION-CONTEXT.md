@@ -1328,3 +1328,9 @@ sample explained, three small UI items and two ROADMAP entries.
   atento aos detalhes", "dois pequenos modelos de IA"); the English parts now say "AI models" like the start
   screen. Titles, the image and its alt text stay English (one image; titles get cut). Easy to revert after the
   post if the long description reads badly in the card.
+- **ROADMAP, no code**: §3 (dogfooding) now lists what `check:docs` found in the rules — the sentence splitter,
+  tone across languages, PT voice, docs headings the model reads as "other" — and §7 the two model ideas Pablo
+  asked to plan: more section categories (what a type takes: strict-heading counts, rule coverage first, data,
+  a fresh held-out set, a bar written first, +9 numbers per type, the UI and docs work) and a summary per section
+  (better extractive as the next small Marksage model vs a tiny abstractive model in the browser vs BYOK, each for
+  EN + PT, local-first and how to evaluate it; recommendation: extractive first, abstractive only through BYOK).

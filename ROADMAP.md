@@ -73,18 +73,26 @@ the download notice and Privacy & storage describe it, which questions it answer
 are ready: labelled dev/test data already exists from the experiment), and whether it beats the heading rule
 on the dev repositories before it ships.
 
-## 3. Dogfooding round (Pablo will ask after the current iteration)
+## 3. Dogfooding round — started (2026-11-05)
 
-"Dogfooding" = using your own product as a user would. Here: open Marksage's own docs (the technical pages
-already show the Outline/Document panel), read what the panel reports — flags, key sentences, types, tone —
-and fix the docs where it's right and the features where it's wrong. Both get better, and it's a good story
-("we run our own tool on our own docs"). Already noticed:
+"Dogfooding" = using your own product as a user would. `npm run check:docs` (CI since 2026-11-05) now runs every
+feature on the README and the docs pages (EN + PT-BR) and on the sample; the shipped documents are clean — no
+suggestion, no flag — after fixing the documents, never the rules. What it found in the **rules** (not tuned
+against these documents; fix on dev data, then measure):
 
+- **The sentence splitter** only splits before a capital letter, a digit, a quote or "(": a sentence that starts
+  with a lowercase word, a path or inline code (`` `q` is a stable id…``, `docs/MODELS.md explains…`) stays
+  glued to the one before, so two short sentences count as one long one. Fixed in the docs by rewording.
+- **Tone across languages:** English contractions count as casual evidence and Portuguese has none, so long
+  Portuguese prose reads "formal" where the same English reads "neutral" (the PT docs pages: formal · impersonal;
+  EN: neutral). A Portuguese counterpart (or not counting contractions at all) needs measuring on both languages.
+- **Voice in Portuguese** drops the subject ("Abra o arquivo", "Você" omitted), so "você" alone undercounts who
+  the text talks to; imperative verbs could count. (The accent bug behind "always impersonal" was fixed on
+  2026-11-05.)
 - A key sentence comes out as a fragment ("language, tables, links…" under "3. Features and their
   heuristics" in `docs/SMART-ASSIST.md`).
-- The sentence splitter doesn't split before a sentence that starts with inline code (`` `q` is a stable id…``),
-  so two sentences count as one long one.
-- Most headings of the technical docs get no type — expected (topic sections are "other"), but worth a look.
+- **Most headings of the technical docs get no type** — topic sections are "other" to the section model too
+  (its top answer on SMART-ASSIST is "other", 17–33%). Accepted for now (Pablo, 2026-11-05); see §7.1.
 
 ## 4. Smaller items
 
@@ -264,3 +272,61 @@ account and a token, and its main benefit — reviewing in a pull request — ma
 workspace if the image registry is reachable from it, else by the first CI run (a `workflow_dispatch` job that
 uploads them as an artifact to commit).
 
+## 7. Next model ideas (2026-11-05, roadmap only — no code yet)
+
+### 7.1 More section categories
+
+**Today.** 16 types (`assist/sections.ts`). The type comes from the heading rule first (EN + PT phrases, a phrase
+must cover half the heading, ambiguous words only as the whole heading); when the heading says nothing, the
+section model (`sections-v2.bin`, Rules + AI) reads the text and answers one of 13 types or "other" (gate 0.8 for
+a badge, 0.6 for "probably"). Explanation, glossary and roadmap are heading-only (`HEADING_ONLY_TYPES`): the model
+couldn't learn explanation (0 right on dev, twice) and the other two had 76 and 57 headings in 381 repositories.
+
+**What a new type takes**, in order:
+1. **Is it a type at all?** Count it in the training repositories with the strict heading rule
+   (`training/build-sections.ts`). Deployment had 246 examples and is barely learned (2 of 2 shown on the test
+   set — too few to judge); below ~300 strict headings a type should stay heading-only.
+2. **Heading-rule coverage first.** EN + PT phrases in `PHRASES`, checked against `__fixtures__/headings.json`
+   (new cases for the type and for near neighbours it must not steal: "Testing" vs Contributing, "FAQ" vs
+   Troubleshooting, "Requirements" vs Setup). A type the rule types well may never need the model.
+3. **Labelled data** for the model: rebuild the sections with the new labels (`build-sections`), keep "other"
+   honest (sections whose heading names no type), and check the split by repository still holds.
+4. **A fresh held-out set.** The v2 test repositories have been seen; a v3 needs new ones (the code model's
+   third set is the pattern: built before any training, frozen, run once).
+5. **A bar written down before training**: e.g. the new type's precision when shown ≥ 85% at the 0.8 gate on
+   the fresh set, no existing type more than 2 points worse, overall agreement not lower than v2's 88.9%.
+6. **Size and latency**: a new answer adds 9 numbers (8 weights + a bias) to a 262,270-number model — the file
+   stays ~385 KB and ~0.1 ms per section. Only a bigger clue reader would move either.
+7. **UI and docs**: an icon (`sectionIcons.ts`), EN + PT labels, the About count ("and 13 more"), SMART-ASSIST
+   §3 / §4.4, MODELS §7 / §8, the Document tab's kind rules if the type should count there, a new file version.
+
+**Candidates to measure, not promised:** Testing (today part of Contributing), FAQ (inside Troubleshooting),
+Requirements / Prerequisites (inside Setup), Architecture as a model type (the explanation lesson says: only with
+labels that aren't just topic prose).
+
+### 7.2 A summary for each section
+
+Today the Outline shows a **key sentence**: picked, never written (`keySentence`, the sentence that shares the
+most words with its section). Three ways to go further:
+
+| | Better extractive (another small Marksage model) | Tiny abstractive model in the browser | BYOK (ROADMAP §1) |
+|---|---|---|---|
+| What it does | picks the sentence (or two) that best stands for the section — a `choice` over its own sentences | writes a new one-line summary | the user's chosen model writes it |
+| EN + PT | yes, if trained on both (the section corpus has PT READMEs) | needs a multilingual model (PT-only or EN-only models exist; multilingual ones are far bigger) | yes |
+| Size / latency | ~385 KB, ~0.1 ms per sentence — the same design as today's models | tens to hundreds of MB to download (t5-small class, ~60 M parameters, ~60 MB in 8 bits; a multilingual one several times that); seconds per section on CPU, faster with WebGPU where it exists | nothing to download; a network round trip per request |
+| Can it be wrong? | it can pick a weak sentence, never invent one | it can invent (a generative model) | it can invent |
+| Local-first | yes | yes, but a large download | no: the section's text goes to the provider the user picked, opt-in |
+| Fits the rules | yes (a decision model answers from a list) | no: "the built-in features never use a generative model" — only as opt-in | yes, as the opt-in BYOK agent |
+
+Browsers' own built-in summarizers aren't an option today: Chrome's Summarizer API needs desktop Chrome with
+a large on-device model download and strong hardware, isn't in Firefox or Safari, and didn't list Portuguese when
+checked (2026-11-05).
+
+**How to evaluate any of them:** reference summaries written by hand for ~200 sections (EN + PT, from the
+held-out repositories); extractive: the chosen sentence matches the reference's sentence, or overlaps it (ROUGE-L);
+abstractive / BYOK: human review on a fixed sheet (faithful? useful? the right length?) plus a faithfulness check —
+every claim in the summary must be in the section (a `noul` question a decision model can answer). A bar written
+down before the run, as for every model.
+
+**Recommendation:** extractive v2 first — it's the next small Marksage model, measurable, EN + PT, local; then
+abstractive summaries only through BYOK, opt-in, where a generative model belongs.
