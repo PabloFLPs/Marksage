@@ -38,11 +38,11 @@ const content: StoryContent = {
       date: '2026-10-23',
       title: 'A 385 KB model trained for one question',
       body: [
-        'Which language is a code block in? Public repositories hold the answer hundreds of thousands of times, written by the authors themselves: the `python` after a fence’s opening backticks. About 250,000 blocks were collected and split by repository, so no project seen in training ever appears in the tests.',
-        'The model is fastText-style: hashed clues from the code, 8 numbers per clue, averaged, one linear layer. It runs in plain TypeScript — no ML runtime — and the same code builds its clues in training and in the browser. The bar was set before measuring: beat the rules on held-out data without losing precision.',
+        'Which language is a code block in? Public repositories hold the answer hundreds of thousands of times, written by the authors themselves: the `python` after a fence’s opening backticks. About 250,000 blocks were collected for the first model and split by repository, so no project seen in training ever appears in the tests.',
+        'The model is fastText-style: hashed clues from the code, 8 numbers per clue, averaged, one linear layer. It runs in plain TypeScript — no ML runtime — and the same code builds its clues in training and in the browser. The bar was set before measuring: beat the rules on held-out data without losing precision. v1 met part of it: 1.8× the right suggestions, but 3 points less precise and just short of the coverage target. So it shipped as an opt-in mode, not the default.',
       ],
       facts: [
-        '314 held-out blocks: rules 73 right suggestions, model v1 133 (1.8×), ~94% right when shown',
+        '314 held-out blocks: rules 73 right (97% when shown) · model v1 133 (1.8×, ~94%)',
         '385 KB · ~0.1 ms per decision · downloaded only after opting in',
       ],
       link: { label: 'How the models work', hash: 'models' },
@@ -53,6 +53,7 @@ const content: StoryContent = {
       body: [
         'A confidence only means something if it holds on unfamiliar projects. Version 2 fits its temperature on predictions for repositories it didn’t train on — five extra models, each holding out a fifth of the repositories, about 7,600 blocks — and raises it until 95% of the suggestions it would show are right.',
         'Where the model is unsure, a confident rules answer is used only if the model’s own first pick agrees: two independent methods agreeing add suggestions without adding mistakes.',
+        'On the fresh set it was still about a point under the rules’ precision (91.8% vs 92.9%), so the AI mode stays opt-in.',
       ],
       facts: ['63,751 training blocks from 309 repositories', 'Held-out: 164 suggestions shown, 95.7% right · fresh set: 158, 91.8%'],
       link: { label: 'How the models work', hash: 'models' },

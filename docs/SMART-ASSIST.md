@@ -23,7 +23,7 @@ answers a *typed question over a set of answers fixed up front*:
 | `score` | "Where on this ordered scale?" | an index + a probability per step |
 | `noul` | "Is this statement true?" | a single probability in `[0, 1]` |
 
-Because the answer space is closed, the output can never be malformed. The guiding rule:
+Because the answer space is closed, the output never comes back in an unexpected shape. The guiding rule:
 
 > **The engine decides; our TypeScript code acts.** If you can't list the possible answers up
 > front, it's not a Smart Assist job.

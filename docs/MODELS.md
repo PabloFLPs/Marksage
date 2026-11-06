@@ -493,13 +493,16 @@ committed. "Shown" is how many answers pass the 0.8 / 0.2 gate; "right" is preci
 
 | Version | Date | Training data | What changed | First held-out set (314 blocks) | Fresh held-out set (284 blocks) | Third held-out set (842 blocks) | Status |
 |---|---|---|---|---|---|---|---|
-| Heuristics only | — | — | rules, no model | 57.3% · 76 shown · 97.4% right | 58.5% · 70 shown · 92.9% right | 53.9% · 239 · 92.1% | reference |
+| Heuristics only (today's rules) | — | — | rules, no model | 57.3% · 76 shown · 97.4% right | 58.5% · 70 shown · 92.9% right | 53.9% · 239 · 92.1% | reference |
 | **v1** | 2026-10-23 | ~55,000 blocks, 264 repositories | first model: 8 numbers per clue, 32,768 slots, 8 epochs, temperature 1.85 fitted on dev | 75.8% · 141 · 94.3% | 71.5% · 151 · 88.1% | — | replaced by v2 |
 | **v2** | 2026-10-24 | 63,751 blocks, 309 repositories | +45 repositories; temperature from repositories it never saw (1.85, short snippets 2.55, 95% target); in the app, agreement with the heuristics, and since 2026-10-30 nearly certain rules (≥ 99%) — no change on the first two held-out sets, +3 right on the third | 77.4% · 164 · 95.7% | 74.3% · 158 · 91.8% (model alone: 74.3% · 146 · 92.5%) | 72.7% · 408 · 93.1% (model alone: 72.3% · 326 · 92.6%) | **in use** |
 | v3 experiment: mean + max | 2026-10-30 | 64,288 blocks (the same sources, collected again) | each dimension also keeps its strongest clue (mean + max pooling), so one decisive clue can't be averaged away; clue numbers bounded (±2), 4 epochs, learning rate 0.2; 386 KB (394,972 bytes), same speed | — | — | 74.6% · 417 · 93.8% (model alone: 74.2% · 371 · 93.8%) — six pair languages 103 right · 88.0% vs v2's 106 · 89.8% | **not used** |
 
 v1 was measured once on the first held-out set. Because that set had then been seen, v2 was judged on a second,
 fresh one, built from 72 repositories used nowhere else.
+
+The rules row shows today's rules. On the day v1 shipped, the rules scored 57.3% · 75 shown · 97.3% right
+(73 right) on the first set.
 
 **The v3 experiment (2026-10-30, not used).** The goal was the near-twin languages, where the average drowns a
 few decisive clues: TypeScript / JavaScript, C++ / C, C# / Java, JSON with comments. The bar was written down

@@ -38,11 +38,11 @@ const content: StoryContent = {
       date: '2026-10-23',
       title: 'Um modelo de 385 KB treinado para uma pergunta',
       body: [
-        'Em que linguagem está um bloco de código? Repositórios públicos trazem essa resposta centenas de milhares de vezes, escrita pelos próprios autores: o `python` logo depois das crases que abrem o bloco. Foram coletados cerca de 250.000 blocos, separados por repositório, para que nenhum projeto visto no treino apareça nos testes.',
-        'O modelo segue a linha do fastText: pistas do código passam por hash, cada uma vira 8 números, tira-se a média e uma única camada linear decide. Ele roda em TypeScript puro, sem runtime de ML, e o mesmo código monta as pistas no treino e no navegador. A régua foi definida antes de medir: superar as regras em dados de teste sem perder precisão.',
+        'Em que linguagem está um bloco de código? Repositórios públicos trazem essa resposta centenas de milhares de vezes, escrita pelos próprios autores: o `python` logo depois das crases que abrem o bloco. Foram coletados cerca de 250.000 blocos para o primeiro modelo, separados por repositório, para que nenhum projeto visto no treino apareça nos testes.',
+        'O modelo segue a linha do fastText: pistas do código passam por hash, cada uma vira 8 números, tira-se a média e uma única camada linear decide. Ele roda em TypeScript puro, sem runtime de ML, e o mesmo código monta as pistas no treino e no navegador. A régua foi definida antes de medir: superar as regras em dados de teste sem perder precisão. A v1 cumpriu parte dela: 1,8× mais sugestões certas, mas 3 pontos a menos de precisão e um pouco abaixo da meta de cobertura. Por isso entrou como modo opcional, não como padrão.',
       ],
       facts: [
-        '314 blocos de teste: regras, 73 sugestões certas; modelo v1, 133 (1,8×), com ~94% de acerto quando aparece',
+        '314 blocos de teste: regras, 73 sugestões certas (97% quando aparecem) · modelo v1, 133 (1,8×, ~94%)',
         '385 KB · ~0,1 ms por decisão · baixado só depois que você escolhe o modo',
       ],
       link: { label: 'Como os modelos funcionam', hash: 'models' },
@@ -53,6 +53,7 @@ const content: StoryContent = {
       body: [
         'Uma confiança só vale alguma coisa se continuar valendo em projetos desconhecidos. A versão 2 ajusta a temperatura com previsões para repositórios em que não treinou: cinco modelos extras, cada um deixando de fora um quinto dos repositórios, cerca de 7.600 blocos. A temperatura sobe até que 95% das sugestões que ele mostraria estejam certas.',
         'Quando o modelo não tem certeza, uma resposta confiante das regras só é usada se a primeira opção do próprio modelo concordar. Dois métodos independentes que concordam somam sugestões sem somar erros.',
+        'No conjunto novo, ainda ficou cerca de um ponto abaixo da precisão das regras (91,8% contra 92,9%). Por isso o modo com IA continua opcional.',
       ],
       facts: ['63.751 blocos de treino de 309 repositórios', 'Teste: 164 sugestões exibidas, 95,7% certas · conjunto novo: 158, 91,8%'],
       link: { label: 'Como os modelos funcionam', hash: 'models' },

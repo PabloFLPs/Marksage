@@ -1386,3 +1386,12 @@ sample explained, three small UI items and two ROADMAP entries.
   loop's first step, and the diagram) → "Dá um palpite" / "palpite", "servem para várias linguagens" → "são válidas
   em", "encaixou melhor" → "foi a melhor escolha", "cara de código / de Python" → "aparência de código", "típicas
   de Python". A pattern pass, not a new line-by-line read: Pablo's own review of those pages is still to come.
+- **Four facts the launch-post chat found, fixed** (Pablo approved the story wording) — the story's 10-23 entry named
+  the bar ("without losing precision") but not the result: it now says v1 met part of it (1.8× the right suggestions,
+  3 points less precise, just short of the coverage target) and so shipped opt-in, with the rules' 97% in the facts;
+  the 10-24 entry adds that v2 was still about a point under the rules on the fresh set (91.8% vs 92.9%), so the AI
+  mode stays opt-in. Not contradictions, made explicit: the story's 250,000 blocks are the first model's collection
+  (§ phase 1: 265 sources), the docs' 270,000 the second's; MODELS §8's rules row is today's rules (76 shown,
+  97.4%), now labelled, with v1's-day numbers (75 shown, 97.3%, 73 right) below the table. SMART-ASSIST EN said
+  "can never be malformed" — now "never comes back in an unexpected shape", as PT and the story already did.
+  Pablo: "my call" (in public writing) covers only the later experiments, not v1's and v2's opt-in shipping.

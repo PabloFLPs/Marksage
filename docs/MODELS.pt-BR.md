@@ -500,13 +500,16 @@ Cada versão de modelo e cada experimento, com os números em que foram medidos.
 
 | Versão | Data | Dados de treino | O que mudou | Primeiro conjunto de teste (314 blocos) | Conjunto de teste novo (284 blocos) | Terceiro conjunto de teste (842 blocos) | Situação |
 |---|---|---|---|---|---|---|---|
-| Só regras | — | — | regras, sem modelo | 57,3% · 76 exibidas · 97,4% certas | 58,5% · 70 exibidas · 92,9% certas | 53,9% · 239 · 92,1% | referência |
+| Só regras (as de hoje) | — | — | regras, sem modelo | 57,3% · 76 exibidas · 97,4% certas | 58,5% · 70 exibidas · 92,9% certas | 53,9% · 239 · 92,1% | referência |
 | **v1** | 2026-10-23 | ~55.000 blocos, 264 repositórios | primeiro modelo: 8 números por pista, 32.768 slots, 8 épocas, temperatura 1,85 ajustada no dev | 75,8% · 141 · 94,3% | 71,5% · 151 · 88,1% | — | substituído pela v2 |
 | **v2** | 2026-10-24 | 63.751 blocos, 309 repositórios | +45 repositórios; temperatura vinda de repositórios que ele nunca viu (1,85, trechos curtos 2,55, meta de 95%); no app, concordância com as regras e, desde 2026-10-30, regras quase certas (≥ 99%): nenhuma mudança nos dois primeiros conjuntos de teste, +3 certas no terceiro | 77,4% · 164 · 95,7% | 74,3% · 158 · 91,8% (só o modelo: 74,3% · 146 · 92,5%) | 72,7% · 408 · 93,1% (só o modelo: 72,3% · 326 · 92,6%) | **em uso** |
 | Experimento v3: média + máximo | 2026-10-30 | 64.288 blocos (as mesmas fontes, coletadas de novo) | cada dimensão também guarda a pista mais forte (mean + max pooling), para que uma pista decisiva não se perca na média; números das pistas limitados (±2), 4 épocas, taxa de aprendizado 0,2; 386 KB (394.972 bytes), mesma velocidade | — | — | 74,6% · 417 · 93,8% (só o modelo: 74,2% · 371 · 93,8%) — seis linguagens dos pares: 103 certas · 88,0%, contra 106 · 89,8% da v2 | **não usado** |
 
 A v1 foi medida uma vez no primeiro conjunto de teste. Como esse conjunto já tinha sido visto, a v2 foi julgada
 num segundo conjunto, novo, montado com 72 repositórios que não foram usados em nenhum outro lugar.
+
+A linha das regras mostra as regras de hoje. No dia em que a v1 entrou, as regras tinham 57,3% · 75 exibidas ·
+97,3% certas (73 certas) no primeiro conjunto.
 
 **O experimento v3 (2026-10-30, não usado).** O alvo eram as linguagens quase gêmeas, em que a média abafa
 algumas pistas decisivas: TypeScript / JavaScript, C++ / C, C# / Java, JSON com comentários. A régua foi escrita
