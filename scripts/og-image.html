@@ -6,8 +6,9 @@
     npx playwright screenshot --viewport-size "1200, 630" "file://$PWD/scripts/og-image.html?theme=light" public/og-image-light.png
   The dark one ships (index.html's og:image / twitter:image); the light one is kept ready — point those two tags at
   /og-image-light.png to switch.
-  Keep the words in step with the app: the tagline, what's special (local-first; rules + two small models trained for
-  it), and a suggestion as the app shows it (✦ = the model decided).
+  Keep the words in step with the app: the tagline, what's special (local-first; rules, plus two small AI models if
+  you opt in to Rules + AI — a first visit runs the rules only), and a suggestion as the app shows it (✦ = the model
+  decided).
 -->
 <html lang="en">
   <head>
@@ -101,8 +102,9 @@
       <p class="tagline">The Markdown editor<br />that notices.</p>
       <p class="pitch">
         Local-first: files never leave your browser.<br />
-        <strong>Rules + two small models</strong> trained for it<br />
-        suggest fixes on your device — you decide.
+        Smart Assist suggests fixes with rules,<br />
+        plus <strong>two small AI models</strong> if you opt in.<br />
+        All on your device — you decide.
       </p>
       <div class="chips">
         <span class="chip key">Its own models</span>

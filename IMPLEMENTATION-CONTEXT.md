@@ -1503,3 +1503,12 @@ A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Persona
   both languages: accepting with Tab from the start gives the three code blocks, then the formatting slips, in the
   checklist's order. Same line, same slips (`check:docs` clean). Still open (QA D13, later): a fresh suggestion
   after Esc, and the nearest candidate across kinds.
+- **The link-preview image says the models are opt-in too** (Pablo, after D02: "let's update our link-preview
+  images too"). Its pitch said "**Rules + two small models** trained for it suggest fixes on your device", the same
+  default-on reading D02 fixed in the tags. Now: "Smart Assist suggests fixes
+  with rules, plus **two small AI models** if you opt in. All on your device — you decide." Four lines instead of
+  three; the left column stays clear of the edges (top 109 px, bottom 521 px of 630), no line wraps. A three-line
+  option ("Rules suggest fixes as you write; turn on two small AI models trained for it — you decide") also fit and
+  was set aside as less clear. `public/og-image.png` (dark, shipped) and `og-image-light.png` re-rendered with the
+  commands in `scripts/og-image.html`, whose note now says to keep the opt-in in the words. Before the change, a
+  render here matched the shipped PNG pixel for pixel, so only the words moved.
