@@ -128,8 +128,25 @@ const SHIPPED: [string, string][] = [
   ['docs/SMART-ASSIST.pt-BR.md', 'docs'],
   ['docs/MODELS.pt-BR.md', 'docs'],
 ]
+/**
+ * Lines that turn the paragraph above them into a heading: `---` or `===` right under a text line is a setext
+ * heading in CommonMark, not a rule (SMART-ASSIST had one that rendered a paragraph as an H2). The docs use `#`.
+ */
+function setextUnderlines(text: string): number[] {
+  const found: number[] = []
+  let fence = false
+  let prev = ''
+  text.split('\n').forEach((line, i) => {
+    if (/^ {0,3}(```|~~~)/.test(line)) fence = !fence
+    else if (!fence && /^ {0,3}(-+|=+) *$/.test(line) && prev.trim() && !/^ {0,3}(#|>|\||[-*+] |\d+[.)] |([-*_] *){3,}$)/.test(prev)) found.push(i + 1)
+    prev = fence ? '' : line
+  })
+  return found
+}
+
 for (const [file, kind] of SHIPPED) {
   const text = read(file)
+  for (const line of setextUnderlines(text)) fail(`${file} L${line}: "---" right under a paragraph makes it a heading — add a blank line above`)
   for (const [mode, engine, model] of MODES) {
     console.log(`\n## ${file} — ${mode}`)
     const r = await evaluate(text, file.split('/').pop()!, engine, model)

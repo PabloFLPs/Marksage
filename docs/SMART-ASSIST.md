@@ -420,6 +420,7 @@ never while you type. Pastes aren't listed: they're offered at the moment you pa
 **Action.** None in the panel. A click opens the editor if needed, puts the caret on the spot and shows that
 suggestion in the normal bar; it stays there until you move the caret or type. `Tab` accepts, `Esc`
 dismisses, undo works — the same guarded edit as everywhere else.
+
 ---
 
 ## 4. Marksage's own models

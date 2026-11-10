@@ -202,7 +202,7 @@ the whole app in `app.test.tsx`; `npm run test:coverage` in CI, floor 50% of lin
 in desktop + phone Chromium) · `npm run eval:assist` · `npm run check:docs` (`scripts/check-docs.ts`: the README and the
 docs pages, EN + PT-BR, run through every Smart Assist and Document-tab feature in both modes — no suggestion, no
 "Worth a look" flag, unless approved in its `ALLOWED`; fix the document, never the rules; and the sample's slips,
-all of them and nothing else, also after accepting every suggestion) · manually check light/dark, desktop/mobile, and reduced motion.
+all of them and nothing else, also after accepting every suggestion; and no `---` right under a paragraph, which CommonMark reads as a heading) · manually check light/dark, desktop/mobile, and reduced motion.
 A user-facing flow that changes needs its E2E test changed or added (`tests/e2e/helpers.ts`: openSample, palette, focused…);
 wait on state (`expect`, `expect.poll`), never on time. `CROSS_BROWSER=1` adds WebKit (desktop + iPhone) and Firefox; CI runs
 them in `e2e-cross-browser` (blocking, like the others, since its first green run on 2026-11-05).

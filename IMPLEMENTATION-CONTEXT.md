@@ -1474,3 +1474,8 @@ A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Persona
   commit as D02: the three description tags, the start screen, the Rules + AI notice, About, the sample's checklist,
   the story, SMART-ASSIST and MODELS ("pequenos modelos próprios", "um pequeno modelo treinado para aquela
   pergunta"). Predicative uses stay ("deixa o modelo pequeno e rápido"). AGENTS' glossary says so.
+- **A paragraph on "How Smart Assist works" no longer renders as an H2 (QA D03).** In `docs/SMART-ASSIST.md` §3,
+  the `---` before §4 sat right under the "**Action.** None in the panel…" paragraph, so CommonMark (the app and
+  GitHub) read it as a setext heading. A blank line fixes it (the PT page had one). `check:docs` now fails on any
+  `---`/`===` right under a paragraph line in the shipped docs (outside code; lists, quotes, tables and headings
+  excluded) — it hadn't noticed this one.
