@@ -1446,3 +1446,18 @@ sample explained, three small UI items and two ROADMAP entries.
   alone; the training diagram's step 3 now reads "treinamento · desenvolvimento · teste", "(escolhas)" and "(uma
   vez)" dropped to fit the box — step 7 already says "Mede uma vez"). "previsões" stays. One SMART-ASSIST sentence
   grew past 40 words with the longer term and was split (§4.6, link text). AGENTS' glossary says so.
+
+## 42. Launch QA fixes (2026-11-09)
+
+A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Personal/Writing/Marksage Launch QA
+(2026-11-09).md`); Pablo approved the six fixes it recommended before posting — one commit each.
+
+- **Images from the web: `https:host` no longer gets through (QA D01).** `remoteHost` called an address remote only
+  if it started with `//` or `http(s)://`, but the browser resolves `https:host/x` and `https:/host/x` (no `//`) to
+  `https://host/x` and fetched them with the setting off — and the bar didn't count them. It now decides the way
+  the browser does: `new URL(src, location.href)`, remote when the protocol is http(s) and the host isn't this site's;
+  an address that doesn't parse fetches nothing. `countRemoteImages` takes any destination and runs it through the
+  same predicate, after undoing Markdown's backslash escapes (`https\://` renders as `https://`) and percent-encoding
+  a leftover backslash as the parser does (`\\host` renders as a relative `%5C%5Chost`, not another site). Unit
+  tests for both forms, `HTTPS://`, `//`, escapes, references and code; checked in Chromium on the build (no request
+  leaves with it off; the bar counts 4 of 4). §32 #11's "no request leaves the app with it off" holds again.

@@ -163,6 +163,13 @@ describe('MarkdownPreview', () => {
     expect(container.querySelector('img')?.getAttribute('referrerpolicy')).toBe('no-referrer')
   })
 
+  it('an address without "//" that still reaches another site waits too (https:host, https:/host)', async () => {
+    const { container } = await show('![b](https:b.example/p.png) ![c](https:/c.example/p.png)')
+    expect(container.querySelector('img')).toBeNull()
+    expect(container.textContent).toContain('b.example')
+    expect(container.textContent).toContain('c.example')
+  })
+
   it('raw HTML shows as text — no element, no script', async () => {
     const { container } = await show('<script>alert(1)</script>\n\n<b>bold?</b>')
     expect(container.querySelector('script, b')).toBeNull()

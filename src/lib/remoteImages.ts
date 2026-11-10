@@ -5,20 +5,33 @@
  */
 import { splitLines } from '../assist/prefilter.ts'
 
-/** `https://…`, `http://…` or `//host/…` pointing at another site. Relative paths and `data:` URLs stay local. */
+/**
+ * The host of an image on another website, or null for one that stays local (a relative path, `data:`, `blob:`, this
+ * site). Decided the way the browser will resolve the address, not by its prefix: `https:host/x` and
+ * `https:/host/x` both fetch `https://host/x`, though neither starts with `//`. An address the browser can't parse
+ * fetches nothing.
+ */
 export function remoteHost(src: string | undefined): string | null {
-  if (!src || !/^(https?:)?\/\//i.test(src.trim())) return null
+  if (!src) return null
+  let url: URL
   try {
-    const url = new URL(src.trim(), window.location.href)
-    return url.host === window.location.host ? null : url.host
+    url = new URL(src, window.location.href)
   } catch {
     return null
   }
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return null
+  return url.host === window.location.host ? null : url.host
 }
 
-const INLINE = /!\[[^\]]*\]\(\s*<?\s*((?:https?:)?\/\/[^\s)>]+)/gi
+/**
+ * The address as the preview renders it: Markdown's backslash escapes undone (`https\://` → `https://`), and a
+ * backslash left over percent-encoded, as the Markdown parser does (`\\host` is a relative path, not another site).
+ */
+const asRendered = (s: string) => s.replace(/\\([!-/:-@[-`{-~])/g, '$1').replace(/\\/g, '%5C')
+
+const INLINE = /!\[[^\]]*\]\(\s*<?\s*([^\s)>]+)/g
 const REF_USE = /!\[([^\]]*)\](?:\[([^\]]*)\])?/g
-const REF_DEF = /^\s{0,3}\[([^\]]+)\]:\s*<?\s*((?:https?:)?\/\/\S+?)>?(?:\s|$)/
+const REF_DEF = /^\s{0,3}\[([^\]]+)\]:\s*<?\s*(\S+?)>?(?:\s|$)/
 
 /** How many remote images the document shows (outside code) — for the "not loaded" bar. */
 export function countRemoteImages(text: string): number {
@@ -27,11 +40,11 @@ export function countRemoteImages(text: string): number {
   const defs = new Map<string, string>()
   for (const l of lines) {
     const m = REF_DEF.exec(l.text)
-    if (m) defs.set(m[1].trim().toLowerCase(), m[2])
+    if (m) defs.set(m[1].trim().toLowerCase(), asRendered(m[2]))
   }
   let n = 0
   for (const l of lines) {
-    for (const m of l.text.matchAll(INLINE)) if (remoteHost(m[1])) n++
+    for (const m of l.text.matchAll(INLINE)) if (remoteHost(asRendered(m[1]))) n++
     if (!defs.size) continue
     for (const m of l.text.matchAll(REF_USE)) {
       if (l.text[m.index + m[0].length] === '(') continue // inline, counted above
