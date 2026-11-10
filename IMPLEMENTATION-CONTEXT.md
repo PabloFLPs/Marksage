@@ -1549,3 +1549,7 @@ the old name.
   Measured on the sample: EN fits in two lines at 320 and 390; PT fits at 390 and shows "Adicionar a linguagem
   “bash” a…" at 320; one line at 1280. The bar grows from 54 to 65 px when it wraps, inside the editor's 112 px
   `OVERLAY_ROOM`. The words stay as they are (a shorter "Tag as …" was the other option in the report).
+- **"Smart Assist (local AI)" no longer names the Assist button in Rules mode (launch QA D18).** `assist.label` was
+  the button's and the menu's accessible name (and the tooltip when no status applies) in every mode, though Rules
+  runs no AI. Now "Smart Assist" in both languages; the mode is in the name already ("Assist: Rules — Smart
+  Assist"), and the Rules + AI status text still says "local models".

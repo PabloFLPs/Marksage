@@ -137,7 +137,7 @@ export const en = {
   'time.hour': '{n} h ago',
   'time.day': '{n} d ago',
 
-  'assist.label': 'Smart Assist (local AI)',
+  'assist.label': 'Smart Assist',
   'assist.option.off': 'Assist: Off',
   'assist.option.heuristics': 'Assist: Rules',
   'assist.option.model': 'Assist: Rules + AI',

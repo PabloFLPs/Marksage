@@ -139,7 +139,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'time.hour': 'há {n} h',
   'time.day': 'há {n} d',
 
-  'assist.label': 'Smart Assist (IA local)',
+  'assist.label': 'Smart Assist',
   'assist.option.off': 'Assist: Desligado',
   'assist.option.heuristics': 'Assist: Regras',
   'assist.option.model': 'Assist: Regras + IA',
