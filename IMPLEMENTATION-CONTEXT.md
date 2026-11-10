@@ -1581,3 +1581,23 @@ the old name.
   TypeScript, Bash, a table and a link prints highlighted, titled `release-notes`. Tests: `printCopy.test.ts`
   (unit) and a `documents.spec.ts` E2E. The Export menu's PDF option is a separate decision (Pablo wants the PDF to
   look exactly like Marksage, highlighting included) — to discuss.
+- **Security headers and a Content-Security-Policy (launch QA D17).** The live site sent no CSP,
+  X-Content-Type-Options, Referrer-Policy, Permissions-Policy or frame-ancestors (it could be framed, so "Delete
+  all" was clickjackable in theory), and the privacy claims had nothing enforcing them. Now:
+  - **CSP as a `<meta>`**, added at build by a `marksage-csp` plugin (`vite.config.ts`, the last 'post' transform,
+    first thing in `<head>`): `default-src 'self'`; `script-src 'self'` plus the SHA-256 of each inline script in the
+    final `index.html` (theme pre-paint, key migration, document preload — three today), so the hashes can't drift;
+    `style-src 'self' 'unsafe-inline'` (Mermaid and React set inline styles); `img-src 'self' data: blob: https:
+    http:` (images from the web, when the reader allows them); `font-src 'self' data:`; `connect-src 'self'` (the
+    model files); `object-src 'none'`; `base-uri 'self'`. A `<meta>` keeps the hashes next to the HTML they hash;
+    `vercel.json` can't compute them.
+  - **Headers in `vercel.json`** for every path, the ones a `<meta>` can't carry: `Content-Security-Policy:
+    frame-ancestors 'none'`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy:
+    no-referrer` (links already said `noreferrer`), `Permissions-Policy` with camera, microphone, geolocation,
+    payment and USB off.
+  - **Tested under the real policy:** `vite preview` now sends vercel.json's page headers (`pageHeaders()`), so the
+    whole E2E suite runs under them. `security.spec.ts` checks the headers and the meta, then walks the sample, the
+    Outline, the Rules + AI download (models land in Cache Storage), printing, a Mermaid diagram on #smart-assist,
+    #models, #story and #about, failing on any `securitypolicyviolation`. A negative control (an injected inline
+    script and iframe) is blocked and reported; images from the web load once allowed (https and http), with no
+    violation. Dev (`npm run dev`) is unaffected: the plugin is build-only.

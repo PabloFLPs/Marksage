@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -104,9 +105,48 @@ export default defineConfig(({ mode }) => {
           this.emitFile({ type: 'asset', fileName: 'LICENSE.txt', source: readFileSync('LICENSE', 'utf8') })
         },
       },
+      {
+        // The Content-Security-Policy of the built page (launch QA D17), as a <meta>: the hashes of index.html's inline
+        // scripts (the theme pre-paint, the key migration, the document preload above) come from the final HTML, so
+        // they can't drift when one changes. Last of the 'post' transforms, first thing in <head>. What a <meta> can't
+        // carry (frame-ancestors, nosniff, Referrer-Policy, Permissions-Policy) is in vercel.json, which `vite preview`
+        // also sends (below), so the E2E suite runs under the same rules as production.
+        name: 'marksage-csp',
+        apply: 'build',
+        transformIndexHtml: {
+          order: 'post',
+          handler(html) {
+            const inline = [...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1])
+            const hashes = inline.map((code) => `'sha256-${createHash('sha256').update(code).digest('base64')}'`)
+            const csp = [
+              "default-src 'self'",
+              `script-src 'self' ${hashes.join(' ')}`,
+              "style-src 'self' 'unsafe-inline'", // Mermaid and React set inline styles
+              "img-src 'self' data: blob: https: http:", // images from the web, when the reader allows them
+              "font-src 'self' data:",
+              "connect-src 'self'", // the model files
+              "object-src 'none'",
+              "base-uri 'self'",
+            ].join('; ')
+            const charset = html.match(/<meta charset="[^"]*"\s*\/?>/)
+            if (!charset || charset.index == null) throw new Error('marksage-csp: no <meta charset> in index.html')
+            const at = charset.index + charset[0].length
+            return `${html.slice(0, at)}\n    <meta http-equiv="Content-Security-Policy" content="${csp}" />${html.slice(at)}`
+          },
+        },
+      },
     ],
+    // `vite preview` sends vercel.json's headers for every page, as production does.
+    preview: { headers: pageHeaders() },
     // training/data holds ~270k cloned files for the model pipeline — never watch or scan them.
     server: { watch: { ignored: ['**/training/data/**'] } },
     optimizeDeps: { entries: ['index.html'] },
   }
 })
+
+/** vercel.json's headers for every path ("/(.*)"), for `vite preview`. */
+function pageHeaders(): Record<string, string> {
+  const config = JSON.parse(readFileSync('vercel.json', 'utf8')) as { headers?: { source: string; headers: { key: string; value: string }[] }[] }
+  const all = config.headers?.find((h) => h.source === '/(.*)')?.headers ?? []
+  return Object.fromEntries(all.map((h) => [h.key, h.value]))
+}

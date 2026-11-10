@@ -94,6 +94,12 @@ training/                 Own models' pipeline (collect → split → train; bui
 - **Privacy:** everything stored must be needed by a feature the user chose (no cookies, analytics or third-party requests).
   Images from other websites load only with "Load images from the web" on (`lib/remoteImages.ts`, About → Privacy;
   off shows a placeholder + a bar linking there) and never send a referrer. Any new key or download must be listed in About → Privacy & storage (EN + PT-BR) and be removed by "Delete all Marksage data" (`deleteAllLocalData`). (Renamed from `markdown-preview:*`; `index.html` migrates old keys once on load.)
+- **Security headers:** the built page carries a Content-Security-Policy as a `<meta>` (`marksage-csp` in
+  `vite.config.ts`: `default-src 'self'`, inline scripts by hash computed at build, images from the web allowed for
+  the opt-in setting) plus `vercel.json`'s headers (`frame-ancestors 'none'`, `nosniff`, `no-referrer`, a
+  Permissions-Policy that turns off camera, microphone, geolocation, payment and USB — a speech feature would need
+  the microphone back). `vite preview` sends the same headers; `tests/e2e/security.spec.ts` fails on any violation.
+  A new third-party request, worker or embed needs the policy changed in the same commit.
 - **Scroll sync:** preview blocks carry `data-line` (rehype plugin in `lib/scrollSync.ts`); the editor side is measured with a hidden mirror. Keep `rehypeSourceLines` on the preview.
   The preview renders after the editor (deferred): `useScrollSync` re-syncs when the preview's content resizes while
   the editor is the driver (a paste, typing at the end).
