@@ -3,8 +3,8 @@
 Marksage ships two tiny models of its own: one names the **language of a code block** (21 answers, from
 TypeScript to "not code"), the other names the **type of a document section** for the Outline (13 types,
 plus "other"). They share one design, one file format and one training recipe. Two more were trained the
-same way — for structure hints and paste types — and aren't used, because they didn't do better than the rules
-on real text (section 8).
+same way — for structure hints and paste types — and aren't used, because they didn't do clearly better than the
+rules on real text (section 8).
 
 > This page assumes no machine-learning background. Every term is explained the first time it appears,
 > and there's a glossary at the end. The numbers in the examples are real: they come from the model files

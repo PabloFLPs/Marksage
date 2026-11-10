@@ -4,7 +4,7 @@ O Marksage traz dois pequenos modelos próprios. Um diz a **linguagem de um bloc
 TypeScript a "não é código"); o outro diz o **tipo de uma seção** do documento, para a Estrutura (13 tipos, mais
 "outro"). Os dois têm a mesma arquitetura, o mesmo formato de arquivo e a mesma receita de treinamento. Mais dois foram
 treinados do mesmo jeito, para as dicas de formatação e os tipos de conteúdo colado, e não são usados, porque não
-se saíram melhor que as regras em texto real (seção 8).
+se saíram claramente melhor que as regras em texto real (seção 8).
 
 > Esta página não pressupõe nenhum conhecimento de machine learning. Cada termo é explicado na primeira vez que
 > aparece, e há um glossário no fim. Os números dos exemplos são reais: vêm dos arquivos de modelo que o app

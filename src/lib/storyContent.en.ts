@@ -79,7 +79,7 @@ const content: StoryContent = {
       title: 'The models that didn’t ship',
       body: [
         'Two more models were trained: one for formatting hints, one for paste types. On fresh data the formatting model beat the rules by a single line — too thin to justify a download — and the paste model was less precise than the rules. Neither ships; both results are documented next to the ones that worked.',
-        'The policy since: a model is used only where it matches or beats the rules on a fresh held-out set. The modes say exactly that: Off, Rules, Rules + AI.',
+        'The policy since: a model is used only where, on a fresh held-out set, it gets clearly more answers right than the rules at about the same precision. The modes say exactly that: Off, Rules, Rules + AI.',
       ],
       facts: ['Formatting hints, 227 held-out lines: rules 140 shown / 88.6% · rules + model 141 / 88.7%', 'Paste types, 53 held-out pastes: rules 97.6% · model 90.9%'],
       link: { label: 'How Smart Assist works', hash: 'smart-assist' },

@@ -126,9 +126,10 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   renamed on 2026-10-29 from Heuristics / Hybrid, stored values unchanged). A first visit (nothing stored) starts in
   Rules (`loadAssistMode`); a stored `off` stays off. "AI" = Marksage's own small models, nothing hosted.
   Which question uses a model in each mode is a table in three places — SMART-ASSIST §1.3 (EN + PT), the About
-  page (`ModeTable`) and the README — keep them in sync. A model is used in Rules + AI only where it matches or beats
-  the rules on a fresh held-out set (precision *and* right answers); structure and paste models were tried on
-  2026-10-28 and didn't (training/README.md).
+  page (`ModeTable`) and the README — keep them in sync. A model is used in Rules + AI only where it gets clearly more
+  answers right than the rules on a fresh held-out set, at about their precision (the code model: 1.7–2.2× the
+  right answers, within 2 points of their precision); structure and paste models were tried on 2026-10-28 and
+  didn't (structure: one line more in 227; paste: less precise — training/README.md). Say it that way everywhere.
 - `HeuristicEngine` (always available) routes by question id (`assist/questions.ts`) to `assist/heuristics/*`.
 - `ModelEngine` (Rules + AI mode; stored value `model`): Marksage's own code-language model (`assist/model/`, weights in `public/models/lang-v2.bin`)
   answers `fence.language` — plus confident heuristic answers the model agrees with, and heuristic answers ≥ 99% sure

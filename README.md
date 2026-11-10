@@ -13,8 +13,8 @@ is a one-minute tour of Smart Assist.
 - **Local-first.** No backend, no accounts, no analytics: documents and settings stay in your browser, each one
   listed in About → Privacy & storage and removable with one click.
 - **Its own small models, measured honestly.** Two 385 KB models trained in this repo — code-block language and
-  section types — used only where they beat the rules on repositories they never saw: about twice the right
-  code-language suggestions at about the same precision, on three held-out sets.
+  section types — used only where they get clearly more answers right than the rules on repositories they never saw: about
+  twice the right code-language suggestions at about the same precision, on three held-out sets.
 - **What didn't ship is documented too.** Models for structure hints, paste types and a v3 code model were trained,
   judged against a bar written down before the run, and left out — with the numbers.
 
@@ -39,7 +39,7 @@ ship / don't-ship call are mine.
   lists, JSON/code → fenced block), structure hints (`**Title**` → heading, `-item` / `• item` → list,
   `[text] (url)` → link…), per-section readability dots. Suggest-only: `Tab` accepts, `Esc` dismisses, undo
   still works. Two modes: **Rules** (instant, no download) and **Rules + AI** — Marksage's own tiny models
-  where they beat the rules (385 KB each, ~0.1 ms per decision, trained in this repo), downloaded once after
+  where they get clearly more right than the rules (385 KB each, ~0.1 ms per decision, trained in this repo), downloaded once after
   a notice:
 
   | Question | Rules | Rules + AI |
@@ -50,8 +50,8 @@ ship / don't-ship call are mine.
   | Readability | rules | rules |
   | Outline section types | rules (from the heading) | rules (from the heading), then the section AI model |
 
-  Models for structure hints and paste types were trained too and didn't beat the rules on real text
-  ([docs/MODELS.md](docs/MODELS.md) §8).
+  Models for structure hints and paste types were trained too and didn't do clearly better than the rules on
+  real text ([docs/MODELS.md](docs/MODELS.md) §8).
 - **Outline panel** — every section with its type (setup, reference, explanation…) and key sentence. Its
   **Document** tab shows what the file looks like, reading time, readability, tone signals and things worth a
   look (heading jumps, untagged code, images without alt text…). Its **Suggestions** tab lists every fix Smart

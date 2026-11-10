@@ -79,7 +79,7 @@ const content: StoryContent = {
       title: 'Os modelos que ficaram de fora',
       body: [
         'Mais dois modelos foram treinados: um para as dicas de formatação, outro para os tipos de conteúdo colado. Em dados novos, o de formatação superou as regras por uma única linha, pouco demais para justificar um download, e o de colagem foi menos preciso que as regras. Nenhum dos dois entrou no app; os dois resultados estão documentados ao lado dos que deram certo.',
-        'A política desde então: um modelo só é usado onde empata com as regras ou as supera em um conjunto de teste novo. Os modos dizem exatamente isso: Desligado, Regras, Regras + IA.',
+        'A política desde então: um modelo só é usado onde, num conjunto de teste novo, acerta claramente mais que as regras, com praticamente a mesma precisão. Os modos dizem exatamente isso: Desligado, Regras, Regras + IA.',
       ],
       facts: ['Dicas de formatação, 227 linhas de teste: regras, 140 exibidas / 88,6% · regras + modelo, 141 / 88,7%', 'Tipos de conteúdo colado, 53 colagens de teste: regras, 97,6% · modelo, 90,9%'],
       link: { label: 'Como o Smart Assist funciona', hash: 'smart-assist' },

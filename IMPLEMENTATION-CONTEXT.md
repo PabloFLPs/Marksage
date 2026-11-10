@@ -1479,3 +1479,12 @@ A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Persona
   GitHub) read it as a setext heading. A blank line fixes it (the PT page had one). `check:docs` now fails on any
   `---`/`===` right under a paragraph line in the shipped docs (outside code; lists, quotes, tables and headings
   excluded) — it hadn't noticed this one.
+- **One ship policy on every page (QA D04).** The pages told two stories: the structure model "didn't beat the
+  rules" (README, About, SMART-ASSIST §1.2/§1.3, MODELS §1) vs "beat the rules by a single line" / "met the bar by
+  one line" (the story, SMART-ASSIST §4.6, MODELS §8.3); and the story's "used only where it matches or beats the
+  rules" didn't fit the code model in use, a point or two under the rules' precision on two of the three held-out
+  sets. The policy now reads as applied — "used only where, on a fresh held-out set, it gets clearly more answers
+  right than the rules at about the same precision" (PT "acerta claramente mais que as regras, com praticamente a
+  mesma precisão") — and the tried models "didn't do clearly better than the rules" ("não se saíram claramente
+  melhor"), which agrees with the one-line result. EN + PT-BR: README, About, SMART-ASSIST, MODELS, the story,
+  AGENTS.

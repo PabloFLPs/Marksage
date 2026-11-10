@@ -76,8 +76,8 @@ enough:
    in. Each had to prove, on repositories it never saw, that it adds answers the rules can't give. The code
    model gets about twice as many suggestions right as the rules (1.7–2.2× on three held-out sets) at about the
    same precision. The section model types sections whose heading says nothing. Two more were trained and
-   measured the same way — structure hints and paste types — and didn't do better than the rules on real
-   text, so they aren't used (section 4.6).
+   measured the same way — structure hints and paste types — and didn't do clearly better than the rules
+   on real text, so they aren't used (section 4.6).
 3. **A general decision model** — for questions with no training data a small model could learn from. No
    feature needs one yet. Today's candidate is Laya, an open-weight model that runs locally, but it hasn't been
    tried in a browser yet (section 4.5).
@@ -90,8 +90,8 @@ by default, and your text will go only to the provider you pick. It will be docu
 ### 1.3 Two modes
 
 Smart Assist has two modes besides *Off*. **Rules** answers every question with rules: instant, nothing
-to download. **Rules + AI** uses Marksage's own models where they beat the rules on real text, and the rules
-everywhere else:
+to download. **Rules + AI** uses Marksage's own models where they get clearly more right than the rules on real
+text, and the rules everywhere else:
 
 | Question | Rules | Rules + AI |
 |---|---|---|
@@ -103,7 +103,7 @@ everywhere else:
 
 A third mode where *only* models decide was considered and dropped. Readability and the heading rule have no
 labels a model could learn from but their own output: a model trained on LIX scores would just copy LIX. And
-the structure and paste models didn't do better than the rules (section 4.6). Such a mode would have been
+the structure and paste models didn't do clearly better than the rules (section 4.6). Such a mode would have been
 weaker than Rules + AI without being any more honest.
 
 **Rules is the default.** A first visit starts in *Rules*: it runs on your device, downloads nothing and only
@@ -548,8 +548,8 @@ opt-in and clearly marked.
 ### 4.6 Tried, not used: structure hints, paste types, link text
 
 Three more questions went through the same process in October 2026 — trained (or written) on the public
-repositories, every choice made on a dev set, then measured once on held-out real text — and none did better
-than the rules. They're written down so the next attempt starts from the numbers.
+repositories, every choice made on a dev set, then measured once on held-out real text — and none did clearly
+better than the rules. They're written down so the next attempt starts from the numbers.
 
 **A structure model** — "is this near-miss line a list item or a heading?" (yes / no), same recipe and size as
 the other two, reading the line and two lines around it. It learned from 66,076 lines. The "yes" lines are real

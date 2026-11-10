@@ -76,7 +76,7 @@ Para cada pergunta, o Smart Assist tenta as opções abaixo, nesta ordem, e fica
    regras não dão. O modelo de código acerta cerca do dobro de sugestões das regras (1,7–2,2× em três conjuntos
    de teste), com praticamente a mesma precisão. O modelo de seções classifica seções cujo título não diz nada.
    Outros dois foram treinados e medidos do mesmo jeito, para dicas de formatação e tipos de conteúdo colado. Em texto
-   real, não superaram as regras, então ficaram de fora (seção 4.6).
+   real, não se saíram claramente melhor que as regras, então ficaram de fora (seção 4.6).
 3. **Um modelo de decisão geral**: para perguntas sem dados de treinamento, que um pequeno modelo não tem como
    aprender. Nenhum recurso precisa disso ainda. O candidato hoje é o Laya, um modelo open weight que roda
    localmente, mas que ainda não foi testado no navegador (seção 4.5).
@@ -90,8 +90,8 @@ chegar, vai ser documentada aqui.
 ### 1.3 Dois modos
 
 Além do *Desligado*, o Smart Assist tem dois modos. O **Regras** responde todas as perguntas com regras heurísticas:
-instantâneo, sem nada para baixar. O **Regras + IA** usa os modelos do próprio Marksage onde eles superam as
-regras em texto real, e as regras em todo o resto:
+instantâneo, sem nada para baixar. O **Regras + IA** usa os modelos do próprio Marksage onde eles acertam
+claramente mais que as regras em texto real, e as regras em todo o resto:
 
 | Pergunta | Regras | Regras + IA |
 |---|---|---|
@@ -103,7 +103,7 @@ regras em texto real, e as regras em todo o resto:
 
 Um terceiro modo, em que *só* modelos decidem, foi considerado e descartado. A legibilidade e a regra dos títulos
 não têm rótulos independentes para um modelo aprender: um modelo treinado com notas LIX só copiaria o LIX.
-E os modelos de formatação e de conteúdo colado não se saíram melhor que as regras (seção 4.6). Um
+E os modelos de formatação e de conteúdo colado não se saíram claramente melhor que as regras (seção 4.6). Um
 modo assim seria mais fraco que o Regras + IA, sem ser mais honesto.
 
 **O padrão é o Regras.** Na primeira visita, o Smart Assist começa no modo *Regras*: ele roda no seu
@@ -557,7 +557,7 @@ sinalizada.
 
 Em outubro de 2026, mais três perguntas passaram pelo mesmo processo: treinamento (ou regras escritas) nos repositórios
 públicos, todas as escolhas feitas num conjunto de desenvolvimento e uma única medição em texto real de teste. Nenhuma se saiu
-melhor que as regras. Elas ficam registradas aqui para que a próxima tentativa já comece pelos números.
+claramente melhor que as regras. Elas ficam registradas aqui para que a próxima tentativa já comece pelos números.
 
 **Um modelo de formatação**: "esta linha mal formatada é um item de lista ou um título?" (sim / não), com a
 mesma receita e o mesmo tamanho dos outros dois, lendo a linha e duas linhas em volta. Ele aprendeu com 66.076

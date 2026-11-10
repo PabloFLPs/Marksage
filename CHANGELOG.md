@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.48.9** · 2026-11-09 · `(this commit)` · fix(docs): a paragraph on the Smart Assist page no longer renders as a heading
+- **3.48.10** · 2026-11-09 · `(this commit)` · fix(copy): every page states the same ship policy for the models
+- **3.48.9** · 2026-11-09 · `ba29640` · fix(docs): a paragraph on the Smart Assist page no longer renders as a heading
 - **3.48.8** · 2026-11-09 · `282e455` · fix(meta): link previews and the start screen say the AI models are opt-in
 - **3.48.7** · 2026-11-09 · `9fcee9d` · fix(privacy): an image address without "//" waits for permission too
 - **3.48.6** · 2026-11-06 · `9e7a07f` · fix(about): the story link reads cleanly on a phone
