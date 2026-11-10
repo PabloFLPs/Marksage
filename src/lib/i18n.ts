@@ -15,6 +15,12 @@ export const LANGS: { id: Lang; label: string; short: string }[] = [
 export type MessageKey = keyof typeof en
 export type Vars = Record<string, string | number>
 
+/** `key.one` when there's exactly one and that key exists ("1 char", not "1 chars"); `key` otherwise. */
+export function countKey(key: MessageKey, n: number): MessageKey {
+  const one = `${key}.one`
+  return n === 1 && one in en ? (one as MessageKey) : key
+}
+
 const DICTS: Record<Lang, Partial<Record<MessageKey, string>>> = { en, 'pt-BR': pt }
 
 export function translate(lang: Lang, key: string, vars?: Vars): string {

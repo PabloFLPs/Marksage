@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Search, X } from 'lucide-react'
 import { useI18n } from '../hooks/useI18n'
+import { countKey } from '../lib/i18n'
 
 /** Search field for Recent documents (filters by title, file name and content). */
 export function HistorySearch({ value, onChange, autoFocus = false, focusKey = 0 }: { value: string; onChange: (v: string) => void; autoFocus?: boolean; /** Changes on every menu opening: focus again (reopened during its exit animation, it isn't remounted). */ focusKey?: number }) {
@@ -68,8 +69,8 @@ export function ClearHistory({ count, onClear }: { count: number; onClear: () =>
       </button>
     )
   return (
-    <span className="anim-rise inline-flex items-center gap-2 text-xs" role="group" aria-label={t('history.clearAsk', { n: String(count) })}>
-      <span className="text-ink-muted dark:text-dark-ink-muted">{t('history.clearAsk', { n: String(count) })}</span>
+    <span className="anim-rise inline-flex items-center gap-2 text-xs" role="group" aria-label={t(countKey('history.clearAsk', count), { n: String(count) })}>
+      <span className="text-ink-muted dark:text-dark-ink-muted">{t(countKey('history.clearAsk', count), { n: String(count) })}</span>
       <button
         ref={yesRef}
         type="button"

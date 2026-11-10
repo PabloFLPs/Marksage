@@ -1,5 +1,5 @@
 import type { DocStats } from '../assist/docStats'
-import type { Vars } from './i18n'
+import { countKey, type MessageKey, type Vars } from './i18n'
 
 type T = (key: string, vars?: Vars) => string
 
@@ -9,7 +9,8 @@ export function kindReason(kind: NonNullable<DocStats['kind']>, t: T): string {
   if (first?.startsWith('file:')) return t('doc.because.file', { name: first.slice(5) })
   if (first?.startsWith('shape:')) {
     const [sections, tables, code] = first.slice(6).split(',')
-    return t('doc.because.shape', { sections, tables, code })
+    const count = (key: MessageKey, n: string) => t(countKey(key, Number(n)), { n })
+    return t('doc.because.shape', { parts: [count('doc.n.sections', sections), count('doc.n.tables', tables), count('doc.n.code', code)].join(', ') })
   }
   if (first?.startsWith('steps:')) return t('doc.because.steps', { n: first.slice(6) })
   if (first === 'lists') return t('doc.because.lists')

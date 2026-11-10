@@ -6,6 +6,7 @@ import type { OutlineItem } from '../assist/outline'
 import type { OutlineModelStatus } from '../assist/useOutline'
 import { plainHeading } from '../assist/sections'
 import { useI18n } from '../hooks/useI18n'
+import { countKey } from '../lib/i18n'
 import { DocumentTab } from './DocumentTab'
 import { SuggestionsTab, type SuggestionsTabProps } from './SuggestionsTab'
 
@@ -82,7 +83,7 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
               id={`panel-tab-${id}`}
               aria-selected={current === id}
               tabIndex={current === id ? 0 : -1}
-              title={id === 'outline' && items.length > 0 ? t('outline.count', { n: items.length, typed }) : undefined}
+              title={id === 'outline' && items.length > 0 ? t(countKey('outline.count', items.length), { n: items.length, typed }) : undefined}
               aria-controls={`panel-${id}`}
               onClick={() => onTabChange(id)}
               className={`inline-flex items-center gap-1 rounded-md px-1.5 py-1 text-[13px] transition-colors ${
@@ -102,8 +103,8 @@ export function OutlinePanel({ items, status, activeLine, onSelect, onHover, onC
           ))}
         </div>
         {current === 'outline' && items.length > 0 && !suggestions && (
-          <span title={t('outline.count', { n: items.length, typed })} className="ml-1 min-w-0 truncate text-xs text-ink-muted dark:text-dark-ink-muted">
-            {t('outline.count', { n: items.length, typed })}
+          <span title={t(countKey('outline.count', items.length), { n: items.length, typed })} className="ml-1 min-w-0 truncate text-xs text-ink-muted dark:text-dark-ink-muted">
+            {t(countKey('outline.count', items.length), { n: items.length, typed })}
           </span>
         )}
         <button

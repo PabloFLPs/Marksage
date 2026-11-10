@@ -1,6 +1,7 @@
 import { FileText, X } from 'lucide-react'
 import { entryTitle, numberedEntries, relativeTime, type HistoryEntry } from '../lib/history'
 import { useI18n } from '../hooks/useI18n'
+import { countKey } from '../lib/i18n'
 
 interface HistoryListProps {
   entries: HistoryEntry[]
@@ -51,7 +52,7 @@ export function HistoryList({ entries, currentId, onOpen, onRemove, limit, numbe
                   {dirty && <span className="text-accent dark:text-dark-accent" title={t('history.notExported')}>*</span>}
                 </span>
                 <span className="block text-[11px] text-ink-muted dark:text-dark-ink-muted">
-                  {current ? t('history.openNow') : relativeTime(e.updatedAt, t, lang)} · {t('history.chars', { n: e.content.length.toLocaleString(lang) })}
+                  {current ? t('history.openNow') : relativeTime(e.updatedAt, t, lang)} · {t(countKey('history.chars', e.content.length), { n: e.content.length.toLocaleString(lang) })}
                 </span>
               </span>
             </button>

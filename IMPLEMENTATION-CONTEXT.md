@@ -1553,3 +1553,9 @@ the old name.
   the button's and the menu's accessible name (and the tooltip when no status applies) in every mode, though Rules
   runs no AI. Now "Smart Assist" in both languages; the mode is in the name already ("Assist: Rules — Smart
   Assist"), and the Rules + AI status text still says "local models".
+- **Counts at one (launch QA D19).** "1 chars" and "Open now · 1 chars" in Recent, "Clear all 1?", "1 sections ·
+  0 typed" on the Outline tab, and "1 tables" in the document-type reason (PT "1 caracteres", "Limpar os 1?", "1
+  seções"). `countKey(key, n)` in `lib/i18n.ts` picks `key.one` when n is 1 and that key exists — the pattern
+  `shell.words.one` already used, now shared. New `.one` keys: `history.chars`, `history.clearAsk` ("Clear 1
+  document?" / "Limpar 1 documento?"), `outline.count`; `doc.because.shape` now joins `doc.n.sections|tables|code`
+  (each with `.one`). Unit tests: `tests/unit/i18n.test.ts`.
