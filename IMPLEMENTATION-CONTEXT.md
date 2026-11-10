@@ -1495,3 +1495,11 @@ A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Persona
   ("Labeled examples") regenerated with `scripts/diagrams.py docs` (the other diagrams came out identical). No
   heading or anchor changed; code comments, the held-out fixtures and these notes keep their spelling. The sample's
   lines are unchanged (`check:docs` clean).
+- **The tour's first instruction is true now (QA D13, copy only).** "Move the cursor around" promised suggestions
+  where the caret goes, but the bar offers the untagged code blocks first wherever the caret is, and skips the
+  caret's own line until you pause. The tour now says "Follow the checklist in order: suggestions show up at the
+  bottom of the editor. The Outline's **Suggestions** tab lists them all, to jump to each one" (PT "Siga a lista na
+  ordem… A aba **Sugestões** da Estrutura lista todas, para você ir direto a cada uma") — checked in Chromium,
+  both languages: accepting with Tab from the start gives the three code blocks, then the formatting slips, in the
+  checklist's order. Same line, same slips (`check:docs` clean). Still open (QA D13, later): a fresh suggestion
+  after Esc, and the nearest candidate across kinds.

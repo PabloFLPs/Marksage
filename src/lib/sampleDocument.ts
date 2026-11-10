@@ -13,7 +13,7 @@
  */
 export const SAMPLE_DOCUMENT = `# Pitwall
 
-> **Smart Assist tour.** This README has a few slips left in on purpose. Move the cursor around: suggestions show up at the bottom of the editor. **Tab** accepts, **Esc** dismisses, **Ctrl/⌘ Z** undoes. Nothing changes unless you accept it.
+> **Smart Assist tour.** This README has a few slips left in on purpose. Follow the checklist in order: suggestions show up at the bottom of the editor. The Outline's **Suggestions** tab lists them all, to jump to each one. **Tab** accepts, **Esc** dismisses, **Ctrl/⌘ Z** undoes. Nothing changes unless you accept it.
 >
 > - [ ] Give the code blocks a language (Installation, Usage, Configuration)
 > - [ ] Fix the formatting slips (Usage, Configuration, FAQ, the last line)
@@ -103,7 +103,7 @@ AGPL-3.0.
 
 export const SAMPLE_DOCUMENT_PT_BR = `# Pitwall
 
-> **Tour do Smart Assist.** Este README tem alguns erros deixados de propósito. Mova o cursor pelo texto: as sugestões aparecem na parte de baixo do editor. **Tab** aceita, **Esc** ignora e **Ctrl/⌘ Z** desfaz. Nada muda sem você aceitar.
+> **Tour do Smart Assist.** Este README tem alguns erros deixados de propósito. Siga a lista na ordem: as sugestões aparecem na parte de baixo do editor. A aba **Sugestões** da Estrutura lista todas, para você ir direto a cada uma. **Tab** aceita, **Esc** ignora e **Ctrl/⌘ Z** desfaz. Nada muda sem você aceitar.
 >
 > - [ ] Dê uma linguagem aos blocos de código (Instalação, Uso, Configuração)
 > - [ ] Corrija os erros de formatação (Uso, Configuração, Perguntas frequentes, a última linha)
