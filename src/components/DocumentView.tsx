@@ -133,7 +133,7 @@ export function DocumentView(p: DocumentViewProps) {
   // The preview follows the text at low priority: keystrokes paint first, the preview catches up when idle
   // (long documents render in pieces React can pause between — see lib/chunks.ts).
   const previewContent = useDeferredValue(document.content)
-  // Images from other websites: not loaded unless the reader allows it (About → Privacy & storage, launch QA #11).
+  // Images from other websites: not loaded unless the reader allows it (About → Privacy & storage, development check #11).
   const blockedImages = useMemo(() => (p.remoteImages ? 0 : countRemoteImages(previewContent)), [p.remoteImages, previewContent])
   const remoteBar =
     blockedImages > 0 ? (

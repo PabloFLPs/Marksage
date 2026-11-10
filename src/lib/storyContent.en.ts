@@ -93,9 +93,9 @@ const content: StoryContent = {
     },
     {
       date: '2026-10-30',
-      title: 'Launch QA by five AI agents',
+      title: 'A development check by five AI agents',
       body: [
-        'Before launch, five AI agents each played a first-time user — impatient, skeptical, on a phone over slow 3G, a non-native English speaker, and one trying to break it — driving the real app in a browser. They reported 36 findings: 35 were fixed, one change per commit, each documented; one is planned.',
+        'During development, five AI agents each played a first-time user — impatient, skeptical, on a phone over slow 3G, a non-native English speaker, and one trying to break it — driving the real app in a browser. They reported 36 findings: 35 were fixed, one change per commit, each documented; one is planned.',
         'Two show the method. A 25-second freeze on big tables looked like slow rendering; profiling traced it to a quadratic loop in a Markdown parser dependency, and an update took it to 1.7 s. And when the code model called clearly typed TypeScript “JavaScript”, a clue-by-clue breakdown showed five decisive clues (`: number` the strongest) averaged away among 65 the two languages share. For now, that led to letting the rules decide when they’re nearly certain (measured before it went in), and to the next model’s design.',
       ],
       facts: ['36 findings: 35 fixed, 1 planned', 'Big tables: ~25 s → 1.7 s', 'Fallback: +1 right on the tuning set, held-out sets unchanged, 0 new mistakes'],

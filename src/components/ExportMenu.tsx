@@ -140,7 +140,7 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
                 if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
                   e.preventDefault()
                   // Stop here: App's window shortcut would see the panel just closed and open it again,
-                  // so every ⌘S after the first downloaded another copy (launch QA #2).
+                  // so every ⌘S after the first downloaded another copy (development check #2).
                   e.stopPropagation()
                   submit()
                 }

@@ -26,7 +26,7 @@ const LABELS: Record<StructureKind, string> = {
 
 /**
  * F3 — `noul` per candidate line; skips the line being typed unless `onLine` (after a longer pause, so a lone
- * `#Title` or the line you just finished still gets its hint — launch QA #22).
+ * `#Title` or the line you just finished still gets its hint — development check #22).
  */
 export async function suggestStructure(
   text: string,

@@ -55,7 +55,7 @@ export function MarkdownEditor({
     ref.current?.focus({ preventScroll: true })
   }, [ref])
 
-  // The suggestion bar covered the last lines and took their taps (launch QA #19): when it appears, scroll the
+  // The suggestion bar covered the last lines and took their taps (development check #19): when it appears, scroll the
   // caret's line above it if it would sit underneath.
   useEffect(() => {
     const ta = ref.current

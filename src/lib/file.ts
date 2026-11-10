@@ -1,6 +1,6 @@
 // Markdown only (plain .txt is refused on purpose). .mdx is Markdown + JSX: it opens as Markdown, the JSX shows as text.
 /**
- * Big documents (launch QA #15): from 1 M characters editing gets slow, so Marksage says so; over 5 M it opens
+ * Big documents (development check #15): from 1 M characters editing gets slow, so Marksage says so; over 5 M it opens
  * read-only — the browser can't keep it (#13) and the editor froze or crashed the tab on such files.
  */
 export const LARGE_DOC_CHARS = 1_000_000
@@ -9,7 +9,7 @@ export const READ_ONLY_DOC_CHARS = 5_000_000
 export const ACCEPTED_EXTENSIONS = ['.md', '.markdown', '.mdx', '.mdown', '.mkd', '.mkdn', '.mdwn']
 
 /** A NUL character never appears in a text file — it's a binary file renamed (an image, a PDF…). Checked over the
- * whole file: a NUL after the first 8 KB slipped through before (launch QA #29). */
+ * whole file: a NUL after the first 8 KB slipped through before (development check #29). */
 export function looksBinary(text: string): boolean {
   return text.includes('\u0000')
 }
@@ -22,7 +22,7 @@ export function isMarkdownFile(filename: string): boolean {
 /**
  * The file's text: UTF-16 when it starts with that byte-order mark, else UTF-8 — and when the bytes aren't valid
  * UTF-8, Windows-1252 (Latin-1's superset), the usual encoding of older Western files. Reading those as UTF-8
- * turned "Título" into "T�tulo", and Export then saved the damage (launch QA #29).
+ * turned "Título" into "T�tulo", and Export then saved the damage (development check #29).
  */
 export async function readFileAsText(file: File): Promise<string> {
   let bytes: Uint8Array

@@ -37,7 +37,7 @@ const ICONS: Record<'classic' | 'sunset', { label: string; svg: string }> = {
 
 export const APP_ICON_IDS: AppIconId[] = ['classic', 'mono', 'outline', 'sunset']
 /** i18n key of an icon style's name (`label` above is its English name). The `outline` style shows as "Line":
- * "Outline" is the panel's name (launch QA #24). */
+ * "Outline" is the panel's name (development check #24). */
 export const appIconLabelKey = (id: AppIconId) => `icon.${id}` as const
 export function appIconUrl(id: AppIconId, theme: IconTheme = 'light'): string {
   const svg = id === 'mono' || id === 'outline' ? THEMED[id].svg[theme] : ICONS[id].svg

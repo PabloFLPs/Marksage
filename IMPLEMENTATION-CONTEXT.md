@@ -1449,8 +1449,13 @@ sample explained, three small UI items and two ROADMAP entries.
 
 ## 42. Launch QA fixes (2026-11-09)
 
-A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Personal/Writing/Marksage Launch QA
-(2026-11-09).md`); Pablo approved the six fixes it recommended before posting — one commit each.
+A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Personal/Projects/Marksage/QA/Marksage
+Launch QA (2026-11-09).md`); Pablo approved the six fixes it recommended before posting — one commit each.
+
+Naming (Pablo, 2026-11-09): this round is **the launch QA** (findings D01–D84). The five-persona round of 2026-10-29
+(§29), called "launch QA" in §29–§41, in older commits and in code comments as "launch QA #N", is now the
+**development check**: the story, the ROADMAP (§0.1), code comments and training/README say "development check #N".
+These notes and the commit messages keep the old name.
 
 - **Images from the web: `https:host` no longer gets through (QA D01).** `remoteHost` called an address remote only
   if it started with `//` or `http(s)://`, but the browser resolves `https:host/x` and `https:/host/x` (no `//`) to

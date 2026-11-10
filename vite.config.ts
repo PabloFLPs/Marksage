@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
   if (mode === 'production' && !siteUrl)
     console.warn('\n⚠ VITE_SITE_URL is not set — link previews (og:image, og:url) will be relative. See .env.example.\n')
   // AGPL: About links the exact source of the build people are using (the commit), and the site serves the
-  // license text itself at /LICENSE.txt (launch QA #28).
+  // license text itself at /LICENSE.txt (development check #28).
   let commit = ''
   try {
     commit = execSync('git rev-parse HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()

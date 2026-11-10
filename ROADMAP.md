@@ -13,9 +13,9 @@ structure model, a paste-type model and a URL link-text rule were measured on fr
 Numbers and reasons: `IMPLEMENTATION-CONTEXT.md` §28, `training/README.md`, `docs/MODELS.md` §8.3–8.5.
 Follow-ups are in §4.
 
-## 0.1 Done (2026-10-29): launch QA fixes
+## 0.1 Done (2026-10-29): development check fixes
 
-A five-persona launch QA pass (impatient, skeptic, mobile on slow 3G, non-native English, "breaker") and Pablo's
+A five-persona development check (impatient, skeptic, mobile on slow 3G, non-native English, "breaker") and Pablo's
 own testing found 15 issues; all fixed: docs pages that went blank on a failed download (now Try again), Back
 from "How the models work" going to the wrong page, text lost on a fast reload, the empty-clipboard message,
 no "start writing" on the start screen, Smart Assist starting off (now **Rules** by default; modes renamed
@@ -120,7 +120,7 @@ Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Cont
   suggestions at the rules' precision; the section model adds little in Portuguese and on "performance" / "guide"
   sections (the items above and below). The docs already give the numbers; the next real step up is a general
   decision model (§2) or BYOK (§1), not tuning these two against sets they've seen.
-- **Preview layout on big documents** (launch QA #15): switching a 3 MB document to the split editor spends ~7 s
+- **Preview layout on big documents** (development check #15): switching a 3 MB document to the split editor spends ~7 s
   laying out the whole preview again. `content-visibility: auto` on the preview's pieces would skip off-screen ones,
   but scroll sync and the Outline measure those blocks — needs their positions to stay right.
 
@@ -144,7 +144,7 @@ Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Cont
 
 ## 4.1 Done (2026-10-30): code-language model v3, mean + max pooling — tried, not used
 
-A per-clue attribution of a TS → JS miss (launch QA #17; MODELS §2.7) showed v2's mean pooling drowning a few
+A per-clue attribution of a TS → JS miss (development check #17; MODELS §2.7) showed v2's mean pooling drowning a few
 decisive clues. Mean + max pooling was tuned on dev + repo-fold CV and judged once on a third, fresh held-out set
 (842 blocks, 158 repos) against a bar fixed beforehand. **It failed on the pairs** (six pair languages: 103 right ·
 88.0% vs v2's 106 · 89.8% in the app's hybrid; TS/JS worse) while being better overall (391 right · 93.8% vs

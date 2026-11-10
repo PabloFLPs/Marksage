@@ -16,7 +16,7 @@ interface TypeToEditOptions {
 
 /**
  * Read-first: opened and pasted files show the preview. Typing there switches to the editor and keeps the
- * keystroke — at the end of the block last clicked in the preview, else of the first block in view (launch QA
+ * keystroke — at the end of the block last clicked in the preview, else of the first block in view (development check
  * #8: testers typed into the preview and nothing happened). Space still scrolls; shortcuts and menus are untouched.
  */
 export function useTypeToEdit({ document, viewMode, showAbout, previewRef, textareaRef, changeViewMode, updateContent }: TypeToEditOptions) {

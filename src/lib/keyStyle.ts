@@ -35,7 +35,7 @@ export function keyLabel(token: KeyToken, style: KeyStyle): string {
   return LABELS[style][token] ?? token.toUpperCase()
 }
 
-/** A shortcut for tooltips and hints, in the chosen key style: "⌘⇧C" or "Ctrl + Shift + C" (launch QA #26). */
+/** A shortcut for tooltips and hints, in the chosen key style: "⌘⇧C" or "Ctrl + Shift + C" (development check #26). */
 export function shortcut(tokens: KeyToken[], style: KeyStyle): string {
   const keys = tokens.map((t) => keyLabel(t, style))
   return style === 'mac' ? keys.join('') : keys.join(' + ')

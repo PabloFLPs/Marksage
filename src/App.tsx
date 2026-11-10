@@ -280,7 +280,7 @@ export default function App() {
   const wordCount = useMemo(() => countWords(previewContent), [previewContent])
   const lineCount = useMemo(() => countLines(previewContent), [previewContent])
   const byteCount = useMemo(() => utf8Bytes(previewContent), [previewContent])
-  // Images from other websites: not loaded unless the reader allows it (About → Privacy & storage, launch QA #11).
+  // Images from other websites: not loaded unless the reader allows it (About → Privacy & storage, development check #11).
   const [remoteImages, setRemoteImages] = useState(loadRemoteImages)
   const changeRemoteImages = useCallback((on: boolean) => {
     setRemoteImages(on)
@@ -513,7 +513,7 @@ export default function App() {
         </footer>
       )}
 
-      {/* Another tab saved this document while this one had its own changes (launch QA #14). */}
+      {/* Another tab saved this document while this one had its own changes (development check #14). */}
       <Presence show={conflict && !showAbout} enter="anim-menu-in" exit="anim-menu-out" duration={140} className="fixed inset-x-3 top-[3.75rem] z-40 mx-auto max-w-md origin-top">
         <div role="alert" className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-amber-500/50 bg-surface px-3 py-2.5 text-sm shadow-lg dark:bg-dark-surface-soft">
           <AlertCircle className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />

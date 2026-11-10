@@ -10,7 +10,7 @@ export const EXIT_MS = 220
 
 export type InfoPage = 'about' | 'docs' | 'models' | 'story'
 function pageFromHash(): InfoPage | null {
-  const h = window.location.hash.toLowerCase() // "#ABOUT" works too (launch QA #36)
+  const h = window.location.hash.toLowerCase() // "#ABOUT" works too (development check #36)
   return h === '#about' || h === '#privacy' ? 'about' : h === '#smart-assist' ? 'docs' : h === '#models' ? 'models' : h === '#story' ? 'story' : null
 }
 
@@ -140,7 +140,7 @@ export function useInfoPages() {
     const id = idle(() => void loadDocsPage(lang).catch(() => {}))
     return () => cancel(id)
   }, [infoPage, lang])
-  // The tab's title follows the page and the language (launch QA #26): a shared #story link, a bookmark or the
+  // The tab's title follows the page and the language (development check #26): a shared #story link, a bookmark or the
   // history list says which page it is.
   useEffect(() => {
     const page = infoPage === 'about' ? t('title.about') : infoPage === 'docs' ? t('palette.docs') : infoPage === 'models' ? t('palette.models') : infoPage === 'story' ? t('story.back') : null

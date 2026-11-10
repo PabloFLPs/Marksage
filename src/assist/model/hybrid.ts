@@ -2,7 +2,7 @@ import type { Decision } from '../types.ts'
 import { passesGate } from '../types.ts'
 
 /**
- * A rules answer this sure stands even when the model is unsure and disagrees (2026-10-30, launch QA #17): on short
+ * A rules answer this sure stands even when the model is unsure and disagrees (2026-10-30, development check #17): on short
  * snippets the model's mean-pooled features dilute a few decisive cues — `const x: number = 1;` gave js 63 % while
  * the rules said ts 99 %. On the fixture sets this added one right suggestion (dev) and no wrong one anywhere.
  */

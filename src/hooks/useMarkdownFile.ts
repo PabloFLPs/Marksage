@@ -39,7 +39,7 @@ export function useMarkdownFile() {
   const docRef = useRef(document)
   docRef.current = document
   // What storage holds, as far as this tab knows: it writes only when its document differs, so an idle tab never
-  // overwrites another tab's newer save (launch QA #14: reloading a stale tab used to do exactly that).
+  // overwrites another tab's newer save (development check #14: reloading a stale tab used to do exactly that).
   const persisted = useRef(sig(document))
   // Another Marksage tab saved this same document while this one had changes of its own: the user picks.
   const [conflict, setConflict] = useState<MarkdownDocument | null>(null)

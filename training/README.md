@@ -111,7 +111,7 @@ training; TS-vs-JS cues (type annotations, `interface`, generics).
   then raises each temperature until out-of-repo precision at the app's gate reaches 95%.
 - **Agreement hybrid** (`src/assist/model/hybrid.ts`): if the model isn't confident, a confident heuristic
   answer is used only when the model's top pick agrees. +~20 suggestions on dev at equal precision.
-  Since 2026-10-30 also when the heuristics are ≥ 99% sure (`RULES_OVERRIDE`, launch QA #17): dev 157 → 158
+  Since 2026-10-30 also when the heuristics are ≥ 99% sure (`RULES_OVERRIDE`, development check #17): dev 157 → 158
   shown at the same 94.9% precision, accuracy 81.8% → 82.1%; the first two held-out sets unchanged, the third (2026-10-30)
   405 → 408 shown, +3 right, no new mistakes.
 - **Tried and dropped:** training on 1–3 line slices of longer blocks (−2 to −5 points accuracy on dev);
@@ -191,7 +191,7 @@ Run once on 2026-10-30 (`eval-test3.ts`, below); in `npm run eval:assist` since.
 ## Tried: code-language model v3 — mean + max pooling (2026-10-30) — not used
 
 **Question:** v2 averages its clues, so a few decisive ones (`: number`, `) :`) drown among many shared ones
-(launch QA #17; docs/MODELS.md §2.7). Hardest hit: languages that are near-supersets of each other — TS/JS,
+(development check #17; docs/MODELS.md §2.7). Hardest hit: languages that are near-supersets of each other — TS/JS,
 C++/C, partly C#/Java, and JSONC/JSON (which shares the `json` label, so it's measured as `json` blocks with
 comments). **Idea (ROADMAP §4.1):** concatenate the mean with a per-dimension max, so one strong clue can't be
 averaged away (`--pooling mean+max`; the header's `pooling` field, read by the app and the standalone runner).

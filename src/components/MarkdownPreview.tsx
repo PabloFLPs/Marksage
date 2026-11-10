@@ -201,7 +201,7 @@ function scrollToAnchor(from: HTMLElement, raw: string) {
   target?.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' })
 }
 
-/** Big tables show this many body rows until "Show all" (launch QA #16: 20 × 2,000 froze the page ~25 s). */
+/** Big tables show this many body rows until "Show all" (development check #16: 20 × 2,000 froze the page ~25 s). */
 const TABLE_ROWS_SHOWN = 200
 
 /** A table; past TABLE_ROWS_SHOWN body rows, the first ones plus "Show all N rows" and a note that it may be slow. */

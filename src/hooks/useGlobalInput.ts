@@ -77,7 +77,7 @@ export function useGlobalInput(o: GlobalInputOptions) {
 
     // One file at a time: the first Markdown file among those dropped (else the first, which gets the usual
     // refusal), and a note when others were left out. Dropped text (no files) outside the editor opens like a
-    // paste; on the editor the browser inserts it as usual (launch QA #30).
+    // paste; on the editor the browser inserts it as usual (development check #30).
     const handleDrop = (e: DragEvent) => {
       setIsDragging(false)
       const files = Array.from(e.dataTransfer?.files ?? [])
@@ -109,7 +109,7 @@ export function useGlobalInput(o: GlobalInputOptions) {
     }
   }, [openFile, showResult, pasteText, showNotice, t])
 
-  // Esc leaves About and the docs pages, like their Back — unless a menu, panel or field has it (launch QA #36).
+  // Esc leaves About and the docs pages, like their Back — unless a menu, panel or field has it (development check #36).
   useEffect(() => {
     if (!showAbout) return
     const onKey = (e: KeyboardEvent) => {

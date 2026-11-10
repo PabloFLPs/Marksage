@@ -19,7 +19,7 @@ export function useViewMode({ readOnly, isDesktop, hasDocument }: { readOnly: bo
   const changeViewMode = useCallback(
     (mode: ViewMode) => {
       if (mode === 'edit') {
-        if (readOnlyRef.current) return // over 5 MB: the preview only (launch QA #15)
+        if (readOnlyRef.current) return // over 5 MB: the preview only (development check #15)
         if (editorTimer.current) window.clearTimeout(editorTimer.current)
         editorTimer.current = null
         setEditorClosing(false)

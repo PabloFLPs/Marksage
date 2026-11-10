@@ -83,7 +83,7 @@ function MermaidView({ source, alt }: { source: string; alt: string }) {
   const [svg, setSvg] = useState<string | null>(null)
   const [themeKey, setThemeKey] = useState(0)
   // 'download': Mermaid's code didn't arrive — the browser remembers a failed module import for this page, so
-  // only a reload can fetch it again (launch QA #18: Try again never recovered). 'render': it arrived but couldn't draw.
+  // only a reload can fetch it again (development check #18: Try again never recovered). 'render': it arrived but couldn't draw.
   const [failed, setFailed] = useState<false | 'download' | 'render'>(false)
   const [attempt, setAttempt] = useState(0)
 

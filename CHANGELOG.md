@@ -8,7 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.48.13** · 2026-11-09 · `(this commit)` · fix(meta): the link-preview image says the AI models are opt-in
+- **3.48.13** · 2026-11-09 · `438a70d` · fix(meta): the link-preview image says the AI models are opt-in
 - **3.48.12** · 2026-11-09 · `53de76e` · fix(sample): the tour says to follow the checklist, which is what works
 - **3.48.11** · 2026-11-09 · `b689d2e` · fix(copy): American spelling in English, as the EN-US label says
 - **3.48.10** · 2026-11-09 · `7dbbfd4` · fix(copy): every page states the same ship policy for the models

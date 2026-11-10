@@ -143,7 +143,7 @@ export function Header({
         ) : (
           <>
             {/* On About and the docs pages the logo leaves them, and says where to. Elsewhere it would do nothing, so it
-                isn't a button there (launch QA #6: "Back to Marksage" on the editor read as a broken Back). */}
+                isn't a button there (development check #6: "Back to Marksage" on the editor read as a broken Back). */}
             {showingAbout ? (
               <button
                 type="button"

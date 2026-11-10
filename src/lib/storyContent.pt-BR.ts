@@ -93,9 +93,9 @@ const content: StoryContent = {
     },
     {
       date: '2026-10-30',
-      title: 'QA de lançamento feito por cinco agentes de IA',
+      title: 'Checagem de desenvolvimento com cinco agentes de IA',
       body: [
-        'Antes do lançamento, cinco agentes de IA fizeram o papel de quem usa o app pela primeira vez: alguém sem paciência, alguém desconfiado, alguém no celular com 3G lento, alguém que não tem o inglês como língua nativa e alguém tentando quebrar tudo. Todos usaram o app de verdade, num navegador. Eles trouxeram 36 achados: 35 foram corrigidos, uma mudança por commit, cada uma documentada; um está planejado.',
+        'Durante o desenvolvimento, cinco agentes de IA fizeram o papel de quem usa o app pela primeira vez: alguém sem paciência, alguém desconfiado, alguém no celular com 3G lento, alguém que não tem o inglês como língua nativa e alguém tentando quebrar tudo. Todos usaram o app de verdade, num navegador. Eles trouxeram 36 achados: 35 foram corrigidos, uma mudança por commit, cada uma documentada; um está planejado.',
         'Dois deles mostram bem o método. Um travamento de 25 segundos em tabelas grandes parecia renderização lenta; o profiling mostrou um loop quadrático numa dependência que interpreta o Markdown, e uma atualização dela derrubou o tempo para 1,7 s. E quando o modelo de código chamou de “JavaScript” um TypeScript claramente tipado, a análise sinal por sinal mostrou cinco sinais decisivos (`: number` o mais forte) que se perdiam na média com outros 65 que as duas linguagens têm em comum. Por enquanto, isso levou a deixar as regras decidirem quando têm quase certeza (medido antes de entrar), e ao desenho do próximo modelo.',
       ],
       facts: ['36 achados: 35 corrigidos, 1 planejado', 'Tabelas grandes: ~25 s → 1,7 s', 'Regras quando têm quase certeza: +1 acerto no conjunto de desenvolvimento, conjuntos de teste iguais, 0 erros novos'],

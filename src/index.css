@@ -706,7 +706,7 @@ body {
 .doc-diagram-mermaid svg {
   max-width: 720px;
 }
-/* Phones (launch QA #21): Mermaid's side-by-side charts shrank to 5–6 px labels. Below 600 px it keeps a readable
+/* Phones (development check #21): Mermaid's side-by-side charts shrank to 5–6 px labels. Below 600 px it keeps a readable
    width and the figure scrolls sideways instead. */
 @media (max-width: 599px) {
   .doc-diagram-mermaid {
@@ -763,7 +763,7 @@ body {
 .dark .doc-diagram .msd-line { stroke: var(--color-dark-ink-muted); }
 .dark .doc-diagram .msd-head { fill: var(--color-dark-ink-muted); }
 
-/* Touch screens: thumb-sized targets (launch QA #20). WCAG 2.5.8 asks ≥ 24 px; we aim for 40 px on what people tap
+/* Touch screens: thumb-sized targets (development check #20). WCAG 2.5.8 asks ≥ 24 px; we aim for 40 px on what people tap
    often — header buttons, panel tabs, copy buttons, the diagram switch, and anything marked `.tap`. */
 @media (pointer: coarse) {
   header button,
