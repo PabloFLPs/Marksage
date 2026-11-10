@@ -24,7 +24,7 @@ import { documentViewComponent, loadDocumentView } from './lib/documentView'
 import { PageLoadBoundary, PageLoading } from './components/PageLoad'
 import { countLines, countWords, formatBytes, utf8Bytes } from './lib/docStats'
 import { useInfoPages } from './hooks/useInfoPages'
-import { installPrintCopy, printWhenRendered } from './lib/printCopy'
+import { installPrintCopy, installPrintShortcut, printWhenRendered } from './lib/printCopy'
 import { useViewMode } from './hooks/useViewMode'
 import { useOutlinePanel } from './hooks/useOutlinePanel'
 import { useGlobalInput } from './hooks/useGlobalInput'
@@ -235,6 +235,7 @@ export default function App() {
   // pages keep their own titles.
   const printTitle = infoPage ? null : exportName.replace(/\.[a-z]+$/i, '')
   useEffect(() => installPrintCopy(() => printTitle), [printTitle])
+  useEffect(() => installPrintShortcut(() => printTitle), [printTitle])
   // Export → Save as PDF: the print dialog, under the name in the Export panel (which renames the document, like a
   // download). A phone that's editing shows the preview first, so the PDF is the rendered document.
   const handlePrintPdf = useCallback(
@@ -242,7 +243,7 @@ export default function App() {
       if (!document) return
       if (name !== document.filename) renameDocument(name)
       if (viewMode === 'edit' && !isDesktop) changeViewMode('preview')
-      printWhenRendered()
+      printWhenRendered(name.replace(/\.[a-z]+$/i, ''))
     },
     [document, renameDocument, viewMode, isDesktop, changeViewMode],
   )

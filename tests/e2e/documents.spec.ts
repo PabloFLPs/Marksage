@@ -141,8 +141,8 @@ test('Export → Save as PDF prints the rendered document under the name in the 
   await page.locator('header').getByRole('button', { name: 'Export Markdown' }).click()
   await page.locator('#export-name').fill('race-notes')
   await page.getByRole('button', { name: 'Save as PDF' }).click()
-  await expect.poll(printed).toEqual({ title: 'race-notes', rendered: true, source: false })
-  await expect(page.locator('#print-root')).toHaveCount(0)
+  await expect.poll(printed).toEqual({ title: 'race-notes', rendered: true, source: false, frame: true })
+  await expect(page.locator('iframe')).toHaveCount(0) // the print frame is gone after the dialog
   await expect(page.locator('header')).toContainText('race-notes')
 })
 
@@ -150,5 +150,15 @@ test('the palette saves as PDF too', async ({ page }) => {
   const printed = await stubPrint(page)
   await openSample(page)
   await palette(page, 'pdf')
-  await expect.poll(printed).toEqual({ title: 'pitwall-README', rendered: true, source: false })
+  await expect.poll(printed).toEqual({ title: 'pitwall-README', rendered: true, source: false, frame: true })
+})
+
+test('⌘/Ctrl + P prints the rendered document from the hidden frame, so the page never switches layout', async ({ page }) => {
+  const printed = await stubPrint(page)
+  await openSample(page)
+  await page.locator('textarea').focus()
+  await page.keyboard.press('ControlOrMeta+p')
+  await expect.poll(printed).toEqual({ title: 'pitwall-README', rendered: true, source: false, frame: true })
+  await expect(page.locator('iframe')).toHaveCount(0)
+  expect(await page.title()).not.toBe('pitwall-README')
 })

@@ -42,19 +42,24 @@ export const storedRecent = (page: Page) =>
 /** Horizontal overflow of the page, in px (0 = none). */
 export const overflow = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
 
-/** Replaces window.print with a stand-in that runs the print hooks and records what would have been printed. */
+/**
+ * Replaces print() — the page's, and the hidden print frame's (init scripts run in every frame) — with a stand-in that
+ * runs the print hooks and records, on the page, what would have been printed and from where.
+ */
 export async function stubPrint(page: Page) {
   await page.addInitScript(() => {
     window.print = () => {
-      window.dispatchEvent(new Event('beforeprint'))
+      const top = window.top ?? window
+      if (window === top) window.dispatchEvent(new Event('beforeprint'))
       const root = document.getElementById('print-root')
-      ;(window as unknown as { __printed: unknown }).__printed = {
-        title: document.title,
+      ;(top as unknown as { __printed: unknown }).__printed = {
+        title: top.document.title,
         rendered: !!root?.querySelector('.markdown-body h1'),
         source: !!root?.querySelector('.print-source'),
+        frame: window !== top,
       }
       window.dispatchEvent(new Event('afterprint'))
     }
   })
-  return () => page.evaluate(() => (window as unknown as { __printed?: { title: string; rendered: boolean; source: boolean } }).__printed)
+  return () => page.evaluate(() => (window as unknown as { __printed?: { title: string; rendered: boolean; source: boolean; frame: boolean } }).__printed)
 }

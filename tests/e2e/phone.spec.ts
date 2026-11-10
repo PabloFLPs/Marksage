@@ -29,5 +29,5 @@ test('Save as PDF while editing on a phone prints the rendered document, not its
   await expect(page.locator('textarea')).toBeVisible()
   await page.getByRole('button', { name: 'Export Markdown' }).click()
   await page.getByRole('button', { name: 'Save as PDF' }).click()
-  await expect.poll(printed).toEqual({ title: 'pitwall-README', rendered: true, source: false })
+  await expect.poll(printed).toEqual({ title: 'pitwall-README', rendered: true, source: false, frame: true })
 })

@@ -119,7 +119,10 @@ training/                 Own models' pipeline (collect → split → train; bui
   Recent (`lib/history.ts`) is shared the same way: every change applies to what storage holds *now*, never the
   tab's own copy (a stale copy written over the key dropped the other tab's documents), and other tabs' changes
   refresh the menu.
-- **Printing / Save as PDF:** `lib/printCopy.ts` copies the rendered preview into `#print-root` on `beforeprint`
+- **Printing / Save as PDF:** Save as PDF and ⌘/Ctrl P print from a hidden iframe (`printDocument` in
+  `lib/printCopy.ts`: the page's stylesheets and `<html>` attributes, a copy of the preview in `#print-root`), so the
+  page on screen never switches to the print layout (it blinked). The browser's own File → Print falls back to
+  the page: `installPrintCopy` copies the rendered preview into `#print-root` on `beforeprint`
   (the document's name as the title) and `@media print` in `index.css` shows only that copy, in the app's theme
   (backgrounds and the page margins printed, so dark prints dark). New app
   chrome needs nothing to stay off paper; controls inside the preview are hidden there by `#print-root button`.

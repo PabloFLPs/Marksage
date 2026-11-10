@@ -1626,3 +1626,17 @@ the old name.
   hooks and records what would print): desktop with a new name (title `race-notes`, the header renamed), the
   palette, and a phone while editing (rendered, not source); the palette test now expects both "exp" matches. No new
   dependency: first-load JS 97.9 → 98.2 KB gzip.
+- **Printing from a hidden iframe: no more blink** (Pablo: ⌘P blinked before the preview, the button after the
+  dialog; DevTools' "Emulate CSS media type: print" confirmed it was the page itself switching to the print layout
+  and back — with the button, `print()` blocks painting until the dialog closes, so the switch back, and the Export
+  panel's paused exit animation, showed afterwards). `printDocument(title)` builds an invisible same-origin iframe
+  (about:blank, so the CSP needs no `frame-src`): the page's stylesheets and `<style>` tags cloned in (printing waits
+  for them to load), `<html>`'s attributes copied (theme class, accent, `lang`), `#print-root` with a copy of the
+  preview, so the same print CSS applies; then `print()` on the frame. Chrome names the PDF after the page's title,
+  so the page carries the document's name while printing too. Cleanup (frame removed, title back) on the frame's
+  `afterprint`, else when the page has focus again, a minute at most. Save as PDF (`printWhenRendered`, which still
+  waits for the preview on a phone) and ⌘/Ctrl P (`installPrintShortcut`, `preventDefault` only when there's a
+  rendered document) both use it; the browser's File → Print still prints the page through `installPrintCopy`.
+  Checked: the frame's HTML prints the sample dark from edge to edge in 3 pages; no CSP violation. E2E: `stubPrint`
+  now covers the frame (init scripts run in every frame) and records `frame: true`; a new ⌘P test; the iframe is
+  gone afterwards.
