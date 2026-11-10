@@ -1521,3 +1521,6 @@ These notes and the commit messages keep the old name.
   they covered, 84 findings and none blocking, six fixed before the post — the `https:host` image and the ship
   policy as examples), after the 2026-10-30 entry, renamed in the commit before ("A development check by five AI
   agents" / "Checagem de desenvolvimento com cinco agentes de IA"). The ROADMAP follows in its own commit.
+- **The ROADMAP records the launch QA.** §0.2 "Done (2026-11-09): launch QA fixes" (what the round was and the six
+  fixes); §4 opens with the ten majors it left open (D06–D12, the rest of D13, D14, D15). The minors and nits stay
+  in the report in Pablo's vault.

@@ -26,6 +26,16 @@ smaller polish. Details: `IMPLEMENTATION-CONTEXT.md` §29.
 Idea left open (Pablo, not decided): readability **icons** instead of dots, as an option — only if it stays
 minimal.
 
+## 0.2 Done (2026-11-09): launch QA fixes
+
+The launch QA: ten AI agents in parallel (first-time visitor, a Brazilian phone, breaker, accessibility, PT-BR and
+EN review, accuracy against the code, performance, strategy, ML ideas), every screen in EN and PT-BR, light and
+dark, at 1280, 390 and 320 px. 84 findings (D01–D84), none blocking. Fixed before the post, one commit each:
+an image address without `//` (`https:host/x`) loading with "Load images from the web" off (D01), link previews and
+the start screen implying the AI models run by default (D02), a paragraph rendered as a heading on the Smart Assist
+page (D03), two versions of the ship policy (D04), British spellings (D05) and the tour's first instruction (D13,
+the copy). Details: `IMPLEMENTATION-CONTEXT.md` §42. What it left open is at the top of §4.
+
 ## 1. BYOK — bring your own key (next)
 
 **Status:** idea owned by Pablo. The gist, as the docs now put it (2026-11-05): an AI agent, with the model and
@@ -95,6 +105,21 @@ against these documents; fix on dev data, then measure):
   (its top answer on SMART-ASSIST is "other", 17–33%). Accepted for now (Pablo, 2026-11-05); see §7.1.
 
 ## 4. Smaller items
+
+Open from the launch QA (2026-11-09, majors; the report's minors and nits are in Pablo's notes):
+
+- **Smart paste on logs (D06):** a stack trace or `git status` is offered "Convert to Markdown list", and docker
+  compose logs a table. A code-or-log check before the list and table offers.
+- **Printing (D07):** "Save as PDF" gives one cut-off page with the header and buttons on it. A print stylesheet.
+- **Typing past ~250 KB (D08):** slows down; the line-number layer is about 75% of the cost.
+- **Over 400,000 characters (D09):** the document vanishes without a word on New, Open, Close or paste.
+- **"Delete all" and a second tab (D10):** another open Marksage tab writes the data back.
+- **Storage blocked (D11):** nothing is saved, and the warning is cleared in the same tick.
+- **A big JSON paste (D12):** ~600 KB without headings freezes the tab for over a minute.
+- **The suggestion bar after `Esc` (D13, the rest):** show the next suggestion; prefer the nearest candidate
+  across kinds (needs an eval run).
+- **Opening your own file (D14):** no sign that Smart Assist found anything until the caret reaches it.
+- **The phone keyboard (D15):** 3–5 editor lines remain, and the suggestion bar sits on the line being typed.
 
 Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Context §39–40), kept for later by Pablo
 (done since: the browser bar color, CI, the story's who-decided line, root file names, the chunk-size note):
