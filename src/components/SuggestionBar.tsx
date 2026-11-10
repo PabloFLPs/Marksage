@@ -55,7 +55,7 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
       >
         {icon}
         <div className="flex min-w-0 flex-1 items-center gap-1.5 font-medium text-ink dark:text-dark-ink">
-          <span className="truncate">{label}</span>
+          <span title={label} className="line-clamp-2 break-words">{label}</span>
           {byModel}
         </div>
         <div className="flex min-w-0 flex-wrap items-center gap-1.5">
@@ -88,6 +88,7 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
       </div>
     )
   }
+  // The title gets two lines before an ellipsis: on a phone, one cut it before its key word ("Add language “bas…").
   return (
     <div
       role="status"
@@ -98,7 +99,7 @@ export function SuggestionBar({ suggestion, onAccept, onDismiss, onLocate }: Sug
       {icon}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5 font-medium text-ink dark:text-dark-ink">
-          <span className="truncate">{label}</span>
+          <span title={label} className="line-clamp-2 break-words">{label}</span>
           {byModel}
         </div>
         {detail && (

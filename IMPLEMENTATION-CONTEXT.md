@@ -1543,3 +1543,9 @@ the old name.
   and the bare "o título não diz" → "o título não diz nada", the idiomatic form the docs already use three times
   (table, Mermaid source, both architecture diagrams via `scripts/diagrams.py docs`; the label ends at x≈631 of 720).
   `check:docs` clean.
+- **The suggestion title keeps its key word on a phone (launch QA D16).** One truncated line cut it before the
+  payload ("Add language “bas…", "Adicionar a linguag…") at 320/390 px, and at 1280 with the Outline open. The title
+  now gets two lines before an ellipsis (`line-clamp-2`, both bar variants) and carries the full text as a tooltip.
+  Measured on the sample: EN fits in two lines at 320 and 390; PT fits at 390 and shows "Adicionar a linguagem
+  “bash” a…" at 320; one line at 1280. The bar grows from 54 to 65 px when it wraps, inside the editor's 112 px
+  `OVERLAY_ROOM`. The words stay as they are (a shorter "Tag as …" was the other option in the report).
