@@ -8,7 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.48.19** · 2026-11-10 · `(this commit)` · fix(privacy): a Content-Security-Policy and security headers back the privacy claims
+- **3.48.19** · 2026-11-10 · `3bb38f2` · fix(privacy): a Content-Security-Policy and security headers back the privacy claims
 - **3.48.18** · 2026-11-10 · `9c4bc29` · fix(print): printing and Save as PDF give the whole document, light, without the app around it
 - **3.48.17** · 2026-11-10 · `8f660cd` · fix(a11y): links in About's text are underlined, not told apart by color alone
 - **3.48.16** · 2026-11-10 · `fc811cb` · fix(i18n): counts of one say "1 char", "1 section", "1 table" in both languages

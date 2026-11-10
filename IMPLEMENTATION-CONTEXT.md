@@ -1601,3 +1601,6 @@ the old name.
     #models, #story and #about, failing on any `securitypolicyviolation`. A negative control (an injected inline
     script and iframe) is blocked and reported; images from the web load once allowed (https and http), with no
     violation. Dev (`npm run dev`) is unaffected: the plugin is build-only.
+- **The story and the ROADMAP count the "if time" fixes.** ROADMAP §0.2 lists the seven (D33, D16, D18, D19, D20,
+  D07, D17) after the first six, and §4 no longer lists printing (D07). The story's launch QA entry says thirteen
+  were fixed before the post, not six (EN + PT-BR).

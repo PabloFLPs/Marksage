@@ -38,7 +38,11 @@ dark, at 1280, 390 and 320 px. 84 findings (D01–D84), none blocking. Fixed bef
 an image address without `//` (`https:host/x`) loading with "Load images from the web" off (D01), link previews and
 the start screen implying the AI models run by default (D02), a paragraph rendered as a heading on the Smart Assist
 page (D03), two versions of the ship policy (D04), British spellings (D05) and the tour's first instruction (D13,
-the copy). Details: `IMPLEMENTATION-CONTEXT.md` §42. What it left open is at the top of §4.
+the copy). Then the report's "if time" list, also before the post: PT-BR glossary leftovers (D33), a suggestion
+title cut before its key word on phones (D16), "local AI" in the Assist button's name in Rules mode (D18), counts of
+one ("1 chars", D19), About's in-text links told apart by color alone (D20), printing that gave one cut-off page
+(D07: now the whole document, light, with its highlighting) and no security headers (D17: a CSP and the rest).
+Details: `IMPLEMENTATION-CONTEXT.md` §42. What it left open is at the top of §4.
 
 ## 1. BYOK — bring your own key (next)
 
@@ -114,7 +118,6 @@ Open from the launch QA (2026-11-09, majors; the report's minors and nits are in
 
 - **Smart paste on logs (D06):** a stack trace or `git status` is offered "Convert to Markdown list", and docker
   compose logs a table. A code-or-log check before the list and table offers.
-- **Printing (D07):** "Save as PDF" gives one cut-off page with the header and buttons on it. A print stylesheet.
 - **Typing past ~250 KB (D08):** slows down; the line-number layer is about 75% of the cost.
 - **Over 400,000 characters (D09):** the document vanishes without a word on New, Open, Close or paste.
 - **"Delete all" and a second tab (D10):** another open Marksage tab writes the data back.

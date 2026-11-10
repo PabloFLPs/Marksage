@@ -121,9 +121,9 @@ const content: StoryContent = {
       title: 'Launch QA by ten AI agents',
       body: [
         'Before the public launch, ten AI agents went through the app in parallel, each with one job. One was a first-time visitor, one used a Brazilian phone, one tried to break it. The others covered accessibility, the Portuguese and the English, the accuracy of every claim against the code, performance, and what to build next. Every screen was checked in English and Portuguese, light and dark, on desktop and on phones down to 320 px. The rule was report first, change nothing: 84 findings, none blocking.',
-        'Six were fixed before the post, one change per commit. The most telling one: with “Load images from the web” off, an image written `https:host/x`, without the `//`, still loaded. The check read the prefix, but the browser resolves the whole address. Now the check resolves it the same way. The pages also described the ship policy in two ways; now they all state the one actually applied.',
+        'Thirteen were fixed before the post, one change per commit. The most telling one: with “Load images from the web” off, an image written `https:host/x`, without the `//`, still loaded. The check read the prefix, but the browser resolves the whole address. Now the check resolves it the same way. The pages also described the ship policy in two ways; now they all state the one actually applied.',
       ],
-      facts: ['10 agents · EN + PT-BR · light + dark · 1280, 390 and 320 px', '84 findings, none blocking', '6 fixed before the post · the open majors in the roadmap'],
+      facts: ['10 agents · EN + PT-BR · light + dark · 1280, 390 and 320 px', '84 findings, none blocking', '13 fixed before the post · the open majors in the roadmap'],
     },
     {
       title: 'What comes next',

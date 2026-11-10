@@ -121,9 +121,9 @@ const content: StoryContent = {
       title: 'QA de lançamento com dez agentes de IA',
       body: [
         'Antes do lançamento público, dez agentes de IA percorreram o app em paralelo, cada um com uma tarefa. Um visitou pela primeira vez, outro usou um celular brasileiro, outro tentou quebrar tudo. Os demais cuidaram da acessibilidade, do português e do inglês, da precisão de cada afirmação (conferida no código), da performance e do que construir depois. Cada tela foi conferida em inglês e em português, no tema claro e no escuro, no desktop e em celulares de até 320 px. A regra era reportar primeiro, sem mudar nada: vieram 84 achados, nenhum bloqueante.',
-        'Seis foram corrigidos antes do post, uma mudança por commit. O mais revelador: com “Carregar imagens da web” desligado, uma imagem escrita `https:host/x`, sem as `//`, ainda carregava. A verificação olhava o começo do endereço, mas o navegador resolve o endereço inteiro. Agora a verificação resolve do mesmo jeito. As páginas também descreviam a política de publicação dos modelos de dois jeitos; agora todas dizem a que de fato foi aplicada.',
+        'Treze foram corrigidos antes do post, uma mudança por commit. O mais revelador: com “Carregar imagens da web” desligado, uma imagem escrita `https:host/x`, sem as `//`, ainda carregava. A verificação olhava o começo do endereço, mas o navegador resolve o endereço inteiro. Agora a verificação resolve do mesmo jeito. As páginas também descreviam a política de publicação dos modelos de dois jeitos; agora todas dizem a que de fato foi aplicada.',
       ],
-      facts: ['10 agentes · EN + PT-BR · claro + escuro · 1280, 390 e 320 px', '84 achados, nenhum bloqueante', '6 corrigidos antes do post · os mais graves que ficaram abertos, no roadmap'],
+      facts: ['10 agentes · EN + PT-BR · claro + escuro · 1280, 390 e 320 px', '84 achados, nenhum bloqueante', '13 corrigidos antes do post · os mais graves que ficaram abertos, no roadmap'],
     },
     {
       title: 'O que vem a seguir',
