@@ -3,7 +3,8 @@
 [![CI](https://github.com/PabloFLPs/Marksage/actions/workflows/ci.yml/badge.svg)](https://github.com/PabloFLPs/Marksage/actions/workflows/ci.yml)
 
 **The Markdown editor that notices.** A local-first Markdown editor whose assistant, Smart Assist, suggests fixes
-as you write — rules plus two small models trained for it, running in your browser. Your files never leave it.
+as you write: rules, plus two small AI models trained for it if you turn them on, all running in your browser. Your
+files never leave it.
 
 **Try it: [marksage.vercel.app](https://marksage.vercel.app)** — *Try it on a sample document* on the start screen
 is a one-minute tour of Smart Assist.

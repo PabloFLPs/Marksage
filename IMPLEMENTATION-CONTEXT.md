@@ -1524,3 +1524,6 @@ These notes and the commit messages keep the old name.
 - **The ROADMAP records the launch QA.** §0.2 "Done (2026-11-09): launch QA fixes" (what the round was and the six
   fixes); §4 opens with the ten majors it left open (D06–D12, the rest of D13, D14, D15). The minors and nits stay
   in the report in Pablo's vault.
+- **The README's first paragraph says the models are opt-in** (Pablo, before the post). It read "rules plus two
+  small models trained for it, running in your browser", the default-on reading D02 fixed in the app; now "rules,
+  plus two small AI models trained for it if you turn them on, all running in your browser".
