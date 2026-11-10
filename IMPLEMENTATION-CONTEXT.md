@@ -1559,3 +1559,10 @@ the old name.
   `shell.words.one` already used, now shared. New `.one` keys: `history.chars`, `history.clearAsk` ("Clear 1
   document?" / "Limpar 1 documento?"), `outline.count`; `doc.because.shape` now joins `doc.n.sections|tables|code`
   (each with `.one`). Unit tests: `tests/unit/i18n.test.ts`.
+- **About's in-text links are underlined at rest (launch QA D20).** The links inside About's running text
+  ("PabloFLPs", the issues link, "changelog", the license text…) were told apart from the muted text by color alone:
+  1.06:1 in light, 1.21:1 in dark (axe `link-in-text-block`, WCAG 1.4.1). They now carry a quiet underline that
+  strengthens on hover (`underline decoration-current/40 underline-offset-2 hover:decoration-current`), like the
+  preview's links (§40); the icon-led action links stay as they are. `a11y.spec.ts` now also scans `#privacy`: the
+  `#about` scan had come back clean on the same page. Checked: the old build fails there (2 nodes, light and dark),
+  this one passes in EN and PT.

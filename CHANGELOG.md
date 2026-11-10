@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.48.16** · 2026-11-10 · `(this commit)` · fix(i18n): counts of one say "1 char", "1 section", "1 table" in both languages
+- **3.48.17** · 2026-11-10 · `(this commit)` · fix(a11y): links in About's text are underlined, not told apart by color alone
+- **3.48.16** · 2026-11-10 · `fc811cb` · fix(i18n): counts of one say "1 char", "1 section", "1 table" in both languages
 - **3.48.15** · 2026-11-10 · `72c395f` · fix(a11y): the Assist button is "Smart Assist", without "local AI", in every mode
 - **3.48.14** · 2026-11-10 · `1bd9e37` · fix(assist): the suggestion title wraps to two lines instead of losing its key word
 - **3.48.13** · 2026-11-09 · `438a70d` · fix(meta): the link-preview image says the AI models are opt-in

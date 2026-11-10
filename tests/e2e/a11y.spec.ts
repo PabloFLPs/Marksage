@@ -31,7 +31,8 @@ for (const theme of ['light', 'dark'] as const) {
       await scan(page, 'editor + Outline')
     })
 
-    for (const hash of ['#about', '#smart-assist', '#models', '#story']) {
+    // #privacy: About scrolled to Privacy & storage. The #about scan missed its in-text links (launch QA D20).
+    for (const hash of ['#about', '#privacy', '#smart-assist', '#models', '#story']) {
       test(`page ${hash}`, async ({ page }) => {
         await page.goto('/' + hash)
         await page.waitForLoadState('networkidle')
