@@ -1534,3 +1534,12 @@ the old name.
   2026-10-29; §0.1 now has both. The story still said the 36th finding (the slow first load) was "planned", though
   §4 records it improved on 2026-11-04 (7.4 → 6.4 s on slow 3G); it says so now. The launch QA's fact "the rest in
   the roadmap" became "the open majors in the roadmap", since §4 lists only those. EN + PT-BR.
+- **PT-BR glossary leftovers (launch QA D33).** Patterns the playbook already rejects, still on four surfaces: the
+  story ("dá um tipo a cada seção" → "classifica cada seção … pelo título"; "ao desenho" → "à arquitetura"),
+  SMART-ASSIST ("fica quieto/quieta/ficam quietas" → "não sugere nada" / "não recebe sugestão" / "não dão
+  resposta"; "o nosso código" → "o código TypeScript do Marksage"; "confiar demais neles" → "neles o modelo tende a
+  ser confiante demais"; "definido antes" → "definido de antemão"; "com tipo" / "receberam tipo" → "classificadas"),
+  MODELS ("rodar os modelos" → "executar", as its §7.3 says; "biblioteca" → "lib"; "com tipo" → "classificadas"),
+  and the bare "o título não diz" → "o título não diz nada", the idiomatic form the docs already use three times
+  (table, Mermaid source, both architecture diagrams via `scripts/diagrams.py docs`; the label ends at x≈631 of 720).
+  `check:docs` clean.

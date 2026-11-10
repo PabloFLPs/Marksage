@@ -9,7 +9,7 @@ se saíram claramente melhor que as regras em texto real (seção 8).
 > Esta página não pressupõe nenhum conhecimento de machine learning. Cada termo é explicado na primeira vez que
 > aparece, e há um glossário no fim. Os números dos exemplos são reais: vêm dos arquivos de modelo que o app
 > baixa. Para saber *para que* servem os modelos e como eles são medidos, veja
-> [Como o Smart Assist funciona](SMART-ASSIST.pt-BR.md). Quer as especificações, ou rodar os modelos você mesmo?
+> [Como o Smart Assist funciona](SMART-ASSIST.pt-BR.md). Quer as especificações, ou executar os modelos você mesmo?
 > A seção 7 tem uma ficha técnica de cada um.
 
 ---
@@ -393,7 +393,7 @@ O arquivo (394.280 bytes) é organizado assim:
 
 Um terço do arquivo são escalas, uma das próximas coisas a encolher. O app baixa o arquivo uma vez (só depois que
 você escolhe *Regras + IA* e confirma), guarda no cache do navegador e roda tudo em JavaScript puro: sem
-biblioteca de machine learning, sem GPU, sem worker em segundo plano. Cada decisão são alguns milhares de
+lib de machine learning, sem GPU, sem worker em segundo plano. Cada decisão são alguns milhares de
 multiplicações.
 
 ## 6. Os limites, com honestidade
@@ -535,9 +535,9 @@ cresciam sem limite. Detalhes: `training/README.md`.
 | Versão | Data | Dados de treinamento | O que mudou | Teste | Situação |
 |---|---|---|---|---|---|
 | Rascunho sem "outro" | 2026-10-24 | ~17.000 seções rotuladas | só 10 tipos | desenvolvimento: 87% de acerto quando exibe nas seções rotuladas, mas cerca de 2 em 3 em seções com títulos que não dizem nada | não entrou no app |
-| **v1** | 2026-10-24 | 26.105 seções (7.832 "outro") | acrescenta o "outro"; 8 números por sinal, 32.768 slots, 3 épocas, temperatura 1,6 | a partir de 0,8: 15,1% com tipo, 91,5% concordam com o título · a partir de 0,6: 27,4%, 87,1% (133 repositórios) | substituído pela v2 |
+| **v1** | 2026-10-24 | 26.105 seções (7.832 "outro") | acrescenta o "outro"; 8 números por sinal, 32.768 slots, 3 épocas, temperatura 1,6 | a partir de 0,8: 15,1% classificadas, 91,5% concordam com o título · a partir de 0,6: 27,4%, 87,1% (133 repositórios) | substituído pela v2 |
 | Experimento de explicação | 2026-10-25 | + 748, depois 1.283 seções de explicação | um 11º tipo, rotulado pelos títulos e depois também por pastas no estilo `concepts/` | desenvolvimento: 0 respostas de explicação certas quando exibe, em todas as configurações testadas | não entrou no app — Explicação vem só dos títulos |
-| **v2** | 2026-10-27 | 27.250 seções (7.813 "outro") | + segurança, desempenho, deploy; títulos de segurança deixam de contar como licença e créditos; mesmas configurações da v1 (escolhidas de novo no conjunto de desenvolvimento) | a partir de 0,8: 13,5% com tipo, 88,9% concordam · a partir de 0,6: 25,1%, 85,6% (134 repositórios) · v1 no mesmo conjunto: 14,5%, 89,6% | **em uso** |
+| **v2** | 2026-10-27 | 27.250 seções (7.813 "outro") | + segurança, desempenho, deploy; títulos de segurança deixam de contar como licença e créditos; mesmas configurações da v1 (escolhidas de novo no conjunto de desenvolvimento) | a partir de 0,8: 13,5% classificadas, 88,9% concordam · a partir de 0,6: 25,1%, 85,6% (134 repositórios) · v1 no mesmo conjunto: 14,5%, 89,6% | **em uso** |
 
 ### 8.3 Modelo de formatação (testado, não usado)
 

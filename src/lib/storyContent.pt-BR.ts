@@ -62,7 +62,7 @@ const content: StoryContent = {
       date: ['2026-10-24', '2026-10-27'],
       title: 'Um segundo modelo lê seções inteiras',
       body: [
-        'A Estrutura dá um tipo a cada seção (instalação, referência, segurança…) a partir do título. Quando o título não diz, um segundo modelo de 385 KB lê o texto. Ele só é usado onde de fato aprendeu alguma coisa: as seções de “explicação” não tiveram nenhum acerto em duas rodadas de treinamento, então esse tipo continua vindo só do título.',
+        'A Estrutura classifica cada seção (instalação, referência, segurança…) pelo título. Quando o título não diz nada, um segundo modelo de 385 KB lê o texto. Ele só é usado onde de fato aprendeu alguma coisa: as seções de “explicação” não tiveram nenhum acerto em duas rodadas de treinamento, então esse tipo continua vindo só do título.',
       ],
       facts: ['134 repositórios de teste: o modelo classifica 13,5% das seções e concorda com o título em 88,9% delas'],
       link: { label: 'Como os modelos funcionam', hash: 'models' },
@@ -96,7 +96,7 @@ const content: StoryContent = {
       title: 'Checagem de desenvolvimento com cinco agentes de IA',
       body: [
         'Durante o desenvolvimento, cinco agentes de IA fizeram o papel de quem usa o app pela primeira vez: alguém sem paciência, alguém desconfiado, alguém no celular com 3G lento, alguém que não tem o inglês como língua nativa e alguém tentando quebrar tudo. Todos usaram o app de verdade, num navegador. Eles trouxeram 36 achados: 35 foram corrigidos, uma mudança por commit, cada uma documentada; o último, o carregamento inicial lento no 3G, foi melhorado em 2026-11-04.',
-        'Dois deles mostram bem o método. Um travamento de 25 segundos em tabelas grandes parecia renderização lenta; o profiling mostrou um loop quadrático numa dependência que interpreta o Markdown, e uma atualização dela derrubou o tempo para 1,7 s. E quando o modelo de código chamou de “JavaScript” um TypeScript claramente tipado, a análise sinal por sinal mostrou cinco sinais decisivos (`: number` o mais forte) que se perdiam na média com outros 65 que as duas linguagens têm em comum. Por enquanto, isso levou a deixar as regras decidirem quando têm quase certeza (medido antes de entrar), e ao desenho do próximo modelo.',
+        'Dois deles mostram bem o método. Um travamento de 25 segundos em tabelas grandes parecia renderização lenta; o profiling mostrou um loop quadrático numa dependência que interpreta o Markdown, e uma atualização dela derrubou o tempo para 1,7 s. E quando o modelo de código chamou de “JavaScript” um TypeScript claramente tipado, a análise sinal por sinal mostrou cinco sinais decisivos (`: number` o mais forte) que se perdiam na média com outros 65 que as duas linguagens têm em comum. Por enquanto, isso levou a deixar as regras decidirem quando têm quase certeza (medido antes de entrar), e à arquitetura do próximo modelo.',
       ],
       facts: ['36 achados: 35 corrigidos; o carregamento inicial, melhorado em 04/11', 'Tabelas grandes: ~25 s → 1,7 s', 'Regras quando têm quase certeza: +1 acerto no conjunto de desenvolvimento, conjuntos de teste iguais, 0 erros novos'],
     },

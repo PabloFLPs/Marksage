@@ -4,7 +4,7 @@ O Smart Assist é o "radar de escrita" local do Marksage. Ele já vem ligado, no
 clique. O assistente acompanha o editor, detecta um pequeno conjunto de situações que dá para corrigir e **sugere** uma
 edição, que você aceita (`Tab`) ou ignora (`Esc`). Nada vai para a rede e nada é aplicado sozinho.
 
-> Esta página é para quem tem curiosidade: como o assistente decide, por que ele fica quieto e como os modelos
+> Esta página é para quem tem curiosidade: como o assistente decide, por que às vezes ele não sugere nada e como os modelos
 > pequenos do próprio Marksage foram treinados. Ter alguma familiaridade com programação ajuda, mas você não
 > precisa do código-fonte. Se quiser ir mais fundo, ele está no [GitHub](https://github.com/PabloFLPs/Marksage).
 
@@ -23,7 +23,7 @@ responde a uma *pergunta tipada, com um conjunto de respostas definido de antem�
 
 Como as respostas possíveis são fechadas, a saída nunca vem num formato inesperado. A regra que guia tudo:
 
-> **A engine decide; o nosso código TypeScript age.** Se não dá para listar as respostas possíveis de antemão, não
+> **A engine decide; o código TypeScript do Marksage age.** Se não dá para listar as respostas possíveis de antemão, não
 > é um trabalho para o Smart Assist.
 
 É também por isso que o projeto evita, de propósito, autocompletar com IA generativa, reescrita de texto e
@@ -99,7 +99,7 @@ claramente mais que as regras em texto real, e as regras em todo o resto:
 | Copia & cola inteligente (que tipo de texto é) | regras | regras — a linguagem de um bloco de código colado, como acima |
 | Dicas de formatação | regras | regras |
 | Legibilidade | regras (LIX) | regras (LIX) |
-| Tipos de seção na Estrutura | regras (pelo título) | regras (pelo título), depois o modelo de IA de seções de texto ✦ quando o título não diz |
+| Tipos de seção na Estrutura | regras (pelo título) | regras (pelo título), depois o modelo de IA de seções de texto ✦ quando o título não diz nada |
 
 Um terceiro modo, em que *só* modelos decidem, foi considerado e descartado. A legibilidade e a regra dos títulos
 não têm rótulos independentes para um modelo aprender: um modelo treinado com notas LIX só copiaria o LIX.
@@ -142,7 +142,7 @@ flowchart LR
     direction TB
     D["Documento"] --> X["Seções<br/>divididas nos títulos, sem o código"]
     X --> R["Regra dos títulos<br/>“Como instalar” → Instalação"]
-    R -- "o título não diz" --> SM["Modelo de seções<br/>modo Regras + IA · lê o texto"]
+    R -- "o título não diz nada" --> SM["Modelo de seções<br/>modo Regras + IA · lê o texto"]
     R -- "tipo identificado" --> T1["Aba Estrutura<br/>tipo + frase-chave"]
     R -- "tipo identificado" --> T2["Aba Documento<br/>resumo · tom · vale conferir"]
     SM --> T1
@@ -314,10 +314,10 @@ deveria ser um título de seção."*. A probabilidade parte de um valor inicial 
   (`+SIMD +AVX`), CSS (`-webkit-line-clamp: 2;`), números negativos (`-5 graus`) ou saída de `ls -l`
   (`-rw-r--r-- 1 …`) não são itens de lista; `*palavra*` é ênfase.
 - **Correções de lista** precisam de companhia: itens de lista por perto aumentam a confiança. Uma `*linha`
-  sozinha costuma ser nota de rodapé, não item de lista, então fica quieta. Uma `-linha` sozinha só é sugerida
+  sozinha costuma ser nota de rodapé, não item de lista, então não recebe sugestão. Uma `-linha` sozinha só é sugerida
   quando parece texto comum (três palavras ou mais, nada com aparência de código, como `/`, `:` ou `=`): "-isto
   deveria ser um item de lista", sim; "-verbose" ou "-su cd: /opt/app: Permission denied", não.
-- **Marcadores tipográficos** também precisam de companhia: um `• linha` sozinho fica quieto, uma linha com
+- **Marcadores tipográficos** também precisam de companhia: um `• linha` sozinho não recebe sugestão, uma linha com
   vários marcadores é uma barra separadora (`• English • Русский • Français`) e um `— Nome` sozinho assina uma
   citação. **`1 - item`** precisa de um vizinho numerado: `3 - 2` sozinho é um intervalo, `31- zone 2 passed` é
   saída de teste.
@@ -388,7 +388,7 @@ muda.
   seções o nome do próprio assunto ("O filtro de confiança"), que nenhuma regra nem modelo consegue classificar.
   Por isso ela também é reconhecida pela forma: mais de 800 palavras de texto corrido, mais de 8 seções em pelo
   menos dois níveis de título e três ou mais tabelas ou blocos de código apoiando o texto. Com poucos sinais
-  (menos de três seções com tipo, ou menos de um quarto delas, e nenhuma forma clara), ela diz que ainda não há
+  (menos de três seções classificadas, ou menos de um quarto delas, e nenhuma forma clara), ela diz que ainda não há
   um padrão claro, em vez de arriscar um palpite. O mesmo tipo aparece na barra acima de todo documento renderizado (clique
   nele para abrir esta aba); sem tipo, a barra mostra o nome do arquivo.
 - **Resumo**: palavras, tempo de leitura (230 palavras por minuto, sem contar código), seções, blocos de código
@@ -455,7 +455,7 @@ do Smart Assist.
   longas. Cada sinal tem um vetor aprendido de 8 números; o modelo tira a média deles e transforma essa média em
   uma probabilidade por linguagem.
 - **Cuidadoso de propósito:** a confiança dele é ajustada com previsões em repositórios que ele nunca viu no
-  treinamento (os trechos curtos à parte, porque é mais fácil confiar demais neles), com a meta de acertar cerca de 95%
+  treinamento (os trechos curtos à parte, porque neles o modelo tende a ser confiante demais), com a meta de acertar cerca de 95%
   das vezes em que se manifesta. O mesmo filtro de confiança das regras (0,8 / 0,2) decide se você vê alguma coisa.
 - **Duas opiniões:** quando o modelo não tem certeza mas as regras têm, a sugestão aparece mesmo assim, se a
   primeira opção do próprio modelo concordar ou se as regras tiverem pelo menos 99% de certeza. (Em trechos
@@ -520,10 +520,10 @@ de bugs", "Temas"), lendo o texto que vem abaixo do título.
 - **Divisão justa:** os repositórios de desenvolvimento e de teste do modelo de linguagens (mais os 72 novos) ficam de fora
   do treinamento; as configurações foram escolhidas no conjunto de desenvolvimento e o conjunto de teste rodou uma vez.
 
-Resultados no conjunto de teste: 6.339 seções com tipo, de 134 repositórios. Os rótulos vêm dos títulos, então
+Resultados no conjunto de teste: 6.339 seções classificadas, de 134 repositórios. Os rótulos vêm dos títulos, então
 "concorda" quer dizer que o modelo, lendo só o texto, deu o mesmo tipo que o título indica:
 
-| Confiança | Seções com tipo | Concorda com o título | Seções "outro" que receberam tipo |
+| Confiança | Seções classificadas | Concorda com o título | Seções "outro" que foram classificadas |
 |---|---|---|---|
 | ≥ 0,8 — selo com ✦ | 858 (14%) | 88,9% | 4,2% |
 | ≥ 0,6 — inclui o "provável" | 1.588 (25%) | 85,6% | 10,4% |
@@ -571,9 +571,9 @@ repositórios que ele nunca viu: texto sem revisão, onde esses erros acontecem 
 |---|---|---|---|
 | Regras | 140 | 88,6% | 124 |
 | Só o modelo | 76 | 90,8% | 69 |
-| Regras + respostas do modelo com ≥ 95% onde as regras ficam quietas | 141 | 88,7% | 125 |
+| Regras + respostas do modelo com ≥ 95% onde as regras não dão resposta | 141 | 88,7% | 125 |
 
-A combinação atendeu ao critério de aprovação definido antes (a precisão das regras, pelo menos as mesmas linhas verdadeiras)
+A combinação atendeu ao critério de aprovação definido de antemão (a precisão das regras, pelo menos as mesmas linhas verdadeiras)
 por uma linha em 227: pouco para valer um download. Os dois erram em lugares diferentes. As regras marcam por
 engano linhas de hashtags, `+20K estudantes` e linhas de diff, que o modelo acerta; o modelo marca por engano
 assinaturas (`-Jake`) e `#32 will fix this`, que as regras acertam. O próximo passo natural é uma versão em que

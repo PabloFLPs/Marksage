@@ -43,7 +43,7 @@ T = {
   doc=('Documento', 'o texto que você lê ou edita'),
   sec=('Seções', 'divididas nos títulos, sem o código'),
   rule=('Regra dos títulos', '“Como instalar” → Instalação'),
-  says='o título não diz', typed='tipo identificado',
+  says='o título não diz nada', typed='tipo identificado',
   smodel=('Modelo de seções', 'modo Regras + IA · lê o texto'),
   otab=('Aba Estrutura', 'tipo + frase-chave'), dtab=('Aba Documento', 'resumo · tom · vale conferir'),
   note='Só visual — nunca edita',

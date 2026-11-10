@@ -58,7 +58,7 @@
 <path class="msd-line" d="M518,176 L518,199" marker-end="url(#msd-arrow-n)"/>
 <rect class="msd-box " x="384" y="200" width="268" height="54" rx="9"/><text class="msd-t" x="518.0" y="223.0" text-anchor="middle">Regra dos títulos</text><text class="msd-s" x="518.0" y="240.0" text-anchor="middle">“Como instalar” → Instalação</text>
 <path class="msd-line" d="M518,254 L518,289" marker-end="url(#msd-arrow-n)"/>
-<text class="msd-label" x="526" y="276">o título não diz</text>
+<text class="msd-label" x="526" y="276">o título não diz nada</text>
 <rect class="msd-box msd-dashed" x="384" y="290" width="268" height="60" rx="9"/><text class="msd-t" x="518.0" y="316.0" text-anchor="middle">Modelo de seções</text><text class="msd-s" x="518.0" y="333.0" text-anchor="middle">modo Regras + IA · lê o texto</text>
 <path class="msd-line" d="M652,227 L680,227 L680,386"/>
 <text class="msd-label" x="690" y="306" text-anchor="middle" transform="rotate(90 690 306)">tipo identificado</text>
