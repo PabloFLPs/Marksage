@@ -110,3 +110,26 @@ test('the Portuguese sample offers exactly what the English one does (Suggestion
   await expect.poll(types).toEqual(enTypes)
   expect(en).toHaveLength(12)
 })
+
+test('printing shows the whole rendered document, light, without the app around it (launch QA D07)', async ({ page }) => {
+  await page.addInitScript(() => {
+    try {
+      localStorage.setItem('marksage:theme', 'dark')
+    } catch {}
+  })
+  await openSample(page)
+  await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')))
+  await page.emulateMedia({ media: 'print' })
+  const copy = page.locator('#print-root')
+  await expect(copy.getByRole('heading', { level: 1, name: 'Pitwall' })).toBeVisible()
+  await expect(copy.getByRole('heading', { name: 'Why is a lap missing?' })).toBeAttached() // the end, not one cut-off page
+  await expect(page.locator('#root')).toBeHidden()
+  await expect(page.locator('html')).not.toHaveClass(/\bdark\b/)
+  expect(await page.title()).toBe('pitwall-README')
+
+  await page.evaluate(() => window.dispatchEvent(new Event('afterprint')))
+  await page.emulateMedia({ media: 'screen' })
+  await expect(copy).toHaveCount(0)
+  await expect(page.locator('#root')).toBeVisible()
+  await expect(page.locator('html')).toHaveClass(/\bdark\b/)
+})

@@ -849,3 +849,65 @@ body {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(0, calc(var(--scroll-max, 0) * -1px), 0); }
 }
+
+/* Printing and "Save as PDF" (lib/printCopy.ts): the app is fixed-height scrolling panes, so print shows only
+   #print-root — a copy of the rendered document made just before printing — in the light theme, on as many pages
+   as it needs, with its code highlighting (launch QA D07). */
+@media screen {
+  #print-root {
+    display: none;
+  }
+}
+@media print {
+  @page {
+    margin: 16mm 14mm;
+  }
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+  body:has(> #print-root) > :not(#print-root) {
+    display: none !important;
+  }
+  #print-root .markdown-body {
+    max-width: none;
+    margin: 0;
+    padding: 0 !important;
+  }
+  /* Controls stay on screen: copy buttons, "Show all", the readability dots. */
+  #print-root button,
+  #print-root h2 > span[aria-hidden] {
+    display: none !important;
+  }
+  /* Code wraps instead of scrolling, tables show every column, and both keep their colors on paper. */
+  #print-root pre,
+  #print-root .markdown-body table {
+    overflow: visible !important;
+    break-inside: avoid;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  #print-root pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  #print-root img,
+  #print-root blockquote {
+    break-inside: avoid;
+  }
+  #print-root h1,
+  #print-root h2,
+  #print-root h3,
+  #print-root h4 {
+    break-after: avoid;
+  }
+  #print-root .print-source {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font: 10pt/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #1a1a1a;
+  }
+}

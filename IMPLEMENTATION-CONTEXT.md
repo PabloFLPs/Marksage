@@ -1566,3 +1566,18 @@ the old name.
   preview's links (§40); the icon-led action links stay as they are. `a11y.spec.ts` now also scans `#privacy`: the
   `#about` scan had come back clean on the same page. Checked: the old build fails there (2 nodes, light and dark),
   this one passes in EN and PT.
+- **Printing and "Save as PDF" give the whole document (launch QA D07).** ⌘/Ctrl + P printed one cut-off page with
+  the header, doc bar and footer on it: the app is fixed-height scrolling panes, and `index.css` had no print rule.
+  Rather than undo that layout in print CSS, `lib/printCopy.ts` (installed from `App`) copies the rendered preview's
+  DOM into `#print-root` on `beforeprint` — so code highlighting and everything else print as rendered — removes
+  the `dark` class, and sets the tab title to the document's name without its extension (Chromium and Safari use it
+  as the PDF's file name); `afterprint` puts all three back. `@media print` shows only `#print-root`: no margins of
+  its own, A4/Letter page margins 16 × 14 mm, code wrapping instead of scrolling, `break-inside: avoid` on code,
+  tables, images and quotes, `break-after: avoid` on headings, code and table colors kept
+  (`print-color-adjust: exact`), copy buttons, "Show all" and the readability dots hidden. With no preview on
+  screen (a phone, editing) the copy is the Markdown source; on the start screen nothing changes. About and the docs
+  pages print the same way, under their own titles. Checked with Chromium's PDF (which fires `beforeprint`): the
+  89-line sample is 3 A4 pages with nothing of the app on them, also from dark mode and in PT; a document with
+  TypeScript, Bash, a table and a link prints highlighted, titled `release-notes`. Tests: `printCopy.test.ts`
+  (unit) and a `documents.spec.ts` E2E. The Export menu's PDF option is a separate decision (Pablo wants the PDF to
+  look exactly like Marksage, highlighting included) — to discuss.

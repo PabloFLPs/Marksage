@@ -24,6 +24,7 @@ import { documentViewComponent, loadDocumentView } from './lib/documentView'
 import { PageLoadBoundary, PageLoading } from './components/PageLoad'
 import { countLines, countWords, formatBytes, utf8Bytes } from './lib/docStats'
 import { useInfoPages } from './hooks/useInfoPages'
+import { installPrintCopy } from './lib/printCopy'
 import { useViewMode } from './hooks/useViewMode'
 import { useOutlinePanel } from './hooks/useOutlinePanel'
 import { useGlobalInput } from './hooks/useGlobalInput'
@@ -229,6 +230,11 @@ export default function App() {
     [document, renameDocument, markSaved],
   )
   const exportName = document ? (document.filename ?? suggestFilename(document.content)) : 'document.md'
+
+  // ⌘/Ctrl + P and "Save as PDF": the rendered document alone, named after it (lib/printCopy.ts). About and the docs
+  // pages keep their own titles.
+  const printTitle = infoPage ? null : exportName.replace(/\.[a-z]+$/i, '')
+  useEffect(() => installPrintCopy(() => printTitle), [printTitle])
 
   const handleCopy = useCallback(async () => {
     if (!document) return
