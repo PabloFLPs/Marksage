@@ -1517,3 +1517,7 @@ These notes and the commit messages keep the old name.
   was set aside as less clear. `public/og-image.png` (dark, shipped) and `og-image-light.png` re-rendered with the
   commands in `scripts/og-image.html`, whose note now says to keep the opt-in in the words. Before the change, a
   render here matched the shipped PNG pixel for pixel, so only the words moved.
+- **The story records the launch QA.** A #story entry for this round (EN + PT-BR: ten agents, what
+  they covered, 84 findings and none blocking, six fixed before the post — the `https:host` image and the ship
+  policy as examples), after the 2026-10-30 entry, renamed in the commit before ("A development check by five AI
+  agents" / "Checagem de desenvolvimento com cinco agentes de IA"). The ROADMAP follows in its own commit.
