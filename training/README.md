@@ -12,7 +12,7 @@ heuristics speak on about a quarter of blocks. The plan is a small, purpose-trai
 heuristics on held-out data before it ships.
 
 ```bash
-node --experimental-strip-types training/collect.ts     # clone sources at their manifest commits, extract labelled blocks (~10 min)
+node --experimental-strip-types training/collect.ts     # clone sources at their manifest commits, extract labeled blocks (~10 min)
 node --experimental-strip-types training/collect.ts --sources sources-test2.json --out blocks-test2.jsonl --manifest manifest-test2.json
 node --experimental-strip-types training/collect.ts --sources sources-test3.json --out blocks-test3.jsonl --manifest manifest-test3.json
 node --experimental-strip-types training/build-test3.ts   # frozen: fences.real3.json exists, so this does nothing without --force
@@ -32,7 +32,7 @@ node --experimental-strip-types training/eval-links.ts
 
 | File | Committed | What it is |
 |---|---|---|
-| `sources.json` | ✓ | Public repos used: docs (fenced blocks) and a few "code" sources (windows of real source files, labelled by extension, to fill rare languages). |
+| `sources.json` | ✓ | Public repos used: docs (fenced blocks) and a few "code" sources (windows of real source files, labeled by extension, to fill rare languages). |
 | `manifest.json` | ✓ | Commit of every clone, so the data can be rebuilt exactly: `collect.ts` checks each clone out at its manifest commit (`--fresh` clones HEAD and rewrites the manifest instead). |
 | `splits.json` | ✓ | Which repos are dev and test (everything else is train). |
 | `labels.ts` | ✓ | Info string → language map, shared by every set (`sh`/`console` → `bash`, `tsx` → `ts`, …). |
@@ -50,7 +50,7 @@ node --experimental-strip-types training/eval-links.ts
 
 ## How the sets are made
 
-- **Labels** are the info strings the original authors wrote (` ```python `), normalised by `labels.ts`.
+- **Labels** are the info strings the original authors wrote (` ```python `), normalized by `labels.ts`.
   They carry a little real-world noise (a `go`-tagged debugger session, `html`-tagged Blade templates) —
   that's what the app will see too. Tags outside the app's 20 languages (+ plain text) are dropped; blocks are 1–40 lines.
 - **Split by repository**, never by block, so a project's style can't leak from train into evaluation.
@@ -267,7 +267,7 @@ types sections for the Outline panel when the heading rule (`src/assist/sections
 the Outline is open in Rules + AI mode (then called "Local model", later "Hybrid").
 
 **Data** (`build-sections.ts`): every Markdown file of the clones, split into sections by the app's own splitter.
-A section is labelled only when the *strict* heading rule names exactly one of the 10 types (phrase covers ≥ half
+A section is labeled only when the *strict* heading rule names exactly one of the 10 types (phrase covers ≥ half
 the heading, no competing type, no ambiguous phrase like "Features"); the model gets the text under the heading,
 never the heading. An 11th class, `other`, is sampled from sections whose heading names no type (≤ 40 per repo,
 spread over files), plus navigation sections ("See also", "Next steps") always. ≤ 60 per repo per type; texts
@@ -313,7 +313,7 @@ kind), so the docs can showcase the Outline. Two rounds, all on dev:
    explanation sections vs 0.07 on `other` — not separable with bag-of-clue features.
 
 Outcome: `explanation` is a heading-only type (`SECTION_TYPES`); the model keeps 10 types + other
-(`MODEL_SECTION_TYPES`), and `build-sections.ts` drops explanation-labelled sections. `sections-v1.bin` unchanged.
+(`MODEL_SECTION_TYPES`), and `build-sections.ts` drops explanation-labeled sections. `sections-v1.bin` unchanged.
 
 "Background" moved from overview to explanation and, like "Features", only counts as the whole heading.
 Telling explanation from topic prose needs a model that reads more than word clues — a general decision model
@@ -322,7 +322,7 @@ Telling explanation from topic prose needs a model that reads more than word clu
 ### Heading rule change after v1 (2026-10-27)
 
 "Security policy" / "Segurança" no longer count as *License & credits* — a security section is neither. `sections-v1`
-was labelled with the old rule: 61 sections whose heading names security were `legal` examples. The model itself
+was labeled with the old rule: 61 sections whose heading names security were `legal` examples. The model itself
 didn't answer `legal` from security text (checked: a vulnerability-reporting text → `other` 53%, `legal` 26%). The
 same day, v2 turned those headings into `security` labels (below).
 
@@ -336,7 +336,7 @@ docs section. Model cards with the full spec: docs/MODELS.md §7.
 
 `public/models/sections-v2.bin` (394,008 bytes, same recipe and settings as v1). Adds three types the model
 answers — **security**, **performance**, **deployment** — and two the heading rule gives alone — **glossary**,
-**roadmap** (`HEADING_ONLY_TYPES`, with explanation). The security headings that v1 learnt as `legal` are now
+**roadmap** (`HEADING_ONLY_TYPES`, with explanation). The security headings that v1 learned as `legal` are now
 `security` labels.
 
 **Why these five:** heading counts over the 381 cloned repositories (637,122 headings; exact-heading regexes,
@@ -367,7 +367,7 @@ Per type on test at 0.8 (agree / shown): changelog 371/394 · setup 88/109 · ex
 performance 45/60 · config 44/58 · security 34/38 · reference 27/32 · contributing 27/28 · troubleshooting 7/8 ·
 guide 0/3 · deployment 2/2 · overview 0/0. Without changelog: 392/464 = 84.5%.
 
-**Against v1 on the same test set** (both files through `examples/marksage-models.mjs`, so the same quantised
+**Against v1 on the same test set** (both files through `examples/marksage-models.mjs`, so the same quantized
 numbers the app uses): v1 922 shown (14.5%), 89.6% agree; v2 858 (13.5%), 88.9%. On the old types only: v1
 903 / 91.5%, v2 770 / 88.4% — v2 shows fewer changelog sections (393 vs 560, more precise: 94% vs 92%) and is
 less precise on setup (88/109 vs 84/88). v1 couldn't type security text at all: of the 154 security sections
@@ -390,8 +390,8 @@ maintainer's machine, 100 bodies per request) and GitHub wikis (cloned).
 - **Fresh pool → held-out.** Issues and comments of 59 other repositories (none in the corpus or an earlier set),
   only *counted* until the sample was drawn: 6,929 bodies. `lines.real2.json`: 227 lines from 43 repositories,
   stratified by kind (≤ 8 per repository and kind, ≤ 3 per issue), each case a ±3-line window with `line` naming
-  the labelled line (the window is trimmed so it never starts inside a code fence).
-- **Labelling** follows `src/assist/__fixtures__/README.md` (true when the fix makes the document more correct),
+  the labeled line (the window is trimmed so it never starts inside a code fence).
+- **Labeling** follows `src/assist/__fixtures__/README.md` (true when the fix makes the document more correct),
   done line by line without any rule or model score in view, with a `note` on the arguable cases. The set was
   frozen (labels written before anything was run on it) and run once.
 - **Pastes.** `pastes.real2.json`: 53 real pastes from 19 sources outside the corpus — CSV and TSV data files,
@@ -407,13 +407,13 @@ maintainer's machine, 100 bodies per request) and GitHub wikis (cloned).
 follows the marker, the words after it, first / last word, first two tokens, last character, shapes (URL, `/`,
 `:`, `=`, `$`, backticks, braces, a flag inside, hashtags, `ls -l` permissions, separators, sentence end, colon end,
 identifier, CJK…; the decisive ones count three times, since the model averages its clues), and the category of
-each neighbour (blank, list item, the same near-miss, glyph line, numbered item, heading, bold line, fence, table,
+each neighbor (blank, list item, the same near-miss, glyph line, numbered item, heading, bold line, fence, table,
 quote, HTML, indented, code-like, URL, prose, none) with the first word of the lines just before and after.
 
 **Data** (`build-structure.ts`, split by repo like the section model): train 66,076 · dev 10,501 · test 32,888.
 - *yes* — real list items and headings with the near-miss put back in: `- item` → `-item` (60%) or a glyph (40%:
   `•`, `●`, `·`, `▪`, `–`, `—`, `✔️`, `✅`…), `1. item` → `1.item` or `1- item`, `## Title` → `##Title` or `**Title**`
-  (levels 2–4, ≤ 10 words, after a blank line). Neighbouring items of the same list get the same treatment half
+  (levels 2–4, ≤ 10 words, after a blank line). Neighboring items of the same list get the same treatment half
   of the time (90% for glyphs: pasted lists come all at once). Kept only if the prefilter flags that exact line
   with that kind. ≤ 60 per repo and kind.
 - *no* — real look-alikes: the prefilter's prose candidates in the docs (footnotes, multi-line emphasis, flags,
@@ -423,7 +423,7 @@ quote, HTML, indented, code-like, URL, prose, none) with the first word of the l
   numbers), and synthetic hashtag lines (from real heading words) and "-Name" signatures (from real `author:`
   front matter), which the docs never have.
 
-**Choices, on dev** (`lines.dev.json`, 212 hand-labelled lines): dim 8 / 32k / 3 epochs / lr 0.3 / balance 1.
+**Choices, on dev** (`lines.dev.json`, 212 hand-labeled lines): dim 8 / 32k / 3 epochs / lr 0.3 / balance 1.
 Tried 5 epochs, dim 16, balance 0.5: within noise or worse. More synthetic signatures and hashtag lines and the
 triple-counted shapes helped (model precision 87.9% → 93.8%). Bold negatives can't be fixed: dropping them makes
 every bold line a "yes" (precision 67%); keeping them teaches "bold → no". The combination to judge on held-out

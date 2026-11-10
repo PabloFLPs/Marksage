@@ -25,7 +25,7 @@ Pitwall turns lap-time spreadsheets into race summaries: fastest laps, stints an
 
 ## Installation
 
-You need Node.js 20 or newer. Install it, then summarise a whole folder of races:
+You need Node.js 20 or newer. Install it, then summarize a whole folder of races:
 
 \`\`\`
 npm install --global pitwall
@@ -83,7 +83,7 @@ Pitwall reads files only from the folder you point it at and never uploads them 
 
 ## How it works
 
-Under the hood, every lap row is parsed, normalised to milliseconds and grouped into stints by detecting the pit-lane laps whose sector times exceed the driver's rolling median by a configurable margin, after which the gap to the leader is recomputed cumulatively at each timing line, which is why a single malformed row early in the file can quietly shift every gap that follows it unless you [click here](#faq) first. Laps run under a safety car are kept but marked, because removing them would make the remaining stints look shorter than they really were.
+Under the hood, every lap row is parsed, normalized to milliseconds and grouped into stints by detecting the pit-lane laps whose sector times exceed the driver's rolling median by a configurable margin, after which the gap to the leader is recomputed cumulatively at each timing line, which is why a single malformed row early in the file can quietly shift every gap that follows it unless you [click here](#faq) first. Laps run under a safety car are kept but marked, because removing them would make the remaining stints look shorter than they really were.
 
 ## FAQ
 

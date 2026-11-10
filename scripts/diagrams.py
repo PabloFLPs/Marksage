@@ -103,7 +103,7 @@ def svg(t, narrow=False):
     # lanes (narrow: lane B moves under lane A)
     out.append('<rect class="msd-lane" x="8" y="8" width="344" height="536" rx="14"/>')
     out.append(f'<text class="msd-lane-t" x="24" y="30">{escape(t["laneA"])}</text>')
-    # lane A — x 24..336, centre 180
+    # lane A — x 24..336, center 180
     out.append(box(24, 44, 312, 54, *t['editor']))
     out.append(line([(180, 98), (180, 121)]))
     out.append(box(24, 122, 312, 54, *t['pre']))
@@ -121,7 +121,7 @@ def svg(t, narrow=False):
     out.append(box(24, 402, 312, 54, *t['feat']))
     out.append(line([(180, 456), (180, 479)]))
     out.append(box(24, 480, 312, 54, *t['bar']))
-    # lane B — boxes x 384..652 (centre 518), tabs below
+    # lane B — boxes x 384..652 (center 518), tabs below
     laneB_start = len(out)
     out.append(f'<rect class="msd-lane" x="368" y="8" width="344" height="{506 if narrow else 536}" rx="14"/>')
     out.append(f'<text class="msd-lane-t" x="384" y="30">{escape(t["laneB"])}</text>')
@@ -177,7 +177,7 @@ CHAINS = {
  'models-training': {
   'en': dict(title='How the models learned', desc='The training pipeline, from public repositories to the published numbers.',
     steps=[('Public repositories', '309 repos: docs, READMEs, guides'),
-           ('Labelled examples', 'code: the authors’ tags · sections: headings'),
+           ('Labeled examples', 'code: the authors’ tags · sections: headings'),
            ('Split by repository', 'train · dev (choices) · test (once)'),
            ('Training loop', 'guess → measure the miss → nudge the numbers'),
            ('Calibrate', 'temperature from repos it never saw'),

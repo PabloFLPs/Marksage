@@ -6,7 +6,7 @@ Guidance for AI coding agents (and humans) working on this repo.
 - **Local-first.** No backend, no network calls with user content, no analytics. Persist only to `localStorage`.
 - **Minimal UI, fluid motion.** New UI must animate in *and* out, fast (enter 160–260 ms, exit 120–220 ms).
 - **Suggest, never auto-apply.** Smart Assist only proposes edits; the user accepts (Tab) or dismisses (Esc).
-- **Assist Off = original behaviour.** With Smart Assist off, the editor must behave exactly as without it.
+- **Assist Off = original behavior.** With Smart Assist off, the editor must behave exactly as without it.
 
 ## Map
 ```

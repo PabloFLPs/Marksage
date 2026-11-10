@@ -54,7 +54,7 @@ cheaper and more predictable thing than one that has to *write*.
 | Can it be measured? | hard: many acceptable outputs | yes: right or wrong against a label | yes: right or wrong against a label |
 | Privacy | hosted means your text leaves the device | Jev is hosted; Laya runs locally | runs locally |
 
-A specialised model is contained: it can't say anything outside its list, its confidence can be calibrated,
+A specialized model is contained: it can't say anything outside its list, its confidence can be calibrated,
 and its accuracy can be measured on held-out data before it ships. For "which language is this block?" or
 "what kind of section is this?", that's everything the job needs — and generating text would add cost,
 latency and new ways to fail without making the answer any better.
@@ -72,7 +72,7 @@ enough:
    they're rarely wrong. Every Smart Assist feature (code-block languages, smart paste, structure hints) tries
    the heuristic rules first.
 2. **A small model trained for that question** — only where the rules leave too much unanswered *and* there are
-   real examples whose right answer is already known (labelled data). This is where Marksage's two models come
+   real examples whose right answer is already known (labeled data). This is where Marksage's two models come
    in. Each had to prove, on repositories it never saw, that it adds answers the rules can't give. The code
    model gets about twice as many suggestions right as the rules (1.7–2.2× on three held-out sets) at about the
    same precision. The section model types sections whose heading says nothing. Two more were trained and
@@ -164,7 +164,7 @@ flowchart LR
 | **Converters** | Plain code that performs the edit — building a table, a list, a fenced block. The engine never writes text. |
 | **Suggestion bar** | Shows one suggestion at a time; you accept or dismiss it. Its icon says what kind of fix it is (code-block language, table, list, JSON, heading, link); a ✦ means the local AI model made the call. Clicking the card scrolls to the spot and flashes it in the preview. |
 | **Outline panel** | Visual only: sections typed by the heading rule, then (in *Rules + AI* mode) by the section model; its Document tab sums the whole file up; its Suggestions tab lists every fixable spot. |
-| **Evaluation set** | Hand-labelled examples used to measure each feature before it ships. |
+| **Evaluation set** | Hand-labeled examples used to measure each feature before it ships. |
 
 ### 2.2 The engine contract
 
@@ -235,7 +235,7 @@ logits — each matching rule adds its weight once:
 - *Distinctive* evidence gets high weights (`package main` → Go +4, `<?php` → PHP +6,
   `if err != nil` → Go +4, `#!/bin/bash` → Bash +5, `@@ -1,2 +1,2 @@` → diff +5).
 - *Shared* syntax (braces, `=>`, `import … from`) gets small weights across languages.
-- *Negative* rules subtract contradicting evidence (e.g. TS type annotations penalise plain JS).
+- *Negative* rules subtract contradicting evidence (e.g. TS type annotations penalize plain JS).
 - *Structural overrides:* content that parses as JSON → json +6 — including the relaxed
   "JSON with comments / trailing commas" dialect used by config files (+5); TS vs JS is decided by TS-only evidence
   (type annotations, `interface`, `import type`, `as const`), since TS is a superset of JS.
@@ -266,14 +266,14 @@ untouched**; the suggestion offers to convert the pasted range afterwards.
 |---|---|
 | `json` | parses as JSON (strict, or with comments / trailing commas — even comment lines before the object) — also a single-line, minified payload |
 | `tsv` | a tab on every line (strong on its own — prose never has that), more so when the counts agree; runs of tabs count as one |
-| `csv` | consistent comma-cell count (quote-aware, quoted cells may span lines; a header with one column more or less is fine), short cells; penalised by sentences and "wordy" cells (> 5 words) |
+| `csv` | consistent comma-cell count (quote-aware, quoted cells may span lines; a header with one column more or less is fine), short cells; penalized by sentences and "wordy" cells (> 5 words) |
 | `table` | column gutters shared by every line — terminal / `kubectl`-style output. `----` rule rows are skipped; 1-space gutters (right-aligned columns like `rails routes`) count when every row also has a wider gap |
 | `list` | bullet markers (`•`, `–`, `1)`, `a.`…), ≥ 3 short lines without terminal punctuation, or ≥ 3 lines copied from a web page list — one item per line, no blank lines between, no sentence carrying on to the next line |
 | `code` | reuses the code-block language scores + structural code shape (lines ending in `{ } ;`, indentation) |
 | `prose` | lines with sentence punctuation and ≥ 8 words |
 
 **Action**: CSV/TSV/aligned → GFM table (first row = header, `|` escaped); list → `- item` (existing bullets
-normalised). JSON → ```` ```json ```` (minified JSON is pretty-printed first; JSON with comments
+normalized). JSON → ```` ```json ```` (minified JSON is pretty-printed first; JSON with comments
 gets ```` ```jsonc ````). Code → fenced block, tagged with the detected language only if *that* decision also passes
 the gate. A `prose` paste never suggests anything.
 
@@ -286,7 +286,7 @@ indented code blocks and raw HTML (`<pre>`, `<style>`, …) are skipped:
 | Candidate | Fix |
 |---|---|
 | `**Title**` alone on a line after a blank line | one level under the heading above it: `### Title` under a `##`, `## Title` when there's none (or only the `#` title) |
-| `#Heading` (no space) — but not lowercase `#tag` words or `#fff` colours | `# Heading` |
+| `#Heading` (no space) — but not lowercase `#tag` words or `#fff` colors | `# Heading` |
 | `== Title ==` (wiki style) | heading at the same level, as on MediaWiki: `== Title ==` → `## Title`, `=== Title ===` → `### Title` |
 | `-item`, `*item`, `+item` | `- item` |
 | `• item`, `– item`, `✔️ item` — a typographic bullet, as pasted from a document, a web page or a chat | `- item` (a check mark stays: `- ✔️ item`) |
@@ -304,18 +304,18 @@ from a per-kind prior and is adjusted by evidence:
   right above an image (a caption: `**Before**`) and bold identifiers (`**android.permission.CAMERA**`).
 - **`#` lines** made only of hashtags (`#CLT #Remoto #React`), issue references (`#123 fixed …`) or code
   (`#include`, `#!/bin/sh`, `#[derive]`) aren't headings; neither is a separator like `=== === ===`. One
-  capitalised word (`#Installation`) is a heading only when it stands alone — a blank line before it and no
+  capitalized word (`#Installation`) is a heading only when it stands alone — a blank line before it and no
   hashtags around it; a lone `#Remoto` under a job post stays a tag.
 - **Dash lines** that look like CLI flags (`-s, --search`), flag sets (`+SIMD +AVX`), CSS
   (`-webkit-line-clamp: 2;`), negative numbers (`-5 degrees`) or `ls -l` output (`-rw-r--r-- 1 …`) aren't
   list items; `*word*` is emphasis.
-- **List fixes** need company: neighbouring list items raise confidence; a lone `*line` is more
+- **List fixes** need company: neighboring list items raise confidence; a lone `*line` is more
   often a footnote than a bullet, so it stays quiet. A lone `-line` is suggested only when it reads as plain
   prose (three or more words, nothing code-like such as `/`, `:` or `=`): "-this should be a list item" yes,
   "-verbose" or "-su cd: /opt/app: Permission denied" no.
 - **Typographic bullets** need company too: a lone `• line` stays quiet, a line with several bullets is a
   separator bar (`• English • Русский • Français`), and `— Name` alone signs a quote. **`1 - item`** needs a
-  numbered neighbour: `3 - 2` alone is a range, `31- zone 2 passed` is test output.
+  numbered neighbor: `3 - 2` alone is a range, `31- zone 2 passed` is test output.
 - **A link broken by a space** is always offered (0.9): Markdown never reads `[text] (url)` as a link.
 
 ### Readability (`score`)
@@ -331,10 +331,10 @@ LIX = words / sentences + 100 × longWords / words      (long = more than 6 lett
 
 Markdown is stripped first (code, links, tables; list items and headings count as sentences).
 The value is mapped onto a 5-step scale — *very easy · easy · moderate · hard · very hard*
-(bucket centres 25/35/45/55/65) — with a sharpness that grows with section length, so short
+(bucket centers 25/35/45/55/65) — with a sharpness that grows with section length, so short
 sections produce flat distributions and stay silent.
 
-**Action.** A small coloured dot next to the section's heading in the preview, with a tooltip.
+**Action.** A small colored dot next to the section's heading in the preview, with a tooltip.
 Marks are only re-rendered when a score actually changes.
 
 ### Outline — section types
@@ -381,7 +381,7 @@ clicked section stays highlighted until you scroll yourself), hover to tint the 
   Installation + Usage + License → README; mostly Reference/Configuration → reference; mostly Explanation,
   Reference, Configuration, Performance or Security → technical documentation. Technical docs often name
   their sections after their own topics ("The confidence gate"), which no rule or model can type. So they are
-  also recognised by their shape: 800+ words of prose, 8+ sections over at least two heading levels, and three
+  also recognized by their shape: 800+ words of prose, 8+ sections over at least two heading levels, and three
   or more tables or code blocks backing the prose. With too little evidence (fewer than three typed sections,
   or under a quarter of them, and no clear shape), it says there's no clear pattern rather than guess. The same
   type labels the bar above every rendered document (click it for this tab); without one, the bar shows the
@@ -444,7 +444,7 @@ answers, like the rest of Smart Assist.
   and a thin progress line; the rules answer meanwhile. If the download fails, the button says
   *Assist: Rules* in amber, and its menu says why, with **Try again**.
 - **How it reads code:** the snippet becomes a set of small clues — words and symbols, pairs of
-  neighbouring tokens, how lines start and end, the indentation style, and three-letter pieces of
+  neighboring tokens, how lines start and end, the indentation style, and three-letter pieces of
   longer words. Each clue has a learned 8-number vector; the model averages them and turns the
   average into one probability per language.
 - **Careful on purpose:** its confidence is tuned on predictions for repositories it never saw in
@@ -457,7 +457,7 @@ answers, like the rest of Smart Assist.
 ### 4.2 How it was trained
 
 - **Data:** about 270,000 code blocks from 309 public repositories (docs, READMEs, guides —
-  including Portuguese ones), labelled with the language the *original authors* tagged them with,
+  including Portuguese ones), labeled with the language the *original authors* tagged them with,
   plus snippets of real source files for rarer languages.
 - **Fair split:** whole repositories go to training, tuning (dev) or the final test — never the same
   project in two places — and any training block that looks like a test block is removed.
@@ -486,7 +486,7 @@ right ones, slightly more precise.
 So: about twice the useful suggestions of the rules (1.7–2.2× on the three held-out sets) and better than v1 on
 every count. Its precision is within about a point of the rules' — a little below on the first two sets, a
 little above on the third. It's an opt-in mode because it downloads a file and keeps it in your browser, and because its precision isn't yet
-clearly above the rules'. About half of its misses are really labelling quirks (`dotnet build -c Release` tagged as
+clearly above the rules'. About half of its misses are really labeling quirks (`dotnet build -c Release` tagged as
 C#), the rest are one-liners that fit several languages (`void main() { … }` is valid Java *and* C++).
 
 ### 4.4 The section model
@@ -499,13 +499,13 @@ With *Rules + AI*, the Outline also types sections whose heading doesn't say —
   *instalacao*), how lines start and the words inside code. It also reads the shape of the section: code
   blocks and their languages, tables, lists, shell prompts, version numbers, dates, issue references.
 - **Labels from headings, without the headings:** about 27,000 sections from the same public
-  repositories, labelled by the heading rule above (a stricter version that only trusts unambiguous
+  repositories, labeled by the heading rule above (a stricter version that only trusts unambiguous
   headings). The model never sees the heading, only the text under it — that's what lets it type the
   sections whose heading says nothing.
 - **Allowed to decline:** most real sections are just topics ("Arrays", "Amazon S3"), so one more
   answer, *other*, is learned from sections whose heading names no type. When *other* wins, the
   section stays untyped.
-- **Three types stay with the headings:** a version trained to recognise explanation sections too (with
+- **Three types stay with the headings:** a version trained to recognize explanation sections too (with
   extra examples from Diátaxis-style `concepts/` and `architecture/` folders) got none right on the dev
   repositories — explanatory prose uses the same words as any topic. Glossaries and roadmaps are too rare to
   learn from (76 and 57 headings in 381 repositories). These three are typed from their heading only; the
@@ -555,7 +555,7 @@ better than the rules. They're written down so the next attempt starts from the 
 the other two, reading the line and two lines around it. It learned from 66,076 lines. The "yes" lines are real
 list items and headings from the 381 repositories with the near-miss put back in (`- item` → `-item` or
 `• item`, `## Title` → `##Title` or `**Title**`). The "no" lines are real look-alikes (CLI help, `ls -l` output,
-diff lines, CSS, `#include`, footnotes, bold labels). It was judged on 227 hand-labelled lines from issues, pull requests and comments of 43
+diff lines, CSS, `#include`, footnotes, bold labels). It was judged on 227 hand-labeled lines from issues, pull requests and comments of 43
 repositories it never saw — unpolished text, where these near-misses really happen:
 
 | Held-out (227 lines, run once) | Shown | Right when shown | True lines found (of 132) |
@@ -589,13 +589,13 @@ links that stand alone on their line in the dev repositories, what authors write
 last segment matches it 10% of the time, the domain never, `owner/repo` 28%. Only GitHub issue and pull
 request links (`owner/repo#123`) matched often on dev (90%) — and 32% on the held-out repositories, where each
 project has its own habit ("BUG #523", "Pull Request", a title). Without fetching the page there's no good text
-to offer, so a pasted URL stays as it is (GitHub-flavoured Markdown shows it as a link anyway).
+to offer, so a pasted URL stays as it is (GitHub Flavored Markdown shows it as a link anyway).
 
 ---
 
 ## 5. How it's measured
 
-Every feature is checked against a hand-labelled set of examples — code snippets in many
+Every feature is checked against a hand-labeled set of examples — code snippets in many
 languages, real-world pastes (CSV, spreadsheet cells, terminal output, JSON), near-miss lines —
 including Portuguese prose and mixed-language text. For each feature we track:
 

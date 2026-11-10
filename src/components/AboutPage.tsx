@@ -159,7 +159,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </p>
           <Feature icon={<Code2 />} title={x('Code block languages', 'Linguagem dos blocos de código')}>
             {x(
-              <>Leave a code block (<code>```</code>) without a language and it suggests one (TypeScript, Python, Bash, SQL and 16 more), so your code gets properly labelled. When two languages fit (JavaScript or TypeScript, C or C++), <strong className={strong}>Rules + AI</strong> offers both and lets you pick.</>,
+              <>Leave a code block (<code>```</code>) without a language and it suggests one (TypeScript, Python, Bash, SQL and 16 more), so your code gets properly labeled. When two languages fit (JavaScript or TypeScript, C or C++), <strong className={strong}>Rules + AI</strong> offers both and lets you pick.</>,
               <>Deixe um bloco de código (<code>```</code>) sem linguagem e ele sugere uma (TypeScript, Python, Bash, SQL e mais 16), para o código ficar identificado corretamente. Quando duas linguagens são possíveis (JavaScript ou TypeScript, C ou C++), o modo <strong className={strong}>Regras + IA</strong> oferece as duas para você escolher.</>,
             )}
           </Feature>
@@ -239,7 +239,7 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
               <>Clique no nome do documento, no cabeçalho, para renomear (no celular: ⋯ → <strong className={strong}>Renomear…</strong>). O <strong className={strong}>Exportar</strong> pede primeiro o nome do arquivo: o nome do documento ou, se ele ainda não tiver um, um nome inferido do primeiro título. Esse nome passa a valer para o documento. <Keys k={['mod', 's']} /> abre o <strong className={strong}>Exportar</strong>; apertando novamente, o download acontece na hora. Ou copie todo o texto em Markdown com um clique (<strong className={strong}>Copiar Markdown</strong>).</>,
             )}
           </Feature>
-          <Feature icon={<ClipboardPaste />} title={x('GitHub-flavoured Markdown', 'Markdown no padrão do GitHub')}>
+          <Feature icon={<ClipboardPaste />} title={x('GitHub Flavored Markdown', 'Markdown no padrão do GitHub')}>
             {x(
               'Tables, task lists, strikethrough and autolinks render out of the box, and code blocks get syntax colors (about 30 languages) and a copy button.',
               'Tabelas, listas de tarefas, texto tachado e links automáticos funcionam sem configurar nada, e os blocos de código ganham cores de sintaxe (cerca de 30 linguagens) e um botão de copiar.',

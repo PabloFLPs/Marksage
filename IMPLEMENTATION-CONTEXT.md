@@ -1488,3 +1488,10 @@ A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Persona
   mesma precisão") — and the tried models "didn't do clearly better than the rules" ("não se saíram claramente
   melhor"), which agrees with the one-line result. EN + PT-BR: README, About, SMART-ASSIST, MODELS, the story,
   AGENTS.
+- **American spelling on every EN surface (QA D05).** The product says EN-US, but ~70 British spellings were mixed
+  in — sometimes next to the American form ("summarise" above the sample's `summarize`, "colours" and "colors" on
+  one page). Now en-US in the sample, About ("GitHub Flavored Markdown", the official name), the story, SMART-ASSIST,
+  MODELS, ROADMAP and training/README: labeled/labeling, -ize, -or, center, neighbor, learned. The training diagram
+  ("Labeled examples") regenerated with `scripts/diagrams.py docs` (the other diagrams came out identical). No
+  heading or anchor changed; code comments, the held-out fixtures and these notes keep their spelling. The sample's
+  lines are unchanged (`check:docs` clean).

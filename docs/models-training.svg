@@ -37,7 +37,7 @@
 <path class="msd-line" d="M200.0,80 L200.0,101" marker-end="url(#msd-arrow-models-training)"/>
 <rect class="msd-box " x="20" y="102" width="360" height="56" rx="9"/>
 <text class="msd-step" x="34" y="124">2</text>
-<text class="msd-t" x="52" y="124">Labelled examples</text>
+<text class="msd-t" x="52" y="124">Labeled examples</text>
 <text class="msd-mono" x="52" y="144">code: the authors’ tags · sections: headings</text>
 <path class="msd-line" d="M200.0,158 L200.0,179" marker-end="url(#msd-arrow-models-training)"/>
 <rect class="msd-box " x="20" y="180" width="360" height="56" rx="9"/>

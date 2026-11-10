@@ -26,7 +26,7 @@ with which answer.
 ```
 
 They learn by **supervised learning**: you show them many examples whose answer is already known (a
-*labelled* example) and let them adjust themselves until their guesses match the labels. Nobody writes the
+*labeled* example) and let them adjust themselves until their guesses match the labels. Nobody writes the
 rules — "a line ending in `:` after `def` means Python" is something the model works out from the data.
 
 Why not just write rules? Marksage does, and the rules (the *heuristics*) are precise — but they stay quiet
@@ -75,7 +75,7 @@ into small **clues** — in machine-learning terms, **features**. For code, ther
 | Kind | What it captures | From the example |
 |---|---|---|
 | `T:` token | every word and symbol | `T:def`, `T:return`, `T:(` |
-| `B:` pair | two neighbouring tokens on a line | `B:def greet`, `B:) :` |
+| `B:` pair | two neighboring tokens on a line | `B:def greet`, `B:) :` |
 | `F:` first token | how a line starts | `F:def`, `F:return` |
 | `P:` first pair | the first two tokens of a line | `P:return f` |
 | `E:` last character | how a line ends | `E::`, `E:"` |
@@ -196,7 +196,7 @@ rules can still help:
   `const x: number = 1;` + `function add(a: number, b: number): number { … }`: the pair `: number` pushes hardest
   toward TypeScript (+192), and `) :` and `number` follow, but they are 5 of 70 clues. The other 65 are shared
   with JavaScript and lean that way (`+`, `function`, `;`, short names), and the model starts 1.95 points in
-  favour of JavaScript (much untyped code is tagged `ts`). Result: js 63% — while the rules said ts 99%. On the fixture
+  favor of JavaScript (much untyped code is tagged `ts`). Result: js 63% — while the rules said ts 99%. On the fixture
   sets this rule added one right suggestion (dev) and no wrong one; on the third held-out set, 3 right and none
   wrong. A model that keeps each dimension's strongest clue (mean + max pooling) was tried as the general fix and
   didn't help TypeScript / JavaScript — most `ts`-tagged code has no TypeScript-only syntax at all (section 8.1).
@@ -211,14 +211,14 @@ only come from headings: **Explanation** ("How it works", "Architecture"), which
 ## 3. How the models learned
 
 <!-- diagram: training -->
-![How the models learned: public repositories, labelled examples, split by repository, training loop, calibration, shrinking, measuring once](models-training.svg)
+![How the models learned: public repositories, labeled examples, split by repository, training loop, calibration, shrinking, measuring once](models-training.svg)
 
 <details>
 <summary>The same diagram in Mermaid</summary>
 
 ```mermaid
 flowchart TB
-  A["1 · Public repositories<br/>309 repos: docs, READMEs, guides"] --> B["2 · Labelled examples<br/>code: the authors' tags · sections: headings"]
+  A["1 · Public repositories<br/>309 repos: docs, READMEs, guides"] --> B["2 · Labeled examples<br/>code: the authors' tags · sections: headings"]
   B --> C["3 · Split by repository<br/>train · dev (choices) · test (once)"]
   C --> D["4 · Training loop<br/>guess → measure the miss → nudge the numbers"]
   D -- "× several passes" --> D
@@ -317,7 +317,7 @@ after the first test set had been seen, a second, fresh one was built from 72 re
 
 Training loss always goes down; that doesn't mean the model is getting better. An early section model, with
 twice as many slots, twice the numbers per slot and 10 epochs, reached a training loss of 0.05 — nearly
-perfect. Yet it agreed with headings on new repositories only 57% of the time, in a 1.3 MB file. It had started memorising its
+perfect. Yet it agreed with headings on new repositories only 57% of the time, in a 1.3 MB file. It had started memorizing its
 examples instead of learning patterns: **overfitting**. A smaller model trained for 3 epochs did as well or
 better on dev in a third of the size, so that's what ships.
 
@@ -397,7 +397,7 @@ machine-learning library, no GPU, no background worker. Each decision is a few t
   learns their habits, and some of its "mistakes" are really disagreements with a label.
 - **Order mostly ignored.** Averaging clues loses most of the order; a model that reads sequences would catch
   more, at many times the size.
-- **Patterns, not meaning.** With 8 numbers per clue, it recognises the look of a language or a section. It
+- **Patterns, not meaning.** With 8 numbers per clue, it recognizes the look of a language or a section. It
   doesn't know what the code does or what the section says. It also can't explain its answer.
 - **Some types are weak.** "Guide" sections read a lot like setup or examples; the section model rarely labels
   them confidently. Of the types added in v2, "performance" is the least reliable (75% agreement on the
@@ -420,7 +420,7 @@ where it fails. Everything needed to use the files outside Marksage is here.
 | **How it reads** | Clue reader 1 (code clues, section 2.1) → FNV-1a hash mod 32,768 → average of 8 learned numbers per clue → 8 × 21 weights + 21 biases → softmax |
 | **Parameters** | 262,333 (stored as 8-bit numbers with one scale per slot) |
 | **Temperature** | 1.85; 2.55 when the snippet has 3 non-blank lines or fewer |
-| **Training data** | 63,751 fenced blocks from 309 public repositories, labelled by their authors' tags, at most 6,000 per language, plus windows of real source files for rare languages |
+| **Training data** | 63,751 fenced blocks from 309 public repositories, labeled by their authors' tags, at most 6,000 per language, plus windows of real source files for rare languages |
 | **Training** | 8 epochs of SGD, learning rate 0.4 falling to 0, rarer languages weighted by (6,000 ÷ count)^0.5, seed 1; temperatures fitted on out-of-repository predictions (5 folds) for 95% precision at the gate |
 | **Held-out results** (284 blocks, 67 repositories never seen) | Top answer right 74.3% of the time; with the 0.8 / 0.2 gate it answers 51% of blocks and is right 92.5% of the time |
 | **Speed** | About 0.1 ms per snippet in plain JavaScript |
@@ -440,12 +440,12 @@ where it fails. Everything needed to use the files outside Marksage is here.
 | **How it reads** | Clue reader 2 (prose clues, section 2.1) → the same hashing, averaging and scoring as the code model, with 14 answers |
 | **Parameters** | 262,270 |
 | **Temperature** | 1.6 |
-| **Training data** | 27,250 sections from the same repositories, labelled by unambiguous headings (the heading is then hidden from the model); 7,813 of them are "other" |
+| **Training data** | 27,250 sections from the same repositories, labeled by unambiguous headings (the heading is then hidden from the model); 7,813 of them are "other" |
 | **Training** | 3 epochs of SGD, learning rate 0.3 falling to 0, class weighting 0.5, seed 1; temperature fitted on the dev repositories |
-| **Held-out results** (134 repositories never seen) | With the 0.8 / 0.2 gate it types 13.5% of labelled sections and agrees with their heading 88.9% of the time (84.5% without changelogs); from 0.6, 25.1% and 85.6%. New types: security 34 of 38 shown agree, performance 45 of 60, deployment 2 of 2. Labels come from headings, so this is agreement, not hand-checked accuracy. |
+| **Held-out results** (134 repositories never seen) | With the 0.8 / 0.2 gate it types 13.5% of labeled sections and agrees with their heading 88.9% of the time (84.5% without changelogs); from 0.6, 25.1% and 85.6%. New types: security 34 of 38 shown agree, performance 45 of 60, deployment 2 of 2. Labels come from headings, so this is agreement, not hand-checked accuracy. |
 | **Speed** | About 0.1 ms per section |
-| **Use it for** | Labelling sections of READMEs and technical docs whose heading doesn't say what they are; ignore "other" |
-| **Not for** | Explanation sections ("How it works", "Architecture"): their prose looks like any topic's, and a model trained to recognise them got none right on the dev repositories, so Marksage types them from the heading only — like glossaries and roadmaps (76 and 57 headings in 381 repositories: too few). "Guide" is also rarely recognised, and "performance" is the weakest of the v2 types. |
+| **Use it for** | Labeling sections of READMEs and technical docs whose heading doesn't say what they are; ignore "other" |
+| **Not for** | Explanation sections ("How it works", "Architecture"): their prose looks like any topic's, and a model trained to recognize them got none right on the dev repositories, so Marksage types them from the heading only — like glossaries and roadmaps (76 and 57 headings in 381 repositories: too few). "Guide" is also rarely recognized, and "performance" is the weakest of the v2 types. |
 | **License** | GNU AGPL-3.0, like the rest of Marksage |
 
 ### 7.3 Running them yourself
@@ -524,9 +524,9 @@ changes to work at all — without them its numbers grew without bound. Details:
 
 | Version | Date | Training data | What changed | Held-out | Status |
 |---|---|---|---|---|---|
-| Draft without "other" | 2026-10-24 | ~17,000 labelled sections | 10 types only | dev: 87% right when shown on labelled sections, but about 2 in 3 on sections with uninformative headings | not shipped |
+| Draft without "other" | 2026-10-24 | ~17,000 labeled sections | 10 types only | dev: 87% right when shown on labeled sections, but about 2 in 3 on sections with uninformative headings | not shipped |
 | **v1** | 2026-10-24 | 26,105 sections (7,832 "other") | adds "other"; 8 numbers per clue, 32,768 slots, 3 epochs, temperature 1.6 | from 0.8: 15.1% typed, 91.5% agree with the heading · from 0.6: 27.4%, 87.1% (133 repositories) | replaced by v2 |
-| Explanation experiment | 2026-10-25 | + 748, then 1,283 explanation sections | an 11th type, labelled by headings, then also by `concepts/`-style folders | dev: 0 explanation answers right when shown, at every setting tried | not shipped — Explanation is typed from headings only |
+| Explanation experiment | 2026-10-25 | + 748, then 1,283 explanation sections | an 11th type, labeled by headings, then also by `concepts/`-style folders | dev: 0 explanation answers right when shown, at every setting tried | not shipped — Explanation is typed from headings only |
 | **v2** | 2026-10-27 | 27,250 sections (7,813 "other") | + security, performance, deployment; security headings no longer count as license & credits; same settings as v1 (chosen again on dev) | from 0.8: 13.5% typed, 88.9% agree · from 0.6: 25.1%, 85.6% (134 repositories) · v1 on the same set: 14.5%, 89.6% | **in use** |
 
 ### 8.3 Structure model (tried, not used)
@@ -569,7 +569,7 @@ models; 5 epochs (chosen on dev), learning rate 0.3, class weighting 0.5, temper
 | Fresh held-out (2026-10-24) | code from 72 repositories used nowhere else | code 284 (67 repositories) | built once for v2, then frozen |
 | Third held-out (2026-10-30) | code from 158 repositories used nowhere else, built before any v3 training | code 842: ≤ 30 per language, up to 60 for TypeScript, JavaScript, C, C++, C# and Java, plus 40 JSON blocks with comments | built once for v3, then frozen; run once on 2026-10-30 (v3 experiment, v2, heuristics) |
 | Sections held-out (2026-10-24) | sections from the code model's test repositories plus the fresh ones | 133 repositories (134 from v2: new types label sections in one more) | run once per section model |
-| Structure held-out (2026-10-28) | near-miss lines from GitHub issues, pull requests and comments of 43 repositories used nowhere else, labelled by hand | 227 lines | built once for the structure model, then frozen |
+| Structure held-out (2026-10-28) | near-miss lines from GitHub issues, pull requests and comments of 43 repositories used nowhere else, labeled by hand | 227 lines | built once for the structure model, then frozen |
 | Paste held-out (2026-10-28) | real pastes from 19 sources outside the corpus: data files, spreadsheet copies, command output, source files, configs, READMEs | 53 pastes | built once for the paste model, then frozen |
 | Links (2026-10-28) | links alone on their line, with the text their authors chose | dev 2,842 (28 repositories) · held-out 5,058 (138) | judges the link-text rule (SMART-ASSIST §4.6) |
 
@@ -593,7 +593,7 @@ models; 5 epochs (chosen on dev), learning rate 0.3, class weighting 0.5, temper
 | **Learning rate** | How big each training step is. |
 | **Logit** | An answer's raw score, before softmax. |
 | **Loss** | How wrong a guess was: −log(probability of the right answer). |
-| **Overfitting** | Memorising training examples instead of learning patterns that carry over. |
+| **Overfitting** | Memorizing training examples instead of learning patterns that carry over. |
 | **Parameter** | One of the learned numbers (this model has 262,333). |
 | **Precision** | Of the answers shown, the share that are right. |
 | **Quantization** | Storing numbers with fewer bits (here 8 instead of 32). |

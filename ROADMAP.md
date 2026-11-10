@@ -70,7 +70,7 @@ decision).
 
 **Open questions:** how it runs in the browser (runtime, download size, WebGPU vs CPU speed, a fallback), how
 the download notice and Privacy & storage describe it, which questions it answers first (Explanation sections
-are ready: labelled dev/test data already exists from the experiment), and whether it beats the heading rule
+are ready: labeled dev/test data already exists from the experiment), and whether it beats the heading rule
 on the dev repositories before it ships.
 
 ## 3. Dogfooding round — started (2026-11-05)
@@ -97,12 +97,12 @@ against these documents; fix on dev data, then measure):
 ## 4. Smaller items
 
 Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Context §39–40), kept for later by Pablo
-(done since: the browser bar colour, CI, the story's who-decided line, root file names, the chunk-size note):
+(done since: the browser bar color, CI, the story's who-decided line, root file names, the chunk-size note):
 
 - **The section model and Portuguese:** it reads PT text poorly — the sample's privacy section is typed Security
   (0.75) in English, "other" (0.30) in Portuguese. More PT sections in its training data, or say it in MODELS §7.
 - **Tab to indent lists:** with no suggestion showing, Tab / Shift-Tab could indent / outdent list lines (today Tab
-  leaves the editor, as a textarea does). It changes "Assist Off = the original behaviour" (AGENTS), so it needs
+  leaves the editor, as a textarea does). It changes "Assist Off = original behavior" (AGENTS), so it needs
   that rule revisited first.
 - **Raw HTML in the preview:** `<details>`, `<kbd>`, `<img>` and the like show as escaped text, on purpose (no
   script can run). Either one line in About saying so, or render a safe subset (`rehype-raw` + `rehype-sanitize`).
@@ -137,7 +137,7 @@ Follow-ups from the pre-launch review (2026-10-31 – 11-03, Implementation Cont
 
 - **"Too short to judge"** for the code model: one-liners get overconfident answers (`x = 1` → Python 97%).
 - **Shrink the model files:** a third of each file is per-slot scales.
-- **"Guide" sections** are rarely recognised by the section model.
+- **"Guide" sections** are rarely recognized by the section model.
 - **Section model v3:** "performance" is the weakest v2 type (45/60 on the held-out set) and setup got less
   precise (88/109); deployment had 246 training examples. The test set has now been used for v2, so a v3 needs a
   fresh held-out set (like the code model's second one).
@@ -184,7 +184,7 @@ each from going higher, most weight first, and what would move it:
    recovers from a failed download (*Try again*). One E2E test with the model files served locally would cover it.
 3. **Half the branches are untested** (45% branch coverage; the UI and the glue code, not the rules) — details
    and the plan in §6.1.
-4. **No visual regression check** — a broken layout, colour or spacing passes every test today; details and the
+4. **No visual regression check** — a broken layout, color or spacing passes every test today; details and the
    plan in §6.2.
 5. **The evaluation sets are used up.** The held-out sets that measured the shipped models have been seen; any
    model change (section v3, structure v2) needs fresh ones first (§4).
@@ -197,7 +197,7 @@ each from going higher, most weight first, and what would move it:
 2. **The models' gains are modest** (§4): about twice the right code-language suggestions at the rules' precision;
    the section model adds little in Portuguese and on "performance" / "guide" sections; three trained models
    weren't shipped. Honest and documented, but not yet a reason on its own to pick Marksage.
-3. **Editor basics a Markdown user expects**: no syntax colouring in the editor (a plain textarea with line
+3. **Editor basics a Markdown user expects**: no syntax coloring in the editor (a plain textarea with line
    numbers), Tab doesn't indent lists, raw HTML (`<details>`, `<kbd>`) shows as text, and Export downloads a copy —
    there's no saving back into the opened file (File System Access, Chromium only).
 4. **Large documents**: switching a 3 MB document to the split view spends ~7 s laying out the preview (§4).
@@ -205,7 +205,7 @@ each from going higher, most weight first, and what would move it:
    people telling you — the LinkedIn post is the first real round.
 
 What would move them: items 1–2 of the tests list bring tests to about 9; with the first load done, one
-editor-basics item (syntax colouring or saving in place) brings the overall to about 9. Real users' feedback is
+editor-basics item (syntax coloring or saving in place) brings the overall to about 9. Real users' feedback is
 what decides the rest.
 
 ### 6.1 Branch coverage (measured 2026-11-04, kept for a future iteration)
@@ -244,7 +244,7 @@ Plan (for the risk, not the number):
 
 **What it is.** Screenshots of key screens compared pixel by pixel against reference images kept in the repo; any
 visible change fails, with a diff image in the CI artifacts. Today axe, the overflow checks and the E2E flows all
-pass on a broken layout, a wrong colour or a spacing slip — nothing looks at the picture. It catches **changes**
+pass on a broken layout, a wrong color or a spacing slip — nothing looks at the picture. It catches **changes**
 from the reference, not bugs already in it (the start-screen logo's box, fixed 2026-11-04, would have been
 recorded as correct; the next one like it would be caught).
 
@@ -287,9 +287,9 @@ couldn't learn explanation (0 right on dev, twice) and the other two had 76 and 
    (`training/build-sections.ts`). Deployment had 246 examples and is barely learned (2 of 2 shown on the test
    set — too few to judge); below ~300 strict headings a type should stay heading-only.
 2. **Heading-rule coverage first.** EN + PT phrases in `PHRASES`, checked against `__fixtures__/headings.json`
-   (new cases for the type and for near neighbours it must not steal: "Testing" vs Contributing, "FAQ" vs
+   (new cases for the type and for near neighbors it must not steal: "Testing" vs Contributing, "FAQ" vs
    Troubleshooting, "Requirements" vs Setup). A type the rule types well may never need the model.
-3. **Labelled data** for the model: rebuild the sections with the new labels (`build-sections`), keep "other"
+3. **Labeled data** for the model: rebuild the sections with the new labels (`build-sections`), keep "other"
    honest (sections whose heading names no type), and check the split by repository still holds.
 4. **A fresh held-out set.** The v2 test repositories have been seen; a v3 needs new ones (the code model's
    third set is the pattern: built before any training, frozen, run once).
