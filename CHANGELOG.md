@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.48.7** · 2026-11-09 · `(this commit)` · fix(privacy): an image address without "//" waits for permission too
+- **3.48.8** · 2026-11-09 · `(this commit)` · fix(meta): link previews and the start screen say the AI models are opt-in
+- **3.48.7** · 2026-11-09 · `9fcee9d` · fix(privacy): an image address without "//" waits for permission too
 - **3.48.6** · 2026-11-06 · `9e7a07f` · fix(about): the story link reads cleanly on a phone
 - **3.48.5** · 2026-11-06 · `ba7afe9` · fix(sample): Pitwall's license line says AGPL-3.0, not MIT
 - **3.48.4** · 2026-11-06 · `01ca093` · fix(about): two doc links on one row, and the sample as a link in the Smart Assist intro

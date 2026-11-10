@@ -1,6 +1,6 @@
 # Como os dois modelos funcionam
 
-O Marksage traz dois modelos próprios pequenos. Um diz a **linguagem de um bloco de código** (21 respostas, de
+O Marksage traz dois pequenos modelos próprios. Um diz a **linguagem de um bloco de código** (21 respostas, de
 TypeScript a "não é código"); o outro diz o **tipo de uma seção** do documento, para a Estrutura (13 tipos, mais
 "outro"). Os dois têm a mesma arquitetura, o mesmo formato de arquivo e a mesma receita de treinamento. Mais dois foram
 treinados do mesmo jeito, para as dicas de formatação e os tipos de conteúdo colado, e não são usados, porque não

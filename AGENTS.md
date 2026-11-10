@@ -85,7 +85,7 @@ training/                 Own models' pipeline (collect → split → train; bui
   sentence → **frase-chave**; section types → **tipos de seção**; Worth a look → **Vale conferir**; untagged code
   block → **bloco de código sem linguagem**; fence backticks → **crases**; Live editor → **Escrita em tempo
   real**; Not done → **Pendente**; model card → **ficha técnica (model card)**; open-weight → **open weight**;
-  tiny / small model → **modelo pequeno** (never "minúsculo" or "pequeno modelo"); "dar tipo a" → **classificar**; feature (product) → **recurso**, named the first
+  tiny / small model → **pequeno modelo**, the adjective first ("dois pequenos modelos de IA", "um pequeno modelo treinado para…"; Pablo, 2026-11-09, reversing "modelo pequeno"; never "minúsculo"); "dar tipo a" → **classificar**; feature (product) → **recurso**, named the first
   time. Stays in English: build, commit, deploy (the Deployment section type is "Deploy"), changelog (also the
   section type), bundle, chunk, cache, dataset, prompt, token, pipeline, README, roadmap, issue, pull request,
   hash, slot, softmax, local-first, BYOK, app, link, download / upload; "feature" only as the ML term, next to

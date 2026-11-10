@@ -37,7 +37,7 @@ Em setembro de 2026, a TypeSafe AI lançou o **Jev**, um modelo fechado feito pa
 grande. A ideia não é nova: classificadores, categorizadores e modelos de saída estruturada fazem versões mais
 restritas dela há anos. Mas o Jev deu a ela uma forma clara. Três dias depois, a Convai Innovations lançou o
 **Laya**, um modelo open weight (Apache 2.0) que responde os mesmos três tipos de pergunta e pode rodar na sua
-própria máquina. O Smart Assist leva essa ideia um passo adiante, com modelos próprios pequenos, treinados
+própria máquina. O Smart Assist leva essa ideia um passo adiante, com pequenos modelos próprios, treinados
 exatamente para as perguntas dele.
 
 O motivo é engenharia, e não hype momentâneo: um modelo que só precisa *escolher* numa lista conhecida é muito
@@ -70,14 +70,14 @@ Para cada pergunta, o Smart Assist tenta as opções abaixo, nesta ordem, e fica
    começa com `def` e termina com `:` indica Python. São instantâneas, cada decisão pode ser explicada e elas
    erram pouco. Todo recurso do Smart Assist (a linguagem dos blocos de código, o copia & cola inteligente, as
    dicas de formatação) tenta primeiro as regras heurísticas.
-2. **Um modelo pequeno, treinado para aquela pergunta**: entra só quando as regras deixam muita coisa sem
+2. **Um pequeno modelo, treinado para aquela pergunta**: entra só quando as regras deixam muita coisa sem
    resposta *e* existem exemplos reais com a resposta certa já conhecida (dados rotulados). É aqui que entram os
    dois modelos do Marksage. Cada um teve que provar, em repositórios que nunca viu, que traz respostas que as
    regras não dão. O modelo de código acerta cerca do dobro de sugestões das regras (1,7–2,2× em três conjuntos
    de teste), com praticamente a mesma precisão. O modelo de seções classifica seções cujo título não diz nada.
    Outros dois foram treinados e medidos do mesmo jeito, para dicas de formatação e tipos de conteúdo colado. Em texto
    real, não superaram as regras, então ficaram de fora (seção 4.6).
-3. **Um modelo de decisão geral**: para perguntas sem dados de treinamento, que um modelo pequeno não tem como
+3. **Um modelo de decisão geral**: para perguntas sem dados de treinamento, que um pequeno modelo não tem como
    aprender. Nenhum recurso precisa disso ainda. O candidato hoje é o Laya, um modelo open weight que roda
    localmente, mas que ainda não foi testado no navegador (seção 4.5).
 

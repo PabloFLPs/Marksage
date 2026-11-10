@@ -109,7 +109,7 @@ export const SAMPLE_DOCUMENT_PT_BR = `# Pitwall
 > - [ ] Corrija os erros de formatação (Uso, Configuração, Perguntas frequentes, a última linha)
 > - [ ] Em Exemplos, copie os tempos, cole de novo e aceite a tabela
 > - [ ] Abra a **Estrutura**: o que é cada seção; depois, as abas **Documento** e **Sugestões**
-> - [ ] Mude o menu **Assist** para **Regras + IA**: os modelos de IA pequenos do próprio Marksage entram em ação (✦)
+> - [ ] Mude o menu **Assist** para **Regras + IA**: os pequenos modelos de IA do próprio Marksage entram em ação (✦)
 
 O Pitwall transforma planilhas de tempos de volta em resumos de corrida: voltas mais rápidas, stints e a diferença para o líder. É uma pequena ferramenta de linha de comando, sem conta e sem servidor.
 

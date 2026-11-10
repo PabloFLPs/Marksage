@@ -1461,3 +1461,16 @@ A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Persona
   a leftover backslash as the parser does (`\\host` renders as a relative `%5C%5Chost`, not another site). Unit
   tests for both forms, `HTTPS://`, `//`, escapes, references and code; checked in Chromium on the build (no request
   leaves with it off; the bar counts 4 of 4). §32 #11's "no request leaves the app with it off" holds again.
+- **Link previews and the start screen say the models are opt-in (QA D02).** Both languages said Smart Assist works
+  "with rules and two small AI models… on your device", but a first visit is Rules only (`loadAssistMode`) and the
+  models download only in Rules + AI. Now: the start screen's pitch says "Smart Assist suggests fixes with rules.
+  Turn on Rules + AI and it also uses two small AI models trained just for Marksage, running on your device" (PT
+  "Ative Regras + IA e ele também usa dois modelos de IA pequenos, treinados só para isso…"; "for it" named
+  Marksage, it was ambiguous); `description`, `og:description` and `twitter:description` add "if you turn them on" /
+  "se você ativar", and og/twitter now keep EN's "trained just for…" ("treinados só para isso"). After the deploy:
+  LinkedIn Post Inspector on the live URL, so the card isn't the cached old text.
+- **PT-BR: "pequenos modelos de IA", the adjective first** (Pablo, 2026-11-09: he prefers "dois pequenos modelos de
+  IA" to "dois modelos de IA pequenos", reversing the 2026-11-06 glossary call). Every attributive use, in the same
+  commit as D02: the three description tags, the start screen, the Rules + AI notice, About, the sample's checklist,
+  the story, SMART-ASSIST and MODELS ("pequenos modelos próprios", "um pequeno modelo treinado para aquela
+  pergunta"). Predicative uses stay ("deixa o modelo pequeno e rápido"). AGENTS' glossary says so.
