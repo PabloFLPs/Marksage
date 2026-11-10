@@ -13,7 +13,7 @@ structure model, a paste-type model and a URL link-text rule were measured on fr
 Numbers and reasons: `IMPLEMENTATION-CONTEXT.md` §28, `training/README.md`, `docs/MODELS.md` §8.3–8.5.
 Follow-ups are in §4.
 
-## 0.1 Done (2026-10-29): development check fixes
+## 0.1 Done (2026-10-28 – 10-30): development check fixes
 
 A five-persona development check (impatient, skeptic, mobile on slow 3G, non-native English, "breaker") and Pablo's
 own testing found 15 issues; all fixed: docs pages that went blank on a failed download (now Try again), Back
@@ -22,6 +22,10 @@ no "start writing" on the start screen, Smart Assist starting off (now **Rules**
 **Rules** / **Rules + AI**), typing lag on long documents (~400 ms → ~20 ms per key on a 270 KB file), the
 privacy section's reach and "who runs it", Markdown extensions (`.mdx` & co. accepted, `.txt` refused), and
 smaller polish. Details: `IMPLEMENTATION-CONTEXT.md` §29.
+
+A second development check, on 2026-10-29, ran the same five personas as AI agents and reported 36 findings
+(numbered #1–#36; the code comments' "development check #N"): 35 fixed by 2026-10-30, one commit each, and the
+slow first load (#35) improved on 2026-11-04 (§4). Details: §32; the story tells it.
 
 Idea left open (Pablo, not decided): readability **icons** instead of dots, as an option — only if it stays
 minimal.

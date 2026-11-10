@@ -95,10 +95,10 @@ const content: StoryContent = {
       date: '2026-10-30',
       title: 'Checagem de desenvolvimento com cinco agentes de IA',
       body: [
-        'Durante o desenvolvimento, cinco agentes de IA fizeram o papel de quem usa o app pela primeira vez: alguém sem paciência, alguém desconfiado, alguém no celular com 3G lento, alguém que não tem o inglês como língua nativa e alguém tentando quebrar tudo. Todos usaram o app de verdade, num navegador. Eles trouxeram 36 achados: 35 foram corrigidos, uma mudança por commit, cada uma documentada; um está planejado.',
+        'Durante o desenvolvimento, cinco agentes de IA fizeram o papel de quem usa o app pela primeira vez: alguém sem paciência, alguém desconfiado, alguém no celular com 3G lento, alguém que não tem o inglês como língua nativa e alguém tentando quebrar tudo. Todos usaram o app de verdade, num navegador. Eles trouxeram 36 achados: 35 foram corrigidos, uma mudança por commit, cada uma documentada; o último, o carregamento inicial lento no 3G, foi melhorado em 2026-11-04.',
         'Dois deles mostram bem o método. Um travamento de 25 segundos em tabelas grandes parecia renderização lenta; o profiling mostrou um loop quadrático numa dependência que interpreta o Markdown, e uma atualização dela derrubou o tempo para 1,7 s. E quando o modelo de código chamou de “JavaScript” um TypeScript claramente tipado, a análise sinal por sinal mostrou cinco sinais decisivos (`: number` o mais forte) que se perdiam na média com outros 65 que as duas linguagens têm em comum. Por enquanto, isso levou a deixar as regras decidirem quando têm quase certeza (medido antes de entrar), e ao desenho do próximo modelo.',
       ],
-      facts: ['36 achados: 35 corrigidos, 1 planejado', 'Tabelas grandes: ~25 s → 1,7 s', 'Regras quando têm quase certeza: +1 acerto no conjunto de desenvolvimento, conjuntos de teste iguais, 0 erros novos'],
+      facts: ['36 achados: 35 corrigidos; o carregamento inicial, melhorado em 04/11', 'Tabelas grandes: ~25 s → 1,7 s', 'Regras quando têm quase certeza: +1 acerto no conjunto de desenvolvimento, conjuntos de teste iguais, 0 erros novos'],
     },
     {
       date: '2026-10-30',
@@ -123,7 +123,7 @@ const content: StoryContent = {
         'Antes do lançamento público, dez agentes de IA percorreram o app em paralelo, cada um com uma tarefa. Um visitou pela primeira vez, outro usou um celular brasileiro, outro tentou quebrar tudo. Os demais cuidaram da acessibilidade, do português e do inglês, da precisão de cada afirmação (conferida no código), da performance e do que construir depois. Cada tela foi conferida em inglês e em português, no tema claro e no escuro, no desktop e em celulares de até 320 px. A regra era reportar primeiro, sem mudar nada: vieram 84 achados, nenhum bloqueante.',
         'Seis foram corrigidos antes do post, uma mudança por commit. O mais revelador: com “Carregar imagens da web” desligado, uma imagem escrita `https:host/x`, sem as `//`, ainda carregava. A verificação olhava o começo do endereço, mas o navegador resolve o endereço inteiro. Agora a verificação resolve do mesmo jeito. As páginas também descreviam a política de publicação dos modelos de dois jeitos; agora todas dizem a que de fato foi aplicada.',
       ],
-      facts: ['10 agentes · EN + PT-BR · claro + escuro · 1280, 390 e 320 px', '84 achados, nenhum bloqueante', '6 corrigidos antes do post · o resto no roadmap'],
+      facts: ['10 agentes · EN + PT-BR · claro + escuro · 1280, 390 e 320 px', '84 achados, nenhum bloqueante', '6 corrigidos antes do post · os mais graves que ficaram abertos, no roadmap'],
     },
     {
       title: 'O que vem a seguir',

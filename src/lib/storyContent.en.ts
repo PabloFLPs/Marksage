@@ -95,10 +95,10 @@ const content: StoryContent = {
       date: '2026-10-30',
       title: 'A development check by five AI agents',
       body: [
-        'During development, five AI agents each played a first-time user — impatient, skeptical, on a phone over slow 3G, a non-native English speaker, and one trying to break it — driving the real app in a browser. They reported 36 findings: 35 were fixed, one change per commit, each documented; one is planned.',
+        'During development, five AI agents each played a first-time user — impatient, skeptical, on a phone over slow 3G, a non-native English speaker, and one trying to break it — driving the real app in a browser. They reported 36 findings: 35 were fixed, one change per commit, each documented; the last, a slow first load on 3G, was improved on 2026-11-04.',
         'Two show the method. A 25-second freeze on big tables looked like slow rendering; profiling traced it to a quadratic loop in a Markdown parser dependency, and an update took it to 1.7 s. And when the code model called clearly typed TypeScript “JavaScript”, a clue-by-clue breakdown showed five decisive clues (`: number` the strongest) averaged away among 65 the two languages share. For now, that led to letting the rules decide when they’re nearly certain (measured before it went in), and to the next model’s design.',
       ],
-      facts: ['36 findings: 35 fixed, 1 planned', 'Big tables: ~25 s → 1.7 s', 'Fallback: +1 right on the tuning set, held-out sets unchanged, 0 new mistakes'],
+      facts: ['36 findings: 35 fixed, the first load improved on 11-04', 'Big tables: ~25 s → 1.7 s', 'Fallback: +1 right on the tuning set, held-out sets unchanged, 0 new mistakes'],
     },
     {
       date: '2026-10-30',
@@ -123,7 +123,7 @@ const content: StoryContent = {
         'Before the public launch, ten AI agents went through the app in parallel, each with one job. One was a first-time visitor, one used a Brazilian phone, one tried to break it. The others covered accessibility, the Portuguese and the English, the accuracy of every claim against the code, performance, and what to build next. Every screen was checked in English and Portuguese, light and dark, on desktop and on phones down to 320 px. The rule was report first, change nothing: 84 findings, none blocking.',
         'Six were fixed before the post, one change per commit. The most telling one: with “Load images from the web” off, an image written `https:host/x`, without the `//`, still loaded. The check read the prefix, but the browser resolves the whole address. Now the check resolves it the same way. The pages also described the ship policy in two ways; now they all state the one actually applied.',
       ],
-      facts: ['10 agents · EN + PT-BR · light + dark · 1280, 390 and 320 px', '84 findings, none blocking', '6 fixed before the post · the rest in the roadmap'],
+      facts: ['10 agents · EN + PT-BR · light + dark · 1280, 390 and 320 px', '84 findings, none blocking', '6 fixed before the post · the open majors in the roadmap'],
     },
     {
       title: 'What comes next',

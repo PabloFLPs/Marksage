@@ -1452,10 +1452,12 @@ sample explained, three small UI items and two ROADMAP entries.
 A ten-agent QA round before the LinkedIn post (report in Pablo's vault: `Personal/Projects/Marksage/QA/Marksage
 Launch QA (2026-11-09).md`); Pablo approved the six fixes it recommended before posting — one commit each.
 
-Naming (Pablo, 2026-11-09): this round is **the launch QA** (findings D01–D84). The five-persona round of 2026-10-29
-(§29), called "launch QA" in §29–§41, in older commits and in code comments as "launch QA #N", is now the
-**development check**: the story, the ROADMAP (§0.1), code comments and training/README say "development check #N".
-These notes and the commit messages keep the old name.
+Naming (Pablo, 2026-11-09): this round is **the launch QA** (findings D01–D84). The two five-persona rounds before
+it — the scripted pass of 2026-10-28 (§29, 15 issues) and the agent run of 2026-10-29 (the 36-finding report, fixed
+in §32) — were called "launch QA" in §29–§41, in older commits and in code comments ("launch QA #N", numbered by
+the 36-finding report). They are now **development checks**: the story, the ROADMAP (§0.1), code comments and
+training/README say "development check" ("#N" for the report's numbers). These notes and the commit messages keep
+the old name.
 
 - **Images from the web: `https:host` no longer gets through (QA D01).** `remoteHost` called an address remote only
   if it started with `//` or `http(s)://`, but the browser resolves `https:host/x` and `https:/host/x` (no `//`) to
@@ -1527,3 +1529,8 @@ These notes and the commit messages keep the old name.
 - **The README's first paragraph says the models are opt-in** (Pablo, before the post). It read "rules plus two
   small models trained for it, running in your browser", the default-on reading D02 fixed in the app; now "rules,
   plus two small AI models trained for it if you turn them on, all running in your browser".
+- **The checks and the launch QA, counted the same everywhere** (Pablo: "check if everything is up to date"). ROADMAP
+  §0.1 described only the 2026-10-28 pass (15 issues) while the story's development check is the 36-finding run of
+  2026-10-29; §0.1 now has both. The story still said the 36th finding (the slow first load) was "planned", though
+  §4 records it improved on 2026-11-04 (7.4 → 6.4 s on slow 3G); it says so now. The launch QA's fact "the rest in
+  the roadmap" became "the open majors in the roadmap", since §4 lists only those. EN + PT-BR.
