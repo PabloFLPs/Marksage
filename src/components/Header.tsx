@@ -42,6 +42,8 @@ interface HeaderProps {
   onExportOpenChange: (open: boolean) => void
   exportName: string
   onExport: (name: string) => void
+  /** Export → Save as PDF: the print dialog, under this name. */
+  onPrintPdf: (name: string) => void
   onRename: (name: string) => void
   /** ✕ next to the name (the phone menu's "Close document"): back to the start screen; it stays in Recent. */
   onCloseDocument: () => void
@@ -96,6 +98,7 @@ export function Header({
   onExportOpenChange,
   exportName,
   onExport,
+  onPrintPdf,
   onRename,
   onCloseDocument,
   theme,
@@ -255,7 +258,7 @@ export function Header({
         )}
 
         <CollapseX show={hasDocument && !showingAbout} gap={compact ? 6 : 8}>
-          <ExportMenu open={exportOpen} onOpenChange={onExportOpenChange} defaultName={exportName} onExport={onExport} compact={compact} />
+          <ExportMenu open={exportOpen} onOpenChange={onExportOpenChange} defaultName={exportName} onExport={onExport} onPrintPdf={onPrintPdf} compact={compact} />
         </CollapseX>
 
         <HistoryMenu

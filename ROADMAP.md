@@ -41,7 +41,7 @@ page (D03), two versions of the ship policy (D04), British spellings (D05) and t
 the copy). Then the report's "if time" list, also before the post: PT-BR glossary leftovers (D33), a suggestion
 title cut before its key word on phones (D16), "local AI" in the Assist button's name in Rules mode (D18), counts of
 one ("1 chars", D19), About's in-text links told apart by color alone (D20), printing that gave one cut-off page
-(D07: now the whole document, light, with its highlighting) and no security headers (D17: a CSP and the rest).
+(D07: now the whole document, in the app's theme, with its highlighting) and no security headers (D17: a CSP and the rest).
 Details: `IMPLEMENTATION-CONTEXT.md` §42. What it left open is at the top of §4.
 
 ## 1. BYOK — bring your own key (next)

@@ -67,6 +67,7 @@ const SOURCE_URL = SOURCE_COMMIT ? `https://github.com/PabloFLPs/Marksage/tree/$
 const SHORTCUTS: [KeyToken[], string, string, boolean?][] = [
   [['mod', 'k'], 'Command palette — every action and recent document, searchable', 'Paleta de comandos: todas as ações e os documentos recentes, com busca'],
   [['mod', 's'], 'Export (press again to download at once)', 'Exportar (aperte novamente para baixar na hora)'],
+  [['mod', 'p'], 'Print or save as PDF — the rendered document alone', 'Imprimir ou salvar como PDF: só o documento renderizado'],
   [['mod', 'o'], 'Open a file', 'Abrir um arquivo', true],
   [['mod', 'shift', 'c'], 'Copy Markdown', 'Copiar Markdown', true],
   [['mod', 'shift', 'h'], 'Recent documents', 'Documentos recentes', true],
@@ -235,8 +236,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<Download />} title={x('Name, export & copy', 'Nome, exportação e cópia')}>
             {x(
-              <>Click the document’s name in the header to rename it (on a phone: ⋯ → <strong className={strong}>Rename…</strong>). <strong className={strong}>Export</strong> asks for the file name first — your document’s name or, if it has none yet, one inferred from its first heading — and that name sticks. <Keys k={['mod', 's']} /> opens it, and pressing it again downloads at once. Or copy the whole text as Markdown in one click (<strong className={strong}>Copy Markdown</strong>).</>,
-              <>Clique no nome do documento, no cabeçalho, para renomear (no celular: ⋯ → <strong className={strong}>Renomear…</strong>). O <strong className={strong}>Exportar</strong> pede primeiro o nome do arquivo: o nome do documento ou, se ele ainda não tiver um, um nome inferido do primeiro título. Esse nome passa a valer para o documento. <Keys k={['mod', 's']} /> abre o <strong className={strong}>Exportar</strong>; apertando novamente, o download acontece na hora. Ou copie todo o texto em Markdown com um clique (<strong className={strong}>Copiar Markdown</strong>).</>,
+              <>Click the document’s name in the header to rename it (on a phone: ⋯ → <strong className={strong}>Rename…</strong>). <strong className={strong}>Export</strong> asks for the file name first — your document’s name or, if it has none yet, one inferred from its first heading — and that name sticks. <Keys k={['mod', 's']} /> opens it, and pressing it again downloads at once. <strong className={strong}>Save as PDF</strong>, in the same panel, opens the print dialog with the rendered document alone — in the app’s theme, paginated, code highlighting included — under that name; choose “Save as PDF” there. Or copy the whole text as Markdown in one click (<strong className={strong}>Copy Markdown</strong>).</>,
+              <>Clique no nome do documento, no cabeçalho, para renomear (no celular: ⋯ → <strong className={strong}>Renomear…</strong>). O <strong className={strong}>Exportar</strong> pede primeiro o nome do arquivo: o nome do documento ou, se ele ainda não tiver um, um nome inferido do primeiro título. Esse nome passa a valer para o documento. <Keys k={['mod', 's']} /> abre o <strong className={strong}>Exportar</strong>; apertando novamente, o download acontece na hora. O <strong className={strong}>Salvar como PDF</strong>, no mesmo painel, abre a janela de impressão só com o documento renderizado, no tema do app, em páginas e com o destaque de código, usando esse nome. Nela, escolha “Salvar como PDF”. Ou copie todo o texto em Markdown com um clique (<strong className={strong}>Copiar Markdown</strong>).</>,
             )}
           </Feature>
           <Feature icon={<ClipboardPaste />} title={x('GitHub Flavored Markdown', 'Markdown no padrão do GitHub')}>

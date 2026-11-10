@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { focused, newDocument, openSample, palette, storedRecent } from './helpers'
+import { focused, newDocument, openSample, palette, storedRecent, stubPrint } from './helpers'
 
 test('two tabs on different documents keep both in Recent (the pre-launch blocker)', async ({ context, page }) => {
   await page.goto('/')
@@ -111,7 +111,7 @@ test('the Portuguese sample offers exactly what the English one does (Suggestion
   expect(en).toHaveLength(12)
 })
 
-test('printing shows the whole rendered document, light, without the app around it (launch QA D07)', async ({ page }) => {
+test('printing shows the whole rendered document, in the app\'s theme, without the app around it (launch QA D07)', async ({ page }) => {
   await page.addInitScript(() => {
     try {
       localStorage.setItem('marksage:theme', 'dark')
@@ -124,7 +124,8 @@ test('printing shows the whole rendered document, light, without the app around 
   await expect(copy.getByRole('heading', { level: 1, name: 'Pitwall' })).toBeVisible()
   await expect(copy.getByRole('heading', { name: 'Why is a lap missing?' })).toBeAttached() // the end, not one cut-off page
   await expect(page.locator('#root')).toBeHidden()
-  await expect(page.locator('html')).not.toHaveClass(/\bdark\b/)
+  await expect(page.locator('html')).toHaveClass(/\bdark\b/) // a dark theme prints dark
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(13, 17, 23)')
   expect(await page.title()).toBe('pitwall-README')
 
   await page.evaluate(() => window.dispatchEvent(new Event('afterprint')))
@@ -132,4 +133,22 @@ test('printing shows the whole rendered document, light, without the app around 
   await expect(copy).toHaveCount(0)
   await expect(page.locator('#root')).toBeVisible()
   await expect(page.locator('html')).toHaveClass(/\bdark\b/)
+})
+
+test('Export → Save as PDF prints the rendered document under the name in the panel', async ({ page }) => {
+  const printed = await stubPrint(page)
+  await openSample(page)
+  await page.locator('header').getByRole('button', { name: 'Export Markdown' }).click()
+  await page.locator('#export-name').fill('race-notes')
+  await page.getByRole('button', { name: 'Save as PDF' }).click()
+  await expect.poll(printed).toEqual({ title: 'race-notes', rendered: true, source: false })
+  await expect(page.locator('#print-root')).toHaveCount(0)
+  await expect(page.locator('header')).toContainText('race-notes')
+})
+
+test('the palette saves as PDF too', async ({ page }) => {
+  const printed = await stubPrint(page)
+  await openSample(page)
+  await palette(page, 'pdf')
+  await expect.poll(printed).toEqual({ title: 'pitwall-README', rendered: true, source: false })
 })

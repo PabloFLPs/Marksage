@@ -851,22 +851,37 @@ body {
 }
 
 /* Printing and "Save as PDF" (lib/printCopy.ts): the app is fixed-height scrolling panes, so print shows only
-   #print-root — a copy of the rendered document made just before printing — in the light theme, on as many pages
-   as it needs, with its code highlighting (launch QA D07). */
+   #print-root — a copy of the rendered document made just before printing — in the app's theme, on as many pages as
+   it needs, with its code highlighting (launch QA D07). Backgrounds print even where the browser's "Background
+   graphics" is off, so a dark theme prints dark, not light text on white paper. */
 @media screen {
   #print-root {
     display: none;
   }
 }
 @media print {
+  /* The page margins too: without a page background, Chrome paints them in its own canvas color (#121212 in dark). */
+  :root {
+    --print-page: var(--color-surface);
+  }
+  .dark {
+    --print-page: var(--color-dark-surface);
+  }
   @page {
     margin: 16mm 14mm;
+    background: var(--print-page);
   }
   html,
   body {
     height: auto !important;
     overflow: visible !important;
-    background: #fff !important;
+    background: var(--color-surface) !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  html.dark,
+  html.dark body {
+    background: var(--color-dark-surface) !important;
   }
   body:has(> #print-root) > :not(#print-root) {
     display: none !important;
@@ -908,6 +923,9 @@ body {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
     font: 10pt/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    color: #1a1a1a;
+    color: var(--color-ink);
+  }
+  html.dark #print-root .print-source {
+    color: var(--color-dark-ink);
   }
 }

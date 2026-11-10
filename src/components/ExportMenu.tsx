@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Check, Download, X } from 'lucide-react'
+import { Check, Download, FileText, X } from 'lucide-react'
 import { Presence } from './motion'
 import { baseNameLength, normalizeFilename } from '../lib/file'
 import { useKeyStyle } from '../hooks/useKeyStyle'
@@ -14,6 +14,9 @@ interface ExportMenuProps {
   defaultName: string
   /** Download under this (normalized) name — which also becomes the document's name. */
   onExport: (name: string) => void
+  /** Save as PDF: the print dialog on the rendered document (lib/printCopy.ts), under this name — which also becomes
+   * the document's name, as with a download. */
+  onPrintPdf: (name: string) => void
   /** Mobile: bigger button, full-width panel under the header. */
   compact?: boolean
 }
@@ -26,7 +29,7 @@ interface ExportMenuProps {
 
 /** How long the button says "Downloaded" (same as Copy's "Copied"). */
 const DONE_MS = 1600
-export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact = false }: ExportMenuProps) {
+export function ExportMenu({ open, onOpenChange, defaultName, onExport, onPrintPdf, compact = false }: ExportMenuProps) {
   const { t } = useI18n()
   const { keyStyle } = useKeyStyle()
   const rootRef = useRef<HTMLDivElement>(null)
@@ -70,6 +73,16 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
       window.removeEventListener('keydown', onKey)
     }
   }, [open, onOpenChange])
+
+  const printPdf = () => {
+    const name = normalizeFilename(value)
+    if (!name) {
+      inputRef.current?.focus()
+      return
+    }
+    onOpenChange(false)
+    onPrintPdf(name)
+  }
 
   const submit = () => {
     const name = normalizeFilename(value)
@@ -155,6 +168,15 @@ export function ExportMenu({ open, onOpenChange, defaultName, onExport, compact 
               {t('export.download')}
             </button>
           </div>
+          <button
+            type="button"
+            onClick={printPdf}
+            title={t('export.pdfTitle')}
+            className="tap press mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-line px-3 py-1.5 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-dark-line dark:text-dark-ink dark:hover:border-dark-accent dark:hover:text-dark-accent"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            {t('export.pdf')}
+          </button>
           <p className="mt-2 text-[11px] leading-4 text-ink-muted dark:text-dark-ink-muted">{t('export.hint')}</p>
         </form>
       </Presence>

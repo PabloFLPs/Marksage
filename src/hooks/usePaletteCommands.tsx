@@ -25,6 +25,8 @@ export interface PaletteContext {
   onPaste: () => void
   onTrySample: () => void
   onExport: () => void
+  /** Save as PDF: the print dialog on the rendered document. */
+  onPrintPdf: () => void
   onCopy: () => void
   changeViewMode: (mode: ViewMode) => void
   toggleOutline: () => void
@@ -46,7 +48,7 @@ export interface PaletteContext {
 export function usePaletteCommands(c: PaletteContext): Command[] {
   const { t, lang } = useI18n()
   const { hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, recent, currentDocId } = c
-  const { onNew, onImport, onPaste, onTrySample, onExport, onCopy, changeViewMode, toggleOutline, toggleTheme, setLang, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, onOpenHistory } = c
+  const { onNew, onImport, onPaste, onTrySample, onExport, onPrintPdf, onCopy, changeViewMode, toggleOutline, toggleTheme, setLang, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, onOpenHistory } = c
   return useMemo<Command[]>(() => {
     const docGroup = t('palette.group.document')
     const viewGroup = t('palette.group.view')
@@ -60,6 +62,7 @@ export function usePaletteCommands(c: PaletteContext): Command[] {
       { id: 'sample', group: docGroup, icon: <Sparkles />, label: t('empty.trySample'), keywords: 'sample demo tour example exemplo', run: onTrySample },
     ]
     if (onDoc && !readOnly) list.push({ id: 'export', group: docGroup, icon: <Download />, label: t('action.exportMarkdown'), keys: ['mod', 's'], keywords: 'export save download exportar salvar baixar', run: onExport })
+    if (onDoc) list.push({ id: 'pdf', group: docGroup, icon: <FileText />, label: t('action.exportPdf'), keywords: 'pdf print save export imprimir salvar exportar', run: onPrintPdf })
     if (onDoc) list.push({ id: 'copy', group: docGroup, icon: <Clipboard />, label: t('action.copyMarkdown'), keys: ['mod', 'shift', 'c'], keywords: 'copy copiar', run: onCopy })
     if (onDoc && !readOnly)
       list.push(
@@ -99,5 +102,5 @@ export function usePaletteCommands(c: PaletteContext): Command[] {
       if (e.id !== currentDocId)
         list.push({ id: `recent-${e.id}`, group: recentGroup, icon: <FileText />, label: entryTitle(e, t('doc.untitled')), hint: relativeTime(e.updatedAt, t, lang), keywords: e.filename ?? '', run: () => onOpenHistory(e) })
     return list
-  }, [t, lang, setLang, hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, recent, currentDocId, onNew, onImport, onPaste, onTrySample, onExport, onCopy, changeViewMode, toggleOutline, toggleTheme, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, onOpenHistory])
+  }, [t, lang, setLang, hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, recent, currentDocId, onNew, onImport, onPaste, onTrySample, onExport, onPrintPdf, onCopy, changeViewMode, toggleOutline, toggleTheme, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, onOpenHistory])
 }

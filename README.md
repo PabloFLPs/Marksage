@@ -64,7 +64,8 @@ ship / don't-ship call are mine.
 - **Privacy & storage** — no cookies, accounts or tracking; everything stored is listed on the About page
   (linked from the start screen, `#privacy`), who runs the site, and removable with one click
 - **Rename** by clicking the name in the header; **Export** asks for the file name first (the document's name, or
-  one from its first heading) and keeps it
+  one from its first heading) and keeps it; **Save as PDF** there (or `⌘/Ctrl P`) prints the rendered document
+  alone — in the app's theme, paginated, code highlighting included
 - **Document bar** above every rendered document — its type (README, technical docs…, from the Document tab) or
   its name, **Copy Markdown**, and one icon per Outline tab (Outline, Document, Suggestions): a click opens the panel
   there, a second one closes it; while the bar is on screen, the header's Outline button steps aside
@@ -98,6 +99,7 @@ ship / don't-ship call are mine.
 |---|---|
 | `⌘/Ctrl K` | Command palette — every action and recent document, searchable |
 | `⌘/Ctrl S` | Export — opens the name field; again (or `Enter`) downloads |
+| `⌘/Ctrl P` | Print or save as PDF (the browser's own print) — the rendered document alone, in the app's theme |
 | `⌘/Ctrl O` | Open file \* |
 | `⌘/Ctrl ⇧ C` | Copy Markdown \* |
 | `⌘/Ctrl ⇧ H` | Recent documents \* |

@@ -41,3 +41,20 @@ export const storedRecent = (page: Page) =>
 
 /** Horizontal overflow of the page, in px (0 = none). */
 export const overflow = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+
+/** Replaces window.print with a stand-in that runs the print hooks and records what would have been printed. */
+export async function stubPrint(page: Page) {
+  await page.addInitScript(() => {
+    window.print = () => {
+      window.dispatchEvent(new Event('beforeprint'))
+      const root = document.getElementById('print-root')
+      ;(window as unknown as { __printed: unknown }).__printed = {
+        title: document.title,
+        rendered: !!root?.querySelector('.markdown-body h1'),
+        source: !!root?.querySelector('.print-source'),
+      }
+      window.dispatchEvent(new Event('afterprint'))
+    }
+  })
+  return () => page.evaluate(() => (window as unknown as { __printed?: { title: string; rendered: boolean; source: boolean } }).__printed)
+}

@@ -1604,3 +1604,25 @@ the old name.
 - **The story and the ROADMAP count the "if time" fixes.** ROADMAP §0.2 lists the seven (D33, D16, D18, D19, D20,
   D07, D17) after the first six, and §4 no longer lists printing (D07). The story's launch QA entry says thirteen
   were fixed before the post, not six (EN + PT-BR).
+- **Export → Save as PDF** (Pablo, 2026-11-10: "the new print path is better than I expected" — the print-dialog
+  option only for now; a direct .pdf download stays an idea). The Export panel gets a
+  secondary **Save as PDF** button under the name field; the command palette gets the same action ("pdf", "imprimir").
+  It uses the panel's name — which renames the document, as a download does — so the print title and the PDF's file
+  name follow it, then closes the panel and calls `printWhenRendered()` (`lib/printCopy.ts`): `window.print()` once
+  `main .markdown-body` is on screen. On a phone that's editing, `App` first switches to the preview, so the PDF is
+  the rendered document, not the source the plain ⌘P fallback prints there. The rest is the print path above
+  (`#print-root`, paginated, highlighting kept).
+- **Printing keeps the app's theme** (Pablo, after trying it: he had asked for light only, thinking a theme-aware PDF
+  would take more work, when forcing light was the extra code). `printCopy` no longer removes the `dark` class; print
+  CSS prints backgrounds (`print-color-adjust: exact` on `html` and `body`, which take the theme's surface color), so
+  a dark document prints dark even with the browser's "Background graphics" off, instead of light text on white. The
+  page margins follow too: `@page { background: var(--print-page) }`, with `--print-page` set from `:root` and
+  `.dark` — without it Chrome painted the margins in its own dark canvas color (#121212), a frame around the
+  #0d1117 page. Measured on Chromium PDFs: dark pages are #0d1117 corner to corner, light ones white; the PT sample
+  is still 3 pages. The Markdown-source fallback (phone, editing) takes the theme's ink color. About, README, AGENTS,
+  ROADMAP §0.2 and the tests (unit: the class stays; E2E: the body prints #0d1117) say "in the app's theme". Strings: `export.pdf` / `export.pdfTitle` / `action.exportPdf`
+  ("Save as PDF" / "Salvar como PDF"), and `export.hint` now says the name also names the PDF. About ("Name, export &
+  copy", and ⌘P in the shortcuts) and the README say so. Tests (`stubPrint` in `tests/e2e/helpers.ts` runs the print
+  hooks and records what would print): desktop with a new name (title `race-notes`, the header renamed), the
+  palette, and a phone while editing (rendered, not source); the palette test now expects both "exp" matches. No new
+  dependency: first-load JS 97.9 → 98.2 KB gzip.

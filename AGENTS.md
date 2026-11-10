@@ -22,7 +22,8 @@ src/
     Header.tsx            toolbar; conditional items wrapped in <CollapseX>
     DocName.tsx           the document name in the header — click to rename (lib/file.ts `normalizeFilename`);
                           `RenameSheet` = the phone version, from MoreMenu's "Rename…" (the header has no room for the name)
-    ExportMenu.tsx        Export button + "Export as" panel; ⌘/Ctrl S opens it (state in App), again downloads
+    ExportMenu.tsx        Export button + "Export as" panel; ⌘/Ctrl S opens it (state in App), again downloads;
+                          "Save as PDF" there = the print dialog on the rendered document (lib/printCopy.ts)
     DocBar.tsx            the bar above every rendered document and the docs pages: type (useDocKind → Document tab's
                           `computeDocStats().kind`, after typing settles) or name, Copy Markdown, one icon per panel tab
                           (`tabs` / `openTab` / `onTab`: open there, or close when that tab shows; the type = Document);
@@ -119,7 +120,8 @@ training/                 Own models' pipeline (collect → split → train; bui
   tab's own copy (a stale copy written over the key dropped the other tab's documents), and other tabs' changes
   refresh the menu.
 - **Printing / Save as PDF:** `lib/printCopy.ts` copies the rendered preview into `#print-root` on `beforeprint`
-  (light theme, the document's name as the title) and `@media print` in `index.css` shows only that copy. New app
+  (the document's name as the title) and `@media print` in `index.css` shows only that copy, in the app's theme
+  (backgrounds and the page margins printed, so dark prints dark). New app
   chrome needs nothing to stay off paper; controls inside the preview are hidden there by `#print-root button`.
 - **Imports inside `src/assist/`** use explicit `.ts` extensions so `node --experimental-strip-types` can run the eval.
 

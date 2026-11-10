@@ -10,7 +10,7 @@ describe('printCopy (⌘P / Save as PDF)', () => {
     document.title = ''
   })
 
-  it('prints a light copy of the rendered document, named after it, and puts everything back after', () => {
+  it('prints a copy of the rendered document in the app\'s theme, named after it, and puts everything back after', () => {
     document.body.innerHTML = '<div id="root"><main><div class="markdown-body"><h1>Notes</h1><pre><code class="token">x</code></pre></div></main></div>'
     document.documentElement.className = 'dark'
     document.title = 'Marksage — Markdown editor'
@@ -20,7 +20,7 @@ describe('printCopy (⌘P / Save as PDF)', () => {
     const copy = document.getElementById('print-root')
     expect(copy?.querySelector('.markdown-body h1')?.textContent).toBe('Notes')
     expect(copy?.querySelector('code.token')).toBeTruthy()
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    expect(document.documentElement.classList.contains('dark')).toBe(true) // a dark theme prints dark
     expect(document.title).toBe('notes')
 
     print('afterprint')
