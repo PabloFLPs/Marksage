@@ -1654,3 +1654,13 @@ the old name.
   (134 ms) — the list runs 600 ms after typing stops and yields as it goes. `outlineOpen` is no longer a
   `DocumentView` prop. SMART-ASSIST §3's trigger (EN + PT) says so. E2E: desktop (Outline closed) and phone
   (preview) show "Suggestions N".
+- **What `npm run size` measures, and why it stays gzip 9** (Pablo, 2026-11-12, after 3.49.1 showed first-load JS
+  98.2 → 101.0 KB for ~80 lines). Only the entry chunk changed: `printCopy.ts` added 1,376 bytes minified (source
+  map), yet gzip 9 grew 2,859 bytes — the minifier renamed short variables across the entry to fit the new names
+  (5,960 of 60,194 tokens changed, 4,227 of them 1–2-character names), which gzip's 32 KB window compresses worse.
+  What visitors download, read from the live site's Resource Timing in the built-in browser: `br`, 103,625 bytes for
+  `index-BcEJ17lm.js` (3.49.1) — Brotli quality 3 locally gives 103,654, quality 11 gives 85,826. So Vercel compresses
+  on the fly at a low quality, and at that level the change cost ~0.3 KB (103,339 → 103,654), not 2.9. Decision: keep
+  gzip 9 as the budget — within 1% of the real download, where Brotli 11 would read 17% low and Brotli 3 depends on
+  an undocumented Vercel setting — and check a surprising jump at Brotli 3. `scripts/size.ts`'s header and AGENTS
+  (Budgets) say so; the old comment's "level 9 ≈ Vercel's Brotli" turned out right.

@@ -227,6 +227,9 @@ gets a scan there; fix what it finds rather than disabling rules (accent text on
 Budgets: `npm run size` (after a build — first-load JS ≤ 110 KB gzip, CSS ≤ 16 KB; `scripts/size.ts`) and
 `tests/e2e/perf.spec.ts` (typing on a 400-section, 250 KB document: median ≤ 150 ms per key, slowest ≤ 500 ms).
 Raise one only in the commit that needs it, saying why; a new dependency in the first load should be lazy instead.
+The JS budget is gzip level 9 on purpose: it matches what Vercel actually sends (Brotli at a low, on-the-fly
+quality) within 1%. A small commit can still jump it through minifier renaming — check at Brotli 3 first (the
+how and the 2026-11-12 numbers are in `scripts/size.ts`).
 After editing a workflow, parse it (`python3 -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml'))"`):
 an invalid file runs no job at all — GitHub only shows "Invalid workflow file" (a `: ` inside an unquoted step name
 did it once). GitHub runs the same on every push and pull request (`.github/workflows/ci.yml`: type-check, lint, build, eval, docs check, version

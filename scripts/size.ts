@@ -1,7 +1,15 @@
 /**
  * Bundle-size budget: what the first visit downloads before the app can paint — the scripts and styles
- * `dist/index.html` names (entry + modulepreloads + CSS), gzipped as a server would (level 9 ≈ Vercel's Brotli,
- * a little more). Everything else (docs pages, Mermaid, highlighting, the models) is lazy and not counted.
+ * `dist/index.html` names (entry + modulepreloads + CSS), gzipped as a server would. Everything else (docs pages,
+ * Mermaid, highlighting, the models) is lazy and not counted.
+ *
+ * Why gzip level 9 (measured 2026-11-12): Vercel serves Brotli, but compresses on the fly at a low quality — the
+ * live entry (3.49.1) came at 103,625 bytes, what Brotli gives at quality 3 (103,654), not at 11 (85,826). gzip 9
+ * lands within 1% of that (102,880), so the budget tracks what visitors download; Brotli 11 would read 17% low.
+ * Deltas can mislead, though: a small change that makes the minifier rename short variables across the entry
+ * compresses worse in gzip's 32 KB window. 3.49.1 added 1.4 KB raw and showed +2.9 KB here, while the live
+ * download grew ~0.3 KB (Brotli 3: 103,339 → 103,654). When a small commit jumps, compare at Brotli 3 before
+ * calling it weight (`zlib.brotliCompressSync(buf, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 3 } })`).
  *
  *   npm run build && npm run size          # prints the sizes; fails when a budget is passed
  *
