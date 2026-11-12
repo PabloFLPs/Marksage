@@ -132,7 +132,7 @@ const content: StoryContent = {
       ],
     },
   ],
-  credit: 'Feito por {author}. A IA (Claude) ajudou na implementação e na revisão; a arquitetura, os critérios de aprovação e cada decisão sobre o que entra ou não no app ficaram com o autor. Código-fonte, código de treinamento e arquivos dos modelos: {source} (AGPL-3.0).',
+  credit: 'Feito por {author}. A IA (Claude) ajudou na implementação e na revisão; a arquitetura, os critérios de aprovação e a decisão de deixar modelos de fora ficaram com o autor. Código-fonte, código de treinamento e arquivos dos modelos: {source} (AGPL-3.0).',
 }
 
 export default content

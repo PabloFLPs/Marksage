@@ -1664,3 +1664,8 @@ the old name.
   gzip 9 as the budget — within 1% of the real download, where Brotli 11 would read 17% low and Brotli 3 depends on
   an undocumented Vercel setting — and check a surprising jump at Brotli 3. `scripts/size.ts`'s header and AGENTS
   (Budgets) say so; the old comment's "level 9 ≈ Vercel's Brotli" turned out right.
+- **The credit line says only what was Pablo's call** (Pablo, 2026-11-12, the launch review of the article and the post).
+  The README and the story's credit said "every ship / don't-ship call" was his, broader than the scope he set for
+  "my call" in public writing (§41.1, 2026-11-06: only the later experiments, not v1's and v2's opt-in
+  shipping). Now: "the calls on the models that didn't ship" (EN), "a decisão de deixar modelos de fora" (PT-BR),
+  matching the launch article.
