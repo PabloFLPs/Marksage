@@ -169,11 +169,16 @@ export default function App() {
   // No "discard?" prompts: the current document is kept in Recent before switching.
   const handleOpenHistory = useCallback(
     (entry: Parameters<typeof openFromHistory>[0]) => {
+      // The current document, from About or a docs page: just go back to it, as it was left.
+      if (entry.id === document?.id) {
+        goHome()
+        return
+      }
       openFromHistory(entry)
       goHome()
       setViewMode(isDesktop ? 'preview' : 'edit')
     },
-    [openFromHistory, goHome, isDesktop, setViewMode],
+    [openFromHistory, goHome, isDesktop, setViewMode, document?.id],
   )
 
   const handleRemoveModel = useCallback(async () => {

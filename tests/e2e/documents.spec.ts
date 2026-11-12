@@ -162,3 +162,14 @@ test('⌘/Ctrl + P prints the rendered document from the hidden frame, so the pa
   await expect(page.locator('iframe')).toHaveCount(0)
   expect(await page.title()).not.toBe('pitwall-README')
 })
+
+test('Recent goes back to the current document from About', async ({ page }) => {
+  await openSample(page)
+  await page.goto('/#about')
+  await expect(page.locator('textarea')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Recent documents' }).click()
+  await page.getByRole('button', { name: /pitwall-README/ }).click()
+  await expect(page.locator('textarea')).toBeVisible()
+  await expect(page.locator('textarea')).toHaveValue(/^# Pitwall/)
+  expect(new URL(page.url()).hash).toBe('')
+})

@@ -264,6 +264,7 @@ export function Header({
         <HistoryMenu
           entries={history}
           currentId={currentDocId}
+          currentOpens={showingAbout}
           onOpen={onOpenHistory}
           onRemove={onRemoveHistory}
           onClear={onClearHistory}

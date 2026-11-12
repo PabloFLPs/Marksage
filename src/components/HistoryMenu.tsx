@@ -12,6 +12,8 @@ import { useReturnFocus } from '../hooks/useReturnFocus'
 interface HistoryMenuProps {
   entries: HistoryEntry[]
   currentId?: string
+  /** On About or a docs page: the current document's row goes back to it. */
+  currentOpens?: boolean
   onOpen: (entry: HistoryEntry) => void
   onRemove: (id: string) => void
   onClear: () => void
@@ -19,7 +21,7 @@ interface HistoryMenuProps {
   compact?: boolean
 }
 
-export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, compact = false }: HistoryMenuProps) {
+export function HistoryMenu({ entries, currentId, currentOpens = false, onOpen, onRemove, onClear, compact = false }: HistoryMenuProps) {
   const { t } = useI18n()
   const { keyStyle } = useKeyStyle()
   const [open, setOpen] = useState(false)
@@ -134,6 +136,7 @@ export function HistoryMenu({ entries, currentId, onOpen, onRemove, onClear, com
                 entries={shown}
                 numbered={!query && !compact}
                 currentId={currentId}
+                currentOpens={currentOpens}
                 onRemove={onRemove}
                 onOpen={(e) => {
                   setOpen(false)

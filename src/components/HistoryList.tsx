@@ -6,6 +6,8 @@ import { countKey } from '../lib/i18n'
 interface HistoryListProps {
   entries: HistoryEntry[]
   currentId?: string
+  /** The current document isn't on screen (About, a docs page): its row opens it instead of sitting disabled. */
+  currentOpens?: boolean
   onOpen: (entry: HistoryEntry) => void
   onRemove: (id: string) => void
   limit?: number
@@ -15,7 +17,7 @@ interface HistoryListProps {
 
 
 /** Shared list used by the header menu and the empty state. */
-export function HistoryList({ entries, currentId, onOpen, onRemove, limit, numbered = false }: HistoryListProps) {
+export function HistoryList({ entries, currentId, currentOpens = false, onOpen, onRemove, limit, numbered = false }: HistoryListProps) {
   const { t, lang } = useI18n()
   const items = limit ? entries.slice(0, limit) : entries
   const numbers = new Map(numbered ? numberedEntries(entries, currentId).map((e, i) => [e.id, i + 1]) : [])
@@ -29,10 +31,10 @@ export function HistoryList({ entries, currentId, onOpen, onRemove, limit, numbe
             <button
               type="button"
               onClick={() => onOpen(e)}
-              disabled={current}
+              disabled={current && !currentOpens}
               className={`flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 pr-8 pointer-coarse:pr-11 text-left transition-colors ${
                 current
-                  ? 'cursor-default bg-accent/5 dark:bg-dark-accent/10'
+                  ? `bg-accent/5 dark:bg-dark-accent/10 ${currentOpens ? 'hover:bg-accent/10 dark:hover:bg-dark-accent/15' : 'cursor-default'}`
                   : 'hover:bg-surface-soft dark:hover:bg-dark-surface-raised'
               }`}
             >

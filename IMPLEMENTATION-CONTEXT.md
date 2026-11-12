@@ -1640,3 +1640,9 @@ the old name.
   Checked: the frame's HTML prints the sample dark from edge to edge in 3 pages; no CSP violation. E2E: `stubPrint`
   now covers the frame (init scripts run in every frame) and records `frame: true`; a new ⌘P test; the iframe is
   gone afterwards.
+- **Recent goes back to the current document from About and the docs pages** (Pablo, 2026-11-12: from any page that
+  isn't the editor, Recent opened other documents but not the current one). Its row was always disabled ("Open
+  now"). It now opens when an info page is showing (`currentOpens` on `HistoryList` / `HistoryMenu`, from the
+  header's `showingAbout`), with a hover tint, and `handleOpenHistory` sends the current document's id to `goHome()`
+  alone: back to the document as it was left (view, caret), no reload. Elsewhere the row stays disabled. E2E: from
+  `#about`, Recent → the sample's row → the editor with the sample, no hash.
