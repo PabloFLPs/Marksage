@@ -31,3 +31,10 @@ test('Save as PDF while editing on a phone prints the rendered document, not its
   await page.getByRole('button', { name: 'Save as PDF' }).click()
   await expect.poll(printed).toEqual({ title: 'pitwall-README', rendered: true, source: false, frame: true })
 })
+
+test('the Suggestions count shows on a phone without opening the Outline', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Try it on a sample document' }).click()
+  await page.getByRole('button', { name: 'Preview', exact: true }).click()
+  await expect(page.getByRole('group', { name: 'Outline and document insights' }).first().getByRole('button', { name: /^Suggestions \d+$/ })).toBeVisible()
+})

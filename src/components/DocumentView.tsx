@@ -40,7 +40,6 @@ export interface DocumentViewProps {
   assistMode: AssistMode
   /** Smart Assist's state for the header's Assist menu. */
   onAssistStatus: (status: EngineStatus, retry: () => void) => void
-  outlineOpen: boolean
   outlineShown: boolean
   outlineClosing: boolean
   closeOutline: () => void
@@ -69,7 +68,7 @@ export interface DocumentViewProps {
  */
 export function DocumentView(p: DocumentViewProps) {
   const { document, visible, updateContent, viewMode, editorClosing, changeViewMode, isDesktop, isTouch, assistMode, onAssistStatus } = p
-  const { outlineOpen, outlineShown, outlineClosing, closeOutline, panelTab, setPanelTab, openPanelTab, toggleTab } = p
+  const { outlineShown, outlineClosing, closeOutline, panelTab, setPanelTab, openPanelTab, toggleTab } = p
   const { t, lang } = useI18n()
   const { keyStyle } = useKeyStyle()
   const readOnly = !!document.readOnly
@@ -82,7 +81,10 @@ export function DocumentView(p: DocumentViewProps) {
     text: document.content,
     textareaRef,
     onChange: updateContent,
-    listAll: outlineOpen, // the Suggestions tab and its count
+    // The Suggestions count shows on the document bar out of the box, panel open or not (Pablo, 2026-11-12). The list
+    // runs 600 ms after typing stops and yields as it goes: on the 400-section, 250 KB perf document the long tasks
+    // after a pause were the same with it on (max 136 ms) as with it off (134 ms).
+    listAll: true,
   })
   useEffect(() => onAssistStatus(assist.status, assist.retry), [assist.status, assist.retry, onAssistStatus])
 

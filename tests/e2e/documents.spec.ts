@@ -163,6 +163,13 @@ test('⌘/Ctrl + P prints the rendered document from the hidden frame, so the pa
   expect(await page.title()).not.toBe('pitwall-README')
 })
 
+test('the Suggestions count shows on the document bar without opening the Outline', async ({ page }) => {
+  await openSample(page)
+  const tabs = page.getByRole('group', { name: 'Outline and document insights' }).first()
+  await expect(tabs.getByRole('button', { name: 'Outline', exact: true })).toHaveAttribute('aria-pressed', 'false')
+  await expect(tabs.getByRole('button', { name: /^Suggestions \d+$/ })).toBeVisible()
+})
+
 test('Recent goes back to the current document from About', async ({ page }) => {
   await openSample(page)
   await page.goto('/#about')

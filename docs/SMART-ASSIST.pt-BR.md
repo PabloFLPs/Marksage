@@ -408,8 +408,9 @@ muda.
 
 ### Aba Sugestões
 
-**Quando aparece.** Enquanto o painel está aberto e o Smart Assist está ligado (a contagem aparece na aba); é
-recalculada 600 ms depois que você para de digitar.
+**Quando aparece.** Sempre que há um documento aberto e o Smart Assist está ligado, com o painel aberto ou não:
+a contagem aparece no ícone de Sugestões da barra do documento e na aba. É recalculada 600 ms depois que você para
+de digitar.
 
 **O que lista:** todos os pontos do documento que receberiam uma sugestão, na ordem do documento. Ou seja,
 blocos de código sem linguagem (mesma pergunta, mesmo filtro e mesma regra das duas opções do editor) e títulos,

@@ -1646,3 +1646,11 @@ the old name.
   header's `showingAbout`), with a hover tint, and `handleOpenHistory` sends the current document's id to `goHome()`
   alone: back to the document as it was left (view, caret), no reload. Elsewhere the row stays disabled. E2E: from
   `#about`, Recent → the sample's row → the editor with the sample, no hash.
+- **The Suggestions count shows without opening the Outline** (Pablo, 2026-11-12: the document bar's Suggestions
+  icon only had its number with the panel open, on desktop and phones). `useSmartAssist`'s `listAll` was
+  `outlineOpen`, to scan the whole document only when the tab could show it; it's now always on while a document is
+  open (Off mode and read-only giants still scan nothing). Measured before switching: on the perf test's
+  400-section, 256 KB document, three typing pauses produced the same long tasks with it on (max 136 ms) as off
+  (134 ms) — the list runs 600 ms after typing stops and yields as it goes. `outlineOpen` is no longer a
+  `DocumentView` prop. SMART-ASSIST §3's trigger (EN + PT) says so. E2E: desktop (Outline closed) and phone
+  (preview) show "Suggestions N".

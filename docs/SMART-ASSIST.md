@@ -403,8 +403,8 @@ clicked section stays highlighted until you scroll yourself), hover to tint the 
 
 ### Suggestions tab
 
-**Trigger.** While the panel is open and Smart Assist is on (its count shows on the tab); recomputed 600 ms
-after you stop typing.
+**Trigger.** Whenever a document is open and Smart Assist is on, panel open or not: the count shows on the
+Suggestions icon of the document bar and on the tab; recomputed 600 ms after you stop typing.
 
 **What it lists:** every spot of the document that would get a suggestion, in document order. That's code blocks
 without a language (same question, same gate and two-option rule as in the editor) and near-miss headings,

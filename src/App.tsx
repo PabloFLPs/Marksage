@@ -92,7 +92,7 @@ export default function App() {
     }
   }, [])
   const { viewMode, setViewMode, editorClosing, changeViewMode } = useViewMode({ readOnly, isDesktop, hasDocument })
-  const { outlineOpen, outlineShown, outlineClosing, closeOutline, toggleOutline, panelTab, setPanelTab, openPanelTab, toggleTab } = useOutlinePanel({ isDesktop, available: hasDocument && !showAbout })
+  const { outlineShown, outlineClosing, closeOutline, toggleOutline, panelTab, setPanelTab, openPanelTab, toggleTab } = useOutlinePanel({ isDesktop, available: hasDocument && !showAbout })
   // "Paste Markdown" when the browser won't let us read the clipboard: a new document whose placeholder
   // says how to paste into it (works everywhere, iOS included). Cleared once there's text, or on a plain New.
   const [pasteHint, setPasteHint] = useState(false)
@@ -496,7 +496,6 @@ export default function App() {
               isTouch={isTouch}
               assistMode={assistMode}
               onAssistStatus={onAssistStatus}
-              outlineOpen={outlineOpen}
               outlineShown={outlineShown}
               outlineClosing={outlineClosing}
               closeOutline={closeOutline}

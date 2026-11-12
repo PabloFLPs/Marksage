@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.49.2** · 2026-11-12 · `(this commit)` · fix(history): the current document in Recent goes back to it from About and the docs pages
+- **3.50.0** · 2026-11-12 · `(this commit)` · feat(assist): the Suggestions count shows on the document bar without opening the Outline
+- **3.49.2** · 2026-11-12 · `458513b` · fix(history): the current document in Recent goes back to it from About and the docs pages
 - **3.49.1** · 2026-11-10 · `98f0fe4` · fix(print): Save as PDF and ⌘P print from a hidden frame, so the page doesn't blink
 - **3.49.0** · 2026-11-10 · `8eb7137` · feat(export): Save as PDF in the Export panel prints the rendered document under its name
 - **3.48.19** · 2026-11-10 · `3bb38f2` · fix(privacy): a Content-Security-Policy and security headers back the privacy claims
