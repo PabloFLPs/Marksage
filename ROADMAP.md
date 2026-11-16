@@ -44,7 +44,43 @@ one ("1 chars", D19), About's in-text links told apart by color alone (D20), pri
 (D07: now the whole document, in the app's theme, with its highlighting) and no security headers (D17: a CSP and the rest).
 Details: `IMPLEMENTATION-CONTEXT.md` §42. What it left open is at the top of §4.
 
-## 1. BYOK — bring your own key (next)
+## 0.3 Now (2026-11-16): the command engine — M1 palette + intent model, then M2 search by meaning
+
+**Direction:** "AI that never writes your text" — a model decides *what*, code does *how*; nothing generated.
+One own model per task (a shared pretrained encoder + small heads stays a documented fallback, not attempted here).
+EN + PT-BR from v1. The app stays on 3.x: no major for the palette or the intent model.
+
+**M1, in commits (each with its docs, `version:next` / `version:check`):**
+1. `refactor(commands)` — `src/commands/registry.ts`: every palette command defined once (id, message keys, bilingual
+   search words, `when`, `run`, `destructive`, `needsSelection`); `usePaletteCommands` builds the list from it.
+   *Done.* The header and menus still call App's handlers directly — moving them onto `run` waits for the UI atlas.
+2. `feat(palette)` — a `Matcher` interface and a `FuzzyMatcher`: typos, accents, titles and words in both languages.
+3. `feat(commands)` — Markdown edits on the selection (lines → table, lists, heading up/down, quote, callouts, code
+   block, remove inline formatting), each one `execCommand('insertText')` = one ⌘Z step. **G1:** the command list is
+   closed — Pablo writes the intent test set.
+4. `feat(palette)` — confirmation for destructive commands; a "Done · Undo" notice. Its Undo calls
+   `execCommand('undo')`, covered by E2E in Chromium, Firefox and WebKit (`CROSS_BROWSER=1`); where an engine fails, the
+   notice says only "⌘Z to undo".
+5. `chore(training)` — **Pablo's** intent test set v1 (~5 phrases per command per language + his real queries), frozen
+   with its hash in `training/locks/` before any training (**G2**).
+6. `chore(training)` — generated train/val data (split by paraphrase template) + the FuzzyMatcher baseline.
+7. Intent model v1 (Rules + AI only, lazy file, gate thresholds fitted on val, the frozen test run once). It ships only
+   if it clearly beats the FuzzyMatcher on the frozen set — the bar is written down before training (D7). Otherwise the
+   fuzzy palette stays and the verdict goes to the story and MODELS §8.
+
+**Rule:** a palette command is an explicit order from the user — also when Enter runs the model's preselected
+suggestion. It isn't Smart Assist auto-applying anything.
+
+**M2 (after M1 ships):** search the current document's sections from the palette. v1 has no model: words, accents
+ignored, a small EN↔PT synonym list, measured by recall@3 on a frozen (query, section) set. A pretrained multilingual
+encoder only if those numbers say words aren't enough — it would need WASM in the CSP, a lazy dependency and a large
+download in Privacy.
+
+**Open, asked before the step that needs it:** D3 intent model budget (~385 KB like the others), D4 its download
+(separate file on the first palette open in Rules + AI), D7 the "clearly beats" bar, D6 M2 scope (current document),
+D8 who writes M2's eval pairs, D5 the encoder (after M2 v1's numbers).
+
+## 1. BYOK — bring your own key (after M1 and M2, §0.3)
 
 **Status:** idea owned by Pablo. The gist, as the docs now put it (2026-11-05): an AI agent, with the model and
 the key the user chooses, to help with anything inside Marksage — opt-in, off by default. Start the session by

@@ -41,10 +41,14 @@ src/
     StoryPage.tsx         #story: the architecture decisions and models as a timeline (showcase, not docs); content in
                           lib/storyContent.<lang>.ts, lazily loaded — neutral voice, date order, numbers = MODELS / training
     CommandPalette.tsx    ⌘/Ctrl + K: every action of the current screen + recent documents, searchable (EN + PT words);
-                          the list is built in `hooks/usePaletteCommands.tsx`. Rules + AI from it opens the Assist menu on the notice
+                          the commands are defined once in `commands/registry.ts` (id, message keys, search words, `when`, `run`),
+                          listed by `hooks/usePaletteCommands.tsx` (+ recent documents). Rules + AI from it opens the Assist menu on the notice
                           (`assistNoticeRequest`) until the notice was seen — never skip it.
     HistoryMenu/HistoryList (the menu numbers the first 9 other documents — 1–9 open them while the search is empty;
                           `numberedEntries` in lib/history), SuggestionBar, AssistToggle, AppIconPicker, SplitPanes, Markdown*
+  commands/registry.ts    every palette command, once: id (stable — tests and the future intent model use it), title as a
+                          message key, EN + PT search words, `when(ctx)`, `run(ctx, actions)` (App's handlers), `destructive`,
+                          `needsSelection`. Header and menus still call App's handlers directly (onto `run` later — ROADMAP §0.3)
   assist/                 Smart Assist — see "Smart Assist" below (model/ = own models: features + inference; sections.ts / outline.ts = Outline)
   hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery;
                           App's parts: useInfoPages (#about… navigation, Back, tab title, lazy docs/story pages),
