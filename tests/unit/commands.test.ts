@@ -12,6 +12,7 @@ const start: CommandContext = {
   theme: 'light',
   assistMode: 'heuristics',
   lang: 'en',
+  hasSelection: false,
 }
 const editing: CommandContext = { ...start, hasDocument: true, editing: true }
 const ids = (ctx: CommandContext) => availableCommands(ctx).map((c) => c.id)
@@ -37,6 +38,7 @@ function spyActions(): CommandActions {
     openModelsDocs: vi.fn(),
     openStory: vi.fn(),
     openPrivacy: vi.fn(),
+    applyEdit: vi.fn(),
   }
 }
 const command = (id: string) => {
@@ -58,7 +60,9 @@ describe('command registry', () => {
 
   it('an open document in the editor offers everything, in display order', () => {
     expect(ids(editing)).toEqual([
-      'new', 'open', 'paste', 'sample', 'export', 'pdf', 'copy', 'view', 'outline', 'theme', 'lang-pt-BR',
+      'new', 'open', 'paste', 'sample', 'export', 'pdf', 'copy',
+      'edit-bullets', 'edit-numbered', 'edit-tasks', 'edit-heading-up', 'edit-heading-down', 'edit-quote',
+      'view', 'outline', 'theme', 'lang-pt-BR',
       'assist-off', 'assist-heuristics', 'assist-model', 'home', 'about', 'docs', 'models', 'story', 'privacy',
     ])
   })
@@ -108,7 +112,22 @@ describe('command registry', () => {
     expect(a.onAssistModeChange).toHaveBeenCalledWith('model')
   })
 
-  it('no command is destructive or acts on the selection yet', () => {
-    expect(COMMANDS.filter((c) => c.destructive || c.needsSelection)).toEqual([])
+  it('Markdown edits: line edits while editing, the rest only with text selected', () => {
+    expect(ids({ ...editing, hasSelection: true }).filter((id) => id.startsWith('edit-'))).toEqual([
+      'edit-table', 'edit-bullets', 'edit-numbered', 'edit-tasks', 'edit-heading-up', 'edit-heading-down', 'edit-quote', 'edit-code', 'edit-plain',
+    ])
+    expect(ids({ ...editing, editing: false, hasSelection: true }).filter((id) => id.startsWith('edit-'))).toEqual([])
+    expect(ids({ ...editing, readOnly: true, hasSelection: true }).filter((id) => id.startsWith('edit-'))).toEqual([])
+    expect(COMMANDS.filter((c) => c.needsSelection).map((c) => c.id)).toEqual(['edit-table', 'edit-code', 'edit-plain'])
+  })
+
+  it('an edit runs through applyEdit, by name', () => {
+    const a = spyActions()
+    command('edit-heading-up').run(editing, a)
+    expect(a.applyEdit).toHaveBeenCalledWith('headingUp')
+  })
+
+  it('no command is destructive yet', () => {
+    expect(COMMANDS.filter((c) => c.destructive)).toEqual([])
   })
 })

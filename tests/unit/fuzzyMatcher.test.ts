@@ -5,8 +5,8 @@ import { availableCommands, type CommandContext, type CommandGroup } from '../..
 import { translate } from '../../src/lib/i18n'
 
 // The palette's real list on an open document in the editor, UI in English (names in Portuguese as aliases).
-const ctx: CommandContext = { hasDocument: true, showAbout: false, readOnly: false, editing: true, isDesktop: true, outlineShown: false, theme: 'light', assistMode: 'heuristics', lang: 'en' }
-const groupName: Record<CommandGroup, string> = { document: 'Document', view: 'View', assist: 'Smart Assist', goto: 'Go to' }
+const ctx: CommandContext = { hasDocument: true, showAbout: false, readOnly: false, editing: true, isDesktop: true, outlineShown: false, theme: 'light', assistMode: 'heuristics', lang: 'en', hasSelection: false }
+const groupName: Record<CommandGroup, string> = { document: 'Document', format: 'Format', view: 'View', assist: 'Smart Assist', goto: 'Go to' }
 const items: MatchItem[] = availableCommands(ctx).map((d) => {
   const title = d.title(ctx)
   return { id: d.id, label: translate('en', title.key, title.vars), aliases: [translate('pt-BR', title.key, title.vars)], keywords: d.keywords(ctx), group: groupName[d.group] }

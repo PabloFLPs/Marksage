@@ -1,4 +1,5 @@
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
+import type { RefObject } from 'react'
 import { Eye, Gauge, ImageOff, Lock, X } from 'lucide-react'
 import { MarkdownPreview } from './MarkdownPreview'
 import { MarkdownEditor } from './MarkdownEditor'
@@ -32,6 +33,8 @@ export interface DocumentViewProps {
   /** False on About and the docs pages: nothing rendered, but Smart Assist and the Outline keep their state. */
   visible: boolean
   updateContent: (content: string) => void
+  /** The editor's textarea, owned by App: the command palette's edits apply to its selection. */
+  editorRef: RefObject<HTMLTextAreaElement | null>
   viewMode: ViewMode
   editorClosing: boolean
   changeViewMode: (mode: ViewMode) => void
@@ -73,7 +76,7 @@ export function DocumentView(p: DocumentViewProps) {
   const { keyStyle } = useKeyStyle()
   const readOnly = !!document.readOnly
   const editing = viewMode === 'edit'
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const textareaRef = p.editorRef
   const previewPaneRef = useRef<HTMLDivElement>(null) // split view: the preview pane (scrolls with the editor)
   const previewScrollRef = useRef<HTMLElement>(null)
   const assist = useSmartAssist({
@@ -106,7 +109,7 @@ export function DocumentView(p: DocumentViewProps) {
       block.classList.add('suggest-flash')
       window.setTimeout(() => block.classList.remove('suggest-flash'), 2200)
     }
-  }, [])
+  }, [textareaRef])
 
   const pasteHere = t(isTouch ? 'editor.pasteHereTouch' : 'editor.pasteHere', { keys: shortcut(['mod', 'v'], keyStyle) })
   const editor = (
@@ -204,7 +207,7 @@ export function DocumentView(p: DocumentViewProps) {
       }
       requestAnimationFrame(go)
     },
-    [isDesktop, closeOutline, viewMode, changeViewMode, assist],
+    [isDesktop, closeOutline, viewMode, changeViewMode, assist, textareaRef],
   )
 
   useTypeToEdit({ document, viewMode, showAbout: !visible, previewRef: previewScrollRef, textareaRef, changeViewMode, updateContent })

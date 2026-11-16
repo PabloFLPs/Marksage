@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.51.0** · 2026-11-16 · `(this commit)` · feat(palette): fuzzy search — either language, accents and typos forgiven, best match first
+- **3.52.0** · 2026-11-16 · `(this commit)` · feat(commands): Markdown edits from the palette — lists, headings, quote, table, code block, plain text — one ⌘Z each
+- **3.51.0** · 2026-11-16 · `80841c6` · feat(palette): fuzzy search — either language, accents and typos forgiven, best match first
 - **3.50.0** · 2026-11-12 · `74ddc98` · feat(assist): the Suggestions count shows on the document bar without opening the Outline
 - **3.49.2** · 2026-11-12 · `458513b` · fix(history): the current document in Recent goes back to it from About and the docs pages
 - **3.49.1** · 2026-11-10 · `98f0fe4` · fix(print): Save as PDF and ⌘P print from a hidden frame, so the page doesn't blink

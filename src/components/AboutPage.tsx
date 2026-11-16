@@ -24,6 +24,7 @@ import {
   History,
   Table,
   UserRound,
+  WandSparkles,
 } from 'lucide-react'
 import { useEffect, useState, type ReactNode } from 'react'
 import { hasDownloadedModel } from '../assist/modelEngine'
@@ -65,7 +66,7 @@ const SOURCE_URL = SOURCE_COMMIT ? `https://github.com/PabloFLPs/Marksage/tree/$
 
 /** [keys, EN, PT, a browser may keep it for itself]. No ⌘N: Chrome, Edge and Opera never pass it to a page. */
 const SHORTCUTS: [KeyToken[], string, string, boolean?][] = [
-  [['mod', 'k'], 'Command palette — every action and recent document, searchable in English or Portuguese, typos forgiven', 'Paleta de comandos: todas as ações e os documentos recentes, com busca em português ou inglês, mesmo com erros de digitação'],
+  [['mod', 'k'], 'Command palette — every action, Markdown formatting and recent document, searchable in English or Portuguese, typos forgiven', 'Paleta de comandos: todas as ações, a formatação de Markdown e os documentos recentes, com busca em português ou inglês, mesmo com erros de digitação'],
   [['mod', 's'], 'Export (press again to download at once)', 'Exportar (aperte novamente para baixar na hora)'],
   [['mod', 'p'], 'Print or save as PDF — the rendered document alone', 'Imprimir ou salvar como PDF: só o documento renderizado'],
   [['mod', 'o'], 'Open a file', 'Abrir um arquivo', true],
@@ -220,6 +221,12 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
             {x(
               <>Opened and pasted files show the preview first, for reading — start typing and the editor opens right there, with your keystroke in it. Edit on the right, watch the preview update on the left. Drag the divider to resize; double-click it to reset. Line numbers follow wrapped lines, and the caret’s line is brighter; the footer counts lines, words and characters and shows the file size. Above the preview, a bar says what the document is — its type, or its name — next to <strong className={strong}>Copy Markdown</strong> and one icon per <strong className={strong}>Outline</strong> tab (<strong className={strong}>Outline</strong>, <strong className={strong}>Document</strong>, <strong className={strong}>Suggestions</strong>): each opens the panel there, and a second click closes it; the type opens the <strong className={strong}>Document</strong> tab the same way. While the bar is on screen, the header’s <strong className={strong}>Outline</strong> button steps aside. On phones the editor comes first. On long documents, two small buttons in the corner of the preview take you to the start or the end — and typing stays smooth: the preview catches up a moment later, re-rendering only the section you changed.</>,
               <>Arquivos abertos e colados aparecem primeiro na pré-visualização, para leitura. Comece a digitar e o editor abre ali mesmo, já com o que você digitou. Você edita à direita e vê a pré-visualização mudar à esquerda. Arraste o divisor para redimensionar; um duplo clique volta ao tamanho padrão. Os números de linha acompanham as linhas quebradas, e o da linha do cursor fica mais forte. O rodapé conta linhas, palavras e caracteres e mostra o tamanho do arquivo. Acima da pré-visualização, uma barra diz o que é o documento (o tipo, ou o nome), ao lado de <strong className={strong}>Copiar Markdown</strong> e de um ícone para cada aba da <strong className={strong}>Estrutura</strong> (<strong className={strong}>Estrutura</strong>, <strong className={strong}>Documento</strong>, <strong className={strong}>Sugestões</strong>). Cada ícone abre o painel naquela aba, e um segundo clique fecha; o tipo abre a aba <strong className={strong}>Documento</strong> do mesmo jeito. Enquanto a barra está na tela, o botão <strong className={strong}>Estrutura</strong> do cabeçalho some. No celular, o editor vem primeiro. Em documentos longos, dois botões pequenos no canto da pré-visualização levam ao início ou ao fim, e a digitação continua fluida: a pré-visualização se atualiza um instante depois, refazendo só a seção que você mudou.</>,
+            )}
+          </Feature>
+          <Feature icon={<WandSparkles />} title={x('Format from the palette', 'Formatação pela paleta')}>
+            {x(
+              <>Select some lines and press <Keys k={['mod', 'k']} />: under <strong className={strong}>Format</strong>, they become a list (bulleted, numbered or tasks), a quote, a table or a code block; a heading moves one level up or down; bold, italic and links come off. Lists, headings and quotes work on the caret’s line too. Each change is one step: <Keys k={['mod', 'z']} /> takes it back.</>,
+              <>Selecione algumas linhas e aperte <Keys k={['mod', 'k']} />: em <strong className={strong}>Formatar</strong>, elas viram lista (com marcadores, numerada ou de tarefas), citação, tabela ou bloco de código; um título sobe ou desce um nível; negrito, itálico e links saem. Listas, títulos e citações também funcionam na linha do cursor. Cada mudança é um passo só: <Keys k={['mod', 'z']} /> desfaz.</>,
             )}
           </Feature>
           <Feature icon={<Save />} title={x('Autosave', 'Salvamento automático')}>

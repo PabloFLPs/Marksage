@@ -58,7 +58,8 @@ EN + PT-BR from v1. The app stays on 3.x: no major for the palette or the intent
    *Done.*
 3. `feat(commands)` — Markdown edits on the selection (lines → table, lists, heading up/down, quote, callouts, code
    block, remove inline formatting), each one `execCommand('insertText')` = one ⌘Z step. **G1:** the command list is
-   closed — Pablo writes the intent test set.
+   closed — Pablo writes the intent test set. *Done* — without the NOTE / WARNING callouts: the preview doesn't render
+   GitHub alerts yet (Pablo, 2026-11-16: their rendering is its own later feature, then the commands come back).
 4. `feat(palette)` — confirmation for destructive commands; a "Done · Undo" notice. Its Undo calls
    `execCommand('undo')`, covered by E2E in Chromium, Firefox and WebKit (`CROSS_BROWSER=1`); where an engine fails, the
    notice says only "⌘Z to undo".

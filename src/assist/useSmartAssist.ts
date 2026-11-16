@@ -7,6 +7,7 @@ import { listFenceSuggestions, suggestFenceLanguage } from './features/codeFence
 import { suggestPasteConversion } from './features/smartPaste.ts'
 import { listStructureSuggestions, suggestStructure } from './features/structure.ts'
 import { scoreReadability } from './features/readability.ts'
+import { insertInEditor } from '../lib/editorText.ts'
 
 const DEBOUNCE_MS = 400
 const IDLE_MS = 2000
@@ -215,15 +216,8 @@ export function useSmartAssist({ mode, text, textareaRef, onChange, listAll = fa
     pinnedAt.current = null
     const { from, to, insert } = s.choices?.[index]?.edit ?? s.edit
     if (el.value.slice(from, to) !== s.expected) return // text moved on — stale suggestion
-    el.focus({ preventScroll: true })
-    el.setSelectionRange(from, to)
-    // execCommand keeps native undo (Cmd+Z) working; fall back to a controlled update.
-    const ok = typeof document.execCommand === 'function' && document.execCommand('insertText', false, insert)
-    if (!ok) {
-      const next = el.value.slice(0, from) + insert + el.value.slice(to)
-      onChange(next)
-      requestAnimationFrame(() => el.setSelectionRange(from + insert.length, from + insert.length))
-    }
+    // One native undo step (⌘Z); a controlled update where the browser refuses insertText.
+    insertInEditor(el, { from, to, insert }, onChange)
   }, [suggestion, textareaRef, onChange])
 
   const onKeyDown = useCallback(

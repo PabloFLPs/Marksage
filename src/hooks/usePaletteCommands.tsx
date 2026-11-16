@@ -17,6 +17,7 @@ export interface PaletteContext extends CommandActions {
   outlineShown: boolean
   theme: 'light' | 'dark'
   assistMode: AssistMode
+  hasSelection: boolean
   recent: HistoryEntry[]
   currentDocId: string | undefined
   onOpenHistory: (entry: HistoryEntry) => void
@@ -25,13 +26,14 @@ export interface PaletteContext extends CommandActions {
 /** The command palette's list — the registry's commands for the current screen, then the recent documents. */
 export function usePaletteCommands(c: PaletteContext): Command[] {
   const { t, lang } = useI18n()
-  const { hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, recent, currentDocId } = c
-  const { onNew, onImport, onPaste, onTrySample, onExport, onPrintPdf, onCopy, changeViewMode, toggleOutline, toggleTheme, setLang, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, onOpenHistory } = c
+  const { hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, hasSelection, recent, currentDocId } = c
+  const { onNew, onImport, onPaste, onTrySample, onExport, onPrintPdf, onCopy, changeViewMode, toggleOutline, toggleTheme, setLang, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, applyEdit, onOpenHistory } = c
   return useMemo<Command[]>(() => {
-    const ctx: CommandContext = { hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, lang }
-    const actions: CommandActions = { onNew, onImport, onPaste, onTrySample, onExport, onPrintPdf, onCopy, changeViewMode, toggleOutline, toggleTheme, setLang, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy }
+    const ctx: CommandContext = { hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, lang, hasSelection }
+    const actions: CommandActions = { onNew, onImport, onPaste, onTrySample, onExport, onPrintPdf, onCopy, changeViewMode, toggleOutline, toggleTheme, setLang, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, applyEdit }
     const groupLabel: Record<CommandGroup, string> = {
       document: t('palette.group.document'),
+      format: t('palette.group.format'),
       view: t('palette.group.view'),
       assist: 'Smart Assist',
       goto: t('palette.group.goto'),
@@ -57,5 +59,5 @@ export function usePaletteCommands(c: PaletteContext): Command[] {
       if (e.id !== currentDocId)
         list.push({ id: `recent-${e.id}`, group: recentGroup, icon: <FileText />, label: entryTitle(e, t('doc.untitled')), hint: relativeTime(e.updatedAt, t, lang), keywords: e.filename ?? '', run: () => onOpenHistory(e) })
     return list
-  }, [t, lang, setLang, hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, recent, currentDocId, onNew, onImport, onPaste, onTrySample, onExport, onPrintPdf, onCopy, changeViewMode, toggleOutline, toggleTheme, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, onOpenHistory])
+  }, [t, lang, setLang, hasDocument, showAbout, readOnly, editing, isDesktop, outlineShown, theme, assistMode, hasSelection, recent, currentDocId, onNew, onImport, onPaste, onTrySample, onExport, onPrintPdf, onCopy, changeViewMode, toggleOutline, toggleTheme, onAssistModeChange, requestAssistNotice, onCloseDocument, openAbout, openDocs, openModelsDocs, openStory, openPrivacy, applyEdit, onOpenHistory])
 }

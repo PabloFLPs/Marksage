@@ -74,7 +74,10 @@ on the models that didn't ship are mine.
   the footer shows lines, words, characters and file size
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
 - **Command palette** (`⌘/Ctrl K`) — every action of the current screen and the recent documents, searchable in
-  English or Portuguese, with or without accents, typos forgiven; the best match comes first
+  English or Portuguese, with or without accents, typos forgiven; the best match comes first. Its **Format** group
+  turns the selected lines into a list, a quote, a table or a code block. It also moves a heading one level up or
+  down, or removes bold, italic and links. Lists, headings and quotes need only the caret's line. Each change is one
+  ⌘Z.
 - **Two tabs, one document** — an idle tab follows the other's saves; when both changed it, a bar asks which to
   keep; Recent keeps every tab's documents
 - **Images from the web** load only when you allow it (About → Privacy & storage); until then a placeholder, and

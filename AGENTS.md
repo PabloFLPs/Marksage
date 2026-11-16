@@ -6,6 +6,8 @@ Guidance for AI coding agents (and humans) working on this repo.
 - **Local-first.** No backend, no network calls with user content, no analytics. Persist only to `localStorage`.
 - **Minimal UI, fluid motion.** New UI must animate in *and* out, fast (enter 160–260 ms, exit 120–220 ms).
 - **Suggest, never auto-apply.** Smart Assist only proposes edits; the user accepts (Tab) or dismisses (Esc).
+  A command palette command is an explicit order from the user — also when Enter runs the intent model's
+  preselected suggestion (ROADMAP §0.3) — not Smart Assist applying anything on its own.
 - **Assist Off = original behavior.** With Smart Assist off, the editor must behave exactly as without it.
 
 ## Map
@@ -51,6 +53,11 @@ src/
   commands/registry.ts    every palette command, once: id (stable — tests and the future intent model use it), title as a
                           message key, EN + PT search words, `when(ctx)`, `run(ctx, actions)` (App's handlers), `destructive`,
                           `needsSelection`. Header and menus still call App's handlers directly (onto `run` later — ROADMAP §0.3)
+  commands/edits.ts       the palette's Markdown edits, pure (text + selection → one replacement or null), by name in `EDITS`:
+                          the registry names them only (type import) and App `import()`s them on use, so they ride the
+                          editor's chunk, not the first load. Applied with `lib/editorText.ts` `insertInEditor` (one
+                          `insertText` = one ⌘Z; Smart Assist's accept uses it too). App owns the editor's ref (`editorRef`,
+                          passed to DocumentView); the palette reads the selection when it opens (`hasSelection`)
   assist/                 Smart Assist — see "Smart Assist" below (model/ = own models: features + inference; sections.ts / outline.ts = Outline)
   hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery;
                           App's parts: useInfoPages (#about… navigation, Back, tab title, lazy docs/story pages),

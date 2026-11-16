@@ -30,6 +30,35 @@ test('the palette finds commands in either language and despite typos, best matc
   await expect(page.locator('#export-name')).toBeVisible()
 })
 
+test('a palette edit applies to the selection, and ⌘Z takes it back in one step', async ({ page }) => {
+  await page.goto('/')
+  await newDocument(page, 'Groceries\nmilk\neggs')
+  const editor = page.locator('textarea')
+  await editor.evaluate((ta: HTMLTextAreaElement) => ta.setSelectionRange(10, ta.value.length)) // "milk\neggs"
+  await palette(page, 'bulleted list')
+  await expect(editor).toHaveValue('Groceries\n- milk\n- eggs')
+  await expect.poll(() => focused(page)).toBe('editor')
+  await page.keyboard.press('ControlOrMeta+z')
+  await expect(editor).toHaveValue('Groceries\nmilk\neggs')
+})
+
+test('edits for selected text are offered only with a selection; an edit with nothing to change says so', async ({ page }) => {
+  await page.goto('/')
+  await newDocument(page, '# Top\nname,qty\nmilk,2')
+  const editor = page.locator('textarea')
+  await editor.evaluate((ta: HTMLTextAreaElement) => ta.setSelectionRange(2, 2)) // the caret in "# Top"
+  await page.keyboard.press('ControlOrMeta+k')
+  await page.getByRole('combobox').fill('table')
+  await expect(page.getByRole('option', { name: /Lines to a table/ })).toHaveCount(0)
+  await page.getByRole('combobox').fill('heading one level up')
+  await page.keyboard.press('Enter')
+  await expect(page.getByText('Nothing to change here')).toBeVisible()
+  await expect(editor).toHaveValue('# Top\nname,qty\nmilk,2')
+  await editor.evaluate((ta: HTMLTextAreaElement) => ta.setSelectionRange(6, ta.value.length))
+  await palette(page, 'table')
+  await expect(editor).toHaveValue('# Top\n| name | qty |\n| --- | --- |\n| milk | 2 |')
+})
+
 test('Rules + AI from the palette never skips the download notice', async ({ page }) => {
   await openSample(page)
   await palette(page, 'rules ai')

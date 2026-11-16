@@ -1694,3 +1694,20 @@ Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's
   the tests: "exp" → Export, Save as PDF; "salvar pdf" → Save as PDF; "tema escuro" → the theme; "sugestoes" → the
   Outline; "exprot" → Export first; "pfd" → nothing (3 letters, no typos). Unit tests pin these; E2E: a Portuguese
   query and a typo with the UI in English. README and About's shortcut list say so (EN + PT-BR).
+- **Markdown edits from the palette** (`feat(commands)`): a **Format** group, 9 commands — lines → table (tabs,
+  then space-aligned columns, then commas: `assist/convert.ts`, as smart paste), bulleted / numbered / task list
+  (each toggles back when every line already is that kind; other markers are replaced, indentation and blank lines
+  kept), heading one level up / down (a plain line becomes `##` either way; `#` and `######` stay), quote (toggles one
+  level; a blank line inside becomes `>`), code block (no language, so Smart Assist suggests one), remove inline
+  formatting (bold, italic, strikethrough, code, links, images → their text; `snake_case` and `2*3*4` untouched).
+  Pablo's calls (2026-11-16): lists, headings and quote act on the caret's line when nothing is selected; table, code
+  block and remove formatting are offered only with a selection; the NOTE / WARNING callouts wait until the preview
+  renders GitHub alerts (it shows `> [!NOTE]` as a plain quote today).
+  Pure transforms in `commands/edits.ts` (text + selection → one replacement or null → "Nothing to change here");
+  `lib/editorText.ts` `insertInEditor` applies it as one `insertText` (one ⌘Z) — Smart Assist's accept now uses the
+  same helper. The registry refers to edits by name (a type import) and App `import()`s `edits.ts` on use: it and the
+  paste heuristics it reuses stay in the editor's chunk (edits are only offered while editing), not the first load;
+  a failed import says "Couldn't apply that edit". App owns the editor's ref now (`editorRef` → DocumentView) and reads
+  the selection when the palette opens. A palette command is an explicit order from the user — AGENTS' product rules
+  say so, also for the intent model's preselected suggestion to come. Observed while probing: "bold" finds only
+  "Remove formatting (bold, …)" — there's no "make bold" command; a case for the intent model's `none`.

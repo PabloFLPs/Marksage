@@ -29,6 +29,8 @@ import { useViewMode } from './hooks/useViewMode'
 import { useOutlinePanel } from './hooks/useOutlinePanel'
 import { useGlobalInput } from './hooks/useGlobalInput'
 import { usePaletteCommands } from './hooks/usePaletteCommands'
+import type { EditName } from './commands/edits'
+import { insertInEditor } from './lib/editorText'
 
 const DESKTOP_QUERY = '(min-width: 768px)'
 const COPIED_RESET_MS = 1600
@@ -223,6 +225,10 @@ export default function App() {
   // Export: a named download (the Export panel, or ⌘/Ctrl + S); the name also becomes the document's name.
   const [exportOpen, setExportOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
+  // The editor's textarea (DocumentView renders it): the palette's Markdown edits apply to its selection.
+  const editorRef = useRef<HTMLTextAreaElement>(null)
+  // Read when the palette opens: commands that need selected text are offered only then.
+  const [paletteSelection, setPaletteSelection] = useState(false)
   // The palette's "Rules + AI" before the download notice was seen: the Assist menu opens on the notice instead.
   const [assistNoticeRequest, setAssistNoticeRequest] = useState(0)
   const handleExport = useCallback(
@@ -274,7 +280,26 @@ export default function App() {
   )
 
   const openExport = useCallback(() => setExportOpen(true), [])
-  const togglePalette = useCallback(() => setPaletteOpen((o) => !o), [])
+  const togglePalette = useCallback(() => {
+    const el = editorRef.current
+    setPaletteSelection(!!el && el.selectionStart !== el.selectionEnd)
+    setPaletteOpen((o) => !o)
+  }, [])
+  // The edits load with the editor's chunk (they're only offered while editing), not with the first page.
+  const applyEdit = useCallback(
+    (name: EditName) => {
+      import('./commands/edits')
+        .then(({ EDITS }) => {
+          const el = editorRef.current
+          if (!el) return
+          const edit = EDITS[name]({ text: el.value, start: el.selectionStart, end: el.selectionEnd })
+          if (edit) insertInEditor(el, edit, updateContent)
+          else showNotice(t('edit.nothing'))
+        })
+        .catch(() => showNotice(t('edit.failed')))
+    },
+    [updateContent, showNotice, t],
+  )
   const pasteFromPalette = useCallback(() => void handlePasteFromClipboard(), [handlePasteFromClipboard])
   const requestAssistNotice = useCallback(() => setAssistNoticeRequest((n) => n + 1), [])
   const { isDragging } = useGlobalInput({
@@ -353,6 +378,8 @@ export default function App() {
     openModelsDocs,
     openStory,
     openPrivacy,
+    hasSelection: paletteSelection,
+    applyEdit,
     onOpenHistory: handleOpenHistory,
   })
 
@@ -489,6 +516,7 @@ export default function App() {
               document={document}
               visible={!showAbout}
               updateContent={updateContent}
+              editorRef={editorRef}
               viewMode={viewMode}
               editorClosing={editorClosing}
               changeViewMode={changeViewMode}

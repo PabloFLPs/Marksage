@@ -1,6 +1,7 @@
-import { BookOpen, Brain, ClipboardPaste, Clipboard, Columns2, Cpu, Download, Eye, FilePlus2, FileText, FolderOpen, Home, Info, Languages, ListTree, Milestone, Moon, PenLine, PowerOff, Shield, Sparkles, Sun, Zap } from 'lucide-react'
+import { BookOpen, Brain, ClipboardPaste, Clipboard, Code, Columns2, Cpu, Download, Eye, FilePlus2, FileText, FolderOpen, Heading, Home, Info, Languages, List, ListChecks, ListOrdered, ListTree, Milestone, Moon, PenLine, PowerOff, Quote, RemoveFormatting, Shield, Sparkles, Sun, Table, Zap } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { AssistMode } from '../assist/types'
+import type { EditName } from './edits'
 import { LANGS, type Lang, type MessageKey, type Vars } from '../lib/i18n'
 import type { KeyToken } from '../lib/keyStyle'
 import { loadModelNoticeSeen } from '../lib/storage'
@@ -23,6 +24,8 @@ export interface CommandContext {
   theme: 'light' | 'dark'
   assistMode: AssistMode
   lang: Lang
+  /** Text is selected in the editor (read when the palette opens). */
+  hasSelection: boolean
 }
 
 /** What commands can do — App's handlers, the same ones its buttons call. */
@@ -48,9 +51,11 @@ export interface CommandActions {
   openModelsDocs: () => void
   openStory: () => void
   openPrivacy: () => void
+  /** Apply a Markdown edit (`commands/edits.ts`) to the editor's selection as one undo step, or say there's nothing to change. */
+  applyEdit: (edit: EditName) => void
 }
 
-export type CommandGroup = 'document' | 'view' | 'assist' | 'goto'
+export type CommandGroup = 'document' | 'format' | 'view' | 'assist' | 'goto'
 
 /** A message key and its variables — the command's name in the current language. */
 export interface CommandTitle {
@@ -74,7 +79,7 @@ export interface CommandDefinition {
   run: (ctx: CommandContext, actions: CommandActions) => void
   /** Asks before running (none yet: every command today can be undone or redone by hand). */
   destructive: boolean
-  /** Acts on the editor's selection (none yet: the edit commands come next). */
+  /** Offered only with text selected in the editor. */
   needsSelection: boolean
 }
 
@@ -85,6 +90,27 @@ const fixed =
 const always = (): boolean => true
 /** A document is on screen (not About or a docs page over it). */
 const onDocument = (ctx: CommandContext): boolean => ctx.hasDocument && !ctx.showAbout
+
+/** Editing a document (not read-only): the Markdown edits apply. */
+const inEditor = (ctx: CommandContext): boolean => onDocument(ctx) && ctx.editing && !ctx.readOnly
+
+/**
+ * A Markdown edit for the palette. Line edits (`needsSelection: false`) act on the lines the selection touches, or the
+ * caret's line; the others need selected text. Each is one undo step (`commands/edits.ts`, `lib/editorText.ts`).
+ */
+function edit(id: string, icon: LucideIcon, title: MessageKey, keywords: string, transform: EditName, needsSelection: boolean): CommandDefinition {
+  return {
+    id,
+    group: 'format',
+    icon: fixed(icon),
+    title: fixed({ key: title }),
+    keywords: fixed(keywords),
+    when: (ctx) => inEditor(ctx) && (!needsSelection || ctx.hasSelection),
+    run: (_ctx, a) => a.applyEdit(transform),
+    destructive: false,
+    needsSelection,
+  }
+}
 
 const ASSIST_MODES: { mode: AssistMode; icon: LucideIcon; title: MessageKey }[] = [
   { mode: 'off', icon: PowerOff, title: 'assist.option.off' },
@@ -174,6 +200,15 @@ export const COMMANDS: readonly CommandDefinition[] = [
     destructive: false,
     needsSelection: false,
   },
+  edit('edit-table', Table, 'edit.table', 'table csv tsv columns spreadsheet tabela colunas planilha', 'linesToTable', true),
+  edit('edit-bullets', List, 'edit.bulletList', 'list bullets unordered items lista marcadores tópicos itens', 'bulletList', false),
+  edit('edit-numbered', ListOrdered, 'edit.numberedList', 'list numbered ordered steps lista numerada ordenada passos', 'numberedList', false),
+  edit('edit-tasks', ListChecks, 'edit.taskList', 'tasks todo checklist checkbox tarefas lista de tarefas', 'taskList', false),
+  edit('edit-heading-up', Heading, 'edit.headingUp', 'heading title level up bigger promote título nível subir maior', 'headingUp', false),
+  edit('edit-heading-down', Heading, 'edit.headingDown', 'heading title level down smaller demote título nível descer menor', 'headingDown', false),
+  edit('edit-quote', Quote, 'edit.quote', 'quote blockquote citação citar', 'quote', false),
+  edit('edit-code', Code, 'edit.codeBlock', 'code block fence snippet código bloco trecho', 'codeBlock', true),
+  edit('edit-plain', RemoveFormatting, 'edit.removeFormatting', 'remove clear plain bold italic link formatting remover limpar negrito itálico formatação', 'removeInlineFormatting', true),
   {
     // One row that switches: Preview while editing, Edit while reading.
     id: 'view',
