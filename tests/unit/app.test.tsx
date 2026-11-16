@@ -16,6 +16,8 @@ function mount() {
   )
 }
 const settle = () => act(async () => new Promise((r) => setTimeout(r, 400)))
+/** The document view and the info pages load on demand: on a cold run the first import can pass the 1 s default. */
+const lazy = { timeout: 3000 }
 const header = () => within(document.querySelector('header')!)
 
 beforeEach(() => {
@@ -31,7 +33,7 @@ describe('App', () => {
     mount()
     expect(screen.getByRole('button', { name: 'Try it on a sample document' })).toBeTruthy()
     fireEvent.click(screen.getByRole('button', { name: 'Start writing' }))
-    const editor = (await screen.findByRole('textbox')) as HTMLTextAreaElement // the document view loads on demand
+    const editor = (await screen.findByRole('textbox', {}, lazy)) as HTMLTextAreaElement
     fireEvent.change(editor, { target: { value: '# Groceries\n\n- milk' } })
     await settle()
     expect(loadDocument()?.content).toBe('# Groceries\n\n- milk')
@@ -41,7 +43,7 @@ describe('App', () => {
   it('the sample opens in the editor with Smart Assist on, and Close document goes back to the start', async () => {
     mount()
     fireEvent.click(screen.getByRole('button', { name: 'Try it on a sample document' }))
-    expect(((await screen.findByRole('textbox')) as HTMLTextAreaElement).value).toMatch(/^# Pitwall/)
+    expect(((await screen.findByRole('textbox', {}, lazy)) as HTMLTextAreaElement).value).toMatch(/^# Pitwall/)
     expect(header().getByRole('button', { name: /^Assist: Rules/ })).toBeTruthy()
     await settle()
     fireEvent.click(header().getByRole('button', { name: 'Close document' }))
@@ -53,7 +55,7 @@ describe('App', () => {
   it('Preview and Edit switch views; the Outline lists the sections', async () => {
     mount()
     fireEvent.click(screen.getByRole('button', { name: 'Start writing' }))
-    fireEvent.change(await screen.findByRole('textbox'), { target: { value: '# Doc\n\n## Install\n\ntext\n\n## Usage\n\nmore' } })
+    fireEvent.change(await screen.findByRole('textbox', {}, lazy), { target: { value: '# Doc\n\n## Install\n\ntext\n\n## Usage\n\nmore' } })
     fireEvent.click(header().getByRole('button', { name: /^Preview/ }))
     await settle()
     expect(screen.queryByRole('textbox')).toBeNull()
@@ -72,7 +74,7 @@ describe('App', () => {
     await settle()
     expect(window.location.hash).toBe('#about')
     window.dispatchEvent(new HashChangeEvent('hashchange'))
-    expect(await screen.findByRole('heading', { level: 1, name: 'Marksage' }, { timeout: 3000 })).toBeTruthy()
+    expect(await screen.findByRole('heading', { level: 1, name: 'Marksage' }, lazy)).toBeTruthy()
     await act(async () => void window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })))
     await settle()
     expect(screen.getByRole('button', { name: 'Start writing' })).toBeTruthy()
