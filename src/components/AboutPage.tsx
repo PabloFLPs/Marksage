@@ -65,7 +65,7 @@ const SOURCE_URL = SOURCE_COMMIT ? `https://github.com/PabloFLPs/Marksage/tree/$
 
 /** [keys, EN, PT, a browser may keep it for itself]. No ⌘N: Chrome, Edge and Opera never pass it to a page. */
 const SHORTCUTS: [KeyToken[], string, string, boolean?][] = [
-  [['mod', 'k'], 'Command palette — every action and recent document, searchable', 'Paleta de comandos: todas as ações e os documentos recentes, com busca'],
+  [['mod', 'k'], 'Command palette — every action and recent document, searchable in English or Portuguese, typos forgiven', 'Paleta de comandos: todas as ações e os documentos recentes, com busca em português ou inglês, mesmo com erros de digitação'],
   [['mod', 's'], 'Export (press again to download at once)', 'Exportar (aperte novamente para baixar na hora)'],
   [['mod', 'p'], 'Print or save as PDF — the rendered document alone', 'Imprimir ou salvar como PDF: só o documento renderizado'],
   [['mod', 'o'], 'Open a file', 'Abrir um arquivo', true],

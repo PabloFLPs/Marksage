@@ -55,6 +55,7 @@ EN + PT-BR from v1. The app stays on 3.x: no major for the palette or the intent
    search words, `when`, `run`, `destructive`, `needsSelection`); `usePaletteCommands` builds the list from it.
    *Done.* The header and menus still call App's handlers directly — moving them onto `run` waits for the UI atlas.
 2. `feat(palette)` — a `Matcher` interface and a `FuzzyMatcher`: typos, accents, titles and words in both languages.
+   *Done.*
 3. `feat(commands)` — Markdown edits on the selection (lines → table, lists, heading up/down, quote, callouts, code
    block, remove inline formatting), each one `execCommand('insertText')` = one ⌘Z step. **G1:** the command list is
    closed — Pablo writes the intent test set.

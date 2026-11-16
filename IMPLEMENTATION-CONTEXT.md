@@ -1669,3 +1669,28 @@ the old name.
   "my call" in public writing (§41.1, 2026-11-06: only the later experiments, not v1's and v2's opt-in
   shipping). Now: "the calls on the models that didn't ship" (EN), "a decisão de deixar modelos de fora" (PT-BR),
   matching the launch article.
+
+## 43. The command engine (2026-11-16)
+
+Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's calls before the code: stay on 3.x,
+⌘K stays, the intent test set is his and frozen before training, M2 starts without a model, BYOK after M2.
+
+- **Registry** (`794cb20`, `refactor`): `src/commands/registry.ts` defines each palette command once — stable id,
+  title as a message key, EN + PT search words, `when(ctx)`, `run(ctx, actions)`, `destructive` / `needsSelection`
+  (none yet). The palette's list and behavior didn't change. Pablo's call (2026-11-16): definitions now, the header
+  and menus onto `run` later (they already call the same App handlers; the atlas is when a single path pays off).
+  Search words stay one EN + PT string per command, not message keys: never shown, and searched in both languages.
+- **Whole-app test timeout** (`d0b7249`, `test`): the first `app.test.tsx` test failed now and then on a cold run —
+  the lazy document view's import passed Testing Library's 1 s default. The textarea waits use the info pages' 3 s.
+- **Fuzzy matching** (`feat(palette)`): `commands/matcher.ts` is the interface (`rank(query, items)`: the items are
+  already filtered by `when`, so it needs no context); `commands/fuzzyMatcher.ts` the default. Every typed word must
+  match somewhere (as before), now scored: exact 1, start of a word 0.9, inside 0.7, one typo 0.5, two 0.4; times
+  where it matched — the name 1, its name in the other language 0.9 (`aliases`, from `translate`), the search words
+  0.8, the group 0.6; an item's score is the mean over typed words. Typos: none up to 3 typed letters, 1 up to 7,
+  then 2 (edit distance with swapped neighbors as one edit); none against words under 4 letters ("thme" found "the");
+  a typo in a word's *start* only from 5 typed letters ("dark" found "Markdown"). Results under 60% of the best
+  score are dropped (`KEEP_SHARE`). The list is now best match first — Enter runs it — with each group's rows kept
+  together, groups ordered by their best row; an empty query keeps the registry order. Probed on the real list before
+  the tests: "exp" → Export, Save as PDF; "salvar pdf" → Save as PDF; "tema escuro" → the theme; "sugestoes" → the
+  Outline; "exprot" → Export first; "pfd" → nothing (3 letters, no typos). Unit tests pin these; E2E: a Portuguese
+  query and a typo with the UI in English. README and About's shortcut list say so (EN + PT-BR).

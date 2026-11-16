@@ -16,6 +16,20 @@ test('the command palette runs commands and hands focus back', async ({ page }) 
   await expect.poll(() => focused(page)).toBe('editor')
 })
 
+test('the palette finds commands in either language and despite typos, best match first', async ({ page }) => {
+  await openSample(page)
+  await page.keyboard.press('ControlOrMeta+k')
+  const box = page.getByRole('combobox')
+  await box.fill('salvar pdf') // Portuguese, UI in English
+  await expect(page.getByRole('option')).toHaveText([/Save as PDF/])
+  await box.fill('tema escuro')
+  await expect(page.getByRole('option')).toHaveText([/Switch to dark theme/])
+  await box.fill('exprot')
+  await expect(page.getByRole('option').first()).toHaveText(/Export Markdown/)
+  await page.keyboard.press('Enter')
+  await expect(page.locator('#export-name')).toBeVisible()
+})
+
 test('Rules + AI from the palette never skips the download notice', async ({ page }) => {
   await openSample(page)
   await palette(page, 'rules ai')

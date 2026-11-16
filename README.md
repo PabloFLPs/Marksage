@@ -73,7 +73,8 @@ on the models that didn't ship are mine.
 - **Autosave** (also on reload, tab close or app switch — nothing typed is lost), export `.md`, copy Markdown;
   the footer shows lines, words, characters and file size
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
-- **Command palette** (`⌘/Ctrl K`) — every action of the current screen and the recent documents, searchable
+- **Command palette** (`⌘/Ctrl K`) — every action of the current screen and the recent documents, searchable in
+  English or Portuguese, with or without accents, typos forgiven; the best match comes first
 - **Two tabs, one document** — an idle tab follows the other's saves; when both changed it, a bar asks which to
   keep; Recent keeps every tab's documents
 - **Images from the web** load only when you allow it (About → Privacy & storage); until then a placeholder, and
@@ -97,7 +98,7 @@ on the models that didn't ship are mine.
 
 | Keys | Action |
 |---|---|
-| `⌘/Ctrl K` | Command palette — every action and recent document, searchable |
+| `⌘/Ctrl K` | Command palette — every action and recent document, searchable (either language, typos forgiven) |
 | `⌘/Ctrl S` | Export — opens the name field; again (or `Enter`) downloads |
 | `⌘/Ctrl P` | Print or save as PDF (the browser's own print) — the rendered document alone, in the app's theme |
 | `⌘/Ctrl O` | Open file \* |

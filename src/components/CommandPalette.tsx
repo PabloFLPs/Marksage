@@ -5,6 +5,8 @@ import { Presence } from './motion'
 import { useI18n } from '../hooks/useI18n'
 import { useKeyStyle } from '../hooks/useKeyStyle'
 import { keyLabel, type KeyToken } from '../lib/keyStyle'
+import { fuzzyMatcher } from '../commands/fuzzyMatcher'
+import type { Matcher } from '../commands/matcher'
 
 export interface Command {
   id: string
@@ -16,26 +18,34 @@ export interface Command {
   keys?: KeyToken[]
   /** Extra words it's found by ("save", "download"…), in both languages. */
   keywords?: string
+  /** Its name in the other languages: "Salvar como PDF" finds Save as PDF in English too. */
+  aliases?: readonly string[]
   /** Shown after the label, quieter (a recent document's time). */
   hint?: string
   run: () => void
 }
 
-/** Case- and accent-insensitive, every typed word somewhere in the label, group or keywords. */
-const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
-function matches(c: Command, query: string): boolean {
-  const terms = fold(query).split(/\s+/).filter(Boolean)
-  if (!terms.length) return true
-  const hay = fold(`${c.label} ${c.group} ${c.keywords ?? ''}`)
-  return terms.every((t) => hay.includes(t))
+/** The matcher's order, with each group's rows kept together (groups ordered by their best row). */
+function rankedInGroups(commands: Command[], query: string, matcher: Matcher): Command[] {
+  const byId = new Map(commands.map((c) => [c.id, c]))
+  const groups = new Map<string, Command[]>()
+  for (const { id } of matcher.rank(query, commands)) {
+    const c = byId.get(id)
+    if (!c) continue
+    const rows = groups.get(c.group)
+    if (rows) rows.push(c)
+    else groups.set(c.group, [c])
+  }
+  return [...groups.values()].flat()
 }
 
 /**
  * ⌘/Ctrl + K: every action, searchable — the one shortcut to remember. Browsers keep some keys for themselves
  * (⌘N opens a window in Chrome, Edge and Opera; Opera's ⌘O, Safari's ⌘⇧H…), so this is how everything stays
- * reachable from the keyboard. ↑ ↓ move, Enter runs, Esc closes.
+ * reachable from the keyboard. Found by `matcher` (typos, accents, either language), the best match first. ↑ ↓ move,
+ * Enter runs, Esc closes.
  */
-export function CommandPalette({ open, onClose, commands }: { open: boolean; onClose: () => void; commands: Command[] }) {
+export function CommandPalette({ open, onClose, commands, matcher = fuzzyMatcher }: { open: boolean; onClose: () => void; commands: Command[]; matcher?: Matcher }) {
   const { t } = useI18n()
   const { keyStyle } = useKeyStyle()
   const [query, setQuery] = useState('')
@@ -46,7 +56,7 @@ export function CommandPalette({ open, onClose, commands }: { open: boolean; onC
   // Where focus was when it opened: it goes back there when the palette closes without moving it elsewhere.
   const before = useRef<HTMLElement | null>(null)
 
-  const shown = useMemo(() => (open ? commands.filter((c) => matches(c, query)) : []), [commands, query, open])
+  const shown = useMemo(() => (open ? rankedInGroups(commands, query, matcher) : []), [commands, query, open, matcher])
 
   useEffect(() => {
     if (!open) return

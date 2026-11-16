@@ -40,7 +40,9 @@ src/
     AboutPage.tsx         feature docs + Appearance (app icon, key style) — keep in sync with features
     StoryPage.tsx         #story: the architecture decisions and models as a timeline (showcase, not docs); content in
                           lib/storyContent.<lang>.ts, lazily loaded — neutral voice, date order, numbers = MODELS / training
-    CommandPalette.tsx    ⌘/Ctrl + K: every action of the current screen + recent documents, searchable (EN + PT words);
+    CommandPalette.tsx    ⌘/Ctrl + K: every action of the current screen + recent documents, ranked by a `Matcher` (default
+                          `commands/fuzzyMatcher.ts`: either language's name, search words, accents, typos; best first,
+                          each group's rows kept together);
                           the commands are defined once in `commands/registry.ts` (id, message keys, search words, `when`, `run`),
                           listed by `hooks/usePaletteCommands.tsx` (+ recent documents). Rules + AI from it opens the Assist menu on the notice
                           (`assistNoticeRequest`) until the notice was seen — never skip it.

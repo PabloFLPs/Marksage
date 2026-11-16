@@ -4,6 +4,7 @@ import type { Command } from '../components/CommandPalette'
 import type { AssistMode } from '../assist/types'
 import { availableCommands, type CommandActions, type CommandContext, type CommandGroup } from '../commands/registry'
 import { entryTitle, relativeTime, type HistoryEntry } from '../lib/history'
+import { LANGS, translate } from '../lib/i18n'
 import { useI18n } from './useI18n'
 
 /** Where the app is (what the list may offer), what each command does, and the recent documents. */
@@ -43,6 +44,8 @@ export function usePaletteCommands(c: PaletteContext): Command[] {
         group: groupLabel[d.group],
         icon: createElement(d.icon(ctx)),
         label: t(title.key, title.vars),
+        // Its name in the other languages, so either finds it.
+        aliases: LANGS.filter((l) => l.id !== lang).map((l) => translate(l.id, title.key, title.vars)),
         keys: d.keys,
         keywords: d.keywords(ctx),
         hint: hint ? t(hint) : undefined,
