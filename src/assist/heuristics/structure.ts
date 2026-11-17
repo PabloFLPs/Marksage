@@ -50,12 +50,7 @@ export function structureProbability(state: string, statement: string): number {
 
   if (/bullet list/.test(statement)) {
     const t = line.trim()
-    if (/^-\d/.test(t)) return 0.2 // "-5 degrees" — negative number
-    if (/^[-dlbcps][rwxsStT-]{9}[@+.]?\s/.test(t)) return 0.05 // "-rw-r--r-- 1 user …" — `ls -l` output
-    if (/^\*[^*\s][^*]*\*/.test(t)) return 0.1 // *emphasis*
-    if (/^-[a-z](?=[\s,)=]|$)/i.test(t)) return 0.15 // "-p)", "-s, --search": a CLI flag
-    if (/^-(webkit|moz|ms|o)-/.test(t) || /^[-+*][\w-]+\s*:\s*[^:]+;$/.test(t)) return 0.05 // CSS declaration
-    if (/^[-+]\S+(\s+[-+]\S+)+/.test(t)) return 0.15 // "+SIMD +AVX", "-Wall -Wextra": flags, not items
+    for (const [re, p] of NOT_AN_ITEM) if (re.test(t)) return p
     // Neighbouring items, written properly or without the space too — but not "**bold**", "--flag" or "-rw-r--r--".
     const listNeighbors = others.filter((l) => LIST_NEIGHBOR.test(l) && !/^\s*[-dl][rwx-]{9}/.test(l)).length
     // A lone `*`/`+` line is more often a footnote or broken emphasis than a list item.
@@ -77,6 +72,19 @@ export function structureProbability(state: string, statement: string): number {
   }
   return 0.5
 }
+
+/**
+ * Lines that start like a list item without its space but are something else, with how sure a hint may be. Shared
+ * with the palette's list commands (`commands/edits.ts`), which leave these markers as text.
+ */
+export const NOT_AN_ITEM: readonly (readonly [RegExp, number])[] = [
+  [/^-\d/, 0.2], // "-5 degrees" — negative number
+  [/^[-dlbcps][rwxsStT-]{9}[@+.]?\s/, 0.05], // "-rw-r--r-- 1 user …" — `ls -l` output
+  [/^\*[^*\s][^*]*\*/, 0.1], // *emphasis*
+  [/^-[a-z](?=[\s,)=]|$)/i, 0.15], // "-p)", "-s, --search": a CLI flag
+  [/^-(webkit|moz|ms|o)-|^[-+*][\w-]+\s*:\s*[^:]+;$/, 0.05], // CSS declaration
+  [/^[-+]\S+(\s+[-+]\S+)+/, 0.15], // "+SIMD +AVX", "-Wall -Wextra": flags, not items
+]
 
 /** Typographic bullet at the start of a line (prefilter's `list-glyph`). */
 const GLYPH = /^[•◦▪▫▸►▹●○■□·‣⁃–—✓✔☑✅]/u

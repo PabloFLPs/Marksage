@@ -1739,3 +1739,10 @@ Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's
   test browser groups undo differently, not Marksage, not Safari. The two tests skip on macOS WebKit only (the reason
   is in `ui.spec.ts`); Chromium, Firefox and CI's Linux WebKit still run them. Firefox didn't start on that Mac
   at all ("Could not find profile folder", also after a forced reinstall) — a local install problem; CI covers it.
+- **"-item" through the palette** (`fix(commands)`; Pablo asked why a lone `-item` gets no hint — by design: alone and
+  one word, it reads like `-verbose`, 0.72 under the gate). The palette's list commands only knew markers with their
+  space, so "Bulleted list" on `-item` gave `- -item`. They now treat a marker missing its space (`-item`, `*item`,
+  `+item`) as one — `- item`, `1. item`, `- [ ] item` — except what Smart Assist knows isn't an item: its exclusions
+  moved, unchanged, into an exported `NOT_AN_ITEM` table (`heuristics/structure.ts`; eval output identical), so
+  `-5 graus`, `-v, --verbose`, `*emphasis*`, `ls -l` lines and CSS keep their text (`- -5 graus`). The command can be
+  bolder than the hint: the user asked for a list.

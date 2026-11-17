@@ -1,5 +1,6 @@
 import { alignedToTable, csvToTable, toCodeBlock, tsvToTable } from '../assist/convert'
 import { csvRecords, nonEmptyLines, splitCsvLine } from '../assist/heuristics/paste'
+import { NOT_AN_ITEM } from '../assist/heuristics/structure'
 
 /**
  * The palette's Markdown edits, as pure functions: the text and the selection in, one replacement out (or null when
@@ -64,7 +65,12 @@ const LIST_MARKER_RE = /^(\s*)(?:[-*+]\s+\[[ xX]\]\s+|[-*+•]\s+|\d{1,3}[.)]\s+
 const BULLET_RE = /^\s*[-*+]\s+(?!\[[ xX]\]\s)/
 const NUMBERED_RE = /^\s*\d{1,3}[.)]\s+/
 const TASK_RE = /^\s*[-*+]\s+\[[ xX]\]\s+/
-const stripMarker = (line: string) => line.replace(LIST_MARKER_RE, '$1')
+/** A marker missing its space ("-item", "*item", "+item") — not "--flag", "**bold**" or what Smart Assist knows isn't an item. */
+const NEAR_MISS_RE = /^(\s*)[-*+](?=[^\s*+-])/
+const nearMiss = (line: string) => NEAR_MISS_RE.test(line) && !NOT_AN_ITEM.some(([re]) => re.test(line.trim()))
+/** The line without its list marker: a proper one, or one missing its space ("-item" → "item"; "-5 km" keeps its "-"). */
+const stripMarker = (line: string) =>
+  LIST_MARKER_RE.test(line) ? line.replace(LIST_MARKER_RE, '$1') : nearMiss(line) ? line.replace(NEAR_MISS_RE, '$1') : line
 
 /**
  * Turn the lines into one kind of list — or, when every line already is that kind, back into plain lines. Indentation

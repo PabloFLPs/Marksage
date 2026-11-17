@@ -35,6 +35,24 @@ describe('lists', () => {
   })
 })
 
+describe('a marker missing its space', () => {
+  it('becomes a proper one: "-item" is a list item someone typed without the space', () => {
+    expect(run(bulletList, '-i|tem')).toBe('- item')
+    expect(run(bulletList, '«-milk\n*eggs\n+bread»')).toBe('- milk\n- eggs\n- bread')
+    expect(run(numberedList, '«-milk\n-eggs»')).toBe('1. milk\n2. eggs')
+    expect(run(taskList, '-mi|lk')).toBe('- [ ] milk')
+  })
+  it('what only looks like one stays text: negative numbers, flags, emphasis, bold, ls -l, CSS', () => {
+    expect(run(bulletList, '-5 gr|aus')).toBe('- -5 graus')
+    expect(run(bulletList, '-v, --ver|bose')).toBe('- -v, --verbose')
+    expect(run(bulletList, '--fl|ag')).toBe('- --flag')
+    expect(run(bulletList, '*empha|sis*')).toBe('- *emphasis*')
+    expect(run(bulletList, '**bo|ld**')).toBe('- **bold**')
+    expect(run(bulletList, '-rw-r--r-- 1 ana staff 2048 no|tes.md')).toBe('- -rw-r--r-- 1 ana staff 2048 notes.md')
+    expect(run(bulletList, '-webkit-line-clamp: 2|;')).toBe('- -webkit-line-clamp: 2;')
+  })
+})
+
 describe('headings', () => {
   it('one level up or down; a plain line becomes ##; the ends stay', () => {
     expect(run(headingUp, '## Inst|all')).toBe('# Install')
