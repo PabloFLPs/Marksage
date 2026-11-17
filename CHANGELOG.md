@@ -8,6 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
+- **3.54.0** · 2026-11-17 · `(this commit)` · feat(palette): filler words don’t have to match — “paste from the clipboard”, “copia isso” find their command
 - **3.53.2** · 2026-11-17 · `4260241` · fix(commands): list commands fix a marker missing its space — “-item” becomes “- item”, “-5 graus” keeps its minus
 - **3.53.1** · 2026-11-17 · `51260f8` · fix(assist): identical list lines count as each other’s neighbours, so seven “-teste” lines all get the hint
 - **3.53.0** · 2026-11-17 · `2c2f529` · feat(palette): a "Done · Undo" notice after each palette edit, falling back to ⌘Z where Undo can’t be sure

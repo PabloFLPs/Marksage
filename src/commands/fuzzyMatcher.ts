@@ -6,6 +6,21 @@ export const fold = (text: string): string => text.normalize('NFD').replace(/\p{
 /** Words of a text, folded; punctuation separates them ("Assist: Rules + AI" → assist, rules, ai). */
 export const words = (text: string): string[] => fold(text).split(/[^\p{L}\p{N}]+/u).filter(Boolean)
 
+/**
+ * Words that carry no command on their own ("save **as** pdf", "copia **isso**", "**please** export"): left out of
+ * a query that has other words, so they don't have to match. EN + PT, folded (no accents). Kept out of this list on
+ * purpose, since they decide the command: off, no (also PT "no" = "em o"), up, down, all, sem; and "aí", which folds
+ * to "ai" (AI).
+ */
+export const FILLER = new Set(
+  (
+    'a an the to from of in into on for with and or is it its this that these those my me i you can could would ' +
+    'please pls want like let lets make turn go do some ' +
+    'o os as um uma uns umas de do da dos das em na nos nas para pra por com e ou que meu minha meus minhas ' +
+    'isso isto esse essa este esta eu voce quero pode poderia favor fazer faz deixa deixar coloca colocar'
+  ).split(' '),
+)
+
 /** Where a word was found counts: the name first, then its other-language names, the search words, the group. */
 const WEIGHT = { label: 1, alias: 0.9, keyword: 0.8, group: 0.6 } as const
 
@@ -85,14 +100,17 @@ function itemScore(typed: string[], fields: Field[]): number {
 export const KEEP_SHARE = 0.6
 
 /**
- * Every typed word must match somewhere in the item — its name in either language, its search words or its group —
+ * Every typed word (filler words aside — `FILLER`) must match somewhere in the item — its name in either language, its search words or its group —
  * exactly, as a start, inside a word, or with a typo or two. Best matches first; ties keep the list's order; matches
  * under `KEEP_SHARE` of the best one are left out.
  */
 export const fuzzyMatcher: Matcher = {
   rank(query: string, items: readonly MatchItem[]): MatchResult[] {
-    const typed = words(query)
-    if (!typed.length) return items.map((i) => ({ id: i.id, score: 1 }))
+    const all = words(query)
+    if (!all.length) return items.map((i) => ({ id: i.id, score: 1 }))
+    // Filler words only count when there's nothing else ("a" alone still searches).
+    const meaningful = all.filter((w) => !FILLER.has(w))
+    const typed = meaningful.length ? meaningful : all
     const results: MatchResult[] = []
     for (const item of items) {
       const score = itemScore(typed, fieldsOf(item))

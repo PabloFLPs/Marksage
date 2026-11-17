@@ -64,8 +64,9 @@ EN + PT-BR from v1. The app stays on 3.x: no major for the palette or the intent
    `execCommand('undo')`, covered by E2E in Chromium, Firefox and WebKit (`CROSS_BROWSER=1`); where an engine fails, the
    notice says only "⌘Z to undo". *Done* — no confirmation yet: no command is destructive (the flag stays for one).
 5. `chore(training)` — generated train/val data (split by paraphrase template) + the FuzzyMatcher baseline. *Done*
-   (`training/intent/README.md`): 1,956 train / 390 val rows; the FuzzyMatcher gets 18.9% (EN) / 17.4% (PT-BR) top-1
-   on val. Moved ahead of the test set (Pablo, 2026-11-17): written before it existed, the phrases can't echo it.
+   (`training/intent/README.md`): 1,956 train / 390 val rows; the FuzzyMatcher got 18.9% (EN) / 17.4% (PT-BR) top-1
+   on val, then 34.3% / 30.4% once it ignored filler words (Pablo, 2026-11-17: on their own they're too vague to
+   count) — the model is measured against that one, the best plain matcher, not the weaker first. Moved ahead of the test set (Pablo, 2026-11-17): written before it existed, the phrases can't echo it.
 6. `chore(training)` — **Pablo's** intent test set v1 (~5 phrases per command per language + his real queries, from
    `training/intent/test.v1.template.tsv`), frozen with its hash in `training/locks/` before any training (**G2**).
 7. Intent model v1 (Rules + AI only, lazy file, gate thresholds fitted on val, the frozen test run once). It ships only

@@ -32,11 +32,16 @@ node --experimental-strip-types training/intent/make-test-template.ts  # the bla
 
 | | Commands, top-1 | Commands, top-2 | `none`: said nothing |
 |---|---|---|---|
-| EN (n = 169 / 18) | 18.9% | 18.9% | 100% |
-| PT-BR (n = 184 / 19) | 17.4% | 17.4% | 100% |
+| EN (n = 169 / 18), first matcher | 18.9% | 18.9% | 100% |
+| PT-BR (n = 184 / 19), first matcher | 17.4% | 17.4% | 100% |
+| **EN, filler words ignored** | **34.3%** | **34.3%** | **100%** |
+| **PT-BR, filler words ignored** | **30.4%** | **32.1%** | **100%** |
 
-"Nothing" was right 11.3% of the time (37 of 326). The matcher needs **every** typed word somewhere in the command
-("paste **from** clipboard", "show preview" while the row says Edit → nothing): it finds titles and search words, not
-paraphrases. Every command is offered in this measurement (the model is scored the same way); in the app both see only
+The first matcher needed **every** typed word somewhere in the command, so "paste **from** clipboard" or "copia
+**isso**" found nothing. Pablo's call (2026-11-17): filler words on their own are too vague to count, so the matcher
+ignores them (`FILLER` in `src/commands/fuzzyMatcher.ts`, EN + PT; never *off, no, up, down, all, sem*, which decide
+the command). That roughly doubled it, and that second matcher is the baseline: the model has to beat the best plain
+matcher, not a weak one. What's left needs meaning, not words: "show preview" while the row says Edit, "lights off"
+for the theme. With filler words ignored, "nothing" was right 13.6% of the time (37 of 273). Every command is offered in this measurement (the model is scored the same way); in the app both see only
 what `when` allows. The bar the model must clear is on Pablo's test set, not this one (D7: top-1 ≥ FuzzyMatcher + 10
 points in each language, `none` precision ≥ 90%).

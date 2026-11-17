@@ -74,7 +74,8 @@ on the models that didn't ship are mine.
   the footer shows lines, words, characters and file size
 - **English and Português (BR)** — auto-detected, switchable on the About page, remembered
 - **Command palette** (`⌘/Ctrl K`) — every action of the current screen and the recent documents, searchable in
-  English or Portuguese, with or without accents, typos forgiven; the best match comes first. Its **Format** group
+  English or Portuguese, with or without accents, typos forgiven; the best match comes first. Filler words (*the*,
+  *from*, *please*, *de*, *para*…) don't have to match. Its **Format** group
   turns the selected lines into a list, a quote, a table or a code block. It also moves a heading one level up or
   down, or removes bold, italic and links. Lists, headings and quotes need only the caret's line. Each change is one
   step: **Undo** on the notice that follows, or ⌘Z.

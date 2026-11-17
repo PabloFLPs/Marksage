@@ -1758,3 +1758,10 @@ Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's
   points top-1 per language, ≥ 90% `none` precision, on his frozen set). `registry.ts` and `i18n.ts` now import with
   `.ts` so these node scripts can load them. The blank test sheet: `test.v1.template.tsv` (5 rows per command and
   language, 35 `none` per language).
+- **Filler words** (`feat(palette)`; Pablo, 2026-11-17: on their own, words like "the", "from", "de", "para" are too
+  vague to count). The FuzzyMatcher needed every typed word to match, so "paste from the clipboard" or "copia isso"
+  found nothing. `FILLER` (EN + PT, folded) words are left out of a query that has other words; a query of filler words
+  only still searches with them ("a"). Deliberately not filler: *off, no, up, down, all, sem* (they decide the command;
+  "no" is also PT "em o") and "aí" (it folds to "ai", AI). On the intent val set: 18.9 → 34.3% top-1 (EN), 17.4 → 30.4%
+  (PT-BR), `none` still answered with nothing every time. This matcher is the D7 baseline: the model has to beat the
+  best plain matcher. Unit tests: filler queries, and off / up / down still decide.

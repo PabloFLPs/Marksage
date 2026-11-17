@@ -62,6 +62,20 @@ describe('fuzzyMatcher on the palette', () => {
     expect(ranked('expotr markdwon')).toEqual(['export'])
   })
 
+  it('filler words don\'t have to match, unless they are all there is', () => {
+    expect(ranked('save as pdf')[0]).toBe('pdf')
+    expect(ranked('paste from the clipboard')[0]).toBe('paste')
+    expect(ranked('copia isso')[0]).toBe('copy')
+    expect(ranked('quero exportar o markdown')[0]).toBe('export')
+    expect(ranked('a').length).toBeGreaterThan(0) // "a" alone still searches
+  })
+
+  it('words that decide the command are never filler: off, up, down', () => {
+    expect(ranked('assist off')[0]).toBe('assist-off')
+    expect(ranked('heading up')[0]).toBe('edit-heading-up')
+    expect(ranked('heading down')[0]).toBe('edit-heading-down')
+  })
+
   it('a solid match hides the noise next to it', () => {
     expect(ranked('dark')).toEqual(['theme'])
     expect(ranked('pfd')).toEqual([])
