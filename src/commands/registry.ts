@@ -2,9 +2,9 @@ import { BookOpen, Brain, ClipboardPaste, Clipboard, Code, Columns2, Cpu, Downlo
 import type { LucideIcon } from 'lucide-react'
 import type { AssistMode } from '../assist/types'
 import type { EditName } from './edits'
-import { LANGS, type Lang, type MessageKey, type Vars } from '../lib/i18n'
+import { LANGS, type Lang, type MessageKey, type Vars } from '../lib/i18n.ts'
 import type { KeyToken } from '../lib/keyStyle'
-import { loadModelNoticeSeen } from '../lib/storage'
+import { loadModelNoticeSeen } from '../lib/storage.ts'
 import type { ViewMode } from '../lib/viewMode'
 
 /**

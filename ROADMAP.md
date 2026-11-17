@@ -63,9 +63,11 @@ EN + PT-BR from v1. The app stays on 3.x: no major for the palette or the intent
 4. `feat(palette)` — confirmation for destructive commands; a "Done · Undo" notice. Its Undo calls
    `execCommand('undo')`, covered by E2E in Chromium, Firefox and WebKit (`CROSS_BROWSER=1`); where an engine fails, the
    notice says only "⌘Z to undo". *Done* — no confirmation yet: no command is destructive (the flag stays for one).
-5. `chore(training)` — **Pablo's** intent test set v1 (~5 phrases per command per language + his real queries), frozen
-   with its hash in `training/locks/` before any training (**G2**).
-6. `chore(training)` — generated train/val data (split by paraphrase template) + the FuzzyMatcher baseline.
+5. `chore(training)` — generated train/val data (split by paraphrase template) + the FuzzyMatcher baseline. *Done*
+   (`training/intent/README.md`): 1,956 train / 390 val rows; the FuzzyMatcher gets 18.9% (EN) / 17.4% (PT-BR) top-1
+   on val. Moved ahead of the test set (Pablo, 2026-11-17): written before it existed, the phrases can't echo it.
+6. `chore(training)` — **Pablo's** intent test set v1 (~5 phrases per command per language + his real queries, from
+   `training/intent/test.v1.template.tsv`), frozen with its hash in `training/locks/` before any training (**G2**).
 7. Intent model v1 (Rules + AI only, lazy file, gate thresholds fitted on val, the frozen test run once). It ships only
    if it clearly beats the FuzzyMatcher on the frozen set — the bar is written down before training (D7). Otherwise the
    fuzzy palette stays and the verdict goes to the story and MODELS §8.
@@ -78,9 +80,11 @@ ignored, a small EN↔PT synonym list, measured by recall@3 on a frozen (query, 
 encoder only if those numbers say words aren't enough — it would need WASM in the CSP, a lazy dependency and a large
 download in Privacy.
 
-**Open, asked before the step that needs it:** D3 intent model budget (~385 KB like the others), D4 its download
-(separate file on the first palette open in Rules + AI), D7 the "clearly beats" bar, D6 M2 scope (current document),
-D8 who writes M2's eval pairs, D5 the encoder (after M2 v1's numbers).
+**Decided (Pablo, 2026-11-17):** D3 — the same design and budget as the other models (≤ ~385 KB, ~0.1 ms); a smaller
+clue table is measured on val and ships if it's no worse. D4 — a separate file, fetched on the first palette open in
+Rules + AI. D7 — on the frozen test set, top-1 ≥ FuzzyMatcher + 10 points in **each** language and precision on
+`none` ≥ 90%. **Open, asked before the step that needs it:** D6 M2 scope (current document), D8 who writes M2's eval
+pairs, D5 the encoder (after M2 v1's numbers).
 
 ## 1. BYOK — bring your own key (after M1 and M2, §0.3)
 

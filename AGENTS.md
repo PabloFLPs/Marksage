@@ -72,7 +72,9 @@ src/
   index.css               theme tokens, accent palettes ([data-accent]), markdown styles, motion keyframes
 scripts/eval-assist.ts    fixture evaluation for Smart Assist
 scripts/check-docs.ts     Marksage's own documents and the sample, checked by Marksage's features
-training/                 Own models' pipeline (collect → split → train; build-sections → train-sections; tried, not shipped: structure, pastes, link text); clones/train data gitignored
+training/                 Own models' pipeline (collect → split → train; build-sections → train-sections; tried, not shipped: structure, pastes, link text;
+                          intent/ = the palette's intent model: build → eval-fuzzy, Pablo's frozen test set); clones/train data gitignored.
+                          `commands/registry.ts` and `lib/i18n.ts` import with `.ts` so these node scripts can load them
 ```
 
 ## Conventions

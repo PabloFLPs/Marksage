@@ -3,8 +3,8 @@
  * a missing key falls back to English, then to the key itself (so raw error
  * messages pass through untouched).
  */
-import { en } from './locales/en'
-import { pt } from './locales/pt-BR'
+import { en } from './locales/en.ts'
+import { pt } from './locales/pt-BR.ts'
 
 export type Lang = 'en' | 'pt-BR'
 export const LANGS: { id: Lang; label: string; short: string }[] = [

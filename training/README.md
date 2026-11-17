@@ -6,6 +6,9 @@ used** — a structure model and a paste-type model — and a rule for the link 
 dropped (see the last sections); a code-language v3 with mean + max pooling followed on 2026-10-30, also not used.
 All models use `fasttext.ts`.
 
+**In progress (2026-11-17): the command palette's intent model** — query → command, EN + PT-BR. Its data, baseline
+and the test-set rules live in `training/intent/README.md` (plan: ROADMAP §0.3).
+
 Smart Assist's code-block language detection (F1) is precise but quiet: on real documents the
 heuristics speak on about a quarter of blocks. The plan is a small, purpose-trained classifier
 (fastText-style, a few hundred KB, plain TypeScript inference, no runtime) that must beat the

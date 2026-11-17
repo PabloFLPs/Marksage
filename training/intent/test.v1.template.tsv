@@ -1,0 +1,437 @@
+# Marksage intent test set v1 — written by Pablo, frozen before any training (ROADMAP §0.3).
+# Columns (tab-separated): lang, id, query, src. Fill in the query column the way you would type it in ⌘K:
+# short forms, typos and slang welcome. src: "written" (made up for this set) or "real" (something you typed or
+# would type). Add rows freely; rows left without a query are skipped. "none" = something the palette can't do.
+# Don't look at the registry's search words or the training phrases: this set measures your words, not ours.
+
+# new — New document / Novo documento
+en	new		written
+en	new		written
+en	new		written
+en	new		written
+en	new		written
+pt-BR	new		written
+pt-BR	new		written
+pt-BR	new		written
+pt-BR	new		written
+pt-BR	new		written
+
+# open — Open file… / Abrir arquivo…
+en	open		written
+en	open		written
+en	open		written
+en	open		written
+en	open		written
+pt-BR	open		written
+pt-BR	open		written
+pt-BR	open		written
+pt-BR	open		written
+pt-BR	open		written
+
+# paste — Paste Markdown / Colar Markdown
+en	paste		written
+en	paste		written
+en	paste		written
+en	paste		written
+en	paste		written
+pt-BR	paste		written
+pt-BR	paste		written
+pt-BR	paste		written
+pt-BR	paste		written
+pt-BR	paste		written
+
+# sample — Try it on a sample document / Testar com um documento de exemplo
+en	sample		written
+en	sample		written
+en	sample		written
+en	sample		written
+en	sample		written
+pt-BR	sample		written
+pt-BR	sample		written
+pt-BR	sample		written
+pt-BR	sample		written
+pt-BR	sample		written
+
+# export — Export Markdown / Exportar Markdown
+en	export		written
+en	export		written
+en	export		written
+en	export		written
+en	export		written
+pt-BR	export		written
+pt-BR	export		written
+pt-BR	export		written
+pt-BR	export		written
+pt-BR	export		written
+
+# pdf — Save as PDF / Salvar como PDF
+en	pdf		written
+en	pdf		written
+en	pdf		written
+en	pdf		written
+en	pdf		written
+pt-BR	pdf		written
+pt-BR	pdf		written
+pt-BR	pdf		written
+pt-BR	pdf		written
+pt-BR	pdf		written
+
+# copy — Copy Markdown / Copiar Markdown
+en	copy		written
+en	copy		written
+en	copy		written
+en	copy		written
+en	copy		written
+pt-BR	copy		written
+pt-BR	copy		written
+pt-BR	copy		written
+pt-BR	copy		written
+pt-BR	copy		written
+
+# edit-table — Lines to a table (tabs, columns or commas) / Linhas em tabela (tabs, colunas ou vírgulas)
+en	edit-table		written
+en	edit-table		written
+en	edit-table		written
+en	edit-table		written
+en	edit-table		written
+pt-BR	edit-table		written
+pt-BR	edit-table		written
+pt-BR	edit-table		written
+pt-BR	edit-table		written
+pt-BR	edit-table		written
+
+# edit-bullets — Bulleted list / Lista com marcadores
+en	edit-bullets		written
+en	edit-bullets		written
+en	edit-bullets		written
+en	edit-bullets		written
+en	edit-bullets		written
+pt-BR	edit-bullets		written
+pt-BR	edit-bullets		written
+pt-BR	edit-bullets		written
+pt-BR	edit-bullets		written
+pt-BR	edit-bullets		written
+
+# edit-numbered — Numbered list / Lista numerada
+en	edit-numbered		written
+en	edit-numbered		written
+en	edit-numbered		written
+en	edit-numbered		written
+en	edit-numbered		written
+pt-BR	edit-numbered		written
+pt-BR	edit-numbered		written
+pt-BR	edit-numbered		written
+pt-BR	edit-numbered		written
+pt-BR	edit-numbered		written
+
+# edit-tasks — Task list / Lista de tarefas
+en	edit-tasks		written
+en	edit-tasks		written
+en	edit-tasks		written
+en	edit-tasks		written
+en	edit-tasks		written
+pt-BR	edit-tasks		written
+pt-BR	edit-tasks		written
+pt-BR	edit-tasks		written
+pt-BR	edit-tasks		written
+pt-BR	edit-tasks		written
+
+# edit-heading-up — Heading one level up (## → #) / Título um nível acima (## → #)
+en	edit-heading-up		written
+en	edit-heading-up		written
+en	edit-heading-up		written
+en	edit-heading-up		written
+en	edit-heading-up		written
+pt-BR	edit-heading-up		written
+pt-BR	edit-heading-up		written
+pt-BR	edit-heading-up		written
+pt-BR	edit-heading-up		written
+pt-BR	edit-heading-up		written
+
+# edit-heading-down — Heading one level down (# → ##) / Título um nível abaixo (# → ##)
+en	edit-heading-down		written
+en	edit-heading-down		written
+en	edit-heading-down		written
+en	edit-heading-down		written
+en	edit-heading-down		written
+pt-BR	edit-heading-down		written
+pt-BR	edit-heading-down		written
+pt-BR	edit-heading-down		written
+pt-BR	edit-heading-down		written
+pt-BR	edit-heading-down		written
+
+# edit-quote — Quote / Citação
+en	edit-quote		written
+en	edit-quote		written
+en	edit-quote		written
+en	edit-quote		written
+en	edit-quote		written
+pt-BR	edit-quote		written
+pt-BR	edit-quote		written
+pt-BR	edit-quote		written
+pt-BR	edit-quote		written
+pt-BR	edit-quote		written
+
+# edit-code — Code block / Bloco de código
+en	edit-code		written
+en	edit-code		written
+en	edit-code		written
+en	edit-code		written
+en	edit-code		written
+pt-BR	edit-code		written
+pt-BR	edit-code		written
+pt-BR	edit-code		written
+pt-BR	edit-code		written
+pt-BR	edit-code		written
+
+# edit-plain — Remove formatting (bold, italic, links…) / Remover formatação (negrito, itálico, links…)
+en	edit-plain		written
+en	edit-plain		written
+en	edit-plain		written
+en	edit-plain		written
+en	edit-plain		written
+pt-BR	edit-plain		written
+pt-BR	edit-plain		written
+pt-BR	edit-plain		written
+pt-BR	edit-plain		written
+pt-BR	edit-plain		written
+
+# view — Preview / Visualizar
+en	view		written
+en	view		written
+en	view		written
+en	view		written
+en	view		written
+pt-BR	view		written
+pt-BR	view		written
+pt-BR	view		written
+pt-BR	view		written
+pt-BR	view		written
+
+# outline — Show the Outline / Mostrar a Estrutura
+en	outline		written
+en	outline		written
+en	outline		written
+en	outline		written
+en	outline		written
+pt-BR	outline		written
+pt-BR	outline		written
+pt-BR	outline		written
+pt-BR	outline		written
+pt-BR	outline		written
+
+# theme — Switch to dark theme / Mudar para o tema escuro
+en	theme		written
+en	theme		written
+en	theme		written
+en	theme		written
+en	theme		written
+pt-BR	theme		written
+pt-BR	theme		written
+pt-BR	theme		written
+pt-BR	theme		written
+pt-BR	theme		written
+
+# lang-en — Language: English / Idioma: English
+en	lang-en		written
+en	lang-en		written
+en	lang-en		written
+en	lang-en		written
+en	lang-en		written
+pt-BR	lang-en		written
+pt-BR	lang-en		written
+pt-BR	lang-en		written
+pt-BR	lang-en		written
+pt-BR	lang-en		written
+
+# lang-pt-BR — Language: Português (BR) / Idioma: Português (BR)
+en	lang-pt-BR		written
+en	lang-pt-BR		written
+en	lang-pt-BR		written
+en	lang-pt-BR		written
+en	lang-pt-BR		written
+pt-BR	lang-pt-BR		written
+pt-BR	lang-pt-BR		written
+pt-BR	lang-pt-BR		written
+pt-BR	lang-pt-BR		written
+pt-BR	lang-pt-BR		written
+
+# assist-off — Assist: Off / Assist: Desligado
+en	assist-off		written
+en	assist-off		written
+en	assist-off		written
+en	assist-off		written
+en	assist-off		written
+pt-BR	assist-off		written
+pt-BR	assist-off		written
+pt-BR	assist-off		written
+pt-BR	assist-off		written
+pt-BR	assist-off		written
+
+# assist-heuristics — Assist: Rules / Assist: Regras
+en	assist-heuristics		written
+en	assist-heuristics		written
+en	assist-heuristics		written
+en	assist-heuristics		written
+en	assist-heuristics		written
+pt-BR	assist-heuristics		written
+pt-BR	assist-heuristics		written
+pt-BR	assist-heuristics		written
+pt-BR	assist-heuristics		written
+pt-BR	assist-heuristics		written
+
+# assist-model — Assist: Rules + AI / Assist: Regras + IA
+en	assist-model		written
+en	assist-model		written
+en	assist-model		written
+en	assist-model		written
+en	assist-model		written
+pt-BR	assist-model		written
+pt-BR	assist-model		written
+pt-BR	assist-model		written
+pt-BR	assist-model		written
+pt-BR	assist-model		written
+
+# home — Start screen / Tela inicial
+en	home		written
+en	home		written
+en	home		written
+en	home		written
+en	home		written
+pt-BR	home		written
+pt-BR	home		written
+pt-BR	home		written
+pt-BR	home		written
+pt-BR	home		written
+
+# about — About Marksage / Sobre o Marksage
+en	about		written
+en	about		written
+en	about		written
+en	about		written
+en	about		written
+pt-BR	about		written
+pt-BR	about		written
+pt-BR	about		written
+pt-BR	about		written
+pt-BR	about		written
+
+# docs — How Smart Assist works / Como o Smart Assist funciona
+en	docs		written
+en	docs		written
+en	docs		written
+en	docs		written
+en	docs		written
+pt-BR	docs		written
+pt-BR	docs		written
+pt-BR	docs		written
+pt-BR	docs		written
+pt-BR	docs		written
+
+# models — How the models work / Como os modelos funcionam
+en	models		written
+en	models		written
+en	models		written
+en	models		written
+en	models		written
+pt-BR	models		written
+pt-BR	models		written
+pt-BR	models		written
+pt-BR	models		written
+pt-BR	models		written
+
+# story — The story: decisions and models / A história: decisões e modelos
+en	story		written
+en	story		written
+en	story		written
+en	story		written
+en	story		written
+pt-BR	story		written
+pt-BR	story		written
+pt-BR	story		written
+pt-BR	story		written
+pt-BR	story		written
+
+# privacy — Privacy & storage / Privacidade e armazenamento
+en	privacy		written
+en	privacy		written
+en	privacy		written
+en	privacy		written
+en	privacy		written
+pt-BR	privacy		written
+pt-BR	privacy		written
+pt-BR	privacy		written
+pt-BR	privacy		written
+pt-BR	privacy		written
+
+# none — something the palette can't do (make bold, insert an image, undo, translate…)
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+en	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written
+pt-BR	none		written

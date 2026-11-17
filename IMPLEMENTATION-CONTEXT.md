@@ -1746,3 +1746,15 @@ Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's
   moved, unchanged, into an exported `NOT_AN_ITEM` table (`heuristics/structure.ts`; eval output identical), so
   `-5 graus`, `-v, --verbose`, `*emphasis*`, `ls -l` lines and CSS keep their text (`- -5 graus`). The command can be
   bolder than the hint: the user asked for a list.
+- **Intent data v1** (`chore(training)`, `training/intent/`): `phrases.ts` (7–14 handwritten phrases per command per
+  language, 38 `none` per language) + the registry's titles and one-owner search words → `build.ts` → 1,956 train /
+  390 val rows, split by template (1 in 5 to val), variants on the template's side (no accents, a typo, a polite
+  prefix), deterministic (`manifest.v1.json`: counts and hashes). The build stops when the same query sits under two
+  commands — it caught "italic" (a Remove-formatting search word and a `none` phrase). Val leaves out 23 rows that
+  repeated train once accents, case and punctuation are ignored ("open file" vs the title "Open file…"). Baseline
+  (`eval-fuzzy.ts`): the FuzzyMatcher gets 18.9% / 17.4% top-1 on val (EN / PT-BR): it needs every typed word, so
+  paraphrases ("paste from clipboard") find nothing. Pablo moved this step ahead of his test set (2026-11-17), and set
+  D3 (same budget as the other models), D4 (a separate file on the first palette open in Rules + AI) and D7 (+10
+  points top-1 per language, ≥ 90% `none` precision, on his frozen set). `registry.ts` and `i18n.ts` now import with
+  `.ts` so these node scripts can load them. The blank test sheet: `test.v1.template.tsv` (5 rows per command and
+  language, 35 `none` per language).
