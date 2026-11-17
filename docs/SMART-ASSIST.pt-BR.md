@@ -313,7 +313,7 @@ deveria ser um título de seção."*. A probabilidade parte de um valor inicial 
 - **Linhas com traço** que parecem flags de linha de comando (`-s, --search`), conjuntos de flags
   (`+SIMD +AVX`), CSS (`-webkit-line-clamp: 2;`), números negativos (`-5 graus`) ou saída de `ls -l`
   (`-rw-r--r-- 1 …`) não são itens de lista; `*palavra*` é ênfase.
-- **Correções de lista** precisam de companhia: itens de lista por perto aumentam a confiança. Uma `*linha`
+- **Correções de lista** precisam de companhia: itens de lista por perto aumentam a confiança, mesmo os idênticos. Uma `*linha`
   sozinha costuma ser nota de rodapé, não item de lista, então não recebe sugestão. Uma `-linha` sozinha só é sugerida
   quando parece texto comum (três palavras ou mais, nada com aparência de código, como `/`, `:` ou `=`): "-isto
   deveria ser um item de lista", sim; "-verbose" ou "-su cd: /opt/app: Permission denied", não.

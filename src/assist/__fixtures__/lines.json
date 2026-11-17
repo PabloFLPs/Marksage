@@ -39,5 +39,7 @@
   {"doc": "\n#Bad heading\n\ntext", "expect": true},
   {"doc": "Posted in\n\n#javascript\n\nthanks", "expect": false},
   {"doc": "#c0ffee is the accent", "expect": false},
-  {"doc": "Vaga remota, salário em USD.\n#Remoto\n#CLT", "line": 1, "expect": false}
+  {"doc": "Vaga remota, salário em USD.\n#Remoto\n#CLT", "line": 1, "expect": false},
+  {"doc": "-teste\n-teste\n-teste\n-teste\n-teste", "line": 2, "expect": true},
+  {"doc": "-milk\n-milk", "expect": true}
 ]

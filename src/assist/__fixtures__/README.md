@@ -4,7 +4,7 @@ Up to three sets per feature. `npm run eval:assist` scores each separately; `-- 
 
 | File | Set | n | What it is |
 |---|---|---|---|
-| `fences.json` / `pastes.json` / `lines.json` | authored | 42 / 15 / 36 | Written alongside the heuristics. Regression tests: they should stay at 100 %, which says nothing about real-world quality. |
+| `fences.json` / `pastes.json` / `lines.json` | authored | 42 / 15 / 43 | Written alongside the heuristics. Regression tests: they should stay at 100 %, which says nothing about real-world quality. |
 | `lines.dev.json` | real, dev | 212 | Same method as `lines.real.json`, but from *other* sources: 36 from 23 repos/wikis (javascript-algorithms, 30-Days-Of-JavaScript and system-design-primer translations, clean-code-javascript, ossu, fd, bat, and the fzf, sway, Proton, jq, rclone, ranger, yabai, scrcpy wikis…), plus 176 (2026-10-28) from GitHub issues of 20 repos and 16 wikis, with `line` naming the labelled line. Tune F3 against this one. |
 | `fences.dev.json` | real, dev | 280 | Fenced code blocks from 28 repos that are neither train nor test (built by `training/build-sets.ts`). Tune / calibrate F1 against this. |
 | `fences.real2.json` | real, held out (2nd) | 284 | A second, fresh code-block set from 72 repos used nowhere else (`training/sources-test2.json`), leak-checked against the whole collection; built once for model v2 and frozen. |

@@ -1721,3 +1721,12 @@ Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's
   Unit (happy-dom, a refusing `execCommand` stub): the text changes and the notice says ⌘Z, no Undo. E2E (Chromium,
   and Firefox + WebKit with `CROSS_BROWSER=1`): Undo restores the text, closes the notice, focus in the editor; after
   typing, Undo leaves it to ⌘Z. About and README say Undo or ⌘Z.
+
+## 44. Found while testing the palette (2026-11-17)
+
+- **Identical list lines got no hint** (`fix(assist)`; Pablo, testing in Opera GX: seven `-teste` lines got nothing,
+  and after editing the last one only lines 5–7 did, at 87 / 87 / 94%). `structureProbability` built "the other
+  lines" of the ±2 window by dropping every line *with the candidate's text*, so identical neighbours didn't count:
+  each `-teste` looked alone (one word: 0.72, under the 0.8 gate). It now drops the candidate once, by position.
+  `-teste` ×5 → 0.97, `-milk` ×2 → 0.87 (both 0.72 before). Every eval set unchanged (1215 ✗, the CI baseline);
+  two authored cases added (`lines.json`, now 43). SMART-ASSIST §3 says identical neighbours count (EN + PT-BR).

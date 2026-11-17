@@ -13,7 +13,11 @@ export function structureProbability(state: string, statement: string): number {
   const m = /"(.*)"/.exec(statement)
   if (!m) return 0.5
   const line = m[1]
-  const others = state.split('\n').filter((l) => l !== line && l.trim() !== '')
+  // The window's other lines: the candidate taken out once, not every line with its text — identical neighbours
+  // ("-teste" seven times) are neighbours too; filtering by text left each one alone, under the gate (2026-11-17).
+  const window = state.split('\n')
+  const self = window.indexOf(line)
+  const others = window.filter((l, i) => i !== self && l.trim() !== '')
   const words = line.replace(/[*#=\-+\d.)]/g, ' ').trim().split(/\s+/).filter(Boolean).length
 
   if (/link broken by a space/.test(statement)) return 0.9

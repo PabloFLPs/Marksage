@@ -309,7 +309,7 @@ from a per-kind prior and is adjusted by evidence:
 - **Dash lines** that look like CLI flags (`-s, --search`), flag sets (`+SIMD +AVX`), CSS
   (`-webkit-line-clamp: 2;`), negative numbers (`-5 degrees`) or `ls -l` output (`-rw-r--r-- 1 …`) aren't
   list items; `*word*` is emphasis.
-- **List fixes** need company: neighboring list items raise confidence; a lone `*line` is more
+- **List fixes** need company: neighboring list items raise confidence, identical ones too; a lone `*line` is more
   often a footnote than a bullet, so it stays quiet. A lone `-line` is suggested only when it reads as plain
   prose (three or more words, nothing code-like such as `/`, `:` or `=`): "-this should be a list item" yes,
   "-verbose" or "-su cd: /opt/app: Permission denied" no.
