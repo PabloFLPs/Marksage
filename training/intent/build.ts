@@ -10,7 +10,7 @@
  * - Each handwritten phrase is a template; one in five goes to val (by its hash), at least one per command and
  *   language. Variants of a template (no accents, a typo, a polite prefix) stay on its side: the split is by
  *   template, never by variant, so val never holds a near-copy of a train row.
- * - The test set is not made here: Pablo writes it (test.v1.tsv), frozen in training/locks before any training.
+ * - The test set is not made here: Pablo writes it (test.v1.md), frozen in training/locks before any training.
  */
 import { createHash } from 'node:crypto'
 import { mkdirSync, writeFileSync } from 'node:fs'

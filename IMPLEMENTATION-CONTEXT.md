@@ -1765,3 +1765,10 @@ Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's
   "no" is also PT "em o") and "aí" (it folds to "ai", AI). On the intent val set: 18.9 → 34.3% top-1 (EN), 17.4 → 30.4%
   (PT-BR), `none` still answered with nothing every time. This matcher is the D7 baseline: the model has to beat the
   best plain matcher. Unit tests: filler queries, and off / up / down still decide.
+- **The test sheet in Markdown** (`chore(training)`; Pablo, 2026-11-17: he'll write it in Marksage). The TSV sheet is
+  replaced by `test.v1.template.md`: `## <command id>`, `### en` / `### pt-BR`, one query per list item, `(real)` in
+  front of something actually typed, instructions in PT-BR in a quote. `testSet.ts` reads it (the eval's `test` set);
+  an unknown id or language in a heading stops the read instead of dropping rows. The frozen file is the Markdown he
+  writes — no conversion step between what he wrote and what gets hashed. 5 items per command and language, 20 `none`
+  per language to start (more welcome). Unit tests: the blank template reads as no rows; `(real)`; heading typos.
+  (The entry above still says `.tsv` and 35 `none`: that was the first sheet.)

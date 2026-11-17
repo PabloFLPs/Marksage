@@ -14,7 +14,7 @@ node --experimental-strip-types training/intent/make-test-template.ts  # the bla
 |---|---|---|---|
 | train | 1,956 | 764 | registry titles (both languages, every toggle state), search words that belong to one command only, 4 in 5 handwritten phrases with their variants |
 | val | 390 | 134 | 1 in 5 handwritten phrases with their variants (by template hash, at least one per command and language); 23 rows left out because they repeated a train row |
-| test | — | — | **Pablo's**, `test.v1.tsv` from `test.v1.template.tsv`, frozen in `training/locks/` before any training |
+| test | — | — | **Pablo's**, `test.v1.md` (written in Marksage from `test.v1.template.md`, read by `testSet.ts`), frozen in `training/locks/` before any training |
 
 - **Sources.** `phrases.ts`: 7–14 phrases per command per language and 38 `none` per language (things the palette can't
   do: bold, images, undo, translate…), written before the test set existed. The registry's search words mix both

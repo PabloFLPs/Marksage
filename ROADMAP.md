@@ -68,7 +68,7 @@ EN + PT-BR from v1. The app stays on 3.x: no major for the palette or the intent
    on val, then 34.3% / 30.4% once it ignored filler words (Pablo, 2026-11-17: on their own they're too vague to
    count) — the model is measured against that one, the best plain matcher, not the weaker first. Moved ahead of the test set (Pablo, 2026-11-17): written before it existed, the phrases can't echo it.
 6. `chore(training)` — **Pablo's** intent test set v1 (~5 phrases per command per language + his real queries, from
-   `training/intent/test.v1.template.tsv`), frozen with its hash in `training/locks/` before any training (**G2**).
+   `training/intent/test.v1.template.md`, written in Marksage), frozen with its hash in `training/locks/` before any training (**G2**).
 7. Intent model v1 (Rules + AI only, lazy file, gate thresholds fitted on val, the frozen test run once). It ships only
    if it clearly beats the FuzzyMatcher on the frozen set — the bar is written down before training (D7). Otherwise the
    fuzzy palette stays and the verdict goes to the story and MODELS §8.

@@ -7,7 +7,7 @@
  * (the model is scored the same way; at run time both see only what `when` allows), names in that language, the other
  * language as aliases, the search words and the group. No result counts as `none`. Reports, per language: top-1 and
  * top-2 accuracy on rows that name a command, and on `none` rows how often it said nothing; plus precision of "nothing".
- * `test` reads Pablo's frozen test set (test.v1.tsv) — run it only for the final comparison.
+ * `test` reads Pablo's frozen test set (test.v1.md, via testSet.ts) — run it only for the final comparison.
  */
 import { readFileSync } from 'node:fs'
 import { fuzzyMatcher } from '../../src/commands/fuzzyMatcher.ts'
@@ -15,6 +15,7 @@ import type { MatchItem } from '../../src/commands/matcher.ts'
 import { COMMANDS, type CommandContext, type CommandGroup } from '../../src/commands/registry.ts'
 import { translate, type Lang } from '../../src/lib/i18n.ts'
 import type { Row } from './build.ts'
+import { loadTestSet } from './testSet.ts'
 
 const ROOT = new URL('../../', import.meta.url).pathname
 const set = process.argv[2] ?? 'val'
@@ -26,15 +27,7 @@ interface Query {
 }
 
 function load(): Query[] {
-  if (set === 'test') {
-    // lang <TAB> id <TAB> query [<TAB> src]; lines starting with # and rows without a query are skipped.
-    return readFileSync(`${ROOT}training/intent/test.v1.tsv`, 'utf8')
-      .split('\n')
-      .filter((l) => l.trim() && !l.startsWith('#'))
-      .map((l) => l.split('\t'))
-      .filter(([, , q]) => q?.trim())
-      .map(([lang, id, q]) => ({ lang: lang as Lang, id, q: q.trim() }))
-  }
+  if (set === 'test') return loadTestSet(`${ROOT}training/intent/test.v1.md`, new Set(COMMANDS.map((c) => c.id)))
   return readFileSync(`${ROOT}training/data/intent/${set}.v1.jsonl`, 'utf8')
     .split('\n')
     .filter(Boolean)
