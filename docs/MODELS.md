@@ -388,6 +388,14 @@ A third of the file is scales — one of the next things to shrink. The app down
 pick *Rules + AI* and confirm), keeps it in the browser's cache, and runs everything in plain JavaScript: no
 machine-learning library, no GPU, no background worker. Each decision is a few thousand multiplications.
 
+### A curiosity: the size isn't a coincidence
+
+Both files are about 385 KB (394,280 and 394,008 bytes), and that's no accident. Almost all of a file is the slot
+table: 32,768 slots × 8 numbers at 1 byte each (256 KB) plus one 4-byte scale per slot (128 KB), exactly 393,216
+bytes. Both models use that same table, whatever they answer. The answers are what's small: each adds 8 weights and
+a bias, 36 bytes. So the 272 bytes between the two files are the section model's 7 fewer answers (252 bytes) and its
+20-byte-shorter header. A third model built the same way lands at the same size; only a different table changes it.
+
 ## 6. Limits, honestly
 
 - **One-liners.** Short snippets carry few clues, and the model can't say "too short to tell". `x = 1` comes

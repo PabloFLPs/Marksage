@@ -396,6 +396,15 @@ você escolhe *Regras + IA* e confirma), guarda no cache do navegador e roda tud
 lib de machine learning, sem GPU, sem worker em segundo plano. Cada decisão são alguns milhares de
 multiplicações.
 
+### Curiosidade: o tamanho não é coincidência
+
+Os dois arquivos têm cerca de 385 KB (394.280 e 394.008 bytes), e isso não é acaso. Quase todo o arquivo é a tabela
+de slots: 32.768 slots × 8 números de 1 byte (256 KB), mais uma escala de 4 bytes por slot (128 KB), exatamente
+393.216 bytes. Os dois modelos usam essa mesma tabela, seja qual for a resposta. As respostas é que são pequenas: cada
+uma acrescenta 8 pesos e um viés, 36 bytes. Os 272 bytes de diferença entre os arquivos são as 7 respostas a menos
+do modelo de seções (252 bytes) e o cabeçalho dele, 20 bytes mais curto. Um terceiro modelo feito do mesmo jeito cai
+no mesmo tamanho; só uma tabela diferente muda isso.
+
 ## 6. Os limites, com honestidade
 
 - **Trechos de uma linha só.** Trechos curtos trazem poucos sinais, e o modelo não sabe dizer "curto demais para saber".
