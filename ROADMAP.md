@@ -62,7 +62,7 @@ EN + PT-BR from v1. The app stays on 3.x: no major for the palette or the intent
    GitHub alerts yet (Pablo, 2026-11-16: their rendering is its own later feature, then the commands come back).
 4. `feat(palette)` — confirmation for destructive commands; a "Done · Undo" notice. Its Undo calls
    `execCommand('undo')`, covered by E2E in Chromium, Firefox and WebKit (`CROSS_BROWSER=1`); where an engine fails, the
-   notice says only "⌘Z to undo".
+   notice says only "⌘Z to undo". *Done* — no confirmation yet: no command is destructive (the flag stays for one).
 5. `chore(training)` — **Pablo's** intent test set v1 (~5 phrases per command per language + his real queries), frozen
    with its hash in `training/locks/` before any training (**G2**).
 6. `chore(training)` — generated train/val data (split by paraphrase template) + the FuzzyMatcher baseline.

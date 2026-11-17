@@ -1,5 +1,5 @@
-import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it, onTestFinished } from 'vitest'
 import App from '../../src/App'
 import { I18nProvider } from '../../src/components/I18nProvider'
 import { loadDocument } from '../../src/lib/storage'
@@ -78,6 +78,26 @@ describe('App', () => {
     await act(async () => void window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })))
     await settle()
     expect(screen.getByRole('button', { name: 'Start writing' })).toBeTruthy()
+  })
+
+  it('a palette edit where the browser refuses insertText: the text changes, and the notice says ⌘Z, with no Undo button', async () => {
+    // No native undo step to take back: an Undo button would undo the user's last typing instead. happy-dom has no
+    // execCommand at all; a stub that refuses keeps the test about the refusal, whatever happy-dom adds later.
+    Object.defineProperty(document, 'execCommand', { value: () => false, configurable: true })
+    onTestFinished(() => void Reflect.deleteProperty(document, 'execCommand'))
+    mount()
+    fireEvent.click(screen.getByRole('button', { name: 'Start writing' }))
+    const editor = (await screen.findByRole('textbox', {}, lazy)) as HTMLTextAreaElement
+    fireEvent.change(editor, { target: { value: 'milk\neggs' } })
+    editor.setSelectionRange(0, editor.value.length)
+    await act(async () => void window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true, cancelable: true })))
+    const box = await screen.findByRole('combobox')
+    fireEvent.change(box, { target: { value: 'bulleted list' } })
+    fireEvent.keyDown(box, { key: 'Enter' })
+    await waitFor(() => expect(editor.value).toBe('- milk\n- eggs'))
+    const notices = screen.getAllByRole('status').map((el) => el.textContent ?? '')
+    expect(notices.find((text) => text.startsWith('Done'))).toMatch(/^Done · Press .+ in the editor to undo/)
+    expect(screen.queryByRole('button', { name: 'Undo' })).toBeNull()
   })
 
   it('a reload brings the stored document back, with its name', async () => {

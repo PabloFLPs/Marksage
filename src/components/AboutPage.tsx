@@ -225,8 +225,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<WandSparkles />} title={x('Format from the palette', 'Formatação pela paleta')}>
             {x(
-              <>Select some lines and press <Keys k={['mod', 'k']} />: under <strong className={strong}>Format</strong>, they become a list (bulleted, numbered or tasks), a quote, a table or a code block; a heading moves one level up or down; bold, italic and links come off. Lists, headings and quotes work on the caret’s line too. Each change is one step: <Keys k={['mod', 'z']} /> takes it back.</>,
-              <>Selecione algumas linhas e aperte <Keys k={['mod', 'k']} />: em <strong className={strong}>Formatar</strong>, elas viram lista (com marcadores, numerada ou de tarefas), citação, tabela ou bloco de código; um título sobe ou desce um nível; negrito, itálico e links saem. Listas, títulos e citações também funcionam na linha do cursor. Cada mudança é um passo só: <Keys k={['mod', 'z']} /> desfaz.</>,
+              <>Select some lines and press <Keys k={['mod', 'k']} />: under <strong className={strong}>Format</strong>, they become a list (bulleted, numbered or tasks), a quote, a table or a code block; a heading moves one level up or down; bold, italic and links come off. Lists, headings and quotes work on the caret’s line too. Each change is one step: <strong className={strong}>Undo</strong> on the notice that follows, or <Keys k={['mod', 'z']} />, takes it back.</>,
+              <>Selecione algumas linhas e aperte <Keys k={['mod', 'k']} />: em <strong className={strong}>Formatar</strong>, elas viram lista (com marcadores, numerada ou de tarefas), citação, tabela ou bloco de código; um título sobe ou desce um nível; negrito, itálico e links saem. Listas, títulos e citações também funcionam na linha do cursor. Cada mudança é um passo só: <strong className={strong}>Desfazer</strong>, no aviso que aparece, ou <Keys k={['mod', 'z']} /> volta atrás.</>,
             )}
           </Feature>
           <Feature icon={<Save />} title={x('Autosave', 'Salvamento automático')}>

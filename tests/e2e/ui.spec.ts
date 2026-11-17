@@ -42,6 +42,30 @@ test('a palette edit applies to the selection, and ⌘Z takes it back in one ste
   await expect(editor).toHaveValue('Groceries\nmilk\neggs')
 })
 
+test('the Done notice after a palette edit: Undo takes it back; after more typing it leaves it to ⌘Z', async ({ page }) => {
+  await page.goto('/')
+  await newDocument(page, 'milk\neggs')
+  const editor = page.locator('textarea')
+  const selectAll = () => editor.evaluate((ta: HTMLTextAreaElement) => ta.setSelectionRange(0, ta.value.length))
+  const notice = page.getByRole('status').filter({ hasText: /^Done/ })
+  await selectAll()
+  await palette(page, 'bulleted list')
+  await expect(editor).toHaveValue('- milk\n- eggs')
+  await notice.getByRole('button', { name: 'Undo' }).click()
+  await expect(editor).toHaveValue('milk\neggs')
+  await expect(notice).toHaveCount(0)
+  await expect.poll(() => focused(page)).toBe('editor')
+
+  await selectAll()
+  await palette(page, 'bulleted list')
+  await expect(editor).toHaveValue('- milk\n- eggs')
+  await page.keyboard.press('ArrowRight') // the edited lines stay selected: go to their end
+  await page.keyboard.type('!')
+  await notice.getByRole('button', { name: 'Undo' }).click()
+  await expect(page.getByRole('status').filter({ hasText: /Press .+ in the editor to undo/ })).toBeVisible()
+  await expect(editor).toHaveValue('- milk\n- eggs!')
+})
+
 test('edits for selected text are offered only with a selection; an edit with nothing to change says so', async ({ page }) => {
   await page.goto('/')
   await newDocument(page, '# Top\nname,qty\nmilk,2')

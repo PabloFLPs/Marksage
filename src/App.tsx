@@ -31,9 +31,17 @@ import { useGlobalInput } from './hooks/useGlobalInput'
 import { usePaletteCommands } from './hooks/usePaletteCommands'
 import type { EditName } from './commands/edits'
 import { insertInEditor } from './lib/editorText'
+import { shortcut } from './lib/keyStyle'
+import { useKeyStyle } from './hooks/useKeyStyle'
 
 const DESKTOP_QUERY = '(min-width: 768px)'
 const COPIED_RESET_MS = 1600
+
+/** A button on a notice ("Undo"). */
+interface NoticeAction {
+  label: string
+  run: () => void
+}
 
 // About loads on demand (pre-launch review: 11 KB gzip off the script every first visit waits for) — fetched while
 // the browser is idle after the first paint, so opening it stays instant.
@@ -45,6 +53,7 @@ const FOOTER_ICON = 'h-3.5 w-3.5 shrink-0 opacity-70'
 
 export default function App() {
   const { t, lang, setLang } = useI18n()
+  const { keyStyle } = useKeyStyle()
   const {
     document,
     isDirty,
@@ -100,10 +109,11 @@ export default function App() {
   const [pasteHint, setPasteHint] = useState(false)
   const [copied, setCopied] = useState(false)
   // A short, neutral message (not an error) that goes away by itself.
-  const [notice, setNotice] = useState<string | null>(null)
+  // An optional action rides along (the palette's "Done · Undo").
+  const [notice, setNotice] = useState<{ text: string; action?: NoticeAction } | null>(null)
   const noticeTimer = useRef<number | null>(null)
-  const showNotice = useCallback((text: string) => {
-    setNotice(text)
+  const showNotice = useCallback((text: string, action?: NoticeAction) => {
+    setNotice({ text, action })
     if (noticeTimer.current) window.clearTimeout(noticeTimer.current)
     noticeTimer.current = window.setTimeout(() => setNotice(null), 5000)
   }, [])
@@ -292,13 +302,31 @@ export default function App() {
         .then(({ EDITS }) => {
           const el = editorRef.current
           if (!el) return
-          const edit = EDITS[name]({ text: el.value, start: el.selectionStart, end: el.selectionEnd })
-          if (edit) insertInEditor(el, edit, updateContent)
-          else showNotice(t('edit.nothing'))
+          const before = el.value
+          const edit = EDITS[name]({ text: before, start: el.selectionStart, end: el.selectionEnd })
+          if (!edit) return showNotice(t('edit.nothing'))
+          const native = insertInEditor(el, edit, updateContent)
+          const after = before.slice(0, edit.from) + edit.insert + before.slice(edit.to)
+          const hint = t('edit.undoHint', { keys: shortcut(['mod', 'z'], keyStyle) })
+          const undoHint = () => showNotice(hint)
+          // No native undo step (the browser refused insertText): undo would take back the user's last typing instead.
+          if (!native) return showNotice(`${t('edit.done')} · ${hint}`)
+          showNotice(t('edit.done'), {
+            label: t('edit.undo'),
+            run: () => {
+              const ta = editorRef.current
+              // Typed since: ⌘Z knows the order, a button doesn't.
+              if (!ta || ta.value !== after) return undoHint()
+              ta.focus({ preventScroll: true })
+              const undone = window.document.execCommand('undo') && ta.value === before
+              if (undone) setNotice(null)
+              else undoHint()
+            },
+          })
         })
         .catch(() => showNotice(t('edit.failed')))
     },
-    [updateContent, showNotice, t],
+    [updateContent, showNotice, t, keyStyle],
   )
   const pasteFromPalette = useCallback(() => void handlePasteFromClipboard(), [handlePasteFromClipboard])
   const requestAssistNotice = useCallback(() => setAssistNoticeRequest((n) => n + 1), [])
@@ -585,7 +613,12 @@ export default function App() {
       <Presence show={!!notice && !error} enter="" exit="anim-slide-down" duration={160} className="fixed bottom-4 right-4 z-50">
         {notice && (
           <div role="status" className="anim-slide-up flex max-w-sm items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3 text-sm text-ink shadow-lg dark:border-dark-line dark:bg-dark-surface-soft dark:text-dark-ink">
-            <span>{notice}</span>
+            <span>{notice.text}</span>
+            {notice.action && (
+              <button type="button" onClick={notice.action.run} className="press -my-1 inline-flex min-h-8 items-center rounded-md px-2 text-sm font-medium text-accent-strong transition-colors hover:bg-accent/10 dark:text-dark-accent dark:hover:bg-dark-accent/15">
+                {notice.action.label}
+              </button>
+            )}
             <button type="button" onClick={() => setNotice(null)} aria-label={t('shell.dismiss')} className="text-ink-muted transition-colors hover:text-ink dark:text-dark-ink-muted dark:hover:text-dark-ink">
               <X className="h-4 w-4" />
             </button>

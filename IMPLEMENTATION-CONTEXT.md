@@ -1711,3 +1711,13 @@ Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's
   the selection when the palette opens. A palette command is an explicit order from the user — AGENTS' product rules
   say so, also for the intent model's preselected suggestion to come. Observed while probing: "bold" finds only
   "Remove formatting (bold, …)" — there's no "make bold" command; a case for the intent model's `none`.
+- **"Done · Undo"** (`feat(palette)`): after a palette edit, the notice says "Done" with an **Undo** button (App's
+  `showNotice(text, action?)`; the notice was text only). Undo focuses the editor and calls `execCommand('undo')`,
+  and counts only if the text is back to what it was before the edit; otherwise — or when something was typed since
+  (the text is no longer the edit's result) — the notice says "Press ⌘Z in the editor to undo". Where the browser
+  refused the edit's `insertText` (`insertInEditor` now returns whether it made a native step), there's no Undo
+  button at all: the native undo would take back the user's last typing, not the edit. No confirmation step: no
+  command is destructive today (all can be undone or redone by hand); the registry's flag stays for the first one.
+  Unit (happy-dom, a refusing `execCommand` stub): the text changes and the notice says ⌘Z, no Undo. E2E (Chromium,
+  and Firefox + WebKit with `CROSS_BROWSER=1`): Undo restores the text, closes the notice, focus in the editor; after
+  typing, Undo leaves it to ⌘Z. About and README say Undo or ⌘Z.

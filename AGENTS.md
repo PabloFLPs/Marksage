@@ -57,7 +57,9 @@ src/
                           the registry names them only (type import) and App `import()`s them on use, so they ride the
                           editor's chunk, not the first load. Applied with `lib/editorText.ts` `insertInEditor` (one
                           `insertText` = one ⌘Z; Smart Assist's accept uses it too). App owns the editor's ref (`editorRef`,
-                          passed to DocumentView); the palette reads the selection when it opens (`hasSelection`)
+                          passed to DocumentView); the palette reads the selection when it opens (`hasSelection`). After an
+                          edit, a "Done · Undo" notice (`showNotice(text, action)`): Undo = `execCommand('undo')`, only when
+                          `insertInEditor` made a native step and the text is still the edit's result; otherwise "Press ⌘Z"
   assist/                 Smart Assist — see "Smart Assist" below (model/ = own models: features + inference; sections.ts / outline.ts = Outline)
   hooks/                  useMarkdownFile (doc + history), useTheme, useAppIcon, useKeyStyle, useMediaQuery;
                           App's parts: useInfoPages (#about… navigation, Back, tab title, lazy docs/story pages),
