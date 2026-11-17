@@ -8,7 +8,7 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.53.1** · 2026-11-17 · `(this commit)` · fix(assist): identical list lines count as each other’s neighbours, so seven “-teste” lines all get the hint
+- **3.53.1** · 2026-11-17 · `51260f8` · fix(assist): identical list lines count as each other’s neighbours, so seven “-teste” lines all get the hint
 - **3.53.0** · 2026-11-17 · `2c2f529` · feat(palette): a "Done · Undo" notice after each palette edit, falling back to ⌘Z where Undo can’t be sure
 - **3.52.0** · 2026-11-16 · `fab3cd6` · feat(commands): Markdown edits from the palette — lists, headings, quote, table, code block, plain text — one ⌘Z each
 - **3.51.0** · 2026-11-16 · `80841c6` · feat(palette): fuzzy search — either language, accents and typos forgiven, best match first

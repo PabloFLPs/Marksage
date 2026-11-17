@@ -1730,3 +1730,12 @@ Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's
   each `-teste` looked alone (one word: 0.72, under the 0.8 gate). It now drops the candidate once, by position.
   `-teste` ×5 → 0.97, `-milk` ×2 → 0.87 (both 0.72 before). Every eval set unchanged (1215 ✗, the CI baseline);
   two authored cases added (`lines.json`, now 43). SMART-ASSIST §3 says identical neighbours count (EN + PT-BR).
+- **Undo after a palette edit on macOS WebKit** (`test(e2e)`): `CROSS_BROWSER=1` on Pablo's Mac failed both undo tests in
+  WebKit — one undo emptied the editor. A probe on a bare `<textarea>` (no app) showed it in Playwright's headless
+  WebKit on macOS for any script `insertText` after typing, with every way of closing the typing tried (blur/focus,
+  reselecting, arrow keys, inside a keydown); only a real mouse click after real typing kept one step. WebKit on the
+  Mac hands undo to Cocoa's NSUndoManager (webkit-dev, 2010). By hand, in Opera GX (Chromium) and in Safari, Pablo
+  typed a title, ran "Heading one level up" from the palette and pressed ⌘Z: the edit alone came back — the headless
+  test browser groups undo differently, not Marksage, not Safari. The two tests skip on macOS WebKit only (the reason
+  is in `ui.spec.ts`); Chromium, Firefox and CI's Linux WebKit still run them. Firefox didn't start on that Mac
+  at all ("Could not find profile folder", also after a forced reinstall) — a local install problem; CI covers it.

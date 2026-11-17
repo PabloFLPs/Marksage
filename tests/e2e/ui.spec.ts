@@ -30,7 +30,17 @@ test('the palette finds commands in either language and despite typos, best matc
   await expect(page.locator('#export-name')).toBeVisible()
 })
 
-test('a palette edit applies to the selection, and ⌘Z takes it back in one step', async ({ page }) => {
+/**
+ * Playwright's headless WebKit on macOS merges a script's insertText into the undo step before it (WebKit on the Mac
+ * hands undo to Cocoa's NSUndoManager), so one undo also takes back the earlier typing — in a bare <textarea> too, with
+ * every way of closing the typing we tried (2026-11-17). Real browsers undo the palette edit alone: Pablo checked by
+ * hand in Opera GX (Chromium) and in Safari.
+ */
+const macWebKit = (browserName: string) => browserName === 'webkit' && process.platform === 'darwin'
+const MAC_WEBKIT_UNDO = 'headless WebKit on macOS groups undo unlike Safari — see macWebKit above'
+
+test('a palette edit applies to the selection, and ⌘Z takes it back in one step', async ({ page, browserName }) => {
+  test.skip(macWebKit(browserName), MAC_WEBKIT_UNDO)
   await page.goto('/')
   await newDocument(page, 'Groceries\nmilk\neggs')
   const editor = page.locator('textarea')
@@ -42,7 +52,8 @@ test('a palette edit applies to the selection, and ⌘Z takes it back in one ste
   await expect(editor).toHaveValue('Groceries\nmilk\neggs')
 })
 
-test('the Done notice after a palette edit: Undo takes it back; after more typing it leaves it to ⌘Z', async ({ page }) => {
+test('the Done notice after a palette edit: Undo takes it back; after more typing it leaves it to ⌘Z', async ({ page, browserName }) => {
+  test.skip(macWebKit(browserName), MAC_WEBKIT_UNDO)
   await page.goto('/')
   await newDocument(page, 'milk\neggs')
   const editor = page.locator('textarea')
