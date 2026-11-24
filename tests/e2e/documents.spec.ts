@@ -248,3 +248,21 @@ test('a mermaid block draws its diagram, its code a click away; one with a mista
   await expect(bad.getByRole('img', { name: 'Mermaid diagram (flowchart)' })).toBeVisible({ timeout: 10_000 })
   await expect(bad.getByRole('note')).toHaveCount(0)
 })
+
+test('a diagram just below the screen is drawn before it’s scrolled to, then shows at once when the preview mounts again', async ({ page }) => {
+  await page.goto('/')
+  // Short one-line paragraphs (~44 px each) for about 1.25 screens: below the fold, within the 600 px margin.
+  const count = Math.ceil(((page.viewportSize()?.height ?? 720) * 1.25) / 44)
+  const filler = Array.from({ length: count }, (_, i) => `Paragraph ${i + 1}.\n`)
+  await newDocument(page, ['# Below the fold', '', ...filler, '```mermaid', 'flowchart LR', '  A --> B', '```', ''].join('\n'))
+  await page.locator('header').getByRole('button', { name: 'Preview', exact: true }).click()
+  const block = page.locator('.mermaid-block')
+  // Not on screen, but within 600 px of it: drawn already (the margin used to never apply — drawn only once visible).
+  await expect(block.locator('.doc-diagram-mermaid svg')).toHaveCount(1, { timeout: 30_000 })
+  expect(await block.evaluate((el) => el.getBoundingClientRect().top > window.innerHeight)).toBe(true)
+  // Opening the editor mounts the preview again: the drawing comes back without a loading box in between.
+  await page.locator('header').getByRole('button', { name: 'Edit', exact: true }).click()
+  await expect(page.locator('textarea')).toBeVisible()
+  expect(await page.locator('.mermaid-skeleton').count()).toBe(0)
+  await expect(block.locator('.doc-diagram-mermaid svg')).toHaveCount(1)
+})

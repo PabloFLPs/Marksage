@@ -49,6 +49,8 @@ function mermaidKind(source: string): string {
 /** Renders run one at a time (Mermaid keeps global settings, and every view sets them before drawing). */
 let queue: Promise<unknown> = Promise.resolve()
 let renders = 0
+/** Mermaid's code is here: the loading box says "Drawing", not the download size. */
+let loaded = false
 
 /**
  * Drawings by theme and source. Opening or closing the editor mounts the preview again: without this, every diagram
@@ -58,6 +60,7 @@ const drawn = new Map<string, string>()
 const DRAWN_CACHE = 60
 const themeOf = () => `${document.documentElement.className}|${document.documentElement.dataset.accent ?? ''}`
 const drawnKey = (source: string) => `${themeOf()}\u0000${source}`
+const isDrawn = (source: string) => drawn.has(drawnKey(source))
 
 /**
  * Mermaid's rendering. A failure (the ~650 KB download dropped, an old tab after a deploy, a browser Mermaid
@@ -65,10 +68,23 @@ const drawnKey = (source: string) => `${themeOf()}\u0000${source}`
  * like a dead button. With `onSyntaxError`, a diagram Mermaid can't parse is the caller's to show (a document's
  * diagram shows its code and the reason); without it, the same message as any other failure.
  */
-export function MermaidView({ source, alt, onSyntaxError }: { source: string; alt: string; onSyntaxError?: (message: string | null) => void }) {
+export function MermaidView({
+  source,
+  alt,
+  onSyntaxError,
+  skeleton = false,
+}: {
+  source: string
+  alt: string
+  onSyntaxError?: (message: string | null) => void
+  /** While loading: a box the size of a small diagram (a document's block), not the docs' one line of text. */
+  skeleton?: boolean
+}) {
   const { t } = useI18n()
   const id = 'mmd-' + useId().replace(/[^a-zA-Z0-9]/g, '')
   const [svg, setSvg] = useState<string | null>(() => drawn.get(drawnKey(source)) ?? null)
+  // Drawn just now (not from the cache): fades in, instead of appearing at once in place of the loading box.
+  const [fresh] = useState(() => svg === null)
   const [themeKey, setThemeKey] = useState(0)
   // 'download': Mermaid's code didn't arrive — the browser remembers a failed module import for this page, so
   // only a reload can fetch it again (development check #18: Try again never recovered). 'render': it arrived but couldn't draw.
@@ -96,6 +112,7 @@ export function MermaidView({ source, alt, onSyntaxError }: { source: string; al
     }
     const run = () =>
       import('mermaid').then(async ({ default: mm }) => {
+        loaded = true
         if (!alive) return
         mm.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'base', themeVariables: themeVariables(), flowchart: { curve: 'basis', wrappingWidth: 280, nodeSpacing: 28, rankSpacing: 36 } })
         // Parsed first: a diagram with a mistake never reaches render(), which leaves its error drawing in the page.
@@ -139,9 +156,19 @@ export function MermaidView({ source, alt, onSyntaxError }: { source: string; al
         </button>
       </p>
     )
-  if (!svg) return <p className="doc-diagram-loading">{t('diagram.loading')}</p>
+  if (!svg) return skeleton ? <MermaidSkeleton /> : <p className="doc-diagram-loading">{t('diagram.loading')}</p>
   // Mermaid's own output in strict mode (its labels sanitized, no scripts or links that run code).
-  return <div className="doc-diagram doc-diagram-mermaid" role="img" aria-label={alt} dangerouslySetInnerHTML={{ __html: svg }} />
+  return <div className={`doc-diagram doc-diagram-mermaid${fresh ? ' anim-fade' : ''}`} role="img" aria-label={alt} dangerouslySetInnerHTML={{ __html: svg }} />
+}
+
+/** The place a document's diagram will take, shown until it's drawn: a quiet box, not a line of text that jumps. */
+function MermaidSkeleton() {
+  const { t } = useI18n()
+  return (
+    <div role="status" className="mermaid-skeleton">
+      <span>{loaded ? t('mermaid.drawing') : t('diagram.loading')}</span>
+    </div>
+  )
 }
 
 /** "Parse error on line 3:" — Mermaid's message is several lines, with the code and a caret under it. */
@@ -168,7 +195,9 @@ function MermaidBlockImpl({ code, fallback, ...rest }: MermaidBlockProps) {
   const { t } = useI18n()
   const ref = useRef<HTMLDivElement>(null)
   const [view, setView] = useState<'diagram' | 'code'>('diagram')
-  const [near, setNear] = useState(false)
+  // Already drawn (the preview mounted again — opening the editor, Smart Assist's readability marks arriving):
+  // shown at once. Waiting for the observer here showed the loading box for a frame — a blink.
+  const [near, setNear] = useState(() => isDrawn(code))
   const [source, setSource] = useState(code)
   const [error, setError] = useState<string | null>(null)
 
@@ -176,7 +205,10 @@ function MermaidBlockImpl({ code, fallback, ...rest }: MermaidBlockProps) {
     const el = ref.current
     if (!el || near) return
     if (typeof IntersectionObserver === 'undefined') return setNear(true)
-    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && setNear(true), { rootMargin: '600px 0px' })
+    // The root is the preview's scroll container: with the page as the root, the margin never applied (the
+    // container clips the block first), so a diagram started loading only once it was already on screen.
+    const root = el.closest('.scroll-area')
+    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && setNear(true), { root, rootMargin: '600px 0px' })
     io.observe(el)
     return () => io.disconnect()
   }, [near])
@@ -207,10 +239,10 @@ function MermaidBlockImpl({ code, fallback, ...rest }: MermaidBlockProps) {
       {/* Kept mounted while the code shows, so switching back doesn't draw it again. */}
       {near && (
         <div hidden={!showDiagram}>
-          <MermaidView source={source} alt={alt} onSyntaxError={setError} />
+          <MermaidView source={source} alt={alt} onSyntaxError={setError} skeleton />
         </div>
       )}
-      {!near && showDiagram && <p className="doc-diagram-loading">{t('diagram.loading')}</p>}
+      {!near && showDiagram && <MermaidSkeleton />}
       {!showDiagram && <CodeBlock lang="mermaid" code={code} fallback={fallback} />}
     </div>
   )

@@ -383,6 +383,7 @@ export const pt: Partial<Record<keyof typeof en, string>> = {
   'mermaid.view': 'Mostrar o diagrama ou o código',
   'mermaid.diagram': 'Diagrama',
   'mermaid.code': 'Código',
+  'mermaid.drawing': 'Desenhando o diagrama…',
   'mermaid.alt': 'Diagrama Mermaid',
   'mermaid.altKind': 'Diagrama Mermaid ({kind})',
   'mermaid.error': 'O Mermaid não conseguiu desenhar este diagrama: {detail}. O código está abaixo.',

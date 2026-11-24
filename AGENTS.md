@@ -52,7 +52,8 @@ src/
                           (`assistNoticeRequest`) until the notice was seen — never skip it.
     MermaidView.tsx       Mermaid, lazily imported, one drawing at a time, drawings cached by theme + source: `MermaidView`
                           (the docs' DocDiagram) and `MermaidBlock` — a document's ```mermaid block (MarkdownPreview's `pre`):
-                          drawn when near the screen, Diagram / Code switch, a parse error shows the code + Mermaid's reason
+                          drawn when near the screen (its observer's root = the preview's `.scroll-area`, or the margin
+                          never applies), a skeleton until drawn, then a fade; Diagram / Code switch; a parse error shows the code + Mermaid's reason
     HistoryMenu/HistoryList (the menu numbers the first 9 other documents — 1–9 open them while the search is empty;
                           `numberedEntries` in lib/history), SuggestionBar, AssistToggle, AppIconPicker, SplitPanes, Markdown*
   commands/registry.ts    every palette command, once: id (stable — tests and the future intent model use it), title as a

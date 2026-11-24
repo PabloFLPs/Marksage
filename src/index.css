@@ -749,6 +749,24 @@ body {
 .doc-diagram-mermaid p {
   margin: 0;
 }
+.mermaid-skeleton {
+  display: flex;
+  min-height: 11rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  background: var(--color-surface-soft);
+  font-size: 13px;
+  color: var(--color-ink-muted);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+.dark .mermaid-skeleton {
+  background: var(--color-dark-surface-soft);
+  color: var(--color-dark-ink-muted);
+}
+@keyframes skeleton-pulse {
+  50% { opacity: 0.6; }
+}
 .mermaid-error {
   margin: 0 0 0.5rem;
   font-size: 13px;

@@ -1816,3 +1816,12 @@ production build, Long Animation Frames and a CPU profile), not guessed:
   and vanished at once when Smart Assist was turned on or off (or the last suggestion was handled) — against the
   rule that UI animates in *and* out. It now pops in (`anim-pop`) and shrinks away (`anim-pop-out`, 160 ms) with
   its last number, through `<Presence>`.
+- **Diagrams blinked in** (`fix(preview)`, Pablo, same day). A diagram on screen when a document opened showed one
+  line of text ("Loading Mermaid…") and then, ~450 ms later, the drawing at once in its place — a jump and a pop.
+  It also turned out the 600 px early start never worked: the block's observer used the page as its root, and the
+  preview's scroll container clips the block first, so the margin never applied and a diagram started loading
+  only once it was already on screen. Now: the observer's root is the preview's `.scroll-area`; until it's drawn the
+  block holds a box the size of a small diagram (`.mermaid-skeleton`, "Drawing the diagram…" once Mermaid's code is
+  here); a fresh drawing fades in; a block whose drawing is cached starts drawn (no loading box for a frame when
+  the preview mounts again). E2E: a diagram 1.25 screens down is drawn before it's scrolled to (failed before), and
+  comes back without a loading box when the editor opens.

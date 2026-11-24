@@ -381,6 +381,7 @@ export const en = {
   'mermaid.view': 'Show the diagram or its code',
   'mermaid.diagram': 'Diagram',
   'mermaid.code': 'Code',
+  'mermaid.drawing': 'Drawing the diagram…',
   'mermaid.alt': 'Mermaid diagram',
   'mermaid.altKind': 'Mermaid diagram ({kind})',
   'mermaid.error': 'Mermaid couldn’t draw this diagram — {detail}. Its code is below.',
