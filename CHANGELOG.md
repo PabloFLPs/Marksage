@@ -8,7 +8,8 @@ app’s `#story` page and `IMPLEMENTATION-CONTEXT.md`. Dates: America/Sao_Paulo.
 
 ## 3.x — Marksage’s own trained code-language model ships (later the Rules + AI mode)
 
-- **3.55.0** · 2026-11-24 · `(this commit)` · feat(preview): Mermaid diagrams in documents — drawn, with a Diagram / Code switch
+- **3.55.1** · 2026-11-24 · `(this commit)` · fix(motion): the Suggestions count pops in and shrinks away with Smart Assist
+- **3.55.0** · 2026-11-24 · `7e8ae63` · feat(preview): Mermaid diagrams in documents — drawn, with a Diagram / Code switch
 - **3.54.2** · 2026-11-24 · `0bb737d` · fix(assist): a suggestion picked in the Suggestions tab opens the editor on its line, not near the end
 - **3.54.1** · 2026-11-24 · `24d5d55` · perf(editor): opening the editor on a long document no longer stalls, and its slide stays smooth
 - **3.54.0** · 2026-11-17 · `c32f38a` · feat(palette): filler words don’t have to match — “paste from the clipboard”, “copia isso” find their command

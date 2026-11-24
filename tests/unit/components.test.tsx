@@ -103,6 +103,24 @@ describe('DocBar', () => {
     fireEvent.click(suggestions)
     expect(onTab).toHaveBeenCalledWith('suggestions')
   })
+
+  it('the count pops in, and shrinks away with its last number when Smart Assist is turned off', () => {
+    vi.useFakeTimers()
+    try {
+      const bar = (pending: number) => <DocBar kind={null} name="notes.md" copied={false} onCopy={() => {}} copyTitle="Copy" tabs={['suggestions']} openTab={null} onTab={() => {}} pending={pending} />
+      const { rerender } = render(bar(0))
+      const button = () => screen.getByRole('button', { name: /^Suggestions/ })
+      expect(button().textContent).toBe('Suggestions')
+      rerender(bar(3))
+      expect(button().querySelector('.anim-pop')?.textContent).toBe('3')
+      rerender(bar(0))
+      expect(button().querySelector('.anim-pop-out')?.textContent).toBe('3')
+      act(() => void vi.advanceTimersByTime(200))
+      expect(button().textContent).toBe('Suggestions')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
 })
 
 describe('HistoryList (Recent)', () => {

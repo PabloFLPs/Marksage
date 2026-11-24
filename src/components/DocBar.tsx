@@ -3,6 +3,7 @@ import { BookMarked, BookOpen, BookOpenText, Check, Clipboard, Compass, FileSear
 import type { PanelTab } from './OutlinePanel'
 import type { DocKind, DocStats } from '../assist/docStats'
 import { useI18n } from '../hooks/useI18n'
+import { Presence } from './motion'
 import { kindReason } from '../lib/docKind'
 
 const KIND_ICONS: Record<DocKind, ComponentType<{ className?: string }>> = {
@@ -98,10 +99,14 @@ export function DocBar({ kind, name, fallbackLabel, copied, onCopy, copyTitle, t
                 <button key={tab} type="button" onClick={() => onTab(tab)} aria-pressed={on} title={on ? t('docbar.closeTab', { tab: name }) : label} className={`${button} relative px-2 ${on ? buttonOn : buttonOff}`}>
                   <TabIcon aria-hidden className="h-3.5 w-3.5" />
                   <span className="sr-only">{name}</span>
-                  {tab === 'suggestions' && pending > 0 && (
-                    <span className="absolute -right-1 -top-1 min-w-4 rounded-full bg-accent px-1 text-center text-[10px] font-semibold leading-4 text-white tabular-nums dark:bg-dark-accent dark:text-dark-surface">
-                      {pending > 99 ? '99+' : pending}
-                    </span>
+                  {tab === 'suggestions' && (
+                    // Pops in when Smart Assist finds something (or is turned on) and shrinks away when it's turned
+                    // off or the last suggestion is handled — the count it showed stays on it while it goes.
+                    <Presence show={pending > 0} enter="anim-pop" exit="anim-pop-out" duration={160} className="absolute -right-1 -top-1">
+                      <span className="block min-w-4 rounded-full bg-accent px-1 text-center text-[10px] font-semibold leading-4 text-white tabular-nums dark:bg-dark-accent dark:text-dark-surface">
+                        {pending > 99 ? '99+' : pending}
+                      </span>
+                    </Presence>
                   )}
                 </button>
               )

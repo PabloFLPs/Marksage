@@ -1812,3 +1812,7 @@ production build, Long Animation Frames and a CPU profile), not guessed:
   mounts the preview again) doesn't draw them again mid-slide. All five diagrams of the 606-line document draw;
   Mermaid's labels hold `<p>`, which the document's paragraph spacing pushed out of their boxes (`.doc-diagram-mermaid
   p`). E2E: drawn, Code and back, a mistake and its fix; the CSP spec gets a document diagram with a `classDef`.
+- **The Suggestions count had no exit** (`fix(motion)`, Pablo, same day). The number on the Suggestions icon appeared
+  and vanished at once when Smart Assist was turned on or off (or the last suggestion was handled) — against the
+  rule that UI animates in *and* out. It now pops in (`anim-pop`) and shrinks away (`anim-pop-out`, 160 ms) with
+  its last number, through `<Presence>`.
