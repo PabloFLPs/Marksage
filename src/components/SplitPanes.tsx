@@ -12,7 +12,7 @@ interface SplitPanesProps {
   right: ReactNode
   /** Play the exit animation (editor pane slides back out to the right). */
   closing?: boolean
-  /** Disable the width animation (e.g. very large documents, where reflowing every frame is costly). */
+  /** Disable the width animation (long documents, where reflowing both panes every frame is costly). */
   animateWidth?: boolean
   /** Scroll container of the left (preview) pane — used for scroll sync. */
   leftRef?: RefObject<HTMLDivElement | null>
@@ -25,14 +25,16 @@ function clamp(value: number): number {
 export function SplitPanes({ ratio, onRatioChange, left, right, closing = false, animateWidth = true, leftRef }: SplitPanesProps) {
   const { t } = useI18n()
   const containerRef = useRef<HTMLDivElement>(null)
-  // Start with the preview at full width, then animate to `ratio` on the next frame.
-  const [entered, setEntered] = useState(false)
+  // Start with the preview at full width, then animate to `ratio` on the next frame. Without the width animation
+  // (long documents) the panes start and end at their size: only the editor slides, on the compositor. Starting
+  // at full width there laid the editor out at zero width first — every character a line — for one frame.
+  const [entered, setEntered] = useState(!animateWidth)
   const [dragging, setDragging] = useState(false)
   useEffect(() => {
     const id = requestAnimationFrame(() => setEntered(true))
     return () => cancelAnimationFrame(id)
   }, [])
-  const width = entered && !closing ? ratio : 100
+  const width = !animateWidth || (entered && !closing) ? ratio : 100
 
   const startDrag = (e: React.PointerEvent) => {
     e.preventDefault()

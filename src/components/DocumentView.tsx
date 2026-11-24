@@ -26,6 +26,13 @@ import { countRemoteImages } from '../lib/remoteImages'
 import { editorLineTops } from '../lib/scrollSync'
 
 const PANEL_TABS: PanelTab[] = ['outline', 'document', 'suggestions']
+/**
+ * The split view's panes grow and shrink with the editor's slide below this size; above it they start at their
+ * width and only the editor slides. Each frame of the width animation lays out and paints both panes again: at
+ * 35,000 characters (a 600-line document) the frames took 20–50 ms instead of 16 and the slide stuttered; at 10,000
+ * they stayed at 16 ms (2026-11-24, measured in Chrome).
+ */
+const ANIMATE_WIDTH_CHARS = 12_000
 const nullRef = { current: null }
 
 export interface DocumentViewProps {
@@ -270,7 +277,7 @@ export function DocumentView(p: DocumentViewProps) {
               <SplitPanes
                 closing={editorClosing}
                 leftRef={previewPaneRef}
-                animateWidth={document.content.length < 40_000}
+                animateWidth={document.content.length < ANIMATE_WIDTH_CHARS}
                 ratio={p.splitRatio}
                 onRatioChange={p.onSplitRatio}
                 left={

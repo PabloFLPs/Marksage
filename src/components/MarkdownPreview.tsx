@@ -1,5 +1,5 @@
 import { Children, cloneElement, isValidElement, memo, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import type { HTMLAttributes, ReactNode } from 'react'
+import type { HTMLAttributes, ReactElement, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import type { Components, Options } from 'react-markdown'
@@ -31,20 +31,51 @@ const DOT_COLORS = ['bg-emerald-500/70', 'bg-emerald-500/70', 'bg-amber-500/70',
 const REMARK = [remarkGfm]
 const REHYPE = [rehypeSourceLines]
 
+/**
+ * Rendered Markdown (React elements), kept across mounts. Opening or closing the editor moves the preview to another
+ * place in the page, so React mounts it again — and parsing a 600-line document again took ~50 ms of the editor's
+ * opening frame. The same text with the same renderers gives the same elements, so they're reused: only the DOM is
+ * built again. Per set of renderers (`sharedMemo` keeps them the same object across mounts), least recently used out.
+ */
+const trees = new WeakMap<Components, Map<string, ReactElement>>()
+const TREE_CACHE = 600
+
+function renderMarkdown(text: string, components: Components, chunk: number | null): ReactElement {
+  let byText = trees.get(components)
+  if (!byText) trees.set(components, (byText = new Map()))
+  const key = `${chunk ?? ''}\u0000${text}`
+  let tree = byText.get(key)
+  if (tree) byText.delete(key) // re-inserted below: most recent last
+  else {
+    const rehype: Options['rehypePlugins'] = chunk === null ? REHYPE : [[rehypeSourceLines, { chunk }]]
+    // react-markdown's component is a plain function (no hooks): called directly, its output can be kept.
+    tree = ReactMarkdown({ children: text, remarkPlugins: REMARK, rehypePlugins: rehype, components })
+    if (byText.size >= TREE_CACHE) byText.delete(byText.keys().next().value!)
+  }
+  byText.set(key, tree)
+  return tree
+}
+
+/** Like `useMemo`, but shared by every mount: the same inputs give the same object, also after a remount. */
+const shared: { deps: unknown[]; value: unknown }[] = []
+function sharedMemo<T>(factory: () => T, deps: unknown[]): T {
+  const hit = shared.find((e) => e.deps.length === deps.length && e.deps.every((d, i) => Object.is(d, deps[i])))
+  if (hit) return hit.value as T
+  const value = factory()
+  shared.unshift({ deps, value })
+  shared.length = Math.min(shared.length, 8)
+  return value
+}
+
 /** One piece of a long document; re-renders only when its own text (or the renderers) change. */
 const Piece = memo(function Piece({ text, index, components }: { text: string; index: number; components: Components }) {
-  const rehype = useMemo<Options['rehypePlugins']>(() => [[rehypeSourceLines, { chunk: index }]], [index])
-  return (
-    <ReactMarkdown remarkPlugins={REMARK} rehypePlugins={rehype} components={components}>
-      {text}
-    </ReactMarkdown>
-  )
+  return useMemo(() => renderMarkdown(text, components, index), [text, components, index])
 })
 
 /** Memoized: it re-renders only when the (deferred) content or its options change — not on every App render. */
 export const MarkdownPreview = memo(function MarkdownPreview({ content, readability, renderBlock, internalLinks, emptyHint, remoteImages = false }: MarkdownPreviewProps) {
   const { t } = useI18n()
-  const components = useMemo<Components>(() => {
+  const components = sharedMemo<Components>(() => {
     const base: Components = {
       a: ({ href, children }) => {
         // In-document links (`[x](#install)`, footnotes) scroll the preview — never a new tab, and never the
@@ -124,6 +155,7 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
 
   // Long documents render in pieces (lib/chunks.ts); afterwards each block gets the document's line back.
   const chunks = useMemo(() => splitMarkdown(content), [content])
+  const whole = useMemo(() => (chunks ? null : renderMarkdown(content, components, null)), [chunks, content, components])
   const rootRef = useRef<HTMLDivElement>(null)
   useLayoutEffect(() => {
     if (!chunks || !rootRef.current) return
@@ -140,9 +172,7 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
       ) : chunks ? (
         chunks.map((c, i) => <Piece key={i} index={i} text={c.text} components={components} />)
       ) : (
-        <ReactMarkdown remarkPlugins={REMARK} rehypePlugins={REHYPE} components={components}>
-          {content}
-        </ReactMarkdown>
+        whole
       )}
     </div>
   )

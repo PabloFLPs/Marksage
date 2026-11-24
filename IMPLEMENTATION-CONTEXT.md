@@ -1772,3 +1772,25 @@ Plan: ROADMAP §0.3 (M1: palette + intent model; M2: search by meaning). Pablo's
   writes — no conversion step between what he wrote and what gets hashed. 5 items per command and language, 20 `none`
   per language to start (more welcome). Unit tests: the blank template reads as no rows; `(real)`; heading typos.
   (The entry above still says `.tsv` and 35 `none`: that was the first sheet.)
+
+## 45. Reading a long document with diagrams (2026-11-24)
+
+Pablo opened two real architecture documents in Marksage (one of 606 lines — 5,085 words, 35,037 characters,
+36 KB — and five ```mermaid blocks; the other 115 lines, two blocks) and reported four things: Mermaid didn't work,
+opening the editor lagged (its slide most of all), a suggestion clicked in the Suggestions tab opened the editor at
+the end of the document instead of its line, and that flow lagged too. Measured in Chrome (Playwright, the
+production build, Long Animation Frames and a CPU profile), not guessed:
+
+- **Opening the editor** (`perf(editor)`). The click's frame took 186 ms and the slide ran at 20–50 ms a frame. Three
+  causes: (1) the line-number mirror read sizes in layout effects (`clientWidth` for its width, `scrollHeight` for
+  `--scroll-max`): each read forced a layout of the whole new screen — ~100 ms — and setting the width rendered and
+  laid it out again; (2) the preview moves into the split view, so React mounts it again and react-markdown parsed
+  the 35 KB again (~50 ms); (3) the split view animated both panes' width under 40,000 characters, so every frame
+  re-wrapped and repainted the preview and the textarea — and the editor's first frame was at zero width, every
+  character a line. Now: the sizes are read in ResizeObserver callbacks (after the browser's own layout, free);
+  `renderMarkdown` keeps rendered Markdown (React elements) across mounts, per set of renderers (`sharedMemo` keeps
+  the renderers the same object after a remount); the width animation stays only under 12,000 characters (at
+  10,000 its frames stayed at 16 ms; at 20,000 some took 33) and, without it, the panes start at their size and only
+  the editor slides. The click's frame: 186 → ~70 ms, then 16 ms frames; picking a suggestion: 222 → ~80 ms. The
+  perf spec (typing on the 400-section file) also got better on the same machine: its slowest key went from 808–872 ms
+  (over the 500 ms budget there) to 200–224 ms — the per-keystroke `scrollHeight` layout effect is gone.

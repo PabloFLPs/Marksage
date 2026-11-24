@@ -35,6 +35,8 @@ src/
                           scroll-driven animation (`.editor-lines`, `--scroll-max`; compositor, same frame as the text) —
                           a scroll listener only where unsupported (it trails a frame). Textarea: `overscroll-none`.
                           The caret line (brighter number): read `selectionStart` once per frame — it costs O(text).
+                          Sizes (the mirror's width, `--scroll-max`) are read in ResizeObserver callbacks, after the
+                          browser's layout — never in layout effects, where each read forced a layout of the whole screen.
     EmptyState.tsx        start screen (<main>, the page's h1): tagline + one line on what Marksage is, Try it on a sample
                           document (lib/sampleDocument) and the story link, then Open / Paste / Start writing, Privacy link
     PageLoad.tsx          <PageLoading> + <PageLoadBoundary> (Try again / Back) for lazily loaded pages
@@ -210,6 +212,10 @@ implied endorsement, the affiliation note stays (SMART-ASSIST §1.1).
   was checked identical to one parse (modulo whitespace between blocks) on the repo's docs. `CodeBlock` is memoized
   with a highlight cache; `buildOutline` caches per heading / section text. Measure typing with the 400-section file
   approach from the 2026-10-28 QA (see the Implementation Context, §29) before and after preview changes.
+  Opening or closing the editor mounts the preview again (it moves into / out of the split view): its rendered
+  Markdown is kept across mounts (`renderMarkdown`, per set of renderers — build `components` through `sharedMemo`,
+  or every remount parses again). The split view animates the panes' width only under 12,000 characters
+  (`ANIMATE_WIDTH_CHARS` in DocumentView); above, the panes start at their size and only the editor slides (§45).
 - Fenced code: `components/CodeBlock.tsx` (Prism via refractor, `lib/highlight.ts`, lazy-loaded by `hooks/useHighlighter.ts` the
   first time a tagged block shows; ~30 KB gzip). Token colors are `.token.*` rules in `index.css` — keywords follow the accent.
   Untagged blocks stay plain on purpose. The wrapper div keeps the block's `data-line`.

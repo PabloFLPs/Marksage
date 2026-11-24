@@ -35,7 +35,8 @@ on the models that didn't ship are mine.
   editor stay on the same passage); start/end buttons on long documents
 - **Fast on long documents** — the preview follows the text at low priority and renders in pieces split at
   headings, so a keystroke re-renders only the piece it's in (same HTML as one parse); highlighted code blocks
-  and Outline answers are cached. On a 270 KB, 400-section file typing went from ~400 ms to ~20 ms extra per key
+  and Outline answers are cached. On a 270 KB, 400-section file typing went from ~400 ms to ~20 ms extra per key;
+  opening the editor on a 600-line, 35 KB document went from a ~190 ms stall and a stuttering slide to ~70 ms
 - **Smart Assist** (local, on by default in Rules mode; one click to turn off): code-fence language, smart paste (CSV/TSV/aligned text → table,
   lists, JSON/code → fenced block), structure hints (`**Title**` → heading, `-item` / `• item` → list,
   `[text] (url)` → link…), per-section readability dots. Suggest-only: `Tab` accepts, `Esc` dismisses, undo

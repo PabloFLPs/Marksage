@@ -92,7 +92,7 @@ export function MarkdownEditor({
           className={`relative block h-full w-full resize-none overscroll-none bg-transparent ${TEXT} text-ink caret-accent outline-none placeholder:text-ink-muted dark:text-dark-ink dark:caret-dark-accent dark:placeholder:text-dark-ink-muted`}
         />
         {/* After the textarea: its layout effects read the textarea's ref, which React attaches in tree order. */}
-        <LineNumbers value={value} textareaRef={ref} overlayActive={overlayActive} />
+        <LineNumbers value={value} textareaRef={ref} />
       </div>
       {children}
     </div>
@@ -112,43 +112,41 @@ function countLines(s: string): number {
  * scroll-driven animation (`.editor-lines` in index.css, over `--scroll-max`) where supported, else a listener.
  * The textarea doesn't rubber-band (`overscroll-none`): the bounce moved the text but not its scroll position.
  */
-function LineNumbers({ value, textareaRef, overlayActive }: { value: string; textareaRef: RefObject<HTMLTextAreaElement | null>; overlayActive: boolean }) {
+function LineNumbers({ value, textareaRef }: { value: string; textareaRef: RefObject<HTMLTextAreaElement | null> }) {
   const text = useDeferredValue(value)
   const mirrorRef = useRef<HTMLDivElement>(null)
-  const [width, setWidth] = useState<number | null>(null)
   const [caretLine, setCaretLine] = useState(0)
 
-  // Same width as the textarea's text box (clientWidth leaves out a classic scrollbar).
-  useLayoutEffect(() => {
-    const ta = textareaRef.current
-    if (!ta) return
-    const measure = () => setWidth(ta.clientWidth)
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(ta)
-    return () => ro.disconnect()
-  }, [textareaRef])
-  // A scrollbar appears or goes away as the text grows or shrinks.
-  useLayoutEffect(() => {
-    const ta = textareaRef.current
-    if (ta && ta.clientWidth !== width) setWidth(ta.clientWidth)
-  }, [text, width, textareaRef])
-  // The scroll-driven animation maps 0–100 % of the scroll to 0…-max px: keep max current before each paint
-  // (typing changes the height; the suggestion bar adds bottom padding; resizing changes both).
+  // Two things measured from the textarea, both in ResizeObserver callbacks — they run after the browser's own
+  // layout, so reading sizes there is free. Read in layout effects (as before 3.54.1), each read forced a layout of
+  // the whole screen on top of the one the browser does anyway: opening the editor on a 600-line document spent
+  // ~100 ms of its first frame on them, and the slide-in stuttered.
+  // - The mirror's width = the textarea's text box (clientWidth leaves out a classic scrollbar; a scrollbar that
+  //   appears or goes away as the text grows changes the text box, so the observer sees it too).
+  // - The scroll-driven animation maps 0–100 % of the scroll to 0…-max px: keep max current (typing changes the
+  //   height — the input listener; the suggestion bar adds bottom padding and resizing changes both — the observer;
+  //   text changed from outside, e.g. another tab's save — the effect on `text`, after the paint).
+  // A layout effect only to observe before the first paint: it reads nothing. The mirror itself isn't observed: its
+  // width changes inside the callback, and an observed element at the same depth would end in a "loop" error.
   useLayoutEffect(() => {
     const ta = textareaRef.current
     const mirror = mirrorRef.current
-    if (!SCROLL_LINKED || !ta || !mirror) return
-    const update = () => mirror.style.setProperty('--scroll-max', String(Math.max(0, ta.scrollHeight - ta.clientHeight)))
-    update()
-    const ro = new ResizeObserver(update)
+    if (!ta || !mirror) return
+    const ro = new ResizeObserver(() => {
+      if (mirror.offsetWidth !== ta.clientWidth) mirror.style.width = `${ta.clientWidth}px`
+      updateScrollMax(ta, mirror)
+    })
     ro.observe(ta)
-    ta.addEventListener('input', update)
+    const onInput = () => updateScrollMax(ta, mirror)
+    ta.addEventListener('input', onInput)
     return () => {
       ro.disconnect()
-      ta.removeEventListener('input', update)
+      ta.removeEventListener('input', onInput)
     }
-  }, [textareaRef, value, overlayActive, width])
+  }, [textareaRef])
+  useEffect(() => {
+    if (textareaRef.current && mirrorRef.current) updateScrollMax(textareaRef.current, mirrorRef.current)
+  }, [text, textareaRef])
 
   useEffect(() => {
     const ta = textareaRef.current
@@ -197,14 +195,17 @@ function LineNumbers({ value, textareaRef, overlayActive }: { value: string; tex
     <div
       ref={mirrorRef}
       aria-hidden
-      className={`line-mirror pointer-events-none absolute left-0 top-0 select-none ${TEXT}`}
-      style={{ width: width ?? '100%' }}
+      className={`line-mirror pointer-events-none absolute left-0 top-0 w-full select-none ${TEXT}`}
     >
       {pieces.map((p, i) => (
         <Piece key={i} text={p} first={i * PIECE} caret={caretLine >= i * PIECE && caretLine < (i + 1) * PIECE ? caretLine : -1} />
       ))}
     </div>
   )
+}
+
+function updateScrollMax(ta: HTMLTextAreaElement, mirror: HTMLElement) {
+  if (SCROLL_LINKED) mirror.style.setProperty('--scroll-max', String(Math.max(0, ta.scrollHeight - ta.clientHeight)))
 }
 
 const Piece = memo(function Piece({ text, first, caret }: { text: string; first: number; caret: number }) {
