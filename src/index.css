@@ -734,6 +734,25 @@ body {
     display: block;
   }
 }
+/* ```mermaid blocks in documents (MermaidView.tsx): the docs' switch and Mermaid styles, plus room around them. */
+.mermaid-block {
+  margin: 0 0 1.25em;
+}
+.markdown-body .mermaid-block .code-block {
+  margin-bottom: 0;
+}
+/* Mermaid's HTML labels hold <p>: the document's paragraph spacing would push them out of their boxes. */
+.doc-diagram-mermaid p {
+  margin: 0;
+}
+.mermaid-error {
+  margin: 0 0 0.5rem;
+  font-size: 13px;
+  color: var(--color-ink-muted);
+}
+.dark .mermaid-error {
+  color: var(--color-dark-ink-muted);
+}
 .doc-diagram-loading {
   padding: 2rem 0;
   text-align: center;

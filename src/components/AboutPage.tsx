@@ -249,8 +249,8 @@ export function AboutPage({ closing = false, onBack, onOpenDocs, onOpenModelsDoc
           </Feature>
           <Feature icon={<ClipboardPaste />} title={x('GitHub Flavored Markdown', 'Markdown no padrão do GitHub')}>
             {x(
-              'Tables, task lists, strikethrough and autolinks render out of the box, and code blocks get syntax colors (about 30 languages) and a copy button.',
-              'Tabelas, listas de tarefas, texto tachado e links automáticos funcionam sem configurar nada, e os blocos de código ganham cores de sintaxe (cerca de 30 linguagens) e um botão de copiar.',
+              'Tables, task lists, strikethrough and autolinks render out of the box, and code blocks get syntax colors (about 30 languages) and a copy button. A ```mermaid block is drawn as its diagram, with a switch back to its code — Mermaid downloads about 650 KB the first time a document has one.',
+              'Tabelas, listas de tarefas, texto tachado e links automáticos funcionam sem configurar nada, e os blocos de código ganham cores de sintaxe (cerca de 30 linguagens) e um botão de copiar. Um bloco ```mermaid aparece desenhado como diagrama, com um botão para ver o código. O Mermaid baixa cerca de 650 KB na primeira vez que um documento tem um diagrama.',
             )}
           </Feature>
           <Feature icon={<Moon />} title={x('Light & dark', 'Claro e escuro')}>

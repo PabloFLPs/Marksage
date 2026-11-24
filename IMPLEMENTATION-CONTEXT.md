@@ -1801,3 +1801,14 @@ production build, Long Animation Frames and a CPU profile), not guessed:
   documents (above), and while its width settles (600 ms) the spot is placed again on every change of width, so the
   short documents whose panes still animate land on it too. E2E: the fence's line is on screen after the pick, at 250
   lines (animated panes) and 700 (not) — both failed before.
+- **Mermaid in documents** (`feat(preview)`). Mermaid only drew the docs pages' diagrams; a document's ```mermaid
+  block was plain code. Now `MermaidBlock` (`components/MermaidView.tsx`, which also holds the docs' `MermaidView`,
+  moved out of `DocDiagram`) draws it: Mermaid is imported the first time a block comes within 600 px of the screen
+  (the same ~650 KB chunk as the docs, from Marksage's own site — nothing third-party), `securityLevel: 'strict'`
+  since the source is the user's, themed like the docs' diagrams. A Diagram / Code switch, as on GitHub. A diagram
+  with a mistake is parsed first (Mermaid's `render` leaves its error drawing in the page) and shows its code with
+  Mermaid's reason ("Parse error on line 3"). Typing in a block redraws it 400 ms after the text rests, keeping the
+  last drawing meanwhile. Drawings run one at a time and are cached by theme + source, so opening the editor (which
+  mounts the preview again) doesn't draw them again mid-slide. All five diagrams of the 606-line document draw;
+  Mermaid's labels hold `<p>`, which the document's paragraph spacing pushed out of their boxes (`.doc-diagram-mermaid
+  p`). E2E: drawn, Code and back, a mistake and its fix; the CSP spec gets a document diagram with a `classDef`.

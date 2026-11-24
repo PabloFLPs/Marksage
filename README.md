@@ -59,6 +59,8 @@ on the models that didn't ship are mine.
   look (heading jumps, untagged code, images without alt text…). Its **Suggestions** tab lists every fix Smart
   Assist would offer in the document (click → it opens in the editor)
 - **Code blocks** with syntax colors (~30 languages, loaded only when needed) and a copy button
+- **Mermaid diagrams** — a ` ```mermaid ` block is drawn as its diagram (Mermaid loads the first time a document has
+  one, ~650 KB), with a Diagram / Code switch; a diagram with a mistake shows its code and Mermaid's reason
 - **Recent documents** — up to 15, kept in this browser, searchable (`⌘/Ctrl ⇧ H`); in the menu, `1`–`9` open one
 - **Close document** — the ✕ next to its name (phone: the ••• menu; `⌘/Ctrl K` → Start screen) goes back to the
   start screen; the document stays in Recent
@@ -149,7 +151,7 @@ cp .env.example .env   # then edit VITE_SITE_URL, or set it in your host's env v
 ```
 
 Stack: React 19 + TypeScript + Vite + Tailwind CSS 4, `react-markdown` + `remark-gfm`, `lucide-react`,
-`refractor` (Prism grammars, lazy) and `mermaid` (docs diagram view, lazy).
+`refractor` (Prism grammars, lazy) and `mermaid` (documents' and docs' diagrams, lazy).
 See [AGENTS.md](AGENTS.md) for architecture and conventions. The Smart Assist technical documentation
 (heuristics, Marksage's own models, evaluation) is [docs/SMART-ASSIST.md](docs/SMART-ASSIST.md), and
 [docs/MODELS.md](docs/MODELS.md) explains the models from zero (model cards, version history). The model pipeline

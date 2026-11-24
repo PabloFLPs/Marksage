@@ -220,3 +220,31 @@ for (const lines of [250, 700]) {
       .toBe(true)
   })
 }
+
+test('a mermaid block draws its diagram, its code a click away; one with a mistake shows the code and why', async ({ page }) => {
+  await page.goto('/')
+  await newDocument(
+    page,
+    ['# Diagrams', '', '```mermaid', 'flowchart LR', '  A[Write] --> B[Preview]', '```', '', '```mermaid', 'flowchart LR', '  A --> B -->', '```', ''].join('\n'),
+  )
+  const [good, bad] = [page.locator('.mermaid-block').nth(0), page.locator('.mermaid-block').nth(1)]
+  await expect(good.getByRole('img', { name: 'Mermaid diagram (flowchart)' }).locator('svg')).toBeVisible({ timeout: 30_000 })
+  await expect(good.getByRole('img')).toContainText('Preview')
+  await good.getByRole('button', { name: 'Code', exact: true }).click()
+  await expect(good.locator('pre')).toContainText('A[Write] --> B[Preview]')
+  await expect(good.getByRole('img')).toBeHidden()
+  await good.getByRole('button', { name: 'Diagram', exact: true }).click()
+  await expect(good.getByRole('img')).toBeVisible()
+
+  await expect(bad.getByRole('note')).toContainText('Mermaid couldn’t draw this diagram — Parse error on line 3')
+  await expect(bad.locator('pre')).toContainText('A --> B -->')
+  // Fixed in the editor, it draws once the text rests.
+  await page.locator('textarea').evaluate((ta: HTMLTextAreaElement) => {
+    const at = ta.value.indexOf('B -->') + 5
+    ta.focus()
+    ta.setSelectionRange(at, at)
+  })
+  await page.keyboard.type(' C')
+  await expect(bad.getByRole('img', { name: 'Mermaid diagram (flowchart)' })).toBeVisible({ timeout: 10_000 })
+  await expect(bad.getByRole('note')).toHaveCount(0)
+})

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { openSample, palette } from './helpers'
+import { newDocument, openSample, palette } from './helpers'
 
 /**
  * The built page runs under a Content-Security-Policy (a <meta> from vite.config.ts, plus vercel.json's headers,
@@ -48,5 +48,13 @@ test('no flow trips the Content-Security-Policy', async ({ page }) => {
     await page.goto('/' + hash)
     await page.waitForLoadState('networkidle')
   }
+  expect(await violations()).toEqual([])
+})
+
+test('a Mermaid diagram in a document, with its own styles, doesn’t trip it either', async ({ page }) => {
+  const violations = await watchViolations(page)
+  await page.goto('/')
+  await newDocument(page, ['```mermaid', 'flowchart LR', '  A --> B', '  classDef warm fill:#fff7d6,stroke:#c9a400', '  class B warm', '```'].join('\n'))
+  await expect(page.locator('.mermaid-block svg')).toBeVisible({ timeout: 30_000 })
   expect(await violations()).toEqual([])
 })

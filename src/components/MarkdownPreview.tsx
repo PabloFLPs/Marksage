@@ -7,6 +7,7 @@ import type { ReadabilityMark } from '../assist/types'
 import { rehypeSourceLines } from '../lib/scrollSync'
 import { useI18n } from '../hooks/useI18n'
 import { CodeBlock } from './CodeBlock'
+import { MermaidBlock } from './MermaidView'
 import { codeOf } from '../lib/codeOf'
 import { splitMarkdown } from '../lib/chunks'
 import { remoteHost } from '../lib/remoteImages'
@@ -120,12 +121,14 @@ export const MarkdownPreview = memo(function MarkdownPreview({ content, readabil
       input: ({ node: _node, ...rest }) =>
         rest.type === 'checkbox' ? <input {...rest} aria-label={rest.checked ? t('preview.taskDone') : t('preview.taskOpen')} /> : <input {...rest} />,
       table: ({ node: _node, children, ...rest }) => <BigTable {...rest}>{children}</BigTable>,
-      // Fenced blocks: highlighted when tagged, always with a copy button. Props (data-line) stay on the
+      // Fenced blocks: highlighted when tagged, always with a copy button; ```mermaid ones drawn as diagrams. Props (data-line) stay on the
       // outer element, so scroll sync and the Outline still find the block.
       pre: ({ node, children, ref: _ref, ...rest }) => {
         const { lang, code } = codeOf(node)
         const custom = renderBlock?.(lang, code)
         if (custom) return <div {...(rest as HTMLAttributes<HTMLDivElement>)}>{custom}</div>
+        // Diagrams: drawn by Mermaid (lazily), with a switch back to the code.
+        if (lang.toLowerCase() === 'mermaid') return <MermaidBlock code={code} fallback={children} {...(rest as HTMLAttributes<HTMLDivElement>)} />
         return <CodeBlock lang={lang} code={code} fallback={children} {...(rest as HTMLAttributes<HTMLDivElement>)} />
       },
     }
