@@ -1794,3 +1794,10 @@ production build, Long Animation Frames and a CPU profile), not guessed:
   the editor slides. The click's frame: 186 → ~70 ms, then 16 ms frames; picking a suggestion: 222 → ~80 ms. The
   perf spec (typing on the 400-section file) also got better on the same machine: its slowest key went from 808–872 ms
   (over the 500 ms budget there) to 200–224 ms — the per-keystroke `scrollHeight` layout effect is gone.
+- **A suggestion opened at the end of the document** (`fix(assist)`). The Suggestions tab puts the caret on the spot
+  and scrolls to it one frame after opening the editor — measured at that frame, the editor was still at the start of
+  its slide, a few pixels wide: every line wrapped into dozens of rows, so line 164's position was near the end of
+  the document, and the scroll stayed there once the editor widened. The editor no longer starts narrow on long
+  documents (above), and while its width settles (600 ms) the spot is placed again on every change of width, so the
+  short documents whose panes still animate land on it too. E2E: the fence's line is on screen after the pick, at 250
+  lines (animated panes) and 700 (not) — both failed before.

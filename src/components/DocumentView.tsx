@@ -33,6 +33,8 @@ const PANEL_TABS: PanelTab[] = ['outline', 'document', 'suggestions']
  * they stayed at 16 ms (2026-11-24, measured in Chrome).
  */
 const ANIMATE_WIDTH_CHARS = 12_000
+/** How long a jump into the editor keeps its line in place while the editor's width settles (the slide is 260 ms). */
+const SETTLE_MS = 600
 const nullRef = { current: null }
 
 export interface DocumentViewProps {
@@ -206,11 +208,25 @@ export function DocumentView(p: DocumentViewProps) {
         }
         const caret = s.edit.from
         const line = ta.value.slice(0, caret).split('\n').length - 1
-        const top = editorLineTops(ta)[line] ?? 0
-        ta.scrollTo({ top: Math.max(0, top - ta.clientHeight / 3) })
+        const place = () => {
+          const top = editorLineTops(ta)[line] ?? 0
+          ta.scrollTo({ top: Math.max(0, top - ta.clientHeight / 3) })
+        }
+        place()
         ta.focus({ preventScroll: true })
         ta.setSelectionRange(caret, caret)
         if (assist.enabled) assist.show(s, caret)
+        // The editor may still be growing (the split view's slide-in widens it): the lines re-wrap and the same
+        // scroll position points elsewhere — measured at the slide's first frame, the spot landed near the end of
+        // the document. Place it again while the width settles.
+        let lastWidth = ta.clientWidth
+        const ro = new ResizeObserver(() => {
+          if (ta.clientWidth === lastWidth) return
+          lastWidth = ta.clientWidth
+          place()
+        })
+        ro.observe(ta)
+        window.setTimeout(() => ro.disconnect(), SETTLE_MS)
       }
       requestAnimationFrame(go)
     },

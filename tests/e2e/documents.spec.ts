@@ -180,3 +180,43 @@ test('Recent goes back to the current document from About', async ({ page }) => 
   await expect(page.locator('textarea')).toHaveValue(/^# Pitwall/)
   expect(new URL(page.url()).hash).toBe('')
 })
+
+/** Lines of plain text with an untagged code block (one suggestion) at `fenceAt`. */
+function documentWithFence(lines: number, fenceAt: number) {
+  const out = ['# A long document', '']
+  for (let i = out.length; i < lines; i++) {
+    if (i === fenceAt) out.push('```', 'const total = items.reduce((sum, x) => sum + x.price, 0)', 'console.log(total)', '```')
+    else out.push(`Line ${i} of a long document, long enough to wrap once the editor is narrow.`)
+  }
+  return out.join('\n')
+}
+
+// 250 lines: the split view's panes still grow and shrink with the slide (under 12,000 characters); 700: they don't.
+for (const lines of [250, 700]) {
+  test(`a suggestion picked in the Suggestions tab opens the editor on its line (${lines} lines, from the preview)`, async ({ page }) => {
+    await page.goto('/')
+    await newDocument(page, documentWithFence(lines, lines - 60))
+    await page.locator('header').getByRole('button', { name: 'Preview', exact: true }).click()
+    await expect(page.locator('textarea')).toHaveCount(0)
+    await page.getByRole('group', { name: 'Outline and document insights' }).first().getByRole('button', { name: /^Suggestions/ }).click()
+    await page.getByRole('tabpanel').getByRole('button', { name: /Code block without a language/ }).click()
+    const editor = page.locator('textarea')
+    await expect(editor).toBeFocused()
+    // The caret is on the fence, and that line is on screen (it used to land near the end: measured mid-slide).
+    const fenceLine = lines - 60 + 1
+    await expect.poll(() => editor.evaluate((ta: HTMLTextAreaElement) => ta.value.slice(0, ta.selectionStart).split('\n').length)).toBe(fenceLine)
+    await expect
+      .poll(
+        () =>
+          page.evaluate((n) => {
+            const ta = document.querySelector('textarea')!
+            const row = document.querySelector<HTMLElement>(`.line-mirror > div[data-n="${n}"]`)
+            if (!row) return null
+            const y = row.offsetTop - ta.scrollTop
+            return y >= 0 && y < ta.clientHeight - 28
+          }, fenceLine),
+        { timeout: 5_000 },
+      )
+      .toBe(true)
+  })
+}
